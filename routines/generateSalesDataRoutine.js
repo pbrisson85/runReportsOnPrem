@@ -4,7 +4,7 @@ const getInvoiceLineItems = require('../queries/seasoft/getInvoiceLineItems')
 const getMasterSupplement = require('../queries/postgres/getMasterSupplement')
 const unflattenItemNum = require('../models/unFlattenItemNum')
 const mapPeriodsPerDay = require('../models/mapPeriodsPerDay')
-const getPeriodsByDay = require('../queries/postgres/getPeriodsByDay')
+const getPeriodsByDay = require('../queries/postgres/getAccountingPeriodsByDay')
 const mapAllInvoices = require('../models/mapAllInvoices')
 
 const generateSalesDataRoutine = async year => {
