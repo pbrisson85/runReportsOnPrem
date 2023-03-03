@@ -1,0 +1,1 @@
+### Since the date query is expecting to query based on the first day of a fiscal year and the last day of a fiscal year being a sunday then this will not work for past years that don;t end/start with a full week. Something to keep in mind.
