@@ -16,6 +16,7 @@ const mapAllInvoices = (sales, invenSupplemental_unflat, mappedPeriodsPerDay) =>
     })
     .filter(invoiceLine => {
       console.log(invoiceLine.ITEM_NUMBER)
+      console.log(invenSupplemental_unflat[invoiceLine.ITEM_NUMBER])
       return invenSupplemental_unflat[invoiceLine.ITEM_NUMBER].inven_category === 'SEAFOOD'
     })
 
