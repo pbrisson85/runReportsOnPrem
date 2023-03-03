@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
   const sales = await generateSalesDataRoutine(fy)
 
   res.send(sales)
-  console.log(`generate sales data routine complete: ${complete} for FY: ${fy} \n`)
+  console.log(`generate sales data routine complete: for FY: ${fy} \n`)
 })
 
 module.exports = router
