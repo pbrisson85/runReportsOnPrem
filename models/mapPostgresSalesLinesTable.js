@@ -39,6 +39,7 @@ const mapPostgresSalesLinesTable = joinedSalesData => {
       size_name: invoiceLine.invenSupplemental.size_name, // allow null
       program: invoiceLine.invenSupplemental.program,
       species_group: invoiceLine.invenSupplemental.species_group,
+      fg_treatment: invoiceLine.invenSupplemental.fg_treatment,
       week_serial: invoiceLine.period.week_serial,
       period_serial: invoiceLine.period.period_serial,
       week: invoiceLine.period.week,
@@ -62,8 +63,8 @@ const mapPostgresSalesLinesTable = joinedSalesData => {
       reas_adj_inv: invoiceLine.invReasCodes.TABLE_FLD01_ADJ_INV === 'Y', // allow null
       calc_gl_gross_sales: invoiceLine.NET_PRICE_EXTENSION,
       calc_gl_cogs: calc_gl_cogs,
+      calc_gl_othp: invoiceLine.NET_PRICE_EXTENSION - invoiceLine.PRODUCT_ONLY_EXTENSION,
       calc_gm_rept_weight: calc_gm_reprt_weight,
-      calc_cost_per_lb: calc_gl_cogs === 0 || calc_gm_reprt_weight === 0 ? 0 : calc_gl_cogs / calc_gm_reprt_weight,
     }
   })
 

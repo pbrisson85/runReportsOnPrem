@@ -11,6 +11,7 @@ const unflattenInvoiceNum = require('../models/unFlattenInoviceNum')
 const getGenTblReas = require('../queries/seasoft/getGenTblReas')
 const unflattenReasCode = require('../models/unFlattenReasCode')
 const mapPostgresSalesLinesTable = require('../models/mapPostgresSalesLinesTable')
+const upsertSalesData = require('../queries/postgres/upsertSalesData')
 
 const generateSalesDataRoutine = async year => {
   console.log('generate detail sales data...')
@@ -36,14 +37,10 @@ const generateSalesDataRoutine = async year => {
 
   // Map Data
   const joinedData = joinSalesData(salesHeader_unflat, salesLines, invenSupplemental_unflat, mappedPeriodsPerDay, invReasCodes_unflat)
-
   const mappedData = mapPostgresSalesLinesTable(joinedData)
 
-  // add all supplemental inven data to the sales line items
-
   // save to new postrgres table
-
-  // routes will query this data for the front end and query on order at same time and format live
+  const upserted = await upsertSalesData(mappedData)
 
   return mappedData
 }

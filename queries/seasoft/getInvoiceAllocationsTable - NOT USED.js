@@ -19,3 +19,11 @@ const getInvoiceAllocationsTable = async (firstDayOfFy, firstDayOfNextFy) => {
 }
 
 module.exports = getInvoiceAllocationsTable
+
+// get the othp for freight only
+
+// get the othp for rebates only
+
+// sum the othp for freight by invoice by line
+
+// sum the othp for rebates by invoice by line
