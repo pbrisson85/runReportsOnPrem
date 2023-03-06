@@ -8,6 +8,7 @@ const getPeriodsByDay = require('../queries/postgres/getAccountingPeriodsByDay')
 const mapAllInvoices = require('../models/mapAllInvoices')
 const getInvoiceHeader = require('../queries/seasoft/getInvoiceHeader')
 const unflattenInvoiceNum = require('../models/unFlattenInoviceNum')
+const getGenTbleReas = require('../queries/seasoft/getGenTbleReas')
 
 const generateSalesDataRoutine = async year => {
   console.log('generate detail sales data...')
@@ -23,14 +24,18 @@ const generateSalesDataRoutine = async year => {
   const salesHeader = await getInvoiceHeader(firstDayOfFy, firstDayOfNextFy)
   const invenSupplemental = await getMasterSupplement()
   const periodsByDay = await getPeriodsByDay(parseInt(year))
+  const invReasCodes = await getGenTbleReas()
 
   // Model Data
   const salesHeader_unflat = unflattenInvoiceNum(salesHeader)
   const invenSupplemental_unflat = unflattenItemNum(invenSupplemental)
+  const invReasCodes_unflat = unflattenReasCode(invReasCodes)
   const mappedPeriodsPerDay = mapPeriodsPerDay(periodsByDay)
 
   // Map Data
-  const mappedSales = mapAllInvoices(salesHeader_unflat, salesLines, invenSupplemental_unflat, mappedPeriodsPerDay)
+  const mappedSales = mapAllInvoices(salesHeader_unflat, salesLines, invenSupplemental_unflat, mappedPeriodsPerDay, invReasCodes_unflat)
+
+  const filteredSales = mappedSales.filter((sale, idx) => idx < 500)
 
   // add all supplemental inven data to the sales line items
 
@@ -38,7 +43,7 @@ const generateSalesDataRoutine = async year => {
 
   // routes will query this data for the front end and query on order at same time and format live
 
-  return mappedSales
+  return filteredSales
 }
 
 module.exports = generateSalesDataRoutine

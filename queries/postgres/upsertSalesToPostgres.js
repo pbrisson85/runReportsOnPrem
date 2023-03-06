@@ -1,0 +1,51 @@
+/*
+invoiceLine : {
+    ITEM_NUMBER, ITEM_DESCRIPTION, QTY_SHIPPED, PRICING_UNIT, STOCK_QTY_SHIPPED, STOCK_UNIT_OF_MEASURE, LIST_PRICE, NET_PRICE_EXTENSION, PRODUCT_ONLY_PRICE, PRODUCT_ONLY_EXTENSION, INVOICE_EXT_COST, ODBC_INVOICE_NUMBER, ODBC_LINE_NUMBER, ODBC_INVOICE_DATE,  ORDER_LINE_KEY, BILLING_WEIGHT, GL_DIST, INSIDE_SALESPERSON_CODE, OUTSIDE_SALESPERSON_CODE 
+}
+
+invenSupplemental: {
+    item_num
+    description
+    species
+    inven_category
+    seafood_category
+    item_type
+    size_name
+    program
+    species_group
+}
+
+period: {
+    week_serial
+    period_serial
+    week
+    period
+    fiscal_year
+    formattedDate
+}
+
+header: {
+    INVOICE_NUMBER
+    ORIGINAL_ORDER_INVOICE
+    DOCUMENT_NUMBER
+    INVOICE_DATE
+    DATE_SHIPPED
+    SHIP_DATE
+    GL_POSTING_DATE
+    CUSTOMER_CODE
+    CUSTOMER_NAME
+    SHIPTO_CODE
+    TRUCK_ROUTE
+    CUSTOMER_ORDER_NUMBER
+    SHIP_METHOD
+    REASON_CODE
+    CUSTOMER_TERMS_CODE
+    SHIP_VIA_CODE
+}
+
+invReasCodes: {
+    TABLE_CODE
+    TABLE_DESC
+    TABLE_FLD01_ADJ_INV
+}
+*/
