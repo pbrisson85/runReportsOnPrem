@@ -6,14 +6,13 @@ const router = require('express').Router()
 // @access
 
 // Generate sales data
-router.get('/', async (req, res) => {
+router.get('/:fy', async (req, res) => {
   console.log(`\generate sales data given FY route HIT...`)
 
-  const fy = 2022
-  const sales = await generateSalesDataRoutine(fy)
+  const sales = await generateSalesDataRoutine(req.params.fy)
 
   res.send(sales)
-  console.log(`generate sales data routine complete: for FY: ${fy} \n`)
+  console.log(`generate sales data routine complete: for FY: ${req.params.fy} \n`)
 })
 
 module.exports = router

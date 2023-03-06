@@ -1,5 +1,5 @@
-const mapAllInvoices = (salesHeader_unflat, salesLines, invenSupplemental_unflat, mappedPeriodsPerDay, invReasCodes_unflat) => {
-  const mappedSales = salesLines.map(invoiceLine => {
+const joinSalesData = (salesHeader_unflat, salesLines, invenSupplemental_unflat, mappedPeriodsPerDay, invReasCodes_unflat) => {
+  const joinedSalesData = salesLines.map(invoiceLine => {
     const dateArr = invoiceLine.ODBC_INVOICE_DATE.split('-')
     // result: [yyyy,m,d]
 
@@ -18,7 +18,7 @@ const mapAllInvoices = (salesHeader_unflat, salesLines, invenSupplemental_unflat
     }
   })
 
-  return mappedSales
+  return joinedSalesData
 }
 
-module.exports = mapAllInvoices
+module.exports = joinSalesData
