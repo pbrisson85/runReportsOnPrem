@@ -8,7 +8,7 @@ const getPeriodsByDay = require('../queries/postgres/getAccountingPeriodsByDay')
 const mapAllInvoices = require('../models/mapAllInvoices')
 const getInvoiceHeader = require('../queries/seasoft/getInvoiceHeader')
 const unflattenInvoiceNum = require('../models/unFlattenInoviceNum')
-const getGenTbleReas = require('../queries/seasoft/getGenTbleReas')
+const getGenTblReas = require('../queries/seasoft/getGenTblReas')
 
 const generateSalesDataRoutine = async year => {
   console.log('generate detail sales data...')
@@ -24,7 +24,7 @@ const generateSalesDataRoutine = async year => {
   const salesHeader = await getInvoiceHeader(firstDayOfFy, firstDayOfNextFy)
   const invenSupplemental = await getMasterSupplement()
   const periodsByDay = await getPeriodsByDay(parseInt(year))
-  const invReasCodes = await getGenTbleReas()
+  const invReasCodes = await getGenTblReas()
 
   // Model Data
   const salesHeader_unflat = unflattenInvoiceNum(salesHeader)
