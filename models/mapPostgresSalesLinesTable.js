@@ -5,7 +5,7 @@ const mapPostgresSalesLinesTable = joinedSalesData => {
         ? 0
         : invoiceLine.INVOICE_EXT_COST
 
-    const credit_invoice = odbc_invoice_number.charAt(odbc_invoice_number.length - 1) === 'C' ? true : false
+    const credit_invoice = invoiceLine.ODBC_INVOICE_NUMBER.charAt(invoiceLine.ODBC_INVOICE_NUMBER.length - 1) === 'C' ? true : false
 
     const calc_gm_reprt_weight = !credit_invoice
       ? invoiceLine.BILLING_WEIGHT
