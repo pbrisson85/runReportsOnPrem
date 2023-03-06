@@ -9,6 +9,7 @@ const mapAllInvoices = require('../models/mapAllInvoices')
 const getInvoiceHeader = require('../queries/seasoft/getInvoiceHeader')
 const unflattenInvoiceNum = require('../models/unFlattenInoviceNum')
 const getGenTblReas = require('../queries/seasoft/getGenTblReas')
+const unflattenReasCode = require('../models/unFlattenReasCode')
 
 const generateSalesDataRoutine = async year => {
   console.log('generate detail sales data...')

@@ -7,12 +7,15 @@ const mapAllInvoices = (salesHeader_unflat, salesLines, invenSupplemental_unflat
       timeZone: 'America/New_York',
     })
 
+    const invReasCode = salesHeader_unflat[invoiceLine.ODBC_INVOICE_NUMBER].REASON_CODE
+    console.log('invReasCode', invReasCode)
+
     return {
       ...invoiceLine,
       invenSupplemental: invenSupplemental_unflat[invoiceLine.ITEM_NUMBER],
       period: mappedPeriodsPerDay[invoiceDate],
       header: salesHeader_unflat[invoiceLine.ODBC_INVOICE_NUMBER],
-      invReasCodes: invReasCodes_unflat[salesHeader_unflat[invoiceLine.ODBC_INVOICE_NUMBER].REASON_CODE],
+      invReasCodes: invReasCode === '' ? { TABLE_CODE: null, TABLE_DESC: null, TABLE_FLD01_ADJ_INV: null } : invReasCodes_unflat[invReasCode],
     }
   })
 
