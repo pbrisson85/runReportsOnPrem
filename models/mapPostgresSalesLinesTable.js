@@ -65,6 +65,7 @@ const mapPostgresSalesLinesTable = joinedSalesData => {
       calc_gl_cogs: calc_gl_cogs,
       calc_gl_othp: invoiceLine.NET_PRICE_EXTENSION - invoiceLine.PRODUCT_ONLY_EXTENSION,
       calc_gm_rept_weight: calc_gm_reprt_weight,
+      byproduct_type: invoiceLine.invenSupplemental.byproduct_type, // allow null
     }
   })
 

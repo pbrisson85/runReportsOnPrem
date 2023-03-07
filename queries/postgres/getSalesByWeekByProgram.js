@@ -22,5 +22,3 @@ const getWeeklySalesByProgram = async (program, fy) => {
 }
 
 module.exports = getWeeklySalesByProgram
-
-// REMOVE BY PRODUCTS FROM THIS QUERY ****************************************************
