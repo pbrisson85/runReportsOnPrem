@@ -33,13 +33,15 @@ const getWeeklyProgramSales = async (program, fy) => {
     }
   })
 
+  console.log(wklyProgSalesTotal)
+
   /* FG SALES BY PROCESSING LEVEL FOR PROGRAM (NO WIP, RM, BY-PROD) = detail row */
   const wklyProgSalesByProcLevel = await getWklySalesByProcLevel(program, fy)
   /*
   [
     {
         "week_serial": "2022-W01",
-        "fg_treatment": "DRY",
+        "row": "DRY",
         "lbs": 33859.6992,
         "sales": 140138.62999999998,
         "cogs": 91929.54999999999,
@@ -47,7 +49,7 @@ const getWeeklyProgramSales = async (program, fy) => {
     },
     {
         "week_serial": "2022-W01",
-        "fg_treatment": "PROCESSED",
+        "row": "PROCESSED",
         "lbs": 1930,
         "sales": 8922.5,
         "cogs": 7067.250000000001,
@@ -62,7 +64,7 @@ const getWeeklyProgramSales = async (program, fy) => {
     {
         "row": "PROCESSED",
     },
-        {
+    {
         "row": "DRY",
     },
   */

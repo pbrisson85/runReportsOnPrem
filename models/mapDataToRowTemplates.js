@@ -26,8 +26,8 @@ const mapDataToRowTemplates = (salesLines, rowTemplate) => {
       grossMarginPerLb = parseFloat(new Decimal(soLine.sales).minus(soLine.cogs).minus(soLine.othp).dividedBy(soLine.lbs).toFixed(2))
     }
 
-    rowTemplateCache[soLine.fg_treatment] = {
-      ...rowTemplateCache[soLine.fg_treatment],
+    rowTemplateCache[soLine.row] = {
+      ...rowTemplateCache[soLine.row],
       [soLine.week_serial]: {
         weight,
         revenue,
@@ -50,7 +50,7 @@ const mapDataToRowTemplates = (salesLines, rowTemplate) => {
 /*
   mappedSales
   "PROCESSED": {
-            "fg_treatment": "PROCESSED",
+            "row": "PROCESSED",
             "2022-W01": {
                 "lbs": -3660,
                 "sales": -17245,
