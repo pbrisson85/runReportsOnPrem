@@ -8,7 +8,7 @@ const getWeeklySalesByProgram = async (program, fy) => {
     console.log(`query postgres to get weekly purchses for ${program} ...`)
 
     const response = await pgClient.query(
-      'SELECT sales_line_items.week_serial AS week_serial, SUM(sales_line_items.calc_gm_rept_weight) AS lbs, SUM(sales_line_items.calc_gm_gross_sales) AS sales, SUM(sales_line_items.calc_gl_cogs) AS cogs, SUM(sales_line_items.calc_gl_othp) AS othp FROM "salesReporting".sales_line_items WHERE sales_line_items.item_type = $1 AND sales_line_items.program = $2 AND sales_line_items.fiscal_year = $3 GROUP BY sales_line_items.week_serial ORDER BY sales_line_items.week_serial',
+      'SELECT sales_line_items.week_serial AS week_serial, SUM(sales_line_items.calc_gm_rept_weight) AS lbs, SUM(sales_line_items.calc_gl_gross_sales) AS sales, SUM(sales_line_items.calc_gl_cogs) AS cogs, SUM(sales_line_items.calc_gl_othp) AS othp FROM "salesReporting".sales_line_items WHERE sales_line_items.item_type = $1 AND sales_line_items.program = $2 AND sales_line_items.fiscal_year = $3 GROUP BY sales_line_items.week_serial ORDER BY sales_line_items.week_serial',
       ['FG', program, fy]
     )
 
