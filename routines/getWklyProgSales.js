@@ -8,10 +8,10 @@ const { getWklySalesByItemTypeWithoutBp, getWklySalesByItemTypeBp } = require('.
 
 const getWeeklyProgramSales = async (program, fy) => {
   /* SALES FOR PROGRAM BY ITEM_TYPE (FG, WIP, RM, NO: BY-PROD) = subtotal row/major row */
-  const getWklySalesByItemTypeWithoutBp = await getWklySalesByItemTypeWithoutBp(program, fy)
+  const wklySalesByItemTypeWithoutBp = await getWklySalesByItemTypeWithoutBp(program, fy)
 
   /* SALES FOR PROGRAM BY ITEM_TYPE (BY-PROD) = subtotal row/major row */
-  const getWklySalesByItemTypeBp = await getWklySalesByItemTypeBp(program, fy)
+  const wklySalesByItemTypeBp = await getWklySalesByItemTypeBp(program, fy)
 
   /* FG SALES FOR PROGRAM (NO WIP, RM, BY-PROD) = total row */
   const wklyProgSalesTotal = await getWklySalesByProg(program, fy)
@@ -54,6 +54,8 @@ const getWeeklyProgramSales = async (program, fy) => {
         "othp": 0
     },
   */
+
+  return { wklySalesByItemTypeWithoutBp, wklySalesByItemTypeBp, wklyProgSalesTotal, wklyProgSalesByProcLevel }
 
   // get row templates to group data by
   const detailRowsTemplate = await getDistinctProcLevels(program)
@@ -153,7 +155,7 @@ const getWeeklyProgramSales = async (program, fy) => {
   */
 
   // return
-  return { data: getWklySalesByItemTypeWithoutBp, cols: getWklySalesByItemTypeBp }
+  return { data: wklySalesByItemTypeWithoutBp, cols: wklySalesByItemTypeBp }
 }
 
 module.exports = getWeeklyProgramSales
