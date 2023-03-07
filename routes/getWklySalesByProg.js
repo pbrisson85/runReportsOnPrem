@@ -9,10 +9,10 @@ const getWklySalesByProg = require('../routines/getWklyProgSales')
 router.get('/:program/:fy', async (req, res) => {
   console.log(`\nget get weekly sales by program: ${req.params.program} for fy: ${req.params.fy} route HIT...`)
 
-  const wklyProgSalesSchedule = await getWklySalesByProg(req.params.program, req.params.fy)
+  const { data, cols } = await getWklySalesByProg(req.params.program, req.params.fy)
 
   console.log(`get weekly sales by program: ${req.params.program} for fy: ${req.params.fy} route COMPLETE. \n`)
-  res.send(wklyProgSalesSchedule)
+  res.send({ data, cols })
 })
 
 module.exports = router

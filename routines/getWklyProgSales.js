@@ -3,6 +3,7 @@ const getWklySalesByProcLevel = require('../queries/postgres/getFgSales/byWkForP
 const getDistinctProcLevels = require('../queries/postgres/getDisctinctProcLevels')
 const unflattenRowTemplate = require('../models/unflattenRowTemplate')
 const mapDataToRowTemplates = require('../models/mapDataToRowTemplates')
+const { getDateEndPerWeek } = require('../queries/postgres/getDateEndPerWeek')
 
 const getWeeklyProgramSales = async (program, fy) => {
   /* FG SALES FOR PROGRAM (NO WIP, RM, BY-PROD) = total row */
@@ -84,25 +85,59 @@ const getWeeklyProgramSales = async (program, fy) => {
   const mappedSales = mapDataToRowTemplates([...wklyProgSalesTotal, ...wklyProgSalesByProcLevel], rowTemplate_unflat)
   /*
   mappedSales
-  "PROCESSED": {
-            "fg_treatment": "DRY",
-            "2022-W01": {
-                "lbs": -3660,
-                "sales": -17245,
-                "net_sales": -17144.73, <-- Calculated
-                "cogs": -13828.28,
-                "othp": 100.26999999999998
-            },
-            "2022-W06": {
-                "lbs": -3660,
-                "sales": -17245,
-                "net_sales": -17144.73, <-- Calculated
-                "cogs": -13828.28,
-                "othp": 100.26999999999998
-            },
+{
+ "PROCESSED": {
+        "row": "PROCESSED",
+        "2022-W01": {
+            "weight": 1930,
+            "revenue": 8922.5,
+            "cogs": 7067.25,
+            "othp": 0,
+            "netSales": 8922.5,
+            "grossMargin": 1855.25,
+            "revenuePerLb": 4.62,
+            "cogsPerLb": 3.66,
+            "othpPerLb": 0,
+            "netSalesPerLb": 4.62,
+            "grossMarginPerLb": 0.96
+        },
+        "2022-W02": {
+            "weight": 12560,
+            "revenue": 57672,
+            "cogs": 43752.26,
+            "othp": 3895.99,
+            "netSales": 53776.01,
+            "grossMargin": 10023.75,
+            "revenuePerLb": 4.59,
+            "cogsPerLb": 3.48,
+            "othpPerLb": 0.31,
+            "netSalesPerLb": 4.28,
+            "grossMarginPerLb": 0.8
+        },
   */
 
-  return mappedSales
+  const flattenedMappedSales = Object.values(mappedSales)
+
+  // get data column names
+  const dataCols = await getDateEndPerWeek(fy)
+  /*
+   "cols": [
+        {
+            "dataname": "2022-W01",
+            "displayname": "4/9/2022"
+        },
+        {
+            "dataname": "2022-W02",
+            "displayname": "4/16/2022"
+        },
+        {
+            "dataname": "2022-W03",
+            "displayname": "4/23/2022"
+        },
+  */
+
+  // return
+  return { data: flattenedMappedSales, cols: dataCols }
 }
 
 module.exports = getWeeklyProgramSales
