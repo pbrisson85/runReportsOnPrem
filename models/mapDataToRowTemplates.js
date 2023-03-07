@@ -1,4 +1,5 @@
 const Decimal = require('decimal.js')
+const _ = require('lodash')
 
 const mapDataToRowTemplates = (salesLines, rowTemplate) => {
   const rowTemplateCache = _.cloneDeep(rowTemplate)
