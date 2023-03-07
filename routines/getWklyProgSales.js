@@ -9,28 +9,68 @@ const { getWklySalesByItemTypeWithoutBp, getWklySalesByItemTypeBp } = require('.
 const getWeeklyProgramSales = async (program, fy) => {
   /* SALES FOR PROGRAM BY ITEM_TYPE (FG, WIP, RM, NO: BY-PROD) = subtotal row/major row */
   const wklySalesByItemTypeWithoutBp = await getWklySalesByItemTypeWithoutBp(program, fy)
+  /*
+  "wklySalesByItemTypeWithoutBp": [
+        {
+            "week_serial": "2022-W01",
+            "maj_row": "FG",
+            "lbs": -3660,
+            "sales": -17245,
+            "cogs": -13828.28,
+            "othp": 100.26999999999998
+        },
+        {
+            "week_serial": "2022-W02",
+            "maj_row": "FG",
+            "lbs": 35178,
+            "sales": 116087.4,
+            "cogs": 110577.4,
+            "othp": 534.7099999999919
+        },
+  */
 
   /* SALES FOR PROGRAM BY ITEM_TYPE (BY-PROD) = subtotal row/major row */
   const wklySalesByItemTypeBp = await getWklySalesByItemTypeBp(program, fy)
+  /*
+  "wklySalesByItemTypeBp": [
+        {
+            "week_serial": "2022-W01",
+            "maj_row": "BP",
+            "lbs": 21720,
+            "sales": 50058,
+            "cogs": 20180.12,
+            "othp": 573.4000000000005
+        },
+        {
+            "week_serial": "2022-W02",
+            "maj_row": "BP",
+            "lbs": 1920,
+            "sales": 6078,
+            "cogs": 2301.65,
+            "othp": 18.750000000000114
+        },
+  */
 
-  /* FG SALES FOR PROGRAM (NO WIP, RM, BY-PROD) = total row */
+  /* SALES FOR PROGRAM (ALL) = total row */
   const wklyProgSalesTotal = await getWklySalesByProg(program, fy)
   /*
-  [
-    {
-        "week_serial": "2022-W01",
-        "lbs": -3660,
-        "sales": -17245,
-        "cogs": -13828.28,
-        "othp": 100.26999999999998
-    },
-    {
-        "week_serial": "2022-W02",
-        "lbs": 35178,
-        "sales": 116087.4,
-        "cogs": 110577.4,
-        "othp": 534.7099999999919
-    },
+  "wklyProgSalesTotal": [
+        {
+            "week_serial": "2022-W01",
+            "lbs": 94393,
+            "sales": 1097004.0700000005,
+            "cogs": 927959.9199999995,
+            "othp": 6863.490000000001,
+            "maj_row": "TOTAL"
+        },
+        {
+            "week_serial": "2022-W02",
+            "lbs": 64050.55810000001,
+            "sales": 923604.4400000002,
+            "cogs": 777095.29,
+            "othp": 4774.490000000006,
+            "maj_row": "TOTAL"
+        },
   */
 
   /* FG SALES BY PROCESSING LEVEL FOR PROGRAM (NO WIP, RM, BY-PROD) = detail row */
