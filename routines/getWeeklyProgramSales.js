@@ -1,5 +1,5 @@
 const getWeeklySalesByProgram = require('../queries/postgres/getFgSales/byWeekForProg')
-const getWklySalesByProcessingLevel = require('../queries/postgres/getFgSales/byWeekByProcessingLevelForProg')
+const getWklySalesByProcessingLevel = require('../queries/postgres/getFgSales/byWeekForProgByProcLevel')
 
 const getWeeklyProgramSales = async (program, fy) => {
   /* FG SALES FOR PROGRAM (NO WIP, RM, BY-PROD) = total row */
