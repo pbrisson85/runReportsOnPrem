@@ -8,7 +8,7 @@ const getViewFilters = require('../queries/hardcode/getViewFilters')
 
 // Generate Filter Data
 router.get('/programs', async (req, res) => {
-  console.log('\nget get sales PROGRAMS filters lot route HIT...')
+  console.log('\nget sales PROGRAMS filters lot route HIT...')
 
   const programs = await getDistinctPrograms()
   programs.sort((a, b) => {
