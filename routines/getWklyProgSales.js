@@ -2,6 +2,7 @@ const getWklySalesByProg = require('../queries/postgres/getFgSales/byWkForProg')
 const getWklySalesByProcLevel = require('../queries/postgres/getFgSales/byWkForProgByProcLevel')
 const getDistinctProcLevels = require('../queries/postgres/getDisctinctProcLevels')
 const unflattenRowTemplate = require('../models/unflattenRowTemplate')
+const mapDataToRowTemplates = require('../models/mapDataToRowTemplates')
 
 const getWeeklyProgramSales = async (program, fy) => {
   /* FG SALES FOR PROGRAM (NO WIP, RM, BY-PROD) = total row */
@@ -63,8 +64,45 @@ const getWeeklyProgramSales = async (program, fy) => {
 
   // map data into row template
   const rowTemplate_unflat = unflattenRowTemplate(rowTemplate)
+  /*
+  {
+    "research": {
+        "row": "research"
+    },
+    "PROCESSED": {
+        "row": "PROCESSED"
+    },
+    "DRY": {
+        "row": "DRY"
+    },
+    "TOTAL": {
+        "row": "TOTAL"
+    }
+  }
+  */
 
-  return rowTemplate_unflat
+  const mappedSales = mapDataToRowTemplates([...wklyProgSalesTotal, ...wklyProgSalesByProcLevel], rowTemplate_unflat)
+  /*
+  mappedSales
+  "PROCESSED": {
+            "fg_treatment": "DRY",
+            "2022-W01": {
+                "lbs": -3660,
+                "sales": -17245,
+                "net_sales": -17144.73, <-- Calculated
+                "cogs": -13828.28,
+                "othp": 100.26999999999998
+            },
+            "2022-W06": {
+                "lbs": -3660,
+                "sales": -17245,
+                "net_sales": -17144.73, <-- Calculated
+                "cogs": -13828.28,
+                "othp": 100.26999999999998
+            },
+  */
+
+  return mappedSales
 }
 
 module.exports = getWeeklyProgramSales
