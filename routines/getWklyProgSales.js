@@ -7,7 +7,7 @@ const { getDateEndPerWeek } = require('../queries/postgres/getDateEndPerWeek')
 
 const getWeeklyProgramSales = async (program, fy) => {
   /* FG SALES FOR PROGRAM (NO WIP, RM, BY-PROD) = total row */
-  const wklyProgSalesTotal = await getWklySalesByProg(program, fy)
+  let wklyProgSalesTotal = await getWklySalesByProg(program, fy)
   /*
   [
     {
@@ -25,6 +25,13 @@ const getWeeklyProgramSales = async (program, fy) => {
         "othp": 534.7099999999919
     },
   */
+
+  wklyProgSalesTotal = wklyProgSalesTotal.map(row => {
+    return {
+      ...row,
+      row: 'TOTAL',
+    }
+  })
 
   /* FG SALES BY PROCESSING LEVEL FOR PROGRAM (NO WIP, RM, BY-PROD) = detail row */
   const wklyProgSalesByProcLevel = await getWklySalesByProcLevel(program, fy)
