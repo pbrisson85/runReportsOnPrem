@@ -1,5 +1,6 @@
 const getWklySalesByProg = require('../queries/postgres/getFgSales/byWkForProg')
 const getWklySalesByProcLevel = require('../queries/postgres/getFgSales/byWkForProgByProcLevel')
+const getDistinctProcLevels = require('../queries/postgres/getDisctinctProcLevels')
 
 const getWeeklyProgramSales = async (program, fy) => {
   /* FG SALES FOR PROGRAM (NO WIP, RM, BY-PROD) = total row */
@@ -24,8 +25,30 @@ const getWeeklyProgramSales = async (program, fy) => {
 
   /* FG SALES BY PROCESSING LEVEL FOR PROGRAM (NO WIP, RM, BY-PROD) = detail row */
   const wklyProgSalesByProcLevel = await getWklySalesByProcLevel(program, fy)
+  /*
+  [
+    {
+        "week_serial": "2022-W01",
+        "fg_treatment": "DRY",
+        "lbs": 33859.6992,
+        "sales": 140138.62999999998,
+        "cogs": 91929.54999999999,
+        "othp": 12357.330000000002
+    },
+    {
+        "week_serial": "2022-W01",
+        "fg_treatment": "PROCESSED",
+        "lbs": 1930,
+        "sales": 8922.5,
+        "cogs": 7067.250000000001,
+        "othp": 0
+    },
+  */
 
-  return wklyProgSalesByProcLevel
+  // get row templates to group data by
+  const rowTemplate = await getDistinctProcLevels(program)
+
+  return rowTemplate
 }
 
 module.exports = getWeeklyProgramSales
