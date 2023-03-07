@@ -1,5 +1,5 @@
 // Schedule
-const getWklySalesByProcessingLevel = async (program, fy) => {
+const getWklySalesByProcLevel = async (program, fy) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -21,4 +21,4 @@ const getWklySalesByProcessingLevel = async (program, fy) => {
   }
 }
 
-module.exports = getWklySalesByProcessingLevel
+module.exports = getWklySalesByProcLevel

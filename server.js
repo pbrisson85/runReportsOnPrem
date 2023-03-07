@@ -7,7 +7,7 @@ const app = express()
 const helmet = require('helmet')
 
 // initialize routes
-const getSalesByProgram = require('./routes/getWeeklySalesByProgram')
+const getSalesByProgram = require('./routes/getWklySalesByProg')
 const generateSalesData = require('./routes/generateSalesDataRoute')
 
 // initialize startup procedures

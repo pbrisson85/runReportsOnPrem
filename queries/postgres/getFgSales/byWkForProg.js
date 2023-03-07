@@ -1,5 +1,5 @@
 // Schedule
-const getWeeklySalesByProgram = async (program, fy) => {
+const getWklySalesByProg = async (program, fy) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -21,4 +21,4 @@ const getWeeklySalesByProgram = async (program, fy) => {
   }
 }
 
-module.exports = getWeeklySalesByProgram
+module.exports = getWklySalesByProg

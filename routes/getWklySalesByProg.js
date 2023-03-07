@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const getWeeklySalesByProgram = require('../queries/postgres/getSalesByWeekByProgram')
+const getWklySalesByProg = require('../queries/postgres/getWklyProgSales')
 
 // @route   GET /api/sales/getSalesByProgram/:program/:fy
 // @desc
@@ -9,10 +9,10 @@ const getWeeklySalesByProgram = require('../queries/postgres/getSalesByWeekByPro
 router.get('/:program/:fy', async (req, res) => {
   console.log(`\nget get weekly sales by program: ${req.params.program} for fy: ${req.params.fy} route HIT...`)
 
-  const weeklyProgramSalesSchedule = await getWeeklySalesByProgram(req.params.program, req.params.fy)
+  const wklyProgSalesSchedule = await getWklySalesByProg(req.params.program, req.params.fy)
 
   console.log(`get weekly sales by program: ${req.params.program} for fy: ${req.params.fy} route COMPLETE. \n`)
-  res.send(weeklyProgramSalesSchedule)
+  res.send(wklyProgSalesSchedule)
 })
 
 module.exports = router

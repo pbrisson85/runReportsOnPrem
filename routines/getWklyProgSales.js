@@ -1,9 +1,9 @@
-const getWeeklySalesByProgram = require('../queries/postgres/getFgSales/byWeekForProg')
-const getWklySalesByProcessingLevel = require('../queries/postgres/getFgSales/byWeekForProgByProcLevel')
+const getWklySalesByProg = require('../queries/postgres/getFgSales/byWkForProg')
+const getWklySalesByProcLevel = require('../queries/postgres/getFgSales/byWkForProgByProcLevel')
 
 const getWeeklyProgramSales = async (program, fy) => {
   /* FG SALES FOR PROGRAM (NO WIP, RM, BY-PROD) = total row */
-  const wklyProgSalesTotal = await getWeeklySalesByProgram(program, fy)
+  const wklyProgSalesTotal = await getWklySalesByProg(program, fy)
   /*
   [
     {
@@ -23,7 +23,7 @@ const getWeeklyProgramSales = async (program, fy) => {
   */
 
   /* FG SALES BY PROCESSING LEVEL FOR PROGRAM (NO WIP, RM, BY-PROD) = detail row */
-  const wklyProgSalesByProcLevel = await getWklySalesByProcessingLevel(program, fy)
+  const wklyProgSalesByProcLevel = await getWklySalesByProcLevel(program, fy)
 
   return wklyProgSalesByProcLevel
 }
