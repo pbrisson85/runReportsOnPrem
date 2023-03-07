@@ -1,6 +1,7 @@
 const getWklySalesByProg = require('../queries/postgres/getFgSales/byWkForProg')
 const getWklySalesByProcLevel = require('../queries/postgres/getFgSales/byWkForProgByProcLevel')
 const getDistinctProcLevels = require('../queries/postgres/getDisctinctProcLevels')
+const unflattenRowTemplate = require('../utils/unflattenRowTemplate')
 
 const getWeeklyProgramSales = async (program, fy) => {
   /* FG SALES FOR PROGRAM (NO WIP, RM, BY-PROD) = total row */
@@ -47,8 +48,23 @@ const getWeeklyProgramSales = async (program, fy) => {
 
   // get row templates to group data by
   const rowTemplate = await getDistinctProcLevels(program)
+  /*
+  [
+    {
+        "row": "PROCESSED",
+    },
+        {
+        "row": "DRY",
+    },
+  */
 
-  return rowTemplate
+  // add total row to row template
+  rowTemplate.push({ row: 'TOTAL' })
+
+  // map data into row template
+  const rowTemplate_unflat = unflattenRowTemplate(rowTemplate)
+
+  return rowTemplate_unflat
 }
 
 module.exports = getWeeklyProgramSales
