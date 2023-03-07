@@ -1,4 +1,4 @@
-const getDistinctProcLevels = async program => {
+const getDistinctItemTypes = async program => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -7,8 +7,8 @@ const getDistinctProcLevels = async program => {
     console.log(`query postgres master supplement to get proc levels for ${program} to build rows template ...`)
 
     const response = await pgClient.query(
-      'SELECT DISTINCT(TRIM(master_supplement.fg_treatment)) AS subRow FROM "salesReporting".sales_line_items WHERE sales_line_items.item_type = $1 AND sales_line_items.program = $2 AND sales_line_items.byproduct_type IS NULL',
-      ['FG', program]
+      'SELECT DISTINCT(TRIM(master_supplement.item_type)) AS item_type FROM "salesReporting".sales_line_items WHERE sales_line_items.program = $1',
+      [program]
     )
 
     await pgClient.end()
@@ -20,4 +20,4 @@ const getDistinctProcLevels = async program => {
   }
 }
 
-module.exports = getDistinctProcLevels
+module.exports = getDistinctItemTypes

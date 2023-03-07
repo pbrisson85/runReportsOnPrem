@@ -1,11 +1,18 @@
-const getWklySalesByProg = require('../queries/postgres/getFgSales/byWkForProg')
-const getWklySalesByProcLevel = require('../queries/postgres/getFgSales/byWkForProgByProcLevel')
+const getWklySalesByProg = require('../queries/postgres/getSales/byWkForProg')
+const getWklySalesByProcLevel = require('../queries/postgres/getSales/byWkForProgByProcLevel')
 const getDistinctProcLevels = require('../queries/postgres/getDisctinctProcLevels')
 const unflattenRowTemplate = require('../models/unflattenRowTemplate')
 const mapDataToRowTemplates = require('../models/mapDataToRowTemplates')
 const { getDateEndPerWeek } = require('../queries/postgres/getDateEndPerWeek')
+const { getWklySalesByItemTypeWithoutBp, getWklySalesByItemTypeBp } = require('../queries/postgres/getSales/byWkForProgByItemType')
 
 const getWeeklyProgramSales = async (program, fy) => {
+  /* SALES FOR PROGRAM BY ITEM_TYPE (FG, WIP, RM, NO: BY-PROD) = subtotal row/major row */
+  const getWklySalesByItemTypeWithoutBp = await getWklySalesByItemTypeWithoutBp(program, fy)
+
+  /* SALES FOR PROGRAM BY ITEM_TYPE (BY-PROD) = subtotal row/major row */
+  const getWklySalesByItemTypeBp = await getWklySalesByItemTypeBp(program, fy)
+
   /* FG SALES FOR PROGRAM (NO WIP, RM, BY-PROD) = total row */
   const wklyProgSalesTotal = await getWklySalesByProg(program, fy)
   /*
@@ -49,7 +56,7 @@ const getWeeklyProgramSales = async (program, fy) => {
   */
 
   // get row templates to group data by
-  const rowTemplate = await getDistinctProcLevels(program)
+  const detailRowsTemplate = await getDistinctProcLevels(program)
   /*
   [
     {
@@ -60,8 +67,10 @@ const getWeeklyProgramSales = async (program, fy) => {
     },
   */
 
-  // add total row to row template
-  rowTemplate.push({ row: 'TOTAL' })
+  // Sub total rows template
+  const subTotalRowsTemplate =
+    // add total row to row template
+    detailRowsTemplate.push({ row: 'TOTAL' })
 
   // map data into row template
   const rowTemplate_unflat = unflattenRowTemplate(rowTemplate)
@@ -144,7 +153,7 @@ const getWeeklyProgramSales = async (program, fy) => {
   */
 
   // return
-  return { data: flattenedMappedSales, cols: dataCols }
+  return { data: getWklySalesByItemTypeWithoutBp, cols: getWklySalesByItemTypeBp }
 }
 
 module.exports = getWeeklyProgramSales
