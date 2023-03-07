@@ -9,6 +9,7 @@ const helmet = require('helmet')
 // initialize routes
 const getSalesByProgram = require('./routes/getWklySalesByProg')
 const generateSalesData = require('./routes/generateSalesDataRoute')
+const getFilters = require('./routes/getFilters')
 
 // initialize startup procedures
 const { runCronOnStartup } = require('./startup/cron')
@@ -31,6 +32,7 @@ app.use(helmet())
 app.use(express.json())
 app.use('/api/sales/getSalesByProgram', getSalesByProgram)
 app.use('/api/sales/generateSalesData', generateSalesData)
+app.use('/api/sales/getFilters', getFilters)
 
 // startup
 runCronOnStartup()
