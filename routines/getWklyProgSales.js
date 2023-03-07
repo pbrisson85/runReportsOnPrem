@@ -1,7 +1,7 @@
 const getWklySalesByProg = require('../queries/postgres/getFgSales/byWkForProg')
 const getWklySalesByProcLevel = require('../queries/postgres/getFgSales/byWkForProgByProcLevel')
 const getDistinctProcLevels = require('../queries/postgres/getDisctinctProcLevels')
-const unflattenRowTemplate = require('../utils/unflattenRowTemplate')
+const unflattenRowTemplate = require('../models/unflattenRowTemplate')
 
 const getWeeklyProgramSales = async (program, fy) => {
   /* FG SALES FOR PROGRAM (NO WIP, RM, BY-PROD) = total row */
