@@ -10,14 +10,14 @@ const mapDataToRowTemplates = (salesLines, rowTemplate) => {
   let netSalesPerLb = 0
   let grossMarginPerLb = 0
 
-  const revenue = parseFloat(soLine.sales.toFixed(2))
-  const weight = parseFloat(soLine.lbs.toFixed(2))
-  const cogs = parseFloat(soLine.cogs.toFixed(2))
-  const othp = parseFloat(soLine.othp.toFixed(2))
-  const netSales = parseFloat(new Decimal(soLine.sales).minus(soLine.othp).toFixed(2))
-  const grossMargin = parseFloat(new Decimal(soLine.sales).minus(soLine.cogs).minus(soLine.othp).toFixed(2))
-
   salesLines.forEach(soLine => {
+    const revenue = parseFloat(soLine.sales.toFixed(2))
+    const weight = parseFloat(soLine.lbs.toFixed(2))
+    const cogs = parseFloat(soLine.cogs.toFixed(2))
+    const othp = parseFloat(soLine.othp.toFixed(2))
+    const netSales = parseFloat(new Decimal(soLine.sales).minus(soLine.othp).toFixed(2))
+    const grossMargin = parseFloat(new Decimal(soLine.sales).minus(soLine.cogs).minus(soLine.othp).toFixed(2))
+
     if (soLine.lbs !== null && soLine.lbs !== 0) {
       revenuePerLb = parseFloat(new Decimal(soLine.sales).dividedBy(soLine.lbs).toFixed(2))
       cogsPerLb = parseFloat(new Decimal(soLine.cogs).dividedBy(soLine.lbs).toFixed(2))
