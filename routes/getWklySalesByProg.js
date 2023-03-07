@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const getWklySalesByProg = require('../queries/postgres/getWklyProgSales')
+const getWklySalesByProg = require('../routines/getWklyProgSales')
 
 // @route   GET /api/sales/getSalesByProgram/:program/:fy
 // @desc
