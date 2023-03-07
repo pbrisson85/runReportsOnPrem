@@ -5,6 +5,7 @@ const unflattenRowTemplate = require('../models/unflattenRowTemplate')
 const mapDataToRowTemplates = require('../models/mapDataToRowTemplates')
 const { getDateEndPerWeek } = require('../queries/postgres/getDateEndPerWeek')
 const { getWklySalesByItemTypeWithoutBp, getWklySalesByItemTypeBp } = require('../queries/postgres/getSales/byWkForProgByItemType')
+const getWklyBpByType = require('../queries/postgres/getSales/byWkForProgBpByType')
 
 const getWeeklyProgramSales = async (program, fy) => {
   /* SALES FOR PROGRAM BY ITEM_TYPE (FG, WIP, RM, NO: BY-PROD) = subtotal row/major row */
@@ -51,7 +52,7 @@ const getWeeklyProgramSales = async (program, fy) => {
         },
   */
 
-  /* SALES FOR PROGRAM (ALL) = total row */
+  /* SALES FOR PROGRAM (ALL) = total row/major row */
   const wklyProgSalesTotal = await getWklySalesByProg(program, fy)
   /*
   "wklyProgSalesTotal": [
@@ -73,29 +74,36 @@ const getWeeklyProgramSales = async (program, fy) => {
         },
   */
 
-  /* FG SALES BY PROCESSING LEVEL FOR PROGRAM (NO WIP, RM, BY-PROD) = detail row */
+  /* FG SALES BY PROCESSING LEVEL FOR PROGRAM = detail row/minor row */ // <---- THIS DATA WILL SWITCH OUT FOR DIFFERENT FG DETAIL CATEGORIES
   const wklyProgSalesByProcLevel = await getWklySalesByProcLevel(program, fy)
   /*
-  [
-    {
-        "week_serial": "2022-W01",
-        "row": "DRY",
-        "lbs": 33859.6992,
-        "sales": 140138.62999999998,
-        "cogs": 91929.54999999999,
-        "othp": 12357.330000000002
-    },
-    {
-        "week_serial": "2022-W01",
-        "row": "PROCESSED",
-        "lbs": 1930,
-        "sales": 8922.5,
-        "cogs": 7067.250000000001,
-        "othp": 0
-    },
+  "wklyProgSalesByProcLevel": [
+        {
+            "week_serial": "2022-W01",
+            "maj_row": "FG",
+            "min_row": "DRY",
+            "lbs": 15223,
+            "sales": 276067.67000000004,
+            "cogs": 247561.06000000003,
+            "othp": 363.47999999999814
+        },
+        {
+            "week_serial": "2022-W01",
+            "maj_row": "FG",
+            "min_row": "LIGHT",
+            "lbs": 9550,
+            "sales": 158202.79999999987,
+            "cogs": 150058.38999999996,
+            "othp": 2962.7100000000028
+        },
   */
 
-  return { wklySalesByItemTypeWithoutBp, wklySalesByItemTypeBp, wklyProgSalesTotal, wklyProgSalesByProcLevel }
+  /* BP SALES BY TYPE FOR PROGRAM = detail row/minor row */
+  const wklyBpSalesByType = await getWklyBpByType(program, fy)
+
+  return wklyBpSalesByType
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // get row templates to group data by
   const detailRowsTemplate = await getDistinctProcLevels(program)
