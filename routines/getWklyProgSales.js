@@ -116,6 +116,13 @@ const getWeeklyProgramSales = async (program, fy) => {
         },
   */
 
+  // clean out rows with zero sales
+  Object.keys(mappedSales).forEach(key => {
+    if (Object.keys(mappedSales[key]).length === 1) {
+      delete mappedSales[key]
+    }
+  })
+
   const flattenedMappedSales = Object.values(mappedSales)
 
   // get data column names
