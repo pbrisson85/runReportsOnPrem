@@ -7,6 +7,7 @@ const { getDateEndPerWeek } = require('../queries/postgres/getDateEndPerWeek')
 const { getWklySalesByItemTypeWithoutBp, getWklySalesByItemTypeBp } = require('../queries/postgres/getSales/byWkForProgByItemType')
 const getWklyBpByType = require('../queries/postgres/getSales/byWkForProgBpByType')
 const getDistinctItemTypes = require('../queries/postgres/getRows/getDisctinctItemTypes')
+const getDistinctBpTypes = require('../queries/postgres/getRows/getDisctinctBpTypes')
 
 const getWeeklyProgramSales = async (program, fy) => {
   /* SALES FOR PROGRAM BY ITEM_TYPE (FG, WIP, RM, NO: BY-PROD) = subtotal row/major row */
@@ -155,8 +156,7 @@ const getWeeklyProgramSales = async (program, fy) => {
   ]
   */
 
-  return { row_types, row_bp, row_total, row_proc_details }
-
+  const row_by_details = await getDistinctBpTypes(program, fy)
   // ROW TEMPLATE: BP TYPES
   /*
   [
@@ -164,6 +164,8 @@ const getWeeklyProgramSales = async (program, fy) => {
     { maj_row: 'BP', min_row: 'CHUNKS' }
   ]
   */
+
+  return { row_types, row_bp, row_total, row_proc_details, row_by_details }
 
   // Sub total rows template
   const subTotalRowsTemplate =
