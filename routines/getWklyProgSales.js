@@ -10,7 +10,7 @@ const unflattenRowTemplate = require('../models/unflattenRowTemplate')
 const mapDataToRowTemplates = require('../models/mapDataToRowTemplates')
 
 const getWeeklyProgramSales = async (program, fy) => {
-  /* SALES FOR PROGRAM BY ITEM_TYPE (FG, WIP, RM, NO: BY-PROD) = subtotal row/major row */
+  /* SALES FOR PROGRAM BY ITEM_TYPE (FG, WIP, RM, NO: BY-PROD) = subtotal */
   const wklySalesByItemTypeWithoutBp = await getWklySalesByItemTypeWithoutBp(program, fy)
   /*
   "wklySalesByItemTypeWithoutBp": [
@@ -32,7 +32,7 @@ const getWeeklyProgramSales = async (program, fy) => {
         },
   */
 
-  /* SALES FOR PROGRAM BY ITEM_TYPE (BY-PROD) = subtotal row/major row */
+  /* SALES FOR PROGRAM BY ITEM_TYPE (BY-PROD) = subtotal */
   const wklySalesByItemTypeBp = await getWklySalesByItemTypeBp(program, fy)
   /*
   "wklySalesByItemTypeBp": [
@@ -54,7 +54,7 @@ const getWeeklyProgramSales = async (program, fy) => {
         },
   */
 
-  /* SALES FOR PROGRAM (ALL) = total row/major row */
+  /* SALES FOR PROGRAM (ALL) = program total */
   const wklyProgSalesTotal = await getWklySalesByProg(program, fy)
   /*
   "wklyProgSalesTotal": [
@@ -76,7 +76,7 @@ const getWeeklyProgramSales = async (program, fy) => {
         },
   */
 
-  /* FG SALES BY PROCESSING LEVEL FOR PROGRAM = detail row/minor row */ // <---- THIS DATA WILL SWITCH OUT FOR DIFFERENT FG DETAIL CATEGORIES
+  /* FG SALES BY PROCESSING LEVEL FOR PROGRAM = FG detail */ // <---- THIS DATA WILL SWITCH OUT FOR DIFFERENT FG DETAIL CATEGORIES
   const wklyProgSalesByProcLevel = await getWklySalesByProcLevel(program, fy)
   /*
   "wklyProgSalesByProcLevel": [
@@ -100,7 +100,7 @@ const getWeeklyProgramSales = async (program, fy) => {
         },
   */
 
-  /* BP SALES BY TYPE FOR PROGRAM = detail row/minor row */
+  /* BP SALES BY TYPE FOR PROGRAM = BP detail */
   const wklyBpSalesByType = await getWklyBpByType(program, fy)
   /*
   wklyBpSalesByType
