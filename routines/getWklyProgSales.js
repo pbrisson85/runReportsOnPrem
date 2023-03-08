@@ -1,13 +1,13 @@
+const { getDateEndPerWeek } = require('../queries/postgres/getDateEndPerWeek')
 const getWklySalesByProg = require('../queries/postgres/getSales/byWkForProg')
 const getWklySalesByProcLevel = require('../queries/postgres/getSales/byWkForProgByProcLevel')
-const getDistinctProcLevels = require('../queries/postgres/getRows/getDisctinctProcLevels')
-const unflattenRowTemplate = require('../models/unflattenRowTemplate')
-const mapDataToRowTemplates = require('../models/mapDataToRowTemplates')
-const { getDateEndPerWeek } = require('../queries/postgres/getDateEndPerWeek')
 const { getWklySalesByItemTypeWithoutBp, getWklySalesByItemTypeBp } = require('../queries/postgres/getSales/byWkForProgByItemType')
 const getWklyBpByType = require('../queries/postgres/getSales/byWkForProgBpByType')
 const getDistinctItemTypes = require('../queries/postgres/getRows/getDisctinctItemTypes')
 const getDistinctBpTypes = require('../queries/postgres/getRows/getDisctinctBpTypes')
+const getDistinctProcLevels = require('../queries/postgres/getRows/getDisctinctProcLevels')
+const unflattenRowTemplate = require('../models/unflattenRowTemplate')
+const mapDataToRowTemplates = require('../models/mapDataToRowTemplates')
 
 const getWeeklyProgramSales = async (program, fy) => {
   /* SALES FOR PROGRAM BY ITEM_TYPE (FG, WIP, RM, NO: BY-PROD) = subtotal row/major row */
@@ -124,8 +124,6 @@ const getWeeklyProgramSales = async (program, fy) => {
         "othp": 573.4000000000005
     },
   */
-
-  // NEED TO WORK ON ALL THESE ROW TEMPLATES TO MAKE THEM AGREE TO MY COMMENTS. ALSO FILTER THEM BY YEAR SO I DONT HAVE ANY BLANK ROWS THAT I NEED TO FILTER OUT
 
   // ROW TEMPLATE: ITEM_TYPE
   const row_types = await getDistinctItemTypes(program, fy)
