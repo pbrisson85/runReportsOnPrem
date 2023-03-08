@@ -176,7 +176,7 @@ const getWeeklyProgramSales = async (program, fy) => {
       if (a.maj_row > b.maj_row) return 1
       return 0
     })
-    .push(row_total)
+    .push(...row_total)
 
   return { rowTemplate }
 
