@@ -6,6 +6,7 @@ const mapDataToRowTemplates = require('../models/mapDataToRowTemplates')
 const { getDateEndPerWeek } = require('../queries/postgres/getDateEndPerWeek')
 const { getWklySalesByItemTypeWithoutBp, getWklySalesByItemTypeBp } = require('../queries/postgres/getSales/byWkForProgByItemType')
 const getWklyBpByType = require('../queries/postgres/getSales/byWkForProgBpByType')
+const getDistinctItemTypes = require('../queries/postgres/getDisctinctItemTypes')
 
 const getWeeklyProgramSales = async (program, fy) => {
   /* SALES FOR PROGRAM BY ITEM_TYPE (FG, WIP, RM, NO: BY-PROD) = subtotal row/major row */
@@ -100,13 +101,70 @@ const getWeeklyProgramSales = async (program, fy) => {
 
   /* BP SALES BY TYPE FOR PROGRAM = detail row/minor row */
   const wklyBpSalesByType = await getWklyBpByType(program, fy)
+  /*
+  wklyBpSalesByType
+  [
+    {
+        "week_serial": "2022-W01",
+        "maj_row": "BP",
+        "min_row": "CHUNKS",
+        "lbs": 130,
+        "sales": 910,
+        "cogs": 159.04,
+        "othp": 0
+    },
+    {
+        "week_serial": "2022-W01",
+        "maj_row": "BP",
+        "min_row": "PIECES",
+        "lbs": 21590,
+        "sales": 49148,
+        "cogs": 20021.079999999998,
+        "othp": 573.4000000000005
+    },
+  */
 
-  return wklyBpSalesByType
+  // NEED TO WORK ON ALL THESE ROW TEMPLATES TO MAKE THEM AGREE TO MY COMMENTS. ALSO FILTER THEM BY YEAR SO I DONT HAVE ANY BLANK ROWS THAT I NEED TO FILTER OUT
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // ROW TEMPLATE: ITEM_TYPE
+  const row_types = await getDistinctItemTypes(program)
+  /*
+  [
+    { maj_row: 'FG', min_row: 'subtotal' },
+    { maj_row: 'WIP', min_row: 'subtotal' }
+  ]
+  */
 
-  // get row templates to group data by
-  const detailRowsTemplate = await getDistinctProcLevels(program)
+  return row_types
+
+  // ROW TEMPLATE: ITEM_TYPE: BY-PROD
+  const row_bp = [{ maj_row: 'BP', min_row: 'subtotal' }]
+
+  // ROW TEMPLATE: PROGRAM TOTAL
+  const row_total = [{ maj_row: [program], min_row: 'total' }]
+  /*
+  [
+    { maj_row: [program], min_row: 'TOTAL' },
+  ]
+  */
+
+  // ROW TEMPLATE: PROC LEVELS
+  const row_proc_details = await getDistinctProcLevels(program)
+  /*
+  [
+    { maj_row: 'FG', min_row: 'DRY' },
+    { maj_row: 'FG', min_row: 'PROCESSED' }
+  ]
+  */
+
+  // ROW TEMPLATE: BP TYPES
+  /*
+  [
+    { maj_row: 'BP', min_row: 'PIECES' },
+    { maj_row: 'BP', min_row: 'CHUNKS' }
+  ]
+  */
+
   /*
   [
     {
@@ -141,7 +199,10 @@ const getWeeklyProgramSales = async (program, fy) => {
   }
   */
 
-  const mappedSales = mapDataToRowTemplates([...wklyProgSalesTotal, ...wklyProgSalesByProcLevel], rowTemplate_unflat)
+  const mappedSales = mapDataToRowTemplates(
+    [...wklySalesByItemTypeWithoutBp, ...wklySalesByItemTypeBp, ...wklyProgSalesTotal, ...wklyProgSalesByProcLevel, ...wklyBpSalesByType],
+    rowTemplate_unflat
+  )
   /*
   mappedSales
 {
