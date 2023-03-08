@@ -127,7 +127,7 @@ const getWeeklyProgramSales = async (program, fy) => {
   // NEED TO WORK ON ALL THESE ROW TEMPLATES TO MAKE THEM AGREE TO MY COMMENTS. ALSO FILTER THEM BY YEAR SO I DONT HAVE ANY BLANK ROWS THAT I NEED TO FILTER OUT
 
   // ROW TEMPLATE: ITEM_TYPE
-  const row_types = await getDistinctItemTypes(program)
+  const row_types = await getDistinctItemTypes(program, fy)
   /*
   [
     { maj_row: 'FG', min_row: 'subtotal' },
