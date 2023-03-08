@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const getDistinctPrograms = require('../queries/postgres/getDistinctPrograms')
+const getDistinctPrograms = require('../queries/postgres/filters/getDistinctPrograms')
 const getViewFilters = require('../queries/hardcode/getViewFilters')
 
 // @route   GET /api/sales/getFilters/programs
