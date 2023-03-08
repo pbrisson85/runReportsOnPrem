@@ -178,7 +178,7 @@ const getWeeklyProgramSales = async (program, fy) => {
     })
     .push(row_total)
 
-  return rowTemplate
+  return { rowTemplate }
 
   // map data into row template
   const rowTemplate_unflat = unflattenRowTemplate(rowTemplate)
