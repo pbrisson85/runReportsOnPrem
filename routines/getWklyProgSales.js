@@ -157,7 +157,7 @@ const getWeeklyProgramSales = async (program, fy) => {
   */
 
   // ROW TEMPLATE: PROGRAM TOTAL
-  const row_total = [{ maj_row: [program], min_row: 'total' }]
+  const row_total = [{ maj_row: program, min_row: 'total' }]
   /*
     [
       { maj_row: [program], min_row: 'TOTAL' },
@@ -178,8 +178,6 @@ const getWeeklyProgramSales = async (program, fy) => {
     })
 
   rowTemplate.push(...row_total)
-
-  return { rowTemplate }
 
   // map data into row template
   const rowTemplate_unflat = unflattenRowTemplate(rowTemplate)

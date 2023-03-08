@@ -4,7 +4,7 @@ const unflattenRowTemplate = flatObjArr => {
     let unflattenedObj = {}
 
     flatObjArr.forEach(obj => {
-      unflattenedObj[obj.row] = { ...obj }
+      unflattenedObj[`${obj.maj_row}-${obj.min_row}`] = { ...obj }
     })
 
     return unflattenedObj
