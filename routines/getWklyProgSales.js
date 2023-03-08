@@ -125,8 +125,9 @@ const getWeeklyProgramSales = async (program, fy) => {
     },
   */
 
+  ///////////////////////////////// ROWS
   // ROW TEMPLATE: ITEM_TYPE
-  const row_types = await getDistinctItemTypes(program, fy)
+  const row_types_subtotals = await getDistinctItemTypes(program, fy)
   /*
   [
     { maj_row: 'FG', min_row: 'subtotal' },
@@ -135,15 +136,7 @@ const getWeeklyProgramSales = async (program, fy) => {
   */
 
   // ROW TEMPLATE: ITEM_TYPE: BY-PROD
-  const row_bp = [{ maj_row: 'BP', min_row: 'subtotal' }]
-
-  // ROW TEMPLATE: PROGRAM TOTAL
-  const row_total = [{ maj_row: [program], min_row: 'total' }]
-  /*
-  [
-    { maj_row: [program], min_row: 'TOTAL' },
-  ]
-  */
+  const row_bp_subtotals = [{ maj_row: 'BP', min_row: 'subtotal' }]
 
   // ROW TEMPLATE: PROC LEVELS
   const row_proc_details = await getDistinctProcLevels(program, fy)
@@ -154,8 +147,8 @@ const getWeeklyProgramSales = async (program, fy) => {
   ]
   */
 
-  const row_by_details = await getDistinctBpTypes(program, fy)
   // ROW TEMPLATE: BP TYPES
+  const row_by_details = await getDistinctBpTypes(program, fy)
   /*
   [
     { maj_row: 'BP', min_row: 'PIECES' },
@@ -163,12 +156,29 @@ const getWeeklyProgramSales = async (program, fy) => {
   ]
   */
 
-  return { row_types, row_bp, row_total, row_proc_details, row_by_details }
+  // ROW TEMPLATE: PROGRAM TOTAL
+  const row_total = [{ maj_row: [program], min_row: 'total' }]
+  /*
+    [
+      { maj_row: [program], min_row: 'TOTAL' },
+    ]
+  */
 
-  // Sub total rows template
-  const subTotalRowsTemplate =
-    // add total row to row template
-    detailRowsTemplate.push({ row: 'TOTAL' })
+  // COMPILE FINAL ROW TEMPLATE
+  const rowTemplate = [...row_types_subtotals, ...row_bp_subtotals, ...row_proc_details, ...row_by_details]
+    .sort((a, b) => {
+      if (a.min_row < b.min_row) return -1
+      if (a.min_row > b.min_row) return 1
+      return 0
+    })
+    .sort((a, b) => {
+      if (a.maj_row < b.maj_row) return -1
+      if (a.maj_row > b.maj_row) return 1
+      return 0
+    })
+    .push(row_total)
+
+  return rowTemplate
 
   // map data into row template
   const rowTemplate_unflat = unflattenRowTemplate(rowTemplate)
