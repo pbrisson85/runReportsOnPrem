@@ -1,12 +1,12 @@
 const getWklySalesByProg = require('../queries/postgres/getSales/byWkForProg')
 const getWklySalesByProcLevel = require('../queries/postgres/getSales/byWkForProgByProcLevel')
-const getDistinctProcLevels = require('../queries/postgres/getDisctinctProcLevels')
+const getDistinctProcLevels = require('../queries/postgres/getRows/getDisctinctProcLevels')
 const unflattenRowTemplate = require('../models/unflattenRowTemplate')
 const mapDataToRowTemplates = require('../models/mapDataToRowTemplates')
 const { getDateEndPerWeek } = require('../queries/postgres/getDateEndPerWeek')
 const { getWklySalesByItemTypeWithoutBp, getWklySalesByItemTypeBp } = require('../queries/postgres/getSales/byWkForProgByItemType')
 const getWklyBpByType = require('../queries/postgres/getSales/byWkForProgBpByType')
-const getDistinctItemTypes = require('../queries/postgres/getDisctinctItemTypes')
+const getDistinctItemTypes = require('../queries/postgres/getRows/getDisctinctItemTypes')
 
 const getWeeklyProgramSales = async (program, fy) => {
   /* SALES FOR PROGRAM BY ITEM_TYPE (FG, WIP, RM, NO: BY-PROD) = subtotal row/major row */
@@ -135,8 +135,6 @@ const getWeeklyProgramSales = async (program, fy) => {
   ]
   */
 
-  return row_types
-
   // ROW TEMPLATE: ITEM_TYPE: BY-PROD
   const row_bp = [{ maj_row: 'BP', min_row: 'subtotal' }]
 
@@ -149,7 +147,7 @@ const getWeeklyProgramSales = async (program, fy) => {
   */
 
   // ROW TEMPLATE: PROC LEVELS
-  const row_proc_details = await getDistinctProcLevels(program)
+  const row_proc_details = await getDistinctProcLevels(program, fy)
   /*
   [
     { maj_row: 'FG', min_row: 'DRY' },
@@ -157,22 +155,14 @@ const getWeeklyProgramSales = async (program, fy) => {
   ]
   */
 
+  return { row_types, row_bp, row_total, row_proc_details }
+
   // ROW TEMPLATE: BP TYPES
   /*
   [
     { maj_row: 'BP', min_row: 'PIECES' },
     { maj_row: 'BP', min_row: 'CHUNKS' }
   ]
-  */
-
-  /*
-  [
-    {
-        "row": "PROCESSED",
-    },
-    {
-        "row": "DRY",
-    },
   */
 
   // Sub total rows template
