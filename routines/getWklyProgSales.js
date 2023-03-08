@@ -263,7 +263,7 @@ const getWeeklyProgramSales = async (program, fy) => {
   */
 
   // return
-  return { data: wklySalesByItemTypeWithoutBp, cols: wklySalesByItemTypeBp }
+  return { data: flattenedMappedSales, cols: dataCols }
 }
 
 module.exports = getWeeklyProgramSales
