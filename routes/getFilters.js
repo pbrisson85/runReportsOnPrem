@@ -7,10 +7,10 @@ const getViewFilters = require('../queries/hardcode/getViewFilters')
 // @access
 
 // Generate Filter Data
-router.get('/programs', async (req, res) => {
+router.get('/programs/:fy', async (req, res) => {
   console.log('\nget sales PROGRAMS filters lot route HIT...')
 
-  const programs = await getDistinctPrograms()
+  const programs = await getDistinctPrograms(req.params.fy)
   programs.sort((a, b) => {
     if (a.label > b.label) return 1
     if (a.label < b.label) return -1

@@ -7,7 +7,7 @@ const getDistinctBpTypes = async (program, fy) => {
     console.log(`query postgres sales reporting to get bp types for ${program} to build rows template ...`)
 
     const response = await pgClient.query(
-      'SELECT DISTINCT(TRIM(sales_line_items.byproduct_type)) AS min_row, \'BP\' AS maj_row FROM "salesReporting".sales_line_items WHERE sales_line_items.program = $1 AND sales_line_items.byproduct_type IS NOT NULL AND sales_line_items.fiscal_year = $2',
+      'SELECT DISTINCT(TRIM(master_supplement.byproduct_type)) AS min_row, \'BP\' AS maj_row FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_line_items.item_number WHERE master_supplement.program = $1 AND master_supplement.byproduct_type IS NOT NULL AND sales_line_items.fiscal_year = $2',
       [program, fy]
     )
 
