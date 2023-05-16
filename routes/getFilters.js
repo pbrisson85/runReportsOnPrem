@@ -44,7 +44,7 @@ router.get('/views', async (req, res) => {
 router.get('/fy', async (req, res) => {
   console.log('\nget sales YEARS filters lot route HIT...')
 
-  const fys = getDistinctFiscalYears()
+  const fys = await getDistinctFiscalYears()
 
   res.send(fys)
   console.log('get sales YEARS filters lot route COMPLETE. \n')

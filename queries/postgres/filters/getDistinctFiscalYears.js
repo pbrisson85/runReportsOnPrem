@@ -10,11 +10,6 @@ const getDistinctFiscalYears = async () => {
       'SELECT DISTINCT(sales_line_items.fiscal_year) AS label, sales_line_items.fiscal_year AS "dataName" FROM "salesReporting".sales_line_items'
     )
 
-    const response2 = await pgClient.query('SELECT DISTINCT(sales_line_items.fiscal_year) AS label FROM "salesReporting".sales_line_items')
-
-    console.log(response.rows)
-    console.log(response2.rows)
-
     await pgClient.end()
 
     return response.rows
