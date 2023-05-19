@@ -2,6 +2,7 @@ const router = require('express').Router()
 const getDistinctPrograms = require('../queries/postgres/filters/getDistinctPrograms')
 const getViewFilters = require('../queries/hardcode/getViewFilters')
 const getDistinctFiscalYears = require('../queries/postgres/filters/getDistinctFiscalYears')
+const { getDateEndPerWeek } = require('../queries/postgres/getDateEndPerWeek')
 
 // @route   GET /api/sales/getFilters/programs
 // @desc
@@ -46,8 +47,29 @@ router.get('/fy', async (req, res) => {
 
   const fys = await getDistinctFiscalYears()
 
+  // sort largest to smallest
+  fys.sort((a, b) => {
+    if (a.label > b.label) return -1
+    if (a.label < b.label) return 1
+    return 0
+  })
+
   res.send(fys)
   console.log('get sales YEARS filters lot route COMPLETE. \n')
+})
+
+// @route   GET api/sales/getFilters/periods/:fy
+// @desc
+// @access
+
+// Generate Filter Data
+router.get('/periods/:fy', async (req, res) => {
+  console.log('\nget periods given fiscal year lot route HIT...')
+
+  const periods = await getDateEndPerWeek(fy)
+
+  res.send(periods)
+  console.log('get periods given fiscal year lot route COMPLETE. \n')
 })
 
 module.exports = router
