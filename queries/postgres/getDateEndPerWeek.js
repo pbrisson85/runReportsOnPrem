@@ -23,7 +23,7 @@ const getDateEndPerWeekByRange = async (start, end) => {
   console.log(`query postgres for accounting period ends by week serial for ${start} through ${end} ...`)
 
   const periodsByWeek = await pgClient.query(
-    'SELECT period_by_week.week_serial AS dataName, period_by_week.date_end AS displayName FROM "accountingPeriods".period_by_week WHERE period_by_week.formatted_date_start >= $1 AND period_by_week.formatted_date_end <= $2 ORDER BY period_by_week.week ASC',
+    'SELECT period_by_week.week_serial AS dataName, period_by_week.date_end AS displayName FROM "accountingPeriods".period_by_week WHERE period_by_week.formatted_date_end >= $1 AND period_by_week.formatted_date_end <= $2 ORDER BY period_by_week.week ASC',
     [start, end]
   )
 
@@ -40,7 +40,7 @@ const getDateForTest = async (start, end) => {
   console.log(`query postgres for accounting period ends by week serial for ${start} through ${end} ...`)
 
   const periodsByWeek = await pgClient.query(
-    'SELECT period_by_week.formatted_date_start, period_by_week.date_start FROM "accountingPeriods".period_by_week WHERE period_by_week.fiscal_year = $1 ORDER BY period_by_week.week ASC',
+    'SELECT period_by_week.formatted_date_end, period_by_week.date_end FROM "accountingPeriods".period_by_week WHERE period_by_week.fiscal_year = $1 ORDER BY period_by_week.week ASC',
     [2023]
   )
 
