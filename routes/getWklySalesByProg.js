@@ -1,5 +1,8 @@
 const router = require('express').Router()
 const getWklySalesByProg = require('../routines/getWklyProgSales')
+const getDistinctPrograms = require('../queries/postgres/filters/getDistinctPrograms')
+const getDistinctFiscalYears = require('../queries/postgres/filters/getDistinctFiscalYears')
+const { getDateEndPerWeek } = require('../queries/postgres/getDateEndPerWeek')
 
 // @route   POST /api/sales/getSalesByProgram
 // @desc
@@ -8,6 +11,14 @@ const getWklySalesByProg = require('../routines/getWklyProgSales')
 // Generate sales data
 router.post('/', async (req, res) => {
   console.log(`\nget get weekly sales by program: ${req.body.program} for ${req.body.start} through ${req.body.end} route HIT...`)
+
+  // If no program, start, or end passed then default to the current fiscal year, first program alphabetically
+  if (typeof req.body.program === 'undefined' || typeof req.body.start === 'undefined' || typeof req.body.end === 'undefined') {
+    const { program, start, end } = await getDefaults()
+    req.body.program = program
+    req.body.start = start
+    req.body.end = end
+  }
 
   const resp = await getWklySalesByProg(req.body.program, req.body.start, req.body.end)
 
@@ -46,3 +57,29 @@ module.exports = router
             "displayname": "4/16/2022"
         },
 */
+
+const getDefaults = async () => {
+  const fys = await getDistinctFiscalYears()
+
+  // sort largest to smallest
+  fys.sort((a, b) => {
+    if (a.label > b.label) return -1
+    if (a.label < b.label) return 1
+    return 0
+  })
+
+  const periods = await getDateEndPerWeek(fys[0].label)
+
+  const programs = await getDistinctPrograms(req.params.fy)
+  programs.sort((a, b) => {
+    if (a.label > b.label) return 1
+    if (a.label < b.label) return -1
+    return 0
+  })
+
+  const program = programs[0].dataName
+  const start = periods[0].displayName
+  const end = periods[periods.length - 1].displayName
+
+  return { program, start, end }
+}
