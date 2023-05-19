@@ -66,7 +66,7 @@ router.get('/fy', async (req, res) => {
 router.get('/periods/:fy', async (req, res) => {
   console.log('\nget periods given fiscal year lot route HIT...')
 
-  const periods = await getDateEndPerWeek(fy)
+  const periods = await getDateEndPerWeek(req.params.fy)
 
   res.send(periods)
   console.log('get periods given fiscal year lot route COMPLETE. \n')
