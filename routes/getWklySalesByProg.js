@@ -2,7 +2,7 @@ const router = require('express').Router()
 const getWklySalesByProg = require('../routines/getWklyProgSales')
 const getDistinctPrograms = require('../queries/postgres/filters/getDistinctPrograms')
 const getDistinctFiscalYears = require('../queries/postgres/filters/getDistinctFiscalYears')
-const { getDateEndPerWeek } = require('../queries/postgres/getDateEndPerWeek')
+const { getDateEndPerWeek, getDateForTest } = require('../queries/postgres/getDateEndPerWeek')
 
 // @route   POST /api/sales/getSalesByProgram
 // @desc
@@ -23,6 +23,9 @@ router.post('/', async (req, res) => {
   const startDate = new Date(req.body.start)
   const endDate = new Date(req.body.end)
 
+  const dates = await getDateForTest()
+
+  console.log(`dates: ${dates}`)
   console.log(`start date: ${startDate}`)
   console.log(`end date: ${endDate}`)
 
