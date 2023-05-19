@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
 
   const dates = await getDateForTest()
 
-  console.log(`dates: ${dates}`)
+  console.log(`dates: ${JSON.stringify(dates)}`)
   console.log(`start date: ${startDate}`)
   console.log(`end date: ${endDate}`)
 
