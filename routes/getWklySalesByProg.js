@@ -20,6 +20,8 @@ router.post('/', async (req, res) => {
     req.body.end = end
   }
 
+  console.log('req.body', req.body)
+
   const resp = await getWklySalesByProg(req.body.program, req.body.start, req.body.end)
 
   console.log(`get get weekly sales by program: ${req.body.program} for ${req.body.start} through ${req.body.end} route COMPLETE. \n`)
