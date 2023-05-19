@@ -73,6 +73,3 @@ router.get('/periods/:fy', async (req, res) => {
 })
 
 module.exports = router
-
-const fys = await getDistinctFiscalYears()
-const periods = await getDateEndPerWeek(fys[0].dataName)
