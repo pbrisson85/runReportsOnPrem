@@ -15,4 +15,22 @@ const getDateEndPerWeek = async fy => {
   return periodsByWeek.rows
 }
 
+const getDateEndPerWeekByRange = async (start, end) => {
+  const { Client } = require('pg')
+  const pgClient = new Client() // config from ENV
+  await pgClient.connect()
+
+  console.log(`query postgres for accounting period ends by week serial for FY: ${fy} ...`)
+
+  const periodsByWeek = await pgClient.query(
+    'SELECT period_by_week.week_serial AS dataName, period_by_week.date_end AS displayName FROM "accountingPeriods".period_by_week WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 ORDER BY period_by_week.week ASC',
+    [start, end]
+  )
+
+  await pgClient.end()
+
+  return periodsByWeek.rows
+}
+
+module.exports.getDateEndPerWeekByRange = getDateEndPerWeekByRange
 module.exports.getDateEndPerWeek = getDateEndPerWeek

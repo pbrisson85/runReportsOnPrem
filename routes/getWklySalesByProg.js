@@ -1,17 +1,17 @@
 const router = require('express').Router()
 const getWklySalesByProg = require('../routines/getWklyProgSales')
 
-// @route   GET /api/sales/getSalesByProgram/:program/:fy
+// @route   POST /api/sales/getSalesByProgram
 // @desc
 // @access
 
 // Generate sales data
-router.get('/:program/:fy', async (req, res) => {
-  console.log(`\nget get weekly sales by program: ${req.params.program} for fy: ${req.params.fy} route HIT...`)
+router.post('/', async (req, res) => {
+  console.log(`\nget get weekly sales by program: ${req.body.program} for ${req.body.start} through ${req.body.end} route HIT...`)
 
-  const resp = await getWklySalesByProg(req.params.program, req.params.fy)
+  const resp = await getWklySalesByProg(req.body.program, req.body.start, req.body.end)
 
-  console.log(`get weekly sales by program: ${req.params.program} for fy: ${req.params.fy} route COMPLETE. \n`)
+  console.log(`get get weekly sales by program: ${req.body.program} for ${req.body.start} through ${req.body.end} route COMPLETE. \n`)
   res.send(resp)
   //res.send({ data, cols })
 })
