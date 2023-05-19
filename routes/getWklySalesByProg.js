@@ -72,8 +72,6 @@ const getDefaults = async () => {
 
   const periods = await getDateEndPerWeek(fys[0].label)
 
-  console.log('periods', periods)
-
   const programs = await getDistinctPrograms(fys[0].label)
   programs.sort((a, b) => {
     if (a.label > b.label) return 1
@@ -82,8 +80,8 @@ const getDefaults = async () => {
   })
 
   const program = programs[0].dataName
-  const start = periods[0].displayName
-  const end = periods[periods.length - 1].displayName
+  const start = periods[0].displayname
+  const end = periods[periods.length - 1].displayname
 
   return { program, start, end }
 }
