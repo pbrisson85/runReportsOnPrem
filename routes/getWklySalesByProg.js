@@ -70,7 +70,7 @@ const getDefaults = async () => {
 
   const periods = await getDateEndPerWeek(fys[0].label)
 
-  const programs = await getDistinctPrograms(req.params.fy)
+  const programs = await getDistinctPrograms(fys[0].label)
   programs.sort((a, b) => {
     if (a.label > b.label) return 1
     if (a.label < b.label) return -1
