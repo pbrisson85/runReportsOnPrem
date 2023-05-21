@@ -29,7 +29,7 @@ const getWklySalesByItemTypeWithoutBpTotalCol = async (program, start, end) => {
     console.log(`query postgres to get weekly purchses for ${program} ...`)
 
     const response = await pgClient.query(
-      'SELECT \'TOTAL\' AS  AS week_serial, master_supplement.item_type AS maj_row, \'subtotal\' AS min_row, SUM(sales_line_items.calc_gm_rept_weight) AS lbs, SUM(sales_line_items.calc_gl_gross_sales) AS sales, SUM(sales_line_items.calc_gl_cogs) AS cogs, SUM(sales_line_items.calc_gl_othp) AS othp FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_line_items.item_number WHERE master_supplement.program = $1 AND sales_line_items.formatted_invoice_date >= $2 AND sales_line_items.formatted_invoice_date <= $3 AND master_supplement.byproduct_type IS NULL GROUP BY master_supplement.item_type ORDER BY master_supplement.item_type',
+      'SELECT \'TOTAL\' AS week_serial, master_supplement.item_type AS maj_row, \'subtotal\' AS min_row, SUM(sales_line_items.calc_gm_rept_weight) AS lbs, SUM(sales_line_items.calc_gl_gross_sales) AS sales, SUM(sales_line_items.calc_gl_cogs) AS cogs, SUM(sales_line_items.calc_gl_othp) AS othp FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_line_items.item_number WHERE master_supplement.program = $1 AND sales_line_items.formatted_invoice_date >= $2 AND sales_line_items.formatted_invoice_date <= $3 AND master_supplement.byproduct_type IS NULL GROUP BY master_supplement.item_type ORDER BY master_supplement.item_type',
       [program, start, end]
     ) //prettier-ignore
 
