@@ -1,7 +1,11 @@
 const { getDateEndPerWeekByRange } = require('../queries/postgres/getDateEndPerWeek')
 const getWklySalesByProg = require('../queries/postgres/getSales/byWkForProg')
 const getWklySalesByProcLevel = require('../queries/postgres/getSales/byWkForProgByProcLevel')
-const { getWklySalesByItemTypeWithoutBp, getWklySalesByItemTypeBp } = require('../queries/postgres/getSales/byWkForProgByItemType')
+const {
+  getWklySalesByItemTypeWithoutBp,
+  getWklySalesByItemTypeBp,
+  getWklySalesByItemTypeWithoutBpTotalCol,
+} = require('../queries/postgres/getSales/byWkForProgByItemType')
 const getWklyBpByType = require('../queries/postgres/getSales/byWkForProgBpByType')
 const getDistinctItemTypes = require('../queries/postgres/getRows/getDisctinctItemTypes')
 const getDistinctBpTypes = require('../queries/postgres/getRows/getDistinctBpTypes')
@@ -25,6 +29,28 @@ const getWeeklyProgramSales = async (program, start, end) => {
         {
             "week_serial": "2022-W02",
             "maj_row": "FG",
+            "lbs": 35178,
+            "sales": 116087.4,
+            "cogs": 110577.4,
+            "othp": 534.7099999999919
+        },
+  */
+
+  /* SALES FOR PROGRAM BY ITEM_TYPE (FG, WIP, RM, NO: BY-PROD) = subtotal */
+  const getWklySalesByItemTypeWithoutBpTotalCol = await getWklySalesByItemTypeWithoutBpTotalCol(program, start, end)
+  /*
+  "getWklySalesByItemTypeWithoutBpTotalCol": [
+        {
+            "week_serial": "TOTAL",
+            "maj_row": "FG",
+            "lbs": -3660,
+            "sales": -17245,
+            "cogs": -13828.28,
+            "othp": 100.26999999999998
+        },
+        {
+            "week_serial": "TOTAL",
+            "maj_row": "RM",
             "lbs": 35178,
             "sales": 116087.4,
             "cogs": 110577.4,
@@ -199,7 +225,14 @@ const getWeeklyProgramSales = async (program, start, end) => {
   */
 
   const mappedSales = mapDataToRowTemplates(
-    [...wklySalesByItemTypeWithoutBp, ...wklySalesByItemTypeBp, ...wklyProgSalesTotal, ...wklyProgSalesByProcLevel, ...wklyBpSalesByType],
+    [
+      ...wklySalesByItemTypeWithoutBp,
+      ...getWklySalesByItemTypeWithoutBpTotalCol,
+      ...wklySalesByItemTypeBp,
+      ...wklyProgSalesTotal,
+      ...wklyProgSalesByProcLevel,
+      ...wklyBpSalesByType,
+    ],
     rowTemplate_unflat
   )
   /*
