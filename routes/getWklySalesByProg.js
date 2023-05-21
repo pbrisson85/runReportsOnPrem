@@ -3,6 +3,7 @@ const getWklySalesByProg = require('../routines/getWklyProgSales')
 const getDistinctPrograms = require('../queries/postgres/filters/getDistinctPrograms')
 const getDistinctFiscalYears = require('../queries/postgres/filters/getDistinctFiscalYears')
 const { getDateEndPerWeek, getDateForTest } = require('../queries/postgres/getDateEndPerWeek')
+const { getStartOfWeek } = require('../queries/postgres/getDateStartByWeek')
 
 // @route   POST /api/sales/getSalesByProgram
 // @desc
@@ -20,7 +21,12 @@ router.post('/', async (req, res) => {
     req.body.end = end
   }
 
-  const resp = await getWklySalesByProg(req.body.program, req.body.start, req.body.end)
+  // Note that start date is the END of the first week. Need the beginning of the same week to pull invoice dates that are after this:
+  const startWeek = await getStartOfWeek(req.body.start)
+
+  console.log('startWeek[0].formatted_date_start', startWeek[0].formatted_date_start)
+
+  const resp = await getWklySalesByProg(req.body.program, startWeek[0].formatted_date_start, req.body.end)
 
   console.log(`get get weekly sales by program: ${req.body.program} for ${req.body.start} through ${req.body.end} route COMPLETE. \n`)
   res.send(resp)
