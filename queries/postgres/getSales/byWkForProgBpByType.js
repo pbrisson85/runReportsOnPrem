@@ -42,5 +42,5 @@ const getWklyBpByTypeTotalCol = async (program, start, end) => {
   }
 }
 
-module.exports, (getWklyBpByType = getWklyBpByType)
-module.exports, (getWklyBpByTypeTotalCol = getWklyBpByTypeTotalCol)
+module.exports.getWklyBpByType = getWklyBpByType
+module.exports.getWklyBpByTypeTotalCol = getWklyBpByTypeTotalCol
