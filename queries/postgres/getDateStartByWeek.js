@@ -3,7 +3,7 @@ const getStartOfWeek = async dateWeekEnd => {
   const pgClient = new Client() // config from ENV
   await pgClient.connect()
 
-  console.log(`query postgres for accounting period ends by week serial for FY: ${fy} ...`)
+  console.log(`query postgres for accounting period start of week ending: ${dateWeekEnd} ...`)
 
   const periodsByWeek = await pgClient.query(
     'SELECT period_by_week.formatted_date_start FROM "accountingPeriods".period_by_week WHERE period_by_week.formatted_date_end = $1',
