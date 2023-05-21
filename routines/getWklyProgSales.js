@@ -37,7 +37,7 @@ const getWeeklyProgramSales = async (program, start, end) => {
   */
 
   /* SALES FOR PROGRAM BY ITEM_TYPE (FG, WIP, RM, NO: BY-PROD) = subtotal */
-  const getWklySalesByItemTypeWithoutBpTotalCol = await getWklySalesByItemTypeWithoutBpTotalCol(program, start, end)
+  const wklySalesByItemTypeWithoutBpTotalCol = await getWklySalesByItemTypeWithoutBpTotalCol(program, start, end)
   /*
   "getWklySalesByItemTypeWithoutBpTotalCol": [
         {
@@ -227,7 +227,7 @@ const getWeeklyProgramSales = async (program, start, end) => {
   const mappedSales = mapDataToRowTemplates(
     [
       ...wklySalesByItemTypeWithoutBp,
-      ...getWklySalesByItemTypeWithoutBpTotalCol,
+      ...wklySalesByItemTypeWithoutBpTotalCol,
       ...wklySalesByItemTypeBp,
       ...wklyProgSalesTotal,
       ...wklyProgSalesByProcLevel,
