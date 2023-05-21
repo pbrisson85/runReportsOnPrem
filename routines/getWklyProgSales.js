@@ -1,13 +1,13 @@
 const { getDateEndPerWeekByRange } = require('../queries/postgres/getDateEndPerWeek')
 const { getWklySalesByProg, getWklySalesByProgTotalCol } = require('../queries/postgres/getSales/byWkForProg')
-const getWklySalesByProcLevel = require('../queries/postgres/getSales/byWkForProgByProcLevel')
+const { getWklySalesByProcLevel, getWklySalesByProcLevelTotalCol } = require('../queries/postgres/getSales/byWkForProgByProcLevel')
 const {
   getWklySalesByItemTypeWithoutBp,
   getWklySalesByItemTypeBp,
   getWklySalesByItemTypeWithoutBpTotalCol,
   getWklySalesByItemTypeBpTotalCol,
 } = require('../queries/postgres/getSales/byWkForProgByItemType')
-const getWklyBpByType = require('../queries/postgres/getSales/byWkForProgBpByType')
+const { getWklyBpByType, getWklyBpByTypeTotalCol } = require('../queries/postgres/getSales/byWkForProgBpByType')
 const getDistinctItemTypes = require('../queries/postgres/getRows/getDisctinctItemTypes')
 const getDistinctBpTypes = require('../queries/postgres/getRows/getDistinctBpTypes')
 const getDistinctProcLevels = require('../queries/postgres/getRows/getDisctinctProcLevels')
@@ -157,6 +157,30 @@ const getWeeklyProgramSales = async (program, start, end) => {
         },
   */
 
+  /* DATE RANGE TOTAL FG SALES BY PROCESSING LEVEL FOR PROGRAM = FG detail */ // <---- THIS DATA WILL SWITCH OUT FOR DIFFERENT FG DETAIL CATEGORIES
+  const wklySalesByProcLevelTotalCol = await getWklySalesByProcLevelTotalCol(program, start, end)
+  /*
+  "wklyProgSalesByProcLevel": [
+        {
+            "week_serial": "TOTAL",
+            "maj_row": "FG",
+            "min_row": "DRY",
+            "lbs": 15223,
+            "sales": 276067.67000000004,
+            "cogs": 247561.06000000003,
+            "othp": 363.47999999999814
+        },
+        {
+            "week_serial": "TOTAL",
+            "maj_row": "FG",
+            "min_row": "LIGHT",
+            "lbs": 9550,
+            "sales": 158202.79999999987,
+            "cogs": 150058.38999999996,
+            "othp": 2962.7100000000028
+        },
+  */
+
   /* BP SALES BY TYPE FOR PROGRAM BY WEEK = BP detail */
   const wklyBpSalesByType = await getWklyBpByType(program, start, end)
   /*
@@ -173,6 +197,31 @@ const getWeeklyProgramSales = async (program, start, end) => {
     },
     {
         "week_serial": "2022-W01",
+        "maj_row": "BP",
+        "min_row": "PIECES",
+        "lbs": 21590,
+        "sales": 49148,
+        "cogs": 20021.079999999998,
+        "othp": 573.4000000000005
+    },
+  */
+
+  /* BP SALES BY TYPE FOR PROGRAM BY WEEK = BP detail */
+  const wklyBpByTypeTotalCol = await getWklyBpByTypeTotalCol(program, start, end)
+  /*
+  wklyBpSalesByType
+  [
+    {
+        "week_serial": "TOTAL",
+        "maj_row": "BP",
+        "min_row": "CHUNKS",
+        "lbs": 130,
+        "sales": 910,
+        "cogs": 159.04,
+        "othp": 0
+    },
+    {
+        "week_serial": "TOTAL",
         "maj_row": "BP",
         "min_row": "PIECES",
         "lbs": 21590,
@@ -264,7 +313,9 @@ const getWeeklyProgramSales = async (program, start, end) => {
       ...wklyProgSalesTotal,
       ...wklySalesByProgTotalCol,
       ...wklyProgSalesByProcLevel,
+      ...wklySalesByProcLevelTotalCol,
       ...wklyBpSalesByType,
+      ...wklyBpByTypeTotalCol,
     ],
     rowTemplate_unflat
   )
