@@ -13,8 +13,8 @@ const joinSalesData = (salesHeader_unflat, salesLines, invenSupplemental_unflat,
       console.log('invoiceLine', invoiceLine)
       console.log('invoiceDate', invoiceDate)
 
-      consolle.log('mappedPeriodsPerDay[invoiceDate]', mappedPeriodsPerDay[invoiceDate])
-      consolle.log('mappedPeriodsPerDay[04-01-2019]', mappedPeriodsPerDay['04-01-2019'])
+      console.log('mappedPeriodsPerDay[invoiceDate]', mappedPeriodsPerDay[invoiceDate])
+      console.log('mappedPeriodsPerDay[04-01-2019]', mappedPeriodsPerDay['04-01-2019'])
     }
 
     return {
