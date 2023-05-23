@@ -10,7 +10,7 @@ const getFirstDayOfFiscalYear = async fiscalYear => {
 
   await pgClient.end()
 
-  console.log(`fiorst day: ${periodsByDay.rows} ...`)
+  console.log(`first day: ${JSON.stringify(periodsByDay.rows)} ...`)
 
   return periodsByDay.rows
 }
