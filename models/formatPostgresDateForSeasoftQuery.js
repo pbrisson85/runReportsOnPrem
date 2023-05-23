@@ -5,6 +5,7 @@ const formatPostgresDateForSeasoftQuery = date => {
   // results in [month, day, year]
 
   console.log('date', date)
+  console.log('date[0].length', date[0].length)
 
   const y = date[2]
   const m = date[0].length === 1 ? '0' + date[0] : date[0]
