@@ -32,14 +32,6 @@ const mapPostgresSalesLinesTable = joinedSalesData => {
       gl_dist: invoiceLine.GL_DIST,
       inside_salesperson_code: invoiceLine.INSIDE_SALESPERSON_CODE,
       outside_salesperson_code: invoiceLine.OUTSIDE_SALESPERSON_CODE,
-      species: invoiceLine.invenSupplemental.species,
-      inven_category: invoiceLine.invenSupplemental.inven_category,
-      seafood_category: invoiceLine.invenSupplemental.seafood_category, // allow null
-      item_type: invoiceLine.invenSupplemental.item_type,
-      size_name: invoiceLine.invenSupplemental.size_name, // allow null
-      program: invoiceLine.invenSupplemental.program,
-      species_group: invoiceLine.invenSupplemental.species_group,
-      fg_treatment: invoiceLine.invenSupplemental.fg_treatment,
       week_serial: invoiceLine.period.week_serial,
       period_serial: invoiceLine.period.period_serial,
       week: invoiceLine.period.week,
@@ -65,7 +57,6 @@ const mapPostgresSalesLinesTable = joinedSalesData => {
       calc_gl_cogs: calc_gl_cogs,
       calc_gl_othp: invoiceLine.NET_PRICE_EXTENSION - invoiceLine.PRODUCT_ONLY_EXTENSION,
       calc_gm_rept_weight: calc_gm_reprt_weight,
-      byproduct_type: invoiceLine.invenSupplemental.byproduct_type, // allow null
     }
   })
 

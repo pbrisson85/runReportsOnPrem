@@ -15,12 +15,14 @@ const unflattenRowTemplate = require('../models/unflattenRowTemplate')
 const mapDataToRowTemplates = require('../models/mapDataToRowTemplates')
 
 const getWeeklyProgramSales = async (program, start, end) => {
-  /* SALES FOR PROGRAM BY ITEM_TYPE BY WEEK (FG, WIP, RM, NO: BY-PROD) = subtotal */
-  const wklySalesByItemTypeWithoutBp = await getWklySalesByItemTypeWithoutBp(program, start, end)
+  ///////////////////////////////// INVENTORY DATA
+
+  /* 1: ON HAND FOR PROGRAM BY ITEM_TYPE BY WEEK (FG, WIP, RM, NO: BY-PROD) = subtotal */
+  //const wklySalesByItemTypeWithoutBp = await getWklySalesByItemTypeWithoutBp(program, start, end)
   /*
   "wklySalesByItemTypeWithoutBp": [
         {
-            "week_serial": "2022-W01",
+            "week_serial": "ON HAND",
             "maj_row": "FG",
             "lbs": -3660,
             "sales": -17245,
@@ -37,12 +39,18 @@ const getWeeklyProgramSales = async (program, start, end) => {
         },
   */
 
-  /* DATE RANGE TOTAL SALES FOR PROGRAM BY ITEM_TYPE (FG, WIP, RM, NO: BY-PROD) = subtotal */
-  const wklySalesByItemTypeWithoutBpTotalCol = await getWklySalesByItemTypeWithoutBpTotalCol(program, start, end)
+  /* COMMITTED */
+
+  /* AVAILABLE */
+
+  ///////////////////////////////// SALES DATA
+
+  /* 1: SALES FOR PROGRAM BY ITEM_TYPE BY WEEK (FG, WIP, RM, NO: BY-PROD) = subtotal */
+  const wklySalesByItemTypeWithoutBp = await getWklySalesByItemTypeWithoutBp(program, start, end)
   /*
-  "getWklySalesByItemTypeWithoutBpTotalCol": [
+  "wklySalesByItemTypeWithoutBp": [
         {
-            "week_serial": "TOTAL",
+            "column": "2022-W01",
             "maj_row": "FG",
             "lbs": -3660,
             "sales": -17245,
@@ -50,7 +58,29 @@ const getWeeklyProgramSales = async (program, start, end) => {
             "othp": 100.26999999999998
         },
         {
-            "week_serial": "TOTAL",
+            "column": "2022-W02",
+            "maj_row": "FG",
+            "lbs": 35178,
+            "sales": 116087.4,
+            "cogs": 110577.4,
+            "othp": 534.7099999999919
+        },
+  */
+
+  /* 1: DATE RANGE TOTAL SALES FOR PROGRAM BY ITEM_TYPE (FG, WIP, RM, NO: BY-PROD) = subtotal */
+  const wklySalesByItemTypeWithoutBpTotalCol = await getWklySalesByItemTypeWithoutBpTotalCol(program, start, end)
+  /*
+  "getWklySalesByItemTypeWithoutBpTotalCol": [
+        {
+            "column": "TOTAL",
+            "maj_row": "FG",
+            "lbs": -3660,
+            "sales": -17245,
+            "cogs": -13828.28,
+            "othp": 100.26999999999998
+        },
+        {
+            "column": "TOTAL",
             "maj_row": "RM",
             "lbs": 35178,
             "sales": 116087.4,
@@ -59,12 +89,12 @@ const getWeeklyProgramSales = async (program, start, end) => {
         },
   */
 
-  /* SALES FOR PROGRAM BY ITEM_TYPE BY WEEK (BY-PROD) = subtotal */
+  /* 2: SALES FOR PROGRAM BY ITEM_TYPE BY WEEK (BY-PROD) = subtotal */
   const wklySalesByItemTypeBp = await getWklySalesByItemTypeBp(program, start, end)
   /*
   "wklySalesByItemTypeBp": [
         {
-            "week_serial": "2022-W01",
+            "column": "2022-W01",
             "maj_row": "BP",
             "lbs": 21720,
             "sales": 50058,
@@ -72,7 +102,7 @@ const getWeeklyProgramSales = async (program, start, end) => {
             "othp": 573.4000000000005
         },
         {
-            "week_serial": "2022-W02",
+            "column": "2022-W02",
             "maj_row": "BP",
             "lbs": 1920,
             "sales": 6078,
@@ -81,12 +111,12 @@ const getWeeklyProgramSales = async (program, start, end) => {
         },
   */
 
-  /* DATE RANGE TOTAL SALES FOR PROGRAM BY ITEM_TYPE (BY-PROD) = subtotal */
+  /* 2: DATE RANGE TOTAL SALES FOR PROGRAM BY ITEM_TYPE (BY-PROD) = subtotal */
   const wklySalesByItemTypeBpTotalCol = await getWklySalesByItemTypeBpTotalCol(program, start, end)
   /*
   "wklySalesByItemTypeBp": [
         {
-            "week_serial": "TOTAL",
+            "column": "TOTAL",
             "maj_row": "BP",
             "lbs": 21720,
             "sales": 50058,
@@ -96,12 +126,12 @@ const getWeeklyProgramSales = async (program, start, end) => {
         
   */
 
-  /* SALES FOR PROGRAM (ALL) BY WEEK = program total */
+  /* 3: SALES FOR PROGRAM (ALL) BY WEEK = program total */
   const wklyProgSalesTotal = await getWklySalesByProg(program, start, end)
   /*
   "wklyProgSalesTotal": [
         {
-            "week_serial": "2022-W01",
+            "column": "2022-W01",
             "lbs": 94393,
             "sales": 1097004.0700000005,
             "cogs": 927959.9199999995,
@@ -109,7 +139,7 @@ const getWeeklyProgramSales = async (program, start, end) => {
             "maj_row": "TOTAL"
         },
         {
-            "week_serial": "2022-W02",
+            "column": "2022-W02",
             "lbs": 64050.55810000001,
             "sales": 923604.4400000002,
             "cogs": 777095.29,
@@ -118,12 +148,12 @@ const getWeeklyProgramSales = async (program, start, end) => {
         },
   */
 
-  /* DATE RANGE TOTAL SALES FOR PROGRAM (ALL) = program total */
+  /* 3: DATE RANGE TOTAL SALES FOR PROGRAM (ALL) = program total */
   const wklySalesByProgTotalCol = await getWklySalesByProgTotalCol(program, start, end)
   /*
   "wklyProgSalesTotal": [
         {
-            "week_serial": "TOTAL",
+            "column": "TOTAL",
             "lbs": 94393,
             "sales": 1097004.0700000005,
             "cogs": 927959.9199999995,
@@ -133,12 +163,12 @@ const getWeeklyProgramSales = async (program, start, end) => {
        
   */
 
-  /* FG SALES BY PROCESSING LEVEL FOR PROGRAM = FG detail BY WEEK */ // <---- THIS DATA WILL SWITCH OUT FOR DIFFERENT FG DETAIL CATEGORIES
+  /* 4: FG SALES BY PROCESSING LEVEL FOR PROGRAM = FG detail BY WEEK */ // <---- THIS DATA WILL SWITCH OUT FOR DIFFERENT FG DETAIL CATEGORIES
   const wklyProgSalesByProcLevel = await getWklySalesByProcLevel(program, start, end)
   /*
   "wklyProgSalesByProcLevel": [
         {
-            "week_serial": "2022-W01",
+            "column": "2022-W01",
             "maj_row": "FG",
             "min_row": "DRY",
             "lbs": 15223,
@@ -147,7 +177,7 @@ const getWeeklyProgramSales = async (program, start, end) => {
             "othp": 363.47999999999814
         },
         {
-            "week_serial": "2022-W01",
+            "column": "2022-W01",
             "maj_row": "FG",
             "min_row": "LIGHT",
             "lbs": 9550,
@@ -157,12 +187,12 @@ const getWeeklyProgramSales = async (program, start, end) => {
         },
   */
 
-  /* DATE RANGE TOTAL FG SALES BY PROCESSING LEVEL FOR PROGRAM = FG detail */ // <---- THIS DATA WILL SWITCH OUT FOR DIFFERENT FG DETAIL CATEGORIES
+  /* 4: DATE RANGE TOTAL FG SALES BY PROCESSING LEVEL FOR PROGRAM = FG detail */ // <---- THIS DATA WILL SWITCH OUT FOR DIFFERENT FG DETAIL CATEGORIES
   const wklySalesByProcLevelTotalCol = await getWklySalesByProcLevelTotalCol(program, start, end)
   /*
   "wklyProgSalesByProcLevel": [
         {
-            "week_serial": "TOTAL",
+            "column": "TOTAL",
             "maj_row": "FG",
             "min_row": "DRY",
             "lbs": 15223,
@@ -171,7 +201,7 @@ const getWeeklyProgramSales = async (program, start, end) => {
             "othp": 363.47999999999814
         },
         {
-            "week_serial": "TOTAL",
+            "column": "TOTAL",
             "maj_row": "FG",
             "min_row": "LIGHT",
             "lbs": 9550,
@@ -181,13 +211,13 @@ const getWeeklyProgramSales = async (program, start, end) => {
         },
   */
 
-  /* BP SALES BY TYPE FOR PROGRAM BY WEEK = BP detail */
+  /* 5: BP SALES BY TYPE FOR PROGRAM BY WEEK = BP detail */
   const wklyBpSalesByType = await getWklyBpByType(program, start, end)
   /*
   wklyBpSalesByType
   [
     {
-        "week_serial": "2022-W01",
+        "column": "2022-W01",
         "maj_row": "BP",
         "min_row": "CHUNKS",
         "lbs": 130,
@@ -196,7 +226,7 @@ const getWeeklyProgramSales = async (program, start, end) => {
         "othp": 0
     },
     {
-        "week_serial": "2022-W01",
+        "column": "2022-W01",
         "maj_row": "BP",
         "min_row": "PIECES",
         "lbs": 21590,
@@ -206,13 +236,13 @@ const getWeeklyProgramSales = async (program, start, end) => {
     },
   */
 
-  /* BP SALES BY TYPE FOR PROGRAM BY WEEK = BP detail */
+  /* 5: BP SALES BY TYPE FOR PROGRAM BY WEEK = BP detail */
   const wklyBpByTypeTotalCol = await getWklyBpByTypeTotalCol(program, start, end)
   /*
   wklyBpSalesByType
   [
     {
-        "week_serial": "TOTAL",
+        "column": "TOTAL",
         "maj_row": "BP",
         "min_row": "CHUNKS",
         "lbs": 130,
@@ -221,7 +251,7 @@ const getWeeklyProgramSales = async (program, start, end) => {
         "othp": 0
     },
     {
-        "week_serial": "TOTAL",
+        "column": "TOTAL",
         "maj_row": "BP",
         "min_row": "PIECES",
         "lbs": 21590,

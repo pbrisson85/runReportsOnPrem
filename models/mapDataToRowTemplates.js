@@ -28,7 +28,7 @@ const mapDataToRowTemplates = (salesLines, rowTemplate) => {
 
     rowTemplateCache[`${soLine.maj_row}-${soLine.min_row}`] = {
       ...rowTemplateCache[`${soLine.maj_row}-${soLine.min_row}`],
-      [soLine.week_serial]: {
+      [soLine.column]: {
         weight,
         revenue,
         cogs,
