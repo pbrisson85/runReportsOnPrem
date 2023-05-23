@@ -21,8 +21,8 @@ const generateSalesDataRoutine = async year => {
   // Query Data
   let firstDayOfFy = await getFirstDayOfFiscalYear(parseInt(year))
   let firstDayOfNextFy = await getFirstDayOfFiscalYear(parseInt(year) + 1)
-  firstDayOfFy = formatPostgresDateForSeasoftQuery(firstDayOfFy[0].date)
-  firstDayOfNextFy = formatPostgresDateForSeasoftQuery(firstDayOfNextFy[0].date)
+  firstDayOfFy = formatPostgresDateForSeasoftQuery(firstDayOfFy)
+  firstDayOfNextFy = formatPostgresDateForSeasoftQuery(firstDayOfNextFy)
   const salesLines = await getInvoiceLineItems(firstDayOfFy, firstDayOfNextFy)
   const salesHeader = await getInvoiceHeader(firstDayOfFy, firstDayOfNextFy)
   const invenSupplemental = await getMasterSupplement()
