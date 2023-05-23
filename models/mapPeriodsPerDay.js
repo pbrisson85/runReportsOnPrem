@@ -12,6 +12,8 @@ const mapPeriodsPerDay = periods => {
       timeZone: 'America/New_York',
     })
 
+    if (day.week_serial === '2019-W01') console.log('periodDayDate', periodDayDate)
+
     mappedPeriods = {
       ...mappedPeriods,
       [periodDayDate]: {
