@@ -10,12 +10,6 @@ const getFirstDayOfFiscalYear = async fiscalYear => {
 
   await pgClient.end()
 
-  console.log(
-    `first day: ${periodsByDay.rows[0].date.toLocaleDateString('en-US', {
-      timeZone: 'America/New_York',
-    })} ...`
-  )
-
   return periodsByDay.rows[0].date.toLocaleDateString('en-US', {
     timeZone: 'America/New_York',
   })

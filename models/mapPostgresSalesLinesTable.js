@@ -1,5 +1,7 @@
 const mapPostgresSalesLinesTable = joinedSalesData => {
   const mappedData = joinedSalesData.map(invoiceLine => {
+    if (typeof invoiceLine.invenSupplemental === 'undefined') console.log('invoiceLine', invoiceLine) // DEBUG ***************
+
     const calc_gl_cogs =
       invoiceLine.invenSupplemental.inven_category === 'NON-SEAFOOD' || invoiceLine.invenSupplemental.inven_category === 'SUPPLIES'
         ? 0
