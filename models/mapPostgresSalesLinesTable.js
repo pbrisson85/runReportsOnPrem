@@ -7,7 +7,13 @@ const mapPostgresSalesLinesTable = joinedSalesData => {
 
     const credit_invoice = invoiceLine.ODBC_INVOICE_NUMBER.charAt(invoiceLine.ODBC_INVOICE_NUMBER.length - 1) === 'C' ? true : false
 
-    if (typeof invoiceLine.invReasCodes === 'undefined') console.log(invoiceLine)
+    // Note in some cases the reason code on a credit is not a valid reason code (see 618730C). In this case use the product cost to determine if there is weight effect to the GM report.
+    if (typeof invoiceLine.invReasCodes === 'undefined') {
+      invoiceLine.invReasCodes = {
+        TABLE_DESC: null,
+        TABLE_FLD01_ADJ_INV: invoiceLine.INVOICE_EXT_COST === 0 ? 'N' : 'Y',
+      }
+    }
 
     const calc_gm_reprt_weight = !credit_invoice
       ? invoiceLine.BILLING_WEIGHT
