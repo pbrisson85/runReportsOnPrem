@@ -1,11 +1,15 @@
 const mapPostgresSalesLinesTable = joinedSalesData => {
   const mappedData = joinedSalesData.map(invoiceLine => {
-    if (typeof invoiceLine.invenSupplemental === 'undefined') console.log('invoiceLine', invoiceLine) // DEBUG ***************
+    let calc_gl_cogs = 0
 
-    const calc_gl_cogs =
-      invoiceLine.invenSupplemental.inven_category === 'NON-SEAFOOD' || invoiceLine.invenSupplemental.inven_category === 'SUPPLIES'
-        ? 0
-        : invoiceLine.INVOICE_EXT_COST
+    if (typeof invoiceLine.invenSupplemental === 'undefined') {
+      console.log('invoiceLine', invoiceLine) // DEBUG ***************
+    } else {
+      calc_gl_cogs =
+        invoiceLine.invenSupplemental.inven_category === 'NON-SEAFOOD' || invoiceLine.invenSupplemental.inven_category === 'SUPPLIES'
+          ? 0
+          : invoiceLine.INVOICE_EXT_COST
+    }
 
     const credit_invoice = invoiceLine.ODBC_INVOICE_NUMBER.charAt(invoiceLine.ODBC_INVOICE_NUMBER.length - 1) === 'C' ? true : false
 
