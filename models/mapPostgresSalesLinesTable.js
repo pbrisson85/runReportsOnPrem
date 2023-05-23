@@ -7,6 +7,8 @@ const mapPostgresSalesLinesTable = joinedSalesData => {
 
     const credit_invoice = invoiceLine.ODBC_INVOICE_NUMBER.charAt(invoiceLine.ODBC_INVOICE_NUMBER.length - 1) === 'C' ? true : false
 
+    if (typeof invoiceLine.invReasCodes === 'undefined') console.log(invoiceLine)
+
     const calc_gm_reprt_weight = !credit_invoice
       ? invoiceLine.BILLING_WEIGHT
       : invoiceLine.invReasCodes.TABLE_FLD01_ADJ_INV === 'Y'
