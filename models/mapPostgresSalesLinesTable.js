@@ -15,9 +15,8 @@ const mapPostgresSalesLinesTable = joinedSalesData => {
       }
     }
 
-    // Note that in some cases the invoice posting date per the header is null (See 544679D). In this case use the ship date
+    // Note that in some cases (2019 and prior) the invoice posting date per the header is null (See 544679D). In this case use the ship date
     if (invoiceLine.header.GL_POSTING_DATE === null) {
-      console.log('invoiceLine.header.GL_POSTING_DATE is null', invoiceLine)
       invoiceLine.header.GL_POSTING_DATE = invoiceLine.header.SHIP_DATE
     }
 
