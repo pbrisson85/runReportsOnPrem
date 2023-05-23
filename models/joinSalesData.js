@@ -9,6 +9,8 @@ const joinSalesData = (salesHeader_unflat, salesLines, invenSupplemental_unflat,
 
     const invReasCode = salesHeader_unflat[invoiceLine.ODBC_INVOICE_NUMBER].REASON_CODE
 
+    console.log('invoiceDate', invoiceDate)
+
     if (invoiceLine.ODBC_INVOICE_NUMBER === '544211D') {
       console.log('invoiceLine', invoiceLine)
       console.log('invoiceDate', invoiceDate)
