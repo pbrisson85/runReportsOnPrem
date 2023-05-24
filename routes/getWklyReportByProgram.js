@@ -45,5 +45,5 @@ const getDefaults = async () => {
   const start = periods[0].displayname
   const end = periods[periods.length - 1].displayname
 
-  return { program, start, end }
+  return { start, end }
 }
