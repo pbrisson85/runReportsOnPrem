@@ -300,6 +300,9 @@ const getWeeklyProgramSales = async (start, end) => {
   Object.keys(mappedSales).forEach((key, idx) => {
     if (idx === 0) return
 
+    console.log(key, idx)
+    console.log(mappedSales[key], mappedSales[idx - 1])
+
     if (mappedSales[key].maj_row === mappedSales[idx - 1].maj_row) {
       mappedSales[key].maj_row = ''
     }
