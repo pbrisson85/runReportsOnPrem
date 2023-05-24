@@ -2,8 +2,8 @@ const router = require('express').Router()
 const getWklySalesByProg = require('../routines/wklyReportByProcLevel')
 const getDistinctPrograms = require('../queries/postgres/filters/getDistinctPrograms')
 const getDistinctFiscalYears = require('../queries/postgres/filters/getDistinctFiscalYears')
-const { getDateEndPerWeek, getDateForTest } = require('../queries/postgres/getDateEndPerWeek')
-const { getStartOfWeek } = require('../queries/postgres/getDateStartByWeek')
+const { getDateEndPerWeek, getDateForTest } = require('../queries/postgres/generateSalesData/getDateEndPerWeek')
+const { getStartOfWeek } = require('../queries/postgres/generateSalesData/getDateStartByWeek')
 
 // @route   POST /api/sales/getSalesByProgram
 // @desc
