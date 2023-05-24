@@ -7,9 +7,9 @@ const {
   getFgSpeciesGroupTotalsRow,
   getFgSpeciesGroupTotalsCol,
 } = require('../queries/postgres/getSales/byProgram/trend')
-const getDistinctItemTypes = require('../queries/postgres/getRows/byProgram/getDisctinctItemTypes')
-const getDistinctBpTypes = require('../queries/postgres/getRows/byProgram/getDistinctBpTypes')
-const getDistinctProcLevels = require('../queries/postgres/getRows/byProgram/getDisctinctProcLevels')
+const getDistinctItemTypes = require('../queries/postgres/getRows/byProcLevel/getDisctinctItemTypes')
+const getDistinctBpTypes = require('../queries/postgres/getRows/byProcLevel/getDistinctBpTypes')
+const getDistinctProcLevels = require('../queries/postgres/getRows/byProcLevel/getDisctinctProcLevels')
 const unflattenRowTemplate = require('../models/unflattenRowTemplate')
 const mapDataToRowTemplates = require('../models/mapDataToRowTemplates')
 
