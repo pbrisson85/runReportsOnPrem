@@ -7,9 +7,9 @@ const {
   getFgSpeciesGroupTotalsRow,
   getFgSpeciesGroupTotalsCol,
 } = require('../queries/postgres/getSales/byProgram/trend')
-const getDistinctItemTypes = require('../queries/postgres/getRows/byProcLevel/getDisctinctItemTypes')
-const getDistinctBpTypes = require('../queries/postgres/getRows/byProcLevel/getDistinctBpTypes')
-const getDistinctProcLevels = require('../queries/postgres/getRows/byProcLevel/getDisctinctProcLevels')
+const { getSpeciesGroupSubProgram } = require('../queries/postgres/getRows/byProgram/getSpeciesGroupSubProgram')
+const { getSpeciesGroupSubTotal } = require('../queries/postgres/getRows/byProgram/getSpeciesGroupSubTotal')
+
 const unflattenRowTemplate = require('../models/unflattenRowTemplate')
 const mapDataToRowTemplates = require('../models/mapDataToRowTemplates')
 
@@ -30,9 +30,9 @@ const getWeeklyProgramSales = async (start, end) => {
 
   ///////////////////////////////// SALES DATA
 
-  const fgWipRmTotalsRow = await getFgProgramTotalsRow(start, end)
+  const fgProgramTotalsRow = await getFgProgramTotalsRow(start, end)
   /*
-  "fgWipRmTotalsRow": [
+  "fgProgramTotalsRow": [
          {
         "column": "2022-W01",
         "maj_row": "COD",
@@ -62,7 +62,7 @@ const getWeeklyProgramSales = async (start, end) => {
     },
   */
 
-  const fgWipRmTotalsCol = await getFgProgramTotalsCol(start, end)
+  const fgProgramTotalsCol = await getFgProgramTotalsCol(start, end)
   /*
   "getFgProgramTotalsCol": [
     {
@@ -145,76 +145,72 @@ const getWeeklyProgramSales = async (start, end) => {
   const fgSpeciesGroupTotalsRow = await getFgSpeciesGroupTotalsRow(start, end)
   /*
     "fgSpeciesGroupTotalsRow": [
-          {
-          "column": "TOTAL",
-          "maj_row": "FG SALES",
-          "min_row": "TOTAL",
-          "lbs": 31948279.458400007,
-          "sales": 205632410.27000064,
-          "cogs": 176277047.73999837,
-          "othp": 5897058.769999918
-      }
+        {
+            "column": "2022-W01",
+            "maj_row": "COD",
+            "min_row": "SUBTOTAL",
+            "lbs": 171680,
+            "sales": 1032377.9500000001,
+            "cogs": 933861.4599999998,
+            "othp": 43566.97999999999
+        },
+        {
+            "column": "2022-W01",
+            "maj_row": "FLATFISH",
+            "min_row": "SUBTOTAL",
+            "lbs": 112358.6992,
+            "sales": 525812.1299999999,
+            "cogs": 444937.04,
+            "othp": 26592.37999999999
+        },
+        {
+            "column": "2022-W01",
+            "maj_row": "HADDOCK",
+            "min_row": "SUBTOTAL",
+            "lbs": 141900,
+            "sales": 537393.2000000001,
+            "cogs": 434112.64,
+            "othp": 1772.0499999999936
+        },
          
     */
 
   const fgSpeciesGroupTotalsCol = await getFgSpeciesGroupTotalsCol(start, end)
   /*
-      "fgSpeciesGroupTotalsRow": [
-            {
+      "fgSpeciesGroupTotalsCol": [
+         {
             "column": "TOTAL",
-            "maj_row": "FG SALES",
-            "min_row": "TOTAL",
-            "lbs": 31948279.458400007,
-            "sales": 205632410.27000064,
-            "cogs": 176277047.73999837,
-            "othp": 5897058.769999918
-        }
+            "maj_row": "COD",
+            "min_row": "SUBTOTAL",
+            "lbs": 7557337.6252,
+            "sales": 42913641.75999999,
+            "cogs": 39311139.310000114,
+            "othp": 1457434.5500000026
+        },
+        {
+            "column": "TOTAL",
+            "maj_row": "FLATFISH",
+            "min_row": "SUBTOTAL",
+            "lbs": 13091682.343000002,
+            "sales": 49169337.72000003,
+            "cogs": 39366764.52,
+            "othp": 2775694.96
+        },
            
       */
 
-  return { fgSpeciesGroupTotalsRow, fgSpeciesGroupTotalsCol }
-
   ///////////////////////////////// ROWS
-  // ROW TEMPLATE: ITEM_TYPE
-  const row_types_subtotals = await getDistinctItemTypes(start, end)
-  /*
-  [
-    { maj_row: 'FG', min_row: 'subtotal' },
-    { maj_row: 'WIP', min_row: 'subtotal' }
-  ]
-  */
 
-  // ROW TEMPLATE: ITEM_TYPE: BY-PROD
-  const row_bp_subtotals = [{ maj_row: 'BP', min_row: 'subtotal' }]
+  const speciesGroupSubProgram = await getSpeciesGroupSubProgram(start, end)
 
-  // ROW TEMPLATE: PROC LEVELS
-  const row_proc_details = await getDistinctProcLevels(start, end)
-  /*
-  [
-    { maj_row: 'FG', min_row: 'DRY' },
-    { maj_row: 'FG', min_row: 'PROCESSED' }
-  ]
-  */
+  const speciesGroupSubTotal = await getSpeciesGroupSubTotal(start, end)
 
-  // ROW TEMPLATE: BP TYPES
-  const row_by_details = await getDistinctBpTypes(start, end)
-  /*
-  [
-    { maj_row: 'BP', min_row: 'PIECES' },
-    { maj_row: 'BP', min_row: 'CHUNKS' }
-  ]
-  */
+  const totalsRow = [{ maj_row: 'FG SALES', min_row: 'TOTAL' }]
 
-  // ROW TEMPLATE: PROGRAM TOTAL
-  const row_total = [{ maj_row: program, min_row: 'total' }]
-  /*
-    [
-      { maj_row: [program], min_row: 'TOTAL' },
-    ]
-  */
+  return { speciesGroupSubProgram, totalsRow, speciesGroupSubTotal }
 
   // COMPILE FINAL ROW TEMPLATE
-  const rowTemplate = [...row_types_subtotals, ...row_bp_subtotals, ...row_proc_details, ...row_by_details]
+  const rowTemplate = [...speciesGroupSubProgram, ...speciesGroupSubTotal]
     .sort((a, b) => {
       if (a.min_row < b.min_row) return -1
       if (a.min_row > b.min_row) return 1
@@ -226,7 +222,7 @@ const getWeeklyProgramSales = async (start, end) => {
       return 0
     })
 
-  rowTemplate.push(...row_total)
+  rowTemplate.push(...totalsRow)
 
   // map data into row template
   const rowTemplate_unflat = unflattenRowTemplate(rowTemplate)
@@ -248,7 +244,14 @@ const getWeeklyProgramSales = async (start, end) => {
   */
 
   const mappedSales = mapDataToRowTemplates(
-    [...fgWipRmTotalsRow, ...fgWipRmTotalsCol, ...allSalesRowTotals, ...allSalesColTotals, ...fgWipRmDetRows, ...fgWipRmDetColTotal],
+    [
+      ...fgProgramTotalsRow,
+      ...fgProgramTotalsCol,
+      ...allSalesRowTotals,
+      ...allSalesColTotals,
+      ...fgSpeciesGroupTotalsRow,
+      ...fgSpeciesGroupTotalsCol,
+    ],
     rowTemplate_unflat
   )
   /*
