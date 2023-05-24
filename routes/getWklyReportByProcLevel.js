@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const getWklySalesByProg = require('../routines/wklyReportByProcLevel')
+const saleByProcLevelRoutine = require('../routines/wklyReportByProcLevel')
 const getDistinctPrograms = require('../queries/postgres/filters/getDistinctPrograms')
 const getDistinctFiscalYears = require('../queries/postgres/filters/getDistinctFiscalYears')
 const { getDateEndPerWeek, getDateForTest } = require('../queries/postgres/generateSalesData/getDateEndPerWeek')
@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
 
   console.log('startWeek[0].formatted_date_start', startWeek[0].formatted_date_start)
 
-  const resp = await getWklySalesByProg(req.body.program, startWeek[0].formatted_date_start, req.body.end)
+  const resp = await saleByProcLevelRoutine(req.body.program, startWeek[0].formatted_date_start, req.body.end)
 
   console.log(`get get weekly sales by processing level: ${req.body.program} for ${req.body.start} through ${req.body.end} route COMPLETE. \n`)
   res.send(resp)

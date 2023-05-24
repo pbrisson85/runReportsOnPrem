@@ -2,7 +2,7 @@
 
 // All sales row totals by week for a program
 
-const getWklySalesByProg = async (program, start, end) => {
+const getAllSalesRowTotals = async (program, start, end) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -26,7 +26,7 @@ const getWklySalesByProg = async (program, start, end) => {
 
 // All sales col total for a program
 
-const getWklySalesByProgTotalCol = async (program, start, end) => {
+const getAllSalesColTotals = async (program, start, end) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -52,7 +52,7 @@ const getWklySalesByProgTotalCol = async (program, start, end) => {
 
 // By product detail rows by week for a program
 
-const getWklyBpByType = async (program, start, end) => {
+const getByProdDetRows = async (program, start, end) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -76,7 +76,7 @@ const getWklyBpByType = async (program, start, end) => {
 
 // By product detail col totals for a program
 
-const getWklyBpByTypeTotalCol = async (program, start, end) => {
+const getByProdDetColTotals = async (program, start, end) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -100,7 +100,7 @@ const getWklyBpByTypeTotalCol = async (program, start, end) => {
 
 // By Product Row totals by week
 
-const getWklySalesByItemTypeBp = async (program, start, end) => {
+const getByProdTotRow = async (program, start, end) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -124,7 +124,7 @@ const getWklySalesByItemTypeBp = async (program, start, end) => {
 
 // By Product Col total for period
 
-const getWklySalesByItemTypeBpTotalCol = async (program, start, end) => {
+const getByProdColTotal = async (program, start, end) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -150,7 +150,7 @@ const getWklySalesByItemTypeBpTotalCol = async (program, start, end) => {
 
 // FG & WIP row totals by week
 
-const getWklySalesByItemTypeWithoutBp = async (program, start, end) => {
+const getFgWipRmTotalsRow = async (program, start, end) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -174,7 +174,7 @@ const getWklySalesByItemTypeWithoutBp = async (program, start, end) => {
 
 // FG & WIP col total for period
 
-const getWklySalesByItemTypeWithoutBpTotalCol = async (program, start, end) => {
+const getFgWipRmTotalsCol = async (program, start, end) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -198,7 +198,7 @@ const getWklySalesByItemTypeWithoutBpTotalCol = async (program, start, end) => {
 
 // FG detail rows by week for a program
 
-const getWklySalesByProcLevel = async (program, start, end) => {
+const getFgWipRmDetRows = async (program, start, end) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -222,7 +222,7 @@ const getWklySalesByProcLevel = async (program, start, end) => {
 
 // FG detail col total for period
 
-const getWklySalesByProcLevelTotalCol = async (program, start, end) => {
+const getFgWipRmDetColTotal = async (program, start, end) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -244,13 +244,13 @@ const getWklySalesByProcLevelTotalCol = async (program, start, end) => {
   }
 }
 
-module.exports.getWklySalesByProg = getWklySalesByProg
-module.exports.getWklySalesByProgTotalCol = getWklySalesByProgTotalCol
-module.exports.getWklyBpByType = getWklyBpByType
-module.exports.getWklyBpByTypeTotalCol = getWklyBpByTypeTotalCol
-module.exports.getWklySalesByItemTypeWithoutBp = getWklySalesByItemTypeWithoutBp
-module.exports.getWklySalesByItemTypeBp = getWklySalesByItemTypeBp
-module.exports.getWklySalesByItemTypeWithoutBpTotalCol = getWklySalesByItemTypeWithoutBpTotalCol
-module.exports.getWklySalesByItemTypeBpTotalCol = getWklySalesByItemTypeBpTotalCol
-module.exports.getWklySalesByProcLevel = getWklySalesByProcLevel
-module.exports.getWklySalesByProcLevelTotalCol = getWklySalesByProcLevelTotalCol
+module.exports.getAllSalesRowTotals = getAllSalesRowTotals
+module.exports.getAllSalesColTotals = getAllSalesColTotals
+module.exports.getByProdDetRows = getByProdDetRows
+module.exports.getByProdDetColTotals = getByProdDetColTotals
+module.exports.getFgWipRmTotalsRow = getFgWipRmTotalsRow
+module.exports.getByProdTotRow = getByProdTotRow
+module.exports.getFgWipRmTotalsCol = getFgWipRmTotalsCol
+module.exports.getByProdColTotal = getByProdColTotal
+module.exports.getFgWipRmDetRows = getFgWipRmDetRows
+module.exports.getFgWipRmDetColTotal = getFgWipRmDetColTotal
