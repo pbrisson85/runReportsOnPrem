@@ -30,7 +30,7 @@ process.on('unhandledRejection', ex => {
 // routes
 app.use(helmet())
 app.use(express.json())
-app.use('/api/sales/getSalesByProcLevel', getSalesByProcLevel)
+app.use('/api/sales/byProcLevel', getSalesByProcLevel)
 app.use('/api/sales/generateSalesData', generateSalesData)
 app.use('/api/sales/getFilters', getFilters)
 
