@@ -96,30 +96,41 @@ const getWeeklyProgramSales = async (start, end) => {
 
   /* 3: SALES FOR PROGRAM (ALL) BY WEEK = program total */
   const allSalesRowTotals = await getAllFgSalesTotalsRow(start, end)
-
-  return allSalesRowTotals
   /*
   "allSalesRowTotals": [
-        {
-            "column": "2022-W01",
-            "lbs": 94393,
-            "sales": 1097004.0700000005,
-            "cogs": 927959.9199999995,
-            "othp": 6863.490000000001,
-            "maj_row": "TOTAL"
-        },
-        {
-            "column": "2022-W02",
-            "lbs": 64050.55810000001,
-            "sales": 923604.4400000002,
-            "cogs": 777095.29,
-            "othp": 4774.490000000006,
-            "maj_row": "TOTAL"
-        },
+    {
+        "column": "2022-W01",
+        "maj_row": "FG SALES",
+        "min_row": "TOTAL",
+        "lbs": 570530.4892000001,
+        "sales": 3650605.8999999985,
+        "cogs": 3154600.519999998,
+        "othp": 86901.38
+    },
+    {
+        "column": "2022-W02",
+        "maj_row": "FG SALES",
+        "min_row": "TOTAL",
+        "lbs": 725587.9219999999,
+        "sales": 5625076.049999998,
+        "cogs": 4899364.590000003,
+        "othp": 100527.69999999998
+    },
+    {
+        "column": "2022-W03",
+        "maj_row": "FG SALES",
+        "min_row": "TOTAL",
+        "lbs": 536702.5416000001,
+        "sales": 4145706.939999997,
+        "cogs": 3630620.0600000024,
+        "othp": 90319.32
+    },
   */
 
   /* 3: DATE RANGE TOTAL SALES FOR PROGRAM (ALL) = program total */
   const allSalesColTotals = await getAllFgSalesColTotals(start, end)
+
+  return allSalesColTotals
   /*
   "allSalesRowTotals": [
         {
