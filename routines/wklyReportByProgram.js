@@ -224,23 +224,24 @@ const getWeeklyProgramSales = async (start, end) => {
   // map data into row template
   const rowTemplate_unflat = unflattenRowTemplate(rowTemplate)
   /*
-  {
-    "research": {
-        "row": "research"
-    },
-    "PROCESSED": {
-        "row": "PROCESSED"
-    },
-    "DRY": {
-        "row": "DRY"
-    },
-    "TOTAL": {
-        "row": "TOTAL"
-    }
-  }
+        {
+        "COD-COD CHN": {
+            "maj_row": "COD",
+            "min_row": "COD CHN"
+        },
+        "COD-COD USA": {
+            "maj_row": "COD",
+            "min_row": "COD USA"
+        },
+        "COD-SUBTOTAL": {
+            "maj_row": "COD",
+            "min_row": "SUBTOTAL"
+        },
+        "FLATFISH-FLATFISH CHN": {
+            "maj_row": "FLATFISH",
+            "min_row": "FLATFISH CHN"
+        },
   */
-
-  return { rowTemplate_unflat }
 
   const mappedSales = mapDataToRowTemplates(
     [
@@ -253,6 +254,8 @@ const getWeeklyProgramSales = async (start, end) => {
     ],
     rowTemplate_unflat
   )
+
+  return { mappedSales }
   /*
   mappedSales
 {
