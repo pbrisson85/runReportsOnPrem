@@ -296,6 +296,15 @@ const getWeeklyProgramSales = async (start, end) => {
     }
   })
 
+  // remove row labels for maj_row except first row of each grouping
+  Object.keys(mappedSales).forEach((key, idx) => {
+    if (idx === 0) return
+
+    if (mappedSales[key].maj_row === mappedSales[idx - 1].maj_row) {
+      mappedSales[key].maj_row = ''
+    }
+  })
+
   const flattenedMappedSales = Object.values(mappedSales)
 
   // get data column names
