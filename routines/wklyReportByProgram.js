@@ -255,38 +255,38 @@ const getWeeklyProgramSales = async (start, end) => {
     rowTemplate_unflat
   )
 
-  return { mappedSales }
   /*
   mappedSales
 {
- "PROCESSED": {
-        "row": "PROCESSED",
-        "2022-W01": {
-            "weight": 1930,
-            "revenue": 8922.5,
-            "cogs": 7067.25,
-            "othp": 0,
-            "netSales": 8922.5,
-            "grossMargin": 1855.25,
-            "revenuePerLb": 4.62,
-            "cogsPerLb": 3.66,
-            "othpPerLb": 0,
-            "netSalesPerLb": 4.62,
-            "grossMarginPerLb": 0.96
-        },
-        "2022-W02": {
-            "weight": 12560,
-            "revenue": 57672,
-            "cogs": 43752.26,
-            "othp": 3895.99,
-            "netSales": 53776.01,
-            "grossMargin": 10023.75,
-            "revenuePerLb": 4.59,
-            "cogsPerLb": 3.48,
-            "othpPerLb": 0.31,
-            "netSalesPerLb": 4.28,
-            "grossMarginPerLb": 0.8
-        },
+ "COD-COD CHN": {
+      "maj_row": "COD",
+      "min_row": "COD CHN",
+      "2022-W01": {
+          "weight": -3660,
+          "revenue": -17245,
+          "cogs": -13828.28,
+          "othp": 100.27,
+          "netSales": -17345.27,
+          "grossMargin": -3516.99,
+          "revenuePerLb": 4.71,
+          "cogsPerLb": 3.78,
+          "othpPerLb": -0.03,
+          "netSalesPerLb": 4.74,
+          "grossMarginPerLb": 0.96
+      },
+      "2022-W02": {
+          "weight": 35178,
+          "revenue": 116087.4,
+          "cogs": 110577.4,
+          "othp": 534.71,
+          "netSales": 115552.69,
+          "grossMargin": 4975.29,
+          "revenuePerLb": 3.3,
+          "cogsPerLb": 3.14,
+          "othpPerLb": 0.02,
+          "netSalesPerLb": 3.28,
+          "grossMarginPerLb": 0.14
+      },
   */
 
   // clean out rows with zero sales
