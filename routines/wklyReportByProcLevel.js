@@ -10,7 +10,7 @@ const {
   getWklySalesByItemTypeBpTotalCol,
   getWklyBpByType,
   getWklyBpByTypeTotalCol,
-} = require('../queries/postgres/getSales/trend')
+} = require('../queries/postgres/getSales/byProcLevel/trend')
 const getDistinctItemTypes = require('../queries/postgres/getRows/byProcLevel/getDisctinctItemTypes')
 const getDistinctBpTypes = require('../queries/postgres/getRows/getDistinctBpTypes')
 const getDistinctProcLevels = require('../queries/postgres/getRows/getDisctinctProcLevels')
