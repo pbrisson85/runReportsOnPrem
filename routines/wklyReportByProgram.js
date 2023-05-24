@@ -127,22 +127,52 @@ const getWeeklyProgramSales = async (start, end) => {
     },
   */
 
-  /* 3: DATE RANGE TOTAL SALES FOR PROGRAM (ALL) = program total */
   const allSalesColTotals = await getAllFgSalesColTotals(start, end)
-
-  return allSalesColTotals
   /*
   "allSalesRowTotals": [
         {
-            "column": "TOTAL",
-            "lbs": 94393,
-            "sales": 1097004.0700000005,
-            "cogs": 927959.9199999995,
-            "othp": 6863.490000000001,
-            "maj_row": "TOTAL"
-        },
+        "column": "TOTAL",
+        "maj_row": "FG SALES",
+        "min_row": "TOTAL",
+        "lbs": 31948279.458400007,
+        "sales": 205632410.27000064,
+        "cogs": 176277047.73999837,
+        "othp": 5897058.769999918
+    }
        
   */
+
+  const fgSpeciesGroupTotalsRow = await getFgSpeciesGroupTotalsRow(start, end)
+  /*
+    "fgSpeciesGroupTotalsRow": [
+          {
+          "column": "TOTAL",
+          "maj_row": "FG SALES",
+          "min_row": "TOTAL",
+          "lbs": 31948279.458400007,
+          "sales": 205632410.27000064,
+          "cogs": 176277047.73999837,
+          "othp": 5897058.769999918
+      }
+         
+    */
+
+  const fgSpeciesGroupTotalsCol = await getFgSpeciesGroupTotalsCol(start, end)
+  /*
+      "fgSpeciesGroupTotalsRow": [
+            {
+            "column": "TOTAL",
+            "maj_row": "FG SALES",
+            "min_row": "TOTAL",
+            "lbs": 31948279.458400007,
+            "sales": 205632410.27000064,
+            "cogs": 176277047.73999837,
+            "othp": 5897058.769999918
+        }
+           
+      */
+
+  return { fgSpeciesGroupTotalsRow, fgSpeciesGroupTotalsCol }
 
   ///////////////////////////////// ROWS
   // ROW TEMPLATE: ITEM_TYPE
