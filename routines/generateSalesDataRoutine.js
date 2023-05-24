@@ -1,17 +1,19 @@
-const getFirstDayOfFiscalYear = require('../queries/postgres/getFirstDayOfFiscalYear')
-const formatPostgresDateForSeasoftQuery = require('../models/formatPostgresDateForSeasoftQuery')
+const getFirstDayOfFiscalYear = require('../queries/postgres/generateSalesData/getFirstDayOfFiscalYear')
+const upsertSalesData = require('../queries/postgres/generateSalesData/upsertSalesData')
+const getMasterSupplement = require('../queries/postgres/generateSalesData/getMasterSupplement')
+const getPeriodsByDay = require('../queries/postgres/generateSalesData/getAccountingPeriodsByDay')
+
 const getInvoiceLineItems = require('../queries/seasoft/getInvoiceLineItems')
-const getMasterSupplement = require('../queries/postgres/getMasterSupplement')
+const getGenTblReas = require('../queries/seasoft/getGenTblReas')
+const getInvoiceHeader = require('../queries/seasoft/getInvoiceHeader')
+
+const formatPostgresDateForSeasoftQuery = require('../models/formatPostgresDateForSeasoftQuery')
 const unflattenItemNum = require('../models/unFlattenItemNum')
 const mapPeriodsPerDay = require('../models/mapPeriodsPerDay')
-const getPeriodsByDay = require('../queries/postgres/getAccountingPeriodsByDay')
 const joinSalesData = require('../models/joinSalesData')
-const getInvoiceHeader = require('../queries/seasoft/getInvoiceHeader')
 const unflattenInvoiceNum = require('../models/unFlattenInoviceNum')
-const getGenTblReas = require('../queries/seasoft/getGenTblReas')
 const unflattenReasCode = require('../models/unFlattenReasCode')
 const mapPostgresSalesLinesTable = require('../models/mapPostgresSalesLinesTable')
-const upsertSalesData = require('../queries/postgres/upsertSalesData')
 
 const generateSalesDataRoutine = async year => {
   console.log('generate detail sales data...')
