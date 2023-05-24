@@ -7,7 +7,7 @@ const app = express()
 const helmet = require('helmet')
 
 // initialize routes
-const getSalesByProgram = require('./routes/getWklySalesByProg')
+const getSalesByProcLevel = require('./routes/getWklyReportByProcLevel')
 const generateSalesData = require('./routes/generateSalesDataRoute')
 const getFilters = require('./routes/getFilters')
 
@@ -30,7 +30,7 @@ process.on('unhandledRejection', ex => {
 // routes
 app.use(helmet())
 app.use(express.json())
-app.use('/api/sales/getSalesByProgram', getSalesByProgram)
+app.use('/api/sales/getSalesByProcLevel', getSalesByProcLevel)
 app.use('/api/sales/generateSalesData', generateSalesData)
 app.use('/api/sales/getFilters', getFilters)
 

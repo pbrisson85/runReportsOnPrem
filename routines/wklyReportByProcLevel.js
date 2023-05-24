@@ -1,14 +1,17 @@
-const { getDateEndPerWeekByRange } = require('../queries/postgres/getDateEndPerWeek')
-const { getWklySalesByProg, getWklySalesByProgTotalCol } = require('../queries/postgres/getSales/byWkForProg')
-const { getWklySalesByProcLevel, getWklySalesByProcLevelTotalCol } = require('../queries/postgres/getSales/byWkForProgByProcLevel')
+const { getDateEndPerWeekByRange } = require('../queries/postgres/generateSalesData/getDateEndPerWeek')
 const {
+  getWklySalesByProcLevel,
+  getWklySalesByProcLevelTotalCol,
+  getWklySalesByProg,
+  getWklySalesByProgTotalCol,
   getWklySalesByItemTypeWithoutBp,
   getWklySalesByItemTypeBp,
   getWklySalesByItemTypeWithoutBpTotalCol,
   getWklySalesByItemTypeBpTotalCol,
+  getWklyBpByType,
+  getWklyBpByTypeTotalCol,
 } = require('../queries/postgres/getSales/byWkForProgByItemType')
-const { getWklyBpByType, getWklyBpByTypeTotalCol } = require('../queries/postgres/getSales/byWkForProgBpByType')
-const getDistinctItemTypes = require('../queries/postgres/getRows/getDisctinctItemTypes')
+const getDistinctItemTypes = require('../queries/postgres/getRows/byProcLevel/getDisctinctItemTypes')
 const getDistinctBpTypes = require('../queries/postgres/getRows/getDistinctBpTypes')
 const getDistinctProcLevels = require('../queries/postgres/getRows/getDisctinctProcLevels')
 const unflattenRowTemplate = require('../models/unflattenRowTemplate')

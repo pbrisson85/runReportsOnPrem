@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const getWklySalesByProg = require('../routines/getWklyProgSales')
+const getWklySalesByProg = require('../routines/wklyReportByProcLevel')
 const getDistinctPrograms = require('../queries/postgres/filters/getDistinctPrograms')
 const getDistinctFiscalYears = require('../queries/postgres/filters/getDistinctFiscalYears')
 const { getDateEndPerWeek, getDateForTest } = require('../queries/postgres/getDateEndPerWeek')
@@ -11,7 +11,7 @@ const { getStartOfWeek } = require('../queries/postgres/getDateStartByWeek')
 
 // Generate sales data
 router.post('/', async (req, res) => {
-  console.log(`\nget get weekly sales by program: ${req.body.program} for ${req.body.start} through ${req.body.end} route HIT...`)
+  console.log(`\nget get weekly sales by processing level: ${req.body.program} for ${req.body.start} through ${req.body.end} route HIT...`)
 
   // If no program, start, or end passed then default to the current fiscal year, first program alphabetically
   if (typeof req.body.program === 'undefined' || typeof req.body.start === 'undefined' || typeof req.body.end === 'undefined') {
@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
 
   const resp = await getWklySalesByProg(req.body.program, startWeek[0].formatted_date_start, req.body.end)
 
-  console.log(`get get weekly sales by program: ${req.body.program} for ${req.body.start} through ${req.body.end} route COMPLETE. \n`)
+  console.log(`get get weekly sales by processing level: ${req.body.program} for ${req.body.start} through ${req.body.end} route COMPLETE. \n`)
   res.send(resp)
   //res.send({ data, cols })
 })
