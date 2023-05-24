@@ -31,32 +31,41 @@ const getWeeklyProgramSales = async (start, end) => {
   ///////////////////////////////// SALES DATA
 
   const fgWipRmTotalsRow = await getFgProgramTotalsRow(start, end)
-
-  return fgWipRmTotalsRow
-
   /*
   "fgWipRmTotalsRow": [
-        {
-            "column": "2022-W01",
-            "maj_row": "COD",
-            "min_row": "COD CHN",
-            "lbs": -3660,
-            "sales": -17245,
-            "cogs": -13828.28,
-            "othp": 100.26999999999998
-        },
-        {
-            "column": "2022-W02",
-            "maj_row": "COD",
-            "min_row": "COD CHN",
-            "lbs": 35178,
-            "sales": 116087.4,
-            "cogs": 110577.4,
-            "othp": 534.7099999999919
-        },
+         {
+        "column": "2022-W01",
+        "maj_row": "COD",
+        "min_row": "COD CHN",
+        "lbs": -3660,
+        "sales": -17245,
+        "cogs": -13828.28,
+        "othp": 100.26999999999998
+    },
+    {
+        "column": "2022-W01",
+        "maj_row": "COD",
+        "min_row": "COD USA",
+        "lbs": 175340,
+        "sales": 1049622.9500000002,
+        "cogs": 947689.7399999995,
+        "othp": 43466.70999999999
+    },
+    {
+        "column": "2022-W01",
+        "maj_row": "FLATFISH",
+        "min_row": "FLATFISH CHN",
+        "lbs": 35789.6992,
+        "sales": 149061.13,
+        "cogs": 98996.8,
+        "othp": 12357.330000000002
+    },
   */
 
   const fgWipRmTotalsCol = await getFgProgramTotalsCol(start, end)
+
+  return fgWipRmTotalsCol
+
   /*
   "getFgProgramTotalsCol": [
         {
