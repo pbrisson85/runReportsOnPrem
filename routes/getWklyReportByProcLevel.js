@@ -5,7 +5,7 @@ const getDistinctFiscalYears = require('../queries/postgres/filters/getDistinctF
 const { getDateEndPerWeek, getDateForTest } = require('../queries/postgres/generateSalesData/getDateEndPerWeek')
 const { getStartOfWeek } = require('../queries/postgres/generateSalesData/getDateStartByWeek')
 
-// @route   POST /api/sales/getSalesByProgram
+// @route   POST /api/sales/byProcLevel
 // @desc
 // @access
 
