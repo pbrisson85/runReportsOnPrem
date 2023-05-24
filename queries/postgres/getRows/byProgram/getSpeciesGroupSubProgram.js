@@ -7,7 +7,7 @@ const getSpeciesGroupSubProgram = async (start, end) => {
     console.log(`query postgres to get weekly purchses ...`)
 
     const response = await pgClient.query(
-        'SELECT master_supplement.species_group AS maj_row, master_supplement.program AS min_row FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_line_items.item_number WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $3 GROUP BY master_supplement.species_group, master_supplement.program ORDER BY sales_line_items.week_serial',
+        'SELECT master_supplement.species_group AS maj_row, master_supplement.program AS min_row FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_line_items.item_number WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $3 GROUP BY master_supplement.species_group, master_supplement.program',
         [start, end, 'FG']
         ) //prettier-ignore
 
