@@ -20,4 +20,4 @@ const getSpeciesGroupSubProgram = async (start, end) => {
   }
 }
 
-module.exports = getSpeciesGroupSubProgram
+module.exports.getSpeciesGroupSubProgram = getSpeciesGroupSubProgram
