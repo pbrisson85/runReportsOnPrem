@@ -63,32 +63,41 @@ const getWeeklyProgramSales = async (start, end) => {
   */
 
   const fgWipRmTotalsCol = await getFgProgramTotalsCol(start, end)
-
-  return fgWipRmTotalsCol
-
   /*
   "getFgProgramTotalsCol": [
-        {
-            "column": "TOTAL",
-            "maj_row": "COD",
-            "min_row": "COD CHN",
-            "lbs": -3660,
-            "sales": -17245,
-            "cogs": -13828.28,
-            "othp": 100.26999999999998
-        },
-        {
-            "column": "TOTAL",
-            "maj_row": "RM",
-            "lbs": 35178,
-            "sales": 116087.4,
-            "cogs": 110577.4,
-            "othp": 534.7099999999919
-        },
+    {
+        "column": "TOTAL",
+        "maj_row": "COD",
+        "min_row": "COD CHN",
+        "lbs": 1470740.428,
+        "sales": 6951255.52,
+        "cogs": 5739432.030000001,
+        "othp": 183559.57999999984
+    },
+    {
+        "column": "TOTAL",
+        "maj_row": "COD",
+        "min_row": "COD USA",
+        "lbs": 6086597.197199999,
+        "sales": 35962386.23999998,
+        "cogs": 33571707.27999995,
+        "othp": 1273874.97
+    },
+    {
+        "column": "TOTAL",
+        "maj_row": "FLATFISH",
+        "min_row": "FLATFISH CHN",
+        "lbs": 9605545.717999998,
+        "sales": 31481754.21999999,
+        "cogs": 24343992.249999963,
+        "othp": 2016905.8899999987
+    },
   */
 
   /* 3: SALES FOR PROGRAM (ALL) BY WEEK = program total */
   const allSalesRowTotals = await getAllFgSalesTotalsRow(start, end)
+
+  return allSalesRowTotals
   /*
   "allSalesRowTotals": [
         {
