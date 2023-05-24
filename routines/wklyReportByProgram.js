@@ -94,7 +94,6 @@ const getWeeklyProgramSales = async (start, end) => {
     },
   */
 
-  /* 3: SALES FOR PROGRAM (ALL) BY WEEK = program total */
   const allSalesRowTotals = await getAllFgSalesTotalsRow(start, end)
   /*
   "allSalesRowTotals": [
@@ -207,8 +206,6 @@ const getWeeklyProgramSales = async (start, end) => {
 
   const totalsRow = [{ maj_row: 'FG SALES', min_row: 'TOTAL' }]
 
-  return { speciesGroupSubProgram, totalsRow, speciesGroupSubTotal }
-
   // COMPILE FINAL ROW TEMPLATE
   const rowTemplate = [...speciesGroupSubProgram, ...speciesGroupSubTotal]
     .sort((a, b) => {
@@ -242,6 +239,8 @@ const getWeeklyProgramSales = async (start, end) => {
     }
   }
   */
+
+  return { rowTemplate_unflat }
 
   const mappedSales = mapDataToRowTemplates(
     [
