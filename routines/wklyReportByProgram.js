@@ -12,6 +12,7 @@ const { getSpeciesGroupSubTotal } = require('../queries/postgres/getRows/byProgr
 
 const unflattenRowTemplate = require('../models/unflattenRowTemplate')
 const mapDataToRowTemplates = require('../models/mapDataToRowTemplates')
+const cleanLabelsForDisplay = require('../models/cleanLabelsForDiplay')
 
 const getWeeklyProgramSales = async (start, end) => {
   ///////////////////////////////// INVENTORY DATA
@@ -296,16 +297,10 @@ const getWeeklyProgramSales = async (start, end) => {
     }
   })
 
-  // remove row labels for maj_row except first row of each grouping
-  Object.keys(mappedSales).forEach((key, idx) => {
-    if (idx === 0) return
-
-    if (mappedSales[key].maj_row === mappedSales[Object.keys(mappedSales)[idx - 1]].maj_row) {
-      mappedSales[key].maj_row = ''
-    }
-  })
-
   const flattenedMappedSales = Object.values(mappedSales)
+
+  // remove row labels for maj_row except first row of each grouping
+  const finalData = cleanLabelsForDisplay(flattenedMappedSales)
 
   // get data column names
   const dataCols = await getDateEndPerWeekByRange(start, end)
@@ -326,7 +321,7 @@ const getWeeklyProgramSales = async (start, end) => {
   */
 
   // return
-  return { data: flattenedMappedSales, cols: dataCols }
+  return { data: finalData, cols: dataCols }
 }
 
 module.exports = getWeeklyProgramSales
