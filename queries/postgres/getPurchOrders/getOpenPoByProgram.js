@@ -68,3 +68,7 @@ const getFgOnOrderTotal = async () => {
     return error
   }
 }
+
+module.exports.getFgOnOrderByProgram = getFgOnOrderByProgram
+module.exports.getFgOnOrderBySpecies = getFgOnOrderBySpecies
+module.exports.getFgOnOrderTotal = getFgOnOrderTotal
