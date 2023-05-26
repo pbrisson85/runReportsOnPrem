@@ -226,3 +226,6 @@ module.exports.getFgAtLocationByProgram = getFgAtLocationByProgram
 module.exports.getFgBySpecies = getFgBySpecies
 module.exports.getFgInTransitBySpecies = getFgInTransitBySpecies
 module.exports.getFgAtLocationBySepcies = getFgAtLocationBySepcies
+module.exports.getFgTotal = getFgTotal
+module.exports.getFgInTransitTotal = getFgInTransitTotal
+module.exports.getFgAtLocationTotal = getFgAtLocationTotal

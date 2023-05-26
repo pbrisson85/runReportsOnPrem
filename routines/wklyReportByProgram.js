@@ -15,6 +15,9 @@ const {
   getFgBySpecies,
   getFgInTransitBySpecies,
   getFgAtLocationBySepcies,
+  getFgTotal,
+  getFgInTransitTotal,
+  getFgAtLocationTotal,
 } = require('../queries/postgres/getInven/getInvenByProgram')
 
 const { getSpeciesGroupSubProgram } = require('../queries/postgres/getRows/byProgram/getSpeciesGroupSubProgram')
@@ -30,14 +33,17 @@ const getWeeklyProgramSales = async (start, end) => {
   /* TOTAL FG */
   const fgByProgram = await getFgByProgram()
   const fgBySpecies = await getFgBySpecies()
+  const fgTotal = await getFgTotal()
 
   /* FG IN TRANSIT*/
   const fgInTransitByProgram = await getFgInTransitByProgram()
   const fgInTransitBySpecies = await getFgInTransitBySpecies()
+  const fgInTransitTotal = await getFgInTransitTotal()
 
   /* FG ON HAND (LESS IN TRANSIT) */
   const fgAtLocationByProgram = await getFgAtLocationByProgram()
   const fgAtLocationBySepcies = await getFgAtLocationBySepcies()
+  const fgAtLocationTotal = await getFgAtLocationTotal()
 
   /* FG ON ORDER */
 
@@ -276,12 +282,15 @@ const getWeeklyProgramSales = async (start, end) => {
       ...allSalesColTotals,
       ...fgSpeciesGroupTotalsRow,
       ...fgSpeciesGroupTotalsCol,
-      ...fgByProgram, //Inven
-      ...fgInTransitByProgram, //Inven
-      ...fgAtLocationByProgram, //Inven
-      ...fgBySpecies, //Inven
-      ...fgInTransitBySpecies, //Inven
-      ...fgAtLocationBySepcies, //Inven
+      ...fgByProgram, // Inven
+      ...fgInTransitByProgram, // Inven
+      ...fgAtLocationByProgram, // Inven
+      ...fgBySpecies, // Inven
+      ...fgInTransitBySpecies, // Inven
+      ...fgAtLocationBySepcies, // Inven
+      ...fgTotal, // Inven
+      ...fgInTransitTotal, // Inven
+      ...fgAtLocationTotal, // Inven
     ],
     rowTemplate_unflat
   )
