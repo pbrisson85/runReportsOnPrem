@@ -5,8 +5,6 @@ const cleanLabelsForDisplay = flattenedMappedData => {
     // first row has species
     if (idx === 0) return row
 
-    if (typeof row.min_row === 'undefined' || idx === 1) console.log(row)
-
     // subtotal hit flip flag true but return hidden species flag
     if (row.min_row.toUpperCase() === 'SUBTOTAL') {
       subTotalFound = true
