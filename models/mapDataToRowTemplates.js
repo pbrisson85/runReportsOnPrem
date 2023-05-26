@@ -26,6 +26,8 @@ const mapDataToRowTemplates = (salesLines, rowTemplate) => {
       grossMarginPerLb = parseFloat(new Decimal(soLine.sales).minus(soLine.cogs).minus(soLine.othp).dividedBy(soLine.lbs).toFixed(2))
     }
 
+    if (typeof rowTemplateCache[`${soLine.maj_row}-${soLine.min_row}`] === 'undefined') console.log(soLine)
+
     rowTemplateCache[`${soLine.maj_row}-${soLine.min_row}`] = {
       ...rowTemplateCache[`${soLine.maj_row}-${soLine.min_row}`],
       [soLine.column]: {
