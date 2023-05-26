@@ -24,7 +24,8 @@ const { getSpeciesGroupSubProgram } = require('../queries/postgres/getRows/byPro
 const { getSpeciesGroupSubTotal } = require('../queries/postgres/getRows/byProgram/getSpeciesGroupSubTotal')
 
 const unflattenRowTemplate = require('../models/unflattenRowTemplate')
-const mapDataToRowTemplates = require('../models/mapDataToRowTemplates')
+const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplates')
+const mapInvenToRowTemplates = require('../models/mapInvenToRowTemplates')
 const cleanLabelsForDisplay = require('../models/cleanLabelsForDiplay')
 
 const getWeeklyProgramSales = async (start, end) => {
@@ -274,7 +275,7 @@ const getWeeklyProgramSales = async (start, end) => {
         },
   */
 
-  const mappedSales = mapDataToRowTemplates(
+  const mappedSales = mapSalesToRowTemplates(
     [
       ...fgProgramTotalsRow,
       ...fgProgramTotalsCol,
@@ -282,18 +283,26 @@ const getWeeklyProgramSales = async (start, end) => {
       ...allSalesColTotals,
       ...fgSpeciesGroupTotalsRow,
       ...fgSpeciesGroupTotalsCol,
-      ...fgByProgram, // Inven
-      ...fgInTransitByProgram, // Inven
-      ...fgAtLocationByProgram, // Inven
-      ...fgBySpecies, // Inven
-      ...fgInTransitBySpecies, // Inven
-      ...fgAtLocationBySepcies, // Inven
-      ...fgTotal, // Inven
-      ...fgInTransitTotal, // Inven
-      ...fgAtLocationTotal, // Inven
     ],
     rowTemplate_unflat
   )
+
+  const mappedInven = mapInvenToRowTemplates(
+    [
+      ...fgByProgram,
+      ...fgInTransitByProgram,
+      ...fgAtLocationByProgram,
+      ...fgBySpecies,
+      ...fgInTransitBySpecies,
+      ...fgAtLocationBySepcies,
+      ...fgTotal,
+      ...fgInTransitTotal,
+      ...fgAtLocationTotal,
+    ],
+    rowTemplate_unflat
+  )
+
+  const mappedData = { ...mappedSales, ...mappedInven }
 
   /*
   mappedSales
@@ -330,16 +339,16 @@ const getWeeklyProgramSales = async (start, end) => {
   */
 
   // clean out rows with zero sales
-  Object.keys(mappedSales).forEach(key => {
-    if (Object.keys(mappedSales[key]).length === 1) {
-      delete mappedSales[key]
+  Object.keys(mappedData).forEach(key => {
+    if (Object.keys(mappedData[key]).length === 1) {
+      delete mappedData[key]
     }
   })
 
-  const flattenedMappedSales = Object.values(mappedSales)
+  const flattenedMappedData = Object.values(mappedData)
 
   // remove row labels for maj_row except first row of each grouping
-  const finalData = cleanLabelsForDisplay(flattenedMappedSales)
+  const finalData = cleanLabelsForDisplay(flattenedMappedData)
 
   // get data column names
   const dataCols = await getDateEndPerWeekByRange(start, end)

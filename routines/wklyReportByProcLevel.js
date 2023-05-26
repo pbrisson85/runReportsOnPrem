@@ -15,7 +15,7 @@ const getDistinctItemTypes = require('../queries/postgres/getRows/byProcLevel/ge
 const getDistinctBpTypes = require('../queries/postgres/getRows/byProcLevel/getDistinctBpTypes')
 const getDistinctProcLevels = require('../queries/postgres/getRows/byProcLevel/getDisctinctProcLevels')
 const unflattenRowTemplate = require('../models/unflattenRowTemplate')
-const mapDataToRowTemplates = require('../models/mapDataToRowTemplates')
+const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplates')
 
 const getWeeklyProgramSales = async (program, start, end) => {
   ///////////////////////////////// INVENTORY DATA
@@ -337,7 +337,7 @@ const getWeeklyProgramSales = async (program, start, end) => {
   }
   */
 
-  const mappedSales = mapDataToRowTemplates(
+  const mappedSales = mapSalesToRowTemplates(
     [
       ...fgWipRmTotalsRow,
       ...fgWipRmTotalsCol,
