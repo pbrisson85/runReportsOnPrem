@@ -7,6 +7,16 @@ const {
   getFgSpeciesGroupTotalsRow,
   getFgSpeciesGroupTotalsCol,
 } = require('../queries/postgres/getSales/byProgram/trend')
+
+const {
+  getFgByProgram,
+  getFgInTransitByProgram,
+  getFgAtLocationByProgram,
+  getFgBySpecies,
+  getFgInTransitBySpecies,
+  getFgAtLocationBySepcies,
+} = require('../queries/postgres/getInven/getInvenByProgram')
+
 const { getSpeciesGroupSubProgram } = require('../queries/postgres/getRows/byProgram/getSpeciesGroupSubProgram')
 const { getSpeciesGroupSubTotal } = require('../queries/postgres/getRows/byProgram/getSpeciesGroupSubTotal')
 
@@ -17,17 +27,31 @@ const cleanLabelsForDisplay = require('../models/cleanLabelsForDiplay')
 const getWeeklyProgramSales = async (start, end) => {
   ///////////////////////////////// INVENTORY DATA
 
-  /* OH HAND */
+  /* TOTAL FG */
+  const fgByProgram = await getFgByProgram()
+  const fgBySpecies = await getFgBySpecies()
 
-  /* IN TRANSIT */
+  /* FG IN TRANSIT*/
+  const fgInTransitByProgram = await getFgInTransitByProgram()
+  const fgInTransitBySpecies = await getFgInTransitBySpecies()
 
-  /* COMMITTED */
+  /* FG ON HAND (LESS IN TRANSIT) */
+  const fgAtLocationByProgram = await getFgAtLocationByProgram()
+  const fgAtLocationBySepcies = await getFgAtLocationBySepcies()
 
-  /* AVAILABLE */
+  /* FG ON ORDER */
+
+  /* OPEN ORDERS */
+
+  /* FG AVAILABLE */
+
+  /* RM ON HAND (IN COUNTRY LESS IN TRANSIT) */
+
+  /* RM IN TRANSIT (OUT COUNTRY PLUS IN TRANSIT) */
 
   /* RM ON ORDER */
 
-  /* FG ON ORDER */
+  /* TOTAL RM */
 
   ///////////////////////////////// SALES DATA
 
@@ -252,6 +276,12 @@ const getWeeklyProgramSales = async (start, end) => {
       ...allSalesColTotals,
       ...fgSpeciesGroupTotalsRow,
       ...fgSpeciesGroupTotalsCol,
+      ...fgByProgram, //Inven
+      ...fgInTransitByProgram, //Inven
+      ...fgAtLocationByProgram, //Inven
+      ...fgBySpecies, //Inven
+      ...fgInTransitBySpecies, //Inven
+      ...fgAtLocationBySepcies, //Inven
     ],
     rowTemplate_unflat
   )
