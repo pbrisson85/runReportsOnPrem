@@ -20,6 +20,8 @@ const {
   getFgAtLocationTotal,
 } = require('../queries/postgres/getInven/getInvenByProgram')
 
+const { getFgOnOrderByProgram, getFgOnOrderBySpecies, getFgOnOrderTotal } = require('../queries/postgres/getPurchOrders/getOpenPoByProgram')
+
 const { getSpeciesGroupSubProgram } = require('../queries/postgres/getRows/byProgram/getSpeciesGroupSubProgram')
 const { getSpeciesGroupSubTotal } = require('../queries/postgres/getRows/byProgram/getSpeciesGroupSubTotal')
 
@@ -48,18 +50,19 @@ const getWeeklyProgramSales = async (start, end) => {
   const fgAtLocationTotal = await getFgAtLocationTotal()
 
   /* FG ON ORDER */
+  const fgOnOrderByProgram = await getFgOnOrderByProgram()
+  const fgOnOrderBySpecies = await getFgOnOrderBySpecies()
+  const fgOnOrderTotal = await getFgOnOrderTotal()
 
-  /* OPEN ORDERS */
+  /* OPEN SALES ORDERS */
 
-  /* FG AVAILABLE */
-
-  /* RM ON HAND (IN COUNTRY LESS IN TRANSIT) */
+  /* TOTAL RM */
 
   /* RM IN TRANSIT (OUT COUNTRY PLUS IN TRANSIT) */
 
-  /* RM ON ORDER */
+  /* RM ON HAND (IN COUNTRY LESS IN TRANSIT) */
 
-  /* TOTAL RM */
+  /* RM ON ORDER */
 
   ///////////////////////////////// SALES DATA
 
@@ -299,6 +302,9 @@ const getWeeklyProgramSales = async (start, end) => {
       ...fgTotal,
       ...fgInTransitTotal,
       ...fgAtLocationTotal,
+      ...fgOnOrderByProgram,
+      ...fgOnOrderBySpecies,
+      ...fgOnOrderTotal,
     ],
     rowTemplate_unflat
   )
