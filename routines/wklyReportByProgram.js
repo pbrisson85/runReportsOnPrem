@@ -58,8 +58,6 @@ const getWeeklyProgramSales = async (start, end) => {
   const fgOnOrderBySpecies = await getFgOnOrderBySpecies()
   const fgOnOrderTotal = await getFgOnOrderTotal()
 
-  /* OPEN SALES ORDERS */
-
   /* TOTAL RM */
 
   /* RM IN TRANSIT (OUT COUNTRY PLUS IN TRANSIT) */
@@ -67,6 +65,8 @@ const getWeeklyProgramSales = async (start, end) => {
   /* RM ON HAND (IN COUNTRY LESS IN TRANSIT) */
 
   /* RM ON ORDER */
+
+  ///////////////////////////////// SALES ORDERS
 
   ///////////////////////////////// SALES DATA
 
