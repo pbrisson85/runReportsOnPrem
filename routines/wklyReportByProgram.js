@@ -18,9 +18,13 @@ const {
   getFgTotal,
   getFgInTransitTotal,
   getFgAtLocationTotal,
-} = require('../queries/postgres/getInven/getInvenByProgram')
+} = require('../queries/postgres/getInven/byProgram/getFgInvenByProgram')
 
-const { getFgOnOrderByProgram, getFgOnOrderBySpecies, getFgOnOrderTotal } = require('../queries/postgres/getPurchOrders/getOpenPoByProgram')
+const {
+  getFgOnOrderByProgram,
+  getFgOnOrderBySpecies,
+  getFgOnOrderTotal,
+} = require('../queries/postgres/getPurchOrders/byProgram/getFgOpenPoByProgram')
 
 const { getSpeciesGroupSubProgram } = require('../queries/postgres/getRows/byProgram/getSpeciesGroupSubProgram')
 const { getSpeciesGroupSubTotal } = require('../queries/postgres/getRows/byProgram/getSpeciesGroupSubTotal')
