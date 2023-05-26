@@ -26,6 +26,7 @@ const { getSpeciesGroupSubTotal } = require('../queries/postgres/getRows/byProgr
 const unflattenRowTemplate = require('../models/unflattenRowTemplate')
 const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplates')
 const mapInvenToRowTemplates = require('../models/mapInvenToRowTemplates')
+const combineMappedRows = require('../models/combineMappedRows')
 const cleanLabelsForDisplay = require('../models/cleanLabelsForDiplay')
 
 const getWeeklyProgramSales = async (start, end) => {
@@ -302,7 +303,7 @@ const getWeeklyProgramSales = async (start, end) => {
     rowTemplate_unflat
   )
 
-  const mappedData = { ...mappedSales, ...mappedInven }
+  const mappedData = combineMappedRows(mappedSales, mappedInven)
 
   /*
   mappedSales
