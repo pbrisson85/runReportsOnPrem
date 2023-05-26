@@ -57,7 +57,7 @@ const getRmOnOrderTotal = async () => {
     console.log(`query postgres for RM on hand ...`)
 
     const response = await pgClient.query(
-         'SELECT \'RM ON ORDER\' AS column, \'Rm SALES\' AS maj_row, \'TOTAL\' AS min_row, SUM(on_order_lbs) AS lbs, SUM(on_order_extended) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = perpetual_inventory.item_number WHERE master_supplement.item_type = $1 AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory)', ['RM']
+         'SELECT \'RM ON ORDER\' AS column, \'FG SALES\' AS maj_row, \'TOTAL\' AS min_row, SUM(on_order_lbs) AS lbs, SUM(on_order_extended) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = perpetual_inventory.item_number WHERE master_supplement.item_type = $1 AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory)', ['RM']
         ) //prettier-ignore
 
     await pgClient.end()
