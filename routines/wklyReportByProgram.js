@@ -21,6 +21,18 @@ const {
 } = require('../queries/postgres/getInven/byProgram/getFgInvenByProgram')
 
 const {
+  getRmByProgram,
+  getRmInTransitByProgram,
+  getRmAtLocationByProgram,
+  getRmBySpecies,
+  getRmInTransitBySpecies,
+  getRmAtLocationBySepcies,
+  getRmTotal,
+  getRmInTransitTotal,
+  getRmAtLocationTotal,
+} = require('../queries/postgres/getInven/byProgram/getRmInvenByProgram')
+
+const {
   getFgOnOrderByProgram,
   getFgOnOrderBySpecies,
   getFgOnOrderTotal,
@@ -59,10 +71,19 @@ const getWeeklyProgramSales = async (start, end) => {
   const fgOnOrderTotal = await getFgOnOrderTotal()
 
   /* TOTAL RM */
+  const rmByProgram = await getRmByProgram()
+  const rmBySpecies = await getRmBySpecies()
+  const rmTotal = await getRmTotal()
 
   /* RM IN TRANSIT (OUT COUNTRY PLUS IN TRANSIT) */
+  const rmInTransitByProgram = await getRmInTransitByProgram()
+  const rmInTransitBySpecies = await getRmInTransitBySpecies()
+  const rmInTransitTotal = await getRmInTransitTotal()
 
   /* RM ON HAND (IN COUNTRY LESS IN TRANSIT) */
+  const rmAtLocationByProgram = await getRmAtLocationByProgram()
+  const rmAtLocationBySepcies = await getRmAtLocationBySepcies()
+  const rmAtLocationTotal = await getRmAtLocationTotal()
 
   /* RM ON ORDER */
 
@@ -309,6 +330,15 @@ const getWeeklyProgramSales = async (start, end) => {
       ...fgOnOrderByProgram,
       ...fgOnOrderBySpecies,
       ...fgOnOrderTotal,
+      ...rmByProgram,
+      ...rmInTransitByProgram,
+      ...rmAtLocationByProgram,
+      ...rmBySpecies,
+      ...rmInTransitBySpecies,
+      ...rmAtLocationBySepcies,
+      ...rmTotal,
+      ...rmInTransitTotal,
+      ...rmAtLocationTotal,
     ],
     rowTemplate_unflat
   )
