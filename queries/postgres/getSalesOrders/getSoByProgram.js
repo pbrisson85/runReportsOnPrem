@@ -57,7 +57,7 @@ const getFgSalesOrdersTotal = async () => {
     console.log(`query postgres for FG Sales Orders ...`)
 
     const response = await pgClient.query(
-           'SELECT \'FG OPEN ORDER\' AS column, \'FG SALES\' AS maj_row, \'TOTAL\' AS min_row, SUM(sales_orders.ext_weight) AS lbs, SUM(sales_orders.ext_sales) AS sales, SUM(sales_orders.ext_cost) AS cogs, SUM(sales_orders.ext_othp) AS othp FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_orders.item_num WHERE master_supplement.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)'
+           'SELECT \'FG OPEN ORDER\' AS column, \'FG SALES\' AS maj_row, \'TOTAL\' AS min_row, SUM(sales_orders.ext_weight) AS lbs, SUM(sales_orders.ext_sales) AS sales, SUM(sales_orders.ext_cost) AS cogs, SUM(sales_orders.ext_othp) AS othp FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_orders.item_num WHERE master_supplement.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)', ['FG']
           ) //prettier-ignore
 
     await pgClient.end()
