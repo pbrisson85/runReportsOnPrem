@@ -1,6 +1,6 @@
 /* *********************************************** FG PROGRAM SALES *********************************************** */
 
-// FG on hand grouped by program (includes in transit)
+// FG open PO grouped by program (includes in transit)
 
 const getFgOnOrderByProgram = async () => {
   try {
@@ -8,10 +8,10 @@ const getFgOnOrderByProgram = async () => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`query postgres for FG on hand ...`)
+    console.log(`query postgres for FG open PO ...`)
 
     const response = await pgClient.query(
-       'SELECT \'FG ON ORDER\' AS column, master_supplement.species_group AS maj_row, master_supplement.program AS min_row, SUM(on_order_lbs) AS lbs, SUM(on_order_extended) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = perpetual_inventory.item_number WHERE master_supplement.item_type = $1 AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) GROUP BY master_supplement.species_group, master_supplement.program', ['FG']
+       'SELECT \'FG ON ORDER\' AS column, master_supplement.species_group AS maj_row, master_supplement.program AS min_row, SUM(perpetual_inventory.on_order_lbs) AS lbs, SUM(perpetual_inventory.on_order_extended) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = perpetual_inventory.item_number WHERE master_supplement.item_type = $1 AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) GROUP BY master_supplement.species_group, master_supplement.program', ['FG']
       ) //prettier-ignore
 
     await pgClient.end()
@@ -31,10 +31,10 @@ const getFgOnOrderBySpecies = async () => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`query postgres for FG on hand ...`)
+    console.log(`query postgres for FG open PO ...`)
 
     const response = await pgClient.query(
-         'SELECT \'FG ON ORDER\' AS column, master_supplement.species_group AS maj_row, \'SUBTOTAL\' AS min_row, SUM(on_order_lbs) AS lbs, SUM(on_order_extended) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = perpetual_inventory.item_number WHERE master_supplement.item_type = $1 AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) GROUP BY master_supplement.species_group', ['FG']
+         'SELECT \'FG ON ORDER\' AS column, master_supplement.species_group AS maj_row, \'SUBTOTAL\' AS min_row, SUM(perpetual_inventory.on_order_lbs) AS lbs, SUM(perpetual_inventory.on_order_extended) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = perpetual_inventory.item_number WHERE master_supplement.item_type = $1 AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) GROUP BY master_supplement.species_group', ['FG']
         ) //prettier-ignore
 
     await pgClient.end()
@@ -54,10 +54,10 @@ const getFgOnOrderTotal = async () => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`query postgres for FG on hand ...`)
+    console.log(`query postgres for FG open PO ...`)
 
     const response = await pgClient.query(
-         'SELECT \'FG ON ORDER\' AS column, \'FG SALES\' AS maj_row, \'TOTAL\' AS min_row, SUM(on_order_lbs) AS lbs, SUM(on_order_extended) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = perpetual_inventory.item_number WHERE master_supplement.item_type = $1 AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory)', ['FG']
+         'SELECT \'FG ON ORDER\' AS column, \'FG SALES\' AS maj_row, \'TOTAL\' AS min_row, SUM(perpetual_inventory.on_order_lbs) AS lbs, SUM(perpetual_inventory.on_order_extended) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = perpetual_inventory.item_number WHERE master_supplement.item_type = $1 AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory)', ['FG']
         ) //prettier-ignore
 
     await pgClient.end()

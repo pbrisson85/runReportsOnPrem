@@ -8,7 +8,7 @@ const getAllFgSalesTotalsRow = async (start, end) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`query postgres to get weekly purchses ...`)
+    console.log(`query postgres to get FG sales data ...`)
 
     const response = await pgClient.query(
       'SELECT sales_line_items.week_serial AS column, \'FG SALES\' AS maj_row, \'TOTAL\' AS min_row, SUM(sales_line_items.calc_gm_rept_weight) AS lbs, SUM(sales_line_items.calc_gl_gross_sales) AS sales, SUM(sales_line_items.calc_gl_cogs) AS cogs, SUM(sales_line_items.calc_gl_othp) AS othp FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_line_items.item_number WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $3 GROUP BY sales_line_items.week_serial ORDER BY sales_line_items.week_serial',
@@ -32,7 +32,7 @@ const getAllFgSalesColTotals = async (start, end) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`query postgres to get weekly purchses ...`)
+    console.log(`query postgres to get FG sales data ...`)
 
     const response = await pgClient.query(
       'SELECT \'TOTAL\' AS column, \'FG SALES\' AS maj_row, \'TOTAL\' AS min_row, SUM(sales_line_items.calc_gm_rept_weight) AS lbs, SUM(sales_line_items.calc_gl_gross_sales) AS sales, SUM(sales_line_items.calc_gl_cogs) AS cogs, SUM(sales_line_items.calc_gl_othp) AS othp FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_line_items.item_number WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $3',
@@ -58,7 +58,7 @@ const getFgProgramTotalsRow = async (start, end) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`query postgres to get weekly purchses ...`)
+    console.log(`query postgres to get FG sales data ...`)
 
     const response = await pgClient.query(
       'SELECT sales_line_items.week_serial AS column, master_supplement.species_group AS maj_row, master_supplement.program AS min_row, SUM(sales_line_items.calc_gm_rept_weight) AS lbs, SUM(sales_line_items.calc_gl_gross_sales) AS sales, SUM(sales_line_items.calc_gl_cogs) AS cogs, SUM(sales_line_items.calc_gl_othp) AS othp FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_line_items.item_number WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $3 GROUP BY sales_line_items.week_serial, master_supplement.species_group, master_supplement.program ORDER BY sales_line_items.week_serial',
@@ -82,7 +82,7 @@ const getFgProgramTotalsCol = async (start, end) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`query postgres to get weekly purchses ...`)
+    console.log(`query postgres to get FG sales data ...`)
 
     const response = await pgClient.query(
       'SELECT \'TOTAL\' AS column, master_supplement.species_group AS maj_row, master_supplement.program AS min_row, SUM(sales_line_items.calc_gm_rept_weight) AS lbs, SUM(sales_line_items.calc_gl_gross_sales) AS sales, SUM(sales_line_items.calc_gl_cogs) AS cogs, SUM(sales_line_items.calc_gl_othp) AS othp FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_line_items.item_number WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $3 GROUP BY master_supplement.species_group, master_supplement.program',
@@ -108,7 +108,7 @@ const getFgSpeciesGroupTotalsRow = async (start, end) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`query postgres to get weekly purchses ...`)
+    console.log(`query postgres to get FG sales data ...`)
 
     const response = await pgClient.query(
       'SELECT sales_line_items.week_serial AS column, master_supplement.species_group AS maj_row, \'SUBTOTAL\' AS min_row, SUM(sales_line_items.calc_gm_rept_weight) AS lbs, SUM(sales_line_items.calc_gl_gross_sales) AS sales, SUM(sales_line_items.calc_gl_cogs) AS cogs, SUM(sales_line_items.calc_gl_othp) AS othp FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_line_items.item_number WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $3 GROUP BY sales_line_items.week_serial, master_supplement.species_group ORDER BY sales_line_items.week_serial',
@@ -132,7 +132,7 @@ const getFgSpeciesGroupTotalsCol = async (start, end) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`query postgres to get weekly purchses ...`)
+    console.log(`query postgres to get FG sales data ...`)
 
     const response = await pgClient.query(
       'SELECT \'TOTAL\' AS column, master_supplement.species_group AS maj_row, \'SUBTOTAL\' AS min_row, SUM(sales_line_items.calc_gm_rept_weight) AS lbs, SUM(sales_line_items.calc_gl_gross_sales) AS sales, SUM(sales_line_items.calc_gl_cogs) AS cogs, SUM(sales_line_items.calc_gl_othp) AS othp FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_line_items.item_number WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $3 GROUP BY master_supplement.species_group',

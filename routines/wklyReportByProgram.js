@@ -43,6 +43,11 @@ const {
   getRmOnOrderBySpecies,
   getRmOnOrderTotal,
 } = require('../queries/postgres/getPurchOrders/byProgram/getRmOpenPoByProgram')
+const {
+  getFgSalesOrdersByProgram,
+  getFgSalesOrdersBySpecies,
+  getFgSalesOrdersTotal,
+} = require('../queries/postgres/getSalesOrders/getSoByProgram')
 
 const { getSpeciesGroupSubProgram } = require('../queries/postgres/getRows/byProgram/getSpeciesGroupSubProgram')
 const { getSpeciesGroupSubTotal } = require('../queries/postgres/getRows/byProgram/getSpeciesGroupSubTotal')
@@ -97,6 +102,9 @@ const getWeeklyProgramSales = async (start, end) => {
   const rmOnOrderTotal = await getRmOnOrderTotal()
 
   ///////////////////////////////// SALES ORDERS
+  const fgSalesOrdersByProgram = await getFgSalesOrdersByProgram()
+  const fgSalesOrdersBySpecies = await getFgSalesOrdersBySpecies()
+  const fgSalesOrdersTotal = await getFgSalesOrdersTotal()
 
   ///////////////////////////////// SALES DATA
 
@@ -351,6 +359,9 @@ const getWeeklyProgramSales = async (start, end) => {
       ...rmOnOrderByProgram,
       ...rmOnOrderBySpecies,
       ...rmOnOrderTotal,
+      ...fgSalesOrdersByProgram,
+      ...fgSalesOrdersBySpecies,
+      ...fgSalesOrdersTotal,
     ],
     rowTemplate_unflat
   )
