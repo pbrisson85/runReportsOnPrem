@@ -329,6 +329,9 @@ const getWeeklyProgramSales = async (start, end) => {
       ...allSalesColTotals,
       ...fgSpeciesGroupTotalsRow,
       ...fgSpeciesGroupTotalsCol,
+      ...fgSalesOrdersByProgram,
+      ...fgSalesOrdersBySpecies,
+      ...fgSalesOrdersTotal,
     ],
     rowTemplate_unflat
   )
@@ -359,9 +362,6 @@ const getWeeklyProgramSales = async (start, end) => {
       ...rmOnOrderByProgram,
       ...rmOnOrderBySpecies,
       ...rmOnOrderTotal,
-      ...fgSalesOrdersByProgram,
-      ...fgSalesOrdersBySpecies,
-      ...fgSalesOrdersTotal,
     ],
     rowTemplate_unflat
   )
