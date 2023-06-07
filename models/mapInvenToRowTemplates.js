@@ -33,8 +33,8 @@ const mapInvenToRowTemplates = (invenLines, rowTemplate) => {
       console.log(`row: ${invenLine.maj_row}-${invenLine.min_row}-${invenLine.third_row}`)
     }
 
-    rowTemplateCache[`${invenLine.maj_row}-${invenLine.min_row}-${invenLine.third_row}`] = {
-      ...rowTemplateCache[`${invenLine.maj_row}-${invenLine.min_row}-${invenLine.third_row}`],
+    rowTemplateCache[`${invenLine.maj_row}-${invenLine.min_row}-${invenLine.third_row}`][0] = {
+      ...rowTemplateCache[`${invenLine.maj_row}-${invenLine.min_row}-${invenLine.third_row}`][0],
       [invenLine.column]: {
         weight,
         revenue,
