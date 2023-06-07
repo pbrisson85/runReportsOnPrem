@@ -31,7 +31,7 @@ const mapInvenToRowTemplates = (invenLines, rowTemplate) => {
     if (idx === 0) {
       console.log('invenLine: ', invenLine)
       console.log(`row: ${invenLine.maj_row}-${invenLine.min_row}-${invenLine.third_row}`)
-      console.log('rowTemplateCache: ' rowTemplateCache)
+      console.log('rowTemplateCache: ', rowTemplateCache)
     }
 
     rowTemplateCache[`${invenLine.maj_row}-${invenLine.min_row}-${invenLine.third_row}`] = {
