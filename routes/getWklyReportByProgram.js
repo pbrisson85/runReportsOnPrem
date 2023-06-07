@@ -4,11 +4,11 @@ const { getStartOfWeek } = require('../queries/postgres/generateSalesData/getDat
 const getDistinctFiscalYears = require('../queries/postgres/filters/getDistinctFiscalYears')
 const { getDateEndPerWeek } = require('../queries/postgres/generateSalesData/getDateEndPerWeek')
 
-// @route   POST /api/sales/getSalesByProgram
+// @route   POST /api/sales/byProgram
 // @desc
 // @access
 
-// Generate sales data
+// Generate full weekly report of ALL programs for FG Only (biggest picture)
 router.post('/', async (req, res) => {
   console.log(`\nget get weekly sales by processing level for ${req.body.start} through ${req.body.end} route HIT...`)
 

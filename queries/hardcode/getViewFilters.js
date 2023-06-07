@@ -20,11 +20,11 @@ const getViewFilters = () => {
       dataName: 'netSales',
       additionalData: { decimals: 0 },
     },
-    // {
-    //   label: 'COST $',
-    //   dataName: 'cogs',
-    //   additionalData: { decimals: 0 },
-    // },
+    {
+      label: 'COST $',
+      dataName: 'cogs',
+      additionalData: { decimals: 0 },
+    },
     {
       label: 'GM $',
       dataName: 'grossMargin',
@@ -45,11 +45,11 @@ const getViewFilters = () => {
       dataName: 'netSalesPerLb',
       additionalData: { decimals: 2 },
     },
-    // {
-    //   label: 'COST $/LB',
-    //   dataName: 'cogsPerLb',
-    //   additionalData: { decimals: 2 },
-    // },
+    {
+      label: 'COST $/LB',
+      dataName: 'cogsPerLb',
+      additionalData: { decimals: 2 },
+    },
     {
       label: 'GM $/LB',
       dataName: 'grossMarginPerLb',

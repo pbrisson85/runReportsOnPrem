@@ -8,7 +8,7 @@
 
 #### Note that there is no cron right now to update the sales data. It is a manual route
 
-## generatePerpetualOnPrem TODO's ********************************************\*\*\*\*********************************************
+## generatePerpetualOnPrem TODO's **\*\*\*\***\*\*\*\***\*\*\*\***\*\*\*\***\*\*\*\***\*\*\*\***\*\*\*\***\*\*\*\***\*\*\*\***\*\*\*\***\*\*\*\***\*\*\*\***\*\*\*\***\*\*\*\***\*\*\*\***
 
 ### For on order. Need to pull the container per the PO line item rather than the header. This pulls from the header but the logistics team does not fill that data in reliably whereas they do fill in the containers on the line items
 
@@ -17,3 +17,12 @@
 ### Therefore I would like to instead of taking the inventory data from the inventory location file. Get the committed/tagged from the sales order lines table. and have multiple lines per lot/location if necessary.
 
 ### This app has a tests directory but these should really be in a seperate app that is just for running tests.
+
+### TO DO
+
+- Add non FG sales so report can be tied into seasoft
+
+### Acronyms:
+
+- FFPD: By Fresh/Frozen, Processed/Dry
+- FFPDS: By Fresh/Frozen, Processed/Dry, Size
