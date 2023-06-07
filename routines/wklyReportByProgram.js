@@ -402,8 +402,6 @@ const getWeeklyProgramSales = async (start, end) => {
       },
   */
 
-  return mappedData
-
   // clean out rows with zero sales
   Object.keys(mappedData).forEach(key => {
     if (Object.keys(mappedData[key]).length === 1) {

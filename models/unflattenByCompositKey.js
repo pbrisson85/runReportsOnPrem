@@ -16,10 +16,10 @@ const unflattenByCompositKey = (data, keys) => {
 
     // add row to key
     if (!unflat[key]) {
-      unflat[key] = [{ ...row }]
+      unflat[key] = { ...row }
     } else {
-      //console.log('hit duplicate key in unflattenByCompositKey: ', key)
-      unflat[key].push(row)
+      console.log('hit duplicate key in unflattenByCompositKey: ', key)
+      unflat[key] = { ...row } // OVER WRITTING
     }
   })
 

@@ -21,6 +21,7 @@
 ### TO DO
 
 - Add non FG sales so report can be tied into seasoft
+- not sure if // clean out rows with zero sales is actually working as intended. I dont understand the logic. Need to figure it out and document it.
 
 ### Acronyms:
 

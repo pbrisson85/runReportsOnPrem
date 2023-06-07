@@ -421,13 +421,19 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   //   */
 
   // clean out rows with zero sales
-  return mappedData
 
+  // TEMPORARY CLEAN OUT FUNCTION ***********************
   Object.keys(mappedData).forEach(key => {
     if (Object.keys(mappedData[key]).length === 1) {
       delete mappedData[key]
     }
   })
+
+  // Object.keys(mappedData).forEach(key => {
+  //   if (Object.keys(mappedData[key]).length === 1) {
+  //     delete mappedData[key]
+  //   }
+  // })
 
   const flattenedMappedData = Object.values(mappedData)
 
