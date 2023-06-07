@@ -85,7 +85,7 @@ const getFgByFreshFrozen = async program => {
     console.log(`query postgres for FG on hand ...`)
 
     const response = await pgClient.query(
-      'SELECT \'FG INVEN\' AS column, master_supplement.fg_fresh_frozen AS maj_row, \'STATE SUBTOTAL\' AS min_row, SUM(perpetual_inventory.on_hand_lbs) AS lbs, SUM(perpetual_inventory.cost_extended) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = perpetual_inventory.item_number WHERE master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) WHERE master_supplement.program = $2 GROUP BY master_supplement.fg_fresh_frozen',
+      'SELECT \'FG INVEN\' AS column, master_supplement.fg_fresh_frozen AS maj_row, \'STATE SUBTOTAL\' AS min_row, SUM(perpetual_inventory.on_hand_lbs) AS lbs, SUM(perpetual_inventory.cost_extended) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = perpetual_inventory.item_number WHERE master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND master_supplement.program = $2 GROUP BY master_supplement.fg_fresh_frozen',
       ['FG', program]
     ) //prettier-ignore
 
