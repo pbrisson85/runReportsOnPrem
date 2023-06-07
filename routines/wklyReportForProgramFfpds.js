@@ -65,9 +65,9 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   const fgByFreshFrozen = await getFgByFreshFrozen(program) // Grouped By Fresh/Frozen (1st level)
   const fgByProcessinglevel = await getFgByProcessingLevel(program) // Grouped By Processed/Dry, Fresh/Frozen (2nd Level)
   const fgBySize = await getFgBySize(program) // Grouped Size, Fresh/Frozen, Processed/Dry (3rd Level)
-  return { fgBySize, fgByProcessinglevel, fgByFreshFrozen }
+  const fgTotal = await getFgTotal(program) // Total For Program
 
-  const fgTotal = await getFgTotal() // Total For Program
+  return { fgTotal, fgBySize, fgByProcessinglevel, fgByFreshFrozen }
 
   /* FG IN TRANSIT*/
   const fgInTransitByProgram = await getFgInTransitByProgram()
