@@ -292,16 +292,28 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   // COMPILE FINAL ROW TEMPLATE
   const rowTemplate = [...rowsThirdLevelDetail, ...rowsSecondLevelDetail, ...rowsFirstLevelDetail]
     .sort((a, b) => {
+      // if has includes total, put at end
+      if (a.third_row.includes('TOTAL')) return 1
+      if (b.third_row.includes('TOTAL')) return -1
+
       if (a.third_row < b.third_row) return -1
       if (a.third_row > b.third_row) return 1
       return 0
     })
     .sort((a, b) => {
+      // if has includes total, put at end
+      if (a.min_row.includes('TOTAL')) return 1
+      if (b.min_row.includes('TOTAL')) return -1
+
       if (a.min_row < b.min_row) return -1
       if (a.min_row > b.min_row) return 1
       return 0
     })
     .sort((a, b) => {
+      // if has includes total, put at end
+      if (a.maj_row.includes('TOTAL')) return 1
+      if (b.maj_row.includes('TOTAL')) return -1
+
       if (a.maj_row < b.maj_row) return -1
       if (a.maj_row > b.maj_row) return 1
       return 0
