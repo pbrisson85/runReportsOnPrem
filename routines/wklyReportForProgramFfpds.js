@@ -56,7 +56,7 @@ const {
 
 const unflattenRowTemplate = require('../models/unflattenRowTemplate')
 const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplates')
-const mapInvenToRowTemplates = require('../models/mapInvenToRowTemplates')
+const mapInvenToRowTemplates = require('../models/mapInvenToRowTemplatesThreeLevel')
 const combineMappedRows = require('../models/combineMappedRows')
 const cleanLabelsForDisplay = require('../models/cleanLabelsForDiplay')
 const unflattenByCompositKey = require('../models/unflattenByCompositKey')

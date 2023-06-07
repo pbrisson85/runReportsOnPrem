@@ -28,11 +28,6 @@ const mapInvenToRowTemplates = (invenLines, rowTemplate) => {
       grossMarginPerLb = parseFloat(new Decimal(invenLine.cogs).dividedBy(invenLine.lbs).toFixed(2))
     }
 
-    if (idx === 0) {
-      console.log('invenLine: ', invenLine)
-      console.log(`row: ${invenLine.maj_row}-${invenLine.min_row}-${invenLine.third_row}`)
-    }
-
     // Note that using index 0 on the rowTemplate because the unflattenRowTemplate function now uses an array of objects
     rowTemplateCache[`${invenLine.maj_row}-${invenLine.min_row}-${invenLine.third_row}`][0] = {
       ...rowTemplateCache[`${invenLine.maj_row}-${invenLine.min_row}-${invenLine.third_row}`][0],

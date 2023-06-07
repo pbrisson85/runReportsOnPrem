@@ -54,7 +54,7 @@ const { getSpeciesGroupSubTotal } = require('../queries/postgres/getRows/byProgr
 
 const unflattenRowTemplate = require('../models/unflattenRowTemplate')
 const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplates')
-const mapInvenToRowTemplates = require('../models/mapInvenToRowTemplates')
+const mapInvenToRowTemplates = require('../models/mapInvenToRowTemplatesTwoLevel')
 const combineMappedRows = require('../models/combineMappedRows')
 const cleanLabelsForDisplay = require('../models/cleanLabelsForDiplay')
 
