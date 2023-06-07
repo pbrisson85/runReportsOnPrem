@@ -18,7 +18,7 @@ const {
   getFgAtLocationTotal,
 } = require('../queries/postgres/getInven/byProgram/getFgInvenByProgram')
 
-const { getFgByFreshFrozen, getFgByProcessingLevel } = require('../queries/postgres/getInven/forProgFfpds/getFgInven')
+const { getFgByFreshFrozen, getFgByProcessingLevel, getFgBySize } = require('../queries/postgres/getInven/forProgFfpds/getFgInven')
 
 const {
   getRmByProgram,
@@ -64,10 +64,9 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   /* TOTAL FG */
   const fgByFreshFrozen = await getFgByFreshFrozen(program) // Grouped By Fresh/Frozen (1st level)
   const fgByProcessinglevel = await getFgByProcessingLevel(program) // Grouped By Processed/Dry, Fresh/Frozen (2nd Level)
+  const fgBySize = await getFgBySize(program) // Grouped Size, Fresh/Frozen, Processed/Dry (3rd Level)
+  return { fgBySize, fgByProcessinglevel, fgByFreshFrozen }
 
-  return { fgByProcessinglevel, fgByFreshFrozen }
-
-  const fgBySpecies = await getFgBySpecies() // Grouped Size, Fresh/Frozen, Processed/Dry (3rd Level)
   const fgTotal = await getFgTotal() // Total For Program
 
   /* FG IN TRANSIT*/
