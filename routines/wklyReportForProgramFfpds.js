@@ -287,7 +287,7 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   const rowsThirdLevelDetail = await getRowsThirdLevelDetail(start, end, program)
   const rowsSecondLevelDetail = await getRowsSecondLevelDetail(start, end, program)
   const rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, program)
-  const totalsRow = [{ maj_row: 'FG SALES', min_row: 'TOTAL', thrid_row: 'TOTAL' }]
+  const totalsRow = [{ maj_row: 'FG SALES', min_row: 'TOTAL', third_row: 'TOTAL' }]
 
   // COMPILE FINAL ROW TEMPLATE
   const rowTemplate = [...rowsThirdLevelDetail, ...rowsSecondLevelDetail, ...rowsFirstLevelDetail]
