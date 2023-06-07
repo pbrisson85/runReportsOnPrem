@@ -48,14 +48,18 @@ const {
   getFgSalesOrdersTotal,
 } = require('../queries/postgres/getSalesOrders/getSoByProgram')
 
-const { getRowsThirdLevelDetail } = require('../queries/postgres/getRows/forProgFfpds/getRowsThirdLevelDetail')
-const { getRowsSecondLevelDetail } = require('../queries/postgres/getRows/forProgFfpds/getRowsSecondLevelDetail')
+const {
+  getRowsThirdLevelDetail,
+  getRowsSecondLevelDetail,
+  getRowsFirstLevelDetail,
+} = require('../queries/postgres/getRows/forProgFfpds/rowsByDetailLevel')
 
 const unflattenRowTemplate = require('../models/unflattenRowTemplate')
 const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplates')
 const mapInvenToRowTemplates = require('../models/mapInvenToRowTemplates')
 const combineMappedRows = require('../models/combineMappedRows')
 const cleanLabelsForDisplay = require('../models/cleanLabelsForDiplay')
+const unflattenByCompositKey = require('../models/unflattenByCompositKey')
 
 const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   ///////////////////////////////// INVENTORY DATA
@@ -282,10 +286,16 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
 
   const rowsThirdLevelDetail = await getRowsThirdLevelDetail(start, end, program)
   const rowsSecondLevelDetail = await getRowsSecondLevelDetail(start, end, program)
+  const rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, program)
   const totalsRow = [{ maj_row: 'FG SALES', min_row: 'TOTAL', thrid_row: 'TOTAL' }]
 
   // COMPILE FINAL ROW TEMPLATE
-  const rowTemplate = [...rowsThirdLevelDetail, ...rowsSecondLevelDetail]
+  const rowTemplate = [...rowsThirdLevelDetail, ...rowsSecondLevelDetail, ...rowsFirstLevelDetail]
+    .sort((a, b) => {
+      if (a.third_row < b.third_row) return -1
+      if (a.third_row > b.third_row) return 1
+      return 0
+    })
     .sort((a, b) => {
       if (a.min_row < b.min_row) return -1
       if (a.min_row > b.min_row) return 1
@@ -300,7 +310,11 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   rowTemplate.push(...totalsRow)
 
   // map data into row template
-  const rowTemplate_unflat = unflattenRowTemplate(rowTemplate)
+  const rowTemplate_unflat = unflattenByCompositKey(rowTemplate, {
+    1: 'maj_row',
+    2: 'min_row',
+    3: 'third_row',
+  })
   /*
         {
         "COD-COD CHN": {
@@ -321,98 +335,100 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
         },
   */
 
-  const mappedSales = mapSalesToRowTemplates(
-    [
-      ...fgProgramTotalsRow,
-      ...fgProgramTotalsCol,
-      ...allSalesRowTotals,
-      ...allSalesColTotals,
-      ...fgSpeciesGroupTotalsRow,
-      ...fgSpeciesGroupTotalsCol,
-      ...fgSalesOrdersByProgram,
-      ...fgSalesOrdersBySpecies,
-      ...fgSalesOrdersTotal,
-    ],
-    rowTemplate_unflat
-  )
+  // const mappedSales = mapSalesToRowTemplates(
+  //   [
+  //     ...fgProgramTotalsRow,
+  //     ...fgProgramTotalsCol,
+  //     ...allSalesRowTotals,
+  //     ...allSalesColTotals,
+  //     ...fgSpeciesGroupTotalsRow,
+  //     ...fgSpeciesGroupTotalsCol,
+  //     ...fgSalesOrdersByProgram,
+  //     ...fgSalesOrdersBySpecies,
+  //     ...fgSalesOrdersTotal,
+  //   ],
+  //   rowTemplate_unflat
+  // )
 
-  const mappedInven = mapInvenToRowTemplates(
-    [
-      ...fgByProgram,
-      ...fgInTransitByProgram,
-      ...fgAtLocationByProgram,
-      ...fgBySpecies,
-      ...fgInTransitBySpecies,
-      ...fgAtLocationBySepcies,
-      ...fgTotal,
-      ...fgInTransitTotal,
-      ...fgAtLocationTotal,
-      ...fgOnOrderByProgram,
-      ...fgOnOrderBySpecies,
-      ...fgOnOrderTotal,
-      ...rmByProgram,
-      ...rmInTransitByProgram,
-      ...rmAtLocationByProgram,
-      ...rmBySpecies,
-      ...rmInTransitBySpecies,
-      ...rmAtLocationBySepcies,
-      ...rmTotal,
-      ...rmInTransitTotal,
-      ...rmAtLocationTotal,
-      ...rmOnOrderByProgram,
-      ...rmOnOrderBySpecies,
-      ...rmOnOrderTotal,
-    ],
-    rowTemplate_unflat
-  )
+  // const mappedInven = mapInvenToRowTemplates(
+  //   [
+  //     ...fgByProgram,
+  //     ...fgInTransitByProgram,
+  //     ...fgAtLocationByProgram,
+  //     ...fgBySpecies,
+  //     ...fgInTransitBySpecies,
+  //     ...fgAtLocationBySepcies,
+  //     ...fgTotal,
+  //     ...fgInTransitTotal,
+  //     ...fgAtLocationTotal,
+  //     ...fgOnOrderByProgram,
+  //     ...fgOnOrderBySpecies,
+  //     ...fgOnOrderTotal,
+  //     ...rmByProgram,
+  //     ...rmInTransitByProgram,
+  //     ...rmAtLocationByProgram,
+  //     ...rmBySpecies,
+  //     ...rmInTransitBySpecies,
+  //     ...rmAtLocationBySepcies,
+  //     ...rmTotal,
+  //     ...rmInTransitTotal,
+  //     ...rmAtLocationTotal,
+  //     ...rmOnOrderByProgram,
+  //     ...rmOnOrderBySpecies,
+  //     ...rmOnOrderTotal,
+  //   ],
+  //   rowTemplate_unflat
+  // )
 
-  const mappedData = combineMappedRows(mappedSales, mappedInven)
+  const mappedInven = mapInvenToRowTemplates([...fgByFreshFrozen, ...fgByProcessinglevel, ...fgBySize, ...fgTotal], rowTemplate_unflat)
 
-  /*
-  mappedSales
-{
- "COD-COD CHN": {
-      "maj_row": "COD",
-      "min_row": "COD CHN",
-      "2022-W01": {
-          "weight": -3660,
-          "revenue": -17245,
-          "cogs": -13828.28,
-          "othp": 100.27,
-          "netSales": -17345.27,
-          "grossMargin": -3516.99,
-          "revenuePerLb": 4.71,
-          "cogsPerLb": 3.78,
-          "othpPerLb": -0.03,
-          "netSalesPerLb": 4.74,
-          "grossMarginPerLb": 0.96
-      },
-      "2022-W02": {
-          "weight": 35178,
-          "revenue": 116087.4,
-          "cogs": 110577.4,
-          "othp": 534.71,
-          "netSales": 115552.69,
-          "grossMargin": 4975.29,
-          "revenuePerLb": 3.3,
-          "cogsPerLb": 3.14,
-          "othpPerLb": 0.02,
-          "netSalesPerLb": 3.28,
-          "grossMarginPerLb": 0.14
-      },
-  */
+  //   const mappedData = combineMappedRows(mappedSales, mappedInven)
 
-  // clean out rows with zero sales
-  Object.keys(mappedData).forEach(key => {
-    if (Object.keys(mappedData[key]).length === 1) {
-      delete mappedData[key]
-    }
-  })
+  //   /*
+  //   mappedSales
+  // {
+  //  "COD-COD CHN": {
+  //       "maj_row": "COD",
+  //       "min_row": "COD CHN",
+  //       "2022-W01": {
+  //           "weight": -3660,
+  //           "revenue": -17245,
+  //           "cogs": -13828.28,
+  //           "othp": 100.27,
+  //           "netSales": -17345.27,
+  //           "grossMargin": -3516.99,
+  //           "revenuePerLb": 4.71,
+  //           "cogsPerLb": 3.78,
+  //           "othpPerLb": -0.03,
+  //           "netSalesPerLb": 4.74,
+  //           "grossMarginPerLb": 0.96
+  //       },
+  //       "2022-W02": {
+  //           "weight": 35178,
+  //           "revenue": 116087.4,
+  //           "cogs": 110577.4,
+  //           "othp": 534.71,
+  //           "netSales": 115552.69,
+  //           "grossMargin": 4975.29,
+  //           "revenuePerLb": 3.3,
+  //           "cogsPerLb": 3.14,
+  //           "othpPerLb": 0.02,
+  //           "netSalesPerLb": 3.28,
+  //           "grossMarginPerLb": 0.14
+  //       },
+  //   */
 
-  const flattenedMappedData = Object.values(mappedData)
+  //   // clean out rows with zero sales
+  //   Object.keys(mappedData).forEach(key => {
+  //     if (Object.keys(mappedData[key]).length === 1) {
+  //       delete mappedData[key]
+  //     }
+  //   })
 
-  // remove row labels for maj_row except first row of each grouping
-  const finalData = cleanLabelsForDisplay(flattenedMappedData)
+  // const flattenedMappedData = Object.values(mappedData)
+
+  // // remove row labels for maj_row except first row of each grouping
+  // const finalData = cleanLabelsForDisplay(flattenedMappedData)
 
   // get data column names
   const dataCols = await getDateEndPerWeekByRange(start, end)
@@ -432,8 +448,10 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
         },
   */
 
+  const flattenedMappedData = Object.values(mappedInven)
+
   // return
-  return { data: finalData, cols: dataCols }
+  return { data: flattenedMappedData, cols: dataCols }
 }
 
 module.exports = getWeeklyProgramSalesFfpds
