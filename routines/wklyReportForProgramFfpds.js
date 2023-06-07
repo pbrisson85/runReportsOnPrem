@@ -424,7 +424,7 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
 
   // TEMPORARY CLEAN OUT FUNCTION ***********************
   Object.keys(mappedData).forEach(key => {
-    if (Object.keys(mappedData[key]).length === 1) {
+    if (typeof Object.keys(mappedData[key])['FG INVEN'] === 'undefined') {
       delete mappedData[key]
     }
   })
