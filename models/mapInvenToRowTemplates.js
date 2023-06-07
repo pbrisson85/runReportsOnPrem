@@ -12,7 +12,7 @@ const mapInvenToRowTemplates = (invenLines, rowTemplate) => {
 
   // Note only cost and lbs for inven data.
 
-  invenLines.forEach(invenLine => {
+  invenLines.forEach((invenLine, idx) => {
     const revenue = parseFloat(invenLine.cogs.toFixed(2))
     const weight = parseFloat(invenLine.lbs.toFixed(2))
     const cogs = parseFloat(invenLine.cogs.toFixed(2))
@@ -26,6 +26,11 @@ const mapInvenToRowTemplates = (invenLines, rowTemplate) => {
       othpPerLb = parseFloat(new Decimal(invenLine.cogs).dividedBy(invenLine.lbs).toFixed(2))
       netSalesPerLb = parseFloat(new Decimal(invenLine.cogs).dividedBy(invenLine.lbs).toFixed(2))
       grossMarginPerLb = parseFloat(new Decimal(invenLine.cogs).dividedBy(invenLine.lbs).toFixed(2))
+    }
+
+    if (idx === 0) {
+      console.log('invenLine: ', invenLine)
+      console.log(`row: ${invenLine.maj_row}-${invenLine.min_row}-${invenLine.third_row}`)
     }
 
     rowTemplateCache[`${invenLine.maj_row}-${invenLine.min_row}-${invenLine.third_row}`] = {
