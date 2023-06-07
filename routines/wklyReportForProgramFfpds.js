@@ -66,6 +66,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   const fgBySize = await getFgBySize(program) // Grouped Size, Fresh/Frozen, Processed/Dry (3rd Level)
   const fgTotal = await getFgTotal(program) // Total For Program
 
+  return { fgByFreshFrozen, fgByProcessinglevel, fgBySize, fgTotal }
+
   // /* FG IN TRANSIT*/
   // const fgInTransitByProgram = await getFgInTransitByProgram()
   // const fgInTransitBySpecies = await getFgInTransitBySpecies()
@@ -298,8 +300,6 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
     })
 
   rowTemplate.push(...totalsRow)
-
-  return { rowTemplate }
 
   // map data into row template
   const rowTemplate_unflat = unflattenRowTemplate(rowTemplate)
