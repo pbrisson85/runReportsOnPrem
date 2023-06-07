@@ -13,12 +13,11 @@ const {
   getFgAtLocationByProgram,
   getFgInTransitBySpecies,
   getFgAtLocationBySepcies,
-  getFgTotal,
   getFgInTransitTotal,
   getFgAtLocationTotal,
 } = require('../queries/postgres/getInven/byProgram/getFgInvenByProgram')
 
-const { getFgByFreshFrozen, getFgByProcessingLevel, getFgBySize } = require('../queries/postgres/getInven/forProgFfpds/getFgInven')
+const { getFgByFreshFrozen, getFgByProcessingLevel, getFgBySize, getFgTotal } = require('../queries/postgres/getInven/forProgFfpds/getFgInven')
 
 const {
   getRmByProgram,
@@ -50,7 +49,7 @@ const {
 } = require('../queries/postgres/getSalesOrders/getSoByProgram')
 
 const { getRowsThirdLevelDetail } = require('../queries/postgres/getRows/forProgFfpds/getRowsThirdLevelDetail')
-const { getSpeciesGroupSubTotal } = require('../queries/postgres/getRows/byProgram/getSpeciesGroupSubTotal')
+const { getRowsSecondLevelDetail } = require('../queries/postgres/getRows/forProgFfpds/getRowsSecondLevelDetail')
 
 const unflattenRowTemplate = require('../models/unflattenRowTemplate')
 const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplates')
@@ -282,15 +281,11 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   ///////////////////////////////// ROWS
 
   const rowsThirdLevelDetail = await getRowsThirdLevelDetail(start, end, program)
-
-  return { rowsThirdLevelDetail }
-
-  const speciesGroupSubTotal = await getSpeciesGroupSubTotal(start, end)
-
+  const rowsSecondLevelDetail = await getRowsSecondLevelDetail(start, end, program)
   const totalsRow = [{ maj_row: 'FG SALES', min_row: 'TOTAL' }]
 
   // COMPILE FINAL ROW TEMPLATE
-  const rowTemplate = [...rowsThirdLevelDetail, ...speciesGroupSubTotal]
+  const rowTemplate = [...rowsThirdLevelDetail, ...rowsSecondLevelDetail]
     .sort((a, b) => {
       if (a.min_row < b.min_row) return -1
       if (a.min_row > b.min_row) return 1
@@ -303,6 +298,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
     })
 
   rowTemplate.push(...totalsRow)
+
+  return { rowTemplate }
 
   // map data into row template
   const rowTemplate_unflat = unflattenRowTemplate(rowTemplate)
