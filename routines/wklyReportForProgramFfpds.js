@@ -12,13 +12,14 @@ const {
   getFgByProgram,
   getFgInTransitByProgram,
   getFgAtLocationByProgram,
-  getFgByFreshFrozen,
   getFgInTransitBySpecies,
   getFgAtLocationBySepcies,
   getFgTotal,
   getFgInTransitTotal,
   getFgAtLocationTotal,
 } = require('../queries/postgres/getInven/byProgram/getFgInvenByProgram')
+
+const { getFgByFreshFrozen } = require('../queries/postgres/getInven/forProgFfpds/getFgInven')
 
 const {
   getRmByProgram,
