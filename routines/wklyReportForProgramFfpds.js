@@ -66,8 +66,6 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   const fgBySize = await getFgBySize(program) // Grouped Size, Fresh/Frozen, Processed/Dry (3rd Level)
   const fgTotal = await getFgTotal(program) // Total For Program
 
-  return { fgByFreshFrozen, fgByProcessinglevel, fgBySize, fgTotal }
-
   // /* FG IN TRANSIT*/
   // const fgInTransitByProgram = await getFgInTransitByProgram()
   // const fgInTransitBySpecies = await getFgInTransitBySpecies()
@@ -284,7 +282,7 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
 
   const rowsThirdLevelDetail = await getRowsThirdLevelDetail(start, end, program)
   const rowsSecondLevelDetail = await getRowsSecondLevelDetail(start, end, program)
-  const totalsRow = [{ maj_row: 'FG SALES', min_row: 'TOTAL' }]
+  const totalsRow = [{ maj_row: 'FG SALES', min_row: 'TOTAL', thrid_row: 'TOTAL' }]
 
   // COMPILE FINAL ROW TEMPLATE
   const rowTemplate = [...rowsThirdLevelDetail, ...rowsSecondLevelDetail]
