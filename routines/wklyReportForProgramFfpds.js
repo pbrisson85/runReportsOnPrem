@@ -382,6 +382,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
 
   const mappedInven = mapInvenToRowTemplates([...fgByFreshFrozen, ...fgByProcessinglevel, ...fgBySize, ...fgTotal], rowTemplate_unflat)
 
+  const mappedData = mappedInven // For testing ************* so remainder of routine works
+
   //   const mappedData = combineMappedRows(mappedSales, mappedInven)
 
   //   /*
@@ -418,14 +420,14 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   //       },
   //   */
 
-  //   // clean out rows with zero sales
-  //   Object.keys(mappedData).forEach(key => {
-  //     if (Object.keys(mappedData[key]).length === 1) {
-  //       delete mappedData[key]
-  //     }
-  //   })
+  // clean out rows with zero sales
+  Object.keys(mappedData).forEach(key => {
+    if (Object.keys(mappedData[key]).length === 1) {
+      delete mappedData[key]
+    }
+  })
 
-  // const flattenedMappedData = Object.values(mappedData)
+  const flattenedMappedData = Object.values(mappedData)
 
   // // remove row labels for maj_row except first row of each grouping
   // const finalData = cleanLabelsForDisplay(flattenedMappedData)
@@ -447,8 +449,6 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
             "displayname": "4/23/2022"
         },
   */
-
-  const flattenedMappedData = Object.values(mappedInven)
 
   // return
   return { data: flattenedMappedData, cols: dataCols }
