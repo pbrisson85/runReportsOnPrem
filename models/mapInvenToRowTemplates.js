@@ -28,8 +28,8 @@ const mapInvenToRowTemplates = (invenLines, rowTemplate) => {
       grossMarginPerLb = parseFloat(new Decimal(invenLine.cogs).dividedBy(invenLine.lbs).toFixed(2))
     }
 
-    rowTemplateCache[`${invenLine.maj_row}-${invenLine.min_row}`] = {
-      ...rowTemplateCache[`${invenLine.maj_row}-${invenLine.min_row}`],
+    rowTemplateCache[`${invenLine.maj_row}-${invenLine.min_row}-${invenLine.third_row}`] = {
+      ...rowTemplateCache[`${invenLine.maj_row}-${invenLine.min_row}-${invenLine.third_row}`],
       [invenLine.column]: {
         weight,
         revenue,
