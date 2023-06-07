@@ -49,7 +49,7 @@ const {
   getFgSalesOrdersTotal,
 } = require('../queries/postgres/getSalesOrders/getSoByProgram')
 
-const { getRowsThirdLevelDetail } = require('../queries/postgres/getRows/byProgram/getRowsThirdLevelDetail')
+const { getRowsThirdLevelDetail } = require('../queries/postgres/getRows/forProgFfpds/getRowsThirdLevelDetail')
 const { getSpeciesGroupSubTotal } = require('../queries/postgres/getRows/byProgram/getSpeciesGroupSubTotal')
 
 const unflattenRowTemplate = require('../models/unflattenRowTemplate')
