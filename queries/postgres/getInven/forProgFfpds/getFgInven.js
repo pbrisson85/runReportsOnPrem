@@ -15,6 +15,8 @@ const getFgByProcessingLevel = async program => {
       ['FG', program]
     ) //prettier-ignore
 
+    console.log(response)
+
     await pgClient.end()
 
     return response.rows
