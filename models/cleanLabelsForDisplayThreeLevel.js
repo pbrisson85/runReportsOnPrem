@@ -60,7 +60,7 @@ const testL2Subtotal = (row, idx, subTotalFound, flattenedMappedData) => {
 
   // If row is NOT an l1 subtotal, remove l1 label
   if (!subTotalFound) {
-    flattenedMappedData[idx].l2_grouping = ''
+    // flattenedMappedData[idx].l2_grouping = ''
     return subTotalFound
   }
 
