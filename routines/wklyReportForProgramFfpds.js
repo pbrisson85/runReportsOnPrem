@@ -13,11 +13,16 @@ const {
   getFgAtLocationByProgram,
   getFgInTransitBySpecies,
   getFgAtLocationBySepcies,
-  getFgInTransitTotal,
-  getFgAtLocationTotal,
 } = require('../queries/postgres/getInven/byProgram/getFgInvenByProgram')
 
-const { getFgByFreshFrozen, getFgByProcessingLevel, getFgBySize, getFgTotal } = require('../queries/postgres/getInven/forProgFfpds/getFgInven')
+const {
+  getFgByFreshFrozen,
+  getFgByProcessingLevel,
+  getFgBySize,
+  getFgTotal,
+  getFgInTransitTotal,
+  getFgAtLocationTotal,
+} = require('../queries/postgres/getInven/forProgFfpds/getFgInven')
 
 const {
   getRmByProgram,
@@ -58,7 +63,7 @@ const unflattenRowTemplate = require('../models/unflattenRowTemplate')
 const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplates')
 const mapInvenToRowTemplates = require('../models/mapInvenToRowTemplatesThreeLevel')
 const combineMappedRows = require('../models/combineMappedRows')
-const cleanLabelsForDisplay = require('../models/cleanLabelsForDisplayThreeLevel')
+const cleanLabelsForDisplay = require('../models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../models/unflattenByCompositKey')
 
 const labelCols = require('../queries/hardcode/ffpdsCols')
@@ -75,12 +80,12 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   // /* FG IN TRANSIT*/
   // const fgInTransitByProgram = await getFgInTransitByProgram()
   // const fgInTransitBySpecies = await getFgInTransitBySpecies()
-  // const fgInTransitTotal = await getFgInTransitTotal()
+  const fgInTransitTotal = await getFgInTransitTotal()
 
   // /* FG ON HAND (LESS IN TRANSIT) */
   // const fgAtLocationByProgram = await getFgAtLocationByProgram()
   // const fgAtLocationBySepcies = await getFgAtLocationBySepcies()
-  // const fgAtLocationTotal = await getFgAtLocationTotal()
+  const fgAtLocationTotal = await getFgAtLocationTotal()
 
   // /* FG ON ORDER */
   // const fgOnOrderByProgram = await getFgOnOrderByProgram()
@@ -394,7 +399,10 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   //   rowTemplate_unflat
   // )
 
-  const mappedInven = mapInvenToRowTemplates([...fgByFreshFrozen, ...fgByProcessinglevel, ...fgBySize, ...fgTotal], rowTemplate_unflat)
+  const mappedInven = mapInvenToRowTemplates(
+    [...fgByFreshFrozen, ...fgByProcessinglevel, ...fgBySize, ...fgTotal, ...fgInTransitTotal, ...fgAtLocationTotal],
+    rowTemplate_unflat
+  )
 
   const mappedData = mappedInven // For testing ************* so remainder of routine works
 
