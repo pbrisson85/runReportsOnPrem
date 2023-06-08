@@ -10,6 +10,7 @@ const cleanLabelsForDisplay = flattenedMappedData => {
 
 const testL1Subtotal = (row, idx, subTotalFound, flattenedMappedData) => {
   console.log('entering testL1Subtotal and subTotalFound is :', subTotalFound)
+  console.log('undeited labels', row.l1_grouping, row.l2_grouping, row.l3_grouping)
 
   // leave first row alone
   if (idx === 0) return subTotalFound
@@ -41,6 +42,7 @@ const testL1Subtotal = (row, idx, subTotalFound, flattenedMappedData) => {
 
 const testL2Subtotal = (row, idx, subTotalFound, flattenedMappedData) => {
   console.log('entering testL2Subtotal and subTotalFound is :', subTotalFound)
+  console.log('undeited labels', row.l1_grouping, row.l2_grouping, row.l3_grouping)
 
   // leave first row alone
   if (idx === 0) return subTotalFound
