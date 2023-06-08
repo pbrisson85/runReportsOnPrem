@@ -13,7 +13,7 @@ const cleanLabelsForDisplay = flattenedMappedData => {
 
     // If l1 grouping does not change then don't show it
     if (row.l1_grouping === l1Value) {
-      flattenedMappedData[idx].l2_grouping = ''
+      flattenedMappedData[idx].l1_grouping = ''
     }
 
     // If l2 grouping does not change then don't show it
