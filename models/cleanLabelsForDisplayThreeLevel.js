@@ -1,14 +1,14 @@
 const cleanLabelsForDisplay = flattenedMappedData => {
   let subTotalFound = false
-  flattenedMappedData.forEach((row, idx, subTotalFound) => {
-    testL1Subtotal(row, idx)
-    testL2Subtotal(row, idx)
+  flattenedMappedData.forEach((row, idx) => {
+    testL1Subtotal(row, idx, subTotalFound, flattenedMappedData)
+    testL2Subtotal(row, idx, subTotalFound, flattenedMappedData)
   })
 
   return flattenedMappedData
 }
 
-const testL1Subtotal = (row, idx, subTotalFound) => {
+const testL1Subtotal = (row, idx, subTotalFound, flattenedMappedData) => {
   // leave first row alone
   if (idx === 0) return row
 
@@ -31,7 +31,7 @@ const testL1Subtotal = (row, idx, subTotalFound) => {
   subTotalFound = false
 }
 
-const testL2Subtotal = (row, idx, subTotalFound) => {
+const testL2Subtotal = (row, idx, subTotalFound, flattenedMappedData) => {
   // leave first row alone
   if (idx === 0) return row
 
