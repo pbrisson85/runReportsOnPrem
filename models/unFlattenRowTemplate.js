@@ -4,7 +4,7 @@ const unflattenRowTemplate = flatObjArr => {
     let unflattenedObj = {}
 
     flatObjArr.forEach(obj => {
-      unflattenedObj[`${obj.l1_grouping}-${obj.l2_grouping}`] = { ...obj }
+      unflattenedObj[`${obj.l1_subtotal}-${obj.l2_subtotal}`] = { ...obj }
     })
 
     return unflattenedObj

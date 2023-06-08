@@ -26,8 +26,8 @@ const mapSalesToRowTemplates = (salesLines, rowTemplate) => {
       grossMarginPerLb = parseFloat(new Decimal(soLine.sales).minus(soLine.cogs).minus(soLine.othp).dividedBy(soLine.lbs).toFixed(2))
     }
 
-    rowTemplateCache[`${soLine.l1_grouping}-${soLine.l2_grouping}`] = {
-      ...rowTemplateCache[`${soLine.l1_grouping}-${soLine.l2_grouping}`],
+    rowTemplateCache[`${soLine.l1_subtotal}-${soLine.l2_subtotal}`] = {
+      ...rowTemplateCache[`${soLine.l1_subtotal}-${soLine.l2_subtotal}`],
       [soLine.column]: {
         weight,
         revenue,

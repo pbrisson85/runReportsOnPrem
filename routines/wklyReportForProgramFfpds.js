@@ -16,12 +16,13 @@ const {
 } = require('../queries/postgres/getInven/byProgram/getFgInvenByProgram')
 
 const {
-  getFgByFreshFrozen,
-  getFgByProcessingLevel,
-  getFgBySize,
-  getFgTotal,
-  getFgInTransitTotal,
-  getFgAtLocationTotal,
+  lvl_1_subtotal_getFgInven,
+  lvl_2_subtotal_getFgInven,
+  lvl_2_subtotal_getFgInTransit,
+  lvl_3_detail_getFgInven,
+  dataTotal_getFgInven,
+  dataTotal_getFgInTransit,
+  dataTotal_getFgAtLocation,
 } = require('../queries/postgres/getInven/forProgFfpds/getFgInven')
 
 const {
@@ -71,21 +72,21 @@ const labelCols = require('../queries/hardcode/ffpdsCols')
 const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   ///////////////////////////////// INVENTORY DATA
 
-  /* TOTAL FG */
-  const fgByFreshFrozen = await getFgByFreshFrozen(program) // Grouped By Fresh/Frozen (1st level)
-  const fgByProcessinglevel = await getFgByProcessingLevel(program) // Grouped By Processed/Dry, Fresh/Frozen (2nd Level)
-  const fgBySize = await getFgBySize(program) // Grouped Size, Fresh/Frozen, Processed/Dry (3rd Level)
-  const fgTotal = await getFgTotal(program) // Total For Program
+  /* TOTAL FG (FG) */
+  const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(program) // Grouped By Fresh/Frozen (1st level)
+  const lvl_2_subtotal_fgInven = await lvl_2_subtotal_getFgInven(program) // Grouped By Processed/Dry, Fresh/Frozen (2nd Level)
+  const lvl_3_detail_fgInven = await lvl_3_detail_getFgInven(program) // Grouped Size, Fresh/Frozen, Processed/Dry (3rd Level)
+  const dataTotal_fgInven = await dataTotal_getFgInven(program) // Total For Program
 
   // /* FG IN TRANSIT*/
-  // const fgInTransitByProgram = await getFgInTransitByProgram()
+  const fgInTransitByProgram = await lvl_2_subtotal_getFgInTransit()
   // const fgInTransitBySpecies = await getFgInTransitBySpecies()
-  const fgInTransitTotal = await getFgInTransitTotal(program)
+  const fgInTransitTotal = await dataTotal_getFgInTransit(program)
 
   // /* FG ON HAND (LESS IN TRANSIT) */
   // const fgAtLocationByProgram = await getFgAtLocationByProgram()
   // const fgAtLocationBySepcies = await getFgAtLocationBySepcies()
-  const fgAtLocationTotal = await getFgAtLocationTotal(program)
+  const fgAtLocationTotal = await dataTotal_getFgAtLocation(program)
 
   // /* FG ON ORDER */
   // const fgOnOrderByProgram = await getFgOnOrderByProgram()
@@ -124,8 +125,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   // "fgProgramTotalsRow": [
   //        {
   //       "column": "2022-W01",
-  //       "l1_grouping": "COD",
-  //       "l2_grouping": "COD CHN",
+  //       "l1_subtotal": "COD",
+  //       "l2_subtotal": "COD CHN",
   //       "lbs": -3660,
   //       "sales": -17245,
   //       "cogs": -13828.28,
@@ -133,8 +134,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   //   },
   //   {
   //       "column": "2022-W01",
-  //       "l1_grouping": "COD",
-  //       "l2_grouping": "COD USA",
+  //       "l1_subtotal": "COD",
+  //       "l2_subtotal": "COD USA",
   //       "lbs": 175340,
   //       "sales": 1049622.9500000002,
   //       "cogs": 947689.7399999995,
@@ -142,8 +143,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   //   },
   //   {
   //       "column": "2022-W01",
-  //       "l1_grouping": "FLATFISH",
-  //       "l2_grouping": "FLATFISH CHN",
+  //       "l1_subtotal": "FLATFISH",
+  //       "l2_subtotal": "FLATFISH CHN",
   //       "lbs": 35789.6992,
   //       "sales": 149061.13,
   //       "cogs": 98996.8,
@@ -156,8 +157,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   // "getFgProgramTotalsCol": [
   //   {
   //       "column": "TOTAL",
-  //       "l1_grouping": "COD",
-  //       "l2_grouping": "COD CHN",
+  //       "l1_subtotal": "COD",
+  //       "l2_subtotal": "COD CHN",
   //       "lbs": 1470740.428,
   //       "sales": 6951255.52,
   //       "cogs": 5739432.030000001,
@@ -165,8 +166,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   //   },
   //   {
   //       "column": "TOTAL",
-  //       "l1_grouping": "COD",
-  //       "l2_grouping": "COD USA",
+  //       "l1_subtotal": "COD",
+  //       "l2_subtotal": "COD USA",
   //       "lbs": 6086597.197199999,
   //       "sales": 35962386.23999998,
   //       "cogs": 33571707.27999995,
@@ -174,8 +175,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   //   },
   //   {
   //       "column": "TOTAL",
-  //       "l1_grouping": "FLATFISH",
-  //       "l2_grouping": "FLATFISH CHN",
+  //       "l1_subtotal": "FLATFISH",
+  //       "l2_subtotal": "FLATFISH CHN",
   //       "lbs": 9605545.717999998,
   //       "sales": 31481754.21999999,
   //       "cogs": 24343992.249999963,
@@ -188,8 +189,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   // "allSalesRowTotals": [
   //   {
   //       "column": "2022-W01",
-  //       "l1_grouping": "FG SALES",
-  //       "l2_grouping": "TOTAL",
+  //       "l1_subtotal": "FG SALES",
+  //       "l2_subtotal": "TOTAL",
   //       "lbs": 570530.4892000001,
   //       "sales": 3650605.8999999985,
   //       "cogs": 3154600.519999998,
@@ -197,8 +198,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   //   },
   //   {
   //       "column": "2022-W02",
-  //       "l1_grouping": "FG SALES",
-  //       "l2_grouping": "TOTAL",
+  //       "l1_subtotal": "FG SALES",
+  //       "l2_subtotal": "TOTAL",
   //       "lbs": 725587.9219999999,
   //       "sales": 5625076.049999998,
   //       "cogs": 4899364.590000003,
@@ -206,8 +207,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   //   },
   //   {
   //       "column": "2022-W03",
-  //       "l1_grouping": "FG SALES",
-  //       "l2_grouping": "TOTAL",
+  //       "l1_subtotal": "FG SALES",
+  //       "l2_subtotal": "TOTAL",
   //       "lbs": 536702.5416000001,
   //       "sales": 4145706.939999997,
   //       "cogs": 3630620.0600000024,
@@ -220,8 +221,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   // "allSalesRowTotals": [
   //       {
   //       "column": "TOTAL",
-  //       "l1_grouping": "FG SALES",
-  //       "l2_grouping": "TOTAL",
+  //       "l1_subtotal": "FG SALES",
+  //       "l2_subtotal": "TOTAL",
   //       "lbs": 31948279.458400007,
   //       "sales": 205632410.27000064,
   //       "cogs": 176277047.73999837,
@@ -235,8 +236,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   //   "fgSpeciesGroupTotalsRow": [
   //       {
   //           "column": "2022-W01",
-  //           "l1_grouping": "COD",
-  //           "l2_grouping": "SUBTOTAL",
+  //           "l1_subtotal": "COD",
+  //           "l2_subtotal": "SUBTOTAL",
   //           "lbs": 171680,
   //           "sales": 1032377.9500000001,
   //           "cogs": 933861.4599999998,
@@ -244,8 +245,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   //       },
   //       {
   //           "column": "2022-W01",
-  //           "l1_grouping": "FLATFISH",
-  //           "l2_grouping": "SUBTOTAL",
+  //           "l1_subtotal": "FLATFISH",
+  //           "l2_subtotal": "SUBTOTAL",
   //           "lbs": 112358.6992,
   //           "sales": 525812.1299999999,
   //           "cogs": 444937.04,
@@ -253,8 +254,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   //       },
   //       {
   //           "column": "2022-W01",
-  //           "l1_grouping": "HADDOCK",
-  //           "l2_grouping": "SUBTOTAL",
+  //           "l1_subtotal": "HADDOCK",
+  //           "l2_subtotal": "SUBTOTAL",
   //           "lbs": 141900,
   //           "sales": 537393.2000000001,
   //           "cogs": 434112.64,
@@ -268,8 +269,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   //     "fgSpeciesGroupTotalsCol": [
   //        {
   //           "column": "TOTAL",
-  //           "l1_grouping": "COD",
-  //           "l2_grouping": "SUBTOTAL",
+  //           "l1_subtotal": "COD",
+  //           "l2_subtotal": "SUBTOTAL",
   //           "lbs": 7557337.6252,
   //           "sales": 42913641.75999999,
   //           "cogs": 39311139.310000114,
@@ -277,8 +278,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   //       },
   //       {
   //           "column": "TOTAL",
-  //           "l1_grouping": "FLATFISH",
-  //           "l2_grouping": "SUBTOTAL",
+  //           "l1_subtotal": "FLATFISH",
+  //           "l2_subtotal": "SUBTOTAL",
   //           "lbs": 13091682.343000002,
   //           "sales": 49169337.72000003,
   //           "cogs": 39366764.52,
@@ -294,35 +295,35 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   const rowsThirdLevelDetail = await getRowsThirdLevelDetail(start, end, program)
   const rowsSecondLevelDetail = await getRowsSecondLevelDetail(start, end, program)
   const rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, program)
-  const totalsRow = [{ l1_grouping: 'FG SALES', l2_grouping: 'TOTAL', l3_grouping: 'TOTAL' }]
+  const totalsRow = [{ l1_subtotal: 'FG SALES', l2_subtotal: 'TOTAL', l3_detail: 'TOTAL' }]
 
   // COMPILE FINAL ROW TEMPLATE
   const rowTemplate = [...rowsThirdLevelDetail, ...rowsSecondLevelDetail, ...rowsFirstLevelDetail]
     .sort((a, b) => {
       // if has includes total, put at end
-      if (a.l3_grouping.includes('TOTAL')) return 1
-      if (b.l3_grouping.includes('TOTAL')) return -1
+      if (a.l3_detail.includes('TOTAL')) return 1
+      if (b.l3_detail.includes('TOTAL')) return -1
 
-      if (a.l3_grouping < b.l3_grouping) return -1
-      if (a.l3_grouping > b.l3_grouping) return 1
+      if (a.l3_detail < b.l3_detail) return -1
+      if (a.l3_detail > b.l3_detail) return 1
       return 0
     })
     .sort((a, b) => {
       // if has includes total, put at end
-      if (a.l2_grouping.includes('TOTAL')) return 1
-      if (b.l2_grouping.includes('TOTAL')) return -1
+      if (a.l2_subtotal.includes('TOTAL')) return 1
+      if (b.l2_subtotal.includes('TOTAL')) return -1
 
-      if (a.l2_grouping < b.l2_grouping) return -1
-      if (a.l2_grouping > b.l2_grouping) return 1
+      if (a.l2_subtotal < b.l2_subtotal) return -1
+      if (a.l2_subtotal > b.l2_subtotal) return 1
       return 0
     })
     .sort((a, b) => {
       // if has includes total, put at end
-      if (a.l1_grouping.includes('TOTAL')) return 1
-      if (b.l1_grouping.includes('TOTAL')) return -1
+      if (a.l1_subtotal.includes('TOTAL')) return 1
+      if (b.l1_subtotal.includes('TOTAL')) return -1
 
-      if (a.l1_grouping < b.l1_grouping) return -1
-      if (a.l1_grouping > b.l1_grouping) return 1
+      if (a.l1_subtotal < b.l1_subtotal) return -1
+      if (a.l1_subtotal > b.l1_subtotal) return 1
       return 0
     })
 
@@ -330,27 +331,27 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
 
   // map data into row template
   const rowTemplate_unflat = unflattenByCompositKey(rowTemplate, {
-    1: 'l1_grouping',
-    2: 'l2_grouping',
-    3: 'l3_grouping',
+    1: 'l1_subtotal',
+    2: 'l2_subtotal',
+    3: 'l3_detail',
   })
   /*
         {
         "COD-COD CHN": {
-            "l1_grouping": "COD",
-            "l2_grouping": "COD CHN"
+            "l1_subtotal": "COD",
+            "l2_subtotal": "COD CHN"
         },
         "COD-COD USA": {
-            "l1_grouping": "COD",
-            "l2_grouping": "COD USA"
+            "l1_subtotal": "COD",
+            "l2_subtotal": "COD USA"
         },
         "COD-SUBTOTAL": {
-            "l1_grouping": "COD",
-            "l2_grouping": "SUBTOTAL"
+            "l1_subtotal": "COD",
+            "l2_subtotal": "SUBTOTAL"
         },
         "FLATFISH-FLATFISH CHN": {
-            "l1_grouping": "FLATFISH",
-            "l2_grouping": "FLATFISH CHN"
+            "l1_subtotal": "FLATFISH",
+            "l2_subtotal": "FLATFISH CHN"
         },
   */
 
@@ -377,7 +378,7 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   //     ...fgBySpecies,
   //     ...fgInTransitBySpecies,
   //     ...fgAtLocationBySepcies,
-  //     ...fgTotal,
+  //     ...dataTotal_fgInven,
   //     ...fgInTransitTotal,
   //     ...fgAtLocationTotal,
   //     ...fgOnOrderByProgram,
@@ -400,7 +401,14 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   // )
 
   const mappedInven = mapInvenToRowTemplates(
-    [...fgByFreshFrozen, ...fgByProcessinglevel, ...fgBySize, ...fgTotal, ...fgInTransitTotal, ...fgAtLocationTotal],
+    [
+      ...lvl_1_subtotal_fgInven,
+      ...lvl_2_subtotal_fgInven,
+      ...lvl_3_detail_fgInven,
+      ...dataTotal_fgInven,
+      ...fgInTransitTotal,
+      ...fgAtLocationTotal,
+    ],
     rowTemplate_unflat
   )
 
@@ -412,8 +420,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   //   mappedSales
   // {
   //  "COD-COD CHN": {
-  //       "l1_grouping": "COD",
-  //       "l2_grouping": "COD CHN",
+  //       "l1_subtotal": "COD",
+  //       "l2_subtotal": "COD CHN",
   //       "2022-W01": {
   //           "weight": -3660,
   //           "revenue": -17245,
@@ -459,7 +467,7 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
 
   const flattenedMappedData = Object.values(mappedData)
 
-  // remove row labels for l1_grouping AND l2_grouping except first row of each grouping
+  // remove row labels for l1_subtotal AND l2_subtotal except first row of each grouping
   const finalData = cleanLabelsForDisplay(flattenedMappedData)
 
   // get data column names
