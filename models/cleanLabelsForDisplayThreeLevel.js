@@ -1,8 +1,12 @@
+const _ = require('lodash')
+
 const cleanLabelsForDisplay = flattenedMappedData => {
+  const cacheData = _.cloneDeep(flattenedMappedData)
+
   let l1Value = ''
   let l2Value = ''
 
-  flattenedMappedData.forEach((row, idx) => {
+  cacheData.forEach((row, idx) => {
     // Set initial values
     if (idx === 0) {
       l1Value = row.l1_grouping
