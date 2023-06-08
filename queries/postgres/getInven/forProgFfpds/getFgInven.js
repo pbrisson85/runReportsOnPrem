@@ -204,7 +204,7 @@ const getFgTotal = async program => {
 
 // FG in transit
 
-const getFgInTransitTotal = async () => {
+const getFgInTransitTotal = async program => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -228,7 +228,7 @@ const getFgInTransitTotal = async () => {
 
 // FG at location
 
-const getFgAtLocationTotal = async () => {
+const getFgAtLocationTotal = async program => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
