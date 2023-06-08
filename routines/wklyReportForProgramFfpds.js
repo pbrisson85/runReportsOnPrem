@@ -61,6 +61,8 @@ const combineMappedRows = require('../models/combineMappedRows')
 const cleanLabelsForDisplay = require('../models/cleanLabelsForDiplay')
 const unflattenByCompositKey = require('../models/unflattenByCompositKey')
 
+const labelCols = require('../queries/hardcode/ffpdsCols')
+
 const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   ///////////////////////////////// INVENTORY DATA
 
@@ -449,8 +451,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
 
   const flattenedMappedData = Object.values(mappedData)
 
-  // // remove row labels for maj_row except first row of each grouping
-  // const finalData = cleanLabelsForDisplay(flattenedMappedData)
+  // remove row labels for maj_row AND min_row except first row of each grouping
+  const finalData = cleanLabelsForDisplay(flattenedMappedData)
 
   // get data column names
   const dataCols = await getDateEndPerWeekByRange(start, end)
@@ -471,7 +473,7 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   */
 
   // return
-  return { data: flattenedMappedData, cols: dataCols }
+  return { data: flattenedMappedData, cols: dataCols, labelCols: labelCols }
 }
 
 module.exports = getWeeklyProgramSalesFfpds

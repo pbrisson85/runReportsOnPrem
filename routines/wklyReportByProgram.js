@@ -58,6 +58,8 @@ const mapInvenToRowTemplates = require('../models/mapInvenToRowTemplatesTwoLevel
 const combineMappedRows = require('../models/combineMappedRows')
 const cleanLabelsForDisplay = require('../models/cleanLabelsForDiplay')
 
+const labelCols = require('../queries/hardcode/byProgramCols')
+
 const getWeeklyProgramSales = async (start, end) => {
   ///////////////////////////////// INVENTORY DATA
 
@@ -433,7 +435,7 @@ const getWeeklyProgramSales = async (start, end) => {
   */
 
   // return
-  return { data: finalData, cols: dataCols }
+  return { data: finalData, cols: dataCols, labelCols: labelCols }
 }
 
 module.exports = getWeeklyProgramSales
