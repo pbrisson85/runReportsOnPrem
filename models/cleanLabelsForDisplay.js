@@ -7,6 +7,8 @@ const cleanLabelsForDisplay = flattenedMappedData => {
   let l2Value = ''
 
   cacheData.forEach((row, idx) => {
+    console.log('row: ', row)
+
     // Set initial values
     if (idx === 0) {
       l1Value = row.l1_subtotal
