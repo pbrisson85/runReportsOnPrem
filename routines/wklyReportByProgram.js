@@ -56,7 +56,7 @@ const unflattenRowTemplate = require('../models/unflattenRowTemplate')
 const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplates')
 const mapInvenToRowTemplates = require('../models/mapInvenToRowTemplatesTwoLevel')
 const combineMappedRows = require('../models/combineMappedRows')
-const cleanLabelsForDisplay = require('../models/cleanLabelsForDisplayThreeLevel')
+const cleanLabelsForDisplay = require('../models/cleanLabelsForDisplay')
 
 const labelCols = require('../queries/hardcode/byProgramCols')
 
