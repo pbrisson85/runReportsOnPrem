@@ -13,7 +13,7 @@ const testL1Subtotal = (row, idx, subTotalFound, flattenedMappedData) => {
   if (idx === 0) return subTotalFound
 
   // subtotal hit flip flag true but return hidden species flag
-  if (row.l2_grouping.toUpperCase().includes('TOTAL')) {
+  if (row.l2_grouping.toUpperCase().includes('SUBTOTAL')) {
     subTotalFound = true
 
     // If row IS an l1 subtotal then change l1 label to '[name] SUBTOTAL'
@@ -39,7 +39,7 @@ const testL2Subtotal = (row, idx, subTotalFound, flattenedMappedData) => {
   if (idx === 0) return subTotalFound
 
   // subtotal hit flip flag true but return hidden species flag
-  if (row.l3_grouping.toUpperCase().includes('TOTAL')) {
+  if (row.l3_grouping.toUpperCase().includes('SUBTOTAL')) {
     subTotalFound = true
 
     // If row IS an l1 subtotal then change l1 label to '[name] SUBTOTAL'
