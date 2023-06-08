@@ -2,7 +2,7 @@ const cols = [
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
     displayName: 'MAJOR CATEGORY', // show as column header
-    dataName: 'maj_row', // key to pull data from
+    dataName: 'l1_grouping', // key to pull data from
     justifyData: 'start', // css justify content
     justifyHeading: 'center', // css justify content
     width: '200px', // css width
@@ -17,7 +17,7 @@ const cols = [
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
     displayName: 'PROGRAM', // show as column header
-    dataName: 'min_row', // key to pull data from
+    dataName: 'l2_grouping', // key to pull data from
     justifyData: 'start', // css justify content
     justifyHeading: 'center', // css justify content
     width: '200px', // css width

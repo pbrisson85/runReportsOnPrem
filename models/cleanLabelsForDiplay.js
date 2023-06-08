@@ -6,7 +6,7 @@ const cleanLabelsForDisplay = flattenedMappedData => {
     if (idx === 0) return row
 
     // subtotal hit flip flag true but return hidden species flag
-    if (row.min_row.toUpperCase() === 'SUBTOTAL') {
+    if (row.l2_grouping.toUpperCase() === 'SUBTOTAL') {
       subTotalFound = true
       return { ...row, hiddenLabel: true }
     }

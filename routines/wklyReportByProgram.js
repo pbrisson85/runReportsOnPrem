@@ -115,8 +115,8 @@ const getWeeklyProgramSales = async (start, end) => {
   "fgProgramTotalsRow": [
          {
         "column": "2022-W01",
-        "maj_row": "COD",
-        "min_row": "COD CHN",
+        "l1_grouping": "COD",
+        "l2_grouping": "COD CHN",
         "lbs": -3660,
         "sales": -17245,
         "cogs": -13828.28,
@@ -124,8 +124,8 @@ const getWeeklyProgramSales = async (start, end) => {
     },
     {
         "column": "2022-W01",
-        "maj_row": "COD",
-        "min_row": "COD USA",
+        "l1_grouping": "COD",
+        "l2_grouping": "COD USA",
         "lbs": 175340,
         "sales": 1049622.9500000002,
         "cogs": 947689.7399999995,
@@ -133,8 +133,8 @@ const getWeeklyProgramSales = async (start, end) => {
     },
     {
         "column": "2022-W01",
-        "maj_row": "FLATFISH",
-        "min_row": "FLATFISH CHN",
+        "l1_grouping": "FLATFISH",
+        "l2_grouping": "FLATFISH CHN",
         "lbs": 35789.6992,
         "sales": 149061.13,
         "cogs": 98996.8,
@@ -147,8 +147,8 @@ const getWeeklyProgramSales = async (start, end) => {
   "getFgProgramTotalsCol": [
     {
         "column": "TOTAL",
-        "maj_row": "COD",
-        "min_row": "COD CHN",
+        "l1_grouping": "COD",
+        "l2_grouping": "COD CHN",
         "lbs": 1470740.428,
         "sales": 6951255.52,
         "cogs": 5739432.030000001,
@@ -156,8 +156,8 @@ const getWeeklyProgramSales = async (start, end) => {
     },
     {
         "column": "TOTAL",
-        "maj_row": "COD",
-        "min_row": "COD USA",
+        "l1_grouping": "COD",
+        "l2_grouping": "COD USA",
         "lbs": 6086597.197199999,
         "sales": 35962386.23999998,
         "cogs": 33571707.27999995,
@@ -165,8 +165,8 @@ const getWeeklyProgramSales = async (start, end) => {
     },
     {
         "column": "TOTAL",
-        "maj_row": "FLATFISH",
-        "min_row": "FLATFISH CHN",
+        "l1_grouping": "FLATFISH",
+        "l2_grouping": "FLATFISH CHN",
         "lbs": 9605545.717999998,
         "sales": 31481754.21999999,
         "cogs": 24343992.249999963,
@@ -179,8 +179,8 @@ const getWeeklyProgramSales = async (start, end) => {
   "allSalesRowTotals": [
     {
         "column": "2022-W01",
-        "maj_row": "FG SALES",
-        "min_row": "TOTAL",
+        "l1_grouping": "FG SALES",
+        "l2_grouping": "TOTAL",
         "lbs": 570530.4892000001,
         "sales": 3650605.8999999985,
         "cogs": 3154600.519999998,
@@ -188,8 +188,8 @@ const getWeeklyProgramSales = async (start, end) => {
     },
     {
         "column": "2022-W02",
-        "maj_row": "FG SALES",
-        "min_row": "TOTAL",
+        "l1_grouping": "FG SALES",
+        "l2_grouping": "TOTAL",
         "lbs": 725587.9219999999,
         "sales": 5625076.049999998,
         "cogs": 4899364.590000003,
@@ -197,8 +197,8 @@ const getWeeklyProgramSales = async (start, end) => {
     },
     {
         "column": "2022-W03",
-        "maj_row": "FG SALES",
-        "min_row": "TOTAL",
+        "l1_grouping": "FG SALES",
+        "l2_grouping": "TOTAL",
         "lbs": 536702.5416000001,
         "sales": 4145706.939999997,
         "cogs": 3630620.0600000024,
@@ -211,8 +211,8 @@ const getWeeklyProgramSales = async (start, end) => {
   "allSalesRowTotals": [
         {
         "column": "TOTAL",
-        "maj_row": "FG SALES",
-        "min_row": "TOTAL",
+        "l1_grouping": "FG SALES",
+        "l2_grouping": "TOTAL",
         "lbs": 31948279.458400007,
         "sales": 205632410.27000064,
         "cogs": 176277047.73999837,
@@ -226,8 +226,8 @@ const getWeeklyProgramSales = async (start, end) => {
     "fgSpeciesGroupTotalsRow": [
         {
             "column": "2022-W01",
-            "maj_row": "COD",
-            "min_row": "SUBTOTAL",
+            "l1_grouping": "COD",
+            "l2_grouping": "SUBTOTAL",
             "lbs": 171680,
             "sales": 1032377.9500000001,
             "cogs": 933861.4599999998,
@@ -235,8 +235,8 @@ const getWeeklyProgramSales = async (start, end) => {
         },
         {
             "column": "2022-W01",
-            "maj_row": "FLATFISH",
-            "min_row": "SUBTOTAL",
+            "l1_grouping": "FLATFISH",
+            "l2_grouping": "SUBTOTAL",
             "lbs": 112358.6992,
             "sales": 525812.1299999999,
             "cogs": 444937.04,
@@ -244,8 +244,8 @@ const getWeeklyProgramSales = async (start, end) => {
         },
         {
             "column": "2022-W01",
-            "maj_row": "HADDOCK",
-            "min_row": "SUBTOTAL",
+            "l1_grouping": "HADDOCK",
+            "l2_grouping": "SUBTOTAL",
             "lbs": 141900,
             "sales": 537393.2000000001,
             "cogs": 434112.64,
@@ -259,8 +259,8 @@ const getWeeklyProgramSales = async (start, end) => {
       "fgSpeciesGroupTotalsCol": [
          {
             "column": "TOTAL",
-            "maj_row": "COD",
-            "min_row": "SUBTOTAL",
+            "l1_grouping": "COD",
+            "l2_grouping": "SUBTOTAL",
             "lbs": 7557337.6252,
             "sales": 42913641.75999999,
             "cogs": 39311139.310000114,
@@ -268,8 +268,8 @@ const getWeeklyProgramSales = async (start, end) => {
         },
         {
             "column": "TOTAL",
-            "maj_row": "FLATFISH",
-            "min_row": "SUBTOTAL",
+            "l1_grouping": "FLATFISH",
+            "l2_grouping": "SUBTOTAL",
             "lbs": 13091682.343000002,
             "sales": 49169337.72000003,
             "cogs": 39366764.52,
@@ -284,18 +284,18 @@ const getWeeklyProgramSales = async (start, end) => {
 
   const speciesGroupSubTotal = await getSpeciesGroupSubTotal(start, end)
 
-  const totalsRow = [{ maj_row: 'FG SALES', min_row: 'TOTAL' }]
+  const totalsRow = [{ l1_grouping: 'FG SALES', l2_grouping: 'TOTAL' }]
 
   // COMPILE FINAL ROW TEMPLATE
   const rowTemplate = [...speciesGroupSubProgram, ...speciesGroupSubTotal]
     .sort((a, b) => {
-      if (a.min_row < b.min_row) return -1
-      if (a.min_row > b.min_row) return 1
+      if (a.l2_grouping < b.l2_grouping) return -1
+      if (a.l2_grouping > b.l2_grouping) return 1
       return 0
     })
     .sort((a, b) => {
-      if (a.maj_row < b.maj_row) return -1
-      if (a.maj_row > b.maj_row) return 1
+      if (a.l1_grouping < b.l1_grouping) return -1
+      if (a.l1_grouping > b.l1_grouping) return 1
       return 0
     })
 
@@ -306,20 +306,20 @@ const getWeeklyProgramSales = async (start, end) => {
   /*
         {
         "COD-COD CHN": {
-            "maj_row": "COD",
-            "min_row": "COD CHN"
+            "l1_grouping": "COD",
+            "l2_grouping": "COD CHN"
         },
         "COD-COD USA": {
-            "maj_row": "COD",
-            "min_row": "COD USA"
+            "l1_grouping": "COD",
+            "l2_grouping": "COD USA"
         },
         "COD-SUBTOTAL": {
-            "maj_row": "COD",
-            "min_row": "SUBTOTAL"
+            "l1_grouping": "COD",
+            "l2_grouping": "SUBTOTAL"
         },
         "FLATFISH-FLATFISH CHN": {
-            "maj_row": "FLATFISH",
-            "min_row": "FLATFISH CHN"
+            "l1_grouping": "FLATFISH",
+            "l2_grouping": "FLATFISH CHN"
         },
   */
 
@@ -374,8 +374,8 @@ const getWeeklyProgramSales = async (start, end) => {
   mappedSales
 {
  "COD-COD CHN": {
-      "maj_row": "COD",
-      "min_row": "COD CHN",
+      "l1_grouping": "COD",
+      "l2_grouping": "COD CHN",
       "2022-W01": {
           "weight": -3660,
           "revenue": -17245,
@@ -413,7 +413,7 @@ const getWeeklyProgramSales = async (start, end) => {
 
   const flattenedMappedData = Object.values(mappedData)
 
-  // remove row labels for maj_row except first row of each grouping
+  // remove row labels for l1_grouping except first row of each grouping
   const finalData = cleanLabelsForDisplay(flattenedMappedData)
 
   // get data column names
