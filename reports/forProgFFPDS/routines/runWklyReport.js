@@ -54,12 +54,12 @@ const {
 
 const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../queries/hardcode/postgres/getRows')
 
-// const unflattenRowTemplate = require('../../../models/unflattenRowTemplate')
-// const mapSalesToRowTemplates = require('../../../models/mapSalesToRowTemplates')
-const mapInvenToRowTemplates = require('../../models/mapInvenToRowTemplatesThreeLevel')
-// const combineMappedRows = require('../../../models/combineMappedRows')
-const cleanLabelsForDisplay = require('../../models/cleanLabelsForDisplay')
-const unflattenByCompositKey = require('../../models/unflattenByCompositKey')
+// const unflattenRowTemplate = require('../../shared/models/unflattenRowTemplate')
+// const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplates')
+const mapInvenToRowTemplates = require('../../shared/models/mapInvenToRowTemplatesThreeLevel')
+// const combineMappedRows = require('../../shared/models/combineMappedRows')
+const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay')
+const unflattenByCompositKey = require('../../shared/models/unflattenByCompositKey')
 
 const labelCols = require('../queries/hardcode/cols')
 
