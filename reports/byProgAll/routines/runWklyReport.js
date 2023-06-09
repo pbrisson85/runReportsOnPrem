@@ -39,7 +39,7 @@ const { getFgSalesOrdersByProgram, getFgSalesOrdersBySpecies, getFgSalesOrdersTo
 const { getSpeciesGroupSubProgram, getSpeciesGroupSubTotal } = require('../queries/postgres/getRows')
 
 const unflattenRowTemplate = require('../../shared/models/unflattenRowTemplate')
-const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplates')
+const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesTwoLevel')
 const mapInvenToRowTemplates = require('../../shared/models/mapInvenToRowTemplatesTwoLevel')
 const combineMappedRows = require('../../shared/models/combineMappedRows')
 const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay')

@@ -56,7 +56,7 @@ const {
 
 const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../queries/postgres/getRows')
 
-const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplates')
+const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesThreeLevel')
 const mapInvenToRowTemplates = require('../../shared/models/mapInvenToRowTemplatesThreeLevel')
 const combineMappedRows = require('../../shared/models/combineMappedRows')
 const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay')
@@ -235,11 +235,11 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   // clean out rows with zero sales
 
   // TEMPORARY CLEAN OUT FUNCTION ***********************
-  Object.keys(mappedData).forEach(key => {
-    if (typeof mappedData[key]['FG INVEN'] === 'undefined') {
-      delete mappedData[key]
-    }
-  })
+  // Object.keys(mappedData).forEach(key => {
+  //   if (typeof mappedData[key]['FG INVEN'] === 'undefined') {
+  //     delete mappedData[key]
+  //   }
+  // })
 
   // Object.keys(mappedData).forEach(key => {
   //   if (Object.keys(mappedData[key]).length === 1) {
