@@ -301,6 +301,8 @@ const dataTotal_getFgAtLocation = async program => {
 }
 
 module.exports.lvl_3_detail_getFgInven = lvl_3_detail_getFgInven
+module.exports.lvl_3_detail_getFgInTransit = lvl_3_detail_getFgInTransit
+module.exports.lvl_3_detail_getFgAtLoc = lvl_3_detail_getFgAtLoc
 module.exports.lvl_2_subtotal_getFgInven = lvl_2_subtotal_getFgInven
 module.exports.lvl_2_subtotal_getFgInTransit = lvl_2_subtotal_getFgInTransit
 module.exports.lvl_2_subtotal_getFgAtLoc = lvl_2_subtotal_getFgAtLoc

@@ -16,10 +16,12 @@ const {
 
   lvl_1_subtotal_getFgInTransit,
   lvl_2_subtotal_getFgInTransit,
+  lvl_3_detail_getFgInTransit,
   dataTotal_getFgInTransit,
 
   lvl_1_subtotal_getFgAtLoc,
   lvl_2_subtotal_getFgAtLoc,
+  lvl_3_detail_getFgAtLoc,
   dataTotal_getFgAtLocation,
 } = require('../queries/postgres/getInven/forProgFfpds/getFgInven')
 
@@ -79,11 +81,13 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   // /* FG IN TRANSIT*/
   const lvl_1_subtotal_fgInTransit = await lvl_1_subtotal_getFgInTransit(program)
   const lvl_2_subtotal_fgInTransit = await lvl_2_subtotal_getFgInTransit(program)
+  const lvl_3_detail_fgInTransit = await lvl_3_detail_getFgInTransit(program)
   const dataTotal_fgInTransit = await dataTotal_getFgInTransit(program)
 
   // /* FG ON HAND (LESS IN TRANSIT) */
   const lvl_1_subtotal_fgAtLoc = await lvl_1_subtotal_getFgAtLoc(program)
   const lvl_2_subtotal_fgAtLoc = await lvl_2_subtotal_getFgAtLoc(program)
+  const lvl_3_detail_fgAtLoc = await lvl_3_detail_getFgAtLoc(program)
   const dataTotal_fgAtLocation = await dataTotal_getFgAtLocation(program)
 
   // /* FG ON ORDER */
@@ -225,10 +229,12 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
 
       ...lvl_1_subtotal_fgInTransit,
       ...lvl_2_subtotal_fgInTransit,
+      ...lvl_3_detail_fgInTransit,
       ...dataTotal_fgInTransit,
 
       ...lvl_1_subtotal_fgAtLoc,
       ...lvl_2_subtotal_fgAtLoc,
+      ...lvl_3_detail_fgAtLoc,
       ...dataTotal_fgAtLocation,
     ],
     rowTemplate_unflat
