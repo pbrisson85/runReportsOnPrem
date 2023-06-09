@@ -26,6 +26,7 @@ const cleanLabelsForDisplay = flattenedMappedData => {
     }
 
     // If l2 grouping includes subtotal then update the labels
+    console.log(row)
 
     if (row.l2_subtotal.toUpperCase().includes('SUBTOTAL')) {
       flattenedMappedData[idx].l1_subtotal = `${row.l1_subtotal} SUBTOTAL`
