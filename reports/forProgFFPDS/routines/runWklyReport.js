@@ -232,23 +232,13 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
 
   const mappedData = combineMappedRows(mappedSales, mappedInven)
 
-  // clean out rows with zero sales
-
-  // TEMPORARY CLEAN OUT FUNCTION ***********************
-
-  return mappedData
-
+  // clean out rows with zero activity
   Object.keys(mappedData).forEach(key => {
-    if (typeof mappedData[key]['FG INVEN'] === 'undefined') {
+    // If the length = 3, then there is onlt the three labels and no other columns are populated
+    if (Object.keys(mappedData[key]).length === 3) {
       delete mappedData[key]
     }
   })
-
-  // Object.keys(mappedData).forEach(key => {
-  //   if (Object.keys(mappedData[key]).length === 1) {
-  //     delete mappedData[key]
-  //   }
-  // })
 
   const flattenedMappedData = Object.values(mappedData)
   const finalData = cleanLabelsForDisplay(flattenedMappedData)
