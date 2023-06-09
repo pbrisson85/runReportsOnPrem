@@ -83,6 +83,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   // const fgInTransitBySpecies = await getFgInTransitBySpecies()
   const dataTotal_fgInTransit = await dataTotal_getFgInTransit(program)
 
+  return dataTotal_fgInTransit
+
   // /* FG ON HAND (LESS IN TRANSIT) */
   // const fgAtLocationByProgram = await getFgAtLocationByProgram()
   // const fgAtLocationBySepcies = await getFgAtLocationBySepcies()
