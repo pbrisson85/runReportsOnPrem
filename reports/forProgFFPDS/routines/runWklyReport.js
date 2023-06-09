@@ -2,11 +2,11 @@ const { getDateEndPerWeekByRange } = require('../../shared/queries/postgres/getD
 const {
   lvl_1_subtotal_getSalesByWk,
   lvl_2_subtotal_getSalesByWk,
-
+  lvl_3_subtotal_getSalesByWk,
   dataTotal_getSalesByWk,
   lvl_1_subtotal_getSalesPeriodToDate,
   lvl_2_subtotal_getSalesPeriodToDate,
-
+  lvl_3_subtotal_getSalesPeriodToDate,
   dataTotal_getSalesPeriodToDate,
 } = require('../queries/postgres/getSalesTrend')
 
@@ -117,12 +117,14 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
 
   // ///////////////////////////////// SALES DATA
 
-  const lvl_2_subtotal_salesByWk = await lvl_2_subtotal_getSalesByWk(start, end, program)
-  const lvl_2_subtotal_salesPeriodToDate = await lvl_2_subtotal_getSalesPeriodToDate(start, end, program)
-  const dataTotal_salesByWk = await dataTotal_getSalesByWk(start, end, program)
-  const dataTotal_salesPeriodToDate = await dataTotal_getSalesPeriodToDate(start, end, program)
   const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end, program)
+  const lvl_2_subtotal_salesByWk = await lvl_2_subtotal_getSalesByWk(start, end, program)
+  const lvl_3_subtotal_salesByWk = await lvl_3_subtotal_getSalesByWk(start, end, program)
+  const dataTotal_salesByWk = await dataTotal_getSalesByWk(start, end, program)
   const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(start, end, program)
+  const lvl_2_subtotal_salesPeriodToDate = await lvl_2_subtotal_getSalesPeriodToDate(start, end, program)
+  const lvl_3_subtotal_salesPeriodToDate = await lvl_3_subtotal_getSalesPeriodToDate(start, end, program)
+  const dataTotal_salesPeriodToDate = await dataTotal_getSalesPeriodToDate(start, end, program)
 
   ///////////////////////////////// ROWS
 
@@ -202,12 +204,14 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
 
   const mappedSales = mapSalesToRowTemplates(
     [
-      ...lvl_2_subtotal_salesByWk,
-      ...lvl_2_subtotal_salesPeriodToDate,
-      ...dataTotal_salesByWk,
-      ...dataTotal_salesPeriodToDate,
       ...lvl_1_subtotal_salesByWk,
+      ...lvl_2_subtotal_salesByWk,
+      ...lvl_3_subtotal_salesByWk,
+      ...dataTotal_salesByWk,
       ...lvl_1_subtotal_salesPeriodToDate,
+      ...lvl_2_subtotal_salesPeriodToDate,
+      ...lvl_3_subtotal_salesPeriodToDate,
+      ...dataTotal_salesPeriodToDate,
     ],
     rowTemplate_unflat
   )
