@@ -102,7 +102,7 @@ const lvl_2_subtotal_getSalesPeriodToDate = async (start, end, program) => {
 
 // FG Program row totals by week
 
-const lvl_3_subtotal_getSalesByWk = async (start, end, program) => {
+const lvl_3_detail_getSalesByWk = async (start, end, program) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -126,7 +126,7 @@ const lvl_3_subtotal_getSalesByWk = async (start, end, program) => {
 
 // FG Program col total for period
 
-const lvl_3_subtotal_getSalesPeriodToDate = async (start, end, program) => {
+const lvl_3_detail_getSalesPeriodToDate = async (start, end, program) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -204,5 +204,5 @@ module.exports.lvl_2_subtotal_getSalesByWk = lvl_2_subtotal_getSalesByWk
 module.exports.lvl_2_subtotal_getSalesPeriodToDate = lvl_2_subtotal_getSalesPeriodToDate
 module.exports.lvl_1_subtotal_getSalesByWk = lvl_1_subtotal_getSalesByWk
 module.exports.lvl_1_subtotal_getSalesPeriodToDate = lvl_1_subtotal_getSalesPeriodToDate
-module.exports.lvl_3_subtotal_getSalesByWk = lvl_3_subtotal_getSalesByWk
-module.exports.lvl_3_subtotal_getSalesPeriodToDate = lvl_3_subtotal_getSalesPeriodToDate
+module.exports.lvl_3_detail_getSalesByWk = lvl_3_detail_getSalesByWk
+module.exports.lvl_3_detail_getSalesPeriodToDate = lvl_3_detail_getSalesPeriodToDate

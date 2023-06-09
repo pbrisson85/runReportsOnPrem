@@ -2,11 +2,11 @@ const { getDateEndPerWeekByRange } = require('../../shared/queries/postgres/getD
 const {
   lvl_1_subtotal_getSalesByWk,
   lvl_2_subtotal_getSalesByWk,
-  lvl_3_subtotal_getSalesByWk,
+  lvl_3_detail_getSalesByWk,
   dataTotal_getSalesByWk,
   lvl_1_subtotal_getSalesPeriodToDate,
   lvl_2_subtotal_getSalesPeriodToDate,
-  lvl_3_subtotal_getSalesPeriodToDate,
+  lvl_3_detail_getSalesPeriodToDate,
   dataTotal_getSalesPeriodToDate,
 } = require('../queries/postgres/getSalesTrend')
 
@@ -48,11 +48,8 @@ const {
 //   getRmOnOrderBySpecies,
 //   getRmOnOrderTotal,
 // } = require('../../queries/postgres/getPurchOrders/byProgram/getRmOpenPoByProgram')
-// const {
-//   getFgSalesOrdersByProgram,
-//   getFgSalesOrdersBySpecies,
-//   getFgSalesOrdersTotal,
-// } = require('../../queries/postgres/getSalesOrders/getSoByProgram')
+
+const { lvl_1_subtotal_getSo, lvl_2_subtotal_getSo, lvl_3_detail_getSo, dataTotal_getSo } = require('../queries/postgres/getSo')
 
 const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../queries/postgres/getRows')
 
@@ -111,19 +108,20 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   // const fgOnOrderTotal = await getFgOnOrderTotal()
 
   // ///////////////////////////////// SALES ORDERS
-  // const fgSalesOrdersByProgram = await getFgSalesOrdersByProgram()
-  // const fgSalesOrdersBySpecies = await getFgSalesOrdersBySpecies()
-  // const fgSalesOrdersTotal = await getFgSalesOrdersTotal()
+  const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(program)
+  const lvl_2_subtotal_so = await lvl_2_subtotal_getSo(program)
+  const lvl_3_detail_so = await lvl_3_detail_getSo(program)
+  const dataTotal_so = await dataTotal_getSo(program)
 
   // ///////////////////////////////// SALES DATA
 
   const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end, program)
   const lvl_2_subtotal_salesByWk = await lvl_2_subtotal_getSalesByWk(start, end, program)
-  const lvl_3_subtotal_salesByWk = await lvl_3_subtotal_getSalesByWk(start, end, program)
+  const lvl_3_detail_salesByWk = await lvl_3_detail_getSalesByWk(start, end, program)
   const dataTotal_salesByWk = await dataTotal_getSalesByWk(start, end, program)
   const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(start, end, program)
   const lvl_2_subtotal_salesPeriodToDate = await lvl_2_subtotal_getSalesPeriodToDate(start, end, program)
-  const lvl_3_subtotal_salesPeriodToDate = await lvl_3_subtotal_getSalesPeriodToDate(start, end, program)
+  const lvl_3_detail_salesPeriodToDate = await lvl_3_detail_getSalesPeriodToDate(start, end, program)
   const dataTotal_salesPeriodToDate = await dataTotal_getSalesPeriodToDate(start, end, program)
 
   ///////////////////////////////// ROWS
@@ -172,15 +170,6 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
     3: 'l3_detail',
   })
 
-  // const mappedSales = mapSalesToRowTemplates(
-  //   [
-  //     ...fgSalesOrdersByProgram,
-  //     ...fgSalesOrdersBySpecies,
-  //     ...fgSalesOrdersTotal,
-  //   ],
-  //   rowTemplate_unflat
-  // )
-
   // const mappedInven = mapInvenToRowTemplates(
   //   [
   //     ...fgOnOrderByProgram,
@@ -206,12 +195,16 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
     [
       ...lvl_1_subtotal_salesByWk,
       ...lvl_2_subtotal_salesByWk,
-      ...lvl_3_subtotal_salesByWk,
+      ...lvl_3_detail_salesByWk,
       ...dataTotal_salesByWk,
       ...lvl_1_subtotal_salesPeriodToDate,
       ...lvl_2_subtotal_salesPeriodToDate,
-      ...lvl_3_subtotal_salesPeriodToDate,
+      ...lvl_3_detail_salesPeriodToDate,
       ...dataTotal_salesPeriodToDate,
+      ...lvl_1_subtotal_so,
+      ...lvl_2_subtotal_so,
+      ...lvl_3_detail_so,
+      ...dataTotal_so,
     ],
     rowTemplate_unflat
   )
