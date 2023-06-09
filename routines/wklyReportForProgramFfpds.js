@@ -79,7 +79,7 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   const dataTotal_fgInven = await dataTotal_getFgInven(program) // Total For Program
 
   // /* FG IN TRANSIT*/
-  const lvl_2_subtotal_fgInTransit = await lvl_2_subtotal_getFgInTransit()
+  const lvl_2_subtotal_fgInTransit = await lvl_2_subtotal_getFgInTransit(program)
   // const fgInTransitBySpecies = await getFgInTransitBySpecies()
   const dataTotal_fgInTransit = await dataTotal_getFgInTransit(program)
 

@@ -54,7 +54,7 @@ const lvl_2_subtotal_getFgInven = async program => {
 
 // FG in transit
 
-const lvl_2_subtotal_getFgInTransit = async () => {
+const lvl_2_subtotal_getFgInTransit = async program => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -63,8 +63,8 @@ const lvl_2_subtotal_getFgInTransit = async () => {
     console.log(`query postgres for FG on hand ...`)
 
     const response = await pgClient.query(
-      'SELECT \'FG IN TRANSIT\' AS column, master_supplement.species_group AS l1_subtotal, master_supplement.program AS l2_subtotal, SUM(perpetual_inventory.on_hand_lbs) AS lbs, SUM(perpetual_inventory.cost_extended) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = perpetual_inventory.item_number WHERE master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type = $2 GROUP BY master_supplement.species_group, master_supplement.program',
-      ['FG', 'IN TRANSIT']
+      'SELECT \'FG IN TRANSIT\' AS column, master_supplement.species_group AS l1_subtotal, master_supplement.program AS l2_subtotal, SUM(perpetual_inventory.on_hand_lbs) AS lbs, SUM(perpetual_inventory.cost_extended) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = perpetual_inventory.item_number WHERE master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type = $2 AND master_supplement.program = $3 GROUP BY master_supplement.species_group, master_supplement.program',
+      ['FG', 'IN TRANSIT', program]
     ) //prettier-ignore
 
     await pgClient.end()
