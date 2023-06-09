@@ -1,4 +1,5 @@
-const { getDateEndPerWeekByRange } = require('../../../queries/postgres/generateSalesData/getDateEndPerWeek')
+const { getDateEndPerWeekByRange } = require('../../../generateSales/queries/postgres/getDateEndPerWeek')
+
 const {
   getAllFgSalesTotalsRow,
   getAllFgSalesColTotals,
