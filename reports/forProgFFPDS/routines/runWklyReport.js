@@ -56,10 +56,10 @@ const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDeta
 
 // const unflattenRowTemplate = require('../../../models/unflattenRowTemplate')
 // const mapSalesToRowTemplates = require('../../../models/mapSalesToRowTemplates')
-const mapInvenToRowTemplates = require('../../../models/mapInvenToRowTemplatesThreeLevel')
+const mapInvenToRowTemplates = require('../../models/mapInvenToRowTemplatesThreeLevel')
 // const combineMappedRows = require('../../../models/combineMappedRows')
-const cleanLabelsForDisplay = require('../../../models/cleanLabelsForDisplay')
-const unflattenByCompositKey = require('../../../models/unflattenByCompositKey')
+const cleanLabelsForDisplay = require('../../models/cleanLabelsForDisplay')
+const unflattenByCompositKey = require('../../models/unflattenByCompositKey')
 
 const labelCols = require('../queries/hardcode/cols')
 

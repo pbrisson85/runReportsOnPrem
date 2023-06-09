@@ -38,11 +38,11 @@ const { getRmOnOrderByProgram, getRmOnOrderBySpecies, getRmOnOrderTotal } = requ
 const { getFgSalesOrdersByProgram, getFgSalesOrdersBySpecies, getFgSalesOrdersTotal } = require('../queries/postgres/getSo')
 const { getSpeciesGroupSubProgram, getSpeciesGroupSubTotal } = require('../queries/postgres/getRows')
 
-const unflattenRowTemplate = require('../../../models/unflattenRowTemplate')
-const mapSalesToRowTemplates = require('../../../models/mapSalesToRowTemplates')
-const mapInvenToRowTemplates = require('../../../models/mapInvenToRowTemplatesTwoLevel')
-const combineMappedRows = require('../../../models/combineMappedRows')
-const cleanLabelsForDisplay = require('../../../models/cleanLabelsForDisplay')
+const unflattenRowTemplate = require('../../models/unflattenRowTemplate')
+const mapSalesToRowTemplates = require('../../models/mapSalesToRowTemplates')
+const mapInvenToRowTemplates = require('../../models/mapInvenToRowTemplatesTwoLevel')
+const combineMappedRows = require('../../models/combineMappedRows')
+const cleanLabelsForDisplay = require('../../models/cleanLabelsForDisplay')
 
 const labelCols = require('../queries/hardcode/cols')
 
