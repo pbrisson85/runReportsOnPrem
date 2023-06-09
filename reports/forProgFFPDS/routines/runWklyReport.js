@@ -21,7 +21,7 @@ const {
   lvl_2_subtotal_getFgAtLoc,
   lvl_3_detail_getFgAtLoc,
   dataTotal_getFgAtLocation,
-} = require('../queries/hardcode/postgres/getFgInven')
+} = require('../queries/postgres/getFgInven')
 
 // const {
 //   getRmByProgram,
@@ -52,7 +52,7 @@ const {
 //   getFgSalesOrdersTotal,
 // } = require('../../queries/postgres/getSalesOrders/getSoByProgram')
 
-const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../queries/hardcode/postgres/getRows')
+const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../queries/postgres/getRows')
 
 // const unflattenRowTemplate = require('../../shared/models/unflattenRowTemplate')
 // const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplates')
