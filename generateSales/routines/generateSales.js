@@ -3,9 +3,9 @@ const upsertSalesData = require('../queries/postgres/upsertSalesData')
 const getMasterSupplement = require('../queries/postgres/getMasterSupplement')
 const getPeriodsByDay = require('../queries/postgres/getAccountingPeriodsByDay')
 
-const getInvoiceLineItems = require('../../queries/seasoft/getInvoiceLineItems')
-const getGenTblReas = require('../../queries/seasoft/getGenTblReas')
-const getInvoiceHeader = require('../../queries/seasoft/getInvoiceHeader')
+const getInvoiceLineItems = require('../queries/seasoft/getInvoiceLineItems')
+const getGenTblReas = require('../queries/seasoft/getGenTblReas')
+const getInvoiceHeader = require('../queries/seasoft/getInvoiceHeader')
 
 const formatPostgresDateForSeasoftQuery = require('../models/formatPostgresDateForSeasoftQuery')
 const unflattenItemNum = require('../models/unFlattenItemNum')
