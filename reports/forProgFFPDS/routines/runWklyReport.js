@@ -1,12 +1,14 @@
 const { getDateEndPerWeekByRange } = require('../../shared/queries/postgres/getDateEndPerWeek')
-// const {
-//   getAllFgSalesTotalsRow,
-//   getAllFgSalesColTotals,
-//   getFgProgramTotalsRow,
-//   getFgProgramTotalsCol,
-//   getFgSpeciesGroupTotalsRow,
-//   getFgSpeciesGroupTotalsCol,
-// } = require('../../queries/postgres/getSales/byProgram/trend')
+const {
+  lvl_1_subtotal_getSalesByWk,
+  lvl_2_subtotal_getSalesByWk,
+
+  dataTotal_getSalesByWk,
+  lvl_1_subtotal_getSalesPeriodToDate,
+  lvl_2_subtotal_getSalesPeriodToDate,
+
+  dataTotal_getSalesPeriodToDate,
+} = require('../queries/postgres/getSalesTrend')
 
 const {
   lvl_1_subtotal_getFgInven,
@@ -54,10 +56,9 @@ const {
 
 const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../queries/postgres/getRows')
 
-// const unflattenRowTemplate = require('../../shared/models/unflattenRowTemplate')
-// const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplates')
+const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplates')
 const mapInvenToRowTemplates = require('../../shared/models/mapInvenToRowTemplatesThreeLevel')
-// const combineMappedRows = require('../../shared/models/combineMappedRows')
+const combineMappedRows = require('../../shared/models/combineMappedRows')
 const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../../shared/models/unflattenByCompositKey')
 
@@ -116,12 +117,12 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
 
   // ///////////////////////////////// SALES DATA
 
-  // const fgProgramTotalsRow = await getFgProgramTotalsRow(start, end)
-  // const fgProgramTotalsCol = await getFgProgramTotalsCol(start, end)
-  // const allSalesRowTotals = await getAllFgSalesTotalsRow(start, end)
-  // const allSalesColTotals = await getAllFgSalesColTotals(start, end)
-  // const fgSpeciesGroupTotalsRow = await getFgSpeciesGroupTotalsRow(start, end)
-  // const fgSpeciesGroupTotalsCol = await getFgSpeciesGroupTotalsCol(start, end)
+  const lvl_2_subtotal_salesByWk = await lvl_2_subtotal_getSalesByWk(start, end, program)
+  const lvl_2_subtotal_salesPeriodToDate = await lvl_2_subtotal_getSalesPeriodToDate(start, end, program)
+  const dataTotal_salesByWk = await dataTotal_getSalesByWk(start, end, program)
+  const dataTotal_salesPeriodToDate = await dataTotal_getSalesPeriodToDate(start, end, program)
+  const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end, program)
+  const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(start, end, program)
 
   ///////////////////////////////// ROWS
 
@@ -171,12 +172,6 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
 
   // const mappedSales = mapSalesToRowTemplates(
   //   [
-  //     ...fgProgramTotalsRow,
-  //     ...fgProgramTotalsCol,
-  //     ...allSalesRowTotals,
-  //     ...allSalesColTotals,
-  //     ...fgSpeciesGroupTotalsRow,
-  //     ...fgSpeciesGroupTotalsCol,
   //     ...fgSalesOrdersByProgram,
   //     ...fgSalesOrdersBySpecies,
   //     ...fgSalesOrdersTotal,
@@ -186,15 +181,6 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
 
   // const mappedInven = mapInvenToRowTemplates(
   //   [
-  //     ...fgByProgram,
-  //     ...lvl_2_subtotal_fgInTransit,
-  //     ...lvl_2_subtotal_fgAtLoc,
-  //     ...fgBySpecies,
-  //     ...lvl_1_subtotal_fgInTransit,
-  //     ...lvl_1_subtotal_fgAtLoc,
-  //     ...dataTotal_fgInven,
-  //     ...dataTotal_fgInTransit,
-  //     ...dataTotal_fgAtLocation,
   //     ...fgOnOrderByProgram,
   //     ...fgOnOrderBySpecies,
   //     ...fgOnOrderTotal,
@@ -214,6 +200,18 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   //   rowTemplate_unflat
   // )
 
+  const mappedSales = mapSalesToRowTemplates(
+    [
+      ...lvl_2_subtotal_salesByWk,
+      ...lvl_2_subtotal_salesPeriodToDate,
+      ...dataTotal_salesByWk,
+      ...dataTotal_salesPeriodToDate,
+      ...lvl_1_subtotal_salesByWk,
+      ...lvl_1_subtotal_salesPeriodToDate,
+    ],
+    rowTemplate_unflat
+  )
+
   const mappedInven = mapInvenToRowTemplates(
     [
       ...lvl_1_subtotal_fgInven,
@@ -232,9 +230,7 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
     rowTemplate_unflat
   )
 
-  const mappedData = mappedInven // For testing ************* so remainder of routine works
-
-  //   const mappedData = combineMappedRows(mappedSales, mappedInven)
+  const mappedData = combineMappedRows(mappedSales, mappedInven)
 
   // clean out rows with zero sales
 
@@ -252,11 +248,7 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   // })
 
   const flattenedMappedData = Object.values(mappedData)
-
-  // remove row labels for l1_subtotal AND l2_subtotal except first row of each grouping
   const finalData = cleanLabelsForDisplay(flattenedMappedData)
-
-  // get data column names
   const dataCols = await getDateEndPerWeekByRange(start, end)
 
   // return
