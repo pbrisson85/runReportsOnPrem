@@ -215,7 +215,7 @@ const dataTotal_getFgInTransit = async program => {
     console.log(`query postgres for FG on hand ...`)
 
     const response = await pgClient.query(
-      'SELECT \'FG IN TRANSIT\' AS column, \'FG SALES\' AS l1_subtotal, \'TOTAL\' AS l2_subtotal, \'TOTAL\' AS l3_detail, IFNULL(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, IFNULL(SUM(perpetual_inventory.cost_extended),0) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = perpetual_inventory.item_number WHERE master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND master_supplement.program = $2 AND perpetual_inventory.location_type = $3',
+      'SELECT \'FG IN TRANSIT\' AS column, \'FG SALES\' AS l1_subtotal, \'TOTAL\' AS l2_subtotal, \'TOTAL\' AS l3_detail, IFNULL(SUM(perpetual_inventory.on_hand_lbs),0.00) AS lbs, IFNULL(SUM(perpetual_inventory.cost_extended),0.00) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = perpetual_inventory.item_number WHERE master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND master_supplement.program = $2 AND perpetual_inventory.location_type = $3',
       ['FG', program, 'IN TRANSIT']
     ) //prettier-ignore
 
