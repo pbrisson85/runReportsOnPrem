@@ -88,16 +88,6 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   // const fgAtLocationBySepcies = await getFgAtLocationBySepcies()
   const dataTotal_fgAtLocation = await dataTotal_getFgAtLocation(program)
 
-  return {
-    lvl_1_subtotal_fgInven,
-    lvl_2_subtotal_fgInven,
-    lvl_2_subtotal_fgInTransit,
-    lvl_3_detail_fgInven,
-    dataTotal_fgInven,
-    dataTotal_fgInTransit,
-    dataTotal_fgAtLocation,
-  }
-
   // /* FG ON ORDER */
   // const fgOnOrderByProgram = await getFgOnOrderByProgram()
   // const fgOnOrderBySpecies = await getFgOnOrderBySpecies()
