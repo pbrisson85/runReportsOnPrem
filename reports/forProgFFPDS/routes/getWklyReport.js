@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const runWklyReport = require('../routines/runWklyReport')
-const { getStartOfWeek } = require('../../../queries/postgres/generateSalesData/getDateStartByWeek')
+const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 
 // @route   POST /api/sales/forProgramFfpds
 // @desc
