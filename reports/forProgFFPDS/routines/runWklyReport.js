@@ -1,12 +1,12 @@
 const { getDateEndPerWeekByRange } = require('../../../generateSales/queries/postgres/getDateEndPerWeek')
-const {
-  getAllFgSalesTotalsRow,
-  getAllFgSalesColTotals,
-  getFgProgramTotalsRow,
-  getFgProgramTotalsCol,
-  getFgSpeciesGroupTotalsRow,
-  getFgSpeciesGroupTotalsCol,
-} = require('../../queries/postgres/getSales/byProgram/trend')
+// const {
+//   getAllFgSalesTotalsRow,
+//   getAllFgSalesColTotals,
+//   getFgProgramTotalsRow,
+//   getFgProgramTotalsCol,
+//   getFgSpeciesGroupTotalsRow,
+//   getFgSpeciesGroupTotalsCol,
+// } = require('../../queries/postgres/getSales/byProgram/trend')
 
 const {
   lvl_1_subtotal_getFgInven,
@@ -23,41 +23,41 @@ const {
   dataTotal_getFgAtLocation,
 } = require('../queries/hardcode/postgres/getFgInven')
 
-const {
-  getRmByProgram,
-  getRmInTransitByProgram,
-  getRmAtLocationByProgram,
-  getRmBySpecies,
-  getRmInTransitBySpecies,
-  getRmAtLocationBySepcies,
-  getRmTotal,
-  getRmInTransitTotal,
-  getRmAtLocationTotal,
-} = require('../../queries/postgres/getInven/byProgram/getRmInvenByProgram')
+// const {
+//   getRmByProgram,
+//   getRmInTransitByProgram,
+//   getRmAtLocationByProgram,
+//   getRmBySpecies,
+//   getRmInTransitBySpecies,
+//   getRmAtLocationBySepcies,
+//   getRmTotal,
+//   getRmInTransitTotal,
+//   getRmAtLocationTotal,
+// } = require('../../queries/postgres/getInven/byProgram/getRmInvenByProgram')
 
-const {
-  getFgOnOrderByProgram,
-  getFgOnOrderBySpecies,
-  getFgOnOrderTotal,
-} = require('../../queries/postgres/getPurchOrders/byProgram/getFgOpenPoByProgram')
+// const {
+//   getFgOnOrderByProgram,
+//   getFgOnOrderBySpecies,
+//   getFgOnOrderTotal,
+// } = require('../../queries/postgres/getPurchOrders/byProgram/getFgOpenPoByProgram')
 
-const {
-  getRmOnOrderByProgram,
-  getRmOnOrderBySpecies,
-  getRmOnOrderTotal,
-} = require('../../queries/postgres/getPurchOrders/byProgram/getRmOpenPoByProgram')
-const {
-  getFgSalesOrdersByProgram,
-  getFgSalesOrdersBySpecies,
-  getFgSalesOrdersTotal,
-} = require('../../queries/postgres/getSalesOrders/getSoByProgram')
+// const {
+//   getRmOnOrderByProgram,
+//   getRmOnOrderBySpecies,
+//   getRmOnOrderTotal,
+// } = require('../../queries/postgres/getPurchOrders/byProgram/getRmOpenPoByProgram')
+// const {
+//   getFgSalesOrdersByProgram,
+//   getFgSalesOrdersBySpecies,
+//   getFgSalesOrdersTotal,
+// } = require('../../queries/postgres/getSalesOrders/getSoByProgram')
 
 const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../queries/hardcode/postgres/getRows')
 
-const unflattenRowTemplate = require('../../../models/unflattenRowTemplate')
-const mapSalesToRowTemplates = require('../../../models/mapSalesToRowTemplates')
+// const unflattenRowTemplate = require('../../../models/unflattenRowTemplate')
+// const mapSalesToRowTemplates = require('../../../models/mapSalesToRowTemplates')
 const mapInvenToRowTemplates = require('../../../models/mapInvenToRowTemplatesThreeLevel')
-const combineMappedRows = require('../../../models/combineMappedRows')
+// const combineMappedRows = require('../../../models/combineMappedRows')
 const cleanLabelsForDisplay = require('../../../models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../../../models/unflattenByCompositKey')
 
@@ -67,10 +67,10 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   ///////////////////////////////// INVENTORY DATA
 
   /* TOTAL FG (FG) */
-  const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(program) // Grouped By Fresh/Frozen (1st level)
-  const lvl_2_subtotal_fgInven = await lvl_2_subtotal_getFgInven(program) // Grouped By Processed/Dry, Fresh/Frozen (2nd Level)
-  const lvl_3_detail_fgInven = await lvl_3_detail_getFgInven(program) // Grouped Size, Fresh/Frozen, Processed/Dry (3rd Level)
-  const dataTotal_fgInven = await dataTotal_getFgInven(program) // Total For Program
+  const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(program)
+  const lvl_2_subtotal_fgInven = await lvl_2_subtotal_getFgInven(program)
+  const lvl_3_detail_fgInven = await lvl_3_detail_getFgInven(program)
+  const dataTotal_fgInven = await dataTotal_getFgInven(program)
 
   // /* FG IN TRANSIT*/
   const lvl_1_subtotal_fgInTransit = await lvl_1_subtotal_getFgInTransit(program)

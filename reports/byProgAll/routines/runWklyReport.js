@@ -7,7 +7,7 @@ const {
   getFgProgramTotalsCol,
   getFgSpeciesGroupTotalsRow,
   getFgSpeciesGroupTotalsCol,
-} = require('../queries/postgres/getSales/byProgram/trend')
+} = require('../queries/postgres/getSalesTrend')
 
 const {
   getFgByProgram,
@@ -19,7 +19,7 @@ const {
   getFgTotal,
   getFgInTransitTotal,
   getFgAtLocationTotal,
-} = require('../queries/postgres/getInven/byProgram/getFgInvenByProgram')
+} = require('../queries/postgres/getFgInven')
 
 const {
   getRmByProgram,
@@ -31,27 +31,12 @@ const {
   getRmTotal,
   getRmInTransitTotal,
   getRmAtLocationTotal,
-} = require('../queries/postgres/getInven/byProgram/getRmInvenByProgram')
+} = require('../queries/postgres/getRmInven')
 
-const {
-  getFgOnOrderByProgram,
-  getFgOnOrderBySpecies,
-  getFgOnOrderTotal,
-} = require('../queries/postgres/getPurchOrders/byProgram/getFgOpenPoByProgram')
-
-const {
-  getRmOnOrderByProgram,
-  getRmOnOrderBySpecies,
-  getRmOnOrderTotal,
-} = require('../queries/postgres/getPurchOrders/byProgram/getRmOpenPoByProgram')
-const {
-  getFgSalesOrdersByProgram,
-  getFgSalesOrdersBySpecies,
-  getFgSalesOrdersTotal,
-} = require('../queries/postgres/getSalesOrders/getSoByProgram')
-
-const { getSpeciesGroupSubProgram } = require('../queries/postgres/getRows/byProgram/getSpeciesGroupSubProgram')
-const { getSpeciesGroupSubTotal } = require('../queries/postgres/getRows/byProgram/getSpeciesGroupSubTotal')
+const { getFgOnOrderByProgram, getFgOnOrderBySpecies, getFgOnOrderTotal } = require('../queries/postgres/getFgOpenPo')
+const { getRmOnOrderByProgram, getRmOnOrderBySpecies, getRmOnOrderTotal } = require('../queries/postgres/getRmOpenPo')
+const { getFgSalesOrdersByProgram, getFgSalesOrdersBySpecies, getFgSalesOrdersTotal } = require('../queries/postgres/getSo')
+const { getSpeciesGroupSubProgram, getSpeciesGroupSubTotal } = require('../queries/postgres/getRows')
 
 const unflattenRowTemplate = require('../../../models/unflattenRowTemplate')
 const mapSalesToRowTemplates = require('../../../models/mapSalesToRowTemplates')
@@ -59,7 +44,7 @@ const mapInvenToRowTemplates = require('../../../models/mapInvenToRowTemplatesTw
 const combineMappedRows = require('../../../models/combineMappedRows')
 const cleanLabelsForDisplay = require('../../../models/cleanLabelsForDisplay')
 
-const labelCols = require('../queries/hardcode/byProgramCols')
+const labelCols = require('../queries/hardcode/cols')
 
 const getWeeklyProgramSales = async (start, end) => {
   ///////////////////////////////// INVENTORY DATA
