@@ -1,4 +1,4 @@
-const { createConnection } = require('../../database/seasoftODBC')
+const { createConnection } = require('../../../database/seasoftODBC')
 
 const getInvoiceHeader = async (firstDayOfFy, firstDayOfNextFy) => {
   try {
