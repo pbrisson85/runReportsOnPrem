@@ -209,6 +209,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
     rowTemplate_unflat
   )
 
+  return mappedSales
+
   const mappedInven = mapInvenToRowTemplates(
     [
       ...lvl_1_subtotal_fgInven,
