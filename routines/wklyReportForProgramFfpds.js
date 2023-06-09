@@ -9,19 +9,17 @@ const {
 } = require('../queries/postgres/getSales/byProgram/trend')
 
 const {
-  getlvl_2_subtotal_fgInTransit,
-  getFgAtLocationByProgram,
-  getFgInTransitBySpecies,
-  getFgAtLocationBySepcies,
-} = require('../queries/postgres/getInven/byProgram/getFgInvenByProgram')
-
-const {
   lvl_1_subtotal_getFgInven,
   lvl_2_subtotal_getFgInven,
-  lvl_2_subtotal_getFgInTransit,
   lvl_3_detail_getFgInven,
   dataTotal_getFgInven,
+
+  lvl_1_subtotal_getFgInTransit,
+  lvl_2_subtotal_getFgInTransit,
   dataTotal_getFgInTransit,
+
+  lvl_1_subtotal_getFgAtLoc,
+  lvl_2_subtotal_getFgAtLoc,
   dataTotal_getFgAtLocation,
 } = require('../queries/postgres/getInven/forProgFfpds/getFgInven')
 
@@ -79,13 +77,13 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   const dataTotal_fgInven = await dataTotal_getFgInven(program) // Total For Program
 
   // /* FG IN TRANSIT*/
+  const lvl_1_subtotal_fgInTransit = await lvl_1_subtotal_getFgInTransit(program)
   const lvl_2_subtotal_fgInTransit = await lvl_2_subtotal_getFgInTransit(program)
-  // const fgInTransitBySpecies = await getFgInTransitBySpecies()
   const dataTotal_fgInTransit = await dataTotal_getFgInTransit(program)
 
   // /* FG ON HAND (LESS IN TRANSIT) */
-  // const fgAtLocationByProgram = await getFgAtLocationByProgram()
-  // const fgAtLocationBySepcies = await getFgAtLocationBySepcies()
+  const lvl_1_subtotal_fgAtLoc = await lvl_1_subtotal_getFgAtLoc(program)
+  const lvl_2_subtotal_fgAtLoc = await lvl_2_subtotal_getFgAtLoc(program)
   const dataTotal_fgAtLocation = await dataTotal_getFgAtLocation(program)
 
   // /* FG ON ORDER */
@@ -121,15 +119,10 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   // ///////////////////////////////// SALES DATA
 
   // const fgProgramTotalsRow = await getFgProgramTotalsRow(start, end)
-
   // const fgProgramTotalsCol = await getFgProgramTotalsCol(start, end)
-
   // const allSalesRowTotals = await getAllFgSalesTotalsRow(start, end)
-
   // const allSalesColTotals = await getAllFgSalesColTotals(start, end)
-
   // const fgSpeciesGroupTotalsRow = await getFgSpeciesGroupTotalsRow(start, end)
-
   // const fgSpeciesGroupTotalsCol = await getFgSpeciesGroupTotalsCol(start, end)
 
   ///////////////////////////////// ROWS
@@ -197,10 +190,10 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   //   [
   //     ...fgByProgram,
   //     ...lvl_2_subtotal_fgInTransit,
-  //     ...fgAtLocationByProgram,
+  //     ...lvl_2_subtotal_fgAtLoc,
   //     ...fgBySpecies,
-  //     ...fgInTransitBySpecies,
-  //     ...fgAtLocationBySepcies,
+  //     ...lvl_1_subtotal_fgInTransit,
+  //     ...lvl_1_subtotal_fgAtLoc,
   //     ...dataTotal_fgInven,
   //     ...dataTotal_fgInTransit,
   //     ...dataTotal_fgAtLocation,
@@ -229,8 +222,13 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
       ...lvl_2_subtotal_fgInven,
       ...lvl_3_detail_fgInven,
       ...dataTotal_fgInven,
+
+      ...lvl_1_subtotal_fgInTransit,
       ...lvl_2_subtotal_fgInTransit,
       ...dataTotal_fgInTransit,
+
+      ...lvl_1_subtotal_fgAtLoc,
+      ...lvl_2_subtotal_fgAtLoc,
       ...dataTotal_fgAtLocation,
     ],
     rowTemplate_unflat
