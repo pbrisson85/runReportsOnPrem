@@ -9,7 +9,7 @@ const {
 } = require('../queries/postgres/getSales/byProgram/trend')
 
 const {
-  getFgInTransitByProgram,
+  getlvl_2_subtotal_fgInTransit,
   getFgAtLocationByProgram,
   getFgInTransitBySpecies,
   getFgAtLocationBySepcies,
@@ -79,14 +79,24 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   const dataTotal_fgInven = await dataTotal_getFgInven(program) // Total For Program
 
   // /* FG IN TRANSIT*/
-  const fgInTransitByProgram = await lvl_2_subtotal_getFgInTransit()
+  const lvl_2_subtotal_fgInTransit = await lvl_2_subtotal_getFgInTransit()
   // const fgInTransitBySpecies = await getFgInTransitBySpecies()
-  const fgInTransitTotal = await dataTotal_getFgInTransit(program)
+  const dataTotal_fgInTransit = await dataTotal_getFgInTransit(program)
 
   // /* FG ON HAND (LESS IN TRANSIT) */
   // const fgAtLocationByProgram = await getFgAtLocationByProgram()
   // const fgAtLocationBySepcies = await getFgAtLocationBySepcies()
-  const fgAtLocationTotal = await dataTotal_getFgAtLocation(program)
+  const dataTotal_fgAtLocation = await dataTotal_getFgAtLocation(program)
+
+  return {
+    lvl_1_subtotal_fgInven,
+    lvl_2_subtotal_fgInven,
+    lvl_2_subtotal_fgInTransit,
+    lvl_3_detail_fgInven,
+    dataTotal_fgInven,
+    dataTotal_fgInTransit,
+    dataTotal_fgAtLocation,
+  }
 
   // /* FG ON ORDER */
   // const fgOnOrderByProgram = await getFgOnOrderByProgram()
@@ -373,14 +383,14 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   // const mappedInven = mapInvenToRowTemplates(
   //   [
   //     ...fgByProgram,
-  //     ...fgInTransitByProgram,
+  //     ...lvl_2_subtotal_fgInTransit,
   //     ...fgAtLocationByProgram,
   //     ...fgBySpecies,
   //     ...fgInTransitBySpecies,
   //     ...fgAtLocationBySepcies,
   //     ...dataTotal_fgInven,
-  //     ...fgInTransitTotal,
-  //     ...fgAtLocationTotal,
+  //     ...dataTotal_fgInTransit,
+  //     ...dataTotal_fgAtLocation,
   //     ...fgOnOrderByProgram,
   //     ...fgOnOrderBySpecies,
   //     ...fgOnOrderTotal,
@@ -406,8 +416,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
       ...lvl_2_subtotal_fgInven,
       ...lvl_3_detail_fgInven,
       ...dataTotal_fgInven,
-      ...fgInTransitTotal,
-      ...fgAtLocationTotal,
+      ...dataTotal_fgInTransit,
+      ...dataTotal_fgAtLocation,
     ],
     rowTemplate_unflat
   )
