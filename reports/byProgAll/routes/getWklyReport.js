@@ -1,8 +1,8 @@
 const router = require('express').Router()
-const saleByProgramRoutine = require('../routines/wklyReportByProgram')
-const { getStartOfWeek } = require('../queries/postgres/generateSalesData/getDateStartByWeek')
-const getDistinctFiscalYears = require('../queries/postgres/filters/getDistinctFiscalYears')
-const { getDateEndPerWeek } = require('../queries/postgres/generateSalesData/getDateEndPerWeek')
+const runWklyReport = require('../routines/runWklyReport')
+const { getStartOfWeek } = require('../../../queries/postgres/generateSalesData/getDateStartByWeek')
+const getDistinctFiscalYears = require('../../../queries/postgres/filters/getDistinctFiscalYears')
+const { getDateEndPerWeek } = require('../../../queries/postgres/generateSalesData/getDateEndPerWeek')
 
 // @route   POST /api/sales/byProgram
 // @desc
@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
   // Note that start date is the END of the first week. Need the beginning of the same week to pull invoice dates that are after this:
   const startWeek = await getStartOfWeek(req.body.start)
 
-  const resp = await saleByProgramRoutine(startWeek[0].formatted_date_start, req.body.end)
+  const resp = await runWklyReport(startWeek[0].formatted_date_start, req.body.end)
 
   console.log(`get get weekly sales by processing level for ${req.body.start} through ${req.body.end} route COMPLETE. \n`)
   res.send(resp)

@@ -1,4 +1,4 @@
-const { getDateEndPerWeekByRange } = require('../queries/postgres/generateSalesData/getDateEndPerWeek')
+const { getDateEndPerWeekByRange } = require('../../../queries/postgres/generateSalesData/getDateEndPerWeek')
 const {
   getAllFgSalesTotalsRow,
   getAllFgSalesColTotals,
@@ -52,11 +52,11 @@ const {
 const { getSpeciesGroupSubProgram } = require('../queries/postgres/getRows/byProgram/getSpeciesGroupSubProgram')
 const { getSpeciesGroupSubTotal } = require('../queries/postgres/getRows/byProgram/getSpeciesGroupSubTotal')
 
-const unflattenRowTemplate = require('../models/unflattenRowTemplate')
-const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplates')
-const mapInvenToRowTemplates = require('../models/mapInvenToRowTemplatesTwoLevel')
-const combineMappedRows = require('../models/combineMappedRows')
-const cleanLabelsForDisplay = require('../models/cleanLabelsForDisplay')
+const unflattenRowTemplate = require('../../../models/unflattenRowTemplate')
+const mapSalesToRowTemplates = require('../../../models/mapSalesToRowTemplates')
+const mapInvenToRowTemplates = require('../../../models/mapInvenToRowTemplatesTwoLevel')
+const combineMappedRows = require('../../../models/combineMappedRows')
+const cleanLabelsForDisplay = require('../../../models/cleanLabelsForDisplay')
 
 const labelCols = require('../queries/hardcode/byProgramCols')
 

@@ -1,4 +1,4 @@
-const { getDateEndPerWeekByRange } = require('../queries/postgres/generateSalesData/getDateEndPerWeek')
+const { getDateEndPerWeekByRange } = require('../../../queries/postgres/generateSalesData/getDateEndPerWeek')
 const {
   getAllFgSalesTotalsRow,
   getAllFgSalesColTotals,
@@ -6,24 +6,22 @@ const {
   getFgProgramTotalsCol,
   getFgSpeciesGroupTotalsRow,
   getFgSpeciesGroupTotalsCol,
-} = require('../queries/postgres/getSales/byProgram/trend')
+} = require('../../queries/postgres/getSales/byProgram/trend')
 
 const {
   lvl_1_subtotal_getFgInven,
   lvl_2_subtotal_getFgInven,
   lvl_3_detail_getFgInven,
   dataTotal_getFgInven,
-
   lvl_1_subtotal_getFgInTransit,
   lvl_2_subtotal_getFgInTransit,
   lvl_3_detail_getFgInTransit,
   dataTotal_getFgInTransit,
-
   lvl_1_subtotal_getFgAtLoc,
   lvl_2_subtotal_getFgAtLoc,
   lvl_3_detail_getFgAtLoc,
   dataTotal_getFgAtLocation,
-} = require('../queries/postgres/getInven/forProgFfpds/getFgInven')
+} = require('../queries/hardcode/postgres/getFgInven')
 
 const {
   getRmByProgram,
@@ -35,39 +33,35 @@ const {
   getRmTotal,
   getRmInTransitTotal,
   getRmAtLocationTotal,
-} = require('../queries/postgres/getInven/byProgram/getRmInvenByProgram')
+} = require('../../queries/postgres/getInven/byProgram/getRmInvenByProgram')
 
 const {
   getFgOnOrderByProgram,
   getFgOnOrderBySpecies,
   getFgOnOrderTotal,
-} = require('../queries/postgres/getPurchOrders/byProgram/getFgOpenPoByProgram')
+} = require('../../queries/postgres/getPurchOrders/byProgram/getFgOpenPoByProgram')
 
 const {
   getRmOnOrderByProgram,
   getRmOnOrderBySpecies,
   getRmOnOrderTotal,
-} = require('../queries/postgres/getPurchOrders/byProgram/getRmOpenPoByProgram')
+} = require('../../queries/postgres/getPurchOrders/byProgram/getRmOpenPoByProgram')
 const {
   getFgSalesOrdersByProgram,
   getFgSalesOrdersBySpecies,
   getFgSalesOrdersTotal,
-} = require('../queries/postgres/getSalesOrders/getSoByProgram')
+} = require('../../queries/postgres/getSalesOrders/getSoByProgram')
 
-const {
-  getRowsThirdLevelDetail,
-  getRowsSecondLevelDetail,
-  getRowsFirstLevelDetail,
-} = require('../queries/postgres/getRows/forProgFfpds/rowsByDetailLevel')
+const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../queries/hardcode/postgres/getRows')
 
-const unflattenRowTemplate = require('../models/unflattenRowTemplate')
-const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplates')
-const mapInvenToRowTemplates = require('../models/mapInvenToRowTemplatesThreeLevel')
-const combineMappedRows = require('../models/combineMappedRows')
-const cleanLabelsForDisplay = require('../models/cleanLabelsForDisplay')
-const unflattenByCompositKey = require('../models/unflattenByCompositKey')
+const unflattenRowTemplate = require('../../../models/unflattenRowTemplate')
+const mapSalesToRowTemplates = require('../../../models/mapSalesToRowTemplates')
+const mapInvenToRowTemplates = require('../../../models/mapInvenToRowTemplatesThreeLevel')
+const combineMappedRows = require('../../../models/combineMappedRows')
+const cleanLabelsForDisplay = require('../../../models/cleanLabelsForDisplay')
+const unflattenByCompositKey = require('../../../models/unflattenByCompositKey')
 
-const labelCols = require('../queries/hardcode/ffpdsCols')
+const labelCols = require('../queries/hardcode/cols')
 
 const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   ///////////////////////////////// INVENTORY DATA
@@ -90,11 +84,6 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   const lvl_3_detail_fgAtLoc = await lvl_3_detail_getFgAtLoc(program)
   const dataTotal_fgAtLocation = await dataTotal_getFgAtLocation(program)
 
-  // /* FG ON ORDER */
-  // const fgOnOrderByProgram = await getFgOnOrderByProgram()
-  // const fgOnOrderBySpecies = await getFgOnOrderBySpecies()
-  // const fgOnOrderTotal = await getFgOnOrderTotal()
-
   // /* TOTAL RM */
   // const rmByProgram = await getRmByProgram()
   // const rmBySpecies = await getRmBySpecies()
@@ -114,6 +103,11 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   // const rmOnOrderByProgram = await getRmOnOrderByProgram()
   // const rmOnOrderBySpecies = await getRmOnOrderBySpecies()
   // const rmOnOrderTotal = await getRmOnOrderTotal()
+
+  // /* FG ON ORDER */
+  // const fgOnOrderByProgram = await getFgOnOrderByProgram()
+  // const fgOnOrderBySpecies = await getFgOnOrderBySpecies()
+  // const fgOnOrderTotal = await getFgOnOrderTotal()
 
   // ///////////////////////////////// SALES ORDERS
   // const fgSalesOrdersByProgram = await getFgSalesOrdersByProgram()
@@ -226,12 +220,10 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
       ...lvl_2_subtotal_fgInven,
       ...lvl_3_detail_fgInven,
       ...dataTotal_fgInven,
-
       ...lvl_1_subtotal_fgInTransit,
       ...lvl_2_subtotal_fgInTransit,
       ...lvl_3_detail_fgInTransit,
       ...dataTotal_fgInTransit,
-
       ...lvl_1_subtotal_fgAtLoc,
       ...lvl_2_subtotal_fgAtLoc,
       ...lvl_3_detail_fgAtLoc,
