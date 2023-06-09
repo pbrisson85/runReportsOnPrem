@@ -1,4 +1,4 @@
-const generateSalesDataRoutine = require('../routines/generateSalesDataRoutine')
+const generateSalesDataRoutine = require('../routines/generateSales')
 const router = require('express').Router()
 
 // @route   GET /api/sales/generateSalesData

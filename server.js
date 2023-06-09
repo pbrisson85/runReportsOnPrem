@@ -7,10 +7,10 @@ const app = express()
 const helmet = require('helmet')
 
 // initialize routes
-const getSalesByProgram = require('./routes/getWklyReportByProgram')
-const getSalesFfpds = require('./routes/getWklyReportForProgFfpds')
-const generateSalesData = require('./routes/generateSalesDataRoute')
-const getFilters = require('./routes/getFilters')
+const getSalesByProgram = require('./reports/byProgAll/routes/getWklyReport')
+const getSalesFfpds = require('./reports/forProgFFPDS/routes/getWklyReport')
+const generateSalesData = require('./generateSales/routes/generateSales')
+const getFilters = require('./reports/filters/routes/getFilters')
 
 // initialize startup procedures
 const { runCronOnStartup } = require('./startup/cron')
