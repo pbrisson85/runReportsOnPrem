@@ -227,10 +227,10 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
     [
       ...lvl_1_subtotal_fgInven,
       ...lvl_2_subtotal_fgInven,
-      ...lvl_2_subtotal_fgInTransit,
       ...lvl_3_detail_fgInven,
       ...dataTotal_fgInven,
-      ...dataTotal_fgInTransit, // Error here?
+      ...lvl_2_subtotal_fgInTransit,
+      ...dataTotal_fgInTransit,
       ...dataTotal_fgAtLocation,
     ],
     rowTemplate_unflat
