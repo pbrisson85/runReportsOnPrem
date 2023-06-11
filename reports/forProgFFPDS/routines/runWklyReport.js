@@ -37,7 +37,7 @@ const {
 // } = require('../../queries/postgres/getInven/byProgram/getRmInvenByProgram')
 
 const { lvl_1_subtotal_getFgPo, lvl_2_subtotal_getFgPo, lvl_3_detail_getFgPo, dataTotal_getFgPo } = require('../queries/postgres/getFgOpenPo')
-const { lvl_1_subtotal_getRmPo, lvl_2_subtotal_getRmPo, lvl_3_subtotal_getRmPo, dataTotal_getRmPo } = require('../queries/postgres/getRmOpenPo')
+const { lvl_1_subtotal_getRmPo, lvl_2_subtotal_getRmPo, lvl_3_detail_getRmPo, dataTotal_getRmPo } = require('../queries/postgres/getRmOpenPo')
 const { lvl_1_subtotal_getSo, lvl_2_subtotal_getSo, lvl_3_detail_getSo, dataTotal_getSo } = require('../queries/postgres/getSo')
 const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../queries/postgres/getRows')
 
@@ -88,7 +88,7 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   // /* RM ON ORDER */
   const lvl_1_subtotal_rmPo = await lvl_1_subtotal_getRmPo(program)
   const lvl_2_subtotal_rmPo = await lvl_2_subtotal_getRmPo(program)
-  const lvl_3_subtotal_rmPo = await lvl_3_subtotal_getRmPo(program)
+  const lvl_3_detail_rmPo = await lvl_3_detail_getRmPo(program)
   const dataTotal_rmPo = await dataTotal_getRmPo(program)
 
   // /* FG ON ORDER */

@@ -50,7 +50,7 @@ const lvl_2_subtotal_getRmPo = async program => {
 
 // RM open PO grouped by program (includes in transit)
 
-const lvl_3_subtotal_getRmPo = async program => {
+const lvl_3_detail_getRmPo = async program => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -96,5 +96,5 @@ const dataTotal_getRmPo = async program => {
 
 module.exports.lvl_1_subtotal_getRmPo = lvl_1_subtotal_getRmPo
 module.exports.lvl_2_subtotal_getRmPo = lvl_2_subtotal_getRmPo
-module.exports.lvl_3_subtotal_getRmPo = lvl_3_subtotal_getRmPo
+module.exports.lvl_3_detail_getRmPo = lvl_3_detail_getRmPo
 module.exports.dataTotal_getRmPo = dataTotal_getRmPo
