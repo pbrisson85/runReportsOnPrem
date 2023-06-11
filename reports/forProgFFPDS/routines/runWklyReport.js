@@ -37,13 +37,7 @@ const {
 // } = require('../../queries/postgres/getInven/byProgram/getRmInvenByProgram')
 
 const { lvl_1_subtotal_getFgPo, lvl_2_subtotal_getFgPo, lvl_3_detail_getFgPo, dataTotal_getFgPo } = require('../queries/postgres/getFgOpenPo')
-
-// const {
-//   getRmOnOrderByProgram,
-//   getRmOnOrderBySpecies,
-//   getRmOnOrderTotal,
-// } = require('../../queries/postgres/getPurchOrders/byProgram/getRmOpenPoByProgram')
-
+const { lvl_1_subtotal_getRmPo, lvl_2_subtotal_getRmPo, lvl_3_subtotal_getRmPo, dataTotal_getRmPo } = require('../queries/postgres/getRmOpenPo')
 const { lvl_1_subtotal_getSo, lvl_2_subtotal_getSo, lvl_3_detail_getSo, dataTotal_getSo } = require('../queries/postgres/getSo')
 const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../queries/postgres/getRows')
 
@@ -92,9 +86,10 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   // const rmAtLocationTotal = await getRmAtLocationTotal()
 
   // /* RM ON ORDER */
-  // const rmOnOrderByProgram = await getRmOnOrderByProgram()
-  // const rmOnOrderBySpecies = await getRmOnOrderBySpecies()
-  // const rmOnOrderTotal = await getRmOnOrderTotal()
+  const lvl_1_subtotal_rmPo = await lvl_1_subtotal_getRmPo(program)
+  const lvl_2_subtotal_rmPo = await lvl_2_subtotal_getRmPo(program)
+  const lvl_3_subtotal_rmPo = await lvl_3_subtotal_getRmPo(program)
+  const dataTotal_rmPo = await dataTotal_getRmPo(program)
 
   // /* FG ON ORDER */
   const lvl_1_subtotal_fgPo = await lvl_1_subtotal_getFgPo(program)
@@ -176,9 +171,7 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   //     ...rmTotal,
   //     ...rmInTransitTotal,
   //     ...rmAtLocationTotal,
-  //     ...rmOnOrderByProgram,
-  //     ...rmOnOrderBySpecies,
-  //     ...rmOnOrderTotal,
+
   //   ],
   //   rowTemplate_unflat
   // )
@@ -219,6 +212,10 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
       ...lvl_2_subtotal_fgPo,
       ...lvl_3_detail_fgPo,
       ...dataTotal_fgPo,
+      ...lvl_1_subtotal_rmPo,
+      ...lvl_2_subtotal_rmPo,
+      ...lvl_3_detail_rmPo,
+      ...dataTotal_rmPo,
     ],
     rowTemplate_unflat
   )
