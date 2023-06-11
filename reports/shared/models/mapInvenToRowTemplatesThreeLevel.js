@@ -29,8 +29,8 @@ const mapInvenToRowTemplates = (invenLines, rowTemplate) => {
     }
 
     // Note that using index 0 on the rowTemplate because the unflattenRowTemplate function now uses an array of objects
-    rowTemplateCache[`${invenLine.l1_subtotal}-${invenLine.l2_subtotal}-${invenLine.l3_detail}`] = {
-      ...rowTemplateCache[`${invenLine.l1_subtotal}-${invenLine.l2_subtotal}-${invenLine.l3_detail}`],
+    rowTemplateCache[`${invenLine.l1_subtotal}-${invenLine.l2_subtotal}-${invenLine.l3_subtotal}`] = {
+      ...rowTemplateCache[`${invenLine.l1_subtotal}-${invenLine.l2_subtotal}-${invenLine.l3_subtotal}`],
       [invenLine.column]: {
         weight,
         revenue,

@@ -34,7 +34,7 @@ const cols = [
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
     displayName: 'SIZE', // show as column header
-    dataName: 'l3_detail', // key to pull data from
+    dataName: 'l3_subtotal', // key to pull data from
     justifyData: 'start', // css justify content
     justifyHeading: 'center', // css justify content
     width: '200px', // css width
