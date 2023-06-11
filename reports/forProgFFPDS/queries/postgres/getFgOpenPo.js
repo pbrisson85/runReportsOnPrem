@@ -96,5 +96,5 @@ const dataTotal_getFgPo = async program => {
 
 module.exports.lvl_1_subtotal_getFgPo = lvl_1_subtotal_getFgPo
 module.exports.lvl_2_subtotal_getFgPo = lvl_2_subtotal_getFgPo
-module.eplorts.lvl_3_detail_getFgPo = lvl_3_detail_getFgPo
+module.exports.lvl_3_detail_getFgPo = lvl_3_detail_getFgPo
 module.exports.dataTotal_getFgPo = dataTotal_getFgPo
