@@ -36,7 +36,7 @@ const {
 //   getRmAtLocationTotal,
 // } = require('../../queries/postgres/getInven/byProgram/getRmInvenByProgram')
 
-const { lvl_1_subtotal_getFgPo, lvl_2_subtotal_getFgPo, lvl_3_detail_getFgPo, dataTotal_getFgPo } = require('../queries/postgres/getFgInven')
+const { lvl_1_subtotal_getFgPo, lvl_2_subtotal_getFgPo, lvl_3_detail_getFgPo, dataTotal_getFgPo } = require('../queries/postgres/getFgOpenPo')
 
 // const {
 //   getRmOnOrderByProgram,
