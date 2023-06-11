@@ -1,279 +1,103 @@
 const { getDateEndPerWeekByRange } = require('../../shared/queries/postgres/getDateEndPerWeek')
-
 const {
-  getAllFgSalesTotalsRow,
-  getAllFgSalesColTotals,
-  getFgProgramTotalsRow,
-  getFgProgramTotalsCol,
-  getFgSpeciesGroupTotalsRow,
-  getFgSpeciesGroupTotalsCol,
+  lvl_1_subtotal_getSalesByWk,
+  lvl_2_subtotal_getSalesByWk,
+  dataTotal_getSalesByWk,
+  lvl_1_subtotal_getSalesPeriodToDate,
+  lvl_2_subtotal_getSalesPeriodToDate,
+  dataTotal_getSalesPeriodToDate,
 } = require('../queries/postgres/getSalesTrend')
-
 const {
-  getFgByProgram,
-  getFgInTransitByProgram,
-  getFgAtLocationByProgram,
-  getFgBySpecies,
-  getFgInTransitBySpecies,
-  getFgAtLocationBySepcies,
-  getFgTotal,
-  getFgInTransitTotal,
-  getFgAtLocationTotal,
+  lvl_1_subtotal_getFgInven,
+  lvl_2_subtotal_getFgInven,
+  dataTotal_getFgInven,
+  lvl_1_subtotal_getFgInTransit,
+  lvl_2_subtotal_getFgInTransit,
+  dataTotal_getFgInTransit,
+  lvl_1_subtotal_getFgAtLoc,
+  lvl_2_subtotal_getFgAtLoc,
+  dataTotal_getFgAtLocation,
 } = require('../queries/postgres/getFgInven')
-
 const {
-  getRmByProgram,
-  getRmInTransitByProgram,
-  getRmAtLocationByProgram,
-  getRmBySpecies,
-  getRmInTransitBySpecies,
-  getRmAtLocationBySepcies,
-  getRmTotal,
-  getRmInTransitTotal,
-  getRmAtLocationTotal,
+  lvl_1_subtotal_getRmInven,
+  lvl_2_subtotal_getRmInven,
+  dataTotal_getRmInven,
+  lvl_1_subtotal_getRmInTransit,
+  lvl_2_subtotal_getRmInTransit,
+  dataTotal_getRmInTransit,
+  lvl_1_subtotal_getRmAtLoc,
+  lvl_2_subtotal_getRmAtLoc,
+  dataTotal_getRmAtLoc,
 } = require('../queries/postgres/getRmInven')
-
-const { getFgOnOrderByProgram, getFgOnOrderBySpecies, getFgOnOrderTotal } = require('../queries/postgres/getFgOpenPo')
-const { getRmOnOrderByProgram, getRmOnOrderBySpecies, getRmOnOrderTotal } = require('../queries/postgres/getRmOpenPo')
-const { getFgSalesOrdersByProgram, getFgSalesOrdersBySpecies, getFgSalesOrdersTotal } = require('../queries/postgres/getSo')
-const { getSpeciesGroupSubProgram, getSpeciesGroupSubTotal } = require('../queries/postgres/getRows')
-
+const { lvl_1_subtotal_getFgPo, lvl_2_subtotal_getFgPo, dataTotal_getFgPo } = require('../queries/postgres/getFgOpenPo')
+const { lvl_1_subtotal_getRmPo, lvl_2_subtotal_getRmPo, dataTotal_getRmPo } = require('../queries/postgres/getRmOpenPo')
+const { lvl_1_subtotal_getSo, lvl_2_subtotal_getSo, dataTotal_getSo } = require('../queries/postgres/getSo')
+const { getLevelTwoRows, getLevelOneRows } = require('../queries/postgres/getRows')
 const unflattenRowTemplate = require('../../shared/models/unflattenRowTemplate')
 const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesTwoLevel')
 const mapInvenToRowTemplates = require('../../shared/models/mapInvenToRowTemplatesTwoLevel')
 const combineMappedRows = require('../../shared/models/combineMappedRows')
 const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay')
-
 const labelCols = require('../queries/hardcode/cols')
 
 const getWeeklyProgramSales = async (start, end) => {
   ///////////////////////////////// INVENTORY DATA
 
   /* TOTAL FG */
-  const fgByProgram = await getFgByProgram()
-  const fgBySpecies = await getFgBySpecies()
-  const fgTotal = await getFgTotal()
-
+  const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven()
+  const lvl_2_subtotal_fgInven = await lvl_2_subtotal_getFgInven()
+  const dataTotal_fgInven = await dataTotal_getFgInven()
   /* FG IN TRANSIT*/
-  const fgInTransitByProgram = await getFgInTransitByProgram()
-  const fgInTransitBySpecies = await getFgInTransitBySpecies()
-  const fgInTransitTotal = await getFgInTransitTotal()
-
+  const lvl_1_subtotal_fgInTransit = await lvl_1_subtotal_getFgInTransit()
+  const lvl_2_subtotal_fgInTransit = await lvl_2_subtotal_getFgInTransit()
+  const dataTotal_fgInTransit = await dataTotal_getFgInTransit()
   /* FG ON HAND (LESS IN TRANSIT) */
-  const fgAtLocationByProgram = await getFgAtLocationByProgram()
-  const fgAtLocationBySepcies = await getFgAtLocationBySepcies()
-  const fgAtLocationTotal = await getFgAtLocationTotal()
-
+  const lvl_1_subtotal_fgAtLoc = await lvl_1_subtotal_getFgAtLoc()
+  const lvl_2_subtotal_fgAtLoc = await lvl_2_subtotal_getFgAtLoc()
+  const dataTotal_fgAtLocation = await dataTotal_getFgAtLocation()
   /* FG ON ORDER */
-  const fgOnOrderByProgram = await getFgOnOrderByProgram()
-  const fgOnOrderBySpecies = await getFgOnOrderBySpecies()
-  const fgOnOrderTotal = await getFgOnOrderTotal()
-
+  const lvl_1_subtotal_fgPo = await lvl_1_subtotal_getFgPo()
+  const lvl_2_subtotal_fgPo = await lvl_2_subtotal_getFgPo()
+  const dataTotal_fgPo = await dataTotal_getFgPo()
   /* TOTAL RM */
-  const rmByProgram = await getRmByProgram()
-  const rmBySpecies = await getRmBySpecies()
-  const rmTotal = await getRmTotal()
-
+  const lvl_1_subtotal_rmInven = await lvl_1_subtotal_getRmInven()
+  const lvl_2_subtotal_rmInven = await lvl_2_subtotal_getRmInven()
+  const dataTotal_rmInven = await dataTotal_getRmInven()
   /* RM IN TRANSIT (OUT COUNTRY PLUS IN TRANSIT) */
-  const rmInTransitByProgram = await getRmInTransitByProgram()
-  const rmInTransitBySpecies = await getRmInTransitBySpecies()
-  const rmInTransitTotal = await getRmInTransitTotal()
-
+  const lvl_1_subtotal_rmInTransit = await lvl_1_subtotal_getRmInTransit()
+  const lvl_2_subtotal_rmInTransit = await lvl_2_subtotal_getRmInTransit()
+  const dataTotal_rmInTransit = await dataTotal_getRmInTransit()
   /* RM ON HAND (IN COUNTRY LESS IN TRANSIT) */
-  const rmAtLocationByProgram = await getRmAtLocationByProgram()
-  const rmAtLocationBySepcies = await getRmAtLocationBySepcies()
-  const rmAtLocationTotal = await getRmAtLocationTotal()
-
+  const lvl_1_subtotal_rmAtLoc = await lvl_1_subtotal_getRmAtLoc()
+  const lvl_2_subtotal_rmAtLoc = await lvl_2_subtotal_getRmAtLoc()
+  const dataTotal_rmAtLoc = await dataTotal_getRmAtLoc()
   /* RM ON ORDER */
-  const rmOnOrderByProgram = await getRmOnOrderByProgram()
-  const rmOnOrderBySpecies = await getRmOnOrderBySpecies()
-  const rmOnOrderTotal = await getRmOnOrderTotal()
+  const lvl_1_subtotal_rmPo = await lvl_1_subtotal_getRmPo()
+  const lvl_2_subtotal_rmPo = await lvl_2_subtotal_getRmPo()
+  const dataTotal_rmPo = await dataTotal_getRmPo()
 
   ///////////////////////////////// SALES ORDERS
-  const fgSalesOrdersByProgram = await getFgSalesOrdersByProgram()
-  const fgSalesOrdersBySpecies = await getFgSalesOrdersBySpecies()
-  const fgSalesOrdersTotal = await getFgSalesOrdersTotal()
+  const lvl_1_subtotal_so = await lvl_1_subtotal_getSo()
+  const lvl_2_subtotal_so = await lvl_2_subtotal_getSo()
+  const dataTotal_so = await dataTotal_getSo()
 
   ///////////////////////////////// SALES DATA
-
-  const fgProgramTotalsRow = await getFgProgramTotalsRow(start, end)
-  /*
-  "fgProgramTotalsRow": [
-         {
-        "column": "2022-W01",
-        "l1_subtotal": "COD",
-        "l2_subtotal": "COD CHN",
-        "lbs": -3660,
-        "sales": -17245,
-        "cogs": -13828.28,
-        "othp": 100.26999999999998
-    },
-    {
-        "column": "2022-W01",
-        "l1_subtotal": "COD",
-        "l2_subtotal": "COD USA",
-        "lbs": 175340,
-        "sales": 1049622.9500000002,
-        "cogs": 947689.7399999995,
-        "othp": 43466.70999999999
-    },
-    {
-        "column": "2022-W01",
-        "l1_subtotal": "FLATFISH",
-        "l2_subtotal": "FLATFISH CHN",
-        "lbs": 35789.6992,
-        "sales": 149061.13,
-        "cogs": 98996.8,
-        "othp": 12357.330000000002
-    },
-  */
-
-  const fgProgramTotalsCol = await getFgProgramTotalsCol(start, end)
-  /*
-  "getFgProgramTotalsCol": [
-    {
-        "column": "TOTAL",
-        "l1_subtotal": "COD",
-        "l2_subtotal": "COD CHN",
-        "lbs": 1470740.428,
-        "sales": 6951255.52,
-        "cogs": 5739432.030000001,
-        "othp": 183559.57999999984
-    },
-    {
-        "column": "TOTAL",
-        "l1_subtotal": "COD",
-        "l2_subtotal": "COD USA",
-        "lbs": 6086597.197199999,
-        "sales": 35962386.23999998,
-        "cogs": 33571707.27999995,
-        "othp": 1273874.97
-    },
-    {
-        "column": "TOTAL",
-        "l1_subtotal": "FLATFISH",
-        "l2_subtotal": "FLATFISH CHN",
-        "lbs": 9605545.717999998,
-        "sales": 31481754.21999999,
-        "cogs": 24343992.249999963,
-        "othp": 2016905.8899999987
-    },
-  */
-
-  const allSalesRowTotals = await getAllFgSalesTotalsRow(start, end)
-  /*
-  "allSalesRowTotals": [
-    {
-        "column": "2022-W01",
-        "l1_subtotal": "FG SALES",
-        "l2_subtotal": "TOTAL",
-        "lbs": 570530.4892000001,
-        "sales": 3650605.8999999985,
-        "cogs": 3154600.519999998,
-        "othp": 86901.38
-    },
-    {
-        "column": "2022-W02",
-        "l1_subtotal": "FG SALES",
-        "l2_subtotal": "TOTAL",
-        "lbs": 725587.9219999999,
-        "sales": 5625076.049999998,
-        "cogs": 4899364.590000003,
-        "othp": 100527.69999999998
-    },
-    {
-        "column": "2022-W03",
-        "l1_subtotal": "FG SALES",
-        "l2_subtotal": "TOTAL",
-        "lbs": 536702.5416000001,
-        "sales": 4145706.939999997,
-        "cogs": 3630620.0600000024,
-        "othp": 90319.32
-    },
-  */
-
-  const allSalesColTotals = await getAllFgSalesColTotals(start, end)
-  /*
-  "allSalesRowTotals": [
-        {
-        "column": "TOTAL",
-        "l1_subtotal": "FG SALES",
-        "l2_subtotal": "TOTAL",
-        "lbs": 31948279.458400007,
-        "sales": 205632410.27000064,
-        "cogs": 176277047.73999837,
-        "othp": 5897058.769999918
-    }
-       
-  */
-
-  const fgSpeciesGroupTotalsRow = await getFgSpeciesGroupTotalsRow(start, end)
-  /*
-    "fgSpeciesGroupTotalsRow": [
-        {
-            "column": "2022-W01",
-            "l1_subtotal": "COD",
-            "l2_subtotal": "SUBTOTAL",
-            "lbs": 171680,
-            "sales": 1032377.9500000001,
-            "cogs": 933861.4599999998,
-            "othp": 43566.97999999999
-        },
-        {
-            "column": "2022-W01",
-            "l1_subtotal": "FLATFISH",
-            "l2_subtotal": "SUBTOTAL",
-            "lbs": 112358.6992,
-            "sales": 525812.1299999999,
-            "cogs": 444937.04,
-            "othp": 26592.37999999999
-        },
-        {
-            "column": "2022-W01",
-            "l1_subtotal": "HADDOCK",
-            "l2_subtotal": "SUBTOTAL",
-            "lbs": 141900,
-            "sales": 537393.2000000001,
-            "cogs": 434112.64,
-            "othp": 1772.0499999999936
-        },
-         
-    */
-
-  const fgSpeciesGroupTotalsCol = await getFgSpeciesGroupTotalsCol(start, end)
-  /*
-      "fgSpeciesGroupTotalsCol": [
-         {
-            "column": "TOTAL",
-            "l1_subtotal": "COD",
-            "l2_subtotal": "SUBTOTAL",
-            "lbs": 7557337.6252,
-            "sales": 42913641.75999999,
-            "cogs": 39311139.310000114,
-            "othp": 1457434.5500000026
-        },
-        {
-            "column": "TOTAL",
-            "l1_subtotal": "FLATFISH",
-            "l2_subtotal": "SUBTOTAL",
-            "lbs": 13091682.343000002,
-            "sales": 49169337.72000003,
-            "cogs": 39366764.52,
-            "othp": 2775694.96
-        },
-           
-      */
+  /* EACH PERIOD */
+  const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end)
+  const lvl_2_subtotal_salesByWk = await lvl_2_subtotal_getSalesByWk(start, end)
+  const dataTotal_salesByWk = await dataTotal_getSalesByWk(start, end)
+  /* TOTAL COL */
+  const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(start, end)
+  const lvl_2_subtotal_salesPeriodToDate = await lvl_2_subtotal_getSalesPeriodToDate(start, end)
+  const dataTotal_salesPeriodToDate = await dataTotal_getSalesPeriodToDate(start, end)
 
   ///////////////////////////////// ROWS
-
-  const speciesGroupSubProgram = await getSpeciesGroupSubProgram(start, end)
-
-  const speciesGroupSubTotal = await getSpeciesGroupSubTotal(start, end)
-
+  const levelOneRows = await getLevelOneRows(start, end)
+  const levelTwoRows = await getLevelTwoRows(start, end)
   const totalsRow = [{ l1_subtotal: 'FG SALES', l2_subtotal: 'TOTAL' }]
 
   // COMPILE FINAL ROW TEMPLATE
-  const rowTemplate = [...speciesGroupSubProgram, ...speciesGroupSubTotal]
+  const rowTemplate = [...levelTwoRows, ...levelOneRows]
     .sort((a, b) => {
       if (a.l2_subtotal < b.l2_subtotal) return -1
       if (a.l2_subtotal > b.l2_subtotal) return 1
@@ -289,114 +113,59 @@ const getWeeklyProgramSales = async (start, end) => {
 
   // map data into row template
   const rowTemplate_unflat = unflattenRowTemplate(rowTemplate)
-  /*
-        {
-        "COD-COD CHN": {
-            "l1_subtotal": "COD",
-            "l2_subtotal": "COD CHN"
-        },
-        "COD-COD USA": {
-            "l1_subtotal": "COD",
-            "l2_subtotal": "COD USA"
-        },
-        "COD-SUBTOTAL": {
-            "l1_subtotal": "COD",
-            "l2_subtotal": "SUBTOTAL"
-        },
-        "FLATFISH-FLATFISH CHN": {
-            "l1_subtotal": "FLATFISH",
-            "l2_subtotal": "FLATFISH CHN"
-        },
-  */
 
   const mappedSales = mapSalesToRowTemplates(
     [
-      ...fgProgramTotalsRow,
-      ...fgProgramTotalsCol,
-      ...allSalesRowTotals,
-      ...allSalesColTotals,
-      ...fgSpeciesGroupTotalsRow,
-      ...fgSpeciesGroupTotalsCol,
-      ...fgSalesOrdersByProgram,
-      ...fgSalesOrdersBySpecies,
-      ...fgSalesOrdersTotal,
+      ...lvl_1_subtotal_salesPeriodToDate,
+      ...lvl_2_subtotal_salesPeriodToDate,
+      ...dataTotal_salesPeriodToDate,
+      ...lvl_1_subtotal_so,
+      ...lvl_2_subtotal_so,
+      ...dataTotal_so,
+      ...lvl_1_subtotal_salesByWk,
+      ...lvl_2_subtotal_salesByWk,
+      ...dataTotal_salesByWk,
     ],
     rowTemplate_unflat
   )
 
   const mappedInven = mapInvenToRowTemplates(
     [
-      ...fgByProgram,
-      ...fgInTransitByProgram,
-      ...fgAtLocationByProgram,
-      ...fgBySpecies,
-      ...fgInTransitBySpecies,
-      ...fgAtLocationBySepcies,
-      ...fgTotal,
-      ...fgInTransitTotal,
-      ...fgAtLocationTotal,
-      ...fgOnOrderByProgram,
-      ...fgOnOrderBySpecies,
-      ...fgOnOrderTotal,
-      ...rmByProgram,
-      ...rmInTransitByProgram,
-      ...rmAtLocationByProgram,
-      ...rmBySpecies,
-      ...rmInTransitBySpecies,
-      ...rmAtLocationBySepcies,
-      ...rmTotal,
-      ...rmInTransitTotal,
-      ...rmAtLocationTotal,
-      ...rmOnOrderByProgram,
-      ...rmOnOrderBySpecies,
-      ...rmOnOrderTotal,
+      ...lvl_1_subtotal_fgInven,
+      ...lvl_2_subtotal_fgInven,
+      ...dataTotal_fgInven,
+      ...lvl_1_subtotal_fgInTransit,
+      ...lvl_2_subtotal_fgInTransit,
+      ...dataTotal_fgInTransit,
+      ...lvl_1_subtotal_fgAtLoc,
+      ...lvl_2_subtotal_fgAtLoc,
+      ...dataTotal_fgAtLocation,
+      ...lvl_1_subtotal_fgPo,
+      ...lvl_2_subtotal_fgPo,
+      ...dataTotal_fgPo,
+      ...lvl_1_subtotal_rmInven,
+      ...lvl_2_subtotal_rmInven,
+      ...dataTotal_rmInven,
+      ...lvl_1_subtotal_rmInTransit,
+      ...lvl_2_subtotal_rmInTransit,
+      ...dataTotal_rmInTransit,
+      ...lvl_1_subtotal_rmAtLoc,
+      ...lvl_2_subtotal_rmAtLoc,
+      ...dataTotal_rmAtLoc,
+      ...lvl_1_subtotal_rmPo,
+      ...lvl_2_subtotal_rmPo,
+      ...dataTotal_rmPo,
     ],
     rowTemplate_unflat
   )
 
   const mappedData = combineMappedRows(mappedSales, mappedInven)
-
-  /*
-  mappedSales
-{
- "COD-COD CHN": {
-      "l1_subtotal": "COD",
-      "l2_subtotal": "COD CHN",
-      "2022-W01": {
-          "weight": -3660,
-          "revenue": -17245,
-          "cogs": -13828.28,
-          "othp": 100.27,
-          "netSales": -17345.27,
-          "grossMargin": -3516.99,
-          "revenuePerLb": 4.71,
-          "cogsPerLb": 3.78,
-          "othpPerLb": -0.03,
-          "netSalesPerLb": 4.74,
-          "grossMarginPerLb": 0.96
-      },
-      "2022-W02": {
-          "weight": 35178,
-          "revenue": 116087.4,
-          "cogs": 110577.4,
-          "othp": 534.71,
-          "netSales": 115552.69,
-          "grossMargin": 4975.29,
-          "revenuePerLb": 3.3,
-          "cogsPerLb": 3.14,
-          "othpPerLb": 0.02,
-          "netSalesPerLb": 3.28,
-          "grossMarginPerLb": 0.14
-      },
-  */
-
   // clean out rows with zero sales
   Object.keys(mappedData).forEach(key => {
     if (Object.keys(mappedData[key]).length === 1) {
       delete mappedData[key]
     }
   })
-
   const flattenedMappedData = Object.values(mappedData)
 
   // remove row labels for l1_subtotal except first row of each grouping
@@ -404,21 +173,6 @@ const getWeeklyProgramSales = async (start, end) => {
 
   // get data column names
   const dataCols = await getDateEndPerWeekByRange(start, end)
-  /*
-   "cols": [
-        {
-            "dataname": "2022-W01",
-            "displayname": "4/9/2022"
-        },
-        {
-            "dataname": "2022-W02",
-            "displayname": "4/16/2022"
-        },
-        {
-            "dataname": "2022-W03",
-            "displayname": "4/23/2022"
-        },
-  */
 
   // return
   return { data: finalData, cols: dataCols, labelCols: labelCols }

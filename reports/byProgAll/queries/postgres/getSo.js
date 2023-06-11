@@ -1,6 +1,29 @@
-/* *********************************************** FG PROGRAM *********************************************** */
+/* *********************************************** Level 1 *********************************************** */
 
-const getFgSalesOrdersByProgram = async () => {
+const lvl_1_subtotal_getSo = async () => {
+  try {
+    const { Client } = require('pg')
+    const pgClient = new Client() // config from ENV
+    await pgClient.connect()
+
+    console.log(`query postgres for FG Sales Orders ...`)
+
+    const response = await pgClient.query(
+           'SELECT \'FG OPEN ORDER\' AS column, master_supplement.species_group AS l1_subtotal, \'SUBTOTAL\' AS l2_subtotal, SUM(sales_orders.ext_weight) AS lbs, SUM(sales_orders.ext_sales) AS sales, SUM(sales_orders.ext_cost) AS cogs, SUM(sales_orders.ext_othp) AS othp FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_orders.item_num WHERE master_supplement.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND master_supplement.byproduct_type IS NULL GROUP BY master_supplement.species_group', ['FG']
+          ) //prettier-ignore
+
+    await pgClient.end()
+
+    return response.rows
+  } catch (error) {
+    console.error(error)
+    return error
+  }
+}
+
+/* *********************************************** Level 2 *********************************************** */
+
+const lvl_2_subtotal_getSo = async () => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -23,32 +46,9 @@ const getFgSalesOrdersByProgram = async () => {
   }
 }
 
-/* *********************************************** FG SPECIES GROUP *********************************************** */
+/* *********************************************** TOTAL *********************************************** */
 
-const getFgSalesOrdersBySpecies = async () => {
-  try {
-    const { Client } = require('pg')
-    const pgClient = new Client() // config from ENV
-    await pgClient.connect()
-
-    console.log(`query postgres for FG Sales Orders ...`)
-
-    const response = await pgClient.query(
-           'SELECT \'FG OPEN ORDER\' AS column, master_supplement.species_group AS l1_subtotal, \'SUBTOTAL\' AS l2_subtotal, SUM(sales_orders.ext_weight) AS lbs, SUM(sales_orders.ext_sales) AS sales, SUM(sales_orders.ext_cost) AS cogs, SUM(sales_orders.ext_othp) AS othp FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_orders.item_num WHERE master_supplement.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND master_supplement.byproduct_type IS NULL GROUP BY master_supplement.species_group', ['FG']
-          ) //prettier-ignore
-
-    await pgClient.end()
-
-    return response.rows
-  } catch (error) {
-    console.error(error)
-    return error
-  }
-}
-
-/* *********************************************** TOTAL INVEN *********************************************** */
-
-const getFgSalesOrdersTotal = async () => {
+const dataTotal_getSo = async () => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -69,6 +69,6 @@ const getFgSalesOrdersTotal = async () => {
   }
 }
 
-module.exports.getFgSalesOrdersByProgram = getFgSalesOrdersByProgram
-module.exports.getFgSalesOrdersBySpecies = getFgSalesOrdersBySpecies
-module.exports.getFgSalesOrdersTotal = getFgSalesOrdersTotal
+module.exports.lvl_2_subtotal_getSo = lvl_2_subtotal_getSo
+module.exports.lvl_1_subtotal_getSo = lvl_1_subtotal_getSo
+module.exports.dataTotal_getSo = dataTotal_getSo

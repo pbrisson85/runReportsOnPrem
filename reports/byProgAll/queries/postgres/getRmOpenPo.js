@@ -1,31 +1,6 @@
-/* *********************************************** RM PROGRAM SALES *********************************************** */
+/* *********************************************** Level 1 *********************************************** */
 
-// RM open PO grouped by program (includes in transit)
-
-const getRmOnOrderByProgram = async () => {
-  try {
-    const { Client } = require('pg')
-    const pgClient = new Client() // config from ENV
-    await pgClient.connect()
-
-    console.log(`query postgres for RM open PO ...`)
-
-    const response = await pgClient.query(
-       'SELECT \'RM ON ORDER\' AS column, master_supplement.species_group AS l1_subtotal, master_supplement.program AS l2_subtotal, SUM(perpetual_inventory.on_order_lbs) AS lbs, SUM(perpetual_inventory.on_order_extended) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = perpetual_inventory.item_number WHERE master_supplement.item_type = $1 AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) GROUP BY master_supplement.species_group, master_supplement.program', ['RM']
-      ) //prettier-ignore
-
-    await pgClient.end()
-
-    return response.rows
-  } catch (error) {
-    console.error(error)
-    return error
-  }
-}
-
-/* *********************************************** RM SPECIES GROUP *********************************************** */
-
-const getRmOnOrderBySpecies = async () => {
+const lvl_1_subtotal_getRmPo = async () => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -46,9 +21,34 @@ const getRmOnOrderBySpecies = async () => {
   }
 }
 
-/* *********************************************** TOTAL INVEN *********************************************** */
+/* *********************************************** Level 2 *********************************************** */
 
-const getRmOnOrderTotal = async () => {
+// RM open PO grouped by program (includes in transit)
+
+const lvl_2_subtotal_getRmPo = async () => {
+  try {
+    const { Client } = require('pg')
+    const pgClient = new Client() // config from ENV
+    await pgClient.connect()
+
+    console.log(`query postgres for RM open PO ...`)
+
+    const response = await pgClient.query(
+       'SELECT \'RM ON ORDER\' AS column, master_supplement.species_group AS l1_subtotal, master_supplement.program AS l2_subtotal, SUM(perpetual_inventory.on_order_lbs) AS lbs, SUM(perpetual_inventory.on_order_extended) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = perpetual_inventory.item_number WHERE master_supplement.item_type = $1 AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) GROUP BY master_supplement.species_group, master_supplement.program', ['RM']
+      ) //prettier-ignore
+
+    await pgClient.end()
+
+    return response.rows
+  } catch (error) {
+    console.error(error)
+    return error
+  }
+}
+
+/* *********************************************** TOTAL *********************************************** */
+
+const dataTotal_getRmPo = async () => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -69,6 +69,6 @@ const getRmOnOrderTotal = async () => {
   }
 }
 
-module.exports.getRmOnOrderByProgram = getRmOnOrderByProgram
-module.exports.getRmOnOrderBySpecies = getRmOnOrderBySpecies
-module.exports.getRmOnOrderTotal = getRmOnOrderTotal
+module.exports.lvl_2_subtotal_getRmPo = lvl_2_subtotal_getRmPo
+module.exports.lvl_1_subtotal_getRmPo = lvl_1_subtotal_getRmPo
+module.exports.dataTotal_getRmPo = dataTotal_getRmPo

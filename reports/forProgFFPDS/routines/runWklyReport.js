@@ -9,7 +9,6 @@ const {
   lvl_3_detail_getSalesPeriodToDate,
   dataTotal_getSalesPeriodToDate,
 } = require('../queries/postgres/getSalesTrend')
-
 const {
   lvl_1_subtotal_getFgInven,
   lvl_2_subtotal_getFgInven,
@@ -37,11 +36,7 @@ const {
 //   getRmAtLocationTotal,
 // } = require('../../queries/postgres/getInven/byProgram/getRmInvenByProgram')
 
-// const {
-//   getFgOnOrderByProgram,
-//   getFgOnOrderBySpecies,
-//   getFgOnOrderTotal,
-// } = require('../../queries/postgres/getPurchOrders/byProgram/getFgOpenPoByProgram')
+const { lvl_1_subtotal_getFgPo, lvl_2_subtotal_getFgPo, lvl_3_detail_getFgPo, dataTotal_getFgPo } = require('../queries/postgres/getFgInven')
 
 // const {
 //   getRmOnOrderByProgram,
@@ -50,7 +45,6 @@ const {
 // } = require('../../queries/postgres/getPurchOrders/byProgram/getRmOpenPoByProgram')
 
 const { lvl_1_subtotal_getSo, lvl_2_subtotal_getSo, lvl_3_detail_getSo, dataTotal_getSo } = require('../queries/postgres/getSo')
-
 const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../queries/postgres/getRows')
 
 const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesThreeLevel')
@@ -103,9 +97,10 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   // const rmOnOrderTotal = await getRmOnOrderTotal()
 
   // /* FG ON ORDER */
-  // const fgOnOrderByProgram = await getFgOnOrderByProgram()
-  // const fgOnOrderBySpecies = await getFgOnOrderBySpecies()
-  // const fgOnOrderTotal = await getFgOnOrderTotal()
+  const lvl_1_subtotal_fgPo = await lvl_1_subtotal_getFgPo(program)
+  const lvl_2_subtotal_fgPo = await lvl_2_subtotal_getFgPo(program)
+  const lvl_3_detail_fgPo = await lvl_3_detail_getFgPo(program)
+  const dataTotal_fgPo = await dataTotal_getFgPo(program)
 
   // ///////////////////////////////// SALES ORDERS
   const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(program)
@@ -172,9 +167,6 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
 
   // const mappedInven = mapInvenToRowTemplates(
   //   [
-  //     ...fgOnOrderByProgram,
-  //     ...fgOnOrderBySpecies,
-  //     ...fgOnOrderTotal,
   //     ...rmByProgram,
   //     ...rmInTransitByProgram,
   //     ...rmAtLocationByProgram,
@@ -223,6 +215,10 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
       ...lvl_2_subtotal_fgAtLoc,
       ...lvl_3_detail_fgAtLoc,
       ...dataTotal_fgAtLocation,
+      ...lvl_1_subtotal_fgPo,
+      ...lvl_2_subtotal_fgPo,
+      ...lvl_3_detail_fgPo,
+      ...dataTotal_fgPo,
     ],
     rowTemplate_unflat
   )

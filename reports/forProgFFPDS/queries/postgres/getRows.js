@@ -2,7 +2,7 @@
 NOTE TO GET A COMPLETE POPULATION OF ALL POSSIBLE ROW LABELS PERFORMING A UNION OF 
 
 "salesReporting".sales_line_items
-"invenReporting".perpetual_inventory
+"invenReporting".perpetual_inventory <-- Includes PO's
 "salesReporting".sales_orders
 
 */
