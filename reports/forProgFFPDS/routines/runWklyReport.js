@@ -51,7 +51,14 @@ const {
   lvl_3_subtotal_getRmPo,
   lvl_0_total_getRmPo,
 } = require('../queries/postgres/getRmOpenPo')
-const { lvl_1_subtotal_getSo, lvl_2_subtotal_getSo, lvl_3_subtotal_getSo, lvl_0_total_getSo } = require('../queries/postgres/getSo')
+const {
+  lvl_1_subtotal_getSo,
+  lvl_2_subtotal_getSo,
+  lvl_3_subtotal_getSo,
+  lvl_0_total_getSo,
+  lvl_3_subtotal_getSoTagged,
+  lvl_3_subtotal_getSoUntagged,
+} = require('../queries/postgres/getSo')
 const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../queries/postgres/getRows')
 
 const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesThreeLevel')
@@ -107,10 +114,15 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   const lvl_0_total_fgPo = await lvl_0_total_getFgPo(program)
 
   // ///////////////////////////////// SALES ORDERS
+  /* ALL SO */
   const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(program)
   const lvl_2_subtotal_so = await lvl_2_subtotal_getSo(program)
   const lvl_3_subtotal_so = await lvl_3_subtotal_getSo(program)
   const lvl_0_total_so = await lvl_0_total_getSo(program)
+  /* TAGGED SO */
+  const lvl_3_subtotal_soTagged = await lvl_3_subtotal_getSoTagged(program)
+  /* UNTAGGED SO */
+  const lvl_3_subtotal_soUntagged = await lvl_3_subtotal_getSoUntagged(program)
 
   // ///////////////////////////////// SALES DATA
   const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end, program)
@@ -181,6 +193,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
       ...lvl_2_subtotal_so,
       ...lvl_3_subtotal_so,
       ...lvl_0_total_so,
+      ...lvl_3_subtotal_soTagged,
+      ...lvl_3_subtotal_soUntagged,
     ],
     rowTemplate_unflat
   )

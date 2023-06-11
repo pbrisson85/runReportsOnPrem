@@ -21,10 +21,8 @@
 ### TO DO
 
 - Add non FG sales so report can be tied into seasoft
-- Rename all functions in two level report
 - add columns in both two level and three level reports for SO tagged, SO untagged, Inven On Hand Committed to SO, Inven On Hand Committed to BT, Inven On Hand Not Commmitted
 - Will need to add ability on the front end to add/remove/collapse/expand columns
-- need to add data for three level report to columns: FG PO, RM Inven, RM PO
 
 ### Acronyms:
 
