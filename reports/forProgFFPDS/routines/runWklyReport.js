@@ -22,7 +22,7 @@ const {
   lvl_2_subtotal_getFgAtLoc,
   lvl_3_subtotal_getFgAtLoc,
   lvl_0_total_getFgAtLoc,
-  lvl_3_subtotal_getFgAtLoc_untagged
+  lvl_3_subtotal_getFgAtLoc_untagged,
 } = require('../queries/postgres/getFgInven')
 
 const {
@@ -93,7 +93,7 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   const lvl_2_subtotal_fgAtLoc = await lvl_2_subtotal_getFgAtLoc(program)
   const lvl_3_subtotal_fgAtLoc = await lvl_3_subtotal_getFgAtLoc(program)
   const lvl_0_total_fgAtLoc = await lvl_0_total_getFgAtLoc(program)
- // /* FG ON HAND UNTAGGED */
+  // /* FG ON HAND UNTAGGED */
   const lvl_3_subtotal_fgAtLoc_untagged = await lvl_3_subtotal_getFgAtLoc_untagged(program)
 
   /* TOTAL RM */
@@ -153,7 +153,7 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   const rowsThirdLevelDetail = await getRowsThirdLevelDetail(start, end, program)
   const rowsSecondLevelDetail = await getRowsSecondLevelDetail(start, end, program)
   const rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, program)
-  const totalsRow = [{ l1_sublevel 0: 'FG SALES', l2_sublevel 0: 'TOTAL', l3_sublevel 0: 'TOTAL' }]
+  const totalsRow = [{ l1_subtotal: 'FG SALES', l2_subtotal: 'TOTAL', l3_subtotal: 'TOTAL' }]
 
   // COMPILE FINAL ROW TEMPLATE
   const rowTemplate = [...rowsThirdLevelDetail, ...rowsSecondLevelDetail, ...rowsFirstLevelDetail]

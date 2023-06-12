@@ -94,7 +94,7 @@ const getWeeklyProgramSales = async (start, end) => {
   ///////////////////////////////// ROWS
   const levelOneRows = await getLevelOneRows(start, end)
   const levelTwoRows = await getLevelTwoRows(start, end)
-  const totalsRow = [{ l1_sublevel 0: 'FG SALES', l2_sublevel 0: 'TOTAL' }]
+  const totalsRow = [{ l1_subtotal: 'FG SALES', l2_subtotal: 'TOTAL' }]
 
   // COMPILE FINAL ROW TEMPLATE
   const rowTemplate = [...levelTwoRows, ...levelOneRows]
