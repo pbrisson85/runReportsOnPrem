@@ -16,7 +16,7 @@ const {
   lvl_0_total_getFgInTransit,
   lvl_1_subtotal_getFgAtLoc,
   lvl_2_subtotal_getFgAtLoc,
-  lvl_0_total_getFgAtLocation,
+  lvl_0_total_getFgAtLoc,
 } = require('../queries/postgres/getFgInven')
 const {
   lvl_1_subtotal_getRmInven,
@@ -54,7 +54,7 @@ const getWeeklyProgramSales = async (start, end) => {
   /* FG ON HAND (LESS IN TRANSIT) */
   const lvl_1_subtotal_fgAtLoc = await lvl_1_subtotal_getFgAtLoc()
   const lvl_2_subtotal_fgAtLoc = await lvl_2_subtotal_getFgAtLoc()
-  const lvl_0_total_fgAtLocation = await lvl_0_total_getFgAtLocation()
+  const lvl_0_total_fgAtLocation = await lvl_0_total_getFgAtLoc()
   /* FG ON ORDER */
   const lvl_1_subtotal_fgPo = await lvl_1_subtotal_getFgPo()
   const lvl_2_subtotal_fgPo = await lvl_2_subtotal_getFgPo()
@@ -94,7 +94,7 @@ const getWeeklyProgramSales = async (start, end) => {
   ///////////////////////////////// ROWS
   const levelOneRows = await getLevelOneRows(start, end)
   const levelTwoRows = await getLevelTwoRows(start, end)
-  const totalsRow = [{ l1_subtotal: 'FG SALES', l2_subtotal: 'TOTAL' }]
+  const totalsRow = [{ l1_sublevel 0: 'FG SALES', l2_sublevel 0: 'TOTAL' }]
 
   // COMPILE FINAL ROW TEMPLATE
   const rowTemplate = [...levelTwoRows, ...levelOneRows]

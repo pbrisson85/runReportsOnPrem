@@ -8,7 +8,7 @@ const lvl_1_subtotal_getSalesByWk = async (start, end, program) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`level1: query postgres to get FG sales data by week ...`)
+    console.log(`level 1: query postgres to get FG sales data by week ...`)
 
     const response = await pgClient.query(
       'SELECT sales_line_items.week_serial AS column, master_supplement.fg_fresh_frozen AS l1_subtotal, \'SUBTOTAL\' AS l2_subtotal, \'SUBTOTAL\' AS l3_subtotal, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.calc_gl_gross_sales),0) AS sales, COALESCE(SUM(sales_line_items.calc_gl_cogs),0) AS cogs, COALESCE(SUM(sales_line_items.calc_gl_othp),0) AS othp FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_line_items.item_number WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $3 AND master_supplement.program = $4 GROUP BY sales_line_items.week_serial, master_supplement.fg_fresh_frozen ORDER BY sales_line_items.week_serial',
@@ -32,7 +32,7 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (start, end, program) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`level1: query postgres to get FG sales data period total ...`)
+    console.log(`level 1: query postgres to get FG sales data period total ...`)
 
     const response = await pgClient.query(
       'SELECT \'TOTAL\' AS column, master_supplement.fg_fresh_frozen AS l1_subtotal, \'SUBTOTAL\' AS l2_subtotal, \'SUBTOTAL\' AS l3_subtotal, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.calc_gl_gross_sales),0) AS sales, COALESCE(SUM(sales_line_items.calc_gl_cogs),0) AS cogs, COALESCE(SUM(sales_line_items.calc_gl_othp),0) AS othp FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_line_items.item_number WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $3 AND master_supplement.program = $4 GROUP BY master_supplement.fg_fresh_frozen',
@@ -58,7 +58,7 @@ const lvl_2_subtotal_getSalesByWk = async (start, end, program) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`level2: query postgres to get FG sales data by week ...`)
+    console.log(`level 2: query postgres to get FG sales data by week ...`)
 
     const response = await pgClient.query(
       'SELECT sales_line_items.week_serial AS column, master_supplement.fg_fresh_frozen AS l1_subtotal, master_supplement.fg_treatment AS l2_subtotal, \'SUBTOTAL\' AS l3_subtotal, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.calc_gl_gross_sales),0) AS sales, COALESCE(SUM(sales_line_items.calc_gl_cogs),0) AS cogs, COALESCE(SUM(sales_line_items.calc_gl_othp),0) AS othp FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_line_items.item_number WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $3 AND master_supplement.program = $4 GROUP BY sales_line_items.week_serial, master_supplement.fg_fresh_frozen, master_supplement.fg_treatment ORDER BY sales_line_items.week_serial',
@@ -82,7 +82,7 @@ const lvl_2_subtotal_getSalesPeriodToDate = async (start, end, program) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`level2: query postgres to get FG sales data period total ...`)
+    console.log(`level 2: query postgres to get FG sales data period total ...`)
 
     const response = await pgClient.query(
       'SELECT \'TOTAL\' AS column, master_supplement.fg_fresh_frozen AS l1_subtotal, master_supplement.fg_treatment AS l2_subtotal, \'SUBTOTAL\' AS l3_subtotal, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.calc_gl_gross_sales),0) AS sales, COALESCE(SUM(sales_line_items.calc_gl_cogs),0) AS cogs, COALESCE(SUM(sales_line_items.calc_gl_othp),0) AS othp FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_line_items.item_number WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $3 AND master_supplement.program = $4 GROUP BY master_supplement.fg_fresh_frozen, master_supplement.fg_treatment',
@@ -108,7 +108,7 @@ const lvl_3_subtotal_getSalesByWk = async (start, end, program) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`level3: query postgres to get FG sales data by week ...`)
+    console.log(`level 3: query postgres to get FG sales data by week ...`)
 
     const response = await pgClient.query(
       'SELECT sales_line_items.week_serial AS column, master_supplement.fg_fresh_frozen AS l1_subtotal, master_supplement.fg_treatment AS l2_subtotal, master_supplement.size_name AS l3_subtotal, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.calc_gl_gross_sales),0) AS sales, COALESCE(SUM(sales_line_items.calc_gl_cogs),0) AS cogs, COALESCE(SUM(sales_line_items.calc_gl_othp),0) AS othp FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_line_items.item_number WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $3 AND master_supplement.program = $4 GROUP BY sales_line_items.week_serial, master_supplement.fg_fresh_frozen, master_supplement.fg_treatment, master_supplement.size_name ORDER BY sales_line_items.week_serial',
@@ -132,7 +132,7 @@ const lvl_3_subtotal_getSalesPeriodToDate = async (start, end, program) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`level3: query postgres to get FG sales data period total ...`)
+    console.log(`level 3: query postgres to get FG sales data period total ...`)
 
     const response = await pgClient.query(
       'SELECT \'TOTAL\' AS column, master_supplement.fg_fresh_frozen AS l1_subtotal, master_supplement.fg_treatment AS l2_subtotal, master_supplement.size_name AS l3_subtotal, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.calc_gl_gross_sales),0) AS sales, COALESCE(SUM(sales_line_items.calc_gl_cogs),0) AS cogs, COALESCE(SUM(sales_line_items.calc_gl_othp),0) AS othp FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_line_items.item_number WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $3 AND master_supplement.program = $4 GROUP BY master_supplement.fg_fresh_frozen, master_supplement.fg_treatment, master_supplement.size_name',
@@ -158,7 +158,7 @@ const lvl_0_total_getSalesByWk = async (start, end, program) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`total: query postgres to get FG sales data by week ...`)
+    console.log(`level 0: query postgres to get FG sales data by week ...`)
 
     const response = await pgClient.query(
       'SELECT sales_line_items.week_serial AS column, \'FG SALES\' AS l1_subtotal, \'TOTAL\' AS l2_subtotal, \'TOTAL\' AS l3_subtotal, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.calc_gl_gross_sales),0) AS sales, COALESCE(SUM(sales_line_items.calc_gl_cogs),0) AS cogs, COALESCE(SUM(sales_line_items.calc_gl_othp),0) AS othp FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_line_items.item_number WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $3 AND master_supplement.program = $4 GROUP BY sales_line_items.week_serial ORDER BY sales_line_items.week_serial',
@@ -182,7 +182,7 @@ const lvl_0_total_getSalesPeriodToDate = async (start, end, program) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`total: query postgres to get FG sales data period total ...`)
+    console.log(`level 0: query postgres to get FG sales data period total ...`)
 
     const response = await pgClient.query(
       'SELECT \'TOTAL\' AS column, \'FG SALES\' AS l1_subtotal, \'TOTAL\' AS l2_subtotal, \'TOTAL\' AS l3_subtotal, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.calc_gl_gross_sales),0) AS sales, COALESCE(SUM(sales_line_items.calc_gl_cogs),0) AS cogs, COALESCE(SUM(sales_line_items.calc_gl_othp),0) AS othp FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_line_items.item_number WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $3 AND master_supplement.program = $4',
