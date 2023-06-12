@@ -58,6 +58,8 @@ const {
   lvl_0_total_getSo,
   lvl_3_subtotal_getSoTagged,
   lvl_3_subtotal_getSoUntagged,
+  lvl_0_total_getSoTagged,
+  lvl_0_total_getSoUntagged,
 } = require('../queries/postgres/getSo')
 const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../queries/postgres/getRows')
 
@@ -121,8 +123,10 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   const lvl_0_total_so = await lvl_0_total_getSo(program)
   /* TAGGED SO */
   const lvl_3_subtotal_soTagged = await lvl_3_subtotal_getSoTagged(program)
+  const lvl_0_total_soTagged = await lvl_0_total_getSoTagged(program)
   /* UNTAGGED SO */
   const lvl_3_subtotal_soUntagged = await lvl_3_subtotal_getSoUntagged(program)
+  const lvl_0_total_soUntagged = await lvl_0_total_getSoUntagged(program)
 
   // ///////////////////////////////// SALES DATA
   const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end, program)
@@ -195,6 +199,8 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
       ...lvl_0_total_so,
       ...lvl_3_subtotal_soTagged,
       ...lvl_3_subtotal_soUntagged,
+      ...lvl_0_total_soTagged,
+      ...lvl_0_total_soUntagged,
     ],
     rowTemplate_unflat
   )
