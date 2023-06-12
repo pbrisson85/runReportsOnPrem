@@ -23,6 +23,7 @@ const {
   lvl_3_subtotal_getFgAtLoc,
   lvl_0_total_getFgAtLoc,
   lvl_3_subtotal_getFgAtLoc_untagged,
+  lvl_3_subtotal_getFgAtLoc_tagged,
 } = require('../queries/postgres/getFgInven')
 
 const {
@@ -83,18 +84,20 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   const lvl_2_subtotal_fgInven = await lvl_2_subtotal_getFgInven(program)
   const lvl_3_subtotal_fgInven = await lvl_3_subtotal_getFgInven(program)
   const lvl_0_total_fgInven = await lvl_0_total_getFgInven(program)
-  // /* FG IN TRANSIT*/
+  /* FG IN TRANSIT*/
   const lvl_1_subtotal_fgInTransit = await lvl_1_subtotal_getFgInTransit(program)
   const lvl_2_subtotal_fgInTransit = await lvl_2_subtotal_getFgInTransit(program)
   const lvl_3_subtotal_fgInTransit = await lvl_3_subtotal_getFgInTransit(program)
   const lvl_0_total_fgInTransit = await lvl_0_total_getFgInTransit(program)
-  // /* FG ON HAND (LESS IN TRANSIT) */
+  /* FG ON HAND (LESS IN TRANSIT) */
   const lvl_1_subtotal_fgAtLoc = await lvl_1_subtotal_getFgAtLoc(program)
   const lvl_2_subtotal_fgAtLoc = await lvl_2_subtotal_getFgAtLoc(program)
   const lvl_3_subtotal_fgAtLoc = await lvl_3_subtotal_getFgAtLoc(program)
   const lvl_0_total_fgAtLoc = await lvl_0_total_getFgAtLoc(program)
-  // /* FG ON HAND UNTAGGED */
+  /* FG ON HAND UNTAGGED */
   const lvl_3_subtotal_fgAtLoc_untagged = await lvl_3_subtotal_getFgAtLoc_untagged(program)
+  /* FG ON HAND TAGGED */
+  const lvl_3_subtotal_fgAtLoc_tagged = await lvl_3_subtotal_getFgAtLoc_tagged(program)
 
   /* TOTAL RM */
   const lvl_1_subtotal_rmInven = await lvl_1_subtotal_getRmInven(program)
@@ -235,6 +238,7 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
       ...lvl_3_subtotal_fgAtLoc,
       ...lvl_0_total_fgAtLoc,
       ...lvl_3_subtotal_fgAtLoc_untagged, // New
+      ...lvl_3_subtotal_fgAtLoc_tagged, // New
       ...lvl_1_subtotal_fgPo,
       ...lvl_2_subtotal_fgPo,
       ...lvl_3_subtotal_fgPo,

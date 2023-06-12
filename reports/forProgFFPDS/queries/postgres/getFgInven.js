@@ -224,7 +224,7 @@ const lvl_3_subtotal_getFgAtLoc = async program => {
   }
 }
 
-const lvl_3_subtotal_getFgAtLoc_untagged = async program => {
+const lvl_3_subtotal_getFgAtLoc_tagged = async program => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -235,8 +235,8 @@ const lvl_3_subtotal_getFgAtLoc_untagged = async program => {
     // Level 3 detail
 
     const response = await pgClient.query(
-      'SELECT \'FG ON HAND UNTAGGED\' AS column, master_supplement.fg_fresh_frozen AS l1_subtotal, master_supplement.fg_treatment AS l2_subtotal, master_supplement.size_name AS l3_subtotal, COALESCE(SUM(perpetual_inventory.on_hand_lbs) - SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended) - SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = perpetual_inventory.item_number LEFT OUTER JOIN "salesReporting".tagged_inventory ON tagged_inventory.item_num = perpetual_inventory.item_number AND tagged_inventory.lot = perpetual_inventory.lot AND tagged_inventory.location = perpetual_inventory.location_code WHERE master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND perpetual_inventory.location_type <> $2 AND master_supplement.program = $3 GROUP BY master_supplement.fg_fresh_frozen, master_supplement.fg_treatment, master_supplement.size_name',
-      ['FG', 'IN TRANSIT', program]
+      'SELECT \'FG ON HAND TAGGED\' AS column, master_supplement.fg_fresh_frozen AS l1_subtotal, master_supplement.fg_treatment AS l2_subtotal, master_supplement.size_name AS l3_subtotal, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = tagged_inventory.item_num WHERE master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $1 AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND master_supplement.program = $2 GROUP BY master_supplement.fg_fresh_frozen, master_supplement.fg_treatment, master_supplement.size_name',
+      ['FG', program]
     ) //prettier-ignore
 
     await pgClient.end()
@@ -337,3 +337,4 @@ module.exports.lvl_0_total_getFgInven = lvl_0_total_getFgInven
 module.exports.lvl_0_total_getFgInTransit = lvl_0_total_getFgInTransit
 module.exports.lvl_0_total_getFgAtLoc = lvl_0_total_getFgAtLoc
 module.exports.lvl_3_subtotal_getFgAtLoc_untagged = lvl_3_subtotal_getFgAtLoc_untagged
+module.exports.lvl_3_subtotal_getFgAtLoc_tagged = lvl_3_subtotal_getFgAtLoc_tagged
