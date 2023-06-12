@@ -56,14 +56,14 @@ const {
   lvl_2_subtotal_getSo,
   lvl_3_subtotal_getSo,
   lvl_0_total_getSo,
-  lvl_3_subtotal_getSoTagged,
-  lvl_3_subtotal_getSoUntagged,
-  lvl_0_total_getSoTagged,
-  lvl_0_total_getSoUntagged,
-  lvl_2_subtotal_getSoTagged,
-  lvl_2_subtotal_getSoUntagged,
-  lvl_1_subtotal_getSoUntagged,
   lvl_1_subtotal_getSoTagged,
+  lvl_2_subtotal_getSoTagged,
+  lvl_3_subtotal_getSoTagged,
+  lvl_0_total_getSoTagged,
+  lvl_1_subtotal_getSoUntagged,
+  lvl_2_subtotal_getSoUntagged,
+  lvl_3_subtotal_getSoUntagged,
+  lvl_0_total_getSoUntagged,
 } = require('../queries/postgres/getSo')
 const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../queries/postgres/getRows')
 
