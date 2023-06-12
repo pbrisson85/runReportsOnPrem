@@ -62,6 +62,8 @@ const {
   lvl_0_total_getSoUntagged,
   lvl_2_subtotal_getSoTagged,
   lvl_2_subtotal_getSoUntagged,
+  lvl_1_subtotal_getSoUntagged,
+  lvl_1_subtotal_getSoTagged,
 } = require('../queries/postgres/getSo')
 const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../queries/postgres/getRows')
 
@@ -124,10 +126,12 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   const lvl_3_subtotal_so = await lvl_3_subtotal_getSo(program)
   const lvl_0_total_so = await lvl_0_total_getSo(program)
   /* TAGGED SO */
+  const lvl_1_subtotal_soTagged = await lvl_1_subtotal_getSoTagged(program)
   const lvl_2_subtotal_soTagged = await lvl_2_subtotal_getSoTagged(program)
   const lvl_3_subtotal_soTagged = await lvl_3_subtotal_getSoTagged(program)
   const lvl_0_total_soTagged = await lvl_0_total_getSoTagged(program)
   /* UNTAGGED SO */
+  const lvl_1_subtotal_soUntagged = await lvl_1_subtotal_getSoUntagged(program)
   const lvl_2_subtotal_soUntagged = await lvl_2_subtotal_getSoUntagged(program)
   const lvl_3_subtotal_soUntagged = await lvl_3_subtotal_getSoUntagged(program)
   const lvl_0_total_soUntagged = await lvl_0_total_getSoUntagged(program)
@@ -201,12 +205,14 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
       ...lvl_2_subtotal_so,
       ...lvl_3_subtotal_so,
       ...lvl_0_total_so,
-      ...lvl_3_subtotal_soTagged,
-      ...lvl_3_subtotal_soUntagged,
-      ...lvl_0_total_soTagged,
-      ...lvl_0_total_soUntagged,
+      ...lvl_1_subtotal_soTagged,
       ...lvl_2_subtotal_soTagged,
+      ...lvl_3_subtotal_soTagged,
+      ...lvl_0_total_soTagged,
+      ...lvl_1_subtotal_soUntagged,
       ...lvl_2_subtotal_soUntagged,
+      ...lvl_3_subtotal_soUntagged,
+      ...lvl_0_total_soUntagged,
     ],
     rowTemplate_unflat
   )
