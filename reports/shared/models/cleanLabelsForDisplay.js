@@ -50,7 +50,7 @@ const cleanLabelsForDisplay = (flattenedMappedData, filter) => {
     }
 
     // If filter, show in total row as l1 label
-    if (filter) {
+    if (filter && idx === cacheData.length - 1) {
       flattenedMappedData[idx].l1_subtotal = filter
     }
   })
