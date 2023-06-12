@@ -1,6 +1,6 @@
 const _ = require('lodash')
 
-const cleanLabelsForDisplay = flattenedMappedData => {
+const cleanLabelsForDisplay = (flattenedMappedData, filter) => {
   const cacheData = _.cloneDeep(flattenedMappedData)
 
   let l1Value = ''
@@ -47,6 +47,11 @@ const cleanLabelsForDisplay = flattenedMappedData => {
     // if l2 grouping does change, set new value
     if (row.l2_subtotal !== l2Value) {
       l2Value = row.l2_subtotal
+    }
+
+    // If filter, show in total row as l1 label
+    if (filter) {
+      flattenedMappedData[idx].l1_subtotal = filter
     }
   })
 

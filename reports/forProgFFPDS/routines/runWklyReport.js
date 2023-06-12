@@ -266,7 +266,7 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   })
 
   const flattenedMappedData = Object.values(mappedData)
-  const finalData = cleanLabelsForDisplay(flattenedMappedData)
+  const finalData = cleanLabelsForDisplay(flattenedMappedData, program)
   const dataCols = await getDateEndPerWeekByRange(start, end)
 
   // return
