@@ -230,7 +230,7 @@ const lvl_3_subtotal_getFgAtLoc_untagged = async program => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`level 3: query postgres for FG at location UNTAGGED ...`)()
+    console.log(`level 3: query postgres for FG at location UNTAGGED ...`)
     // Level 3 detail
 
     const response = await pgClient.query(
