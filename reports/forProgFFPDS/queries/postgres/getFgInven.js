@@ -206,7 +206,7 @@ const lvl_3_subtotal_getFgAtLoc = async program => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`level 3: query postgres for FG at location ...`)
+    console.log(`level 3: query postgres for FG at location TAGGED ...`)
 
     // Level 3 detail
 
@@ -230,15 +230,16 @@ const lvl_3_subtotal_getFgAtLoc_untagged = async program => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`level 3: query postgres for FG at location ...`)()
+    console.log(`level 3: query postgres for FG at location UNTAGGED ...`)()
     // Level 3 detail
 
     const response = await pgClient.query(
-      'SELECT \'FG ON HAND UNTAGGED\' AS column, master_supplement.fg_fresh_frozen AS l1_subtotal, master_supplement.fg_treatment AS l2_subtotal, master_supplement.size_name AS l3_subtotal, COALESCE(SUM(inven_t.on_hand_lbs) - SUM(tagged_t.weight),0) AS lbs ,COALESCE(SUM(inven_t.cost_extended) - SUM(tagged_t.ext_cost),0) AS cogs FROM (SELECT perpetual_inventory.cost_extended, perpetual_inventory.item_number, perpetual_inventory.lot, perpetual_inventory.on_hand_lbs, perpetual_inventory.location_code FROM "invenReporting".perpetual_inventory WHERE perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type <> $2) AS inven_t LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = inven_t.item_number LEFT OUTER JOIN (SELECT tagged_inventory.lot, tagged_inventory.location, tagged_inventory.item_num, COALESCE(SUM(tagged_inventory.weight),0) AS weight, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS ext_cost FROM "salesReporting".tagged_inventory WHERE tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) GROUP BY tagged_inventory.lot, tagged_inventory.location, tagged_inventory.item_num) AS tagged_t ON tagged_t.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code WHERE master_supplement.byproduct_type IS NULL AND master_supplement.item_type = $1 AND master_supplement.program = $3 GROUP BY master_supplement.fg_fresh_frozen, master_supplement.fg_treatment, master_supplement.size_name',
-      ['FG', 'IN TRANSIT', program]
+ 'SELECT \'FG ON HAND UNTAGGED\' AS column, ms.fg_fresh_frozen AS l1_subtotal, ms.fg_treatment AS l2_subtotal, ms.size_name AS l3_subtotal, COALESCE(SUM(inven_t.on_hand_lbs) - SUM(tagged_t.weight),0) AS lbs ,COALESCE(SUM(inven_t.cost_extended) - SUM(tagged_t.ext_cost),0) AS cogs FROM (SELECT pi.cost_extended, pi.item_number, pi.lot, pi.on_hand_lbs, pi.location_code FROM "invenReporting".perpetual_inventory AS pi WHERE pi .version = (SELECT MAX(subpi.version) - 1 FROM "invenReporting".perpetual_inventory AS subpi) AND pi.location_type <> $2) AS inven_t LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inven_t.item_number LEFT OUTER JOIN (SELECT ti.lot, ti.location, ti.item_num, COALESCE(SUM(ti.weight),0) AS weight, COALESCE(SUM(ti.cost * ti.weight),0) AS ext_cost FROM "salesReporting".tagged_inventory AS ti WHERE ti.version = (SELECT MAX(subti.version) - 1 FROM "salesReporting".tagged_inventory AS subti) GROUP BY ti.lot, ti.location, ti.item_num) AS tagged_t ON tagged_t.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ms.program = $3 GROUP BY ms.fg_fresh_frozen, ms.fg_treatment, ms.size_name', ['FG', 'IN TRANSIT', program]
     ) //prettier-ignore
 
     await pgClient.end()
+
+    console.log(response.rows)
 
     return response.rows
   } catch (error) {
