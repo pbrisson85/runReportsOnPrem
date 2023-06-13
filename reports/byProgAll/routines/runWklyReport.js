@@ -37,7 +37,18 @@ const {
 } = require('../queries/postgres/getRmInven')
 const { lvl_1_subtotal_getFgPo, lvl_2_subtotal_getFgPo, lvl_0_total_getFgPo } = require('../queries/postgres/getFgOpenPo')
 const { lvl_1_subtotal_getRmPo, lvl_2_subtotal_getRmPo, lvl_0_total_getRmPo } = require('../queries/postgres/getRmOpenPo')
-const { lvl_1_subtotal_getSo, lvl_2_subtotal_getSo, lvl_0_total_getSo } = require('../queries/postgres/getSo')
+const {
+  lvl_1_subtotal_getSo,
+  lvl_2_subtotal_getSo,
+  lvl_0_total_getSo,
+  lvl_1_subtotal_getSoTagged,
+  lvl_2_subtotal_getSoTagged,
+  lvl_0_total_getSoTagged,
+  lvl_1_subtotal_getSoUntagged,
+  lvl_2_subtotal_getSoUntagged,
+  lvl_0_total_getSoUntagged,
+} = require('../queries/postgres/getSo')
+
 const { getLevelTwoRows, getLevelOneRows } = require('../queries/postgres/getRows')
 const unflattenRowTemplate = require('../../shared/models/unflattenRowTemplate')
 const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesTwoLevel')
@@ -92,9 +103,18 @@ const getWeeklyProgramSales = async (start, end) => {
   const lvl_0_total_rmPo = await lvl_0_total_getRmPo()
 
   ///////////////////////////////// SALES ORDERS
+  /* TOTAL SO */
   const lvl_1_subtotal_so = await lvl_1_subtotal_getSo()
   const lvl_2_subtotal_so = await lvl_2_subtotal_getSo()
   const lvl_0_total_so = await lvl_0_total_getSo()
+  /* SO TAGGED */
+  const lvl_1_subtotal_soTagged = await lvl_1_subtotal_getSoTagged()
+  const lvl_2_subtotal_soTagged = await lvl_2_subtotal_getSoTagged()
+  const lvl_0_total_soTagged = await lvl_0_total_getSoTagged()
+  /* SO UNTAGGED */
+  const lvl_1_subtotal_soUntagged = await lvl_1_subtotal_getSoUntagged()
+  const lvl_2_subtotal_soUntagged = await lvl_2_subtotal_getSoUntagged()
+  const lvl_0_total_soUntagged = await lvl_0_total_getSoUntagged()
 
   ///////////////////////////////// SALES DATA
   /* EACH PERIOD */
@@ -140,6 +160,12 @@ const getWeeklyProgramSales = async (start, end) => {
       ...lvl_1_subtotal_salesByWk,
       ...lvl_2_subtotal_salesByWk,
       ...lvl_0_total_salesByWk,
+      ...lvl_1_subtotal_soTagged,
+      ...lvl_2_subtotal_soTagged,
+      ...lvl_0_total_soTagged,
+      ...lvl_1_subtotal_soUntagged,
+      ...lvl_2_subtotal_soUntagged,
+      ...lvl_0_total_soUntagged,
     ],
     rowTemplate_unflat
   )

@@ -21,6 +21,48 @@ const lvl_1_subtotal_getSo = async () => {
   }
 }
 
+const lvl_1_subtotal_getSoTagged = async () => {
+  try {
+    const { Client } = require('pg')
+    const pgClient = new Client() // config from ENV
+    await pgClient.connect()
+
+    console.log(`level 3: query postgres for FG Sales Orders ...`)
+
+    const response = await pgClient.query(
+           'SELECT \'FG OPEN ORDER TAGGED\' AS column, master_supplement.species_group AS l1_subtotal, \'SUBTOTAL\' AS l2_subtotal, COALESCE(SUM(sales_orders.tagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.tagged_weight * ave_tagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_orders.item_num WHERE master_supplement.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND master_supplement.byproduct_type IS NULL AND sales_orders.tagged_weight > 0 GROUP BY master_supplement.species_group', ['FG']
+          ) //prettier-ignore
+
+    await pgClient.end()
+
+    return response.rows
+  } catch (error) {
+    console.error(error)
+    return error
+  }
+}
+
+const lvl_1_subtotal_getSoUntagged = async () => {
+  try {
+    const { Client } = require('pg')
+    const pgClient = new Client() // config from ENV
+    await pgClient.connect()
+
+    console.log(`level 3: query postgres for FG Sales Orders ...`)
+
+    const response = await pgClient.query(
+      'SELECT \'FG OPEN ORDER UNTAGGED\' AS column, master_supplement.species_group AS l1_subtotal, \'SUBTOTAL\' AS l2_subtotal, COALESCE(SUM(sales_orders.untagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.untagged_weight * ave_untagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_orders.item_num WHERE master_supplement.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND master_supplement.byproduct_type IS NULL AND sales_orders.untagged_weight > 0 GROUP BY master_supplement.species_group', ['FG']
+          ) //prettier-ignore
+
+    await pgClient.end()
+
+    return response.rows
+  } catch (error) {
+    console.error(error)
+    return error
+  }
+}
+
 /* *********************************************** Level 2 *********************************************** */
 
 const lvl_2_subtotal_getSo = async () => {
@@ -36,6 +78,48 @@ const lvl_2_subtotal_getSo = async () => {
     const response = await pgClient.query(
          'SELECT \'FG OPEN ORDER\' AS column, master_supplement.species_group AS l1_subtotal, master_supplement.program AS l2_subtotal, COALESCE(SUM(sales_orders.ext_weight),0) AS lbs, COALESCE(SUM(sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.ext_cost),0) AS cogs, COALESCE(SUM(sales_orders.ext_othp),0) AS othp FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_orders.item_num WHERE master_supplement.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND master_supplement.byproduct_type IS NULL GROUP BY master_supplement.species_group, master_supplement.program', ['FG']
         ) //prettier-ignore
+
+    await pgClient.end()
+
+    return response.rows
+  } catch (error) {
+    console.error(error)
+    return error
+  }
+}
+
+const lvl_2_subtotal_getSoTagged = async () => {
+  try {
+    const { Client } = require('pg')
+    const pgClient = new Client() // config from ENV
+    await pgClient.connect()
+
+    console.log(`level 3: query postgres for FG Sales Orders ...`)
+
+    const response = await pgClient.query(
+           'SELECT \'FG OPEN ORDER TAGGED\' AS column, master_supplement.species_group AS l1_subtotal, master_supplement.program AS l2_subtotal, COALESCE(SUM(sales_orders.tagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.tagged_weight * ave_tagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_orders.item_num WHERE master_supplement.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND master_supplement.byproduct_type IS NULL AND sales_orders.tagged_weight > 0 GROUP BY master_supplement.species_group, master_supplement.program', ['FG']
+          ) //prettier-ignore
+
+    await pgClient.end()
+
+    return response.rows
+  } catch (error) {
+    console.error(error)
+    return error
+  }
+}
+
+const lvl_2_subtotal_getSoUntagged = async () => {
+  try {
+    const { Client } = require('pg')
+    const pgClient = new Client() // config from ENV
+    await pgClient.connect()
+
+    console.log(`level 3: query postgres for FG Sales Orders ...`)
+
+    const response = await pgClient.query(
+      'SELECT \'FG OPEN ORDER UNTAGGED\' AS column, master_supplement.species_group AS l1_subtotal, master_supplement.program AS l2_subtotal, COALESCE(SUM(sales_orders.untagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.untagged_weight * ave_untagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_orders.item_num WHERE master_supplement.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND master_supplement.byproduct_type IS NULL AND sales_orders.untagged_weight > 0 GROUP BY master_supplement.species_group, master_supplement.program', ['FG']
+          ) //prettier-ignore
 
     await pgClient.end()
 
@@ -69,6 +153,54 @@ const lvl_0_total_getSo = async () => {
   }
 }
 
+const lvl_0_total_getSoTagged = async () => {
+  try {
+    const { Client } = require('pg')
+    const pgClient = new Client() // config from ENV
+    await pgClient.connect()
+
+    console.log(`level 0: query postgres for FG Sales Orders ...`)
+
+    const response = await pgClient.query(
+      'SELECT \'FG OPEN ORDER TAGGED\' AS column, \'FG SALES\' AS l1_subtotal, \'TOTAL\' AS l2_subtotal, COALESCE(SUM(sales_orders.tagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.tagged_weight * ave_tagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_orders.item_num WHERE master_supplement.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND master_supplement.byproduct_type IS NULL AND sales_orders.tagged_weight > 0', ['FG']
+          ) //prettier-ignore
+
+    await pgClient.end()
+
+    return response.rows
+  } catch (error) {
+    console.error(error)
+    return error
+  }
+}
+
+const lvl_0_total_getSoUntagged = async () => {
+  try {
+    const { Client } = require('pg')
+    const pgClient = new Client() // config from ENV
+    await pgClient.connect()
+
+    console.log(`level 0: query postgres for FG Sales Orders ...`)
+
+    const response = await pgClient.query(
+      'SELECT \'FG OPEN ORDER UNTAGGED\' AS column, \'FG SALES\' AS l1_subtotal, \'TOTAL\' AS l2_subtotal, COALESCE(SUM(sales_orders.untagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.untagged_weight * ave_untagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement ON master_supplement.item_num = sales_orders.item_num WHERE master_supplement.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND master_supplement.byproduct_type IS NULL AND sales_orders.untagged_weight > 0', ['FG']
+          ) //prettier-ignore
+
+    await pgClient.end()
+
+    return response.rows
+  } catch (error) {
+    console.error(error)
+    return error
+  }
+}
+
 module.exports.lvl_2_subtotal_getSo = lvl_2_subtotal_getSo
 module.exports.lvl_1_subtotal_getSo = lvl_1_subtotal_getSo
 module.exports.lvl_0_total_getSo = lvl_0_total_getSo
+module.exports.lvl_1_subtotal_getSoTagged = lvl_1_subtotal_getSoTagged
+module.exports.lvl_1_subtotal_getSoUntagged = lvl_1_subtotal_getSoUntagged
+module.exports.lvl_2_subtotal_getSoTagged = lvl_2_subtotal_getSoTagged
+module.exports.lvl_2_subtotal_getSoUntagged = lvl_2_subtotal_getSoUntagged
+module.exports.lvl_0_total_getSoTagged = lvl_0_total_getSoTagged
+module.exports.lvl_0_total_getSoUntagged = lvl_0_total_getSoUntagged
