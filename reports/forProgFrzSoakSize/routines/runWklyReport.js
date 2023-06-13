@@ -83,7 +83,7 @@ const unflattenByCompositKey = require('../../shared/models/unflattenByCompositK
 
 const labelCols = require('../queries/hardcode/cols')
 
-const getWeeklyProgramSalesFfpds = async (start, end, program) => {
+const getWeeklyProgramSalesFrzSoakSize = async (start, end, program) => {
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
   const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(program)
@@ -299,4 +299,4 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   return { data: finalData, cols: dataCols, labelCols: labelCols }
 }
 
-module.exports = getWeeklyProgramSalesFfpds
+module.exports = getWeeklyProgramSalesFrzSoakSize
