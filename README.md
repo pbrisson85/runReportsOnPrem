@@ -8,4 +8,4 @@
 ### Reports:
 
 - FrzSoakSize: By Fresh/Frozen, Processed/Dry, Size
-- SPPDS: By Species, Processed/Dry, Size
+- SpecSoakSize: By Species, Processed/Dry, Size

@@ -7,7 +7,7 @@ const getMasterSupplement = async () => {
     console.log(`query postgres for inven master supplement ...`)
 
     const response = await pgClient.query(
-      'SELECT TRIM(master_supplement.item_num) AS item_num, TRIM(master_supplement.description) AS description, TRIM(master_supplement.species) AS species, TRIM(master_supplement.inven_category) AS inven_category, TRIM(master_supplement.seafood_category) AS seafood_category, TRIM(master_supplement.item_type) AS item_type, TRIM(master_supplement.size_name) AS size_name, TRIM(master_supplement.byproduct_type) AS byproduct_type, TRIM(master_supplement.program) AS program, TRIM(master_supplement.species_group) AS species_group, TRIM(master_supplement.fg_treatment) AS fg_treatment FROM "invenReporting".master_supplement'
+      'SELECT TRIM(ms.item_num) AS item_num, TRIM(ms.description) AS description, TRIM(ms.species) AS species, TRIM(ms.inven_category) AS inven_category, TRIM(ms.seafood_category) AS seafood_category, TRIM(ms.item_type) AS item_type, TRIM(ms.size_name) AS size_name, TRIM(ms.byproduct_type) AS byproduct_type, TRIM(ms.program) AS program, TRIM(ms.species_group) AS species_group, TRIM(ms.fg_treatment) AS fg_treatment FROM "invenReporting".master_supplement AS ms'
     )
 
     await pgClient.end()
