@@ -1,8 +1,8 @@
-### Report: forProgSpecSoakSize
+### Report: forProgFrzSoakSize
 
-### Row Fields
+### Fields
 
-- level 1: ms.species
+- level 1: ms.fg_fresh_frozen
 - level 2: ms.fg_treatment
 - level 3: ms.size_name
 
