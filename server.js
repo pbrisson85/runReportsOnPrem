@@ -7,7 +7,7 @@ const app = express()
 const helmet = require('helmet')
 
 // initialize routes
-const getSalesByProgram = require('./reports/byProgAll/routes/getWklyReport')
+const getSalesByProgram = require('./reports/bySpeciesgroupProg/routes/getWklyReport')
 const getSalesFrzSoakSize = require('./reports/forProgFrzSoakSize/routes/getWklyReport')
 const generateSalesData = require('./generateSales/routes/generateSales')
 const getFilters = require('./reports/filters/routes/getFilters')
