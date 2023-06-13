@@ -22,8 +22,14 @@ const {
   lvl_2_subtotal_getFgAtLoc,
   lvl_3_subtotal_getFgAtLoc,
   lvl_0_total_getFgAtLoc,
+  lvl_1_subtotal_getFgAtLoc_untagged,
+  lvl_2_subtotal_getFgAtLoc_untagged,
   lvl_3_subtotal_getFgAtLoc_untagged,
+  lvl_0_total_getFgAtLoc_untagged,
+  lvl_1_subtotal_getFgAtLoc_tagged,
+  lvl_2_subtotal_getFgAtLoc_tagged,
   lvl_3_subtotal_getFgAtLoc_tagged,
+  lvl_0_total_getFgAtLoc_tagged,
 } = require('../queries/postgres/getFgInven')
 
 const {
@@ -95,9 +101,15 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
   const lvl_3_subtotal_fgAtLoc = await lvl_3_subtotal_getFgAtLoc(program)
   const lvl_0_total_fgAtLoc = await lvl_0_total_getFgAtLoc(program)
   /* FG ON HAND UNTAGGED */
+  const lvl_1_subtotal_fgAtLoc_untagged = await lvl_1_subtotal_getFgAtLoc_untagged(program)
+  const lvl_2_subtotal_fgAtLoc_untagged = await lvl_2_subtotal_getFgAtLoc_untagged(program)
   const lvl_3_subtotal_fgAtLoc_untagged = await lvl_3_subtotal_getFgAtLoc_untagged(program)
+  const lvl_0_total_fgAtLoc_untagged = await lvl_0_total_getFgAtLoc_untagged(program)
   /* FG ON HAND TAGGED */
+  const lvl_1_subtotal_fgAtLoc_tagged = await lvl_1_subtotal_getFgAtLoc_tagged(program)
+  const lvl_2_subtotal_fgAtLoc_tagged = await lvl_2_subtotal_getFgAtLoc_tagged(program)
   const lvl_3_subtotal_fgAtLoc_tagged = await lvl_3_subtotal_getFgAtLoc_tagged(program)
+  const lvl_0_total_fgAtLoc_tagged = await lvl_0_total_getFgAtLoc_tagged(program)
 
   /* TOTAL RM */
   const lvl_1_subtotal_rmInven = await lvl_1_subtotal_getRmInven(program)
@@ -237,8 +249,14 @@ const getWeeklyProgramSalesFfpds = async (start, end, program) => {
       ...lvl_2_subtotal_fgAtLoc,
       ...lvl_3_subtotal_fgAtLoc,
       ...lvl_0_total_fgAtLoc,
+      ...lvl_1_subtotal_fgAtLoc_untagged, // New
+      ...lvl_2_subtotal_fgAtLoc_untagged, // New
       ...lvl_3_subtotal_fgAtLoc_untagged, // New
+      ...lvl_0_total_fgAtLoc_untagged, // New
+      ...lvl_1_subtotal_fgAtLoc_tagged, // New
+      ...lvl_2_subtotal_fgAtLoc_tagged, // New
       ...lvl_3_subtotal_fgAtLoc_tagged, // New
+      ...lvl_0_total_fgAtLoc_tagged, // New
       ...lvl_1_subtotal_fgPo,
       ...lvl_2_subtotal_fgPo,
       ...lvl_3_subtotal_fgPo,
