@@ -8,7 +8,7 @@ const helmet = require('helmet')
 
 // initialize routes
 const getSalesByProgram = require('./reports/bySpeciesgroupProg/routes/getWklyReport')
-const getSalesFrzSoakSize = require('./reports/forProgSpecSoakSize/routes/getWklyReport')
+const getSalesFrzSoakSize = require('./reports/forProgSpecBrndSize/routes/getWklyReport')
 const generateSalesData = require('./generateSales/routes/generateSales')
 const getFilters = require('./reports/filters/routes/getFilters')
 
