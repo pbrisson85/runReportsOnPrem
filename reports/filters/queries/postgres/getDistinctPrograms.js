@@ -19,7 +19,14 @@ const getDistinctPrograms = async fy => {
 
     await pgClient.end()
 
-    return response.rows
+    const all = {
+      label: 'All',
+      dataName: 'all',
+    }
+
+    const filter = [all, ...response.rows]
+
+    return filter
   } catch (error) {
     console.error(error)
     return error

@@ -16,7 +16,7 @@ const getViewFilters = () => {
     //   additionalData: { decimals: 0 },
     // },
     {
-      label: 'NET REVENUE $',
+      label: 'sales: NET REVENUE $, inven: COST $',
       dataName: 'netSales',
       additionalData: { decimals: 0 },
     },
@@ -26,7 +26,7 @@ const getViewFilters = () => {
       additionalData: { decimals: 0 },
     },
     {
-      label: 'GM $',
+      label: 'sales: GM $, inven: COST $',
       dataName: 'grossMargin',
       additionalData: { decimals: 0 },
     },
@@ -41,7 +41,7 @@ const getViewFilters = () => {
     //   additionalData: { decimals: 2 },
     // },
     {
-      label: 'NET REVENUE $/LB',
+      label: 'sales: NET REVENUE $/LB, inven: COST $/LB',
       dataName: 'netSalesPerLb',
       additionalData: { decimals: 2 },
     },
@@ -51,7 +51,7 @@ const getViewFilters = () => {
       additionalData: { decimals: 2 },
     },
     {
-      label: 'GM $/LB',
+      label: 'sales: GM $/LB, inven: COST $/LB',
       dataName: 'grossMarginPerLb',
       additionalData: { decimals: 2 },
     },
