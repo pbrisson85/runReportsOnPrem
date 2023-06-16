@@ -9,7 +9,7 @@ const helmet = require('helmet')
 // initialize routes
 /* Reports */
 const getSalesByProgram = require('./reports/bySpeciesgroupProg/routes/getWklyReport')
-const getSalesFrzSoakSize = require('./reports/forProgBySpecBrndSize/routes/getWklyReport')
+const getSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/getWklyReport')
 const getSalesSpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/getWklyReport')
 const getSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/getWklyReport')
 /* Data */

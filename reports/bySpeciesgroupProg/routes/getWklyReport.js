@@ -10,7 +10,7 @@ const { getDateEndPerWeek } = require('../../shared/queries/postgres/getDateEndP
 
 // Generate full weekly report of ALL programs for FG Only (biggest picture)
 router.post('/', async (req, res) => {
-  console.log(`\nget get weekly sales by processing level for ${req.body.start} through ${req.body.end} route HIT...`)
+  console.log(`\nget get weekly sales species group, program for ${req.body.start} through ${req.body.end} route HIT...`)
 
   // If no program, start, or end passed then default to the current fiscal year, first program alphabetically
   if (typeof typeof req.body.start === 'undefined' || typeof req.body.end === 'undefined') {
@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
 
   const resp = await runWklyReport(startWeek[0].formatted_date_start, req.body.end)
 
-  console.log(`get get weekly sales by processing level for ${req.body.start} through ${req.body.end} route COMPLETE. \n`)
+  console.log(`get weekly sales species group, program for ${req.body.start} through ${req.body.end} route COMPLETE. \n`)
   res.send(resp)
   //res.send({ data, cols })
 })
