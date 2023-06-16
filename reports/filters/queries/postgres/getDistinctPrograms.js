@@ -26,6 +26,9 @@ const getDistinctPrograms = async fy => {
 
     const filter = [all, ...response.rows]
 
+    console.log('response.rows', response.rows)
+    console.log('filter', filter)
+
     return filter
   } catch (error) {
     console.error(error)
