@@ -7,7 +7,7 @@ const getReportsFilters = () => {
       optional: ['all'], // list of programs (datanames) that allow this
     },
     {
-      label: 'freeze / processing / size',
+      label: 'freeze / soak / size',
       dataName: 'frzSoakSize',
       default: true, // if true, this is the default report for an unlisted program (one which does not appear in the defaults array)
       defaults: ['COD USA', 'FLATFISH USA', 'HADDOCK USA', 'PERCH USA', 'POLLOCK USA', 'SCALLOPS DOMESTIC'], // list of programs (datanames) that this is the default report

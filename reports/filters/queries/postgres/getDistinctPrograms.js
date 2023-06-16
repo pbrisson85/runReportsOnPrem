@@ -20,7 +20,7 @@ const getDistinctPrograms = async fy => {
     await pgClient.end()
 
     const all = {
-      label: 'All',
+      label: 'ALL',
       dataName: 'all',
     }
 
