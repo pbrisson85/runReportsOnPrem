@@ -14,6 +14,7 @@ const getSalesSpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/get
 const getSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/getWklyReport')
 /* Data */
 const generateSalesData = require('./generateSales/routes/generateSales')
+const generateInvAllocFile = require('./generateInvAllocFile/routes/generateInvAllocFile')
 /* UI */
 const getFilters = require('./reports/filters/routes/getFilters')
 
@@ -41,6 +42,7 @@ app.use('/api/sales/forProgram/byFrzSoakSize', getSalesFrzSoakSize)
 app.use('/api/sales/forProgram/bySpecBrndSize', getSalesSpecBrndSize)
 app.use('/api/sales/forProgram/bySpecSoakSize', getSalesSpecSoakSize)
 app.use('/api/sales/generateSalesData', generateSalesData)
+app.use('/api/sales/generateInvAllocData', generateInvAllocFile)
 app.use('/api/sales/getFilters', getFilters)
 
 // startup
