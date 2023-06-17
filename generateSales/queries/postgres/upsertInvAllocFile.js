@@ -11,8 +11,6 @@ const upsertInvAllocData = async data_unflat => {
     let promises = []
     let i = 0
     for (key of keys) {
-      if (i === 0) console.log(data_unflat[key])
-
       const netExpense = data_unflat[key].reduce((acc, cur) => {
         return acc + parseFloat(cur.EXPENSE_AMOUNT)
       }, 0)
