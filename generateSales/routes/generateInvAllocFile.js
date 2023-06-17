@@ -11,7 +11,7 @@ router.get('/:fy', async (req, res) => {
 
   const invoiceAllocData = await generateInvAllocFile(req.params.fy)
 
-  res.send(`generate invoice alloc data routine complete: for FY: ${req.params.fy}`)
+  res.send({ message: `generate invoice alloc data routine complete: for FY: ${req.params.fy}`, data: invoiceAllocData })
   console.log(`generate invoice alloc data routine complete: for FY: ${req.params.fy} \n`)
 })
 

@@ -3,9 +3,7 @@ const upsertSalesData = require('../queries/postgres/upsertSalesData')
 const getMasterSupplement = require('../queries/postgres/getMasterSupplement')
 const getPeriodsByDay = require('../queries/postgres/getAccountingPeriodsByDay')
 
-const getInvoiceLineItems = require('../queries/seasoft/getInvoiceLineItems')
-const getGenTblReas = require('../queries/seasoft/getGenTblReas')
-const getInvoiceHeader = require('../queries/seasoft/getInvoiceHeader')
+const getGenTblOthp = require('../queries/seasoft/getGenTblOthp')
 const getInvAllocFile = require('../queries/seasoft/getInvAllocFile')
 
 const formatPostgresDateForSeasoftQuery = require('../models/formatPostgresDateForSeasoftQuery')
@@ -27,8 +25,9 @@ const generateSalesDataRoutine = async year => {
   firstDayOfFy = formatPostgresDateForSeasoftQuery(firstDayOfFy)
   firstDayOfNextFy = formatPostgresDateForSeasoftQuery(firstDayOfNextFy)
   const invAllocFile = await getInvAllocFile(firstDayOfFy, firstDayOfNextFy)
+  const getGenTblOthp = await getGenTblOthp()
 
-  return invAllocFile
+  return { invAllocFile, getGenTblOthp }
 
   // Model Data
   const salesHeader_unflat = unflattenInvoiceNum(salesHeader)
