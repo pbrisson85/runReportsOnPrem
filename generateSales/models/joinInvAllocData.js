@@ -8,3 +8,5 @@ const joinInvAllocData = (inAllocData, genTblOthp_unflat) => {
 
   return mapped
 }
+
+module.exports = joinInvAllocData

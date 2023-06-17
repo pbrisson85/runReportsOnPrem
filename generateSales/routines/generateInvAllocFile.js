@@ -5,8 +5,6 @@ const getGenTblOthp = require('../queries/seasoft/getGenTblOthp')
 const getInvAllocFile = require('../queries/seasoft/getInvAllocFile')
 
 const formatPostgresDateForSeasoftQuery = require('../models/formatPostgresDateForSeasoftQuery')
-const joinSalesData = require('../models/joinSalesData')
-const mapPostgresSalesLinesTable = require('../models/mapPostgresSalesLinesTable')
 const unflattenByCompositKey = require('../models/unflattenByCompositKey')
 const joinInvAllocData = require('../models/joinInvAllocData')
 
