@@ -29,8 +29,8 @@ const generateSalesDataRoutine = async year => {
   const genTblOthp = await getGenTblOthp()
 
   // Model Data
-  const genTblOthp_unflat = unflattenByCompositKey(genTblOthp, 'OTHP_CODE')
-  const invAllocFile_unflat = unflattenByCompositKey(invAllocFile, 'INVOICE_NUMBER', 'INVOICE_LINE_NUMBER', 'EXPENSE_CODE')
+  const genTblOthp_unflat = unflattenByCompositKey(genTblOthp, { 1: 'OTHP_CODE' })
+  const invAllocFile_unflat = unflattenByCompositKey(invAllocFile, { 1: 'INVOICE_NUMBER', 2: 'INVOICE_LINE_NUMBER', 3: 'EXPENSE_CODE' })
 
   return { genTblOthp_unflat, invAllocFile_unflat }
 
