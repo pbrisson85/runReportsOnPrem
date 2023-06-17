@@ -25,9 +25,9 @@ const generateSalesDataRoutine = async year => {
   firstDayOfFy = formatPostgresDateForSeasoftQuery(firstDayOfFy)
   firstDayOfNextFy = formatPostgresDateForSeasoftQuery(firstDayOfNextFy)
   const invAllocFile = await getInvAllocFile(firstDayOfFy, firstDayOfNextFy)
-  const getGenTblOthp = await getGenTblOthp()
+  const genTblOthp = await getGenTblOthp()
 
-  return { invAllocFile, getGenTblOthp }
+  return { invAllocFile, genTblOthp }
 
   // Model Data
   const salesHeader_unflat = unflattenInvoiceNum(salesHeader)
