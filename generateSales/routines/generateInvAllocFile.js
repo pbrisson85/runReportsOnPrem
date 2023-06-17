@@ -1,5 +1,5 @@
 const getFirstDayOfFiscalYear = require('../queries/postgres/getFirstDayOfFiscalYear')
-const upsertSalesData = require('../queries/postgres/upsertSalesData')
+const upsertInvAllocFile = require('../queries/postgres/upsertInvAllocFile')
 
 const getGenTblOthp = require('../queries/seasoft/getGenTblOthp')
 const getInvAllocFile = require('../queries/seasoft/getInvAllocFile')
@@ -27,8 +27,13 @@ const generateSalesDataRoutine = async year => {
   // Map Data
   const joinedData = joinInvAllocData(invAllocFile, genTblOthp_unflat)
 
+  // Model Data
+  const data_unflat = unflattenByCompositKey(joinedData, { 1: 'INVOICE_NUMBER', 2: 'INVOICE_LINE_NUMBER', 3: 'EXPENSE_CODE' })
+
+  // Note that there are multiple instances of invoice alloc file for each invoice-line-othp code. Need to sum on this field.
+
   // save to new postrgres table
-  //const upserted = await upsertInvAllocFile(joinedData)
+  const upserted = await upsertInvAllocFile(data_unflat)
 
   return joinedData
 }
