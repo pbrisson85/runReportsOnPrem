@@ -1,19 +1,14 @@
 const getFirstDayOfFiscalYear = require('../queries/postgres/getFirstDayOfFiscalYear')
 const upsertSalesData = require('../queries/postgres/upsertSalesData')
-const getMasterSupplement = require('../queries/postgres/getMasterSupplement')
-const getPeriodsByDay = require('../queries/postgres/getAccountingPeriodsByDay')
 
 const getGenTblOthp = require('../queries/seasoft/getGenTblOthp')
 const getInvAllocFile = require('../queries/seasoft/getInvAllocFile')
 
 const formatPostgresDateForSeasoftQuery = require('../models/formatPostgresDateForSeasoftQuery')
-const unflattenItemNum = require('../models/unFlattenItemNum')
-const mapPeriodsPerDay = require('../models/mapPeriodsPerDay')
 const joinSalesData = require('../models/joinSalesData')
-const unflattenInvoiceNum = require('../models/unFlattenInoviceNum')
-const unflattenReasCode = require('../models/unFlattenReasCode')
 const mapPostgresSalesLinesTable = require('../models/mapPostgresSalesLinesTable')
 const unflattenByCompositKey = require('../models/unflattenByCompositKey')
+const joinInvAllocData = require('../models/joinInvAllocData')
 
 const generateSalesDataRoutine = async year => {
   console.log('generate detail sales data...')
@@ -30,23 +25,14 @@ const generateSalesDataRoutine = async year => {
 
   // Model Data
   const genTblOthp_unflat = unflattenByCompositKey(genTblOthp, { 1: 'OTHP_CODE' })
-  const invAllocFile_unflat = unflattenByCompositKey(invAllocFile, { 1: 'INVOICE_NUMBER', 2: 'INVOICE_LINE_NUMBER', 3: 'EXPENSE_CODE' })
-
-  return { genTblOthp_unflat, invAllocFile_unflat }
-
-  const salesHeader_unflat = unflattenInvoiceNum(salesHeader)
-  const invenSupplemental_unflat = unflattenItemNum(invenSupplemental)
-  const invReasCodes_unflat = unflattenReasCode(invReasCodes)
-  const mappedPeriodsPerDay = mapPeriodsPerDay(periodsByDay)
 
   // Map Data
-  const joinedData = joinSalesData(salesHeader_unflat, salesLines, invenSupplemental_unflat, mappedPeriodsPerDay, invReasCodes_unflat)
-  const mappedData = mapPostgresSalesLinesTable(joinedData)
+  const joinedData = joinInvAllocData(invAllocFile, genTblOthp_unflat)
 
   // save to new postrgres table
-  const upserted = await upsertSalesData(mappedData)
+  //const upserted = await upsertInvAllocFile(joinedData)
 
-  return mappedData
+  return joinedData
 }
 
 module.exports = generateSalesDataRoutine
