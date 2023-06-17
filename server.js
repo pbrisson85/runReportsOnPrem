@@ -14,7 +14,7 @@ const getSalesSpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/get
 const getSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/getWklyReport')
 /* Data */
 const generateSalesData = require('./generateSales/routes/generateSales')
-const generateInvAllocFile = require('./generateInvAllocFile/routes/generateInvAllocFile')
+const generateInvAllocFile = require('./generateSales/routes/generateInvAllocFile')
 /* UI */
 const getFilters = require('./reports/filters/routes/getFilters')
 
