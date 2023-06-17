@@ -9,7 +9,10 @@ const upsertInvAllocData = async data_unflat => {
     const keys = Object.keys(data_unflat)
 
     let promises = []
+    let i = 0
     for (key of keys) {
+      if (i === 0) console.log(key)
+
       const netExpense = data_unflat[key].reduce((acc, cur) => {
         return acc + parseFloat(cur.EXPENSE_AMOUNT)
       }, 0)
@@ -20,6 +23,8 @@ const upsertInvAllocData = async data_unflat => {
           [key[0].INVOICE_NUMBER, key[0].INVOICE_LINE_NUMBER, key[0].EXPENSE_CODE, key[0].contra, netExpense]
         )
       )
+
+      i++
     }
 
     const responses = await Promise.all(promises)
