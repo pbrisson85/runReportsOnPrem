@@ -13,6 +13,7 @@ const joinSalesData = require('../models/joinSalesData')
 const unflattenInvoiceNum = require('../models/unFlattenInoviceNum')
 const unflattenReasCode = require('../models/unFlattenReasCode')
 const mapPostgresSalesLinesTable = require('../models/mapPostgresSalesLinesTable')
+const unflattenByCompositKey = require('../models/unflattenByCompositKey')
 
 const generateSalesDataRoutine = async year => {
   console.log('generate detail sales data...')
@@ -27,9 +28,12 @@ const generateSalesDataRoutine = async year => {
   const invAllocFile = await getInvAllocFile(firstDayOfFy, firstDayOfNextFy)
   const genTblOthp = await getGenTblOthp()
 
-  return { invAllocFile, genTblOthp }
-
   // Model Data
+  const genTblOthp_unflat = unflattenByCompositKey(genTblOthp, 'OTHP_CODE')
+  const invAllocFile_unflat = unflattenByCompositKey(invAllocFile, 'INVOICE_NUMBER', 'INVOICE_LINE_NUMBER', 'EXPENSE_CODE')
+
+  return { genTblOthp_unflat, invAllocFile_unflat }
+
   const salesHeader_unflat = unflattenInvoiceNum(salesHeader)
   const invenSupplemental_unflat = unflattenItemNum(invenSupplemental)
   const invReasCodes_unflat = unflattenReasCode(invReasCodes)
