@@ -1,4 +1,4 @@
-const generateInvAllocFile = require('../routines/generateInAllocFile')
+const generateInvAllocFile = require('../routines/generateInvAllocFile')
 const router = require('express').Router()
 
 // @route   GET /api/sales/generateInvAllocData
