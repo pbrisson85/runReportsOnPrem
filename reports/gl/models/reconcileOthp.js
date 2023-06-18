@@ -21,15 +21,18 @@ const reconcileOthp = (glPeriodActivity_unflat, othpRecalc_unflat) => {
       // compare the two
       const difference = parseFloat(othpCalcDollars) - parseFloat(glDollars)
 
+      // Need to dynamically get this population of gl accounts ******
       if (glAcct === '3999' || glAcct === '3998' || glAcct === '3997' || glAcct === '3996') {
-        reconciliationOthp.push({
-          glAcct,
-          dept,
-          period,
-          glDollars,
-          othpCalcDollars: parseFloat(othpCalcDollars.toFixed(2)),
-          difference: parseFloat(difference.toFixed(2)),
-        })
+        if (difference !== 0) {
+          reconciliationOthp.push({
+            glAcct,
+            dept,
+            period,
+            glDollars,
+            othpCalcDollars: parseFloat(othpCalcDollars.toFixed(2)),
+            difference: parseFloat(difference.toFixed(2)),
+          })
+        }
       }
     })
   })
