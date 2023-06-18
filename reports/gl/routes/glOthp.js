@@ -8,7 +8,7 @@ const glOthp = require('../routines/glOthp')
 router.get('/:fy', async (req, res) => {
   console.log(`\nget period gl othp activity vs recalc for FY:${req.params.fy} route HIT...`)
 
-  const resp = await glOthp(req.params.fym)
+  const resp = await glOthp(req.params.fy)
 
   console.log(`get period gl othp activity vs recalc for FY:${req.params.fy} route COMPLETE. \n`)
   res.send(resp)
