@@ -16,7 +16,7 @@ const unflattenByCompositKey = (data, keys) => {
 
     // add row to key
     if (!unflat[key]) {
-      unflat[key] = { ...row, dollars: [row.dollars], major_code_name: [major_code_name] }
+      unflat[key] = { ...row, dollars: [row.dollars], major_code_name: [row.major_code_name] }
     } else {
       // Hit duplicate. Summing dollars
       console.log(`Duplicate key. summing dollars: ${key}`)
