@@ -1,4 +1,4 @@
-const unflattenByCompositKey = (data, keys) => {
+const unflattedForOthpGlTie = (data, keys) => {
   let unflat = {}
 
   const vals = Object.values(keys)
@@ -17,9 +17,11 @@ const unflattenByCompositKey = (data, keys) => {
     // add row to key
     if (!unflat[key]) {
       unflat[key] = { ...row, dollars: [row.dollars], major_code_name: [row.major_code_name] }
+      delete unflat[key].allocationGl // example FG and By Prod have same othp GL - Dept but not same allocation accounts
+      delete unflat[key].allocattedGl // example FG and By Prod have same othp GL - Dept but not same allocation accounts
     } else {
       // Hit duplicate. Summing dollars
-      console.log(`Duplicate key. summing dollars: ${key}`)
+      console.log(`Duplicate key: ${key}`)
 
       unflat[key].dollars.push(row.dollars)
       unflat[key].major_code_name.push(row.major_code_name)
@@ -29,4 +31,4 @@ const unflattenByCompositKey = (data, keys) => {
   return unflat
 }
 
-module.exports = unflattenByCompositKey
+module.exports = unflattedForOthpGlTie
