@@ -58,7 +58,7 @@ const glOthp = async fy => {
           period,
           glDollars,
           othpCalcDollars,
-          difference,
+          difference: parseFloat(difference.toFixed(2)),
         })
       }
     })
