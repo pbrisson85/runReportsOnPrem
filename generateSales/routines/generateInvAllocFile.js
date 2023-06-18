@@ -1,5 +1,6 @@
 const getFirstDayOfFiscalYear = require('../queries/postgres/getFirstDayOfFiscalYear')
 const upsertInvAllocFile = require('../queries/postgres/upsertInvAllocFile')
+const getDeletedOthp = require('../queries/postgres/getDeletedOthp')
 
 const getGenTblOthp = require('../queries/seasoft/getGenTblOthp')
 const getInvAllocFile = require('../queries/seasoft/getInvAllocFile')
@@ -20,12 +21,14 @@ const generateSalesDataRoutine = async year => {
   firstDayOfNextFy = formatPostgresDateForSeasoftQuery(firstDayOfNextFy)
   const invAllocFile = await getInvAllocFile(firstDayOfFy, firstDayOfNextFy)
   const genTblOthp = await getGenTblOthp()
+  const deletedOthp = await getDeletedOthp()
 
   // Model Data
   const genTblOthp_unflat = unflattenByCompositKey(genTblOthp, { 1: 'OTHP_CODE' })
+  const deletedOthp_unflat = unflattenByCompositKey(deletedOthp, { 1: 'othp_code' })
 
   // Map Data
-  const joinedData = joinInvAllocData(invAllocFile, genTblOthp_unflat)
+  const joinedData = joinInvAllocData(invAllocFile, genTblOthp_unflat, deletedOthp_unflat)
 
   // Model Data
   const data_unflat = unflattenByCompositKey(joinedData, { 1: 'INVOICE_NUMBER', 2: 'INVOICE_LINE_NUMBER', 3: 'EXPENSE_CODE' })
