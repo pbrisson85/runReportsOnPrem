@@ -9,7 +9,7 @@ const calcRevCogsGl = async fy => {
     // level 1 detail
 
     const response = await pgClient.query(
-          'SELECT \'FG INVEN\' AS column, ms.species AS l1_subtotal, \'SUBTOTAL\' AS l2_subtotal, \'SUBTOTAL\' AS l3_subtotal, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.program = $2 GROUP BY ms.species',
+          'SELECT i.major_code_name, s.period, gl.dept as dept_gl, gl.sales AS sales_gl, gl.cogs AS cogs_gl, ROUND(SUM(s.calc_gl_gross_sales)::numeric,2) AS sales, ROUND(SUM(s.calc_gl_cogs)::numeric,2) AS cogs, ROUND(SUM(s.calc_gm_rept_weight)::numeric,2) AS lbs FROM "salesReporting".sales_line_items AS sLEFT OUTER JOIN "invenReporting".master_supplement as i ON i.item_num = s.item_number LEFT OUTER JOIN "salesReporting".maj_code_gl_map as gl ON gl.name = i.major_code_name WHERE s.fiscal_year = $1 GROUP BY s.period, i.major_code_name, gl.dept, gl.sales, gl.cogs',
           [fy]
         ) //prettier-ignore
 
