@@ -1,6 +1,8 @@
 const reconcileOthp = (glPeriodActivity_unflat, othpRecalc_unflat) => {
   // loop through the gl period activity and compare to the othpRecalc_unflat
   const reconciliationOthp = []
+  const netDifferences = 0
+
   const periodActivityKeys = Object.keys(glPeriodActivity_unflat)
   periodActivityKeys.forEach(key => {
     const glAcct = key.split('-')[0]
@@ -24,6 +26,8 @@ const reconcileOthp = (glPeriodActivity_unflat, othpRecalc_unflat) => {
       // Need to dynamically get this population of gl accounts ******
       if (glAcct === '3999' || glAcct === '3998' || glAcct === '3997' || glAcct === '3996') {
         if (difference !== 0) {
+          netDifferences += parseFloat(difference.toFixed(2))
+
           reconciliationOthp.push({
             glAcct,
             dept,
