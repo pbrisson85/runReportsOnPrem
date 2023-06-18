@@ -12,6 +12,8 @@ const getSalesByProgram = require('./reports/bySpeciesgroupProg/routes/getWklyRe
 const getSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/getWklyReport')
 const getSalesSpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/getWklyReport')
 const getSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/getWklyReport')
+const glRevCogs = require('./reports/gl/routes/glRevCogs')
+const glOthp = require('./reports/gl/routes/glOthp')
 /* Data */
 const generateSalesData = require('./generateSales/routes/generateSales')
 const generateInvAllocFile = require('./generateSales/routes/generateInvAllocFile')
@@ -44,6 +46,8 @@ app.use('/api/sales/forProgram/bySpecSoakSize', getSalesSpecSoakSize)
 app.use('/api/sales/generateSalesData', generateSalesData)
 app.use('/api/sales/generateInvAllocData', generateInvAllocFile)
 app.use('/api/sales/getFilters', getFilters)
+app.use('/api/sales/gl/revCogs', glRevCogs)
+app.use('/api/sales/gl/othp', glOthp)
 
 // startup
 runCronOnStartup()

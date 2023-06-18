@@ -12,3 +12,9 @@
 
 - FrzSoakSize: By Fresh/Frozen, Processed/Dry, Size
 - SpecSoakSize: By Species, Processed/Dry, Size
+
+### GL Work
+
+- Tie out OTHP to GL by period (eventually by week). create entry to correct
+- Tie out the Sales/Cogs to GL by period (eventually by week). create entry to correct
+- Tie out OTHP allocation to each species
