@@ -20,10 +20,10 @@ const glOthp = async fy => {
   // create othp allocation
   const contraSalesGlMap_unflat = unflattenByCompositKeyOverwriteDups(contraSalesGlMap, { 1: 'contra' })
   const majCodeGlMap_unflat = unflattenByCompositKeyOverwriteDups(majCodeGlMap, { 1: 'name' })
-  const glPeriodActivity_unflat = unflattenByCompositKeyPushDups(glPeriodActivity, { 1: 'ACCOUNT_NUMBER', 2: 'DEPARTMENT_CODE' })
+  const glPeriodActivity_unflat = unflattenByCompositKeyOverwriteDups(glPeriodActivity, { 1: 'ACCOUNT_NUMBER', 2: 'DEPARTMENT_CODE' })
 
   const mappedOthpGl = mapOthpGlRecalc(othpGl, contraSalesGlMap_unflat, majCodeGlMap_unflat)
-  const othpTieOut_unflat = unflattenByCompositKey(mappedOthpGl, { 1: 'othp_gl', 2: 'dept' })
+  const othpTieOut_unflat = unflattenByCompositKeyPushDups(mappedOthpGl, { 1: 'othp_gl', 2: 'dept' })
 
   // map the othp type into the othp gl data
 
