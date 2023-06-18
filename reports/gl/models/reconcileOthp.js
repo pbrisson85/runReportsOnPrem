@@ -9,29 +9,24 @@ const reconcileOthp = (glPeriodActivity_unflat, othpRecalc_unflat, glDepartments
 
     // loop through each department
     glDepartments.forEach(dept => {
-      const deptCode = parseInt(dept.DEPARTMENT_NUMBER)
+      const deptCode = dept.DEPARTMENT_NUMBER
 
       // loop through each period
       periods.forEach(period => {
-        // compile every possible key
+        // now have every possible key
         const key = `${contraGl}-${deptCode}-${period}`
 
         // Get the calced othp dollar amount
         let othpCalcDollars = 0
-        if (typeof othpRecalc_unflat[`${contraGl}-${deptCode}-${period}`] !== 'undefined') {
-          othpCalcDollars = othpRecalc_unflat[`${contraGl}-${deptCode}-${period}`].dollars.reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
+        if (typeof othpRecalc_unflat[`${contraGl}-${parseInt(deptCode)}-${period}`] !== 'undefined') {
+          othpCalcDollars = othpRecalc_unflat[`${contraGl}-${parseInt(deptCode)}-${period}`].dollars.reduce(
+            (a, b) => parseFloat(a) + parseFloat(b),
+            0
+          )
         }
 
         // Get the GL dollars
         let glDollars = 0
-
-        if (contraGl === '3996' && period === '2') {
-          //   console.log(glPeriodActivity_unflat)
-          //   console.log('contraGl', contraGl)
-          //   console.log('deptCode', deptCode)
-          //   console.log('period', period)
-          //   console.log(glPeriodActivity_unflat[`${contraGl}-${deptCode}`])
-        }
 
         if (typeof glPeriodActivity_unflat[`${contraGl}-${deptCode}`] !== 'undefined') {
           glDollars = glPeriodActivity_unflat[`${contraGl}-${deptCode}`][period]
