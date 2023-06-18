@@ -57,14 +57,14 @@ const glOthp = async fy => {
           dept,
           period,
           glDollars,
-          othpCalcDollars,
+          othpCalcDollars: parseFloat(othpCalcDollars.toFixed(2)),
           difference: parseFloat(difference.toFixed(2)),
         })
       }
     })
   })
 
-  return reconciliationOthp
+  return { mappedOthpGl, reconciliationOthp }
 }
 
 module.exports = glOthp
