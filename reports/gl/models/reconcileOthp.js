@@ -25,7 +25,7 @@ const reconcileOthp = (glPeriodActivity_unflat, othpRecalc_unflat, glDepartments
         // Get the GL dollars
         let glDollars = 0
 
-        if ((contraGl = '3996' && period === '2')) {
+        if (contraGl === '3996' && period === '2') {
           console.log(glPeriodActivity_unflat)
           console.log('contraGl', contraGl)
           console.log('deptCode', deptCode)
