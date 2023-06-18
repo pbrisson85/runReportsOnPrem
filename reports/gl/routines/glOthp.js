@@ -18,7 +18,7 @@ const glOthp = async fy => {
 
   // map the othp type into the othp gl data
   const mapped = othpGl.map(othp => {
-    const othpType = contraSalesGlMap_unflat[othp.othp_gl].category
+    const othpType = contraSalesGlMap_unflat[othp.othp_gl][0].category
 
     return {
       ...othp,
