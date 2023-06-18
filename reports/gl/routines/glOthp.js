@@ -38,6 +38,8 @@ const glOthp = async fy => {
     return {
       ...othp,
       othpType,
+      allocationGl,
+      allocattedGl,
     }
   })
 
