@@ -1,7 +1,7 @@
 const reconcileOthp = (glPeriodActivity_unflat, othpRecalc_unflat) => {
   // loop through the gl period activity and compare to the othpRecalc_unflat
   const reconciliationOthp = []
-  const netDifferences = 0
+  let netDifferences = 0
 
   const periodActivityKeys = Object.keys(glPeriodActivity_unflat)
   periodActivityKeys.forEach(key => {
