@@ -36,7 +36,7 @@ const reconcileOthp = (glPeriodActivity_unflat, othpRecalc_unflat, glDepartments
 
           reconciliationOthp.push({
             contraGl,
-            dept,
+            deptCode,
             period,
             glDollars,
             othpCalcDollars: parseFloat(othpCalcDollars.toFixed(2)),
