@@ -22,9 +22,9 @@ const unflattenByCompositKey = (data, keys) => {
       console.log(`Duplicate key. summing dollars: ${key}`)
       unflat[key] = {
         ...row,
-        dollars: unflat[key].dollars.push(row.dollars),
-        major_code_name: unflat[key].major_code_name.push(row.major_code_name),
       }
+      unflat[key].dollars.push(row.dollars)
+      unflat[key].major_code_name.push(row.major_code_name)
     }
   })
 
