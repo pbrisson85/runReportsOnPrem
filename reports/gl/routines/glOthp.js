@@ -15,12 +15,25 @@ const glOthp = async fy => {
   /* MODEL DATA */
   // create othp allocation
   const contraSalesGlMap_unflat = unflattenByCompositKey(contraSalesGlMap, { 1: 'contra' })
+  const majCodeGlMap_unflat = unflattenByCompositKey(majCodeGlMap, { 1: 'major_code_name' })
 
   // map the othp type into the othp gl data
   const mapped = othpGl.map(othp => {
-    let othpType = 'OTHER'
+    // Find OTHP type (rebate, commission, discount, outbound)
+    let othpType = 'OTHER' // example: OTHP mapped to 9010 extended terms
+    let allocationGl = '9999' // example: OTHP mapped to 9010 extended terms
 
-    if (typeof contraSalesGlMap_unflat[othp.othp_gl] !== 'undefined') othpType = contraSalesGlMap_unflat[othp.othp_gl].category
+    if (typeof contraSalesGlMap_unflat[othp.othp_gl] !== 'undefined') {
+      othpType = contraSalesGlMap_unflat[othp.othp_gl].category
+      allocationGl = contraSalesGlMap_unflat[othp.othp_gl].allocation
+    }
+
+    // Find OTHP allocation GL accounts
+    let allocattedGl = '9999' // example: OTHP mapped to 9010 extended terms
+
+    if (typeof majCodeGlMap_unflat[othp.major_code_name] !== 'undefined') {
+      allocattedGl = majCodeGlMap_unflat[othp.major_code_name][othpType]
+    }
 
     return {
       ...othp,
