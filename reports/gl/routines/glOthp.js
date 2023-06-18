@@ -16,13 +16,14 @@ const glOthp = async fy => {
   // create othp allocation
   const contraSalesGlMap_unflat = unflattenByCompositKey(contraSalesGlMap, { 1: 'contra' })
 
-  console.log(contraSalesGlMap_unflat)
-
   // map the othp type into the othp gl data
   const mapped = othpGl.map(othp => {
-    console.log(othp)
+    console.log('contraSalesGlMap_unflat', contraSalesGlMap_unflat)
+    console.log('othp', othp)
+    console.log('othp.othp_gl', othp.othp_gl)
+    console.log('contraSalesGlMap_unflat[othp.othp_gl]', contraSalesGlMap_unflat[othp.othp_gl])
 
-    const othpType = contraSalesGlMap_unflat[othp.othp_gl][0].category
+    const othpType = contraSalesGlMap_unflat[othp.othp_gl].category
 
     return {
       ...othp,
