@@ -19,11 +19,13 @@ const glOthp = async fy => {
   // create othp allocation
   const contraSalesGlMap_unflat = unflattenByCompositKey(contraSalesGlMap, { 1: 'contra' })
   const majCodeGlMap_unflat = unflattenByCompositKey(majCodeGlMap, { 1: 'name' })
+  const glPeriodActivity_unflat = unflattenByCompositKey(glPeriodActivity, { 1: 'ACCOUNT_NUMBER', 2: 'DEPARTMENT_CODE' })
+
   const mappedOthpGl = mapOthpGlRecalc(othpGl, contraSalesGlMap_unflat, majCodeGlMap_unflat)
 
   // map the othp type into the othp gl data
 
-  return { glPeriodActivity, mappedOthpGl }
+  return { glPeriodActivity_unflat, mappedOthpGl }
 }
 
 module.exports = glOthp
