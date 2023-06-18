@@ -2,7 +2,7 @@ const calcOthpGl = require('../queries/postgres/calcOthpGl')
 const getContraSalesGlMap = require('../queries/postgres/getContraSalesGlMap')
 const getMajCodeGlMap = require('../queries/postgres/getMajCodeGlMap')
 const unflattenByCompositKeyOverwriteDups = require('../../shared/models/unflattenByCompositKey')
-const unflattenByCompositKeyPushDups = require('../models/unflattenByCompositKey')
+const unflattenByCompositKeySumDups = require('../models/unflattenByCompositKeySumDups')
 const getGlPeriodActivity = require('../queries/seasoft/getGlPeriodActivity')
 const mapOthpGlRecalc = require('../models/mapOthpGlRecalc')
 
@@ -23,7 +23,7 @@ const glOthp = async fy => {
   const glPeriodActivity_unflat = unflattenByCompositKeyOverwriteDups(glPeriodActivity, { 1: 'ACCOUNT_NUMBER', 2: 'DEPARTMENT_CODE' })
 
   const mappedOthpGl = mapOthpGlRecalc(othpGl, contraSalesGlMap_unflat, majCodeGlMap_unflat)
-  const othpTieOut_unflat = unflattenByCompositKeyPushDups(mappedOthpGl, { 1: 'othp_gl', 2: 'dept' })
+  const othpTieOut_unflat = unflattenByCompositKeySumDups(mappedOthpGl, { 1: 'othp_gl', 2: 'dept', 3: 'period' })
 
   // map the othp type into the othp gl data
 
