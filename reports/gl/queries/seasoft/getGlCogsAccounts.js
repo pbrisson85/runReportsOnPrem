@@ -6,7 +6,7 @@ const getGlCogsAccounts = async () => {
 
     console.log(`query ODBC for GL COGS accounts ...`)
 
-    const queryString = "SELECT ACCOUNT_NUMBER FROM \"GL Chart Of Accounts\" WHERE COMPANY_NUMBER = ? AND DESCRIPTION LIKE ?" //prettier-ignore
+    const queryString = "SELECT {fn RTRIM(ACCOUNT_NUMBER)} FROM \"GL Chart Of Accounts\" WHERE COMPANY_NUMBER = ? AND DESCRIPTION LIKE ?" //prettier-ignore
 
     const data = await odbcConn.query(queryString, ['0001', 'COG%'])
 

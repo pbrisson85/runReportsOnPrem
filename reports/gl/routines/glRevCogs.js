@@ -3,6 +3,8 @@ const getGlDepartments = require('../queries/seasoft/getGlDepartments')
 const getGlRevenueAccounts = require('../queries/seasoft/getGlRevenueAccounts')
 const getGlCogsAccounts = require('../queries/seasoft/getGlCogsAccounts')
 const getGlPeriodActivity = require('../queries/seasoft/getGlPeriodActivity')
+const unflattedRevenueRecalc = require('../models/unflattenRevenueRecalc')
+const unflattedCogsRecalc = require('../models/unflattenCogsRecalc')
 
 const glRevCogs = async fy => {
   // Make DB Call
@@ -16,9 +18,14 @@ const glRevCogs = async fy => {
   const revCogsGl = await calcRevCogsGl(fy)
 
   /* MODEL DATA */
-  // reconcile revenue and cogs
+  const recalcedRev_unflat = unflattedRevenueRecalc(revCogsGl, { 1: 'sales_gl', 2: 'dept_gl', 3: 'period' })
+  const recalcedCogs_unflat = unflattedCogsRecalc(revCogsGl, { 1: 'cogs_gl', 2: 'dept_gl', 3: 'period' })
 
-  return { revCogsGl, glRevenueAccounts, glCogsAccounts, glPeriodActivity, glDepartments }
+  // reconcile revenue and cogs
+  //const reconciledRev = reconcileRev(glRevenueAccounts, glPeriodActivity, glDepartments, revCogsGl)
+  //const reconciledCogs = reconcileCogs(glCogsAccounts, glPeriodActivity, glDepartments, revCogsGl)
+
+  return { recalcedRev_unflat, recalcedCogs_unflat }
 }
 
 module.exports = glRevCogs
