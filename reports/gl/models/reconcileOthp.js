@@ -9,7 +9,7 @@ const reconcileOthp = (glPeriodActivity_unflat, othpRecalc_unflat, glDepartments
 
     // loop through each department
     glDepartments.forEach(dept => {
-      const deptCode = dept.DEPARTMENT_NUMBER
+      const deptCode = parseInt(dept.DEPARTMENT_NUMBER)
 
       // loop through each period
       periods.forEach(period => {
