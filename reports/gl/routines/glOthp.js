@@ -15,7 +15,7 @@ const glOthp = async fy => {
   /* MODEL DATA */
   // create othp allocation
   const contraSalesGlMap_unflat = unflattenByCompositKey(contraSalesGlMap, { 1: 'contra' })
-  const majCodeGlMap_unflat = unflattenByCompositKey(majCodeGlMap, { 1: 'major_code_name' })
+  const majCodeGlMap_unflat = unflattenByCompositKey(majCodeGlMap, { 1: 'name' })
 
   // map the othp type into the othp gl data
   const mapped = othpGl.map(othp => {
