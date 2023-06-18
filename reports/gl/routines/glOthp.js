@@ -18,12 +18,9 @@ const glOthp = async fy => {
 
   // map the othp type into the othp gl data
   const mapped = othpGl.map(othp => {
-    console.log('contraSalesGlMap_unflat', contraSalesGlMap_unflat)
-    console.log('othp', othp)
-    console.log('othp.othp_gl', othp.othp_gl)
-    console.log('contraSalesGlMap_unflat[othp.othp_gl]', contraSalesGlMap_unflat[othp.othp_gl])
+    let othpType = 'OTHER'
 
-    const othpType = contraSalesGlMap_unflat[othp.othp_gl].category
+    if (typeof contraSalesGlMap_unflat[othp.othp_gl].category !== 'undefined') othpType = contraSalesGlMap_unflat[othp.othp_gl].category
 
     return {
       ...othp,
