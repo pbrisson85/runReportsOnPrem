@@ -6,6 +6,7 @@ const unflattedForOthpGlTie = require('../models/unflattedForOthpGlTie')
 const unflattedPeriodActivity = require('../models/unflattenPeriodActivity')
 const getGlPeriodActivity = require('../queries/seasoft/getGlPeriodActivity')
 const mapOthpGlRecalc = require('../models/mapOthpGlRecalc')
+const reconcileOthp = require('../models/reconcileOthp')
 
 const glOthp = async fy => {
   // Make DB Call
@@ -23,48 +24,16 @@ const glOthp = async fy => {
   const majCodeGlMap_unflat = unflattenByCompositKeyOverwriteDups(majCodeGlMap, { 1: 'name' })
   const glPeriodActivity_unflat = unflattedPeriodActivity(glPeriodActivity, { 1: 'ACCOUNT_NUMBER', 2: 'DEPARTMENT_CODE' })
 
-  const mappedOthpGl = mapOthpGlRecalc(othpGl, contraSalesGlMap_unflat, majCodeGlMap_unflat)
-  const othpTieOut_unflat = unflattedForOthpGlTie(mappedOthpGl, { 1: 'othp_gl', 2: 'dept', 3: 'period' }) // adds each additional recrd to dollars and major_code_name arrays
+  const mappedOthpGlRecalc = mapOthpGlRecalc(othpGl, contraSalesGlMap_unflat, majCodeGlMap_unflat)
+  const othpRecalc_unflat = unflattedForOthpGlTie(mappedOthpGlRecalc, { 1: 'othp_gl', 2: 'dept', 3: 'period' }) // adds each additional recrd to dollars and major_code_name arrays
 
-  // othpTieOut_unflat is used to tie out the othp GL (effected by othp updates on invoices and then booked to gl via journal entry)
+  /* RECONCILIATIONS */
+  const reconciliationOthp = reconcileOthp(glPeriodActivity_unflat, othpRecalc_unflat)
+
+  // othpRecalc_unflat is used to tie out the othp GL (effected by othp updates on invoices and then booked to gl via journal entry)
   // Need another object to tie out the othp allocation
 
-  // loop through the gl period activity and compare to the othpTieOut_unflat
-  const reconciliationOthp = []
-  const periodActivityKeys = Object.keys(glPeriodActivity_unflat)
-  periodActivityKeys.forEach(key => {
-    const glAcct = key.split('-')[0]
-    const dept = parseInt(key.split('-')[1]) // need to parseInt to remove leading 0s
-    const periods = Object.keys(glPeriodActivity_unflat[key])
-
-    // loop through each period
-    periods.forEach(period => {
-      const glDollars = glPeriodActivity_unflat[key][period]
-
-      // Get the calced othp dollar amount
-
-      let othpCalcDollars = 0
-      if (typeof othpTieOut_unflat[`${glAcct}-${dept}-${period}`] !== 'undefined') {
-        othpCalcDollars = othpTieOut_unflat[`${glAcct}-${dept}-${period}`].dollars.reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
-      }
-
-      // compare the two
-      const difference = parseFloat(othpCalcDollars) - parseFloat(glDollars)
-
-      if (glAcct === '3999' || glAcct === '3998' || glAcct === '3997' || glAcct === '3996') {
-        reconciliationOthp.push({
-          glAcct,
-          dept,
-          period,
-          glDollars,
-          othpCalcDollars: parseFloat(othpCalcDollars.toFixed(2)),
-          difference: parseFloat(difference.toFixed(2)),
-        })
-      }
-    })
-  })
-
-  return { mappedOthpGl, reconciliationOthp }
+  return { mappedOthpGlRecalc, reconciliationOthp }
 }
 
 module.exports = glOthp
