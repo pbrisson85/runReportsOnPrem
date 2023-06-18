@@ -51,7 +51,9 @@ const reconcileOthp = (glPeriodActivity_unflat, othpRecalc_unflat, glDepartments
     })
   })
 
-  return { reconciliationOthp, netDifferences }
+  console.log('netDifferences in OTHP journal entires: ', netDifferences)
+
+  return reconciliationOthp
 }
 
 module.exports = reconcileOthp
