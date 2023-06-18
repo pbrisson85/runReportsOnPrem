@@ -20,25 +20,22 @@ const glOthp = async fy => {
   const glPeriodActivity = await getGlPeriodActivity(fy)
   const glDepartments = await getGlDepartments()
 
-  // get each othp contra GL account
-  // get each gl department
-
   /* MODEL DATA */
   // create othp allocation
   const contraSalesGlMap_unflat = unflattenByCompositKeyOverwriteDups(contraSalesGlMap, { 1: 'contra' })
   const majCodeGlMap_unflat = unflattenByCompositKeyOverwriteDups(majCodeGlMap, { 1: 'name' })
   const glPeriodActivity_unflat = unflattedPeriodActivity(glPeriodActivity, { 1: 'ACCOUNT_NUMBER', 2: 'DEPARTMENT_CODE' })
-
   const mappedOthpGlRecalc = mapOthpGlRecalc(othpGl, contraSalesGlMap_unflat, majCodeGlMap_unflat) // This is the master recalc
   const othpRecalc_unflat = unflattedForOthpGlTie(mappedOthpGlRecalc, { 1: 'othp_gl', 2: 'dept', 3: 'period' }) // adds each additional recrd to dollars and major_code_name arrays
 
   /* RECONCILIATIONS */
   const reconciliationOthp = reconcileOthp(glPeriodActivity_unflat, othpRecalc_unflat, glDepartments, contraSalesGlMap)
 
-  // othpRecalc_unflat is used to tie out the othp GL (effected by othp updates on invoices and then booked to gl via journal entry)
-  // Need another object to tie out the othp allocation
+  /* ALLOCATION */
 
-  return { reconciliationOthp, glPeriodActivity_unflat }
+  // NEED TO GO BACK AND NORMALIZE THE DEPARTMENT CODES. IN SOME RECORDS THEY ARE STRING, SOME THEY ARE INT. SEE THE OTHPRECONCILIATION FUNCTION
+
+  return reconciliationOthp
 }
 
 module.exports = glOthp
