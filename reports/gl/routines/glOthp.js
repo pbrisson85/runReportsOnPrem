@@ -51,14 +51,16 @@ const glOthp = async fy => {
       // compare the two
       const difference = parseFloat(glDollars) - parseFloat(othpCalcDollars)
 
-      reconciliationOthp.push({
-        glAcct,
-        dept,
-        period,
-        glDollars,
-        othpCalcDollars,
-        difference,
-      })
+      if (glAcct === '3999' || glAcct === '3998' || glAcct === '3997' || glAcct === '3996') {
+        reconciliationOthp.push({
+          glAcct,
+          dept,
+          period,
+          glDollars,
+          othpCalcDollars,
+          difference,
+        })
+      }
     })
   })
 
