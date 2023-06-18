@@ -35,7 +35,7 @@ const reconcileOthp = (glPeriodActivity_unflat, othpRecalc_unflat, glDepartments
           netDifferences += parseFloat(difference.toFixed(2))
 
           reconciliationOthp.push({
-            glAcct,
+            contraGl,
             dept,
             period,
             glDollars,
