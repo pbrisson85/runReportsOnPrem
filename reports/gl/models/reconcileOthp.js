@@ -26,11 +26,11 @@ const reconcileOthp = (glPeriodActivity_unflat, othpRecalc_unflat, glDepartments
         let glDollars = 0
 
         if (contraGl === '3996' && period === '2') {
-          console.log(glPeriodActivity_unflat)
-          console.log('contraGl', contraGl)
-          console.log('deptCode', deptCode)
-          console.log('period', period)
-          console.log(glPeriodActivity_unflat[`${contraGl}-${deptCode}`])
+          //   console.log(glPeriodActivity_unflat)
+          //   console.log('contraGl', contraGl)
+          //   console.log('deptCode', deptCode)
+          //   console.log('period', period)
+          //   console.log(glPeriodActivity_unflat[`${contraGl}-${deptCode}`])
         }
 
         if (typeof glPeriodActivity_unflat[`${contraGl}-${deptCode}`] !== 'undefined') {

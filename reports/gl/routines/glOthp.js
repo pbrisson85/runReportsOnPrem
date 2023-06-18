@@ -38,7 +38,7 @@ const glOthp = async fy => {
   // othpRecalc_unflat is used to tie out the othp GL (effected by othp updates on invoices and then booked to gl via journal entry)
   // Need another object to tie out the othp allocation
 
-  return { glPeriodActivity_unflat }
+  return { reconciliationOthp, glPeriodActivity_unflat }
 }
 
 module.exports = glOthp
