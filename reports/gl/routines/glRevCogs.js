@@ -1,4 +1,4 @@
-const calcRevCogsGl = require('../queries/calcRevCogsGl')
+const calcRevCogsGl = require('../queries/postgres/calcRevCogsGl')
 
 const glRevCogs = async fy => {
   // Make DB Call
