@@ -30,7 +30,7 @@ const reconcileRevenue = (glRevenueAccounts, glPeriodActivity_unflat, glDepartme
         let glDollars = 0
 
         if (typeof glPeriodActivity_unflat[`${revGl}-${deptCode}`] !== 'undefined') {
-          glDollars = glPeriodActivity_unflat[`${revGl}-${deptCode}`][period]
+          glDollars = -glPeriodActivity_unflat[`${revGl}-${deptCode}`][period]
         }
 
         // compare the two
