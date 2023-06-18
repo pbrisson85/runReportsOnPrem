@@ -42,7 +42,11 @@ const glOthp = async fy => {
       const glDollars = glPeriodActivity_unflat[key][period]
 
       // Get the calced othp dollar amount
-      const othpCalcDollars = othpTieOut_unflat[`${glAcct}-${dept}-${period}`].dollars.reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
+
+      let othpCalcDollars = 0
+      if (typeof othpTieOut_unflat[`${glAcct}-${dept}-${period}`] !== 'undefined') {
+        othpCalcDollars = othpTieOut_unflat[`${glAcct}-${dept}-${period}`].dollars.reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
+      }
 
       // compare the two
       const difference = parseFloat(glDollars) - parseFloat(othpCalcDollars)
