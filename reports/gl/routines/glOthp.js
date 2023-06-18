@@ -20,7 +20,7 @@ const glOthp = async fy => {
   const mapped = othpGl.map(othp => {
     let othpType = 'OTHER'
 
-    if (typeof contraSalesGlMap_unflat[othp.othp_gl].category !== 'undefined') othpType = contraSalesGlMap_unflat[othp.othp_gl].category
+    if (typeof contraSalesGlMap_unflat[othp.othp_gl] !== 'undefined') othpType = contraSalesGlMap_unflat[othp.othp_gl].category
 
     return {
       ...othp,
