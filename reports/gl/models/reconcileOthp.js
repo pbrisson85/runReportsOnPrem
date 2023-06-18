@@ -41,7 +41,7 @@ const reconcileOthp = (glPeriodActivity_unflat, othpRecalc_unflat) => {
     })
   })
 
-  return reconciliationOthp
+  return { reconciliationOthp, netDifferences }
 }
 
 module.exports = reconcileOthp
