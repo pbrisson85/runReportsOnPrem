@@ -34,7 +34,7 @@ const glOthp = async fy => {
   const periodActivityKeys = Object.keys(glPeriodActivity_unflat)
   periodActivityKeys.forEach(key => {
     const glAcct = key.split('-')[0]
-    const dept = key.split('-')[1]
+    const dept = parseInt(key.split('-')[1]) // need to parseInt to remove leading 0s
     const periods = Object.keys(glPeriodActivity_unflat[key])
 
     // loop through each period
