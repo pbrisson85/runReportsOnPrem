@@ -8,9 +8,9 @@ const cleanLabelsForDisplay = (flattenedMappedData, filter) => {
 
   cacheData.forEach((row, idx) => {
     // given that original data is being mutated, adding the original "label" as the "filter" value so front end can provide it back to the backend when requesting detail
-    row.l1_filter = row.l1_label
-    row.l2_filter = row.l2_label
-    row.l3_filter = row.l3_label
+    flattenedMappedData[idx].l1_filter = row.l1_label
+    flattenedMappedData[idx].l2_filter = row.l2_label
+    flattenedMappedData[idx].l3_filter = row.l3_label
 
     // Set initial values
     if (idx === 0) {
