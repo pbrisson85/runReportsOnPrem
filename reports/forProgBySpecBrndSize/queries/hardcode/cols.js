@@ -1,6 +1,7 @@
 const cols = [
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
+    reportName: 'forProgBySpecBrndSize', // report name (used in API calls to get detail data)
     displayName: 'SPECIES', // show as column header
     dataName: 'l1_subtotal', // key to pull data from
     justifyData: 'start', // css justify content
@@ -17,6 +18,7 @@ const cols = [
   },
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
+    reportName: 'forProgBySpecBrndSize', // report name (used in API calls to get detail data)
     displayName: 'BRAND', // show as column header
     dataName: 'l2_subtotal', // key to pull data from
     justifyData: 'start', // css justify content
@@ -33,6 +35,7 @@ const cols = [
   },
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
+    reportName: 'forProgBySpecBrndSize', // report name (used in API calls to get detail data)
     displayName: 'SIZE', // show as column header
     dataName: 'l3_subtotal', // key to pull data from
     justifyData: 'start', // css justify content

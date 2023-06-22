@@ -40,7 +40,6 @@ const reconcileRevenue = (glRevenueAccounts, glPeriodActivity_unflat, glDepartme
           netDifferences += parseFloat(difference.toFixed(2))
 
           reconciliationRevenue.push({
-            key,
             revGl,
             deptCode,
             period,

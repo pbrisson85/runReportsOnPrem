@@ -1,6 +1,7 @@
 const cols = [
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
+    reportName: 'bySpeciesgroupProg', // report name (used in API calls to get detail data)
     displayName: 'MAJOR CATEGORY', // show as column header
     dataName: 'l1_subtotal', // key to pull data from
     justifyData: 'start', // css justify content
@@ -16,6 +17,7 @@ const cols = [
   },
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
+    reportName: 'bySpeciesgroupProg', // report name (used in API calls to get detail data)
     displayName: 'PROGRAM', // show as column header
     dataName: 'l2_subtotal', // key to pull data from
     justifyData: 'start', // css justify content
