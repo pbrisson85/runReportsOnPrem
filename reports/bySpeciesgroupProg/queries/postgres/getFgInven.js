@@ -9,7 +9,7 @@ const lvl_1_subtotal_getFgInven = async () => {
     console.log(`level 1: query postgres for FG on hand ...`)
 
     const response = await pgClient.query(
-      'SELECT \'FG INVEN\' AS column, ms.species_group AS l1_subtotal, \'SUBTOTAL\' AS l2_subtotal, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) GROUP BY ms.species_group',
+      'SELECT \'FG INVEN\' AS column, ms.species_group AS l1_label, \'SUBTOTAL\' AS l2_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) GROUP BY ms.species_group',
       ['FG']
     ) //prettier-ignore
 
@@ -31,7 +31,7 @@ const lvl_1_subtotal_getFgInTransit = async () => {
     console.log(`level 1: query postgres for FG in transit ...`)
 
     const response = await pgClient.query(
-      'SELECT \'FG IN TRANSIT\' AS column, ms.species_group AS l1_subtotal, \'SUBTOTAL\' AS l2_subtotal, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type = $2 GROUP BY ms.species_group',
+      'SELECT \'FG IN TRANSIT\' AS column, ms.species_group AS l1_label, \'SUBTOTAL\' AS l2_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type = $2 GROUP BY ms.species_group',
       ['FG', 'IN TRANSIT']
     ) //prettier-ignore
 
@@ -53,7 +53,7 @@ const lvl_1_subtotal_getFgAtLoc = async () => {
     console.log(`level 1: query postgres for FG at location ...`)
 
     const response = await pgClient.query(
-      'SELECT \'FG ON HAND\' AS column, ms.species_group AS l1_subtotal, \'SUBTOTAL\' AS l2_subtotal, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type <> $2 GROUP BY ms.species_group',
+      'SELECT \'FG ON HAND\' AS column, ms.species_group AS l1_label, \'SUBTOTAL\' AS l2_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type <> $2 GROUP BY ms.species_group',
       ['FG', 'IN TRANSIT']
     ) //prettier-ignore
 
@@ -75,7 +75,7 @@ const lvl_1_subtotal_getFgAtLoc_untagged = async () => {
     console.log(`level 1: query postgres for FG at location UNTAGGED ...`)
 
     const response = await pgClient.query(
- 'SELECT \'FG ON HAND UNTAGGED\' AS column, ms.species_group AS l1_subtotal, \'SUBTOTAL\' AS l2_subtotal, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs FROM (SELECT pi.cost_extended, pi.item_number, pi.lot, pi.on_hand_lbs, pi.location_code FROM "invenReporting".perpetual_inventory AS pi WHERE pi .version = (SELECT MAX(subpi.version) - 1 FROM "invenReporting".perpetual_inventory AS subpi) AND pi.location_type <> $2) AS inven_t LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inven_t.item_number LEFT OUTER JOIN (SELECT ti.lot, ti.location, ti.item_num, COALESCE(SUM(ti.weight),0) AS weight, COALESCE(SUM(ti.cost * ti.weight),0) AS ext_cost FROM "salesReporting".tagged_inventory AS ti WHERE ti.version = (SELECT MAX(subti.version) - 1 FROM "salesReporting".tagged_inventory AS subti) GROUP BY ti.lot, ti.location, ti.item_num) AS tagged_t ON tagged_t.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 GROUP BY ms.species_group', ['FG', 'IN TRANSIT']
+ 'SELECT \'FG ON HAND UNTAGGED\' AS column, ms.species_group AS l1_label, \'SUBTOTAL\' AS l2_label, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs FROM (SELECT pi.cost_extended, pi.item_number, pi.lot, pi.on_hand_lbs, pi.location_code FROM "invenReporting".perpetual_inventory AS pi WHERE pi .version = (SELECT MAX(subpi.version) - 1 FROM "invenReporting".perpetual_inventory AS subpi) AND pi.location_type <> $2) AS inven_t LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inven_t.item_number LEFT OUTER JOIN (SELECT ti.lot, ti.location, ti.item_num, COALESCE(SUM(ti.weight),0) AS weight, COALESCE(SUM(ti.cost * ti.weight),0) AS ext_cost FROM "salesReporting".tagged_inventory AS ti WHERE ti.version = (SELECT MAX(subti.version) - 1 FROM "salesReporting".tagged_inventory AS subti) GROUP BY ti.lot, ti.location, ti.item_num) AS tagged_t ON tagged_t.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 GROUP BY ms.species_group', ['FG', 'IN TRANSIT']
     ) //prettier-ignore
 
     await pgClient.end()
@@ -96,7 +96,7 @@ const lvl_1_subtotal_getFgAtLoc_tagged = async () => {
     console.log(`level 1: query postgres for FG at location TAGGED ...`)
 
     const response = await pgClient.query(
-      'SELECT \'FG ON HAND TAGGED\' AS column, ms.species_group AS l1_subtotal, \'SUBTOTAL\' AS l2_subtotal, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.item_num WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) GROUP BY ms.species_group',
+      'SELECT \'FG ON HAND TAGGED\' AS column, ms.species_group AS l1_label, \'SUBTOTAL\' AS l2_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.item_num WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) GROUP BY ms.species_group',
       ['FG']
     ) //prettier-ignore
 
@@ -120,7 +120,7 @@ const lvl_2_subtotal_getFgInven = async () => {
     console.log(`level 2: query postgres for FG on hand ...`)
 
     const response = await pgClient.query(
-      'SELECT \'FG INVEN\' AS column, ms.species_group AS l1_subtotal, ms.program AS l2_subtotal, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) GROUP BY ms.species_group, ms.program',
+      'SELECT \'FG INVEN\' AS column, ms.species_group AS l1_label, ms.program AS l2_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) GROUP BY ms.species_group, ms.program',
       ['FG']
     ) //prettier-ignore
 
@@ -142,7 +142,7 @@ const lvl_2_subtotal_getFgInTransit = async () => {
     console.log(`level 2: query postgres for FG in transit ...`)
 
     const response = await pgClient.query(
-      'SELECT \'FG IN TRANSIT\' AS column, ms.species_group AS l1_subtotal, ms.program AS l2_subtotal, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type = $2 GROUP BY ms.species_group, ms.program',
+      'SELECT \'FG IN TRANSIT\' AS column, ms.species_group AS l1_label, ms.program AS l2_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type = $2 GROUP BY ms.species_group, ms.program',
       ['FG', 'IN TRANSIT']
     ) //prettier-ignore
 
@@ -164,7 +164,7 @@ const lvl_2_subtotal_getFgAtLoc = async () => {
     console.log(`level 2: query postgres for FG at location ...`)
 
     const response = await pgClient.query(
-      'SELECT \'FG ON HAND\' AS column, ms.species_group AS l1_subtotal, ms.program AS l2_subtotal, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type <> $2 GROUP BY ms.species_group, ms.program',
+      'SELECT \'FG ON HAND\' AS column, ms.species_group AS l1_label, ms.program AS l2_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type <> $2 GROUP BY ms.species_group, ms.program',
       ['FG', 'IN TRANSIT']
     ) //prettier-ignore
 
@@ -186,7 +186,7 @@ const lvl_2_subtotal_getFgAtLoc_untagged = async () => {
     console.log(`level 2: query postgres for FG at location UNTAGGED ...`)
 
     const response = await pgClient.query(
- 'SELECT \'FG ON HAND UNTAGGED\' AS column, ms.species_group AS l1_subtotal, ms.program AS l2_subtotal, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs FROM (SELECT pi.cost_extended, pi.item_number, pi.lot, pi.on_hand_lbs, pi.location_code FROM "invenReporting".perpetual_inventory AS pi WHERE pi .version = (SELECT MAX(subpi.version) - 1 FROM "invenReporting".perpetual_inventory AS subpi) AND pi.location_type <> $2) AS inven_t LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inven_t.item_number LEFT OUTER JOIN (SELECT ti.lot, ti.location, ti.item_num, COALESCE(SUM(ti.weight),0) AS weight, COALESCE(SUM(ti.cost * ti.weight),0) AS ext_cost FROM "salesReporting".tagged_inventory AS ti WHERE ti.version = (SELECT MAX(subti.version) - 1 FROM "salesReporting".tagged_inventory AS subti) GROUP BY ti.lot, ti.location, ti.item_num) AS tagged_t ON tagged_t.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 GROUP BY ms.species_group, ms.program', ['FG', 'IN TRANSIT']
+ 'SELECT \'FG ON HAND UNTAGGED\' AS column, ms.species_group AS l1_label, ms.program AS l2_label, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs FROM (SELECT pi.cost_extended, pi.item_number, pi.lot, pi.on_hand_lbs, pi.location_code FROM "invenReporting".perpetual_inventory AS pi WHERE pi .version = (SELECT MAX(subpi.version) - 1 FROM "invenReporting".perpetual_inventory AS subpi) AND pi.location_type <> $2) AS inven_t LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inven_t.item_number LEFT OUTER JOIN (SELECT ti.lot, ti.location, ti.item_num, COALESCE(SUM(ti.weight),0) AS weight, COALESCE(SUM(ti.cost * ti.weight),0) AS ext_cost FROM "salesReporting".tagged_inventory AS ti WHERE ti.version = (SELECT MAX(subti.version) - 1 FROM "salesReporting".tagged_inventory AS subti) GROUP BY ti.lot, ti.location, ti.item_num) AS tagged_t ON tagged_t.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 GROUP BY ms.species_group, ms.program', ['FG', 'IN TRANSIT']
     ) //prettier-ignore
 
     await pgClient.end()
@@ -207,7 +207,7 @@ const lvl_2_subtotal_getFgAtLoc_tagged = async () => {
     console.log(`level 2: query postgres for FG at location TAGGED ...`)
 
     const response = await pgClient.query(
-      'SELECT \'FG ON HAND TAGGED\' AS column, ms.species_group AS l1_subtotal, ms.program AS l2_subtotal, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.item_num WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) GROUP BY ms.species_group, ms.program',
+      'SELECT \'FG ON HAND TAGGED\' AS column, ms.species_group AS l1_label, ms.program AS l2_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.item_num WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) GROUP BY ms.species_group, ms.program',
       ['FG']
     ) //prettier-ignore
 
@@ -231,7 +231,7 @@ const lvl_0_total_getFgInven = async () => {
     console.log(`level 0: query postgres for FG on hand ...`)
 
     const response = await pgClient.query(
-      'SELECT \'FG INVEN\' AS column, \'FG SALES\' AS l1_subtotal, \'TOTAL\' AS l2_subtotal, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory)',
+      'SELECT \'FG INVEN\' AS column, \'FG SALES\' AS l1_label, \'TOTAL\' AS l2_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory)',
       ['FG']
     ) //prettier-ignore
 
@@ -253,7 +253,7 @@ const lvl_0_total_getFgInTransit = async () => {
     console.log(`level 0: query postgres for FG in transit ...`)
 
     const response = await pgClient.query(
-      'SELECT \'FG IN TRANSIT\' AS column, \'FG SALES\' AS l1_subtotal, \'TOTAL\' AS l2_subtotal, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type = $2',
+      'SELECT \'FG IN TRANSIT\' AS column, \'FG SALES\' AS l1_label, \'TOTAL\' AS l2_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type = $2',
       ['FG', 'IN TRANSIT']
     ) //prettier-ignore
 
@@ -275,7 +275,7 @@ const lvl_0_total_getFgAtLoc = async () => {
     console.log(`level 0: query postgres for FG at location ...`)
 
     const response = await pgClient.query(
-      'SELECT \'FG ON HAND\' AS column, \'FG SALES\' AS l1_subtotal, \'TOTAL\' AS l2_subtotal, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type <> $2',
+      'SELECT \'FG ON HAND\' AS column, \'FG SALES\' AS l1_label, \'TOTAL\' AS l2_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type <> $2',
       ['FG', 'IN TRANSIT']
     ) //prettier-ignore
 
@@ -297,7 +297,7 @@ const lvl_0_total_getFgAtLoc_untagged = async () => {
     console.log(`level 0: query postgres for FG at location UNTAGGED ...`)
 
     const response = await pgClient.query(
- 'SELECT \'FG ON HAND UNTAGGED\' AS column, \'FG SALES\' AS l1_subtotal, \'TOTAL\' AS l2_subtotal, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs FROM (SELECT pi.cost_extended, pi.item_number, pi.lot, pi.on_hand_lbs, pi.location_code FROM "invenReporting".perpetual_inventory AS pi WHERE pi .version = (SELECT MAX(subpi.version) - 1 FROM "invenReporting".perpetual_inventory AS subpi) AND pi.location_type <> $2) AS inven_t LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inven_t.item_number LEFT OUTER JOIN (SELECT ti.lot, ti.location, ti.item_num, COALESCE(SUM(ti.weight),0) AS weight, COALESCE(SUM(ti.cost * ti.weight),0) AS ext_cost FROM "salesReporting".tagged_inventory AS ti WHERE ti.version = (SELECT MAX(subti.version) - 1 FROM "salesReporting".tagged_inventory AS subti) GROUP BY ti.lot, ti.location, ti.item_num) AS tagged_t ON tagged_t.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code WHERE ms.byproduct_type IS NULL AND ms.item_type = $1', ['FG', 'IN TRANSIT']
+ 'SELECT \'FG ON HAND UNTAGGED\' AS column, \'FG SALES\' AS l1_label, \'TOTAL\' AS l2_label, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs FROM (SELECT pi.cost_extended, pi.item_number, pi.lot, pi.on_hand_lbs, pi.location_code FROM "invenReporting".perpetual_inventory AS pi WHERE pi .version = (SELECT MAX(subpi.version) - 1 FROM "invenReporting".perpetual_inventory AS subpi) AND pi.location_type <> $2) AS inven_t LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inven_t.item_number LEFT OUTER JOIN (SELECT ti.lot, ti.location, ti.item_num, COALESCE(SUM(ti.weight),0) AS weight, COALESCE(SUM(ti.cost * ti.weight),0) AS ext_cost FROM "salesReporting".tagged_inventory AS ti WHERE ti.version = (SELECT MAX(subti.version) - 1 FROM "salesReporting".tagged_inventory AS subti) GROUP BY ti.lot, ti.location, ti.item_num) AS tagged_t ON tagged_t.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code WHERE ms.byproduct_type IS NULL AND ms.item_type = $1', ['FG', 'IN TRANSIT']
     ) //prettier-ignore
 
     await pgClient.end()
@@ -318,7 +318,7 @@ const lvl_0_total_getFgAtLoc_tagged = async () => {
     console.log(`level 0: query postgres for FG at location TAGGED ...`)
 
     const response = await pgClient.query(
-      'SELECT \'FG ON HAND TAGGED\' AS column, \'FG SALES\' AS l1_subtotal, \'TOTAL\' AS l2_subtotal, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.item_num WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory)',
+      'SELECT \'FG ON HAND TAGGED\' AS column, \'FG SALES\' AS l1_label, \'TOTAL\' AS l2_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.item_num WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory)',
       ['FG']
     ) //prettier-ignore
 

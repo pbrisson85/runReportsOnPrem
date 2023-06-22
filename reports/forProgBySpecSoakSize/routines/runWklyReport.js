@@ -168,35 +168,35 @@ const getWeeklyProgramSalesFrzSoakSize = async (start, end, program) => {
   const rowsThirdLevelDetail = await getRowsThirdLevelDetail(start, end, program)
   const rowsSecondLevelDetail = await getRowsSecondLevelDetail(start, end, program)
   const rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, program)
-  const totalsRow = [{ l1_subtotal: 'FG SALES', l2_subtotal: 'TOTAL', l3_subtotal: 'TOTAL' }]
+  const totalsRow = [{ l1_label: 'FG SALES', l2_label: 'TOTAL', l3_label: 'TOTAL' }]
 
   // COMPILE FINAL ROW TEMPLATE
   const rowTemplate = [...rowsThirdLevelDetail, ...rowsSecondLevelDetail, ...rowsFirstLevelDetail]
     .sort((a, b) => {
       // if has includes total, put at end
-      if (a.l3_subtotal.includes('TOTAL')) return 1
-      if (b.l3_subtotal.includes('TOTAL')) return -1
+      if (a.l3_label.includes('TOTAL')) return 1
+      if (b.l3_label.includes('TOTAL')) return -1
 
-      if (a.l3_subtotal < b.l3_subtotal) return -1
-      if (a.l3_subtotal > b.l3_subtotal) return 1
+      if (a.l3_label < b.l3_label) return -1
+      if (a.l3_label > b.l3_label) return 1
       return 0
     })
     .sort((a, b) => {
       // if has includes total, put at end
-      if (a.l2_subtotal.includes('TOTAL')) return 1
-      if (b.l2_subtotal.includes('TOTAL')) return -1
+      if (a.l2_label.includes('TOTAL')) return 1
+      if (b.l2_label.includes('TOTAL')) return -1
 
-      if (a.l2_subtotal < b.l2_subtotal) return -1
-      if (a.l2_subtotal > b.l2_subtotal) return 1
+      if (a.l2_label < b.l2_label) return -1
+      if (a.l2_label > b.l2_label) return 1
       return 0
     })
     .sort((a, b) => {
       // if has includes total, put at end
-      if (a.l1_subtotal.includes('TOTAL')) return 1
-      if (b.l1_subtotal.includes('TOTAL')) return -1
+      if (a.l1_label.includes('TOTAL')) return 1
+      if (b.l1_label.includes('TOTAL')) return -1
 
-      if (a.l1_subtotal < b.l1_subtotal) return -1
-      if (a.l1_subtotal > b.l1_subtotal) return 1
+      if (a.l1_label < b.l1_label) return -1
+      if (a.l1_label > b.l1_label) return 1
       return 0
     })
 
@@ -204,9 +204,9 @@ const getWeeklyProgramSalesFrzSoakSize = async (start, end, program) => {
 
   // map data into row template
   const rowTemplate_unflat = unflattenByCompositKey(rowTemplate, {
-    1: 'l1_subtotal',
-    2: 'l2_subtotal',
-    3: 'l3_subtotal',
+    1: 'l1_label',
+    2: 'l2_label',
+    3: 'l3_label',
   })
 
   const mappedSales = mapSalesToRowTemplates(

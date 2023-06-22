@@ -129,18 +129,18 @@ const getWeeklyProgramSales = async (start, end) => {
   ///////////////////////////////// ROWS
   const levelOneRows = await getLevelOneRows(start, end)
   const levelTwoRows = await getLevelTwoRows(start, end)
-  const totalsRow = [{ l1_subtotal: 'FG SALES', l2_subtotal: 'TOTAL' }]
+  const totalsRow = [{ l1_label: 'FG SALES', l2_label: 'TOTAL' }]
 
   // COMPILE FINAL ROW TEMPLATE
   const rowTemplate = [...levelTwoRows, ...levelOneRows]
     .sort((a, b) => {
-      if (a.l2_subtotal < b.l2_subtotal) return -1
-      if (a.l2_subtotal > b.l2_subtotal) return 1
+      if (a.l2_label < b.l2_label) return -1
+      if (a.l2_label > b.l2_label) return 1
       return 0
     })
     .sort((a, b) => {
-      if (a.l1_subtotal < b.l1_subtotal) return -1
-      if (a.l1_subtotal > b.l1_subtotal) return 1
+      if (a.l1_label < b.l1_label) return -1
+      if (a.l1_label > b.l1_label) return 1
       return 0
     })
 
@@ -215,7 +215,7 @@ const getWeeklyProgramSales = async (start, end) => {
   })
   const flattenedMappedData = Object.values(mappedData)
 
-  // remove row labels for l1_subtotal except first row of each grouping
+  // remove row labels for l1_label except first row of each grouping // ALSO add filter datapoint with each l1_label, l2_label, l3_label
   const finalData = cleanLabelsForDisplay(flattenedMappedData)
 
   // get data column names
