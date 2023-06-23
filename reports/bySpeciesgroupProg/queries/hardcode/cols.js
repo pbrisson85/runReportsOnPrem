@@ -4,6 +4,7 @@ const cols = [
     reportName: 'bySpeciesgroupProg', // report name (used in API calls to get detail data)
     displayName: 'MAJOR CATEGORY', // show as column header
     dataName: 'l1_label', // key to pull data from
+    filterName: 'l1_filter', // key to match up the column with the filter
     justifyData: 'start', // css justify content
     justifyHeading: 'center', // css justify content
     width: '200px', // css width
@@ -21,6 +22,7 @@ const cols = [
     reportName: 'bySpeciesgroupProg', // report name (used in API calls to get detail data)
     displayName: 'PROGRAM', // show as column header
     dataName: 'l2_label', // key to pull data from
+    filterName: 'l2_filter', // key to match up the column with the filter
     justifyData: 'start', // css justify content
     justifyHeading: 'center', // css justify content
     width: '200px', // css width
