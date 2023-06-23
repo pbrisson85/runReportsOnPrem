@@ -14,6 +14,7 @@ const cols = [
     hidden: false, // flag to hide column.
     view: null, // dataset to show for the column (extended_cost, weight, cost_per_lb)
     data: false,
+    rightClickMenu: ['Item', 'Customer', 'Sales Person'], // array of options for right click menu
   },
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
@@ -31,6 +32,7 @@ const cols = [
     view: null, // dataset to show for the column (extended_cost, weight, cost_per_lb)
     data: false,
     borderRight: true, // border right on ladst frozen cell
+    rightClickMenu: ['Item', 'Customer', 'Sales Person'], // array of options for right click menu
   },
 ]
 
