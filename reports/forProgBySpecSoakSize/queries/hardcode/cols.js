@@ -17,6 +17,7 @@ const cols = [
     data: false,
     borderRight: false, // border right on ladst frozen cell
     rightClickMenu: ['Item', 'Customer', 'Sales Person'], // array of options for right click menu
+    colType: 'label',
   },
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
@@ -36,6 +37,7 @@ const cols = [
     data: false,
     borderRight: false, // border right on ladst frozen cell
     rightClickMenu: ['Item', 'Customer', 'Sales Person'], // array of options for right click menu
+    colType: 'label',
   },
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
@@ -55,6 +57,7 @@ const cols = [
     data: false,
     borderRight: true, // border right on ladst frozen cell
     rightClickMenu: ['Item', 'Customer', 'Sales Person'], // array of options for right click menu
+    colType: 'label',
   },
 ]
 
