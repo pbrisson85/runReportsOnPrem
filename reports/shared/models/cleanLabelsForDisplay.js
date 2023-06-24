@@ -31,14 +31,14 @@ const cleanLabelsForDisplay = (flattenedMappedData, filter) => {
     }
 
     // If l2 grouping includes subtotal then update the labels
-    if (row.l2_label.toUpperCase().includes('SUBTOTAL')) {
+    if (row.l2_label?.toUpperCase().includes('SUBTOTAL')) {
       flattenedMappedData[idx].l1_label = `${row.l1_label} SUBTOTAL`
       flattenedMappedData[idx].l2_label = ''
       flattenedMappedData[idx].l3_label = ''
     }
 
     // If l3 grouping includes subtotal then update the labels
-    if (row.l3_label?.toUpperCase().includes('SUBTOTAL') && !row.l2_label.toUpperCase().includes('SUBTOTAL')) {
+    if (row.l3_label?.toUpperCase().includes('SUBTOTAL') && !row.l2_label?.toUpperCase().includes('SUBTOTAL')) {
       flattenedMappedData[idx].l1_label = ''
       flattenedMappedData[idx].l2_label = `${row.l2_label} SUBTOTAL`
       flattenedMappedData[idx].l3_label = ''
