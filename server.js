@@ -8,10 +8,11 @@ const helmet = require('helmet')
 
 // initialize routes
 /* Reports */
-const getSalesByProgram = require('./reports/bySpeciesgroupProg/routes/getWklyReport')
-const getSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/getWklyReport')
-const getSalesSpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/getWklyReport')
-const getSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/getWklyReport')
+const getSalesByProgram = require('./reports/bySpeciesgroupProg/routes/buildReport')
+const drillDownSalesByProgram = require('./reports/bySpeciesgroupProg/routes/buildDrillDown')
+const getSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/buildReport')
+const getSalesSpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/buildReport')
+const getSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/buildReport')
 const glRevCogs = require('./reports/gl/routes/glRevCogs')
 const glOthp = require('./reports/gl/routes/glOthp')
 /* Data */
@@ -40,6 +41,7 @@ process.on('unhandledRejection', ex => {
 app.use(helmet())
 app.use(express.json())
 app.use('/api/sales/bySpeciesgroupProg', getSalesByProgram)
+app.use('/api/sales/drillDown/bySpeciesgroupProg', drillDownSalesByProgram)
 app.use('/api/sales/forProgram/byFrzSoakSize', getSalesFrzSoakSize)
 app.use('/api/sales/forProgram/bySpecBrndSize', getSalesSpecBrndSize)
 app.use('/api/sales/forProgram/bySpecSoakSize', getSalesSpecSoakSize)

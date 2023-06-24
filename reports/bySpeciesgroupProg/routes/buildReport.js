@@ -1,8 +1,7 @@
 const router = require('express').Router()
-const runWklyReport = require('../routines/runWklyReport')
+const buildReport = require('../routines/buildReport')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
-const getDistinctFiscalYears = require('../../shared/queries/postgres/getDistinctFiscalYears')
-const { getDateEndPerWeek } = require('../../shared/queries/postgres/getDateEndPerWeek')
+const getDefaults = require('../../shared/utils/getDefaults')
 
 // @route   POST /api/sales/byProgram
 // @desc
@@ -22,7 +21,7 @@ router.post('/', async (req, res) => {
   // Note that start date is the END of the first week. Need the beginning of the same week to pull invoice dates that are after this:
   const startWeek = await getStartOfWeek(req.body.start)
 
-  const resp = await runWklyReport(startWeek[0].formatted_date_start, req.body.end)
+  const resp = await buildReport(startWeek[0].formatted_date_start, req.body.end)
 
   console.log(`get weekly sales species group, program for ${req.body.start} through ${req.body.end} route COMPLETE. \n`)
   res.send(resp)
@@ -30,20 +29,3 @@ router.post('/', async (req, res) => {
 })
 
 module.exports = router
-
-const getDefaults = async () => {
-  const fys = await getDistinctFiscalYears()
-
-  // sort largest to smallest
-  fys.sort((a, b) => {
-    if (a.label > b.label) return -1
-    if (a.label < b.label) return 1
-    return 0
-  })
-
-  const periods = await getDateEndPerWeek(fys[0].label)
-  const start = periods[0].displayname
-  const end = periods[periods.length - 1].displayname
-
-  return { start, end }
-}
