@@ -83,7 +83,8 @@ const unflattenByCompositKey = require('../../shared/models/unflattenByCompositK
 
 const labelCols = require('../queries/hardcode/cols')
 
-const buildReport = async (start, end, program) => {
+const buildDrillDown = async (option, filters, columnDataName, reportName, colType, periodStart, periodEnd) => {
+  return 'buildDrillDown complete'
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
   const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(program)
@@ -299,4 +300,4 @@ const buildReport = async (start, end, program) => {
   return { data: finalData, cols: dataCols, labelCols: labelCols }
 }
 
-module.exports = buildReport
+module.exports = buildDrillDown

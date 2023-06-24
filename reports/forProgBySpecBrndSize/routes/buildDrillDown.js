@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const buildDrillDown = require('../routines/buildDrillDown')
 
 // @route   POST /api/sales/drillDown/forProgBySpecBrndSize
 // @desc    Get drilldown data for a given report and filter
@@ -17,12 +18,10 @@ router.post('/', async (req, res) => {
   console.log('periodStart', periodStart)
   console.log('periodEnd', periodEnd)
 
-  res.send('ok')
-
-  //const resp = await runDrilldown(reportName, filterName, start, end, filter)
+  const resp = await buildDrillDown(option, filters, columnDataName, reportName, colType, periodStart, periodEnd)
 
   console.log(`get drilldown data for ${reportName} route COMPLETE. \n`)
-  //res.send(resp)
+  res.send(resp)
 })
 
 module.exports = router

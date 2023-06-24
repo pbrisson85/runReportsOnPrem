@@ -57,7 +57,9 @@ const combineMappedRows = require('../../shared/models/combineMappedRows')
 const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay')
 const labelCols = require('../queries/hardcode/cols')
 
-const buildReport = async (start, end) => {
+const buildDrillDown = async (option, filters, columnDataName, reportName, colType, periodStart, periodEnd) => {
+  return 'buildDrillDown complete'
+
   ///////////////////////////////// INVENTORY DATA
 
   /* TOTAL FG */
@@ -225,4 +227,4 @@ const buildReport = async (start, end) => {
   return { data: finalData, cols: dataCols, labelCols: labelCols }
 }
 
-module.exports = buildReport
+module.exports = buildDrillDown
