@@ -7,7 +7,7 @@ const cols = [
     filterName: 'l1_filter', // key to match up the column with the filter
     justifyData: 'start', // css justify content
     justifyHeading: 'center', // css justify content
-    width: '200px', // css width
+    width: '100px', // css width
     number: false, // flag to use formatTableDataNumber model
     decimals: 0, // if number is true, decimals will be used
     leftSticky: true, // css sticky
@@ -27,7 +27,7 @@ const cols = [
     filterName: 'l2_filter', // key to match up the column with the filter
     justifyData: 'start', // css justify content
     justifyHeading: 'center', // css justify content
-    width: '200px', // css width
+    width: '250px', // css width
     number: false, // flag to use formatTableDataNumber model
     decimals: 0, // if number is true, decimals will be used
     leftSticky: true, // css sticky
@@ -35,7 +35,7 @@ const cols = [
     hidden: false, // flag to hide column.
     view: null, // dataset to show for the column (extended_cost, weight, cost_per_lb)
     data: false,
-    borderRight: false, // border right on ladst frozen cell
+    borderRight: true, // border right on ladst frozen cell
     rightClickMenu: [], // array of options for right click menu
     colType: 'label',
   },
