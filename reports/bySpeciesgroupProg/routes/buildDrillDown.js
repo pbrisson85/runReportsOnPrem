@@ -4,7 +4,7 @@ const router = require('express').Router()
 // @desc    Get drilldown data for a given report and filter
 // @access  Private
 
-router.post('/bySpeciesgroupProg/:item', async (req, res) => {
+router.post('/', async (req, res) => {
   const { option, filters, columnDataName, reportName, colType, periodStart, periodEnd } = req.body
 
   console.log(`\nget drilldown data for ${reportName} route HIT...`)
