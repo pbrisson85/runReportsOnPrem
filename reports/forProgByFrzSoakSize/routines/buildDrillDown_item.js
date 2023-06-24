@@ -36,7 +36,7 @@ const combineMappedRows = require('../../shared/models/combineMappedRows')
 const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../../shared/models/unflattenByCompositKey')
 
-const labelCols = require('../queries/hardcode/cols')
+const labelCols = require('../queries/hardcode/cols_item')
 
 const buildDrillDown = async (program, start, end, filters) => {
   console.log(program, '\n', start, '\n', end, '\n', filters)
@@ -81,7 +81,7 @@ const buildDrillDown = async (program, start, end, filters) => {
 
   ///////////////////////////////// ROWS
   const rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, program, filters)
-  const totalsRow = [{ l1_label: `FG SALES` }]
+  const totalsRow = [{ l1_label: `FG SALES`, l2_label: `TOTAL` }] // Need an l2_label of TOTAL for front end styling
 
   // COMPILE FINAL ROW TEMPLATE
   const rowTemplate = [...rowsFirstLevelDetail, ...totalsRow]
