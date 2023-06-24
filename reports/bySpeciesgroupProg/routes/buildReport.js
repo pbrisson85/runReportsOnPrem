@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const buildReport = require('../routines/buildReport')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
-const getDefaults = require('../../shared/utils/getDefaults')
+const getDefaults = require('../utils/getDefaults')
 
 // @route   POST /api/sales/byProgram
 // @desc
