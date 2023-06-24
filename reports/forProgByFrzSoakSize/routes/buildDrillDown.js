@@ -16,9 +16,11 @@ router.post('/', async (req, res) => {
 
   let response = null
 
-  if (option === 'item') {
+  if (option === 'Item') {
     response = await buildDrillDown_item(program, startWeek[0].formatted_date_start, periodEnd, filters)
   } else {
+    console.log(`option ${option} not yet implemented`)
+
     return res.send('not yet implemented')
   }
 
