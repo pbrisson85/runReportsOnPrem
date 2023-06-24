@@ -83,7 +83,9 @@ const unflattenByCompositKey = require('../../shared/models/unflattenByCompositK
 
 const labelCols = require('../queries/hardcode/cols')
 
-const buildDrillDown = async (option, filters, columnDataName, reportName, colType, periodStart, periodEnd) => {
+const buildDrillDown = async (program, option, filters, columnDataName, reportName, colType, start, end) => {
+  console.log(program, '\n', option, '\n', filters, '\n', columnDataName, '\n', reportName, '\n', colType, '\n', start, '\n', end)
+
   return 'buildDrillDown complete'
 
   ///////////////////////////////// INVENTORY DATA

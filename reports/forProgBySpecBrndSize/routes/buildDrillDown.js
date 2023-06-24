@@ -1,24 +1,20 @@
 const router = require('express').Router()
 const buildDrillDown = require('../routines/buildDrillDown')
+const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 
 // @route   POST /api/sales/drillDown/forProgBySpecBrndSize
 // @desc    Get drilldown data for a given report and filter
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { option, filters, columnDataName, reportName, colType, periodStart, periodEnd } = req.body
+  const { program, option, filters, columnDataName, reportName, colType, periodStart, periodEnd } = req.body
 
   console.log(`\nget drilldown data for ${reportName} route HIT...`)
 
-  console.log('option', option)
-  console.log('filters', filters)
-  console.log('columnDataName', columnDataName)
-  console.log('reportName', reportName)
-  console.log('colType', colType)
-  console.log('periodStart', periodStart)
-  console.log('periodEnd', periodEnd)
+  // Note that start date is the END of the first week. Need the beginning of the same week to pull invoice dates that are after this:
+  const startWeek = await getStartOfWeek(periodStart)
 
-  const resp = await buildDrillDown(option, filters, columnDataName, reportName, colType, periodStart, periodEnd)
+  const resp = await buildDrillDown(program, option, filters, columnDataName, reportName, colType, startWeek, periodEnd)
 
   console.log(`get drilldown data for ${reportName} route COMPLETE. \n`)
   res.send(resp)
