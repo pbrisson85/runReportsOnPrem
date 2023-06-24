@@ -4,20 +4,24 @@ const router = require('express').Router()
 // @desc    Get drilldown data for a given report and filter
 // @access  Private
 
-router.post('/bySpeciesgroupProg/item', async (req, res) => {
-  console.log(`\nget drilldown data for ${req.params.reportName} route HIT...`)
+router.post('/bySpeciesgroupProg/:item', async (req, res) => {
+  const { option, filters, columnDataName, reportName, colType, periodStart, periodEnd } = req.body
 
-  const { colType, columnDataName, filters } = req.body
+  console.log(`\nget drilldown data for ${reportName} route HIT...`)
 
-  console.log('colType', colType)
-  console.log('columnDataName', columnDataName)
+  console.log('option', option)
   console.log('filters', filters)
+  console.log('columnDataName', columnDataName)
+  console.log('reportName', reportName)
+  console.log('colType', colType)
+  console.log('periodStart', periodStart)
+  console.log('periodEnd', periodEnd)
 
   res.send('ok')
 
   //const resp = await runDrilldown(reportName, filterName, start, end, filter)
 
-  console.log(`get drilldown data for ${req.params.reportName} route COMPLETE. \n`)
+  console.log(`get drilldown data for ${reportName} route COMPLETE. \n`)
   //res.send(resp)
 })
 
