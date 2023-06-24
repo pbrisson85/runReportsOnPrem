@@ -81,7 +81,7 @@ const buildDrillDown = async (program, start, end, filters) => {
 
   ///////////////////////////////// ROWS
   const rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, program, filters)
-  const totalsRow = [{ l1_label: `${program}, ${filters[0]}, ${filters[1]}, ${filters[2]}` }]
+  const totalsRow = [{ l1_label: `FG SALES` }]
 
   // COMPILE FINAL ROW TEMPLATE
   const rowTemplate = [...rowsFirstLevelDetail, ...totalsRow]
@@ -115,10 +115,10 @@ const buildDrillDown = async (program, start, end, filters) => {
       ...lvl_0_total_fgInTransit,
       ...lvl_1_subtotal_fgAtLoc,
       ...lvl_0_total_fgAtLoc,
-      ...lvl_1_subtotal_fgAtLoc_untagged, // New
-      ...lvl_0_total_fgAtLoc_untagged, // New
-      ...lvl_1_subtotal_fgAtLoc_tagged, // New
-      ...lvl_0_total_fgAtLoc_tagged, // New
+      ...lvl_1_subtotal_fgAtLoc_untagged,
+      ...lvl_0_total_fgAtLoc_untagged,
+      ...lvl_1_subtotal_fgAtLoc_tagged,
+      ...lvl_0_total_fgAtLoc_tagged,
       ...lvl_1_subtotal_fgPo,
       ...lvl_0_total_fgPo,
     ],
