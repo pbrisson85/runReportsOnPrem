@@ -82,9 +82,10 @@ const buildDrillDown = async (program, start, end, filters) => {
   ///////////////////////////////// ROWS
   const rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, program, filters)
   const totalsRow = [{ l1_label: `FG SALES`, l2_label: `TOTAL` }] // Need an l2_label of TOTAL for front end styling
+  const filterRow = [{ l1_label: `PROGRAM: ${program}, FILTERS: ${filters[0]} ${filters[1]} ${filters[2]}` }] // shows at top of report
 
   // COMPILE FINAL ROW TEMPLATE
-  const rowTemplate = [...rowsFirstLevelDetail, ...totalsRow]
+  const rowTemplate = [...filterRow, ...rowsFirstLevelDetail, ...totalsRow]
 
   // map data into row template
   const rowTemplate_unflat = unflattenByCompositKey(rowTemplate, {
@@ -136,7 +137,7 @@ const buildDrillDown = async (program, start, end, filters) => {
   })
 
   const flattenedMappedData = Object.values(mappedData)
-  const finalData = cleanLabelsForDisplay(flattenedMappedData, `${filters[0]} ${filters[1]} ${filters[2]}`)
+  const finalData = cleanLabelsForDisplay(flattenedMappedData, program)
   const dataCols = await getDateEndPerWeekByRange(start, end)
 
   // return
