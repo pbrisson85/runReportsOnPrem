@@ -1,4 +1,4 @@
-const { getDateEndPerWeekByRange } = require('../../shared/queries/postgres/getDateEndPerWeek')
+const { getDateEndPerWeekByRange, getDateEndPerWeekByRange_so } = require('../../shared/queries/postgres/getDateEndPerWeek')
 const {
   lvl_1_subtotal_getSalesByWk,
   lvl_2_subtotal_getSalesByWk,
@@ -47,6 +47,10 @@ const {
   lvl_1_subtotal_getSoUntagged,
   lvl_2_subtotal_getSoUntagged,
   lvl_0_total_getSoUntagged,
+  // NEW BY WK
+  lvl_1_subtotal_getSo_byWk,
+  lvl_1_subtotal_getSoTagged_byWk,
+  lvl_1_subtotal_getSoUntagged_byWk,
 } = require('../queries/postgres/getSo')
 
 const { getLevelTwoRows, getLevelOneRows } = require('../queries/postgres/getRows')
@@ -107,14 +111,19 @@ const buildReport = async (start, end) => {
   const lvl_1_subtotal_so = await lvl_1_subtotal_getSo()
   const lvl_2_subtotal_so = await lvl_2_subtotal_getSo()
   const lvl_0_total_so = await lvl_0_total_getSo()
+  const lvl_1_subtotal_so_byWk = await lvl_1_subtotal_getSo_byWk()
+
   /* SO TAGGED */
   const lvl_1_subtotal_soTagged = await lvl_1_subtotal_getSoTagged()
   const lvl_2_subtotal_soTagged = await lvl_2_subtotal_getSoTagged()
   const lvl_0_total_soTagged = await lvl_0_total_getSoTagged()
+  const lvl_1_subtotal_soTagged_byWk = await lvl_1_subtotal_getSoTagged_byWk()
+
   /* SO UNTAGGED */
   const lvl_1_subtotal_soUntagged = await lvl_1_subtotal_getSoUntagged()
   const lvl_2_subtotal_soUntagged = await lvl_2_subtotal_getSoUntagged()
   const lvl_0_total_soUntagged = await lvl_0_total_getSoUntagged()
+  const lvl_1_subtotal_soUntagged_byWk = await lvl_1_subtotal_getSoUntagged_byWk()
 
   ///////////////////////////////// SALES DATA
   /* EACH PERIOD */
@@ -166,6 +175,10 @@ const buildReport = async (start, end) => {
       ...lvl_1_subtotal_soUntagged,
       ...lvl_2_subtotal_soUntagged,
       ...lvl_0_total_soUntagged,
+
+      ...lvl_1_subtotal_so_byWk, // New
+      ...lvl_1_subtotal_soTagged_byWk, // New
+      ...lvl_1_subtotal_soUntagged_byWk, // New
     ],
     rowTemplate_unflat
   )
@@ -221,8 +234,13 @@ const buildReport = async (start, end) => {
   // get data column names
   const dataCols = await getDateEndPerWeekByRange(start, end)
 
+  // get so by week cols
+  const start_so = await getEarliestShipWk()
+  const end_so = await getLatestShipWk()
+  const soCols = await getDateEndPerWeekByRange_so(start_so, end_so)
+
   // return
-  return { data: finalData, cols: dataCols, labelCols: labelCols }
+  return { data: finalData, cols: dataCols, labelCols: labelCols, soCols }
 }
 
 module.exports = buildReport
