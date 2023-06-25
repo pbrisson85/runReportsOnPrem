@@ -71,7 +71,7 @@ const lvl_1_subtotal_getSo_byWk = async () => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`level 1: query postgres for FG Sales Orders ...`)
+    console.log(`level 1: query postgres for FG Sales Orders BY WEEK ...`)
 
     const response = await pgClient.query(
            'SELECT sales_line_items.week_serial || \'_so\' AS column, ms.species_group AS l1_label, \'SUBTOTAL\' AS l2_label, COALESCE(SUM(sales_orders.ext_weight),0) AS lbs, COALESCE(SUM(sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.ext_cost),0) AS cogs, COALESCE(SUM(sales_orders.ext_othp),0) AS othp FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num WHERE ms.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.byproduct_type IS NULL GROUP BY sales_line_items.week_serial, ms.species_group ORDER BY sales_line_items.week_serial', ['FG']
@@ -92,7 +92,7 @@ const lvl_1_subtotal_getSoTagged_byWk = async () => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`level 1: query postgres for FG Sales Orders TAGGED ...`)
+    console.log(`level 1: query postgres for FG Sales Orders TAGGED BY WEEK ...`)
 
     const response = await pgClient.query(
            'SELECT sales_line_items.week_serial || \'_so_tg\' AS column, ms.species_group AS l1_label, \'SUBTOTAL\' AS l2_label, COALESCE(SUM(sales_orders.tagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.tagged_weight * ave_tagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num WHERE ms.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.byproduct_type IS NULL AND sales_orders.tagged_weight > 0 GROUP BY sales_line_items.week_serial, ms.species_group ORDER BY sales_line_items.week_serial', ['FG']
@@ -113,7 +113,7 @@ const lvl_1_subtotal_getSoUntagged_byWk = async () => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`level 1: query postgres for FG Sales Orders UNTAGGED ...`)
+    console.log(`level 1: query postgres for FG Sales Orders UNTAGGED BY WEEK ...`)
 
     const response = await pgClient.query(
       'SELECT sales_line_items.week_serial || \'_so_untg\' AS column, ms.species_group AS l1_label, \'SUBTOTAL\' AS l2_label, COALESCE(SUM(sales_orders.untagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.untagged_weight * ave_untagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num WHERE ms.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.byproduct_type IS NULL AND sales_orders.untagged_weight > 0 GROUP BY sales_line_items.week_serial, ms.species_group ORDER BY sales_line_items.week_serial', ['FG']
