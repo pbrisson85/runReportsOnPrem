@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const buildDrillDown_item = require('../routines/buildDrillDown_item')
+const buildDrillDown_byItem_level3 = require('../routines/buildDrillDown_byItem_level3')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
   let response = null
 
   if (option === 'Item') {
-    response = await buildDrillDown_item(program, startWeek[0].formatted_date_start, periodEnd, filters)
+    response = await buildDrillDown_byItem_level3(program, startWeek[0].formatted_date_start, periodEnd, filters)
   } else {
     console.log(`option ${option} not yet implemented`)
 
