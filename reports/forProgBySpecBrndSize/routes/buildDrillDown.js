@@ -25,6 +25,9 @@ router.post('/', async (req, res) => {
   }
 
   console.log(`get drilldown data for ${reportName} route COMPLETE. \n`)
+
+  console.log(response)
+
   res.send(response)
 })
 

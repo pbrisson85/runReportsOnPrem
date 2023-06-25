@@ -39,6 +39,8 @@ const unflattenByCompositKey = require('../../shared/models/unflattenByCompositK
 const labelCols = require('../queries/hardcode/cols_byItem_level3')
 
 const buildDrillDown = async (program, start, end, filters) => {
+  console.log('buildDrillDown_byItem_level3 HIT...')
+
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
   const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(program, filters)
@@ -141,6 +143,9 @@ const buildDrillDown = async (program, start, end, filters) => {
   const dataCols = await getDateEndPerWeekByRange(start, end)
 
   // return
+
+  console.log('buildDrillDown_byItem_level3 COMPLETE. \n')
+
   return { data: finalData, cols: dataCols, labelCols: labelCols }
 }
 
