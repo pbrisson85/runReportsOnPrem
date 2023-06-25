@@ -19,7 +19,7 @@ const lvl_1_subtotal_getFgInven = async (program, filters) => {
 
     await pgClient.end()
 
-    return response.rowsß
+    return response.rows
   } catch (error) {
     console.error(error)
     return error
