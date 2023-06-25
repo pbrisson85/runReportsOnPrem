@@ -1,8 +1,9 @@
 const router = require('express').Router()
 const buildDrillDown_byItem_level3 = require('../routines/buildDrillDown_byItem_level3')
+const buildDrillDown_byItem_level2 = require('../routines/buildDrillDown_byItem_level2')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 
-// @route   POST /api/sales/drillDown/forProgBySpecBrndSize
+// @route   POST /api/sales/drillDown/forProgBySpecSoakSize
 // @desc    Get drilldown data for a given report and filter
 // @access  Private
 
@@ -17,7 +18,13 @@ router.post('/', async (req, res) => {
   let response = null
 
   if (option === 'Item') {
-    response = await buildDrillDown_byItem_level3(program, startWeek[0].formatted_date_start, periodEnd, filters)
+    if (columnDataName.includes('l3')) {
+      response = await buildDrillDown_byItem_level3(program, startWeek[0].formatted_date_start, periodEnd, filters)
+    }
+
+    if (columnDataName.includes('l2')) {
+      response = await buildDrillDown_byItem_level2(program, startWeek[0].formatted_date_start, periodEnd, filters)
+    }
   } else {
     console.log(`option ${option} not yet implemented`)
 
@@ -25,9 +32,6 @@ router.post('/', async (req, res) => {
   }
 
   console.log(`get drilldown data for ${reportName} route COMPLETE. \n`)
-
-  console.log(response)
-
   res.send(response)
 })
 
