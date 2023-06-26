@@ -221,10 +221,10 @@ const buildDrillDown = async (program, option, filters, columnDataName, reportNa
   const finalData = cleanLabelsForDisplay(flattenedMappedData)
 
   // get data column names
-  const dataCols = await getDateEndPerWeekByRange(start, end)
+  const salesCols = await getDateEndPerWeekByRange(start, end)
 
   // return
-  return { data: finalData, cols: dataCols, labelCols: labelCols }
+  return { data: finalData, salesCols: salesCols, labelCols: labelCols }
 }
 
 module.exports = buildDrillDown

@@ -41,7 +41,6 @@ const {
   lvl_0_total_getSoUntagged_byWk,
 } = require('../queries/postgres/byItem_level2/getSoByWeek')
 const { getRowsFirstLevelDetail } = require('../queries/postgres/byItem_level2/getRows')
-
 const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesOneLevel')
 const mapInvenToRowTemplates = require('../../shared/models/mapInvenToRowTemplatesOneLevel')
 const combineMappedRows = require('../../shared/models/combineMappedRows')
@@ -169,7 +168,7 @@ const buildDrillDown = async (program, start, end, filters) => {
   let finalData = cleanLabelsForDisplay(flattenedMappedData, '') // no label in total row, first col
   finalData = [...filterRow, ...finalData]
 
-  const dataCols = await getDateEndPerWeekByRange(start, end)
+  const salesCols = await getDateEndPerWeekByRange(start, end)
 
   // get so by week cols
   const start_so = await getEarliestShipWk()
@@ -179,7 +178,7 @@ const buildDrillDown = async (program, start, end, filters) => {
   const soCols_untg = await getDateEndPerWeekByRange_so_untg(start_so, end_so)
 
   // return
-  return { data: finalData, cols: dataCols, labelCols: labelCols, soCols, soCols_tg, soCols_untg }
+  return { data: finalData, salesCols: salesCols, labelCols: labelCols, soCols, soCols_tg, soCols_untg }
 }
 
 module.exports = buildDrillDown

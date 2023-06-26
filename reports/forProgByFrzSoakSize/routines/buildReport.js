@@ -342,7 +342,7 @@ const buildReport = async (start, end, program) => {
 
   const flattenedMappedData = Object.values(mappedData)
   const finalData = cleanLabelsForDisplay(flattenedMappedData, program)
-  const dataCols = await getDateEndPerWeekByRange(start, end)
+  const salesCols = await getDateEndPerWeekByRange(start, end)
 
   // get so by week cols
   const start_so = await getEarliestShipWk()
@@ -352,7 +352,7 @@ const buildReport = async (start, end, program) => {
   const soCols_untg = await getDateEndPerWeekByRange_so_untg(start_so, end_so)
 
   // return
-  return { data: finalData, cols: dataCols, labelCols: labelCols, soCols, soCols_tg, soCols_untg }
+  return { data: finalData, salesCols: salesCols, labelCols: labelCols, soCols, soCols_tg, soCols_untg }
 }
 
 module.exports = buildReport

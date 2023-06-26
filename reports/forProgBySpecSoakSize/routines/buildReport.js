@@ -293,10 +293,10 @@ const buildReport = async (start, end, program) => {
 
   const flattenedMappedData = Object.values(mappedData)
   const finalData = cleanLabelsForDisplay(flattenedMappedData, program)
-  const dataCols = await getDateEndPerWeekByRange(start, end)
+  const salesCols = await getDateEndPerWeekByRange(start, end)
 
   // return
-  return { data: finalData, cols: dataCols, labelCols: labelCols }
+  return { data: finalData, salesCols: salesCols, labelCols: labelCols }
 }
 
 module.exports = buildReport

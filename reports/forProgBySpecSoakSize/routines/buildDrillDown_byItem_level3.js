@@ -138,11 +138,11 @@ const buildDrillDown = async (program, start, end, filters) => {
   let finalData = cleanLabelsForDisplay(flattenedMappedData, '') // no label in total row, first col
   finalData = [...filterRow, ...finalData]
 
-  const dataCols = await getDateEndPerWeekByRange(start, end)
+  const salesCols = await getDateEndPerWeekByRange(start, end)
 
   // return
 
-  return { data: finalData, cols: dataCols, labelCols: labelCols }
+  return { data: finalData, salesCols: salesCols, labelCols: labelCols }
 }
 
 module.exports = buildDrillDown
