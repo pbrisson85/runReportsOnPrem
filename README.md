@@ -18,3 +18,13 @@
 - Tie out OTHP to GL by period (eventually by week). create entry to correct
 - Tie out the Sales/Cogs to GL by period (eventually by week). create entry to correct
 - Tie out OTHP allocation to each species
+
+TODO:
+
+- add so, so_tagged, so_untagges to ALL build and drilldown routines. Only added to bySpeciesgroupProg build routine so far.
+- On front end handle showing the weekly sales orders.
+- Write the detail queries and handle on front end.
+
+Still need to do the so by week for:
+forProgBySpecBrndSize
+forProgBySpecSoakSize

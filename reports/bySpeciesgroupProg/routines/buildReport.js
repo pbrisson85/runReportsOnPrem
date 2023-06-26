@@ -53,7 +53,8 @@ const {
   lvl_1_subtotal_getSoUntagged,
   lvl_2_subtotal_getSoUntagged,
   lvl_0_total_getSoUntagged,
-  // NEW BY WK
+} = require('../queries/postgres/getSo')
+const {
   lvl_1_subtotal_getSo_byWk,
   lvl_2_subtotal_getSo_byWk,
   lvl_0_total_getSo_byWk,
@@ -63,8 +64,7 @@ const {
   lvl_1_subtotal_getSoUntagged_byWk,
   lvl_2_subtotal_getSoUntagged_byWk,
   lvl_0_total_getSoUntagged_byWk,
-} = require('../queries/postgres/getSo')
-
+} = require('../queries/postgres/getSoByWeek')
 const { getLevelTwoRows, getLevelOneRows } = require('../queries/postgres/getRows')
 const unflattenRowTemplate = require('../../shared/models/unflattenRowTemplate')
 const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesTwoLevel')
