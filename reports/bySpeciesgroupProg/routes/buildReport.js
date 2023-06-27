@@ -25,7 +25,6 @@ router.post('/', async (req, res) => {
 
   console.log(`get weekly sales species group, program for ${req.body.start} through ${req.body.end} route COMPLETE. \n`)
   res.send(resp)
-  //res.send({ data, cols })
 })
 
 module.exports = router
