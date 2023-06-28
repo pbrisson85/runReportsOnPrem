@@ -1,4 +1,10 @@
-const { getDateEndPerWeekByRange } = require('../../shared/queries/postgres/getDateEndPerWeek')
+const {
+  getDateEndPerWeekByRange,
+  getDateEndPerWeekByRange_so,
+  getDateEndPerWeekByRange_so_tg,
+  getDateEndPerWeekByRange_so_untg,
+} = require('../../shared/queries/postgres/getDateEndPerWeek')
+const { getLatestShipWk, getEarliestShipWk } = require('../../shared/queries/postgres/getSoDates')
 const {
   lvl_1_subtotal_getSalesByWk,
   lvl_2_subtotal_getSalesByWk,
@@ -31,7 +37,6 @@ const {
   lvl_3_subtotal_getFgAtLoc_tagged,
   lvl_0_total_getFgAtLoc_tagged,
 } = require('../queries/postgres/getFgInven')
-
 const {
   lvl_3_subtotal_getRmInven,
   lvl_3_subtotal_getRmInTransit,
@@ -46,7 +51,6 @@ const {
   lvl_0_total_getRmInTransit,
   lvl_0_total_getRmAtLoc,
 } = require('../queries/postgres/getRmInven')
-
 const {
   lvl_1_subtotal_getFgPo,
   lvl_2_subtotal_getFgPo,
@@ -73,6 +77,20 @@ const {
   lvl_3_subtotal_getSoUntagged,
   lvl_0_total_getSoUntagged,
 } = require('../queries/postgres/getSo')
+const {
+  lvl_1_subtotal_getSo_byWk,
+  lvl_2_subtotal_getSo_byWk,
+  lvl_3_subtotal_getSo_byWk,
+  lvl_0_total_getSo_byWk,
+  lvl_1_subtotal_getSoTagged_byWk,
+  lvl_2_subtotal_getSoTagged_byWk,
+  lvl_3_subtotal_getSoTagged_byWk,
+  lvl_0_total_getSoTagged_byWk,
+  lvl_1_subtotal_getSoUntagged_byWk,
+  lvl_2_subtotal_getSoUntagged_byWk,
+  lvl_3_subtotal_getSoUntagged_byWk,
+  lvl_0_total_getSoUntagged_byWk,
+} = require('../queries/postgres/getSoByWeek')
 const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../queries/postgres/getRows')
 
 const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesThreeLevel')
@@ -143,16 +161,31 @@ const buildReport = async (start, end, program) => {
   const lvl_2_subtotal_so = await lvl_2_subtotal_getSo(program)
   const lvl_3_subtotal_so = await lvl_3_subtotal_getSo(program)
   const lvl_0_total_so = await lvl_0_total_getSo(program)
+
+  const lvl_1_subtotal_so_byWk = await lvl_1_subtotal_getSo_byWk(program)
+  const lvl_2_subtotal_so_byWk = await lvl_2_subtotal_getSo_byWk(program)
+  const lvl_3_subtotal_so_byWk = await lvl_3_subtotal_getSo_byWk(program)
+  const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk(program)
   /* TAGGED SO */
   const lvl_1_subtotal_soTagged = await lvl_1_subtotal_getSoTagged(program)
   const lvl_2_subtotal_soTagged = await lvl_2_subtotal_getSoTagged(program)
   const lvl_3_subtotal_soTagged = await lvl_3_subtotal_getSoTagged(program)
   const lvl_0_total_soTagged = await lvl_0_total_getSoTagged(program)
+
+  const lvl_1_subtotal_soTagged_byWk = await lvl_1_subtotal_getSoTagged_byWk(program)
+  const lvl_2_subtotal_soTagged_byWk = await lvl_2_subtotal_getSoTagged_byWk(program)
+  const lvl_3_subtotal_soTagged_byWk = await lvl_3_subtotal_getSoTagged_byWk(program)
+  const lvl_0_total_soTagged_byWk = await lvl_0_total_getSoTagged_byWk(program)
   /* UNTAGGED SO */
   const lvl_1_subtotal_soUntagged = await lvl_1_subtotal_getSoUntagged(program)
   const lvl_2_subtotal_soUntagged = await lvl_2_subtotal_getSoUntagged(program)
   const lvl_3_subtotal_soUntagged = await lvl_3_subtotal_getSoUntagged(program)
   const lvl_0_total_soUntagged = await lvl_0_total_getSoUntagged(program)
+
+  const lvl_1_subtotal_soUntagged_byWk = await lvl_1_subtotal_getSoUntagged_byWk(program)
+  const lvl_2_subtotal_soUntagged_byWk = await lvl_2_subtotal_getSoUntagged_byWk(program)
+  const lvl_3_subtotal_soUntagged_byWk = await lvl_3_subtotal_getSoUntagged_byWk(program)
+  const lvl_0_total_soUntagged_byWk = await lvl_0_total_getSoUntagged_byWk(program)
 
   // ///////////////////////////////// SALES DATA
   const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end, program)
@@ -231,6 +264,18 @@ const buildReport = async (start, end, program) => {
       ...lvl_2_subtotal_soUntagged,
       ...lvl_3_subtotal_soUntagged,
       ...lvl_0_total_soUntagged,
+      ...lvl_1_subtotal_so_byWk,
+      ...lvl_2_subtotal_so_byWk,
+      ...lvl_3_subtotal_so_byWk,
+      ...lvl_0_total_so_byWk,
+      ...lvl_1_subtotal_soTagged_byWk,
+      ...lvl_2_subtotal_soTagged_byWk,
+      ...lvl_3_subtotal_soTagged_byWk,
+      ...lvl_0_total_soTagged_byWk,
+      ...lvl_1_subtotal_soUntagged_byWk,
+      ...lvl_2_subtotal_soUntagged_byWk,
+      ...lvl_3_subtotal_soUntagged_byWk,
+      ...lvl_0_total_soUntagged_byWk,
     ],
     rowTemplate_unflat
   )
@@ -249,14 +294,14 @@ const buildReport = async (start, end, program) => {
       ...lvl_2_subtotal_fgAtLoc,
       ...lvl_3_subtotal_fgAtLoc,
       ...lvl_0_total_fgAtLoc,
-      ...lvl_1_subtotal_fgAtLoc_untagged, // New
-      ...lvl_2_subtotal_fgAtLoc_untagged, // New
-      ...lvl_3_subtotal_fgAtLoc_untagged, // New
-      ...lvl_0_total_fgAtLoc_untagged, // New
-      ...lvl_1_subtotal_fgAtLoc_tagged, // New
-      ...lvl_2_subtotal_fgAtLoc_tagged, // New
-      ...lvl_3_subtotal_fgAtLoc_tagged, // New
-      ...lvl_0_total_fgAtLoc_tagged, // New
+      ...lvl_1_subtotal_fgAtLoc_untagged,
+      ...lvl_2_subtotal_fgAtLoc_untagged,
+      ...lvl_3_subtotal_fgAtLoc_untagged,
+      ...lvl_0_total_fgAtLoc_untagged,
+      ...lvl_1_subtotal_fgAtLoc_tagged,
+      ...lvl_2_subtotal_fgAtLoc_tagged,
+      ...lvl_3_subtotal_fgAtLoc_tagged,
+      ...lvl_0_total_fgAtLoc_tagged,
       ...lvl_1_subtotal_fgPo,
       ...lvl_2_subtotal_fgPo,
       ...lvl_3_subtotal_fgPo,
@@ -295,8 +340,15 @@ const buildReport = async (start, end, program) => {
   const finalData = cleanLabelsForDisplay(flattenedMappedData, program)
   const salesCols = await getDateEndPerWeekByRange(start, end)
 
+  // get so by week cols
+  const start_so = await getEarliestShipWk()
+  const end_so = await getLatestShipWk()
+  const soCols = await getDateEndPerWeekByRange_so(start_so, end_so)
+  const soCols_tg = await getDateEndPerWeekByRange_so_tg(start_so, end_so)
+  const soCols_untg = await getDateEndPerWeekByRange_so_untg(start_so, end_so)
+
   // return
-  return { data: finalData, salesCols: salesCols, labelCols: labelCols }
+  return { data: finalData, salesCols: salesCols, labelCols: labelCols, soCols, soCols_tg, soCols_untg }
 }
 
 module.exports = buildReport

@@ -1,4 +1,10 @@
-const { getDateEndPerWeekByRange } = require('../../shared/queries/postgres/getDateEndPerWeek')
+const {
+  getDateEndPerWeekByRange,
+  getDateEndPerWeekByRange_so,
+  getDateEndPerWeekByRange_so_tg,
+  getDateEndPerWeekByRange_so_untg,
+} = require('../../shared/queries/postgres/getDateEndPerWeek')
+const { getLatestShipWk, getEarliestShipWk } = require('../../shared/queries/postgres/getSoDates')
 const {
   lvl_1_subtotal_getSalesByWk,
   lvl_0_total_getSalesByWk,
@@ -17,9 +23,7 @@ const {
   lvl_1_subtotal_getFgAtLoc_tagged,
   lvl_0_total_getFgAtLoc_tagged,
 } = require('../queries/postgres/byItem_level3/getFgInven')
-
 const { lvl_1_subtotal_getFgPo, lvl_0_total_getFgPo } = require('../queries/postgres/byItem_level3/getFgOpenPo')
-
 const {
   lvl_1_subtotal_getSo,
   lvl_0_total_getSo,
@@ -28,6 +32,14 @@ const {
   lvl_1_subtotal_getSoUntagged,
   lvl_0_total_getSoUntagged,
 } = require('../queries/postgres/byItem_level3/getSo')
+const {
+  lvl_1_subtotal_getSo_byWk,
+  lvl_0_total_getSo_byWk,
+  lvl_1_subtotal_getSoTagged_byWk,
+  lvl_0_total_getSoTagged_byWk,
+  lvl_1_subtotal_getSoUntagged_byWk,
+  lvl_0_total_getSoUntagged_byWk,
+} = require('../queries/postgres/byItem_level3/getSoByWeek')
 const { getRowsFirstLevelDetail } = require('../queries/postgres/byItem_level3/getRows')
 
 const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesOneLevel')
@@ -64,12 +76,23 @@ const buildDrillDown = async (program, start, end, filters) => {
   /* ALL SO */
   const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(program, filters)
   const lvl_0_total_so = await lvl_0_total_getSo(program, filters)
+
+  const lvl_1_subtotal_so_byWk = await lvl_1_subtotal_getSo_byWk(program, filters)
+  const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk(program, filters)
+
   /* TAGGED SO */
   const lvl_1_subtotal_soTagged = await lvl_1_subtotal_getSoTagged(program, filters)
   const lvl_0_total_soTagged = await lvl_0_total_getSoTagged(program, filters)
+
+  const lvl_1_subtotal_soTagged_byWk = await lvl_1_subtotal_getSoTagged_byWk(program, filters)
+  const lvl_0_total_soTagged_byWk = await lvl_0_total_getSoTagged_byWk(program, filters)
+
   /* UNTAGGED SO */
   const lvl_1_subtotal_soUntagged = await lvl_1_subtotal_getSoUntagged(program, filters)
   const lvl_0_total_soUntagged = await lvl_0_total_getSoUntagged(program, filters)
+
+  const lvl_1_subtotal_soUntagged_byWk = await lvl_1_subtotal_getSoUntagged_byWk(program, filters)
+  const lvl_0_total_soUntagged_byWk = await lvl_0_total_getSoUntagged_byWk(program, filters)
 
   // ///////////////////////////////// SALES DATA
   const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end, program, filters)
@@ -102,6 +125,12 @@ const buildDrillDown = async (program, start, end, filters) => {
       ...lvl_0_total_soTagged,
       ...lvl_1_subtotal_soUntagged,
       ...lvl_0_total_soUntagged,
+      ...lvl_1_subtotal_so_byWk,
+      ...lvl_0_total_so_byWk,
+      ...lvl_1_subtotal_soTagged_byWk,
+      ...lvl_0_total_soTagged_byWk,
+      ...lvl_1_subtotal_soUntagged_byWk,
+      ...lvl_0_total_soUntagged_byWk,
     ],
     rowTemplate_unflat
   )
@@ -140,9 +169,15 @@ const buildDrillDown = async (program, start, end, filters) => {
 
   const salesCols = await getDateEndPerWeekByRange(start, end)
 
-  // return
+  // get so by week cols
+  const start_so = await getEarliestShipWk()
+  const end_so = await getLatestShipWk()
+  const soCols = await getDateEndPerWeekByRange_so(start_so, end_so)
+  const soCols_tg = await getDateEndPerWeekByRange_so_tg(start_so, end_so)
+  const soCols_untg = await getDateEndPerWeekByRange_so_untg(start_so, end_so)
 
-  return { data: finalData, salesCols: salesCols, labelCols: labelCols }
+  // return
+  return { data: finalData, salesCols: salesCols, labelCols: labelCols, soCols, soCols_tg, soCols_untg }
 }
 
 module.exports = buildDrillDown

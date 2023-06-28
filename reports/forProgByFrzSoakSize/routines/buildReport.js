@@ -37,7 +37,6 @@ const {
   lvl_3_subtotal_getFgAtLoc_tagged,
   lvl_0_total_getFgAtLoc_tagged,
 } = require('../queries/postgres/getFgInven')
-
 const {
   lvl_3_subtotal_getRmInven,
   lvl_3_subtotal_getRmInTransit,
@@ -52,7 +51,6 @@ const {
   lvl_0_total_getRmInTransit,
   lvl_0_total_getRmAtLoc,
 } = require('../queries/postgres/getRmInven')
-
 const {
   lvl_1_subtotal_getFgPo,
   lvl_2_subtotal_getFgPo,
