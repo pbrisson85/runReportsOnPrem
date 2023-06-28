@@ -164,7 +164,19 @@ const buildDrillDown = async (program, start, end, filters) => {
   })
 
   const flattenedMappedData = Object.values(mappedData)
-  let finalData = cleanLabelsForDisplay(flattenedMappedData, '') // no label in total row, first col
+  let finalData = cleanLabelsForDisplay(flattenedMappedData, '')
+    .sort((a, b) => {
+      // if has includes total, put at end
+      if (a.l1_label < b.l1_label) return -1
+      if (a.l1_label > b.l1_label) return 1
+      return 0
+    })
+    .sort((a, b) => {
+      // if has includes total, put at end
+      if (a.l2_label.includes('TOTAL')) return 1
+      if (b.l2_label.includes('TOTAL')) return -1
+      return 0
+    }) // no label in total row, first col
   finalData = [...filterRow, ...finalData]
 
   const salesCols = await getDateEndPerWeekByRange(start, end)
