@@ -115,6 +115,8 @@ const buildDrillDown = async (program, start, end, filters) => {
     return 0
   })
 
+  console.log(rowTemplate)
+
   /* 
    .sort((a, b) => {
       // if has includes total, put at end
