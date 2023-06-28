@@ -108,20 +108,19 @@ const buildDrillDown = async (program, start, end, filters) => {
   const filterRow = [{ filterRow: true, l1_label: `PROGRAM: ${program}, FILTERS: ${filters[0]}, ${filters[1]}` }] // shows at top of report
 
   // COMPILE FINAL ROW TEMPLATE
-  const rowTemplate = [...rowsFirstLevelDetail, ...totalsRow].sort((a, b) => {
-    // if has includes total, put at end
-    if (a.l2_label.includes('TOTAL')) return 1
-    if (b.l2_label.includes('TOTAL')) return -1
-
-    console.log('a.l3_label', a.l3_label)
-    console.log('b.l3_label', b.l3_label)
-    console.log('a.l3_label < b.l3_label', a.l3_label < b.l3_label)
-    console.log('a.l3_label > b.l3_label', a.l3_label > b.l3_label)
-
-    if (a.l3_label < b.l3_label) return -1
-    if (a.l3_label > b.l3_label) return 1
-    return 0
-  })
+  const rowTemplate = [...rowsFirstLevelDetail, ...totalsRow]
+    .sort((a, b) => {
+      // if has includes total, put at end
+      if (a.l3_label < b.l3_label) return -1
+      if (a.l3_label > b.l3_label) return 1
+      return 0
+    })
+    .sort((a, b) => {
+      // if has includes total, put at end
+      if (a.l2_label.includes('TOTAL')) return 1
+      if (b.l2_label.includes('TOTAL')) return -1
+      return 0
+    })
 
   // map data into row template
   const rowTemplate_unflat = unflattenByCompositKey(rowTemplate, {
