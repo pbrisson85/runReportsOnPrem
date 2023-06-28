@@ -111,8 +111,8 @@ const buildDrillDown = async (program, start, end, filters) => {
   const rowTemplate = [...rowsFirstLevelDetail, ...totalsRow]
     .sort((a, b) => {
       // if has includes total, put at end
-      if (a.l1_label.includes('TOTAL')) return 1
-      if (b.l1_label.includes('TOTAL')) return -1
+      if (a.l1_label?.includes('TOTAL')) return 1
+      if (b.l1_label?.includes('TOTAL')) return -1
 
       if (a.l1_label < b.l1_label) return -1
       if (a.l1_label > b.l1_label) return 1
@@ -120,8 +120,8 @@ const buildDrillDown = async (program, start, end, filters) => {
     })
     .sort((a, b) => {
       // if has includes total, put at end
-      if (a.l3_label.includes('TOTAL')) return 1
-      if (b.l3_label.includes('TOTAL')) return -1
+      if (a.l3_label?.includes('TOTAL')) return 1
+      if (b.l3_label?.includes('TOTAL')) return -1
 
       if (a.l3_label < b.l3_label) return -1
       if (a.l3_label > b.l3_label) return 1
