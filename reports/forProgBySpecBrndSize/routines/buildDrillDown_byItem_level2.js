@@ -110,9 +110,9 @@ const buildDrillDown = async (program, start, end, filters) => {
   // COMPILE FINAL ROW TEMPLATE
   const rowTemplate = [...rowsFirstLevelDetail, ...totalsRow]
     .sort((a, b) => {
-      console.log(a.l3_label, a.l3_label)
-      console.log(a.l2_label, a.l2_label)
-      console.log(a.l1_label, a.l1_label)
+      console.log('a.l3_label', a.l3_label)
+      console.log('a.l2_label', a.l2_label)
+      console.log('a.l1_label', a.l1_label)
 
       // if has includes total, put at end
       if (a.l3_label?.includes('TOTAL')) return 1
