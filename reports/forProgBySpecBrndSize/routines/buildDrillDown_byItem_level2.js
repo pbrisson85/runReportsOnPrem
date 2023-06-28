@@ -113,6 +113,11 @@ const buildDrillDown = async (program, start, end, filters) => {
     if (a.l2_label.includes('TOTAL')) return 1
     if (b.l2_label.includes('TOTAL')) return -1
 
+    console.log('a.l3_label', a.l3_label)
+    console.log('b.l3_label', b.l3_label)
+    console.log('a.l3_label < b.l3_label', a.l3_label < b.l3_label)
+    console.log('a.l3_label > b.l3_label', a.l3_label > b.l3_label)
+
     if (a.l3_label < b.l3_label) return -1
     if (a.l3_label > b.l3_label) return 1
     return 0
