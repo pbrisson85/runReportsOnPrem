@@ -241,7 +241,13 @@ const lvl_2_subtotal_getFgAtLoc_tagged_detail = async (program, filters) => {
     console.log(`level 2 Detail: query postgres for FG at location TAGGED ...`)
 
     const response = await pgClient.query(
-        'SELECT ti.item_number AS item, ms.description, ti.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, ti.weight AS lbs, pi.cost AS cost_lb, ti.cost * ti.weight AS cost_ext, loc.seasoft_name AS location, loc.seasoft_country as country FROM "salesReporting".tagged_inventory AS ti LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.item_num LEFT OUTER JOIN "invenReporting".location_supplement AS loc ON loc.location_code = ti.location  WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.program = $2 AND ms.species = $3 AND ms.brand = $4',
+        `SELECT ti.item_number AS item, ms.description, ti.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, ti.weight AS lbs, pi.cost AS cost_lb, ti.cost * ti.weight AS cost_ext, loc.seasoft_name AS location, loc.seasoft_country as country 
+            FROM "salesReporting".tagged_inventory AS ti 
+                LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+                    ON ms.item_num = ti.item_num 
+                LEFT OUTER JOIN "invenReporting".location_supplement AS loc 
+                    ON loc.location_code = ti.location  
+            WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.program = $2 AND ms.species = $3 AND ms.brand = $4`,
         ['FG', program, filters[0], filters[1]]
       ) //prettier-ignore
 
