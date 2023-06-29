@@ -213,7 +213,7 @@ const lvl_2_subtotal_getFgAtLoc_untagged_detail = async (program, filters) => {
             AS all_inven
                  
         LEFT OUTER JOIN (
-            SELECT ti.location_code, ti.item_number AS item, ti.lot, ti.weight AS lbs, ti.cost * ti.weight AS cost_ext 
+            SELECT ti.location_code, ti.item_num AS item, ti.lot, ti.weight AS lbs, ti.cost * ti.weight AS cost_ext 
                 FROM "salesReporting".tagged_inventory AS ti 
                 LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                     ON ms.item_num = ti.item_number   
