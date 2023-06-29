@@ -202,7 +202,7 @@ const lvl_2_subtotal_getFgAtLoc_untagged_detail = async (program, filters) => {
     console.log(`level 2 Detail: query postgres for FG at location UNTAGGED ...`)
 
     const response = await pgClient.query(
-        `SELECT all_inven.item, all_inven.description, all_inven.lot, all_inven.species, all_inven.brand, all_inven.size, all_inven.soak, (all_inven.lbs - tagged_inven.lbs AS lbs, all_inven.cost_lb, all_inven.cost_ext - tagged_inven.cost_ext AS cost_ext, all_inven.location, all_inven.country 
+        `SELECT all_inven.item, all_inven.description, all_inven.lot, all_inven.species, all_inven.brand, all_inven.size, all_inven.soak, all_inven.lbs - tagged_inven.lbs AS lbs, all_inven.cost_lb, all_inven.cost_ext - tagged_inven.cost_ext AS cost_ext, all_inven.location, all_inven.country 
         
         FROM (
             SELECT pi.location_code, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country 
