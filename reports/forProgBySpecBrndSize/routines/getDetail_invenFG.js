@@ -24,8 +24,30 @@ const {
 const getDetail = async (program, filters, columnDataName) => {
   let detail = null
 
-  if (filters[2] === 'SUBTOTAL') {
-    // get level two subtotal where species = filters[0] and brand = filters[1]
+  if (filters[1] === 'SUBTOTAL' && filters[2] === 'SUBTOTAL') {
+    // get level 1 subtotal where species = filters[0] and brand = filters[1]
+
+    switch (columnDataName) {
+      case 'FG INVEN':
+        detail = await lvl_1_subtotal_getFgInven_detail(program, filters)
+        break
+      case 'FG IN TRANSIT':
+        detail = await lvl_1_subtotal_getFgInTransit_detail(program, filters)
+        break
+      case 'FG ON HAND':
+        detail = await lvl_1_subtotal_getFgAtLoc_detail(program, filters)
+        break
+      case 'FG ON HAND UNTAGGED':
+        detail = await lvl_1_subtotal_getFgAtLoc_untagged_detail(program, filters)
+        break
+      case 'FG ON HAND TAGGED':
+        detail = await lvl_1_subtotal_getFgAtLoc_tagged_detail(program, filters)
+        break
+    }
+  }
+
+  if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') {
+    // get level 2 subtotal where species = filters[0] and brand = filters[1]
 
     switch (columnDataName) {
       case 'FG INVEN':
@@ -42,6 +64,50 @@ const getDetail = async (program, filters, columnDataName) => {
         break
       case 'FG ON HAND TAGGED':
         detail = await lvl_2_subtotal_getFgAtLoc_tagged_detail(program, filters)
+        break
+    }
+  }
+
+  if (filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL' && filters[1] !== 'TOTAL' && filters[2] !== 'TOTAL') {
+    // get level 3 subtotal where species = filters[0] and brand = filters[1]
+
+    switch (columnDataName) {
+      case 'FG INVEN':
+        detail = await lvl_3_subtotal_getFgInven_detail(program, filters)
+        break
+      case 'FG IN TRANSIT':
+        detail = await lvl_3_subtotal_getFgInTransit_detail(program, filters)
+        break
+      case 'FG ON HAND':
+        detail = await lvl_3_subtotal_getFgAtLoc_detail(program, filters)
+        break
+      case 'FG ON HAND UNTAGGED':
+        detail = await lvl_3_subtotal_getFgAtLoc_untagged_detail(program, filters)
+        break
+      case 'FG ON HAND TAGGED':
+        detail = await lvl_3_subtotal_getFgAtLoc_tagged_detail(program, filters)
+        break
+    }
+  }
+
+  if (filters[1] === 'TOTAL' && filters[2] === 'TOTAL') {
+    // get level 3 subtotal where species = filters[0] and brand = filters[1]
+
+    switch (columnDataName) {
+      case 'FG INVEN':
+        detail = await lvl_0_total_getFgInven_detail(program, filters)
+        break
+      case 'FG IN TRANSIT':
+        detail = await lvl_0_total_getFgInTransit_detail(program, filters)
+        break
+      case 'FG ON HAND':
+        detail = await lvl_0_total_getFgAtLoc_detail(program, filters)
+        break
+      case 'FG ON HAND UNTAGGED':
+        detail = await lvl_0_total_getFgAtLoc_untagged_detail(program, filters)
+        break
+      case 'FG ON HAND TAGGED':
+        detail = await lvl_0_total_getFgAtLoc_tagged_detail(program, filters)
         break
     }
   }
