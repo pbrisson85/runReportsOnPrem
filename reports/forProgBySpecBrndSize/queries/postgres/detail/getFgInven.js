@@ -220,7 +220,7 @@ const lvl_2_subtotal_getFgAtLoc_untagged_detail = async (program, filters) => {
                 WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.program = $3 AND ms.species = $4 AND ms.brand = $5) 
             AS tagged_inven 
             
-        ON all_inven.item = tagged_inven.item AND all_inven.lot = tagged_inven.lot AND all_inven.location_code = tagged_inven.location_code`, ['FG', 'IN TRANSIT', program, filters[0], filters[1]]
+        ON all_inven.item = tagged_inven.item AND all_inven.lot = tagged_inven.lot AND all_inven.location_code = tagged_inven.location`, ['FG', 'IN TRANSIT', program, filters[0], filters[1]]
            ) //prettier-ignore
 
     await pgClient.end()
