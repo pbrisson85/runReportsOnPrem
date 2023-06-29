@@ -216,7 +216,7 @@ const lvl_2_subtotal_getFgAtLoc_untagged_detail = async (program, filters) => {
             SELECT ti.location_code, ti.item_num AS item, ti.lot, ti.weight AS lbs, ti.cost * ti.weight AS cost_ext 
                 FROM "salesReporting".tagged_inventory AS ti 
                 LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-                    ON ms.item_num = ti.item_numb   
+                    ON ms.item_num = ti.item_num   
                 WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.program = $3 AND ms.species = $4 AND ms.brand = $5) 
             AS tagged_inven 
             
