@@ -18,7 +18,7 @@ const lvl_1_subtotal_getFgInven_detail = async (program, filters) => {
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = pi.item_number 
               
-          WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.program = $2 AND ms.species = $3`,
+          WHERE pi.on_hand_lbs AS lbs <> 0, ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.program = $2 AND ms.species = $3`,
           ['FG', program, filters[0]]
         ) //prettier-ignore
 
@@ -48,7 +48,7 @@ const lvl_1_subtotal_getFgInTransit_detail = async (program, filters) => {
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = pi.item_number 
               
-          WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type = $2 AND ms.program = $3 AND ms.species = $4`,
+          WHERE pi.on_hand_lbs AS lbs <> 0, ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type = $2 AND ms.program = $3 AND ms.species = $4`,
           ['FG', 'IN TRANSIT', program, filters[0]]
         ) //prettier-ignore
 
@@ -78,7 +78,7 @@ const lvl_1_subtotal_getFgAtLoc_detail = async (program, filters) => {
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = pi.item_number 
               
-          WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type <> $2 AND ms.program = $3 AND ms.species = $4`,
+          WHERE pi.on_hand_lbs AS lbs <> 0, ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type <> $2 AND ms.program = $3 AND ms.species = $4`,
           ['FG', 'IN TRANSIT', program, filters[0]]
         ) //prettier-ignore
 
@@ -108,8 +108,9 @@ const lvl_1_subtotal_getFgAtLoc_untagged_detail = async (program, filters) => {
                   FROM "invenReporting".perpetual_inventory AS pi 
                   LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                       ON ms.item_num = pi.item_number 
-                  WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM            "invenReporting".perpetual_inventory) AND pi.location_type <> $2 AND ms.program = $3 AND ms.species = $4) 
-              AS all_inven
+                  WHERE pi.on_hand_lbs AS lbs <> 0, ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 
+                  FROM "invenReporting".perpetual_inventory) AND pi.location_type <> $2 AND ms.program = $3 AND ms.species = $4) 
+                  AS all_inven
                    
           LEFT OUTER JOIN (
               SELECT ti.location, ti.item_num AS item, ti.lot, ti.weight AS lbs, ti.cost * ti.weight AS cost_ext 
@@ -181,7 +182,7 @@ const lvl_2_subtotal_getFgInven_detail = async (program, filters) => {
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = pi.item_number 
             
-        WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.program = $2 AND ms.species = $3 AND ms.brand = $4`,
+        WHERE pi.on_hand_lbs AS lbs <> 0, ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.program = $2 AND ms.species = $3 AND ms.brand = $4`,
         ['FG', program, filters[0], filters[1]]
       ) //prettier-ignore
 
@@ -211,7 +212,7 @@ const lvl_2_subtotal_getFgInTransit_detail = async (program, filters) => {
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = pi.item_number 
             
-        WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type = $2 AND ms.program = $3 AND ms.species = $4 AND ms.brand = $5`,
+        WHERE pi.on_hand_lbs AS lbs <> 0, ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type = $2 AND ms.program = $3 AND ms.species = $4 AND ms.brand = $5`,
         ['FG', 'IN TRANSIT', program, filters[0], filters[1]]
       ) //prettier-ignore
 
@@ -241,7 +242,7 @@ const lvl_2_subtotal_getFgAtLoc_detail = async (program, filters) => {
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = pi.item_number 
             
-        WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type <> $2 AND ms.program = $3 AND ms.species = $4 AND ms.brand = $5`,
+        WHERE pi.on_hand_lbs AS lbs <> 0, ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type <> $2 AND ms.program = $3 AND ms.species = $4 AND ms.brand = $5`,
         ['FG', 'IN TRANSIT', program, filters[0], filters[1]]
       ) //prettier-ignore
 
@@ -273,7 +274,8 @@ const lvl_2_subtotal_getFgAtLoc_untagged_detail = async (program, filters) => {
                 LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                     ON ms.item_num = pi.item_number 
                 
-            WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM            "invenReporting".perpetual_inventory) AND pi.location_type <> $2 AND ms.program = $3 AND ms.species = $4 AND ms.brand = $5) 
+            WHERE pi.on_hand_lbs AS lbs <> 0, ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type <> $2 AND ms.program = $3 AND ms.species = $4 AND ms.brand = $5) 
+            
             AS all_inven
                  
         LEFT OUTER JOIN (
@@ -348,7 +350,7 @@ const lvl_3_subtotal_getFgInven_detail = async (program, filters) => {
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = pi.item_number 
               
-          WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.program = $2 AND ms.species = $3 AND ms.brand = $4 AND ms.size_name = $5`,
+          WHERE pi.on_hand_lbs AS lbs <> 0, ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.program = $2 AND ms.species = $3 AND ms.brand = $4 AND ms.size_name = $5`,
           ['FG', program, filters[0], filters[1], filters[2]]
         ) //prettier-ignore
 
@@ -378,7 +380,7 @@ const lvl_3_subtotal_getFgInTransit_detail = async (program, filters) => {
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = pi.item_number 
               
-          WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type = $2 AND ms.program = $3 AND ms.species = $4 AND ms.brand = $5 AND ms.size_name = $6`,
+          WHERE pi.on_hand_lbs AS lbs <> 0, ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type = $2 AND ms.program = $3 AND ms.species = $4 AND ms.brand = $5 AND ms.size_name = $6`,
           ['FG', 'IN TRANSIT', program, filters[0], filters[1], filters[2]]
         ) //prettier-ignore
 
@@ -408,7 +410,7 @@ const lvl_3_subtotal_getFgAtLoc_detail = async (program, filters) => {
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = pi.item_number 
           
-          WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type <> $2 AND ms.program = $3 AND ms.species = $4 AND ms.brand = $5 AND ms.size_name = $6`,
+          WHERE pi.on_hand_lbs AS lbs <> 0, ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type <> $2 AND ms.program = $3 AND ms.species = $4 AND ms.brand = $5 AND ms.size_name = $6`,
           ['FG', 'IN TRANSIT', program, filters[0], filters[1], filters[2]]
         ) //prettier-ignore
 
@@ -440,7 +442,7 @@ const lvl_3_subtotal_getFgAtLoc_untagged_detail = async (program, filters) => {
                   LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                       ON ms.item_num = pi.item_number 
                   
-              WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM            "invenReporting".perpetual_inventory) AND pi.location_type <> $2 AND ms.program = $3 AND ms.species = $4 AND ms.brand = $5 AND ms.size_name = $6) 
+              WHERE pi.on_hand_lbs AS lbs <> 0, ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type <> $2 AND ms.program = $3 AND ms.species = $4 AND ms.brand = $5 AND ms.size_name = $6) 
               AS all_inven
                    
           LEFT OUTER JOIN (
@@ -515,7 +517,7 @@ const lvl_0_total_getFgInven_detail = async program => {
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                 ON ms.item_num = pi.item_number 
                 
-            WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory)`,
+            WHERE pi.on_hand_lbs AS lbs <> 0, ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory)`,
             ['FG', program]
           ) //prettier-ignore
 
@@ -545,7 +547,7 @@ const lvl_0_total_getFgInTransit_detail = async program => {
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                 ON ms.item_num = pi.item_number 
                 
-            WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type = $2`,
+            WHERE pi.on_hand_lbs AS lbs <> 0, ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type = $2`,
             ['FG', 'IN TRANSIT', program]
           ) //prettier-ignore
 
@@ -575,7 +577,7 @@ const lvl_0_total_getFgAtLoc_detail = async program => {
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                 ON ms.item_num = pi.item_number 
                 
-            WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type <> $2`,
+            WHERE pi.on_hand_lbs AS lbs <> 0, ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type <> $2`,
             ['FG', 'IN TRANSIT', program]
           ) //prettier-ignore
 
@@ -607,7 +609,7 @@ const lvl_0_total_getFgAtLoc_untagged_detail = async program => {
                     LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                         ON ms.item_num = pi.item_number 
                     
-                WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM         "invenReporting".perpetual_inventory) AND pi.location_type <> $2) 
+                WHERE pi.on_hand_lbs AS lbs <> 0, ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type <> $2) 
                 AS all_inven
                      
             LEFT OUTER JOIN (
