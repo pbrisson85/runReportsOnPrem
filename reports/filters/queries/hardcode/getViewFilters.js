@@ -69,4 +69,4 @@ const getViewFilters = () => {
   ]
 }
 
-module.expurchaseOrderrts = getViewFilters
+module.exports = getViewFilters
