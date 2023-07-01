@@ -35,7 +35,7 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (start, end) => {
     console.log(`level 1: query postgres to get FG sales data period total ...`)
 
     const response = await pgClient.query(
-      'SELECT \'TOTAL\' AS column, ms.species_group AS l1_label, \'SUBTOTAL\' AS l2_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.calc_gl_gross_sales),0) AS sales, COALESCE(SUM(sales_line_items.calc_gl_cogs),0) AS cogs, COALESCE(SUM(sales_line_items.calc_gl_othp),0) AS othp FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 GROUP BY ms.species_group',
+      'SELECT \'SALES TOTAL\' AS column, ms.species_group AS l1_label, \'SUBTOTAL\' AS l2_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.calc_gl_gross_sales),0) AS sales, COALESCE(SUM(sales_line_items.calc_gl_cogs),0) AS cogs, COALESCE(SUM(sales_line_items.calc_gl_othp),0) AS othp FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 GROUP BY ms.species_group',
       [start, end, 'FG']
       ) //prettier-ignore
 
@@ -83,7 +83,7 @@ const lvl_2_subtotal_getSalesPeriodToDate = async (start, end) => {
     console.log(`level 2: query postgres to get FG sales data period total ...`)
 
     const response = await pgClient.query(
-      'SELECT \'TOTAL\' AS column, ms.species_group AS l1_label, ms.program AS l2_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.calc_gl_gross_sales),0) AS sales, COALESCE(SUM(sales_line_items.calc_gl_cogs),0) AS cogs, COALESCE(SUM(sales_line_items.calc_gl_othp),0) AS othp FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 GROUP BY ms.species_group, ms.program',
+      'SELECT \'SALES TOTAL\' AS column, ms.species_group AS l1_label, ms.program AS l2_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.calc_gl_gross_sales),0) AS sales, COALESCE(SUM(sales_line_items.calc_gl_cogs),0) AS cogs, COALESCE(SUM(sales_line_items.calc_gl_othp),0) AS othp FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 GROUP BY ms.species_group, ms.program',
       [start, end, 'FG']
       ) //prettier-ignore
 
@@ -129,7 +129,7 @@ const lvl_0_total_getSalesPeriodToDate = async (start, end) => {
     console.log(`level 0: query postgres to get FG sales data period total ...`)
 
     const response = await pgClient.query(
-      'SELECT \'TOTAL\' AS column, \'FG SALES\' AS l1_label, \'TOTAL\' AS l2_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.calc_gl_gross_sales),0) AS sales, COALESCE(SUM(sales_line_items.calc_gl_cogs),0) AS cogs, COALESCE(SUM(sales_line_items.calc_gl_othp),0) AS othp FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3',
+      'SELECT \'SALES TOTAL\' AS column, \'FG SALES\' AS l1_label, \'TOTAL\' AS l2_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.calc_gl_gross_sales),0) AS sales, COALESCE(SUM(sales_line_items.calc_gl_cogs),0) AS cogs, COALESCE(SUM(sales_line_items.calc_gl_othp),0) AS othp FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3',
       [start, end, 'FG']
     ) //prettier-ignore
 

@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
 
   let response = null
 
-  if (colType === 'InvenFG') {
+  if (colType === 'invenFg') {
     response = await getDetail_invenFG(program, filters, columnDataName)
   }
 
