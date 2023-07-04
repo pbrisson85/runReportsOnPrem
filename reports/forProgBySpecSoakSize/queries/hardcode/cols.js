@@ -47,7 +47,7 @@ const cols = [
     filterName: 'l3_filter', // key to match up the column with the filter
     justifyData: 'start', // css justify content
     justifyHeading: 'center', // css justify content
-    width: '200px', // css width
+    width: '100px', // css width
     number: false, // flag to use formatTableDataNumber model
     decimals: 0, // if number is true, decimals will be used
     leftSticky: true, // css sticky
