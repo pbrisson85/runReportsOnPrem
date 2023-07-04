@@ -40,13 +40,13 @@ const mapPostgresSalesLinesTable = joinedSalesData => {
       stock_qty_shipped: invoiceLine.STOCK_QTY_SHIPPED,
       stock_unit_of_measure: invoiceLine.STOCK_UNIT_OF_MEASURE,
       list_price: invoiceLine.LIST_PRICE,
-      net_price_extension: invoiceLine.NET_PRICE_EXTENSION,
-      product_only_price: invoiceLine.PRODUCT_ONLY_PRICE,
-      product_only_extension: invoiceLine.PRODUCT_ONLY_EXTENSION,
-      invoice_ext_cost: invoiceLine.INVOICE_EXT_COST,
-      odbc_invoice_number: invoiceLine.ODBC_INVOICE_NUMBER, // pkey
-      odbc_line_number: invoiceLine.ODBC_LINE_NUMBER, // pkey
-      odbc_invoice_date: invoiceLine.ODBC_INVOICE_DATE,
+      gross_sales_ext: invoiceLine.NET_PRICE_EXTENSION, // Changed from net_price_extension to gross_sales_ext
+      net_sales_price: invoiceLine.PRODUCT_ONLY_PRICE, // Changed from product_only_price to net_sales_price
+      net_sales_ext: invoiceLine.PRODUCT_ONLY_EXTENSION, // Changed from product_only_extension to net_sales_ext
+      sales_ledger_cost_ext: invoiceLine.INVOICE_EXT_COST, // Changed from invoice_ext_cost to sales_ledger_cost_ext
+      invoice_number: invoiceLine.ODBC_INVOICE_NUMBER, // pkey // Changed from odbc_invoice_number to invoice_number
+      line_number: invoiceLine.ODBC_LINE_NUMBER, // pkey // Changed from odbc_line_number to line_number
+      // odbc_invoice_date: invoiceLine.ODBC_INVOICE_DATE, // Deleted column
       billing_weight: invoiceLine.BILLING_WEIGHT,
       gl_dist: invoiceLine.GL_DIST,
       inside_salesperson_code: invoiceLine.INSIDE_SALESPERSON_CODE,
@@ -59,8 +59,8 @@ const mapPostgresSalesLinesTable = joinedSalesData => {
       formatted_invoice_date: invoiceLine.period.formattedDate,
       original_order_invoice: invoiceLine.header.ORIGINAL_ORDER_INVOICE, // allow null
       order_number: invoiceLine.header.DOCUMENT_NUMBER,
-      ship_date: invoiceLine.header.SHIP_DATE,
-      gl_posting_date: invoiceLine.header.GL_POSTING_DATE,
+      ship_date: new Date(invoiceLine.header.SHIP_DATE), // changed format from string to date
+      gl_posting_date: new Date(invoiceLine.header.GL_POSTING_DATE), // changed format from string to date
       customer_code: invoiceLine.header.CUSTOMER_CODE,
       customer_name: invoiceLine.header.CUSTOMER_NAME,
       shipto_code: invoiceLine.header.SHIPTO_CODE,
@@ -72,10 +72,22 @@ const mapPostgresSalesLinesTable = joinedSalesData => {
       ship_via_code: invoiceLine.header.SHIP_VIA_CODE,
       reas_description: invoiceLine.invReasCodes.TABLE_DESC, // allow null
       reas_adj_inv: invoiceLine.invReasCodes.TABLE_FLD01_ADJ_INV === 'Y', // allow null
-      calc_gl_gross_sales: invoiceLine.NET_PRICE_EXTENSION,
-      calc_gl_cogs: calc_gl_cogs,
-      calc_gl_othp: invoiceLine.NET_PRICE_EXTENSION - invoiceLine.PRODUCT_ONLY_EXTENSION,
+      // calc_gl_gross_sales: invoiceLine.NET_PRICE_EXTENSION, // deleted, use gross_sales_ext
+      cogs_ext_gl: calc_gl_cogs, // Changed from calc_gl_cogs to cogs_ext_gl
+      othp_ext: invoiceLine.NET_PRICE_EXTENSION - invoiceLine.PRODUCT_ONLY_EXTENSION, // Changed from calc_gl_othp to othp_ext
       calc_gm_rept_weight: calc_gm_reprt_weight,
+      gross_sales_lb: invoiceLine.BILLING_WEIGHT === 0 ? 0 : invoiceLine.NET_PRICE_EXTENSION / invoiceLine.BILLING_WEIGHT, // NEW ***
+      net_sales_lb: billing_weight === 0 ? 0 : invoiceLine.PRODUCT_ONLY_EXTENSION / billing_weight, // NEW ***
+      gross_margin_ext: invoiceLine.PRODUCT_ONLY_EXTENSION - calc_gl_cogs, // NEW ***
+      gross_margin_lb: billing_weight === 0 ? 0 : (invoiceLine.PRODUCT_ONLY_EXTENSION - calc_gl_cogs) / billing_weight, // NEW ***
+      cost_lb: billing_weight === 0 ? 0 : calc_gl_cogs / billing_weight, // NEW ***
+      othp_lb: billing_weight === 0 ? 0 : (invoiceLine.NET_PRICE_EXTENSION - invoiceLine.PRODUCT_ONLY_EXTENSION) / billing_weight, // NEW ***
+      location: invoiceLine.LOCATION, // NEW ***
+
+      // so.rebate_lb,
+      // so.discount_lb,
+      // so.freight_lb,
+      // so.commission_lb,
     }
   })
 
