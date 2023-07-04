@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
   console.log(`\nget detail data for ${reportName} route HIT...`)
 
   // Note that start date is the END of the first week. Need the beginning of the same week to pull invoice dates that are after this:
-  const startWeek = await getStartOfWeek(req.body.start)
+  const startWeek = await getStartOfWeek(periodStart)
 
   let response = null
 
