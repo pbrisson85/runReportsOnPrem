@@ -27,7 +27,7 @@ const cols = [
     filterName: 'l2_filter', // key to match up the column with the filter
     justifyData: 'start', // css justify content
     justifyHeading: 'center', // css justify content
-    width: '200px', // css width
+    width: '175px', // css width
     number: false, // flag to use formatTableDataNumber model
     decimals: 0, // if number is true, decimals will be used
     leftSticky: true, // css sticky
@@ -51,7 +51,7 @@ const cols = [
     number: false, // flag to use formatTableDataNumber model
     decimals: 0, // if number is true, decimals will be used
     leftSticky: true, // css sticky
-    left: '400px', // css positioning for sticky sum of prior col widths
+    left: '375px', // css positioning for sticky sum of prior col widths
     hidden: false, // flag to hide column.
     view: null, // dataset to show for the column (extended_cost, weight, cost_per_lb)
     data: false,
