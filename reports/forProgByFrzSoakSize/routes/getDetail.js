@@ -28,12 +28,6 @@ router.post('/', async (req, res) => {
   }
 
   if (colType === 'salesInvoice') {
-    console.log('inroute: program: ', program)
-    console.log('inroute: filters: ', filters)
-    console.log('inroute: columnDataName: ', columnDataName)
-    console.log('inroute: startWeek: ', startWeek)
-    console.log('inroute: periodEnd: ', periodEnd)
-
     response = await getDetail_salesInvoice(program, filters, columnDataName, startWeek, periodEnd)
   }
 

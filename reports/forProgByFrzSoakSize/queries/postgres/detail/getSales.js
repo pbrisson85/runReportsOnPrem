@@ -104,12 +104,6 @@ const lvl_2_subtotal_getSalesPeriodToDate_detail = async (start, end, program, f
 
     console.log(`level 2: query postgres to get FG sales data period total ...`)
 
-    console.log('program', program)
-    console.log('filters', filters)
-    console.log('columnDataName', columnDataName)
-    console.log('start', start)
-    console.log('end', end)
-
     const response = await pgClient.query(
       `SELECT sl.net_sales_ext, sl.gross_margin_lb, sl.cost_lb, sl.net_sales_lb, sl.othp_lb, sl.gross_sales_lb, sl.location, sl.customer_code, sl.customer_name, sl.invoice_number, sl.line_number, sl.formatted_invoice_date, sl.week_serial, sl.item_number, ms.description, ms.species, ms.brand, ms.size_name, ms.fg_treatment, ms.fg_fresh_frozen, sl.calc_gm_rept_weight, sl.gross_sales_ext, sl.othp_ext, sl.cogs_ext_gl, sl.gross_margin_ext 
       
