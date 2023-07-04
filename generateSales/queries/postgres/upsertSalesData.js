@@ -62,7 +62,7 @@ const upsertSalesData = async salesData => {
               calc_gm_rept_weight = $41,
               gross_sales_lb = $42, 
               net_sales_lb = $43, 
-              gross_margin_ext = $44,, 
+              gross_margin_ext = $44,
               gross_margin_lb = $45, 
               cost_lb = $46, 
               othp_lb = $47, 
