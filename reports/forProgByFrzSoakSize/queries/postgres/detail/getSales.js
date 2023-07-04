@@ -34,7 +34,7 @@ const lvl_1_subtotal_getSalesByWk_detail = async (start, end, program, filters) 
 
 // FG Species Group col total for period
 
-const lvl_1_subtotal_getSalesPeriodToDate_detail = async (program, filters, columnDataName) => {
+const lvl_1_subtotal_getSalesPeriodToDate_detail = async (program, filters, columnDataName, start, end) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -96,7 +96,7 @@ const lvl_2_subtotal_getSalesByWk_detail = async (start, end, program, filters) 
 
 // FG Program col total for period
 
-const lvl_2_subtotal_getSalesPeriodToDate_detail = async (program, filters, columnDataName) => {
+const lvl_2_subtotal_getSalesPeriodToDate_detail = async (program, filters, columnDataName, start, end) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -158,7 +158,7 @@ const lvl_3_subtotal_getSalesByWk_detail = async (start, end, program, filters) 
 
 // FG Program col total for period
 
-const lvl_3_subtotal_getSalesPeriodToDate_detail = async (program, filters, columnDataName) => {
+const lvl_3_subtotal_getSalesPeriodToDate_detail = async (program, filters, columnDataName, start, end) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -220,7 +220,7 @@ const lvl_0_total_getSalesByWk_detail = async (start, end, program, filters) => 
 
 // All sales col total for a program
 
-const lvl_0_total_getSalesPeriodToDate_detail = async (program, filters, columnDataName) => {
+const lvl_0_total_getSalesPeriodToDate_detail = async (program, filters, columnDataName, start, end) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV

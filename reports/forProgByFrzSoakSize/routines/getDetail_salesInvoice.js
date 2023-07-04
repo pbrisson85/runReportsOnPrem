@@ -21,7 +21,7 @@ const getDetail = async (program, filters, columnDataName, startWeek, periodEnd)
         break
       default:
         // this is a trned column
-        detail = await lvl_1_subtotal_getSalesByWk_detail(program, filters, columnDataName)
+        detail = await lvl_1_subtotal_getSalesByWk_detail(program, filters, columnDataName, startWeek, periodEnd)
         break
     }
   }
@@ -35,7 +35,7 @@ const getDetail = async (program, filters, columnDataName, startWeek, periodEnd)
         break
       default:
         // this is a trned column
-        detail = await lvl_2_subtotal_getSalesByWk_detail(program, filters, columnDataName)
+        detail = await lvl_2_subtotal_getSalesByWk_detail(program, filters, columnDataName, startWeek, periodEnd)
         break
     }
   }
@@ -49,7 +49,7 @@ const getDetail = async (program, filters, columnDataName, startWeek, periodEnd)
         break
       default:
         // this is a trned column
-        detail = await lvl_3_subtotal_getSalesByWk_detail(program, filters, columnDataName)
+        detail = await lvl_3_subtotal_getSalesByWk_detail(program, filters, columnDataName, startWeek, periodEnd)
         break
     }
   }
@@ -63,7 +63,7 @@ const getDetail = async (program, filters, columnDataName, startWeek, periodEnd)
         break
       default:
         // this is a trned column
-        detail = await lvl_0_total_getSalesByWk_detail(program, filters, columnDataName)
+        detail = await lvl_0_total_getSalesByWk_detail(program, filters, columnDataName, startWeek, periodEnd)
         break
     }
   }
