@@ -13,6 +13,21 @@ const {
   lvl_0_total_getSoUntagged_detail,
 } = require('../queries/postgres/detail/getSo')
 
+const {
+  lvl_1_subtotal_getSoByWk_detail,
+  lvl_1_subtotal_getSoByWkTagged_detail,
+  lvl_1_subtotal_getSoByWkUntagged_detail,
+  lvl_2_subtotal_getSoByWk_detail,
+  lvl_2_subtotal_getSoByWkTagged_detail,
+  lvl_2_subtotal_getSoByWkUntagged_detail,
+  lvl_3_subtotal_getSoByWk_detail,
+  lvl_3_subtotal_getSoByWkTagged_detail,
+  lvl_3_subtotal_getSoByWkUntagged_detail,
+  lvl_0_total_getSoByWk_detail,
+  lvl_0_total_getSoByWkTagged_detail,
+  lvl_0_total_getSoByWkUntagged_detail,
+} = require('../queries/postgres/detail/getSoByWeek')
+
 const getDetail = async (program, filters, columnDataName) => {
   let detail = null
 
@@ -28,6 +43,21 @@ const getDetail = async (program, filters, columnDataName) => {
         break
       case 'FG OPEN ORDER UNTAGGED':
         detail = await lvl_1_subtotal_getSoUntagged_detail(program, filters)
+        break
+      default:
+        // Must be a trend column
+        // note colName is 2023-W15_so , 2023-W15_so_untg, 2023-W15_so_tg
+        const isSo = columnDataName.split('_').length === 2 && columnDataName.split('_')[1] === 'so'
+        const isSoUntg = columnDataName.split('_')[2] === 'untg'
+        const isSoTg = columnDataName.split('_')[2] === 'tg'
+        const weekSerial = columnDataName.split('_')[0]
+
+        // query trend for all sales orders
+        if (isSo) detail = await lvl_1_subtotal_getSoByWk_detail(program, filters, weekSerial)
+        // query trend for untagged sales orders
+        if (isSoUntg) detail = await lvl_1_subtotal_getSoByWkUntagged_detail(program, filters, weekSerial)
+        // query trend for tagged sales orders
+        if (isSoTg) detail = await lvl_1_subtotal_getSoByWkTagged_detail(program, filters, weekSerial)
         break
     }
   }
@@ -45,6 +75,21 @@ const getDetail = async (program, filters, columnDataName) => {
       case 'FG OPEN ORDER UNTAGGED':
         detail = await lvl_2_subtotal_getSoUntagged_detail(program, filters)
         break
+      default:
+        // Must be a trend column
+        // note colName is 2023-W15_so , 2023-W15_so_untg, 2023-W15_so_tg
+        const isSo = columnDataName.split('_').length === 2 && columnDataName.split('_')[1] === 'so'
+        const isSoUntg = columnDataName.split('_')[2] === 'untg'
+        const isSoTg = columnDataName.split('_')[2] === 'tg'
+        const weekSerial = columnDataName.split('_')[0]
+
+        // query trend for all sales orders
+        if (isSo) detail = await lvl_2_subtotal_getSoByWk_detail(program, filters, weekSerial)
+        // query trend for untagged sales orders
+        if (isSoUntg) detail = await lvl_2_subtotal_getSoByWkUntagged_detail(program, filters, weekSerial)
+        // query trend for tagged sales orders
+        if (isSoTg) detail = await lvl_2_subtotal_getSoByWkTagged_detail(program, filters, weekSerial)
+        break
     }
   }
 
@@ -61,6 +106,21 @@ const getDetail = async (program, filters, columnDataName) => {
       case 'FG OPEN ORDER UNTAGGED':
         detail = await lvl_3_subtotal_getSoUntagged_detail(program, filters)
         break
+      default:
+        // Must be a trend column
+        // note colName is 2023-W15_so , 2023-W15_so_untg, 2023-W15_so_tg
+        const isSo = columnDataName.split('_').length === 2 && columnDataName.split('_')[1] === 'so'
+        const isSoUntg = columnDataName.split('_')[2] === 'untg'
+        const isSoTg = columnDataName.split('_')[2] === 'tg'
+        const weekSerial = columnDataName.split('_')[0]
+
+        // query trend for all sales orders
+        if (isSo) detail = await lvl_3_subtotal_getSoByWk_detail(program, filters, weekSerial)
+        // query trend for untagged sales orders
+        if (isSoUntg) detail = await lvl_3_subtotal_getSoByWkUntagged_detail(program, filters, weekSerial)
+        // query trend for tagged sales orders
+        if (isSoTg) detail = await lvl_3_subtotal_getSoByWkTagged_detail(program, filters, weekSerial)
+        break
     }
   }
 
@@ -76,6 +136,21 @@ const getDetail = async (program, filters, columnDataName) => {
         break
       case 'FG OPEN ORDER UNTAGGED':
         detail = await lvl_0_total_getSoUntagged_detail(program, filters)
+        break
+      default:
+        // Must be a trend column
+        // note colName is 2023-W15_so , 2023-W15_so_untg, 2023-W15_so_tg
+        const isSo = columnDataName.split('_').length === 2 && columnDataName.split('_')[1] === 'so'
+        const isSoUntg = columnDataName.split('_')[2] === 'untg'
+        const isSoTg = columnDataName.split('_')[2] === 'tg'
+        const weekSerial = columnDataName.split('_')[0]
+
+        // query trend for all sales orders
+        if (isSo) detail = await lvl_0_total_getSoByWk_detail(program, filters, weekSerial)
+        // query trend for untagged sales orders
+        if (isSoUntg) detail = await lvl_0_total_getSoByWkUntagged_detail(program, filters, weekSerial)
+        // query trend for tagged sales orders
+        if (isSoTg) detail = await lvl_0_total_getSoByWkTagged_detail(program, filters, weekSerial)
         break
     }
   }
