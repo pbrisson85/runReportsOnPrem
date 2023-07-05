@@ -4,7 +4,7 @@ const getDetail_salesOrder = require('../routines/getDetail_salesOrder')
 const getDetail_salesInvoice = require('../routines/getDetail_salesInvoice')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 
-// @route   POST /api/sales/detail/bySpeciesgroupProg/
+// @route   POST /api/sales/detail/forProgByFrzSoakSize/
 // @desc    Get drilldown data for a given report and filter
 // @access  Private
 
