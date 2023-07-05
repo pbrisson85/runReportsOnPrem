@@ -2,6 +2,7 @@ const router = require('express').Router()
 const getDetail_invenFg = require('../routines/getDetail_invenFg')
 const getDetail_salesOrder = require('../routines/getDetail_salesOrder')
 const getDetail_salesInvoice = require('../routines/getDetail_salesInvoice')
+const getDetail_purchaseOrder = require('../routines/getDetail_purchaseOrder')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 
 // @route   POST /api/sales/detail/forProgBySpecBrndSize/
@@ -29,6 +30,10 @@ router.post('/', async (req, res) => {
 
   if (colType === 'salesInvoice') {
     response = await getDetail_salesInvoice(program, filters, columnDataName, startWeek, periodEnd)
+  }
+
+  if (colType === 'purchaseOrder') {
+    response = await getDetail_purchaseOrder(program, filters)
   }
 
   console.log(`get detail data for ${reportName} route COMPLETE. \n`)
