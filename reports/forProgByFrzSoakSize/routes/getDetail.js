@@ -24,6 +24,16 @@ router.post('/', async (req, res) => {
   }
 
   if (colType === 'salesOrder') {
+    console.log('program: ', program)
+    console.log('option: ', option)
+    console.log('filters: ', filters)
+    console.log('columnDataName: ', columnDataName)
+    console.log('reportName: ', reportName)
+    console.log('colType: ', colType)
+    console.log('periodStart: ', periodStart)
+    console.log('periodEnd: ', periodEnd)
+    console.log('trend: ', trend)
+
     response = await getDetail_salesOrder(program, filters, columnDataName)
   }
 
