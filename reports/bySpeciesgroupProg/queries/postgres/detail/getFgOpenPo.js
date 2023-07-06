@@ -75,7 +75,7 @@ const lvl_0_total_getFgPo_detail = async (program, filters) => {
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = p.item_number 
             
-        WHERE ms.item_type = $1 AND p.on_order_lbs <> 0 AND p.version = (SELECT MAX(p2.version) - 1 FROM "invenReporting".perpetual_inventory AS p2`, ['FG']
+        WHERE ms.item_type = $1 AND p.on_order_lbs <> 0 AND p.version = (SELECT MAX(p2.version) - 1 FROM "invenReporting".perpetual_inventory AS p2)`, ['FG']
         ) //prettier-ignore
 
     await pgClient.end()
