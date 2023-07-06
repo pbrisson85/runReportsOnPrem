@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const buildDrillDown_byItem_level3 = require('../routines/buildDrillDown_byItem_level3')
 const buildDrillDown_byItem_level2 = require('../routines/buildDrillDown_byItem_level2')
+const buildDrillDown_byItem_level1 = require('../routines/buildDrillDown_byItem_level1')
+const buildDrillDown_byItem_level0 = require('../routines/buildDrillDown_byItem_level0')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
@@ -17,18 +19,28 @@ router.post('/', async (req, res) => {
 
   let response = null
 
-  if (option === 'Item') {
-    if (columnDataName.includes('l3')) {
-      response = await buildDrillDown_byItem_level3(program, startWeek[0].formatted_date_start, periodEnd, filters)
-    }
+  if (option === 'Trend By Item') {
+    if (colType === 'salesInvoice') {
+      if (filters[1] === 'SUBTOTAL') {
+        // level 1 subtotal
+        response = await buildDrillDown_byItem_level1(program, startWeek[0].formatted_date_start, periodEnd, filters)
+      }
 
-    if (columnDataName.includes('l2')) {
-      response = await buildDrillDown_byItem_level2(program, startWeek[0].formatted_date_start, periodEnd, filters)
-    }
-  } else {
-    console.log(`option ${option} not yet implemented`)
+      if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') {
+        // level 2 subtotal
+        response = await buildDrillDown_byItem_level2(program, startWeek[0].formatted_date_start, periodEnd, filters)
+      }
 
-    return res.send('not yet implemented')
+      if (filters[1] !== 'TOTAL' && filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL') {
+        // level 3 subtotal
+        response = await buildDrillDown_byItem_level3(program, startWeek[0].formatted_date_start, periodEnd, filters)
+      }
+
+      if (filters[1] === 'TOTAL') {
+        // level 0 total
+        response = await buildDrillDown_byItem_level0(program, startWeek[0].formatted_date_start, periodEnd, filters)
+      }
+    }
   }
 
   console.log(`get drilldown data for ${reportName} route COMPLETE. \n`)
