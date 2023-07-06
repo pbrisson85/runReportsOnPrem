@@ -28,7 +28,7 @@ const getRowsFirstLevelDetail = async (start, end, program, filters) => {
           FROM "salesReporting".sales_orders AS so
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = so.item_num 
-          WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.program = $4 AND so.version = (SELECT MAX(so.version) - 1 FROM "salesReporting".sales_orders) AND ms.fg_fresh_frozen = $5 AND ms.fg_treatment = $6 AND ms.size_name = $7 
+          WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.program = $4 AND so.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) AND ms.fg_fresh_frozen = $5 AND ms.fg_treatment = $6 AND ms.size_name = $7 
           
           GROUP BY so.customer_code, so.customer_name`,
         [start, end, 'FG', program, filters[0], filters[1], filters[2]]
