@@ -83,7 +83,7 @@ const lvl_1_subtotal_getFgAtLoc = async (program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = perpetual_inventory.item_number 
           
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type <> $2 AND ms.program = $3 AND ms.fg_fresh_frozen = $4 AND ms.fg_treatment = $5 
+      WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type <> $2 AND ms.program = $3 AND ms.fg_fresh_frozen = $4
       
       GROUP BY ms.item_num, ms.description, ms.fg_treatment, ms.size_name`,
       ['FG', 'IN TRANSIT', program, filters[0]]
@@ -126,7 +126,7 @@ const lvl_1_subtotal_getFgAtLoc_untagged = async (program, filters) => {
       AS tagged_t 
     ON tagged_t.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code 
     
-  WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ms.program = $3 AND ms.fg_fresh_frozen = $4 AND ms.fg_treatment = $5 
+  WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ms.program = $3 AND ms.fg_fresh_frozen = $4 
   GROUP BY ms.item_num, ms.description, ms.fg_treatment, ms.size_name`, ['FG', 'IN TRANSIT', program, filters[0]]
     ) //prettier-ignore
 
@@ -154,7 +154,7 @@ const lvl_1_subtotal_getFgAtLoc_tagged = async (program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = tagged_inventory.item_num 
           
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.program = $2 AND ms.fg_fresh_frozen = $3 AND ms.fg_treatment = $4 
+      WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.program = $2 AND ms.fg_fresh_frozen = $3 
       GROUP BY ms.item_num, ms.description, ms.fg_treatment, ms.size_name`,
       ['FG', program, filters[0]]
     ) //prettier-ignore
