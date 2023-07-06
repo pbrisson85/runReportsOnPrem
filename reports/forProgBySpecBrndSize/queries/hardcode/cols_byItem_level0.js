@@ -42,7 +42,7 @@ const cols = [
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
     reportName: 'forProgByFrzSoakSize', // report name (used in API calls to get detail data)
-    displayName: 'FREEZE', // show as column header
+    displayName: 'SPECIES', // show as column header
     dataName: 'l3_label', // key to pull data from
     filterName: 'l3_filter', // key to match up the column with the filter
     justifyData: 'start', // css justify content
@@ -62,7 +62,7 @@ const cols = [
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
     reportName: 'forProgByFrzSoakSize', // report name (used in API calls to get detail data)
-    displayName: 'SOAK', // show as column header
+    displayName: 'BRAND', // show as column header
     dataName: 'l4_label', // key to pull data from
     filterName: 'l4_filter', // key to match up the column with the filter
     justifyData: 'start', // css justify content
