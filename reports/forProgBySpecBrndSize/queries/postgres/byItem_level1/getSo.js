@@ -17,7 +17,7 @@ const lvl_1_subtotal_getSo = async (program, filters) => {
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = sales_orders.item_num 
             
-        WHERE ms.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = $2 AND ms.byproduct_type IS NULL AND ms.fg_fresh_frozen = $3 
+        WHERE ms.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = $2 AND ms.byproduct_type IS NULL AND ms.species = $3 
         
         GROUP BY ms.item_num, ms.description, ms.brand, ms.size_name`, ['FG', program, filters[0]]
         ) //prettier-ignore
@@ -46,7 +46,7 @@ const lvl_1_subtotal_getSoTagged = async (program, filters) => {
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = sales_orders.item_num 
               
-          WHERE ms.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = $2 AND ms.byproduct_type IS NULL AND sales_orders.tagged_weight > 0 AND ms.fg_fresh_frozen = $3 
+          WHERE ms.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = $2 AND ms.byproduct_type IS NULL AND sales_orders.tagged_weight > 0 AND ms.species = $3 
           
           GROUP BY ms.item_num, ms.description, ms.brand, ms.size_name`, ['FG', program, filters[0]]
           ) //prettier-ignore
@@ -75,7 +75,7 @@ const lvl_1_subtotal_getSoUntagged = async (program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_orders.item_num 
           
-      WHERE ms.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = $2 AND ms.byproduct_type IS NULL AND sales_orders.untagged_weight > 0 AND ms.fg_fresh_frozen = $3 
+      WHERE ms.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = $2 AND ms.byproduct_type IS NULL AND sales_orders.untagged_weight > 0 AND ms.species = $3 
       
       GROUP BY ms.item_num, ms.description, ms.brand, ms.size_name`, ['FG', program, filters[0]]
           ) //prettier-ignore
@@ -106,7 +106,7 @@ const lvl_0_total_getSo = async (program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_orders.item_num 
           
-      WHERE ms.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = $2 AND ms.byproduct_type IS NULL AND ms.fg_fresh_frozen = $3`, ['FG', program, filters[0]]
+      WHERE ms.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = $2 AND ms.byproduct_type IS NULL AND ms.species = $3`, ['FG', program, filters[0]]
     ) //prettier-ignore
 
     await pgClient.end()
@@ -133,7 +133,7 @@ const lvl_0_total_getSoTagged = async (program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_orders.item_num 
           
-      WHERE ms.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = $2 AND ms.byproduct_type IS NULL AND sales_orders.tagged_weight > 0 AND ms.fg_fresh_frozen = $3`, ['FG', program, filters[0]]
+      WHERE ms.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = $2 AND ms.byproduct_type IS NULL AND sales_orders.tagged_weight > 0 AND ms.species = $3`, ['FG', program, filters[0]]
           ) //prettier-ignore
 
     await pgClient.end()
@@ -160,7 +160,7 @@ const lvl_0_total_getSoUntagged = async (program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_orders.item_num 
           
-      WHERE ms.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = $2 AND ms.byproduct_type IS NULL AND sales_orders.untagged_weight > 0 AND ms.fg_fresh_frozen = $3`, ['FG', program, filters[0]]
+      WHERE ms.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = $2 AND ms.byproduct_type IS NULL AND sales_orders.untagged_weight > 0 AND ms.species = $3`, ['FG', program, filters[0]]
           ) //prettier-ignore
 
     await pgClient.end()
