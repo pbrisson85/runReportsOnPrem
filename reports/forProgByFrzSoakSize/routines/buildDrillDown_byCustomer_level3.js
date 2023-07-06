@@ -5,10 +5,10 @@ const {
   lvl_0_total_getSalesByWk,
   lvl_1_subtotal_getSalesPeriodToDate,
   lvl_0_total_getSalesPeriodToDate,
-} = require('../queries/postgres/byItem_level3/getSalesTrend')
-const { lvl_1_subtotal_getSo, lvl_0_total_getSo } = require('../queries/postgres/byItem_level3/getSo')
-const { lvl_1_subtotal_getSo_byWk, lvl_0_total_getSo_byWk } = require('../queries/postgres/byItem_level3/getSoByWeek')
-const { getRowsFirstLevelDetail } = require('../queries/postgres/byItem_level3/getRows')
+} = require('../queries/postgres/byCustomer_level3/getSalesTrend')
+const { lvl_1_subtotal_getSo, lvl_0_total_getSo } = require('../queries/postgres/byCustomer_level3/getSo')
+const { lvl_1_subtotal_getSo_byWk, lvl_0_total_getSo_byWk } = require('../queries/postgres/byCustomer_level3/getSoByWeek')
+const { getRowsFirstLevelDetail } = require('../queries/postgres/byCustomer_level3/getRows')
 const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesOneLevel')
 const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../../shared/models/unflattenByCompositKey')

@@ -46,6 +46,8 @@ router.post('/', async (req, res) => {
     // option is top customer weight, margin, or bottom customer weight.
     // Pull one set of data and filter/sum at the end based on the option.
 
+    console.log('getting drilldown by customer')
+
     response = await buildDrillDown_byCustomer_level3(program, startWeek[0].formatted_date_start, periodEnd, filters)
   }
 
