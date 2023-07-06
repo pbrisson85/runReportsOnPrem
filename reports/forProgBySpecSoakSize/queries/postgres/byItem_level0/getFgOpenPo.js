@@ -9,7 +9,7 @@ const lvl_1_subtotal_getFgPo = async (program, filters) => {
     console.log(`level 1: query postgres for FG open PO ...`)
 
     const response = await pgClient.query(
-         `SELECT \'FG ON ORDER\' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label , ms.size_name AS l5_label, COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.on_order_extended),0) AS cogs 
+         `SELECT \'FG ON ORDER\' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.species AS l3_label, ms.fg_treatment AS l4_label , ms.size_name AS l5_label, COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.on_order_extended),0) AS cogs 
          
          FROM "invenReporting".perpetual_inventory 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -17,7 +17,7 @@ const lvl_1_subtotal_getFgPo = async (program, filters) => {
             
         WHERE ms.item_type = $1 AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.program = $2 
         
-        GROUP BY ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.size_name`, ['FG', program]
+        GROUP BY ms.item_num, ms.description, ms.species, ms.fg_treatment, ms.size_name`, ['FG', program]
         ) //prettier-ignore
 
     await pgClient.end()

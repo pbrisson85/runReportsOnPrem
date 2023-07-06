@@ -13,7 +13,7 @@ const lvl_1_subtotal_getFgInven = async (program, filters) => {
     // level 1 detail
 
     const response = await pgClient.query(
-      `SELECT \'FG INVEN\' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label , ms.size_name AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
+      `SELECT \'FG INVEN\' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.species AS l3_label, ms.fg_treatment AS l4_label , ms.size_name AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -21,7 +21,7 @@ const lvl_1_subtotal_getFgInven = async (program, filters) => {
           
       WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.program = $2 
       
-      GROUP BY ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.size_name`,
+      GROUP BY ms.item_num, ms.description, ms.species, ms.fg_treatment, ms.size_name`,
       ['FG', program]
     ) //prettier-ignore
 
@@ -45,7 +45,7 @@ const lvl_1_subtotal_getFgInTransit = async (program, filters) => {
     console.log(`level 1: query postgres for FG in transit ...`)
 
     const response = await pgClient.query(
-      `SELECT \'FG IN TRANSIT\' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label , ms.size_name AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
+      `SELECT \'FG IN TRANSIT\' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.species AS l3_label, ms.fg_treatment AS l4_label , ms.size_name AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -53,7 +53,7 @@ const lvl_1_subtotal_getFgInTransit = async (program, filters) => {
           
       WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type = $2 AND ms.program = $3
       
-      GROUP BY ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.size_name`,
+      GROUP BY ms.item_num, ms.description, ms.species, ms.fg_treatment, ms.size_name`,
       ['FG', 'IN TRANSIT', program]
     ) //prettier-ignore
 
@@ -77,7 +77,7 @@ const lvl_1_subtotal_getFgAtLoc = async (program, filters) => {
     console.log(`level 1: query postgres for FG at location ...`)
 
     const response = await pgClient.query(
-      `SELECT \'FG ON HAND\' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label , ms.size_name AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
+      `SELECT \'FG ON HAND\' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.species AS l3_label, ms.fg_treatment AS l4_label , ms.size_name AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -85,7 +85,7 @@ const lvl_1_subtotal_getFgAtLoc = async (program, filters) => {
           
       WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type <> $2 AND ms.program = $3
       
-      GROUP BY ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.size_name`,
+      GROUP BY ms.item_num, ms.description, ms.species, ms.fg_treatment, ms.size_name`,
       ['FG', 'IN TRANSIT', program]
     ) //prettier-ignore
 
@@ -107,7 +107,7 @@ const lvl_1_subtotal_getFgAtLoc_untagged = async (program, filters) => {
     console.log(`level 1: query postgres for FG at location UNTAGGED ...`)
 
     const response = await pgClient.query(
- `SELECT \'FG ON HAND UNTAGGED\' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label , ms.size_name AS l5_label, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
+ `SELECT \'FG ON HAND UNTAGGED\' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.species AS l3_label, ms.fg_treatment AS l4_label , ms.size_name AS l5_label, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
  
  FROM 
   (SELECT pi.cost_extended, pi.item_number, pi.lot, pi.on_hand_lbs, pi.location_code 
@@ -127,7 +127,7 @@ const lvl_1_subtotal_getFgAtLoc_untagged = async (program, filters) => {
     ON tagged_t.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code 
     
   WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ms.program = $3 
-  GROUP BY ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.size_name`, ['FG', 'IN TRANSIT', program]
+  GROUP BY ms.item_num, ms.description, ms.species, ms.fg_treatment, ms.size_name`, ['FG', 'IN TRANSIT', program]
     ) //prettier-ignore
 
     await pgClient.end()
@@ -148,14 +148,14 @@ const lvl_1_subtotal_getFgAtLoc_tagged = async (program, filters) => {
     console.log(`level 1: query postgres for FG at location TAGGED...`)
 
     const response = await pgClient.query(
-      `SELECT \'FG ON HAND TAGGED\' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label , ms.size_name AS l5_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
+      `SELECT \'FG ON HAND TAGGED\' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.species AS l3_label, ms.fg_treatment AS l4_label , ms.size_name AS l5_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
       
       FROM "salesReporting".tagged_inventory 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = tagged_inventory.item_num 
           
       WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.program = $2 
-      GROUP BY ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.size_name`,
+      GROUP BY ms.item_num, ms.description, ms.species, ms.fg_treatment, ms.size_name`,
       ['FG', program]
     ) //prettier-ignore
 
