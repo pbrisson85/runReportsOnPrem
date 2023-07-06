@@ -5,14 +5,14 @@ const {
   lvl_0_total_getSalesByWk,
   lvl_1_subtotal_getSalesPeriodToDate,
   lvl_0_total_getSalesPeriodToDate,
-} = require('../queries/postgres/byCustomer_level3/getSalesTrend')
-const { lvl_1_subtotal_getSo, lvl_0_total_getSo } = require('../queries/postgres/byCustomer_level3/getSo')
-const { lvl_1_subtotal_getSo_byWk, lvl_0_total_getSo_byWk } = require('../queries/postgres/byCustomer_level3/getSoByWeek')
-const { getRowsFirstLevelDetail } = require('../queries/postgres/byCustomer_level3/getRows')
+} = require('../queries/postgres/byCustomer_level1/getSalesTrend')
+const { lvl_1_subtotal_getSo, lvl_0_total_getSo } = require('../queries/postgres/byCustomer_level1/getSo')
+const { lvl_1_subtotal_getSo_byWk, lvl_0_total_getSo_byWk } = require('../queries/postgres/byCustomer_level1/getSoByWeek')
+const { getRowsFirstLevelDetail } = require('../queries/postgres/byCustomer_level1/getRows')
 const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesOneLevel')
 const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../../shared/models/unflattenByCompositKey')
-const labelCols = require('../queries/hardcode/cols_byCustomer')
+const labelCols = require('../queries/hardcode/cols_byItem_level3')
 
 const buildDrillDown = async (program, start, end, filters) => {
   console.log(program, '\n', start, '\n', end, '\n', filters)
