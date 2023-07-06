@@ -17,13 +17,21 @@ router.post('/', async (req, res) => {
 
   let response = null
 
-  if (option === 'Item') {
-    if (columnDataName.includes('l3')) {
-      response = await buildDrillDown_byItem_level3(program, startWeek[0].formatted_date_start, periodEnd, filters)
-    }
+  if (option === 'Trend By Item') {
+    if (colType === 'salesInvoice') {
+      if (filters[1] === 'SUBTOTAL') {
+        // level 1 subtotal
+      }
 
-    if (columnDataName.includes('l2')) {
-      response = await buildDrillDown_byItem_level2(program, startWeek[0].formatted_date_start, periodEnd, filters)
+      if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') {
+        // level 2 subtotal
+        response = await buildDrillDown_byItem_level2(program, startWeek[0].formatted_date_start, periodEnd, filters)
+      }
+
+      if (filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL') {
+        // level 3 subtotal
+        response = await buildDrillDown_byItem_level3(program, startWeek[0].formatted_date_start, periodEnd, filters)
+      }
     }
   } else {
     console.log(`option ${option} not yet implemented`)
