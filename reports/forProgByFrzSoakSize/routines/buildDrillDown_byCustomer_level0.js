@@ -75,6 +75,13 @@ const buildDrillDown = async (program, start, end, filters) => {
     })
     .sort((a, b) => {
       // if has includes total, put at end
+
+      if (a.l2_label === null || b.l2_label === null) {
+        console.log('a: ', a)
+        console.log('b: ', b)
+        return 1
+      }
+
       if (a.l2_label.includes('TOTAL')) return 1
       if (b.l2_label.includes('TOTAL')) return -1
       return 0
