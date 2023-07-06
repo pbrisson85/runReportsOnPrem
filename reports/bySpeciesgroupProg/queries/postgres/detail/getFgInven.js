@@ -212,7 +212,7 @@ const lvl_2_subtotal_getFgInTransit_detail = async (program, filters) => {
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = pi.item_number 
             
-        WHERE pi.on_hand_lbs <> 0 AND ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type = $2 AND ms.species_group = $2 AND ms.program = $3`,
+        WHERE pi.on_hand_lbs <> 0 AND ms.byproduct_type IS NULL AND ms.item_type = $1 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type = $2 AND ms.species_group = $3 AND ms.program = $4`,
         ['FG', 'IN TRANSIT', filters[0], filters[1]]
       ) //prettier-ignore
 
