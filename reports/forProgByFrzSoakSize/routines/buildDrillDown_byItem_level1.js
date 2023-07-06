@@ -168,6 +168,12 @@ const buildDrillDown = async (program, start, end, filters) => {
   let finalData = cleanLabelsForDisplay(flattenedMappedData, '')
     .sort((a, b) => {
       // if has includes total, put at end
+      if (a.l4_label < b.l4_label) return -1
+      if (a.l4_label > b.l4_label) return 1
+      return 0
+    })
+    .sort((a, b) => {
+      // if has includes total, put at end
       if (a.l3_label < b.l3_label) return -1
       if (a.l3_label > b.l3_label) return 1
       return 0
