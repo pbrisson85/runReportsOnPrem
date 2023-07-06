@@ -113,11 +113,12 @@ const lvl_1_subtotal_getFgAtLoc_untagged_detail = async (program, filters) => {
                   AS all_inven
                    
           LEFT OUTER JOIN (
-              SELECT ti.location, ti.item_num AS item, ti.lot, ti.weight AS lbs, ti.cost * ti.weight AS cost_ext 
+              SELECT ti.location, ti.item_num AS item, ti.lot, SUM(ti.weight) AS lbs, SUM(ti.cost * ti.weight) AS cost_ext 
                   FROM "salesReporting".tagged_inventory AS ti 
                   LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                       ON ms.item_num = ti.item_num   
-                  WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.program = $3 AND ms.species = $4) 
+                  WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.program = $3 AND ms.species = $4
+                  GROUP BY ti.location, ti.item_num, ti.lot)   
               AS tagged_inven 
               
           ON all_inven.item = tagged_inven.item AND all_inven.lot = tagged_inven.lot AND all_inven.location_code = tagged_inven.location`, ['FG', 'IN TRANSIT', program, filters[0]]
@@ -279,13 +280,14 @@ const lvl_2_subtotal_getFgAtLoc_untagged_detail = async (program, filters) => {
             AS all_inven
                  
         LEFT OUTER JOIN (
-            SELECT ti.location, ti.item_num AS item, ti.lot, ti.weight AS lbs, ti.cost * ti.weight AS cost_ext 
+            SELECT ti.location, ti.item_num AS item, ti.lot, SUM(ti.weight) AS lbs, SUM(ti.cost * ti.weight) AS cost_ext 
                 
             FROM "salesReporting".tagged_inventory AS ti 
                 LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                     ON ms.item_num = ti.item_num   
             
-            WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.program = $3 AND ms.species = $4 AND ms.fg_treatment = $5) 
+            WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.program = $3 AND ms.species = $4 AND ms.fg_treatment = $5
+            GROUP BY ti.location, ti.item_num, ti.lot) 
             AS tagged_inven 
             
         ON all_inven.item = tagged_inven.item AND all_inven.lot = tagged_inven.lot AND all_inven.location_code = tagged_inven.location`, ['FG', 'IN TRANSIT', program, filters[0], filters[1]]
@@ -446,13 +448,14 @@ const lvl_3_subtotal_getFgAtLoc_untagged_detail = async (program, filters) => {
               AS all_inven
                    
           LEFT OUTER JOIN (
-              SELECT ti.location, ti.item_num AS item, ti.lot, ti.weight AS lbs, ti.cost * ti.weight AS cost_ext 
+              SELECT ti.location, ti.item_num AS item, ti.lot, SUM(ti.weight) AS lbs, SUM(ti.cost * ti.weight) AS cost_ext 
                   
               FROM "salesReporting".tagged_inventory AS ti 
                   LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                       ON ms.item_num = ti.item_num   
                   
-              WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.program = $3 AND ms.species = $4 AND ms.fg_treatment = $5 AND ms.size_name = $6) 
+              WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.program = $3 AND ms.species = $4 AND ms.fg_treatment = $5 AND ms.size_name = $6
+              GROUP BY ti.location, ti.item_num, ti.lot) 
               AS tagged_inven 
               
           ON all_inven.item = tagged_inven.item AND all_inven.lot = tagged_inven.lot AND all_inven.location_code = tagged_inven.location`, ['FG', 'IN TRANSIT', program, filters[0], filters[1], filters[2]]
@@ -613,13 +616,14 @@ const lvl_0_total_getFgAtLoc_untagged_detail = async program => {
                 AS all_inven
                      
             LEFT OUTER JOIN (
-                SELECT ti.location, ti.item_num AS item, ti.lot, ti.weight AS lbs, ti.cost * ti.weight AS cost_ext 
+                SELECT ti.location, ti.item_num AS item, ti.lot, SUM(ti.weight) AS lbs, SUM(ti.cost * ti.weight) AS cost_ext 
                     
                 FROM "salesReporting".tagged_inventory AS ti 
                     LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                         ON ms.item_num = ti.item_num   
                     
-                WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.program = $3) 
+                WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.program = $3
+                GROUP BY ti.location, ti.item_num, ti.lot)   
                 AS tagged_inven 
                 
             ON all_inven.item = tagged_inven.item AND all_inven.lot = tagged_inven.lot AND all_inven.location_code = tagged_inven.location`, ['FG', 'IN TRANSIT', program]
