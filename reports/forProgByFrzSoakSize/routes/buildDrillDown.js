@@ -2,6 +2,7 @@ const router = require('express').Router()
 const buildDrillDown_byItem_level3 = require('../routines/buildDrillDown_byItem_level3')
 const buildDrillDown_byItem_level2 = require('../routines/buildDrillDown_byItem_level2')
 const buildDrillDown_byItem_level1 = require('../routines/buildDrillDown_byItem_level1')
+const buildDrillDown_byItem_level0 = require('../routines/buildDrillDown_byItem_level0')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
@@ -37,6 +38,7 @@ router.post('/', async (req, res) => {
 
       if (filters[1] !== 'TOTAL') {
         // level 0 total
+        response = await buildDrillDown_byItem_level0(program, startWeek[0].formatted_date_start, periodEnd, filters)
       }
     }
   }
