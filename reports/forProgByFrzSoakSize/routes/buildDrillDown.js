@@ -31,12 +31,12 @@ router.post('/', async (req, res) => {
         response = await buildDrillDown_byItem_level2(program, startWeek[0].formatted_date_start, periodEnd, filters)
       }
 
-      if (filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL') {
+      if (filters[1] !== 'TOTAL' && filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL') {
         // level 3 subtotal
         response = await buildDrillDown_byItem_level3(program, startWeek[0].formatted_date_start, periodEnd, filters)
       }
 
-      if (filters[1] !== 'TOTAL') {
+      if (filters[1] === 'TOTAL') {
         // level 0 total
         response = await buildDrillDown_byItem_level0(program, startWeek[0].formatted_date_start, periodEnd, filters)
       }
