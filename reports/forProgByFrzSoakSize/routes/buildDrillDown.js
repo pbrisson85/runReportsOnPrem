@@ -4,6 +4,7 @@ const buildDrillDown_byItem_level2 = require('../routines/buildDrillDown_byItem_
 const buildDrillDown_byItem_level1 = require('../routines/buildDrillDown_byItem_level1')
 const buildDrillDown_byItem_level0 = require('../routines/buildDrillDown_byItem_level0')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
+const buildDrillDown_byCustomer_level3 = require('../routines/buildDrillDown_byCustomer_level3')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
 // @desc    Get drilldown data for a given report and filter
@@ -41,6 +42,11 @@ router.post('/', async (req, res) => {
         response = await buildDrillDown_byItem_level0(program, startWeek[0].formatted_date_start, periodEnd, filters)
       }
     }
+  } else {
+    // option is top customer weight, margin, or bottom customer weight.
+    // Pull one set of data and filter/sum at the end based on the option.
+
+    response = await buildDrillDown_byCustomer_level3(program, startWeek[0].formatted_date_start, periodEnd, filters)
   }
 
   console.log(`get drilldown data for ${reportName} route COMPLETE. \n`)
