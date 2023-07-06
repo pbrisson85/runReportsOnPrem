@@ -31,7 +31,7 @@ const lvl_1_subtotal_getSalesByWk = async (start, end, program, filters) => {
       
       WHERE sl.formatted_invoice_date >= $1 AND sl.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.program = $4 AND ms.fg_fresh_frozen = $5 AND ms.fg_treatment = $6 AND ms.size_name = $7 
       
-      GROUP BY sl.week_serial, ms.customer_code, ms.customer_name
+      GROUP BY sl.week_serial, sl.customer_code, sl.customer_name
       
       ORDER BY sl.week_serial`,
       [start, end, 'FG', program, filters[0], filters[1], filters[2]]
