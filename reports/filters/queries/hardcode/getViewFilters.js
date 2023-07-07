@@ -24,12 +24,12 @@ const getViewFilters = () => {
       additionalData: { decimals: 0 },
       cols: ['label', 'salesInvoice', 'salesOrder'], // No inven, only sales data
     },
-    {
-      label: 'COST',
-      dataName: 'cogs',
-      additionalData: { decimals: 0 },
-      cols: ['label', 'salesInvoice', 'salesOrder', 'invenFg', 'invenRm', 'purchaseOrder'],
-    },
+    // {
+    //   label: 'COST',
+    //   dataName: 'cogs',
+    //   additionalData: { decimals: 0 },
+    //   cols: ['label', 'salesInvoice', 'salesOrder', 'invenFg', 'invenRm', 'purchaseOrder'],
+    // },
     {
       label: 'GROSS MARGIN',
       dataName: 'grossMargin',
