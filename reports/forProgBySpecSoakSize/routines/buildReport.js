@@ -124,31 +124,32 @@ const buildReport = async (start, end, program) => {
   const lvl_3_subtotal_fgAtLoc_untagged = await lvl_3_subtotal_getFgAtLoc_untagged(program)
   const lvl_0_total_fgAtLoc_untagged = await lvl_0_total_getFgAtLoc_untagged(program)
   /* FG ON HAND TAGGED */
-  const lvl_1_subtotal_fgAtLoc_tagged = await lvl_1_subtotal_getFgAtLoc_tagged(program)
-  const lvl_2_subtotal_fgAtLoc_tagged = await lvl_2_subtotal_getFgAtLoc_tagged(program)
-  const lvl_3_subtotal_fgAtLoc_tagged = await lvl_3_subtotal_getFgAtLoc_tagged(program)
-  const lvl_0_total_fgAtLoc_tagged = await lvl_0_total_getFgAtLoc_tagged(program)
+  // const lvl_1_subtotal_fgAtLoc_tagged = await lvl_1_subtotal_getFgAtLoc_tagged(program)
+  // const lvl_2_subtotal_fgAtLoc_tagged = await lvl_2_subtotal_getFgAtLoc_tagged(program)
+  // const lvl_3_subtotal_fgAtLoc_tagged = await lvl_3_subtotal_getFgAtLoc_tagged(program)
+  // const lvl_0_total_fgAtLoc_tagged = await lvl_0_total_getFgAtLoc_tagged(program)
 
   /* TOTAL RM */
-  const lvl_1_subtotal_rmInven = await lvl_1_subtotal_getRmInven(program)
-  const lvl_2_subtotal_rmInven = await lvl_2_subtotal_getRmInven(program)
-  const lvl_3_subtotal_rmInven = await lvl_3_subtotal_getRmInven(program)
-  const lvl_0_total_rmInven = await lvl_0_total_getRmInven(program)
+  // const lvl_1_subtotal_rmInven = await lvl_1_subtotal_getRmInven(program)
+  // const lvl_2_subtotal_rmInven = await lvl_2_subtotal_getRmInven(program)
+  // const lvl_3_subtotal_rmInven = await lvl_3_subtotal_getRmInven(program)
+  // const lvl_0_total_rmInven = await lvl_0_total_getRmInven(program)
   /* RM IN TRANSIT (OUT COUNTRY PLUS IN TRANSIT) */
-  const lvl_1_subtotal_rmInTransit = await lvl_1_subtotal_getRmInTransit(program)
-  const lvl_2_subtotal_rmInTransit = await lvl_2_subtotal_getRmInTransit(program)
-  const lvl_3_subtotal_rmInTransit = await lvl_3_subtotal_getRmInTransit(program)
-  const lvl_0_total_rmInTransit = await lvl_0_total_getRmInTransit(program)
+  // const lvl_1_subtotal_rmInTransit = await lvl_1_subtotal_getRmInTransit(program)
+  // const lvl_2_subtotal_rmInTransit = await lvl_2_subtotal_getRmInTransit(program)
+  // const lvl_3_subtotal_rmInTransit = await lvl_3_subtotal_getRmInTransit(program)
+  // const lvl_0_total_rmInTransit = await lvl_0_total_getRmInTransit(program)
   /* RM ON HAND (IN COUNTRY LESS IN TRANSIT) */
-  const lvl_1_subtotal_rmAtLoc = await lvl_1_subtotal_getRmAtLoc(program)
-  const lvl_2_subtotal_rmAtLoc = await lvl_2_subtotal_getRmAtLoc(program)
-  const lvl_3_subtotal_rmAtLoc = await lvl_3_subtotal_getRmAtLoc(program)
-  const lvl_0_total_rmAtLoc = await lvl_0_total_getRmAtLoc(program)
+  // const lvl_1_subtotal_rmAtLoc = await lvl_1_subtotal_getRmAtLoc(program)
+  // const lvl_2_subtotal_rmAtLoc = await lvl_2_subtotal_getRmAtLoc(program)
+  // const lvl_3_subtotal_rmAtLoc = await lvl_3_subtotal_getRmAtLoc(program)
+  // const lvl_0_total_rmAtLoc = await lvl_0_total_getRmAtLoc(program)
   /* RM ON ORDER */
-  const lvl_1_subtotal_rmPo = await lvl_1_subtotal_getRmPo(program)
-  const lvl_2_subtotal_rmPo = await lvl_2_subtotal_getRmPo(program)
-  const lvl_3_subtotal_rmPo = await lvl_3_subtotal_getRmPo(program)
-  const lvl_0_total_rmPo = await lvl_0_total_getRmPo(program)
+  // const lvl_1_subtotal_rmPo = await lvl_1_subtotal_getRmPo(program)
+  // const lvl_2_subtotal_rmPo = await lvl_2_subtotal_getRmPo(program)
+  // const lvl_3_subtotal_rmPo = await lvl_3_subtotal_getRmPo(program)
+  // const lvl_0_total_rmPo = await lvl_0_total_getRmPo(program)
+
   /* FG ON ORDER */
   const lvl_1_subtotal_fgPo = await lvl_1_subtotal_getFgPo(program)
   const lvl_2_subtotal_fgPo = await lvl_2_subtotal_getFgPo(program)
@@ -168,15 +169,15 @@ const buildReport = async (start, end, program) => {
   const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk(program)
 
   /* TAGGED SO */
-  const lvl_1_subtotal_soTagged = await lvl_1_subtotal_getSoTagged(program)
-  const lvl_2_subtotal_soTagged = await lvl_2_subtotal_getSoTagged(program)
-  const lvl_3_subtotal_soTagged = await lvl_3_subtotal_getSoTagged(program)
-  const lvl_0_total_soTagged = await lvl_0_total_getSoTagged(program)
+  // const lvl_1_subtotal_soTagged = await lvl_1_subtotal_getSoTagged(program)
+  // const lvl_2_subtotal_soTagged = await lvl_2_subtotal_getSoTagged(program)
+  // const lvl_3_subtotal_soTagged = await lvl_3_subtotal_getSoTagged(program)
+  // const lvl_0_total_soTagged = await lvl_0_total_getSoTagged(program)
 
-  const lvl_1_subtotal_soTagged_byWk = await lvl_1_subtotal_getSoTagged_byWk(program)
-  const lvl_2_subtotal_soTagged_byWk = await lvl_2_subtotal_getSoTagged_byWk(program)
-  const lvl_3_subtotal_soTagged_byWk = await lvl_3_subtotal_getSoTagged_byWk(program)
-  const lvl_0_total_soTagged_byWk = await lvl_0_total_getSoTagged_byWk(program)
+  // const lvl_1_subtotal_soTagged_byWk = await lvl_1_subtotal_getSoTagged_byWk(program)
+  // const lvl_2_subtotal_soTagged_byWk = await lvl_2_subtotal_getSoTagged_byWk(program)
+  // const lvl_3_subtotal_soTagged_byWk = await lvl_3_subtotal_getSoTagged_byWk(program)
+  // const lvl_0_total_soTagged_byWk = await lvl_0_total_getSoTagged_byWk(program)
 
   /* UNTAGGED SO */
   const lvl_1_subtotal_soUntagged = await lvl_1_subtotal_getSoUntagged(program)
@@ -258,10 +259,10 @@ const buildReport = async (start, end, program) => {
       ...lvl_2_subtotal_so,
       ...lvl_3_subtotal_so,
       ...lvl_0_total_so,
-      ...lvl_1_subtotal_soTagged,
-      ...lvl_2_subtotal_soTagged,
-      ...lvl_3_subtotal_soTagged,
-      ...lvl_0_total_soTagged,
+      // ...lvl_1_subtotal_soTagged,
+      // ...lvl_2_subtotal_soTagged,
+      // ...lvl_3_subtotal_soTagged,
+      // ...lvl_0_total_soTagged,
       ...lvl_1_subtotal_soUntagged,
       ...lvl_2_subtotal_soUntagged,
       ...lvl_3_subtotal_soUntagged,
@@ -270,10 +271,10 @@ const buildReport = async (start, end, program) => {
       ...lvl_2_subtotal_so_byWk,
       ...lvl_3_subtotal_so_byWk,
       ...lvl_0_total_so_byWk,
-      ...lvl_1_subtotal_soTagged_byWk,
-      ...lvl_2_subtotal_soTagged_byWk,
-      ...lvl_3_subtotal_soTagged_byWk,
-      ...lvl_0_total_soTagged_byWk,
+      // ...lvl_1_subtotal_soTagged_byWk,
+      // ...lvl_2_subtotal_soTagged_byWk,
+      // ...lvl_3_subtotal_soTagged_byWk,
+      // ...lvl_0_total_soTagged_byWk,
       ...lvl_1_subtotal_soUntagged_byWk,
       ...lvl_2_subtotal_soUntagged_byWk,
       ...lvl_3_subtotal_soUntagged_byWk,
@@ -300,30 +301,30 @@ const buildReport = async (start, end, program) => {
       ...lvl_2_subtotal_fgAtLoc_untagged, // New
       ...lvl_3_subtotal_fgAtLoc_untagged, // New
       ...lvl_0_total_fgAtLoc_untagged, // New
-      ...lvl_1_subtotal_fgAtLoc_tagged, // New
-      ...lvl_2_subtotal_fgAtLoc_tagged, // New
-      ...lvl_3_subtotal_fgAtLoc_tagged, // New
-      ...lvl_0_total_fgAtLoc_tagged, // New
+      // ...lvl_1_subtotal_fgAtLoc_tagged, // New
+      // ...lvl_2_subtotal_fgAtLoc_tagged, // New
+      // ...lvl_3_subtotal_fgAtLoc_tagged, // New
+      // ...lvl_0_total_fgAtLoc_tagged, // New
       ...lvl_1_subtotal_fgPo,
       ...lvl_2_subtotal_fgPo,
       ...lvl_3_subtotal_fgPo,
       ...lvl_0_total_fgPo,
-      ...lvl_1_subtotal_rmPo,
-      ...lvl_2_subtotal_rmPo,
-      ...lvl_3_subtotal_rmPo,
-      ...lvl_0_total_rmPo,
-      ...lvl_1_subtotal_rmInven,
-      ...lvl_2_subtotal_rmInven,
-      ...lvl_3_subtotal_rmInven,
-      ...lvl_0_total_rmInven,
-      ...lvl_1_subtotal_rmInTransit,
-      ...lvl_2_subtotal_rmInTransit,
-      ...lvl_3_subtotal_rmInTransit,
-      ...lvl_0_total_rmInTransit,
-      ...lvl_1_subtotal_rmAtLoc,
-      ...lvl_2_subtotal_rmAtLoc,
-      ...lvl_3_subtotal_rmAtLoc,
-      ...lvl_0_total_rmAtLoc,
+      // ...lvl_1_subtotal_rmPo,
+      // ...lvl_2_subtotal_rmPo,
+      // ...lvl_3_subtotal_rmPo,
+      // ...lvl_0_total_rmPo,
+      // ...lvl_1_subtotal_rmInven,
+      // ...lvl_2_subtotal_rmInven,
+      // ...lvl_3_subtotal_rmInven,
+      // ...lvl_0_total_rmInven,
+      // ...lvl_1_subtotal_rmInTransit,
+      // ...lvl_2_subtotal_rmInTransit,
+      // ...lvl_3_subtotal_rmInTransit,
+      // ...lvl_0_total_rmInTransit,
+      // ...lvl_1_subtotal_rmAtLoc,
+      // ...lvl_2_subtotal_rmAtLoc,
+      // ...lvl_3_subtotal_rmAtLoc,
+      // ...lvl_0_total_rmAtLoc,
     ],
     rowTemplate_unflat
   )
