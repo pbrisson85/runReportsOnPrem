@@ -4,6 +4,10 @@ const buildDrillDown_byItem_level2 = require('../routines/buildDrillDown_byItem_
 const buildDrillDown_byItem_level1 = require('../routines/buildDrillDown_byItem_level1')
 const buildDrillDown_byItem_level0 = require('../routines/buildDrillDown_byItem_level0')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
+const buildDrillDown_byCustomer_level3 = require('../routines/buildDrillDown_byCustomer_level3')
+const buildDrillDown_byCustomer_level2 = require('../routines/buildDrillDown_byCustomer_level2')
+const buildDrillDown_byCustomer_level1 = require('../routines/buildDrillDown_byCustomer_level1')
+const buildDrillDown_byCustomer_level0 = require('../routines/buildDrillDown_byCustomer_level0')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
 // @desc    Get drilldown data for a given report and filter
@@ -40,6 +44,29 @@ router.post('/', async (req, res) => {
         // level 0 total
         response = await buildDrillDown_byItem_level0(program, startWeek[0].formatted_date_start, periodEnd, filters)
       }
+    }
+  } else {
+    // option is top customer weight, margin, or bottom customer weight.
+    // Pull one set of data and filter/sum at the end based on the option.
+
+    if (filters[1] === 'SUBTOTAL') {
+      // level 1 subtotal
+      response = await buildDrillDown_byCustomer_level1(program, startWeek[0].formatted_date_start, periodEnd, filters)
+    }
+
+    if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') {
+      // level 2 subtotal
+      response = await buildDrillDown_byCustomer_level2(program, startWeek[0].formatted_date_start, periodEnd, filters)
+    }
+
+    if (filters[1] !== 'TOTAL' && filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL') {
+      // level 3 subtotal
+      response = await buildDrillDown_byCustomer_level3(program, startWeek[0].formatted_date_start, periodEnd, filters)
+    }
+
+    if (filters[1] === 'TOTAL') {
+      // level 0 total
+      response = await buildDrillDown_byCustomer_level0(program, startWeek[0].formatted_date_start, periodEnd, filters)
     }
   }
 
