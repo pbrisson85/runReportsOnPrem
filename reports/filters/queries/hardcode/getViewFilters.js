@@ -18,12 +18,12 @@ const getViewFilters = () => {
     //   additionalData: { decimals: 0 },
     //   cols: ['label',  'salesInvoice', 'salesOrder'], // No inven, only sales data
     // },
-    {
-      label: 'NET REVENUE',
-      dataName: 'netSales',
-      additionalData: { decimals: 0 },
-      cols: ['label', 'salesInvoice', 'salesOrder'], // No inven, only sales data
-    },
+    // {
+    //   label: 'NET REVENUE',
+    //   dataName: 'netSales',
+    //   additionalData: { decimals: 0 },
+    //   cols: ['label', 'salesInvoice', 'salesOrder'], // No inven, only sales data
+    // },
     // {
     //   label: 'COST',
     //   dataName: 'cogs',
