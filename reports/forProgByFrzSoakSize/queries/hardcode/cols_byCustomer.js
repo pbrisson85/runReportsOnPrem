@@ -10,7 +10,7 @@ const cols = [
     width: '100px', // css width
     number: false, // flag to use formatTableDataNumber model
     decimals: 0, // if number is true, decimals will be used
-    leftSticky: false, // css sticky
+    leftSticky: true, // css sticky
     left: '0px', // css positioning for sticky sum of prior col widths
     hidden: false, // flag to hide column.
     view: null, // dataset to show for the column (extended_cost, weight, cost_per_lb)
