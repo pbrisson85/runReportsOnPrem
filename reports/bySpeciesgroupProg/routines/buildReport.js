@@ -89,9 +89,9 @@ const buildReport = async (start, end) => {
   const lvl_2_subtotal_fgAtLoc = await lvl_2_subtotal_getFgAtLoc()
   const lvl_0_total_fgAtLocation = await lvl_0_total_getFgAtLoc()
   /* FG ON HAND TAGGED*/
-  const lvl_1_subtotal_fgAtLoc_tagged = await lvl_1_subtotal_getFgAtLoc_tagged()
-  const lvl_2_subtotal_fgAtLoc_tagged = await lvl_2_subtotal_getFgAtLoc_tagged()
-  const lvl_0_total_fgAtLoc_tagged = await lvl_0_total_getFgAtLoc_tagged()
+  // const lvl_1_subtotal_fgAtLoc_tagged = await lvl_1_subtotal_getFgAtLoc_tagged()
+  // const lvl_2_subtotal_fgAtLoc_tagged = await lvl_2_subtotal_getFgAtLoc_tagged()
+  // const lvl_0_total_fgAtLoc_tagged = await lvl_0_total_getFgAtLoc_tagged()
   /* FG ON HAND UNTAGGED*/
   const lvl_1_subtotal_fgAtLoc_untagged = await lvl_1_subtotal_getFgAtLoc_untagged()
   const lvl_2_subtotal_fgAtLoc_untagged = await lvl_2_subtotal_getFgAtLoc_untagged()
@@ -102,21 +102,21 @@ const buildReport = async (start, end) => {
   const lvl_2_subtotal_fgPo = await lvl_2_subtotal_getFgPo()
   const lvl_0_total_fgPo = await lvl_0_total_getFgPo()
   /* TOTAL RM */
-  const lvl_1_subtotal_rmInven = await lvl_1_subtotal_getRmInven()
-  const lvl_2_subtotal_rmInven = await lvl_2_subtotal_getRmInven()
-  const lvl_0_total_rmInven = await lvl_0_total_getRmInven()
+  // const lvl_1_subtotal_rmInven = await lvl_1_subtotal_getRmInven()
+  // const lvl_2_subtotal_rmInven = await lvl_2_subtotal_getRmInven()
+  // const lvl_0_total_rmInven = await lvl_0_total_getRmInven()
   /* RM IN TRANSIT (OUT COUNTRY PLUS IN TRANSIT) */
-  const lvl_1_subtotal_rmInTransit = await lvl_1_subtotal_getRmInTransit()
-  const lvl_2_subtotal_rmInTransit = await lvl_2_subtotal_getRmInTransit()
-  const lvl_0_total_rmInTransit = await lvl_0_total_getRmInTransit()
+  // const lvl_1_subtotal_rmInTransit = await lvl_1_subtotal_getRmInTransit()
+  // const lvl_2_subtotal_rmInTransit = await lvl_2_subtotal_getRmInTransit()
+  // const lvl_0_total_rmInTransit = await lvl_0_total_getRmInTransit()
   /* RM ON HAND (IN COUNTRY LESS IN TRANSIT) */
-  const lvl_1_subtotal_rmAtLoc = await lvl_1_subtotal_getRmAtLoc()
-  const lvl_2_subtotal_rmAtLoc = await lvl_2_subtotal_getRmAtLoc()
-  const lvl_0_total_rmAtLoc = await lvl_0_total_getRmAtLoc()
+  // const lvl_1_subtotal_rmAtLoc = await lvl_1_subtotal_getRmAtLoc()
+  // const lvl_2_subtotal_rmAtLoc = await lvl_2_subtotal_getRmAtLoc()
+  // const lvl_0_total_rmAtLoc = await lvl_0_total_getRmAtLoc()
   /* RM ON ORDER */
-  const lvl_1_subtotal_rmPo = await lvl_1_subtotal_getRmPo()
-  const lvl_2_subtotal_rmPo = await lvl_2_subtotal_getRmPo()
-  const lvl_0_total_rmPo = await lvl_0_total_getRmPo()
+  // const lvl_1_subtotal_rmPo = await lvl_1_subtotal_getRmPo()
+  // const lvl_2_subtotal_rmPo = await lvl_2_subtotal_getRmPo()
+  // const lvl_0_total_rmPo = await lvl_0_total_getRmPo()
 
   ///////////////////////////////// SALES ORDERS
   /* TOTAL SO */
@@ -128,12 +128,12 @@ const buildReport = async (start, end) => {
   const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk()
 
   /* SO TAGGED */
-  const lvl_1_subtotal_soTagged = await lvl_1_subtotal_getSoTagged()
-  const lvl_2_subtotal_soTagged = await lvl_2_subtotal_getSoTagged()
-  const lvl_0_total_soTagged = await lvl_0_total_getSoTagged()
-  const lvl_1_subtotal_soTagged_byWk = await lvl_1_subtotal_getSoTagged_byWk()
-  const lvl_2_subtotal_soTagged_byWk = await lvl_2_subtotal_getSoTagged_byWk()
-  const lvl_0_total_soTagged_byWk = await lvl_0_total_getSoTagged_byWk()
+  // const lvl_1_subtotal_soTagged = await lvl_1_subtotal_getSoTagged()
+  // const lvl_2_subtotal_soTagged = await lvl_2_subtotal_getSoTagged()
+  // const lvl_0_total_soTagged = await lvl_0_total_getSoTagged()
+  // const lvl_1_subtotal_soTagged_byWk = await lvl_1_subtotal_getSoTagged_byWk()
+  // const lvl_2_subtotal_soTagged_byWk = await lvl_2_subtotal_getSoTagged_byWk()
+  // const lvl_0_total_soTagged_byWk = await lvl_0_total_getSoTagged_byWk()
 
   /* SO UNTAGGED */
   const lvl_1_subtotal_soUntagged = await lvl_1_subtotal_getSoUntagged()
@@ -187,20 +187,20 @@ const buildReport = async (start, end) => {
       ...lvl_1_subtotal_salesByWk,
       ...lvl_2_subtotal_salesByWk,
       ...lvl_0_total_salesByWk,
-      ...lvl_1_subtotal_soTagged,
-      ...lvl_2_subtotal_soTagged,
-      ...lvl_0_total_soTagged,
+      // ...lvl_1_subtotal_soTagged,
+      // ...lvl_2_subtotal_soTagged,
+      // ...lvl_0_total_soTagged,
       ...lvl_1_subtotal_soUntagged,
       ...lvl_2_subtotal_soUntagged,
       ...lvl_0_total_soUntagged,
       ...lvl_1_subtotal_so_byWk, // New
-      ...lvl_1_subtotal_soTagged_byWk, // New
+      // ...lvl_1_subtotal_soTagged_byWk, // New
       ...lvl_1_subtotal_soUntagged_byWk, // New
       ...lvl_2_subtotal_so_byWk, // New
-      ...lvl_2_subtotal_soTagged_byWk, // New
+      // ...lvl_2_subtotal_soTagged_byWk, // New
       ...lvl_2_subtotal_soUntagged_byWk, // New
       ...lvl_0_total_so_byWk, // New
-      ...lvl_0_total_soTagged_byWk, // New
+      // ...lvl_0_total_soTagged_byWk, // New
       ...lvl_0_total_soUntagged_byWk, // New
     ],
     rowTemplate_unflat
@@ -220,21 +220,21 @@ const buildReport = async (start, end) => {
       ...lvl_1_subtotal_fgPo,
       ...lvl_2_subtotal_fgPo,
       ...lvl_0_total_fgPo,
-      ...lvl_1_subtotal_rmInven,
-      ...lvl_2_subtotal_rmInven,
-      ...lvl_0_total_rmInven,
-      ...lvl_1_subtotal_rmInTransit,
-      ...lvl_2_subtotal_rmInTransit,
-      ...lvl_0_total_rmInTransit,
-      ...lvl_1_subtotal_rmAtLoc,
-      ...lvl_2_subtotal_rmAtLoc,
-      ...lvl_0_total_rmAtLoc,
-      ...lvl_1_subtotal_rmPo,
-      ...lvl_2_subtotal_rmPo,
-      ...lvl_0_total_rmPo,
-      ...lvl_1_subtotal_fgAtLoc_tagged,
-      ...lvl_2_subtotal_fgAtLoc_tagged,
-      ...lvl_0_total_fgAtLoc_tagged,
+      // ...lvl_1_subtotal_rmInven,
+      // ...lvl_2_subtotal_rmInven,
+      // ...lvl_0_total_rmInven,
+      // ...lvl_1_subtotal_rmInTransit,
+      // ...lvl_2_subtotal_rmInTransit,
+      // ...lvl_0_total_rmInTransit,
+      // ...lvl_1_subtotal_rmAtLoc,
+      // ...lvl_2_subtotal_rmAtLoc,
+      // ...lvl_0_total_rmAtLoc,
+      // ...lvl_1_subtotal_rmPo,
+      // ...lvl_2_subtotal_rmPo,
+      // ...lvl_0_total_rmPo,
+      // ...lvl_1_subtotal_fgAtLoc_tagged,
+      // ...lvl_2_subtotal_fgAtLoc_tagged,
+      // ...lvl_0_total_fgAtLoc_tagged,
       ...lvl_1_subtotal_fgAtLoc_untagged,
       ...lvl_2_subtotal_fgAtLoc_untagged,
       ...lvl_0_total_fgAtLoc_untagged,
