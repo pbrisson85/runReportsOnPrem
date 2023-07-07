@@ -203,7 +203,7 @@ const buildReport = async (start, end, program) => {
   const rowsThirdLevelDetail = await getRowsThirdLevelDetail(start, end, program)
   const rowsSecondLevelDetail = await getRowsSecondLevelDetail(start, end, program)
   const rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, program)
-  const totalsRow = [{ l1_label: 'FG SALES', l2_label: 'TOTAL', l3_label: 'TOTAL' }]
+  const totalsRow = [{ totalRow: true, l1_label: 'FG SALES', l2_label: 'TOTAL', l3_label: 'TOTAL' }]
 
   // COMPILE FINAL ROW TEMPLATE
   const rowTemplate = [...rowsThirdLevelDetail, ...rowsSecondLevelDetail, ...rowsFirstLevelDetail]

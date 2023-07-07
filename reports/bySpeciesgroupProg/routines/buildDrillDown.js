@@ -131,7 +131,7 @@ const buildDrillDown = async (program, option, filters, columnDataName, reportNa
   ///////////////////////////////// ROWS
   const levelOneRows = await getLevelOneRows(start, end)
   const levelTwoRows = await getLevelTwoRows(start, end)
-  const totalsRow = [{ l1_label: 'FG SALES', l2_label: 'TOTAL' }]
+  const totalsRow = [{ totalRow: true, l1_label: 'FG SALES', l2_label: 'TOTAL' }]
 
   // COMPILE FINAL ROW TEMPLATE
   const rowTemplate = [...levelTwoRows, ...levelOneRows]
