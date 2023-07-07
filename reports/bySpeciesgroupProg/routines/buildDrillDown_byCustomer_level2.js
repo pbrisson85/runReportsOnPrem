@@ -12,7 +12,7 @@ const { getRowsFirstLevelDetail } = require('../queries/postgres/byCustomer_leve
 const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesOneLevel')
 const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../../shared/models/unflattenByCompositKey')
-const labelCols = require('../queries/hardcode/cols_byItem_level3')
+const labelCols = require('../queries/hardcode/cols_byCustomer')
 
 const buildDrillDown = async (program, start, end, filters) => {
   console.log(program, '\n', start, '\n', end, '\n', filters)
