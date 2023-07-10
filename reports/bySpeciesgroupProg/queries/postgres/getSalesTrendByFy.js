@@ -2,7 +2,7 @@
 
 // FG Species Group totals by week
 
-const lvl_1_subtotal_getSalesByYr = async (start, end) => {
+const lvl_1_subtotal_getSalesByFy = async (start, end) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -36,7 +36,7 @@ const lvl_1_subtotal_getSalesByYr = async (start, end) => {
 
 /* *********************************************** Levle 2 *********************************************** */
 
-const lvl_2_subtotal_getSalesByYr = async (start, end) => {
+const lvl_2_subtotal_getSalesByFy = async (start, end) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -70,7 +70,7 @@ const lvl_2_subtotal_getSalesByYr = async (start, end) => {
 
 /* *********************************************** Total *********************************************** */
 
-const lvl_0_total_getSalesByYr = async (start, end) => {
+const lvl_0_total_getSalesByFy = async (start, end) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -102,6 +102,6 @@ const lvl_0_total_getSalesByYr = async (start, end) => {
   }
 }
 
-module.exports.lvl_0_total_getSalesByYr = lvl_0_total_getSalesByYr
-module.exports.lvl_2_subtotal_getSalesByYr = lvl_2_subtotal_getSalesByYr
-module.exports.lvl_1_subtotal_getSalesByYr = lvl_1_subtotal_getSalesByYr
+module.exports.lvl_0_total_getSalesByFy = lvl_0_total_getSalesByFy
+module.exports.lvl_2_subtotal_getSalesByFy = lvl_2_subtotal_getSalesByFy
+module.exports.lvl_1_subtotal_getSalesByFy = lvl_1_subtotal_getSalesByFy
