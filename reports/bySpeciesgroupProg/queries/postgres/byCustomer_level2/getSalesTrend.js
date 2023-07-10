@@ -117,11 +117,6 @@ const lvl_0_total_getSalesByWk = async (start, end, program, filters) => {
 // All sales col total for a program
 
 const lvl_0_total_getSalesPeriodToDate = async (start, end, program, filters) => {
-  console.log('start: ', start)
-  console.log('end: ', end)
-  console.log('program: ', program)
-  console.log('filters: ', filters)
-
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
