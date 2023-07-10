@@ -15,7 +15,7 @@ const lvl_1_subtotal_getFgPo = async (program, filters) => {
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = perpetual_inventory.item_number 
             
-        WHERE ms.item_type = $1 AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.species_group = $2 AND ms.program = = $3 
+        WHERE ms.item_type = $1 AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.species_group = $2 AND ms.program = $3 
         
         GROUP BY ms.item_num, ms.description, ms.size_name`, ['FG', filters[0], filters[1]]
         ) //prettier-ignore
@@ -46,7 +46,7 @@ const lvl_0_total_getFgPo = async (program, filters) => {
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = perpetual_inventory.item_number 
             
-        WHERE ms.item_type = $1 AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.species_group = $2 AND ms.program = = $3`, ['FG', filters[0], filters[1]]
+        WHERE ms.item_type = $1 AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.species_group = $2 AND ms.program = $3`, ['FG', filters[0], filters[1]]
         ) //prettier-ignore
 
     await pgClient.end()
