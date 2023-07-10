@@ -21,7 +21,7 @@ const getRowsFirstLevelDetail = async (start, end, program, filters) => {
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-            WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.program = $4 AND ms.fg_fresh_frozen = $5 
+            WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4 
           
           GROUP BY ms.item_num, ms.description, ms.fg_treatment, ms.size_name 
           
@@ -30,7 +30,7 @@ const getRowsFirstLevelDetail = async (start, end, program, filters) => {
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = perpetual_inventory.item_number 
           
-            WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.program = $4 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.fg_fresh_frozen = $5 
+            WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.species_group = $4 
           
           GROUP BY ms.item_num, ms.description, ms.fg_treatment, ms.size_name 
           
@@ -39,10 +39,10 @@ const getRowsFirstLevelDetail = async (start, end, program, filters) => {
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_orders.item_num 
           
-            WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.program = $4 AND sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) AND ms.fg_fresh_frozen = $5 
+            WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) AND ms.species_group = $4 
           
           GROUP BY ms.item_num, ms.description, ms.fg_treatment, ms.size_name`,
-        [start, end, 'FG', program, filters[0]]
+        [start, end, 'FG', filters[0]]
         ) //prettier-ignore
 
     await pgClient.end()
