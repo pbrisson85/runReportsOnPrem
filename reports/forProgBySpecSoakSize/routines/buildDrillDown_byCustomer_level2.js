@@ -89,7 +89,7 @@ const buildDrillDown = async (program, start, end, filters) => {
   const soCols = await getDateEndPerWeekByRange_so(start_so, end_so)
 
   // return
-  return { data: finalData, salesColsByWk: salesCols, labelCols: labelCols, soCols }
+  return { data: finalData, salesColsByWk: salesColsByWk, labelCols: labelCols, soCols }
 }
 
 module.exports = buildDrillDown
