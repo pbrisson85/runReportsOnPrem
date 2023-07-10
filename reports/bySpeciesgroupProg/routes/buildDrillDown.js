@@ -16,15 +16,6 @@ router.post('/', async (req, res) => {
 
   console.log(`\nget drilldown data for ${reportName} route HIT...`)
 
-  console.log('program: ', program)
-  console.log('option: ', option)
-  console.log('filters: ', filters)
-  console.log('columnDataName: ', columnDataName)
-  console.log('reportName: ', reportName)
-  console.log('colType: ', colType)
-  console.log('periodStart: ', periodStart)
-  console.log('periodEnd: ', periodEnd)
-
   // Note that start date is the END of the first week. Need the beginning of the same week to pull invoice dates that are after this:
   const startWeek = await getStartOfWeek(periodStart)
 
@@ -37,7 +28,7 @@ router.post('/', async (req, res) => {
         response = await buildDrillDown_byItem_level1(program, startWeek[0].formatted_date_start, periodEnd, filters)
       }
 
-      if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') {
+      if (!filters[1].includes('TOTAL') && !filters[0].includes('TOTAL')) {
         // level 2 subtotal
         response = await buildDrillDown_byItem_level2(program, startWeek[0].formatted_date_start, periodEnd, filters)
       }
@@ -56,7 +47,7 @@ router.post('/', async (req, res) => {
       response = await buildDrillDown_byCustomer_level1(program, startWeek[0].formatted_date_start, periodEnd, filters)
     }
 
-    if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') {
+    if (!filters[1].includes('TOTAL') && !filters[0].includes('TOTAL')) {
       // level 2 subtotal
       response = await buildDrillDown_byCustomer_level2(program, startWeek[0].formatted_date_start, periodEnd, filters)
     }
@@ -68,8 +59,6 @@ router.post('/', async (req, res) => {
   }
 
   console.log(`get drilldown data for ${reportName} route COMPLETE. \n`)
-
-  console.log('response: ', response)
 
   res.send(response)
 })
