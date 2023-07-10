@@ -22,6 +22,7 @@ const drillDownSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/rout
 const detailSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/getDetail')
 const glRevCogs = require('./reports/gl/routes/glRevCogs')
 const glOthp = require('./reports/gl/routes/glOthp')
+const getDrillDownItemDetail = require('./reports/shared/routes/getDrillDownItemDetail')
 
 /* Data */
 const generateSalesData = require('./generateSales/routes/generateSales')
@@ -49,6 +50,7 @@ process.on('unhandledRejection', ex => {
 // routes
 app.use(helmet())
 app.use(express.json())
+app.use('/api/sales/drillDownDetail/item', getDrillDownItemDetail)
 app.use('/api/sales/bySpeciesgroupProg', getSalesByProgram)
 app.use('/api/sales/drillDown/bySpeciesgroupProg', drillDownSalesByProgram)
 app.use('/api/sales/detail/bySpeciesgroupProg', detailSalesByProgram)
