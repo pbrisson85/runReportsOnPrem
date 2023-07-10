@@ -29,9 +29,9 @@ const lvl_1_subtotal_getSo = async (program, filters) => {
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = so.item_num 
             
-        WHERE ms.item_type = $1 AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = $2 AND ms.byproduct_type IS NULL AND ms.species_group = $3 
+        WHERE ms.item_type = $1 AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.byproduct_type IS NULL AND ms.species_group = $2 
         
-        GROUP BY so.customer_code, so.customer_name`, ['FG', filters[1], filters[0]]
+        GROUP BY so.customer_code, so.customer_name`, ['FG', filters[0]]
         ) //prettier-ignore
 
     await pgClient.end()
@@ -60,7 +60,7 @@ const lvl_0_total_getSo = async (program, filters) => {
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = so.item_num 
               
-          WHERE ms.item_type = $1 AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = $2 AND ms.byproduct_type IS NULL AND ms.species_group = $3`, ['FG', filters[1], filters[0]]
+          WHERE ms.item_type = $1 AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.byproduct_type IS NULL AND ms.species_group = $2`, ['FG', filters[0]]
           ) //prettier-ignore
 
     await pgClient.end()

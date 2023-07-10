@@ -29,11 +29,11 @@ const lvl_1_subtotal_getSo_byWk = async (program, filters) => {
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = so.item_num 
             
-        WHERE ms.item_type = $1 AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = $2 AND ms.byproduct_type IS NULL AND ms.species_group = $3 
+        WHERE ms.item_type = $1 AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.byproduct_type IS NULL AND ms.species_group = $2 
         
         GROUP BY so.week_serial, so.customer_code, so.customer_name 
         
-        ORDER BY so.week_serial`, ['FG', filters[1], filters[0]]
+        ORDER BY so.week_serial`, ['FG', filters[0]]
         ) //prettier-ignore
 
     await pgClient.end()
@@ -62,11 +62,11 @@ const lvl_0_total_getSo_byWk = async (program, filters) => {
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = so.item_num 
               
-          WHERE ms.item_type = $1 AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = $2 AND ms.byproduct_type IS NULL AND ms.species_group = $3 
+          WHERE ms.item_type = $1 AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.byproduct_type IS NULL AND ms.species_group = $2 
           
           GROUP BY so.week_serial 
           
-          ORDER BY so.week_serial`, ['FG', filters[1], filters[0]]
+          ORDER BY so.week_serial`, ['FG', filters[0]]
           ) //prettier-ignore
 
     await pgClient.end()

@@ -29,12 +29,12 @@ const lvl_1_subtotal_getSalesByWk = async (start, end, program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
       
-      WHERE sl.formatted_invoice_date >= $1 AND sl.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.program = $4 AND ms.species_group = $5
+      WHERE sl.formatted_invoice_date >= $1 AND sl.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4
       
       GROUP BY sl.week_serial, sl.customer_code, sl.customer_name
       
       ORDER BY sl.week_serial`,
-      [start, end, 'FG', filters[1], filters[0]]
+      [start, end, 'FG', filters[0]]
       ) //prettier-ignore
 
     await pgClient.end()
@@ -63,10 +63,10 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (start, end, program, filters)
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.formatted_invoice_date >= $1 AND sl.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.program = $4 AND ms.species_group = $5
+      WHERE sl.formatted_invoice_date >= $1 AND sl.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4
       
       GROUP BY sl.customer_code, sl.customer_name`,
-      [start, end, 'FG', filters[1], filters[0]]
+      [start, end, 'FG', filters[0]]
       ) //prettier-ignore
 
     await pgClient.end()
@@ -97,12 +97,12 @@ const lvl_0_total_getSalesByWk = async (start, end, program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.formatted_invoice_date >= $1 AND sl.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.program = $4 AND ms.species_group = $5
+      WHERE sl.formatted_invoice_date >= $1 AND sl.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4
       
       GROUP BY sl.week_serial 
       
       ORDER BY sl.week_serial`,
-      [start, end, 'FG', filters[1], filters[0]]
+      [start, end, 'FG', filters[0]]
     ) //prettier-ignore
 
     await pgClient.end()
@@ -131,8 +131,8 @@ const lvl_0_total_getSalesPeriodToDate = async (start, end, program, filters) =>
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.formatted_invoice_date >= $1 AND sl.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.program = $4 AND ms.species_group = $5`,
-      [start, end, 'FG', filters[1], filters[0]]
+      WHERE sl.formatted_invoice_date >= $1 AND sl.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4`,
+      [start, end, 'FG', filters[0]]
     ) //prettier-ignore
 
     await pgClient.end()
