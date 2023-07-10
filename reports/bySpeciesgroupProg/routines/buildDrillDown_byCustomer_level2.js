@@ -81,7 +81,7 @@ const buildDrillDown = async (program, start, end, filters) => {
     }) // no label in total row, first col
   finalData = [...filterRow, ...finalData]
 
-  const salesCols = await getDateEndPerWeekByRange(start, end)
+  const salesColsByWk = await getDateEndPerWeekByRange(start, end)
 
   // get so by week cols
   const start_so = await getEarliestShipWk()
@@ -89,7 +89,7 @@ const buildDrillDown = async (program, start, end, filters) => {
   const soCols = await getDateEndPerWeekByRange_so(start_so, end_so)
 
   // return
-  return { data: finalData, salesCols: salesCols, labelCols: labelCols, soCols }
+  return { data: finalData, salesColsByWk: salesCols, labelCols: labelCols, soCols }
 }
 
 module.exports = buildDrillDown

@@ -4,6 +4,7 @@ const {
   getDateEndPerWeekByRange_so_tg,
   getDateEndPerWeekByRange_so_untg,
 } = require('../../shared/queries/postgres/getDateEndPerWeek')
+const { getFiscalYearCols } = require('../../shared/queries/postgres/getFiscalYearCols')
 const { getLatestShipWk, getEarliestShipWk } = require('../../shared/queries/postgres/getSoDates')
 const {
   lvl_1_subtotal_getSalesByWk,
@@ -13,6 +14,7 @@ const {
   lvl_2_subtotal_getSalesPeriodToDate,
   lvl_0_total_getSalesPeriodToDate,
 } = require('../queries/postgres/getSalesTrend')
+const { lvl_1_subtotal_getSalesByFy, lvl_2_subtotal_getSalesByFy, lvl_0_total_getSalesByFy } = require('../queries/postgres/getSalesTrendByFy')
 const {
   lvl_1_subtotal_getFgInven,
   lvl_2_subtotal_getFgInven,
@@ -144,7 +146,7 @@ const buildReport = async (start, end) => {
   const lvl_0_total_soUntagged_byWk = await lvl_0_total_getSoUntagged_byWk()
 
   ///////////////////////////////// SALES DATA
-  /* EACH PERIOD */
+  /* EACH WEEK */
   const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end)
   const lvl_2_subtotal_salesByWk = await lvl_2_subtotal_getSalesByWk(start, end)
   const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(start, end)
@@ -152,6 +154,10 @@ const buildReport = async (start, end) => {
   const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(start, end)
   const lvl_2_subtotal_salesPeriodToDate = await lvl_2_subtotal_getSalesPeriodToDate(start, end)
   const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(start, end)
+  /* EACH YEAR */
+  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy()
+  const lvl_2_subtotal_salesByFy = await lvl_2_subtotal_getSalesByFy()
+  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy()
 
   ///////////////////////////////// ROWS
   const levelOneRows = await getLevelOneRows(start, end)
@@ -193,15 +199,18 @@ const buildReport = async (start, end) => {
       ...lvl_1_subtotal_soUntagged,
       ...lvl_2_subtotal_soUntagged,
       ...lvl_0_total_soUntagged,
-      ...lvl_1_subtotal_so_byWk, // New
-      // ...lvl_1_subtotal_soTagged_byWk, // New
-      ...lvl_1_subtotal_soUntagged_byWk, // New
-      ...lvl_2_subtotal_so_byWk, // New
-      // ...lvl_2_subtotal_soTagged_byWk, // New
-      ...lvl_2_subtotal_soUntagged_byWk, // New
-      ...lvl_0_total_so_byWk, // New
-      // ...lvl_0_total_soTagged_byWk, // New
-      ...lvl_0_total_soUntagged_byWk, // New
+      ...lvl_1_subtotal_so_byWk,
+      // ...lvl_1_subtotal_soTagged_byWk,
+      ...lvl_1_subtotal_soUntagged_byWk,
+      ...lvl_2_subtotal_so_byWk,
+      // ...lvl_2_subtotal_soTagged_byWk,
+      ...lvl_2_subtotal_soUntagged_byWk,
+      ...lvl_0_total_so_byWk,
+      // ...lvl_0_total_soTagged_byWk,
+      ...lvl_0_total_soUntagged_byWk,
+      ...lvl_1_subtotal_salesByFy,
+      ...lvl_2_subtotal_salesByFy,
+      ...lvl_0_total_salesByFy,
     ],
     rowTemplate_unflat
   )
@@ -255,7 +264,10 @@ const buildReport = async (start, end) => {
   const finalData = cleanLabelsForDisplay(flattenedMappedData)
 
   // get data column names
-  const salesCols = await getDateEndPerWeekByRange(start, end)
+  const salesColsByWk = await getDateEndPerWeekByRange(start, end)
+
+  // get data column names by fiscal year
+  const salesColsByFy = await getFiscalYearCols()
 
   // get so by week cols
   const start_so = await getEarliestShipWk()
@@ -265,7 +277,7 @@ const buildReport = async (start, end) => {
   const soCols_untg = await getDateEndPerWeekByRange_so_untg(start_so, end_so)
 
   // return
-  return { data: finalData, salesCols: salesCols, labelCols: labelCols, soCols, soCols_tg, soCols_untg }
+  return { data: finalData, salesColsByWk: salesColsByWk, salesColsByFy: salesColsByFy, labelCols: labelCols, soCols, soCols_tg, soCols_untg }
 }
 
 module.exports = buildReport

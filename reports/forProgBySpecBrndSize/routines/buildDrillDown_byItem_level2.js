@@ -183,7 +183,7 @@ const buildDrillDown = async (program, start, end, filters) => {
 
   console.log(rowTemplate)
 
-  const salesCols = await getDateEndPerWeekByRange(start, end)
+  const salesColsByWk = await getDateEndPerWeekByRange(start, end)
 
   // get so by week cols
   const start_so = await getEarliestShipWk()
@@ -193,7 +193,7 @@ const buildDrillDown = async (program, start, end, filters) => {
   const soCols_untg = await getDateEndPerWeekByRange_so_untg(start_so, end_so)
 
   // return
-  return { data: finalData, salesCols: salesCols, labelCols: labelCols, soCols, soCols_tg, soCols_untg }
+  return { data: finalData, salesColsByWk: salesCols, labelCols: labelCols, soCols, soCols_tg, soCols_untg }
 }
 
 module.exports = buildDrillDown
