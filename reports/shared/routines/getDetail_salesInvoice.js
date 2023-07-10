@@ -7,7 +7,7 @@ const {
   lvl_1_subtotal_getSalesPeriodToDate_detail,
   lvl_3_subtotal_getSalesByWk_detail,
   lvl_3_subtotal_getSalesPeriodToDate_detail,
-} = require('../queries/postgres/detail/getSales')
+} = require('../queries/postgres/detailByItem/getSales')
 
 const getDetail = async (program, filters, columnDataName, startWeek, periodEnd) => {
   let detail = null
