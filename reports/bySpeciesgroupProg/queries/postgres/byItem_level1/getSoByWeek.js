@@ -174,7 +174,7 @@ const lvl_0_total_getSoUntagged_byWk = async (program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_orders.item_num 
           
-      WHERE ms.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.byproduct_type IS NULL AND sales_orders.untagged_weight > 0 ms.species_group = $2 
+      WHERE ms.item_type = $1 AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.byproduct_type IS NULL AND sales_orders.untagged_weight > 0 AND ms.species_group = $2 
       
       GROUP BY sales_orders.week_serial 
       
