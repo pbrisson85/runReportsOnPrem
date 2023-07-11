@@ -4,6 +4,7 @@ const {
   getDateEndPerWeekByRange_so_tg,
   getDateEndPerWeekByRange_so_untg,
 } = require('../../shared/queries/postgres/getDateEndPerWeek')
+const { getFiscalYearCols } = require('../../shared/queries/postgres/getFiscalYearCols')
 const { getLatestShipWk, getEarliestShipWk } = require('../../shared/queries/postgres/getSoDates')
 const {
   lvl_1_subtotal_getSalesByWk,
@@ -11,6 +12,7 @@ const {
   lvl_1_subtotal_getSalesPeriodToDate,
   lvl_0_total_getSalesPeriodToDate,
 } = require('../queries/postgres/byItem_level2/getSalesTrend')
+const { lvl_1_subtotal_getSalesByFy, lvl_0_total_getSalesByFy } = require('../queries/postgres/byItem_level2/getSalesTrendByFy')
 const {
   lvl_1_subtotal_getFgInven,
   lvl_0_total_getFgInven,
@@ -96,6 +98,8 @@ const buildDrillDown = async (program, start, end, filters) => {
   const lvl_0_total_soUntagged_byWk = await lvl_0_total_getSoUntagged_byWk(program, filters)
 
   // ///////////////////////////////// SALES DATA
+  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(start, end, program, filters)
+  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(start, end, program, filters)
   const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end, program, filters)
   const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(start, end, program, filters)
   const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(start, end, program, filters)
@@ -132,6 +136,8 @@ const buildDrillDown = async (program, start, end, filters) => {
       ...lvl_0_total_soTagged_byWk,
       ...lvl_1_subtotal_soUntagged_byWk,
       ...lvl_0_total_soUntagged_byWk,
+      ...lvl_1_subtotal_salesByFy,
+      ...lvl_0_total_salesByFy,
     ],
     rowTemplate_unflat
   )
@@ -182,6 +188,9 @@ const buildDrillDown = async (program, start, end, filters) => {
 
   const salesColsByWk = await getDateEndPerWeekByRange(start, end)
 
+  // get data column names by fiscal year
+  const salesColsByFy = await getFiscalYearCols()
+
   // get so by week cols
   const start_so = await getEarliestShipWk()
   const end_so = await getLatestShipWk()
@@ -190,7 +199,7 @@ const buildDrillDown = async (program, start, end, filters) => {
   const soCols_untg = await getDateEndPerWeekByRange_so_untg(start_so, end_so)
 
   // return
-  return { data: finalData, salesColsByWk: salesColsByWk, labelCols: labelCols, soCols, soCols_tg, soCols_untg }
+  return { data: finalData, salesColsByWk: salesColsByWk, salesColsByFy: salesColsByFy, labelCols: labelCols, soCols, soCols_tg, soCols_untg }
 }
 
 module.exports = buildDrillDown
