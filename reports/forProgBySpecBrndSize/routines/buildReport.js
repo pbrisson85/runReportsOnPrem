@@ -21,7 +21,7 @@ const {
   lvl_2_subtotal_getSalesByFy,
   lvl_3_subtotal_getSalesByFy,
   lvl_0_total_getSalesByFy,
-} = require('../queries/postgres/getSalesTrend')
+} = require('../queries/postgres/getSalesTrendByFy')
 const {
   lvl_1_subtotal_getFgInven,
   lvl_2_subtotal_getFgInven,
