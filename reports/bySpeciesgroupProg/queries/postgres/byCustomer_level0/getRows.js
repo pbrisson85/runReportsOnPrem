@@ -20,7 +20,7 @@ const getRowsFirstLevelDetail = async (start, end) => {
           FROM "salesReporting".sales_line_items AS sl
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = sl.item_number 
-          WHERE sl.formatted_invoice_date >= $1 AND sl.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 
+          WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 
           
           GROUP BY sl.customer_code, sl.customer_name 
           
@@ -28,10 +28,10 @@ const getRowsFirstLevelDetail = async (start, end) => {
           FROM "salesReporting".sales_orders AS so
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = so.item_num 
-          WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND so.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
+          WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND so.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
           
           GROUP BY so.customer_code, so.customer_name`,
-        [start, end, 'FG']
+        [ 'FG']
         ) //prettier-ignore
 
     await pgClient.end()
@@ -44,3 +44,21 @@ const getRowsFirstLevelDetail = async (start, end) => {
 }
 
 module.exports.getRowsFirstLevelDetail = getRowsFirstLevelDetail
+
+/*
+ `SELECT sl.customer_code AS l1_label, sl.customer_name AS l2_label 
+          FROM "salesReporting".sales_line_items AS sl
+            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+              ON ms.item_num = sl.item_number 
+          WHERE sl.formatted_invoice_date >= $1 AND sl.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 
+          
+          GROUP BY sl.customer_code, sl.customer_name 
+          
+        UNION SELECT so.customer_code AS l1_label, so.customer_name AS l2_label 
+          FROM "salesReporting".sales_orders AS so
+            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+              ON ms.item_num = so.item_num 
+          WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND so.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
+          
+          GROUP BY so.customer_code, so.customer_name`
+*/
