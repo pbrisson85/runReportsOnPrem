@@ -23,10 +23,10 @@ const detailSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/
 const glRevCogs = require('./reports/gl/routes/glRevCogs')
 const glOthp = require('./reports/gl/routes/glOthp')
 const getDrillDownItemDetail = require('./reports/shared/routes/getDrillDownItemDetail')
-const drillDownCustomerDetailSalesByProgram = require('./reports/bySpeciesgroupProg/routes/getDrillDownCustomerDetail')
-const drillDownCustomerDetailSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/getDrillDownCustomerDetail')
-const drillDownCustomerDetailSalesSpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/getDrillDownCustomerDetail')
-const drillDownCustomerDetailSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/getDrillDownCustomerDetail')
+const drillDownCustomerDetailSalesByProgram = require('./reports/bySpeciesgroupProg/routes/getDetail_inDrillDownByCust')
+const drillDownCustomerDetailSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/getDetail_inDrillDownByCust')
+const drillDownCustomerDetailSalesSpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/getDetail_inDrillDownByCust')
+const drillDownCustomerDetailSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/getDetail_inDrillDownByCust')
 
 /* Data */
 const generateSalesData = require('./generateSales/routes/generateSales')
