@@ -20,7 +20,7 @@ const getRowsFirstLevelDetail = async (start, end, program, filters) => {
           FROM "salesReporting".sales_line_items AS sl
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = sl.item_number 
-          WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ms.species_group = $4 AND ms.program = $3 
+          WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ms.species_group = $2 AND ms.program = $3 
           
           GROUP BY sl.customer_code, sl.customer_name 
           
