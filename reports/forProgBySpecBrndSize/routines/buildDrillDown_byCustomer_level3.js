@@ -1,4 +1,5 @@
 const { getDateEndPerWeekByRange, getDateEndPerWeekByRange_so } = require('../../shared/queries/postgres/getDateEndPerWeek')
+const { getFiscalYearCols } = require('../../shared/queries/postgres/getFiscalYearCols')
 const { getLatestShipWk, getEarliestShipWk } = require('../../shared/queries/postgres/getSoDates')
 const {
   lvl_1_subtotal_getSalesByWk,
@@ -6,6 +7,7 @@ const {
   lvl_1_subtotal_getSalesPeriodToDate,
   lvl_0_total_getSalesPeriodToDate,
 } = require('../queries/postgres/byCustomer_level3/getSalesTrend')
+const { lvl_1_subtotal_getSalesByFy, lvl_0_total_getSalesByFy } = require('../queries/postgres/byCustomer_level3/getSalesTrendByFy')
 const { lvl_1_subtotal_getSo, lvl_0_total_getSo } = require('../queries/postgres/byCustomer_level3/getSo')
 const { lvl_1_subtotal_getSo_byWk, lvl_0_total_getSo_byWk } = require('../queries/postgres/byCustomer_level3/getSoByWeek')
 const { getRowsFirstLevelDetail } = require('../queries/postgres/byCustomer_level3/getRows')
@@ -25,6 +27,8 @@ const buildDrillDown = async (program, start, end, filters) => {
   const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk(program, filters)
 
   // ///////////////////////////////// SALES DATA
+  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(start, end, program, filters)
+  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(start, end, program, filters)
   const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end, program, filters)
   const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(start, end, program, filters)
   const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(start, end, program, filters)
@@ -53,6 +57,8 @@ const buildDrillDown = async (program, start, end, filters) => {
       ...lvl_0_total_so,
       ...lvl_1_subtotal_so_byWk,
       ...lvl_0_total_so_byWk,
+      ...lvl_1_subtotal_salesByFy,
+      ...lvl_0_total_salesByFy,
     ],
     rowTemplate_unflat
   )
@@ -83,13 +89,16 @@ const buildDrillDown = async (program, start, end, filters) => {
 
   const salesColsByWk = await getDateEndPerWeekByRange(start, end)
 
+  // get data column names by fiscal year
+  const salesColsByFy = await getFiscalYearCols()
+
   // get so by week cols
   const start_so = await getEarliestShipWk()
   const end_so = await getLatestShipWk()
   const soCols = await getDateEndPerWeekByRange_so(start_so, end_so)
 
   // return
-  return { data: finalData, salesColsByWk: salesColsByWk, labelCols: labelCols, soCols }
+  return { data: finalData, salesColsByWk: salesColsByWk, salesColsByFy: salesColsByFy, labelCols: labelCols, soCols }
 }
 
 module.exports = buildDrillDown
