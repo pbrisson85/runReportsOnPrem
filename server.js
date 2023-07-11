@@ -23,6 +23,10 @@ const detailSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/
 const glRevCogs = require('./reports/gl/routes/glRevCogs')
 const glOthp = require('./reports/gl/routes/glOthp')
 const getDrillDownItemDetail = require('./reports/shared/routes/getDrillDownItemDetail')
+const drillDownCustomerDetailSalesByProgram = require('./reports/bySpeciesgroupProg/routes/getDrillDownCustomerDetail')
+const drillDownCustomerDetailSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/getDrillDownCustomerDetail')
+const drillDownCustomerDetailSalesSpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/getDrillDownCustomerDetail')
+const drillDownCustomerDetailSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/getDrillDownCustomerDetail')
 
 /* Data */
 const generateSalesData = require('./generateSales/routes/generateSales')
@@ -52,15 +56,19 @@ app.use(helmet())
 app.use(express.json())
 app.use('/api/sales/drillDownDetail/item', getDrillDownItemDetail)
 app.use('/api/sales/bySpeciesgroupProg', getSalesByProgram)
+app.use('/api/sales/drillDownDetail/customer/bySpeciesgroupProg', drillDownCustomerDetailSalesByProgram) //
 app.use('/api/sales/drillDown/bySpeciesgroupProg', drillDownSalesByProgram)
 app.use('/api/sales/detail/bySpeciesgroupProg', detailSalesByProgram)
 app.use('/api/sales/forProgram/byFrzSoakSize', getSalesFrzSoakSize)
+app.use('/api/sales/drillDownDetail/customer/forProgByFrzSoakSize', drillDownCustomerDetailSalesFrzSoakSize) //
 app.use('/api/sales/drillDown/forProgByFrzSoakSize', drillDownSalesFrzSoakSize)
 app.use('/api/sales/detail/forProgByFrzSoakSize', detailSalesFrzSoakSize)
 app.use('/api/sales/forProgram/bySpecBrndSize', getSalesSpecBrndSize)
+app.use('/api/sales/drillDownDetail/customer/forProgBySpecBrndSize', drillDownCustomerDetailSalesSpecBrndSize) //
 app.use('/api/sales/drillDown/forProgBySpecBrndSize', drillDownSalesSpecBrndSize)
 app.use('/api/sales/detail/forProgBySpecBrndSize', detailSalesSpecBrndSize)
 app.use('/api/sales/forProgram/bySpecSoakSize', getSalesSpecSoakSize)
+app.use('/api/sales/drillDownDetail/customer/forProgBySpecSoakSize', drillDownCustomerDetailSalesSpecSoakSize) //
 app.use('/api/sales/drillDown/forProgBySpecSoakSize', drillDownSalesSpecSoakSize)
 app.use('/api/sales/detail/forProgBySpecSoakSize', detailSalesSpecSoakSize)
 app.use('/api/sales/generateSalesData', generateSalesData)
