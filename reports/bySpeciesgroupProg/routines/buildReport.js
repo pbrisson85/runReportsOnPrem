@@ -68,6 +68,8 @@ const {
   lvl_0_total_getSoUntagged_byWk,
 } = require('../queries/postgres/getSoByWeek')
 const { getLevelTwoRows, getLevelOneRows } = require('../queries/postgres/getRows')
+const { getLevelTwoRows: getRows_l2_fyTrend, getLevelOneRows: getRows_l1_fyTrend } = require('../queries/postgres/getRowsTrendByFy')
+
 const unflattenRowTemplate = require('../../shared/models/unflattenRowTemplate')
 const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesTwoLevel')
 const mapInvenToRowTemplates = require('../../shared/models/mapInvenToRowTemplatesTwoLevel')
@@ -75,7 +77,9 @@ const combineMappedRows = require('../../shared/models/combineMappedRows')
 const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay')
 const labelCols = require('../queries/hardcode/cols')
 
-const buildReport = async (start, end) => {
+const buildReport = async (start, end, fyTrend) => {
+  fyTrend = true // hardcode in dev ************************************************************************
+
   ///////////////////////////////// INVENTORY DATA
 
   /* TOTAL FG */
@@ -160,8 +164,17 @@ const buildReport = async (start, end) => {
   const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy()
 
   ///////////////////////////////// ROWS
-  const levelOneRows = await getLevelOneRows(start, end)
-  const levelTwoRows = await getLevelTwoRows(start, end)
+  let levelTwoRows
+  let levelOneRows
+  if (fyTrend) {
+    // full fy trend requested. need rows for all data
+    levelTwoRows = await getRows_l2_fyTrend(start, end)
+    levelOneRows = await getRows_l1_fyTrend(start, end)
+  } else {
+    // data request with start and end dates
+    levelTwoRows = await getLevelTwoRows(start, end)
+    levelOneRows = await getLevelOneRows(start, end)
+  }
   const totalsRow = [{ totalRow: true, l1_label: 'FG SALES', l2_label: 'TOTAL' }]
 
   // COMPILE FINAL ROW TEMPLATE
@@ -181,6 +194,9 @@ const buildReport = async (start, end) => {
 
   // map data into row template
   const rowTemplate_unflat = unflattenRowTemplate(rowTemplate)
+
+  // switch to include fy trend data
+  const fyTrendSales = fyTrend ? [...lvl_1_subtotal_salesByFy, ...lvl_2_subtotal_salesByFy, ...lvl_0_total_salesByFy] : []
 
   const mappedSales = mapSalesToRowTemplates(
     [
@@ -208,9 +224,7 @@ const buildReport = async (start, end) => {
       ...lvl_0_total_so_byWk,
       // ...lvl_0_total_soTagged_byWk,
       ...lvl_0_total_soUntagged_byWk,
-      ...lvl_1_subtotal_salesByFy,
-      ...lvl_2_subtotal_salesByFy,
-      ...lvl_0_total_salesByFy,
+      ...fyTrendSales,
     ],
     rowTemplate_unflat
   )

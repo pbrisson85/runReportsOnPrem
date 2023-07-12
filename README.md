@@ -25,10 +25,10 @@ TODO:
 - On front end handle showing the weekly sales orders.
 - Write the detail queries and handle on front end.
 
-// WHERE I LEFT OFF: THE DRILLDOWN GET DETAIL BY ITEM FOR INVENTORY IS NOT WORKING FOR THE IN TRANSIT, OH ALL COLUMNS I THINK BECAUSE I DELETED THE WHERE CLAUSES. NEED TO FINISH THE REMAINDER OF THE DRILLDOWN COLS <-- Stopped working on this to hit the next one
+// WHERE I LEFT OFF: Continue to make the FY trend optional. Need rows with or without. Front end will pass a boolean. Fron end will ask for update when option selected or deselected
 
-// NEXT MOST IMPORTANT THING TO DO IS TO CREATE THE 7 YEAR TREND FOR ALL SALES REPORTS. <-- This is where I actually left off. Need to update all of the get rows function in the bySpeciesGroupProg report because I made the 7 year trend for all trends (main, by item, by customer) but the rows are being filtered for the user provided date range and there are possibly no rows for items that happened in prior years
+// Add cache to onPremBridge (second step is to run each possible report but shouldnt do this until all the logic is on the cloud. Also would not need the bridge if the logic was on the cloud. onPrem should just be the data base builder but write to the cloud database.)
 
-    - Add 7 year trend for each of the three additional report formats.
+// Make sure drill down by item get detail works (this is shared by all reports because it is by item code.)
 
-// NEXT MOST IMPORTANT THING IS TO DO THE DRILLDOWN FOR THE CUSTOMER RPEORTS.
+//

@@ -4,6 +4,7 @@ const {
   getDateEndPerWeekByRange_so_tg,
   getDateEndPerWeekByRange_so_untg,
 } = require('../../shared/queries/postgres/getDateEndPerWeek')
+const { getFiscalYearCols } = require('../../shared/queries/postgres/getFiscalYearCols')
 const { getLatestShipWk, getEarliestShipWk } = require('../../shared/queries/postgres/getSoDates')
 const {
   lvl_1_subtotal_getSalesByWk,
@@ -11,6 +12,7 @@ const {
   lvl_1_subtotal_getSalesPeriodToDate,
   lvl_0_total_getSalesPeriodToDate,
 } = require('../queries/postgres/byItem_level1/getSalesTrend')
+const { lvl_1_subtotal_getSalesByFy, lvl_0_total_getSalesByFy } = require('../queries/postgres/byItem_level1/getSalesTrendByFy')
 const {
   lvl_1_subtotal_getFgInven,
   lvl_0_total_getFgInven,
@@ -41,6 +43,7 @@ const {
   lvl_0_total_getSoUntagged_byWk,
 } = require('../queries/postgres/byItem_level1/getSoByWeek')
 const { getRowsFirstLevelDetail } = require('../queries/postgres/byItem_level1/getRows')
+const { getRowsFirstLevelDetail: getRows_l1_fyTrend } = require('../queries/postgres/byItem_level1/getRowsTrendByFy')
 const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesOneLevel')
 const mapInvenToRowTemplates = require('../../shared/models/mapInvenToRowTemplatesOneLevel')
 const combineMappedRows = require('../../shared/models/combineMappedRows')
@@ -49,7 +52,9 @@ const unflattenByCompositKey = require('../../shared/models/unflattenByCompositK
 
 const labelCols = require('../queries/hardcode/cols_byItem_level1')
 
-const buildDrillDown = async (program, start, end, filters) => {
+const buildDrillDown = async (program, start, end, filters, fyTrend) => {
+  fyTrend = true // hardcode in dev ************************************************************************
+
   console.log(program, '\n', start, '\n', end, '\n', filters)
 
   ///////////////////////////////// INVENTORY DATA
@@ -96,13 +101,23 @@ const buildDrillDown = async (program, start, end, filters) => {
   const lvl_0_total_soUntagged_byWk = await lvl_0_total_getSoUntagged_byWk(program, filters)
 
   // ///////////////////////////////// SALES DATA
+  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(start, end, program, filters)
+  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(start, end, program, filters)
   const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end, program, filters)
   const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(start, end, program, filters)
   const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(start, end, program, filters)
   const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(start, end, program, filters)
 
   ///////////////////////////////// ROWS
-  const rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, program, filters)
+  let rowsFirstLevelDetail
+  if (fyTrend) {
+    // full fy trend requested. need rows for all data
+    rowsFirstLevelDetail = await getRows_l1_fyTrend(start, end, program, filters)
+  } else {
+    // data request with start and end dates
+    rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, program, filters)
+  }
+
   const totalsRow = [{ totalRow: true, l1_label: `FG SALES`, l2_label: `TOTAL` }] // Need an l2_label of TOTAL for front end styling
   const filterRow = [{ filterRow: true, l1_label: `PROGRAM: ${program}, FILTERS: ${filters[0]}, ${filters[1]}` }] // shows at top of report
 
@@ -113,6 +128,9 @@ const buildDrillDown = async (program, start, end, filters) => {
   const rowTemplate_unflat = unflattenByCompositKey(rowTemplate, {
     1: 'l1_label',
   })
+
+  // switch to include fy trend data
+  const fyTrendSales = fyTrend ? [...lvl_1_subtotal_salesByFy, ...lvl_0_total_salesByFy] : []
 
   const mappedSales = mapSalesToRowTemplates(
     [
@@ -132,6 +150,7 @@ const buildDrillDown = async (program, start, end, filters) => {
       ...lvl_0_total_soTagged_byWk,
       ...lvl_1_subtotal_soUntagged_byWk,
       ...lvl_0_total_soUntagged_byWk,
+      ...fyTrendSales,
     ],
     rowTemplate_unflat
   )
@@ -187,6 +206,8 @@ const buildDrillDown = async (program, start, end, filters) => {
   finalData = [...filterRow, ...finalData]
 
   const salesColsByWk = await getDateEndPerWeekByRange(start, end)
+  // get data column names by fiscal year
+  const salesColsByFy = await getFiscalYearCols()
 
   // get so by week cols
   const start_so = await getEarliestShipWk()
@@ -196,7 +217,7 @@ const buildDrillDown = async (program, start, end, filters) => {
   const soCols_untg = await getDateEndPerWeekByRange_so_untg(start_so, end_so)
 
   // return
-  return { data: finalData, salesColsByWk: salesColsByWk, labelCols: labelCols, soCols, soCols_tg, soCols_untg }
+  return { data: finalData, salesColsByWk: salesColsByWk, salesColsByFy: salesColsByFy, labelCols: labelCols, soCols, soCols_tg, soCols_untg }
 }
 
 module.exports = buildDrillDown

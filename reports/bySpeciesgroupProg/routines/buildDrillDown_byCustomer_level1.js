@@ -11,12 +11,15 @@ const { getFiscalYearCols } = require('../../shared/queries/postgres/getFiscalYe
 const { lvl_1_subtotal_getSo, lvl_0_total_getSo } = require('../queries/postgres/byCustomer_level1/getSo')
 const { lvl_1_subtotal_getSo_byWk, lvl_0_total_getSo_byWk } = require('../queries/postgres/byCustomer_level1/getSoByWeek')
 const { getRowsFirstLevelDetail } = require('../queries/postgres/byCustomer_level1/getRows')
+const { getRowsFirstLevelDetail: getRows_l1_fyTrend } = require('../queries/postgres/byCustomer_level1/getRowsTrendByFy')
 const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesOneLevel')
 const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../../shared/models/unflattenByCompositKey')
 const labelCols = require('../queries/hardcode/cols_byCustomer')
 
-const buildDrillDown = async (program, start, end, filters) => {
+const buildDrillDown = async (program, start, end, filters, fyTrend) => {
+  fyTrend = true // hardcode in dev ************************************************************************
+
   console.log(program, '\n', start, '\n', end, '\n', filters)
 
   // ///////////////////////////////// SALES ORDERS
@@ -35,7 +38,14 @@ const buildDrillDown = async (program, start, end, filters) => {
   const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(start, end, program, filters)
 
   ///////////////////////////////// ROWS
-  const rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, program, filters)
+  let rowsFirstLevelDetail
+  if (fyTrend) {
+    // full fy trend requested. need rows for all data
+    rowsFirstLevelDetail = await getRows_l1_fyTrend(start, end, program, filters)
+  } else {
+    // data request with start and end dates
+    rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, program, filters)
+  }
   const totalsRow = [{ totalRow: true, l1_label: `FG SALES`, l2_label: `TOTAL` }] // Need an l2_label of TOTAL for front end styling
   const filterRow = [{ filterRow: true, l1_label: `PROGRAM: ${program}, FILTERS: ${filters[0]}, ${filters[1]}, ${filters[2]}` }] // shows at top of report
 
@@ -47,6 +57,9 @@ const buildDrillDown = async (program, start, end, filters) => {
     1: 'l1_label',
   })
 
+  // switch to include fy trend data
+  const fyTrendSales = fyTrend ? [...lvl_1_subtotal_salesByFy, ...lvl_0_total_salesByFy] : []
+
   const mappedData = mapSalesToRowTemplates(
     [
       ...lvl_1_subtotal_salesByWk,
@@ -57,8 +70,7 @@ const buildDrillDown = async (program, start, end, filters) => {
       ...lvl_0_total_so,
       ...lvl_1_subtotal_so_byWk,
       ...lvl_0_total_so_byWk,
-      ...lvl_1_subtotal_salesByFy,
-      ...lvl_0_total_salesByFy,
+      ...fyTrendSales,
     ],
     rowTemplate_unflat
   )

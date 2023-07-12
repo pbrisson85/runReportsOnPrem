@@ -99,6 +99,11 @@ const {
   lvl_0_total_getSoUntagged_byWk,
 } = require('../queries/postgres/getSoByWeek')
 const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../queries/postgres/getRows')
+const {
+  getRowsThirdLevelDetail: getRows_l3_fyTrend,
+  getRowsSecondLevelDetail: getRows_l2_fyTrend,
+  getRowsFirstLevelDetail: getRows_l1_fyTrend,
+} = require('../queries/postgres/getRowsTrendByFy')
 
 const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesThreeLevel')
 const mapInvenToRowTemplates = require('../../shared/models/mapInvenToRowTemplatesThreeLevel')
@@ -108,7 +113,9 @@ const unflattenByCompositKey = require('../../shared/models/unflattenByCompositK
 
 const labelCols = require('../queries/hardcode/cols')
 
-const buildReport = async (start, end, program) => {
+const buildReport = async (start, end, program, fyTrend) => {
+  fyTrend = true // hardcode in dev ************************************************************************
+
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
   const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(program)
@@ -211,9 +218,21 @@ const buildReport = async (start, end, program) => {
   const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(start, end, program)
 
   ///////////////////////////////// ROWS
-  const rowsThirdLevelDetail = await getRowsThirdLevelDetail(start, end, program)
-  const rowsSecondLevelDetail = await getRowsSecondLevelDetail(start, end, program)
-  const rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, program)
+  let rowsThirdLevelDetail
+  let rowsSecondLevelDetail
+  let rowsFirstLevelDetail
+
+  if (fyTrend) {
+    // full fy trend requested. need rows for all data
+    rowsThirdLevelDetail = await getRows_l3_fyTrend(start, end, program)
+    rowsSecondLevelDetail = await getRows_l2_fyTrend(start, end, program)
+    rowsFirstLevelDetail = await getRows_l1_fyTrend(start, end, program)
+  } else {
+    // data request with start and end dates
+    rowsThirdLevelDetail = await getRowsThirdLevelDetail(start, end, program)
+    rowsSecondLevelDetail = await getRowsSecondLevelDetail(start, end, program)
+    rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, program)
+  }
   const totalsRow = [{ totalRow: true, l1_label: 'FG SALES', l2_label: 'TOTAL', l3_label: 'TOTAL' }]
 
   // COMPILE FINAL ROW TEMPLATE
@@ -255,6 +274,11 @@ const buildReport = async (start, end, program) => {
     3: 'l3_label',
   })
 
+  // switch to include fy trend data
+  const fyTrendSales = fyTrend
+    ? [...lvl_1_subtotal_salesByFy, ...lvl_2_subtotal_salesByFy, ...lvl_3_subtotal_salesByFy, ...lvl_0_total_salesByFy]
+    : []
+
   const mappedSales = mapSalesToRowTemplates(
     [
       ...lvl_1_subtotal_salesByWk,
@@ -289,10 +313,7 @@ const buildReport = async (start, end, program) => {
       ...lvl_2_subtotal_soUntagged_byWk,
       ...lvl_3_subtotal_soUntagged_byWk,
       ...lvl_0_total_soUntagged_byWk,
-      ...lvl_1_subtotal_salesByFy,
-      ...lvl_2_subtotal_salesByFy,
-      ...lvl_3_subtotal_salesByFy,
-      ...lvl_0_total_salesByFy,
+      ...fyTrendSales,
     ],
     rowTemplate_unflat
   )
