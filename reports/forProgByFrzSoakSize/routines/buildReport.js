@@ -100,9 +100,9 @@ const {
 } = require('../queries/postgres/getSoByWeek')
 const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../queries/postgres/getRows')
 const {
-  getRowsThirdLevelDetail: getRows_l3_fyTrend,
-  getRowsSecondLevelDetail: getRows_l2_fyTrend,
-  getRowsFirstLevelDetail: getRows_l1_fyTrend,
+  getRowsThirdLevelDetail: getRows_l3_showFyTrend,
+  getRowsSecondLevelDetail: getRows_l2_showFyTrend,
+  getRowsFirstLevelDetail: getRows_l1_showFyTrend,
 } = require('../queries/postgres/getRowsTrendByFy')
 
 const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesThreeLevel')
@@ -113,8 +113,8 @@ const unflattenByCompositKey = require('../../shared/models/unflattenByCompositK
 
 const labelCols = require('../queries/hardcode/cols')
 
-const buildReport = async (start, end, program, fyTrend) => {
-  fyTrend = true // hardcode in dev ************************************************************************
+const buildReport = async (start, end, program, showFyTrend) => {
+  showFyTrend = true // hardcode in dev ************************************************************************
 
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
@@ -222,11 +222,11 @@ const buildReport = async (start, end, program, fyTrend) => {
   let rowsSecondLevelDetail
   let rowsFirstLevelDetail
 
-  if (fyTrend) {
+  if (showFyTrend) {
     // full fy trend requested. need rows for all data
-    rowsThirdLevelDetail = await getRows_l3_fyTrend(start, end, program)
-    rowsSecondLevelDetail = await getRows_l2_fyTrend(start, end, program)
-    rowsFirstLevelDetail = await getRows_l1_fyTrend(start, end, program)
+    rowsThirdLevelDetail = await getRows_l3_showFyTrend(start, end, program)
+    rowsSecondLevelDetail = await getRows_l2_showFyTrend(start, end, program)
+    rowsFirstLevelDetail = await getRows_l1_showFyTrend(start, end, program)
   } else {
     // data request with start and end dates
     rowsThirdLevelDetail = await getRowsThirdLevelDetail(start, end, program)
@@ -275,7 +275,7 @@ const buildReport = async (start, end, program, fyTrend) => {
   })
 
   // switch to include fy trend data
-  const fyTrendSales = fyTrend
+  const showFyTrendSales = showFyTrend
     ? [...lvl_1_subtotal_salesByFy, ...lvl_2_subtotal_salesByFy, ...lvl_3_subtotal_salesByFy, ...lvl_0_total_salesByFy]
     : []
 
@@ -313,7 +313,7 @@ const buildReport = async (start, end, program, fyTrend) => {
       ...lvl_2_subtotal_soUntagged_byWk,
       ...lvl_3_subtotal_soUntagged_byWk,
       ...lvl_0_total_soUntagged_byWk,
-      ...fyTrendSales,
+      ...showFyTrendSales,
     ],
     rowTemplate_unflat
   )

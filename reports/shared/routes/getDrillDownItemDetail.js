@@ -10,7 +10,7 @@ const { getStartOfWeek } = require('../queries/postgres/getDateStartByWeek')
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { program, option, filters, columnDataName, reportName, colType, periodStart, periodEnd, trend } = req.body
+  const { program, option, filters, columnDataName, reportName, colType, periodStart, periodEnd } = req.body
 
   console.log(`\nget detail data for ${reportName} route HIT...`)
 

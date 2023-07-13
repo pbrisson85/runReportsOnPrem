@@ -8,7 +8,7 @@ const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartBy
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { program, option, filters, columnDataName, reportName, colType, periodStart, periodEnd, trend } = req.body
+  const { program, option, filters, columnDataName, reportName, colType, periodStart, periodEnd } = req.body
 
   console.log('program: ', program)
   console.log('option: ', option)

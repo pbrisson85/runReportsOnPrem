@@ -11,15 +11,13 @@ const { getFiscalYearCols } = require('../../shared/queries/postgres/getFiscalYe
 const { lvl_1_subtotal_getSo, lvl_0_total_getSo } = require('../queries/postgres/byCustomer_level0/getSo')
 const { lvl_1_subtotal_getSo_byWk, lvl_0_total_getSo_byWk } = require('../queries/postgres/byCustomer_level0/getSoByWeek')
 const { getRowsFirstLevelDetail } = require('../queries/postgres/byCustomer_level0/getRows')
-const { getRowsFirstLevelDetail: getRows_l1_fyTrend } = require('../queries/postgres/byCustomer_level0/getRowsTrendByFy')
+const { getRowsFirstLevelDetail: getRows_l1_showFyTrend } = require('../queries/postgres/byCustomer_level0/getRowsTrendByFy')
 const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesOneLevel')
 const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../../shared/models/unflattenByCompositKey')
 const labelCols = require('../queries/hardcode/cols_byCustomer')
 
-const buildDrillDown = async (program, start, end, filters, fyTrend) => {
-  fyTrend = true // hardcode in dev ************************************************************************
-
+const buildDrillDown = async (program, start, end, filters, showFyTrend) => {
   console.log(program, '\n', start, '\n', end, '\n', filters)
 
   // ///////////////////////////////// SALES ORDERS
@@ -39,9 +37,9 @@ const buildDrillDown = async (program, start, end, filters, fyTrend) => {
 
   ///////////////////////////////// ROWS
   let rowsFirstLevelDetail
-  if (fyTrend) {
+  if (showFyTrend) {
     // full fy trend requested. need rows for all data
-    rowsFirstLevelDetail = await getRows_l1_fyTrend(start, end, program, filters)
+    rowsFirstLevelDetail = await getRows_l1_showFyTrend(start, end, program, filters)
   } else {
     // data request with start and end dates
     rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, program, filters)
@@ -58,7 +56,7 @@ const buildDrillDown = async (program, start, end, filters, fyTrend) => {
   })
 
   // switch to include fy trend data
-  const fyTrendSales = fyTrend ? [...lvl_1_subtotal_salesByFy, ...lvl_0_total_salesByFy] : []
+  const showFyTrendSales = showFyTrend ? [...lvl_1_subtotal_salesByFy, ...lvl_0_total_salesByFy] : []
 
   const mappedData = mapSalesToRowTemplates(
     [
@@ -70,7 +68,7 @@ const buildDrillDown = async (program, start, end, filters, fyTrend) => {
       ...lvl_0_total_so,
       ...lvl_1_subtotal_so_byWk,
       ...lvl_0_total_so_byWk,
-      ...fyTrendSales,
+      ...showFyTrendSales,
     ],
     rowTemplate_unflat
   )

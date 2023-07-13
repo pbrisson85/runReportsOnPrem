@@ -12,7 +12,7 @@ const buildDrillDown_byCustomer_level0 = require('../routines/buildDrillDown_byC
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { program, option, filters, columnDataName, reportName, colType, periodStart, periodEnd } = req.body
+  const { program, option, filters, columnDataName, reportName, colType, periodStart, periodEnd, showFyTrend } = req.body
 
   console.log(`\nget drilldown data for ${reportName} route HIT...`)
 
@@ -25,17 +25,17 @@ router.post('/', async (req, res) => {
     if (colType === 'salesInvoice') {
       if (filters[1] === 'SUBTOTAL') {
         // level 1 subtotal
-        response = await buildDrillDown_byItem_level1(program, startWeek[0].formatted_date_start, periodEnd, filters)
+        response = await buildDrillDown_byItem_level1(program, startWeek[0].formatted_date_start, periodEnd, filters, showFyTrend)
       }
 
       if (!filters[1].includes('TOTAL') && !filters[0].includes('TOTAL')) {
         // level 2 subtotal
-        response = await buildDrillDown_byItem_level2(program, startWeek[0].formatted_date_start, periodEnd, filters)
+        response = await buildDrillDown_byItem_level2(program, startWeek[0].formatted_date_start, periodEnd, filters, showFyTrend)
       }
 
       if (filters[1] === 'TOTAL') {
         // level 0 total
-        response = await buildDrillDown_byItem_level0(program, startWeek[0].formatted_date_start, periodEnd, filters)
+        response = await buildDrillDown_byItem_level0(program, startWeek[0].formatted_date_start, periodEnd, filters, showFyTrend)
       }
     }
   } else {
@@ -44,17 +44,17 @@ router.post('/', async (req, res) => {
 
     if (filters[1] === 'SUBTOTAL') {
       // level 1 subtotal
-      response = await buildDrillDown_byCustomer_level1(program, startWeek[0].formatted_date_start, periodEnd, filters)
+      response = await buildDrillDown_byCustomer_level1(program, startWeek[0].formatted_date_start, periodEnd, filters, showFyTrend)
     }
 
     if (!filters[1].includes('TOTAL') && !filters[0].includes('TOTAL')) {
       // level 2 subtotal
-      response = await buildDrillDown_byCustomer_level2(program, startWeek[0].formatted_date_start, periodEnd, filters)
+      response = await buildDrillDown_byCustomer_level2(program, startWeek[0].formatted_date_start, periodEnd, filters, showFyTrend)
     }
 
     if (filters[1] === 'TOTAL') {
       // level 0 total
-      response = await buildDrillDown_byCustomer_level0(program, startWeek[0].formatted_date_start, periodEnd, filters)
+      response = await buildDrillDown_byCustomer_level0(program, startWeek[0].formatted_date_start, periodEnd, filters, showFyTrend)
     }
   }
 

@@ -8,7 +8,7 @@ const getFiscalYearCols = async () => {
   const fys = await pgClient.query(
     `SELECT 
       DISTINCT(sl.fiscal_year) AS dataName, 
-      sl.fiscal_year AS displayName, TRUE AS fytrendflag
+      sl.fiscal_year AS displayName, TRUE AS showFyTrendflag
     FROM "salesReporting".sales_line_items AS sl 
     
     ORDER BY sl.fiscal_year ASC`
