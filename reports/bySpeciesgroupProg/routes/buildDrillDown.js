@@ -22,21 +22,19 @@ router.post('/', async (req, res) => {
   let response = null
 
   if (option === 'Trend By Item') {
-    if (colType === 'salesInvoice') {
-      if (filters[1] === 'SUBTOTAL') {
-        // level 1 subtotal
-        response = await buildDrillDown_byItem_level1(program, startWeek[0].formatted_date_start, periodEnd, filters, showFyTrend)
-      }
+    if (filters[1] === 'SUBTOTAL') {
+      // level 1 subtotal
+      response = await buildDrillDown_byItem_level1(program, startWeek[0].formatted_date_start, periodEnd, filters, showFyTrend)
+    }
 
-      if (!filters[1].includes('TOTAL') && !filters[0].includes('TOTAL')) {
-        // level 2 subtotal
-        response = await buildDrillDown_byItem_level2(program, startWeek[0].formatted_date_start, periodEnd, filters, showFyTrend)
-      }
+    if (!filters[1].includes('TOTAL') && !filters[0].includes('TOTAL')) {
+      // level 2 subtotal
+      response = await buildDrillDown_byItem_level2(program, startWeek[0].formatted_date_start, periodEnd, filters, showFyTrend)
+    }
 
-      if (filters[1] === 'TOTAL') {
-        // level 0 total
-        response = await buildDrillDown_byItem_level0(program, startWeek[0].formatted_date_start, periodEnd, filters, showFyTrend)
-      }
+    if (filters[1] === 'TOTAL') {
+      // level 0 total
+      response = await buildDrillDown_byItem_level0(program, startWeek[0].formatted_date_start, periodEnd, filters, showFyTrend)
     }
   } else {
     // option is top customer weight, margin, or bottom customer weight.

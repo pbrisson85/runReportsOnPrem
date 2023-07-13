@@ -24,30 +24,28 @@ router.post('/', async (req, res) => {
   let response = null
 
   if (option === 'Trend By Item') {
-    if (colType === 'salesInvoice') {
-      if (filters[1] === 'SUBTOTAL') {
-        // level 1 subtotal
-        console.log(`getting level 1 subtotal for ${colType}...`)
-        response = await buildDrillDown_byItem_level1(program, startWeek[0].formatted_date_start, periodEnd, filters, showFyTrend)
-      }
+    if (filters[1] === 'SUBTOTAL') {
+      // level 1 subtotal
+      console.log(`getting level 1 subtotal for ${colType}...`)
+      response = await buildDrillDown_byItem_level1(program, startWeek[0].formatted_date_start, periodEnd, filters, showFyTrend)
+    }
 
-      if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') {
-        // level 2 subtotal
-        console.log(`getting level 2 subtotal for ${colType}...`)
-        response = await buildDrillDown_byItem_level2(program, startWeek[0].formatted_date_start, periodEnd, filters, showFyTrend)
-      }
+    if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') {
+      // level 2 subtotal
+      console.log(`getting level 2 subtotal for ${colType}...`)
+      response = await buildDrillDown_byItem_level2(program, startWeek[0].formatted_date_start, periodEnd, filters, showFyTrend)
+    }
 
-      if (filters[1] !== 'TOTAL' && filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL') {
-        // level 3 subtotal
-        console.log(`getting level 3 subtotal for ${colType}...`)
-        response = await buildDrillDown_byItem_level3(program, startWeek[0].formatted_date_start, periodEnd, filters, showFyTrend)
-      }
+    if (filters[1] !== 'TOTAL' && filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL') {
+      // level 3 subtotal
+      console.log(`getting level 3 subtotal for ${colType}...`)
+      response = await buildDrillDown_byItem_level3(program, startWeek[0].formatted_date_start, periodEnd, filters, showFyTrend)
+    }
 
-      if (filters[1] === 'TOTAL') {
-        // level 0 total
-        console.log(`getting level 0 subtotal for ${colType}...`)
-        response = await buildDrillDown_byItem_level0(program, startWeek[0].formatted_date_start, periodEnd, filters, showFyTrend)
-      }
+    if (filters[1] === 'TOTAL') {
+      // level 0 total
+      console.log(`getting level 0 subtotal for ${colType}...`)
+      response = await buildDrillDown_byItem_level0(program, startWeek[0].formatted_date_start, periodEnd, filters, showFyTrend)
     }
   } else {
     // option is top customer weight, margin, or bottom customer weight.

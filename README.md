@@ -35,12 +35,13 @@ On Front End:
   - View customer trends by geographic location (Northeast, Southeast, Midwest, West Coast, Canada, Europe, Asia, South America, Middle East, Africa, etc, etc. )
   - View inventory by country
   - View all/any data as a graph on right click
-  - Make prior year trends optional
   - Add report: freeze/brand/size
   - Add drilldown trend while in drilldown (if drilling into customer allow additional drilldown by item and vice versa)
   - Add get details and get drilldown to the 7 year trend
   - Add column for % of total, make option to change % of total to total company, total program, total species group, total of the current screen
   - Add column for weeks inventory on hand
+
+  - When drilling down, save the previous data and cols in an atom. When hitting back, set the previos data and cols and make the saved version null. ALSO when drilling down, save the scroll settings, when hitting back set the saved scroll settings.
 
 - Bugs:
 
