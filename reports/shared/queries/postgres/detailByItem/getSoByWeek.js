@@ -1,6 +1,6 @@
 /* *********************************************** level 1 *********************************************** */
 
-const lvl_1_subtotal_getSoByWk_detail = async (itemCode, weekSerial) => {
+const byItem_getSoByWk_detail = async (itemCode, weekSerial) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -27,7 +27,7 @@ const lvl_1_subtotal_getSoByWk_detail = async (itemCode, weekSerial) => {
   }
 }
 
-const lvl_1_subtotal_getSoTagged_detail = async (itemCode, weekSerial) => {
+const byItem_getSoTagged_detail = async (itemCode, weekSerial) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -54,7 +54,7 @@ const lvl_1_subtotal_getSoTagged_detail = async (itemCode, weekSerial) => {
   }
 }
 
-const lvl_1_subtotal_getSoByWkUntagged_detail = async (itemCode, weekSerial) => {
+const byItem_getSoByWkUntagged_detail = async (itemCode, weekSerial) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -81,6 +81,6 @@ const lvl_1_subtotal_getSoByWkUntagged_detail = async (itemCode, weekSerial) => 
   }
 }
 
-module.exports.lvl_1_subtotal_getSoByWk_detail = lvl_1_subtotal_getSoByWk_detail
-module.exports.lvl_1_subtotal_getSoTagged_detail = lvl_1_subtotal_getSoTagged_detail
-module.exports.lvl_1_subtotal_getSoByWkUntagged_detail = lvl_1_subtotal_getSoByWkUntagged_detail
+module.exports.byItem_getSoByWk_detail = byItem_getSoByWk_detail
+module.exports.byItem_getSoTagged_detail = byItem_getSoTagged_detail
+module.exports.byItem_getSoByWkUntagged_detail = byItem_getSoByWkUntagged_detail
