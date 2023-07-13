@@ -46,7 +46,7 @@ On Front End:
   - You can right click a 7 year trend year but there is no routes to actually get the data.
   - When double clicking in a drilldown it sorts and I dont like that
   - Cant sort in both directions in a drilldown pane
-  - Get details on any drilldown total is error on back end
+  - Get details on any drilldown total is error on back end (both item and customer drilldown)
   - PO column in item drilldown is correct on the total but missing data on the rows
   - When the scrollbar is all the way to the top and you scroll sideways the rows jump up and down
   - If name of vendor is changed then the trend by cust is not grouping correctly. Algo overwrites when name is changed.
