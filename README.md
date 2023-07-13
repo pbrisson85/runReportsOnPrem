@@ -37,26 +37,25 @@ On Front End:
   - View all/any data as a graph on right click
   - Make prior year trends optional
   - Add report: freeze/brand/size
+  - Add drilldown trend while in drilldown (if drilling into customer allow additional drilldown by item and vice versa)
+  - Add get details and get drilldown to the 7 year trend
+  - Add column for % of total, make option to change % of total to total company, total program, total species group, total of the current screen
+  - Add column for weeks inventory on hand
 
 - Bugs:
 
-  - when in drilldown, the right click menu asks if you want to see trend for item of customer again. Although I would like the ability to do this (only ability to see trend by item when in customer drilldown or ability to see customer trend when in item drilldown.).
   - When in a trend, the filter row is not accurate.
   - When in customer or item trend, after hitting back button the spinner is not appearing and the column change looks like junk.
-  - You can right click a 7 year trend year but there is no routes to actually get the data.
   - When double clicking in a drilldown it sorts and I dont like that
   - Cant sort in both directions in a drilldown pane
-  - Get details on any drilldown total is error on back end (both item and customer drilldown)
-  - PO column in item drilldown is correct on the total but missing data on the rows
+  - PO column in item drilldown is correct on the total but missing data on the rows **\*\***\*\***\*\***
   - When the scrollbar is all the way to the top and you scroll sideways the rows jump up and down
   - If name of vendor is changed then the trend by cust is not grouping correctly. Algo overwrites when name is changed.
-  - Add column for % of total, make option to change % of total to total company, total program, total species group, total of the current screen
   - scroll jumps when double clicking the heading to change trend data
 
 - Testing:
 
-  - Need to test prior years:
-  - Need to test get detail while in an item drilldown
+  - Need to test prior years
   - What happens if I change the report format or year or date range when in a drilldown
   - All drilldowns and data detail in prior years.
 
