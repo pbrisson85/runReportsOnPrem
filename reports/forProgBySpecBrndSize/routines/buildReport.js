@@ -113,8 +113,6 @@ const unflattenByCompositKey = require('../../shared/models/unflattenByCompositK
 const labelCols = require('../queries/hardcode/cols')
 
 const buildReport = async (start, end, program, showFyTrend) => {
-  showFyTrend = true // hardcode in dev ************************************************************************
-
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
   const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(program)

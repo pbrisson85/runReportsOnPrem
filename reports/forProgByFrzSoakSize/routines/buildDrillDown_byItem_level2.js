@@ -53,8 +53,6 @@ const unflattenByCompositKey = require('../../shared/models/unflattenByCompositK
 const labelCols = require('../queries/hardcode/cols_byItem_level2')
 
 const buildDrillDown = async (program, start, end, filters, showFyTrend) => {
-  showFyTrend = true // hardcode in dev ************************************************************************
-
   console.log(program, '\n', start, '\n', end, '\n', filters)
 
   ///////////////////////////////// INVENTORY DATA
