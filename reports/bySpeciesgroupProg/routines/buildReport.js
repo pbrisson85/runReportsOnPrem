@@ -78,7 +78,7 @@ const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay
 const labelCols = require('../queries/hardcode/cols')
 
 const buildReport = async (start, end, fyTrend) => {
-  fyTrend = false // hardcode in dev ************************************************************************
+  fyTrend = true // hardcode in dev ************************************************************************
 
   ///////////////////////////////// INVENTORY DATA
 
