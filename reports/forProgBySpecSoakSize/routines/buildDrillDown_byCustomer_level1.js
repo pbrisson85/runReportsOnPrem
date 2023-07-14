@@ -111,7 +111,8 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend) => {
   const end_so = await getLatestShipWk()
   const soCols = await getDateEndPerWeekByRange_so(start_so, end_so)
   // get data column names by fiscal year
-  const salesColsByFy = await getFiscalYearCols()
+  let salesColsByFy = null
+  if (showFyTrend) salesColsByFy = await getFiscalYearCols()
 
   // return
   return { data: finalData, salesColsByWk: salesColsByWk, salesColsByFy: salesColsByFy, labelCols: labelCols, soCols }

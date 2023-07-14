@@ -53,6 +53,7 @@ On Front End:
   - When the scrollbar is all the way to the top and you scroll sideways the rows jump up and down
   - If name of vendor is changed then the trend by cust is not grouping correctly. Algo overwrites when name is changed.
   - scroll jumps when double clicking the heading to change trend data
+  - In transit and on hand inventory item drilldown get detail not getting the correct data it is getting all inventory priority!!!!!!!!
 
 - Testing:
 
