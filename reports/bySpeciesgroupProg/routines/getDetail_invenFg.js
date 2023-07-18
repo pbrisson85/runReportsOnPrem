@@ -86,8 +86,6 @@ const getDetail = async (program, filters, columnDataName) => {
   }
 
   console.log('detail: ', detail)
-
-  return detail
 }
 
 module.exports = getDetail
