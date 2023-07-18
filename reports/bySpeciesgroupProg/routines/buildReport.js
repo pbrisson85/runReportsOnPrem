@@ -314,8 +314,7 @@ const buildReport = async (start, end, showFyTrend) => {
   const soCols_untg = await getDateEndPerWeekByRange_so_untg(start_so, end_so)
 
   finalData.forEach(row => {
-    if (row.dataName !== 'percentCompanySales') return
-    console.log(row)
+    row
   })
 
   // return
