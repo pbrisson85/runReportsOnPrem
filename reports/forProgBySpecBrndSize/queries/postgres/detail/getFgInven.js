@@ -12,7 +12,7 @@ const lvl_1_subtotal_getFgInven_detail = async (program, filters) => {
     // Level 2 detail
 
     const response = await pgClient.query(
-          `SELECT pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
+          `SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
           
           FROM "invenReporting".perpetual_inventory AS pi 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -42,7 +42,7 @@ const lvl_1_subtotal_getFgInTransit_detail = async (program, filters) => {
     console.log(`level 1 Detail: query postgres for FG in transit ...`)
 
     const response = await pgClient.query(
-          `SELECT pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
+          `SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
           
           FROM "invenReporting".perpetual_inventory AS pi 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -72,7 +72,7 @@ const lvl_1_subtotal_getFgAtLoc_detail = async (program, filters) => {
     console.log(`level 1 Detail: query postgres for FG at location ...`)
 
     const response = await pgClient.query(
-          `SELECT pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
+          `SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
           
           FROM "invenReporting".perpetual_inventory AS pi 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -101,10 +101,10 @@ const lvl_1_subtotal_getFgAtLoc_untagged_detail = async (program, filters) => {
     console.log(`level 1 Detail: query postgres for FG at location UNTAGGED ...`)
 
     const response = await pgClient.query(
-          `SELECT all_inven.item, all_inven.description, all_inven.lot, all_inven.species, all_inven.brand, all_inven.size, all_inven.soak, all_inven.lbs - COALESCE(tagged_inven.lbs,0) AS lbs, all_inven.cost_lb, all_inven.cost_ext - COALESCE(tagged_inven.cost_ext,0) AS cost_ext, all_inven.location, all_inven.country, all_inven.fresh_frozen
+          `SELECT all_inven.receipt_date, all_inven.location_date, all_inven.lot_text, all_inven.msc, all_inven.item, all_inven.description, all_inven.lot, all_inven.species, all_inven.brand, all_inven.size, all_inven.soak, all_inven.lbs - COALESCE(tagged_inven.lbs,0) AS lbs, all_inven.cost_lb, all_inven.cost_ext - COALESCE(tagged_inven.cost_ext,0) AS cost_ext, all_inven.location, all_inven.country, all_inven.fresh_frozen
           
           FROM (
-              SELECT pi.location_code, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
+              SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, pi.location_code, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
                   FROM "invenReporting".perpetual_inventory AS pi 
                   LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                       ON ms.item_num = pi.item_number 
@@ -142,13 +142,15 @@ const lvl_1_subtotal_getFgAtLoc_tagged_detail = async (program, filters) => {
     console.log(`level 1 Detail: query postgres for FG at location TAGGED ...`)
 
     const response = await pgClient.query(
-          `SELECT ti.item_num AS item, ms.description, ti.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, ti.weight AS lbs, ti.cost AS cost_lb, ti.cost * ti.weight AS cost_ext, loc.seasoft_name AS location, loc.seasoft_country as country, ms.fg_fresh_frozen AS fresh_frozen 
+          `SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, ti.item_num AS item, ms.description, ti.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, ti.weight AS lbs, ti.cost AS cost_lb, ti.cost * ti.weight AS cost_ext, loc.seasoft_name AS location, loc.seasoft_country as country, ms.fg_fresh_frozen AS fresh_frozen 
               
           FROM "salesReporting".tagged_inventory AS ti 
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                   ON ms.item_num = ti.item_num 
               LEFT OUTER JOIN "invenReporting".location_supplement AS loc 
-                  ON loc.location_code = ti.location  
+                  ON loc.location_code = ti.location
+              LEFT OUTER JOIN "invenReporting".perpetual_inventory AS pi
+                  ON pi.item_number = ti.item_num AND pi.lot = ti.lot AND pi.location_code = ti.location
           
           WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.program = $2 AND ms.species = $3`,
           ['FG', program, filters[0]]
@@ -177,7 +179,7 @@ const lvl_2_subtotal_getFgInven_detail = async (program, filters) => {
     // Level 2 detail
 
     const response = await pgClient.query(
-        `SELECT pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen
+        `SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen
         
         FROM "invenReporting".perpetual_inventory AS pi 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -207,7 +209,7 @@ const lvl_2_subtotal_getFgInTransit_detail = async (program, filters) => {
     console.log(`level 2 Detail: query postgres for FG in transit ...`)
 
     const response = await pgClient.query(
-        `SELECT pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
+        `SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
         
         FROM "invenReporting".perpetual_inventory AS pi 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -237,7 +239,7 @@ const lvl_2_subtotal_getFgAtLoc_detail = async (program, filters) => {
     console.log(`level 2 Detail: query postgres for FG at location ...`)
 
     const response = await pgClient.query(
-        `SELECT pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
+        `SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
         
         FROM "invenReporting".perpetual_inventory AS pi 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -266,10 +268,10 @@ const lvl_2_subtotal_getFgAtLoc_untagged_detail = async (program, filters) => {
     console.log(`level 2 Detail: query postgres for FG at location UNTAGGED ...`)
 
     const response = await pgClient.query(
-        `SELECT all_inven.item, all_inven.description, all_inven.lot, all_inven.species, all_inven.brand, all_inven.size, all_inven.soak, all_inven.lbs - COALESCE(tagged_inven.lbs,0) AS lbs, all_inven.cost_lb, all_inven.cost_ext - COALESCE(tagged_inven.cost_ext,0) AS cost_ext, all_inven.location, all_inven.country, all_inven.fresh_frozen 
+        `SELECT all_inven.receipt_date, all_inven.location_date, all_inven.lot_text, all_inven.msc, all_inven.item, all_inven.description, all_inven.lot, all_inven.species, all_inven.brand, all_inven.size, all_inven.soak, all_inven.lbs - COALESCE(tagged_inven.lbs,0) AS lbs, all_inven.cost_lb, all_inven.cost_ext - COALESCE(tagged_inven.cost_ext,0) AS cost_ext, all_inven.location, all_inven.country, all_inven.fresh_frozen 
         
         FROM (
-            SELECT pi.location_code, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
+            SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, pi.location_code, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
                 
             FROM "invenReporting".perpetual_inventory AS pi 
                 LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -311,13 +313,15 @@ const lvl_2_subtotal_getFgAtLoc_tagged_detail = async (program, filters) => {
     console.log(`level 2 Detail: query postgres for FG at location TAGGED ...`)
 
     const response = await pgClient.query(
-        `SELECT ti.item_num AS item, ms.description, ti.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, ti.weight AS lbs, ti.cost AS cost_lb, ti.cost * ti.weight AS cost_ext, loc.seasoft_name AS location, loc.seasoft_country as country, ms.fg_fresh_frozen AS fresh_frozen 
+        `SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, ti.item_num AS item, ms.description, ti.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, ti.weight AS lbs, ti.cost AS cost_lb, ti.cost * ti.weight AS cost_ext, loc.seasoft_name AS location, loc.seasoft_country as country, ms.fg_fresh_frozen AS fresh_frozen 
         
         FROM "salesReporting".tagged_inventory AS ti 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                 ON ms.item_num = ti.item_num 
             LEFT OUTER JOIN "invenReporting".location_supplement AS loc 
-                ON loc.location_code = ti.location  
+                ON loc.location_code = ti.location
+            LEFT OUTER JOIN "invenReporting".perpetual_inventory AS pi
+                ON pi.item_number = ti.item_num AND pi.lot = ti.lot AND pi.location_code = ti.location
         
         WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.program = $2 AND ms.species = $3 AND ms.brand = $4`,
         ['FG', program, filters[0], filters[1]]
@@ -346,7 +350,7 @@ const lvl_3_subtotal_getFgInven_detail = async (program, filters) => {
     // Level 2 detail
 
     const response = await pgClient.query(
-          `SELECT pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
+          `SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
           
           FROM "invenReporting".perpetual_inventory AS pi 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -376,7 +380,7 @@ const lvl_3_subtotal_getFgInTransit_detail = async (program, filters) => {
     console.log(`level 3 Detail: query postgres for FG in transit ...`)
 
     const response = await pgClient.query(
-          `SELECT pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
+          `SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
           
           FROM "invenReporting".perpetual_inventory AS pi 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -406,7 +410,7 @@ const lvl_3_subtotal_getFgAtLoc_detail = async (program, filters) => {
     console.log(`level 3 Detail: query postgres for FG at location ...`)
 
     const response = await pgClient.query(
-          `SELECT pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
+          `SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
           
           FROM "invenReporting".perpetual_inventory AS pi 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -435,10 +439,10 @@ const lvl_3_subtotal_getFgAtLoc_untagged_detail = async (program, filters) => {
     console.log(`level 3 Detail: query postgres for FG at location UNTAGGED ...`)
 
     const response = await pgClient.query(
-          `SELECT all_inven.item, all_inven.description, all_inven.lot, all_inven.species, all_inven.brand, all_inven.size, all_inven.soak, all_inven.lbs - COALESCE(tagged_inven.lbs,0) AS lbs, all_inven.cost_lb, all_inven.cost_ext - COALESCE(tagged_inven.cost_ext,0) AS cost_ext, all_inven.location, all_inven.country, all_inven.fresh_frozen 
+          `SELECT all_inven.receipt_date, all_inven.location_date, all_inven.lot_text, all_inven.msc, all_inven.item, all_inven.description, all_inven.lot, all_inven.species, all_inven.brand, all_inven.size, all_inven.soak, all_inven.lbs - COALESCE(tagged_inven.lbs,0) AS lbs, all_inven.cost_lb, all_inven.cost_ext - COALESCE(tagged_inven.cost_ext,0) AS cost_ext, all_inven.location, all_inven.country, all_inven.fresh_frozen 
           
           FROM (
-              SELECT pi.location_code, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
+              SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, pi.location_code, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
                   
               FROM "invenReporting".perpetual_inventory AS pi 
                   LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -479,13 +483,15 @@ const lvl_3_subtotal_getFgAtLoc_tagged_detail = async (program, filters) => {
     console.log(`level 3 Detail: query postgres for FG at location TAGGED ...`)
 
     const response = await pgClient.query(
-          `SELECT ti.item_num AS item, ms.description, ti.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, ti.weight AS lbs, ti.cost AS cost_lb, ti.cost * ti.weight AS cost_ext, loc.seasoft_name AS location, loc.seasoft_country as country, ms.fg_fresh_frozen AS fresh_frozen 
+          `SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, ti.item_num AS item, ms.description, ti.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, ti.weight AS lbs, ti.cost AS cost_lb, ti.cost * ti.weight AS cost_ext, loc.seasoft_name AS location, loc.seasoft_country as country, ms.fg_fresh_frozen AS fresh_frozen 
               
           FROM "salesReporting".tagged_inventory AS ti 
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                   ON ms.item_num = ti.item_num 
               LEFT OUTER JOIN "invenReporting".location_supplement AS loc 
-                  ON loc.location_code = ti.location  
+                  ON loc.location_code = ti.location
+              LEFT OUTER JOIN "invenReporting".perpetual_inventory AS pi
+                  ON pi.item_number = ti.item_num AND pi.lot = ti.lot AND pi.location_code = ti.location
           
           WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.program = $2 AND ms.species = $3 AND ms.brand = $4 AND ms.size_name = $5`,
           ['FG', program, filters[0], filters[1], filters[2]]
@@ -514,7 +520,7 @@ const lvl_0_total_getFgInven_detail = async program => {
     // Level 2 detail
 
     const response = await pgClient.query(
-            `SELECT pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
+            `SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
             
             FROM "invenReporting".perpetual_inventory AS pi 
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -544,7 +550,7 @@ const lvl_0_total_getFgInTransit_detail = async program => {
     console.log(`level 0 Detail: query postgres for FG in transit ...`)
 
     const response = await pgClient.query(
-            `SELECT pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
+            `SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
             
             FROM "invenReporting".perpetual_inventory AS pi 
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -574,7 +580,7 @@ const lvl_0_total_getFgAtLoc_detail = async program => {
     console.log(`level 0 Detail: query postgres for FG at location ...`)
 
     const response = await pgClient.query(
-            `SELECT pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
+            `SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
             
             FROM "invenReporting".perpetual_inventory AS pi 
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -603,10 +609,10 @@ const lvl_0_total_getFgAtLoc_untagged_detail = async program => {
     console.log(`level 0 Detail: query postgres for FG at location UNTAGGED ...`)
 
     const response = await pgClient.query(
-            `SELECT all_inven.item, all_inven.description, all_inven.lot, all_inven.species, all_inven.brand, all_inven.size, all_inven.soak, all_inven.lbs - COALESCE(tagged_inven.lbs,0) AS lbs, all_inven.cost_lb, all_inven.cost_ext - COALESCE(tagged_inven.cost_ext,0) AS cost_ext, all_inven.location, all_inven.country, all_inven.fresh_frozen 
+            `SELECT all_inven.receipt_date, all_inven.location_date, all_inven.lot_text, all_inven.msc, all_inven.item, all_inven.description, all_inven.lot, all_inven.species, all_inven.brand, all_inven.size, all_inven.soak, all_inven.lbs - COALESCE(tagged_inven.lbs,0) AS lbs, all_inven.cost_lb, all_inven.cost_ext - COALESCE(tagged_inven.cost_ext,0) AS cost_ext, all_inven.location, all_inven.country, all_inven.fresh_frozen 
             
             FROM (
-                SELECT pi.location_code, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen
+                SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, pi.location_code, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen
                     
                 FROM "invenReporting".perpetual_inventory AS pi 
                     LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -647,13 +653,15 @@ const lvl_0_total_getFgAtLoc_tagged_detail = async program => {
     console.log(`level 0 Detail: query postgres for FG at location TAGGED ...`)
 
     const response = await pgClient.query(
-            `SELECT ti.item_num AS item, ms.description, ti.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, ti.weight AS lbs, ti.cost AS cost_lb, ti.cost * ti.weight AS cost_ext, loc.seasoft_name AS location, loc.seasoft_country as country, ms.fg_fresh_frozen AS fresh_frozen 
+            `SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, ti.item_num AS item, ms.description, ti.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, ti.weight AS lbs, ti.cost AS cost_lb, ti.cost * ti.weight AS cost_ext, loc.seasoft_name AS location, loc.seasoft_country as country, ms.fg_fresh_frozen AS fresh_frozen 
                 
             FROM "salesReporting".tagged_inventory AS ti 
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                   ON ms.item_num = ti.item_num 
               LEFT OUTER JOIN "invenReporting".location_supplement AS loc 
-                  ON loc.location_code = ti.location  
+                  ON loc.location_code = ti.location
+              LEFT OUTER JOIN "invenReporting".perpetual_inventory AS pi
+                  ON pi.item_number = ti.item_num AND pi.lot = ti.lot AND pi.location_code = ti.location
                 
             WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.program = $2`,
             ['FG', program]
