@@ -313,6 +313,11 @@ const buildReport = async (start, end, showFyTrend) => {
   const soCols_tg = await getDateEndPerWeekByRange_so_tg(start_so, end_so)
   const soCols_untg = await getDateEndPerWeekByRange_so_untg(start_so, end_so)
 
+  finalData.forEach(row => {
+    if (row.dataName !== 'percentCompanySales') return
+    console.log(row)
+  })
+
   // return
   return { data: finalData, salesColsByWk: salesColsByWk, salesColsByFy: salesColsByFy, labelCols: labelCols, soCols, soCols_tg, soCols_untg }
 }
