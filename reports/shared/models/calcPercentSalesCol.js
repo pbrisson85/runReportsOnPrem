@@ -9,10 +9,17 @@ const calcPercentSalesCol = (totalData, eachRowData, colName) => {
     return {
       ...row,
       column: colName,
-      lbs: lbs / coLbs,
-      sales: sales / coSales,
-      cogs: cogs / coCogs,
-      othp: othp / coOthp,
+
+      lbs_numerator: lbs / coLbs,
+      sales_numerator: sales / coSales,
+      cogs_numerator: cogs / coCogs,
+      othp_numerator: othp / coOthp,
+
+      lbs_denominator: lbs / coLbs,
+      sales_denominator: sales / coSales,
+      cogs_denominator: cogs / coCogs,
+      othp_denominator: othp / coOthp,
+
       percentFormat: true, // flag for the map sales rows model
     }
   })
