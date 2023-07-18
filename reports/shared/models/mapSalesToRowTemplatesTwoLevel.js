@@ -53,6 +53,19 @@ const mapSalesToRowTemplates = (salesLines, rowTemplate) => {
       othpPerLb = othp
       netSalesPerLb = netSales
       grossMarginPerLb = grossMargin
+
+      console.log('percentFormat', percentFormat)
+      console.log('revenue', revenue)
+      console.log('weight', weight)
+      console.log('cogs', cogs)
+      console.log('othp', othp)
+      console.log('netSales', netSales)
+      console.log('grossMargin', grossMargin)
+      console.log('revenuePerLb', revenuePerLb)
+      console.log('cogsPerLb', cogsPerLb)
+      console.log('othpPerLb', othpPerLb)
+      console.log('netSalesPerLb', netSalesPerLb)
+      console.log('grossMarginPerLb', grossMarginPerLb)
     } else {
       // For data cols
       revenue = parseFloat(sales.toFixed(2))
