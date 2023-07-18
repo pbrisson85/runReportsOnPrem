@@ -84,6 +84,8 @@ const getDetail = async (program, filters, columnDataName) => {
         break
     }
   }
+
+  return detail
 }
 
 module.exports = getDetail
