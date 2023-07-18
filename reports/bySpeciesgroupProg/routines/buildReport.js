@@ -169,6 +169,8 @@ const buildReport = async (start, end, showFyTrend) => {
     lvl_1_subtotal_salesPeriodToDate,
     'percentCompanySales'
   )
+
+  console.log(lvl_1_percent_companySales)
   const lvl_2_percent_companySales = calcPercentSalesCol(
     lvl_0_total_salesPeriodToDate[0],
     lvl_2_subtotal_salesPeriodToDate,
