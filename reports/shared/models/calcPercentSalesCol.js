@@ -1,4 +1,4 @@
-const calcPercentCol = (totalData, eachRowData, colName) => {
+const calcPercentSalesCol = (totalData, eachRowData, colName) => {
   // get company total sales
   const { lbs: coLbs, sales: coSales, cogs: coCogs, othp: coOthp } = totalData
 
@@ -13,10 +13,11 @@ const calcPercentCol = (totalData, eachRowData, colName) => {
       sales: sales / coSales,
       cogs: cogs / coCogs,
       othp: othp / coOthp,
+      percentFormat: true, // flag for the map sales rows model
     }
   })
 
   return percent_companySales
 }
 
-module.exports = calcPercentCol
+module.exports = calcPercentSalesCol
