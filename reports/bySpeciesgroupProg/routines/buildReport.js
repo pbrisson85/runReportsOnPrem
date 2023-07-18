@@ -170,7 +170,6 @@ const buildReport = async (start, end, showFyTrend) => {
     'percentCompanySales'
   )
 
-  console.log(lvl_1_percent_companySales)
   const lvl_2_percent_companySales = calcPercentSalesCol(
     lvl_0_total_salesPeriodToDate[0],
     lvl_2_subtotal_salesPeriodToDate,
@@ -314,7 +313,7 @@ const buildReport = async (start, end, showFyTrend) => {
   const soCols_untg = await getDateEndPerWeekByRange_so_untg(start_so, end_so)
 
   finalData.forEach(row => {
-    row
+    console.log(row)
   })
 
   // return
