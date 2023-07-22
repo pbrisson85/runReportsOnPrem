@@ -248,6 +248,11 @@ const buildReport = async (start, end, program, showFyTrend) => {
     rowsSecondLevelDetail = await getRowsSecondLevelDetail(start, end, program)
     rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, program)
   }
+  const lvl_3_percent_companySales = calcPercentSalesCol(
+    lvl_0_total_salesPeriodToDate[0],
+    lvl_3_subtotal_salesPeriodToDate,
+    'percentCompanySales'
+  )
   const totalsRow = [{ totalRow: true, l1_label: 'FG SALES', l2_label: 'TOTAL', l3_label: 'TOTAL' }]
 
   // COMPILE FINAL ROW TEMPLATE
@@ -331,6 +336,7 @@ const buildReport = async (start, end, program, showFyTrend) => {
       ...showFyTrendSales,
       ...lvl_1_percent_companySales,
       ...lvl_2_percent_companySales,
+      ...lvl_3_percent_companySales,
       ...lvl_0_percent_companySales,
     ],
     rowTemplate_unflat

@@ -228,6 +228,11 @@ const buildReport = async (start, end, program, showFyTrend) => {
     lvl_2_subtotal_salesPeriodToDate,
     'percentCompanySales'
   )
+  const lvl_3_percent_companySales = calcPercentSalesCol(
+    lvl_0_total_salesPeriodToDate[0],
+    lvl_3_subtotal_salesPeriodToDate,
+    'percentCompanySales'
+  )
   const lvl_0_percent_companySales = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentCompanySales')
 
   ///////////////////////////////// ROWS
@@ -329,6 +334,7 @@ const buildReport = async (start, end, program, showFyTrend) => {
       ...showFyTrendSales,
       ...lvl_1_percent_companySales,
       ...lvl_2_percent_companySales,
+      ...lvl_3_percent_companySales,
       ...lvl_0_percent_companySales,
     ],
     rowTemplate_unflat
