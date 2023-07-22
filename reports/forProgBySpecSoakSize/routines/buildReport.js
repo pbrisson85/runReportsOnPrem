@@ -16,6 +16,7 @@ const {
   lvl_3_subtotal_getSalesPeriodToDate,
   lvl_0_total_getSalesPeriodToDate,
 } = require('../queries/postgres/getSalesTrend')
+const { lvl_0_total_getSalesPeriodToDate: lvl_0_company_getSalesPeriodToDate } = require('../../bySpeciesgroupProg/queries/postgres/getSales')
 const {
   lvl_1_subtotal_getSalesByFy,
   lvl_2_subtotal_getSalesByFy,
@@ -217,20 +218,48 @@ const buildReport = async (start, end, program, showFyTrend) => {
   const lvl_2_subtotal_salesPeriodToDate = await lvl_2_subtotal_getSalesPeriodToDate(start, end, program)
   const lvl_3_subtotal_salesPeriodToDate = await lvl_3_subtotal_getSalesPeriodToDate(start, end, program)
   const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(start, end, program)
+  const lvl_0_company_salesPeriodToDate = await lvl_0_company_getSalesPeriodToDate(start, end)
 
   ///////////////////////////////// KPI DATA
   /* % COMPANY SALES */
   const lvl_1_percent_companySales = calcPercentSalesCol(
-    lvl_0_total_salesPeriodToDate[0],
+    lvl_0_company_salesPeriodToDate[0],
     lvl_1_subtotal_salesPeriodToDate,
     'percentCompanySales'
   )
   const lvl_2_percent_companySales = calcPercentSalesCol(
-    lvl_0_total_salesPeriodToDate[0],
+    lvl_0_company_salesPeriodToDate[0],
     lvl_2_subtotal_salesPeriodToDate,
     'percentCompanySales'
   )
-  const lvl_0_percent_companySales = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentCompanySales')
+  const lvl_3_percent_companySales = calcPercentSalesCol(
+    lvl_0_company_salesPeriodToDate[0],
+    lvl_3_subtotal_salesPeriodToDate,
+    'percentCompanySales'
+  )
+  const lvl_0_percent_companySales = calcPercentSalesCol(
+    lvl_0_company_salesPeriodToDate[0],
+    lvl_0_total_salesPeriodToDate,
+    'percentCompanySales'
+  )
+
+  /* % PROGRAM SALES */
+  const lvl_1_percent_programSales = calcPercentSalesCol(
+    lvl_0_total_salesPeriodToDate[0],
+    lvl_1_subtotal_salesPeriodToDate,
+    'percentProgramSales'
+  )
+  const lvl_2_percent_programSales = calcPercentSalesCol(
+    lvl_0_total_salesPeriodToDate[0],
+    lvl_2_subtotal_salesPeriodToDate,
+    'percentProgramSales'
+  )
+  const lvl_3_percent_programSales = calcPercentSalesCol(
+    lvl_0_total_salesPeriodToDate[0],
+    lvl_3_subtotal_salesPeriodToDate,
+    'percentProgramSales'
+  )
+  const lvl_0_percent_programSales = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentProgramSales')
 
   ///////////////////////////////// ROWS
   let rowsThirdLevelDetail
@@ -248,11 +277,7 @@ const buildReport = async (start, end, program, showFyTrend) => {
     rowsSecondLevelDetail = await getRowsSecondLevelDetail(start, end, program)
     rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, program)
   }
-  const lvl_3_percent_companySales = calcPercentSalesCol(
-    lvl_0_total_salesPeriodToDate[0],
-    lvl_3_subtotal_salesPeriodToDate,
-    'percentCompanySales'
-  )
+
   const totalsRow = [{ totalRow: true, l1_label: 'FG SALES', l2_label: 'TOTAL', l3_label: 'TOTAL' }]
 
   // COMPILE FINAL ROW TEMPLATE
@@ -338,6 +363,10 @@ const buildReport = async (start, end, program, showFyTrend) => {
       ...lvl_2_percent_companySales,
       ...lvl_3_percent_companySales,
       ...lvl_0_percent_companySales,
+      ...lvl_1_percent_programSales,
+      ...lvl_2_percent_programSales,
+      ...lvl_3_percent_programSales,
+      ...lvl_0_percent_programSales,
     ],
     rowTemplate_unflat
   )

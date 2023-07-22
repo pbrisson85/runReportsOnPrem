@@ -176,12 +176,6 @@ const buildReport = async (start, end, showFyTrend) => {
   )
   const lvl_0_percent_companySales = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentCompanySales')
 
-  // calc % of total sales for each line
-  /* % PROGRAM SALES */
-  // get company total sales
-
-  // calc % of total sales for each line
-
   ///////////////////////////////// ROWS
   let levelTwoRows
   let levelOneRows
