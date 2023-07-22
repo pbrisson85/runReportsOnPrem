@@ -9,26 +9,70 @@ const mapSalesToRowTemplates = (salesLines, rowTemplate) => {
   let othpPerLb = 0
   let netSalesPerLb = 0
   let grossMarginPerLb = 0
+  let revenue
+  let weight
+  let netSales
+  let grossMargin
 
   salesLines.forEach(soLine => {
-    const revenue = parseFloat(soLine.sales.toFixed(2))
-    const weight = parseFloat(soLine.lbs.toFixed(2))
-    const cogs = parseFloat(soLine.cogs.toFixed(2))
-    const othp = parseFloat(soLine.othp.toFixed(2))
-    const netSales = parseFloat(new Decimal(soLine.sales).minus(soLine.othp).toFixed(2))
-    const grossMargin = parseFloat(new Decimal(soLine.sales).minus(soLine.cogs).minus(soLine.othp).toFixed(2))
+    let {
+      sales_numerator,
+      sales_denominator,
+      lbs_numerator,
+      lbs_denominator,
+      cogs_numerator,
+      cogs_denominator,
+      othp_numerator,
+      othp_denominator,
+      sales,
+      lbs,
+      cogs,
+      othp,
+      l1_label,
+      column,
+      percentFormat,
+    } = soLine
 
-    if (soLine.lbs !== null && soLine.lbs !== 0) {
-      revenuePerLb = parseFloat(new Decimal(soLine.sales).dividedBy(soLine.lbs).toFixed(2))
-      cogsPerLb = parseFloat(new Decimal(soLine.cogs).dividedBy(soLine.lbs).toFixed(2))
-      othpPerLb = parseFloat(new Decimal(soLine.othp).dividedBy(soLine.lbs).toFixed(2))
-      netSalesPerLb = parseFloat(new Decimal(soLine.sales).minus(soLine.othp).dividedBy(soLine.lbs).toFixed(2))
-      grossMarginPerLb = parseFloat(new Decimal(soLine.sales).minus(soLine.cogs).minus(soLine.othp).dividedBy(soLine.lbs).toFixed(2))
+    // For percent cols
+    if (percentFormat) {
+      revenue = parseFloat(new Decimal(sales_numerator).dividedBy(sales_denominator).toFixed(2))
+      weight = parseFloat(new Decimal(lbs_numerator).dividedBy(lbs_denominator).toFixed(2))
+      cogs = parseFloat(new Decimal(cogs_numerator).dividedBy(cogs_denominator).toFixed(2))
+      othp = parseFloat(new Decimal(othp_numerator).dividedBy(othp_denominator).toFixed(2))
+      const netSales_numerator = parseFloat(new Decimal(sales_numerator).minus(othp_numerator).toFixed(2))
+      const netSales_denominator = parseFloat(new Decimal(sales_denominator).minus(othp_denominator).toFixed(2))
+      netSales = parseFloat(new Decimal(netSales_numerator).dividedBy(netSales_denominator).toFixed(2))
+      const grossMargin_numerator = parseFloat(new Decimal(sales_numerator).minus(cogs_numerator).minus(othp_numerator).toFixed(2))
+      const grossMargin_denominator = parseFloat(new Decimal(sales_denominator).minus(cogs_denominator).minus(othp_denominator).toFixed(2))
+      grossMargin = parseFloat(new Decimal(grossMargin_numerator).dividedBy(grossMargin_denominator).toFixed(2))
+
+      // Still want it to show the % even if viewing per lb metric in the data
+      revenuePerLb = revenue
+      cogsPerLb = cogs
+      othpPerLb = othp
+      netSalesPerLb = netSales
+      grossMarginPerLb = grossMargin
+    } else {
+      // For data cols
+      revenue = parseFloat(sales.toFixed(2))
+      weight = parseFloat(lbs.toFixed(2))
+      cogs = parseFloat(cogs.toFixed(2))
+      othp = parseFloat(othp.toFixed(2))
+      netSales = parseFloat(new Decimal(sales).minus(othp).toFixed(2))
+      grossMargin = parseFloat(new Decimal(sales).minus(cogs).minus(othp).toFixed(2))
+
+      if (lbs !== null && lbs !== 0) {
+        revenuePerLb = parseFloat(new Decimal(sales).dividedBy(lbs).toFixed(2))
+        cogsPerLb = parseFloat(new Decimal(cogs).dividedBy(lbs).toFixed(2))
+        othpPerLb = parseFloat(new Decimal(othp).dividedBy(lbs).toFixed(2))
+        netSalesPerLb = parseFloat(new Decimal(sales).minus(othp).dividedBy(lbs).toFixed(2))
+        grossMarginPerLb = parseFloat(new Decimal(sales).minus(cogs).minus(othp).dividedBy(lbs).toFixed(2))
+      }
     }
 
-    rowTemplateCache[`${soLine.l1_label}`] = {
-      ...rowTemplateCache[`${soLine.l1_label}`],
-      [soLine.column]: {
+    rowTemplateCache[`${l1_label}`] = {
+      ...rowTemplateCache[`${l1_label}`],
+      [column]: {
         weight,
         revenue,
         cogs,
