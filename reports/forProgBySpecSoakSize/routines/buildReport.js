@@ -16,7 +16,9 @@ const {
   lvl_3_subtotal_getSalesPeriodToDate,
   lvl_0_total_getSalesPeriodToDate,
 } = require('../queries/postgres/getSalesTrend')
-const { lvl_0_total_getSalesPeriodToDate: lvl_0_company_getSalesPeriodToDate } = require('../../bySpeciesgroupProg/queries/postgres/getSales')
+const {
+  lvl_0_total_getSalesPeriodToDate: lvl_0_company_getSalesPeriodToDate,
+} = require('../../bySpeciesgroupProg/queries/postgres/getSalesTrend')
 const {
   lvl_1_subtotal_getSalesByFy,
   lvl_2_subtotal_getSalesByFy,
