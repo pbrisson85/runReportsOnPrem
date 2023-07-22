@@ -209,7 +209,7 @@ const buildReport = async (start, end, showFyTrend) => {
   const rowTemplate_unflat = unflattenRowTemplate(rowTemplate)
 
   // switch to include fy trend data
-  const showFyTrendSales = showFyTrend ? [...lvl_1_subtotal_salesByFy, ...lvl_2_subtotal_salesByFy, ...lvl_0_total_salesByFy] : []
+  const fyTrendSales = showFyTrend ? [...lvl_1_subtotal_salesByFy, ...lvl_2_subtotal_salesByFy, ...lvl_0_total_salesByFy] : []
 
   const mappedSales = mapSalesToRowTemplates(
     [
@@ -237,7 +237,7 @@ const buildReport = async (start, end, showFyTrend) => {
       // ...lvl_1_subtotal_soTagged_byWk,
       // ...lvl_2_subtotal_soTagged_byWk,
       // ...lvl_0_total_soTagged_byWk,
-      ...showFyTrendSales,
+      ...fyTrendSales,
       ...lvl_1_percent_companySales,
       ...lvl_2_percent_companySales,
       ...lvl_0_percent_companySales,

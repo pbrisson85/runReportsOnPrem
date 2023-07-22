@@ -128,7 +128,7 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend) => {
   })
 
   // switch to include fy trend data
-  const showFyTrendSales = showFyTrend ? [...lvl_1_subtotal_salesByFy, ...lvl_0_total_salesByFy] : []
+  const fyTrendSales = showFyTrend ? [...lvl_1_subtotal_salesByFy, ...lvl_0_total_salesByFy] : []
 
   const mappedSales = mapSalesToRowTemplates(
     [
@@ -148,7 +148,7 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend) => {
       ...lvl_0_total_soTagged_byWk,
       ...lvl_1_subtotal_soUntagged_byWk,
       ...lvl_0_total_soUntagged_byWk,
-      ...showFyTrendSales,
+      ...fyTrendSales,
     ],
     rowTemplate_unflat
   )

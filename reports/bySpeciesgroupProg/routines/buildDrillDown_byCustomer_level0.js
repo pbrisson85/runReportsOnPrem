@@ -16,6 +16,7 @@ const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplat
 const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../../shared/models/unflattenByCompositKey')
 const labelCols = require('../queries/hardcode/cols_byCustomer')
+const calcPercentSalesCol = require('../../shared/models/calcPercentSalesCol')
 
 const buildDrillDown = async (program, start, end, filters, showFyTrend) => {
   console.log(program, '\n', start, '\n', end, '\n', filters)
@@ -34,6 +35,15 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend) => {
   const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(start, end, program, filters)
   const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(start, end, program, filters)
   const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(start, end, program, filters)
+
+  ///////////////////////////////// KPI DATA
+  /* % COMPANY SALES */
+  const lvl_1_percent_companySales = calcPercentSalesCol(
+    lvl_0_total_salesPeriodToDate[0],
+    lvl_1_subtotal_salesPeriodToDate,
+    'percentCompanySales'
+  )
+  const lvl_0_percent_companySales = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentCompanySales')
 
   ///////////////////////////////// ROWS
   let rowsFirstLevelDetail
@@ -56,7 +66,7 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend) => {
   })
 
   // switch to include fy trend data
-  const showFyTrendSales = showFyTrend ? [...lvl_1_subtotal_salesByFy, ...lvl_0_total_salesByFy] : []
+  const fyTrendSales = showFyTrend ? [...lvl_1_subtotal_salesByFy, ...lvl_0_total_salesByFy] : []
 
   const mappedData = mapSalesToRowTemplates(
     [
@@ -68,7 +78,9 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend) => {
       ...lvl_0_total_so,
       ...lvl_1_subtotal_so_byWk,
       ...lvl_0_total_so_byWk,
-      ...showFyTrendSales,
+      ...fyTrendSales,
+      ...lvl_1_percent_companySales,
+      ...lvl_0_percent_companySales,
     ],
     rowTemplate_unflat
   )

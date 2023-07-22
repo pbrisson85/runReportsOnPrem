@@ -319,7 +319,7 @@ const buildReport = async (start, end, program, showFyTrend) => {
   })
 
   // switch to include fy trend data
-  const showFyTrendSales = showFyTrend
+  const fyTrendSales = showFyTrend
     ? [...lvl_1_subtotal_salesByFy, ...lvl_2_subtotal_salesByFy, ...lvl_3_subtotal_salesByFy, ...lvl_0_total_salesByFy]
     : []
 
@@ -357,7 +357,7 @@ const buildReport = async (start, end, program, showFyTrend) => {
       ...lvl_2_subtotal_soUntagged_byWk,
       ...lvl_3_subtotal_soUntagged_byWk,
       ...lvl_0_total_soUntagged_byWk,
-      ...showFyTrendSales,
+      ...fyTrendSales,
       ...lvl_1_percent_companySales,
       ...lvl_2_percent_companySales,
       ...lvl_3_percent_companySales,
