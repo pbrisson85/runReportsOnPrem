@@ -169,12 +169,12 @@ const buildReport = async (start, end, showFyTrend) => {
     lvl_1_subtotal_salesPeriodToDate,
     'percentCompanySales'
   )
-
   const lvl_2_percent_companySales = calcPercentSalesCol(
     lvl_0_total_salesPeriodToDate[0],
     lvl_2_subtotal_salesPeriodToDate,
     'percentCompanySales'
   )
+  const lvl_0_percent_companySales = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentCompanySales')
 
   // calc % of total sales for each line
   /* % PROGRAM SALES */
@@ -235,17 +235,18 @@ const buildReport = async (start, end, showFyTrend) => {
       ...lvl_2_subtotal_soUntagged,
       ...lvl_0_total_soUntagged,
       ...lvl_1_subtotal_so_byWk,
-      // ...lvl_1_subtotal_soTagged_byWk,
-      ...lvl_1_subtotal_soUntagged_byWk,
       ...lvl_2_subtotal_so_byWk,
-      // ...lvl_2_subtotal_soTagged_byWk,
-      ...lvl_2_subtotal_soUntagged_byWk,
       ...lvl_0_total_so_byWk,
-      // ...lvl_0_total_soTagged_byWk,
+      ...lvl_1_subtotal_soUntagged_byWk,
+      ...lvl_2_subtotal_soUntagged_byWk,
       ...lvl_0_total_soUntagged_byWk,
+      // ...lvl_1_subtotal_soTagged_byWk,
+      // ...lvl_2_subtotal_soTagged_byWk,
+      // ...lvl_0_total_soTagged_byWk,
       ...showFyTrendSales,
       ...lvl_1_percent_companySales,
       ...lvl_2_percent_companySales,
+      ...lvl_0_percent_companySales,
     ],
     rowTemplate_unflat
   )
