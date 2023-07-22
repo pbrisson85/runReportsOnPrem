@@ -110,6 +110,7 @@ const mapInvenToRowTemplates = require('../../shared/models/mapInvenToRowTemplat
 const combineMappedRows = require('../../shared/models/combineMappedRows')
 const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../../shared/models/unflattenByCompositKey')
+const calcPercentSalesCol = require('../../shared/models/calcPercentSalesCol')
 
 const labelCols = require('../queries/hardcode/cols')
 
@@ -217,6 +218,20 @@ const buildReport = async (start, end, program, showFyTrend) => {
   const lvl_3_subtotal_salesPeriodToDate = await lvl_3_subtotal_getSalesPeriodToDate(start, end, program)
   const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(start, end, program)
 
+  ///////////////////////////////// KPI DATA
+  /* % COMPANY SALES */
+  const lvl_1_percent_companySales = calcPercentSalesCol(
+    lvl_0_total_salesPeriodToDate[0],
+    lvl_1_subtotal_salesPeriodToDate,
+    'percentCompanySales'
+  )
+  const lvl_2_percent_companySales = calcPercentSalesCol(
+    lvl_0_total_salesPeriodToDate[0],
+    lvl_2_subtotal_salesPeriodToDate,
+    'percentCompanySales'
+  )
+  const lvl_0_percent_companySales = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentCompanySales')
+
   ///////////////////////////////// ROWS
   let rowsThirdLevelDetail
   let rowsSecondLevelDetail
@@ -314,6 +329,9 @@ const buildReport = async (start, end, program, showFyTrend) => {
       ...lvl_3_subtotal_soUntagged_byWk,
       ...lvl_0_total_soUntagged_byWk,
       ...showFyTrendSales,
+      ...lvl_1_percent_companySales,
+      ...lvl_2_percent_companySales,
+      ...lvl_0_percent_companySales,
     ],
     rowTemplate_unflat
   )
