@@ -114,7 +114,6 @@ const combineMappedRows = require('../../shared/models/combineMappedRows')
 const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../../shared/models/unflattenByCompositKey')
 const calcPercentSalesCol = require('../../shared/models/calcPercentSalesCol')
-
 const labelCols = require('../queries/hardcode/cols')
 
 const buildReport = async (start, end, program, showFyTrend) => {
