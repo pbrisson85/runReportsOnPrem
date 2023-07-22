@@ -106,16 +106,17 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend) => {
   const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(start, end, program, filters)
   const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(start, end, program, filters)
   const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(start, end, program, filters)
+  const lvl_0_company_salesPeriodToDate = await lvl_0_company_getSalesPeriodToDate(start, end)
 
   ///////////////////////////////// KPI DATA
   /* % COMPANY SALES */
   const lvl_1_percent_companySales = calcPercentSalesCol(
-    lvl_0_company_getSalesPeriodToDate[0],
+    lvl_0_company_salesPeriodToDate[0],
     lvl_1_subtotal_salesPeriodToDate,
     'percentCompanySales'
   )
   const lvl_0_percent_companySales = calcPercentSalesCol(
-    lvl_0_company_getSalesPeriodToDate[0],
+    lvl_0_company_salesPeriodToDate[0],
     lvl_0_total_salesPeriodToDate,
     'percentCompanySales'
   )
