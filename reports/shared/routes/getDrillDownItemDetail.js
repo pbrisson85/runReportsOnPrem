@@ -38,8 +38,6 @@ router.post('/', async (req, res) => {
 
   console.log(`get detail data for ${reportName} route COMPLETE. \n`)
 
-  console.log('response: ', response)
-
   res.send(response)
 })
 
