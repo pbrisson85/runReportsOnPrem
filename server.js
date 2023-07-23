@@ -31,7 +31,7 @@ const drillDownCustomerDetailSalesSpecSoakSize = require('./reports/forProgBySpe
 const glRevCogs = require('./reports/gl/routes/glRevCogs')
 const glOthp = require('./reports/gl/routes/glOthp')
 const getDrillDownItemDetail = require('./reports/shared/routes/getDrillDownItemDetail')
-const getLevelTwoDrillDownItem = require('./reports/shared/routes/getLevelTwoDrillDownItem')
+const getCustomerDrillDownForItem = require('./reports/shared/routes/getCustomerDrillDownForItem')
 
 /* Data */
 const generateSalesData = require('./generateSales/routes/generateSales')
@@ -80,7 +80,7 @@ app.use('/api/sales/detail/forProgBySpecSoakSize', detailSalesSpecSoakSize)
 app.use('/api/sales/drillDownDetail/customer/forProgBySpecSoakSize', drillDownCustomerDetailSalesSpecSoakSize)
 
 app.use('/api/sales/drillDownDetail/item', getDrillDownItemDetail)
-app.use('/api/sales/drillDownLevelTwo/item', getLevelTwoDrillDownItem)
+app.use('/api/sales/drillDown/customer', getCustomerDrillDownForItem)
 
 app.use('/api/sales/generateSalesData', generateSalesData)
 app.use('/api/sales/generateInvAllocData', generateInvAllocFile)

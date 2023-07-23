@@ -5,21 +5,16 @@ const {
   lvl_0_total_getSalesByWk,
   lvl_1_subtotal_getSalesPeriodToDate,
   lvl_0_total_getSalesPeriodToDate,
-} = require('../queries/postgres/getCustomerTrendByItem_levelTwoDrilldown/getSalesTrend')
+} = require('../queries/postgres/getCustomerDrillDownForItem/getSalesTrend')
 const {
   lvl_0_total_getSalesPeriodToDate: lvl_0_company_getSalesPeriodToDate,
 } = require('../../bySpeciesgroupProg/queries/postgres/getSalesTrend')
-const {
-  lvl_1_subtotal_getSalesByFy,
-  lvl_0_total_getSalesByFy,
-} = require('../queries/postgres/getCustomerTrendByItem_levelTwoDrilldown/getSalesTrendByFy')
+const { lvl_1_subtotal_getSalesByFy, lvl_0_total_getSalesByFy } = require('../queries/postgres/getCustomerDrillDownForItem/getSalesTrendByFy')
 const { getFiscalYearCols } = require('../queries/postgres/getFiscalYearCols')
-const { lvl_1_subtotal_getSo, lvl_0_total_getSo } = require('../queries/postgres/getCustomerTrendByItem_levelTwoDrilldown/getSo')
-const { lvl_1_subtotal_getSo_byWk, lvl_0_total_getSo_byWk } = require('../queries/postgres/getCustomerTrendByItem_levelTwoDrilldown/getSoByWeek')
-const { getRowsFirstLevelDetail } = require('../queries/postgres/getCustomerTrendByItem_levelTwoDrilldown/getRows')
-const {
-  getRowsFirstLevelDetail: getRows_l1_showFyTrend,
-} = require('../queries/postgres/getCustomerTrendByItem_levelTwoDrilldown/getRowsTrendByFy')
+const { lvl_1_subtotal_getSo, lvl_0_total_getSo } = require('../queries/postgres/getCustomerDrillDownForItem/getSo')
+const { lvl_1_subtotal_getSo_byWk, lvl_0_total_getSo_byWk } = require('../queries/postgres/getCustomerDrillDownForItem/getSoByWeek')
+const { getRowsFirstLevelDetail } = require('../queries/postgres/getCustomerDrillDownForItem/getRows')
+const { getRowsFirstLevelDetail: getRows_l1_showFyTrend } = require('../queries/postgres/getCustomerDrillDownForItem/getRowsTrendByFy')
 const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplatesOneLevel')
 const cleanLabelsForDisplay = require('../models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../models/unflattenByCompositKey')

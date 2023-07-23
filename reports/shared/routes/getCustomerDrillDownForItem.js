@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const buildDrilldown = require('../routines/getCustomerTrendByItem_levelTwoDrilldown')
+const buildDrilldown = require('../routines/getCustomerDrillDownForItem')
 const { getStartOfWeek } = require('../queries/postgres/getDateStartByWeek')
 
 // @route   POST /api/sales/detail/forProgBySpecBrndSize/
