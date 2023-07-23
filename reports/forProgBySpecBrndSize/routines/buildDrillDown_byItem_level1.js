@@ -12,9 +12,7 @@ const {
   lvl_1_subtotal_getSalesPeriodToDate,
   lvl_0_total_getSalesPeriodToDate,
 } = require('../queries/postgres/byItem_level1/getSalesTrend')
-const {
-  lvl_0_total_getSalesPeriodToDate: lvl_0_company_getSalesPeriodToDate,
-} = require('../../bySpeciesgroupProg/queries/postgres/getSalesTrend')
+const { getCompanyTotalSales } = require('../../shared/queries/postgres/getCompanyTotalSales')
 const { lvl_0_total_getSalesPeriodToDate: lvl_0_program_getSalesPeriodToDate } = require('../queries/postgres/getSalesTrend')
 const { lvl_1_subtotal_getSalesByFy, lvl_0_total_getSalesByFy } = require('../queries/postgres/byItem_level1/getSalesTrendByFy')
 const {
@@ -109,21 +107,13 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend) => {
   const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(start, end, program, filters)
   const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(start, end, program, filters)
   const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(start, end, program, filters)
-  const lvl_0_company_salesPeriodToDate = await lvl_0_company_getSalesPeriodToDate(start, end)
+  const companyTotalSales = await getCompanyTotalSales(start, end)
   const lvl_0_program_salesPeriodToDate = await lvl_0_program_getSalesPeriodToDate(start, end, program)
 
   ///////////////////////////////// KPI DATA
   /* % COMPANY SALES */
-  const lvl_1_percent_companySales = calcPercentSalesCol(
-    lvl_0_company_salesPeriodToDate[0],
-    lvl_1_subtotal_salesPeriodToDate,
-    'percentCompanySales'
-  )
-  const lvl_0_percent_companySales = calcPercentSalesCol(
-    lvl_0_company_salesPeriodToDate[0],
-    lvl_0_total_salesPeriodToDate,
-    'percentCompanySales'
-  )
+  const lvl_1_percent_companySales = calcPercentSalesCol(companyTotalSales[0], lvl_1_subtotal_salesPeriodToDate, 'percentCompanySales')
+  const lvl_0_percent_companySales = calcPercentSalesCol(companyTotalSales[0], lvl_0_total_salesPeriodToDate, 'percentCompanySales')
 
   /* % PROGRAM SALES */
   const lvl_1_percent_programSales = calcPercentSalesCol(
