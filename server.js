@@ -11,22 +11,27 @@ const helmet = require('helmet')
 const getSalesByProgram = require('./reports/bySpeciesgroupProg/routes/buildReport')
 const drillDownSalesByProgram = require('./reports/bySpeciesgroupProg/routes/buildDrillDown')
 const detailSalesByProgram = require('./reports/bySpeciesgroupProg/routes/getDetail')
+const drillDownCustomerDetailSalesByProgram = require('./reports/bySpeciesgroupProg/routes/getDetail_inDrillDownByCust')
+
 const getSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/buildReport')
 const drillDownSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/buildDrillDown')
 const detailSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/getDetail')
+const drillDownCustomerDetailSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/getDetail_inDrillDownByCust')
+
 const getSalesSpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/buildReport')
 const drillDownSalesSpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/buildDrillDown')
 const detailSalesSpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/getDetail')
+const drillDownCustomerDetailSalesSpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/getDetail_inDrillDownByCust')
+
 const getSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/buildReport')
 const drillDownSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/buildDrillDown')
 const detailSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/getDetail')
+const drillDownCustomerDetailSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/getDetail_inDrillDownByCust')
+
 const glRevCogs = require('./reports/gl/routes/glRevCogs')
 const glOthp = require('./reports/gl/routes/glOthp')
 const getDrillDownItemDetail = require('./reports/shared/routes/getDrillDownItemDetail')
-const drillDownCustomerDetailSalesByProgram = require('./reports/bySpeciesgroupProg/routes/getDetail_inDrillDownByCust')
-const drillDownCustomerDetailSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/getDetail_inDrillDownByCust')
-const drillDownCustomerDetailSalesSpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/getDetail_inDrillDownByCust')
-const drillDownCustomerDetailSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/getDetail_inDrillDownByCust')
+const getLevelTwoDrillDownItem = require('./reports/shared/routes/getLevelTwoDrillDownItem')
 
 /* Data */
 const generateSalesData = require('./generateSales/routes/generateSales')
@@ -54,23 +59,29 @@ process.on('unhandledRejection', ex => {
 // routes
 app.use(helmet())
 app.use(express.json())
-app.use('/api/sales/drillDownDetail/item', getDrillDownItemDetail)
 app.use('/api/sales/bySpeciesgroupProg', getSalesByProgram)
-app.use('/api/sales/drillDownDetail/customer/bySpeciesgroupProg', drillDownCustomerDetailSalesByProgram) //
 app.use('/api/sales/drillDown/bySpeciesgroupProg', drillDownSalesByProgram)
 app.use('/api/sales/detail/bySpeciesgroupProg', detailSalesByProgram)
+app.use('/api/sales/drillDownDetail/customer/bySpeciesgroupProg', drillDownCustomerDetailSalesByProgram)
+
 app.use('/api/sales/forProgram/byFrzSoakSize', getSalesFrzSoakSize)
-app.use('/api/sales/drillDownDetail/customer/forProgByFrzSoakSize', drillDownCustomerDetailSalesFrzSoakSize) //
 app.use('/api/sales/drillDown/forProgByFrzSoakSize', drillDownSalesFrzSoakSize)
 app.use('/api/sales/detail/forProgByFrzSoakSize', detailSalesFrzSoakSize)
+app.use('/api/sales/drillDownDetail/customer/forProgByFrzSoakSize', drillDownCustomerDetailSalesFrzSoakSize)
+
 app.use('/api/sales/forProgram/bySpecBrndSize', getSalesSpecBrndSize)
-app.use('/api/sales/drillDownDetail/customer/forProgBySpecBrndSize', drillDownCustomerDetailSalesSpecBrndSize) //
 app.use('/api/sales/drillDown/forProgBySpecBrndSize', drillDownSalesSpecBrndSize)
 app.use('/api/sales/detail/forProgBySpecBrndSize', detailSalesSpecBrndSize)
+app.use('/api/sales/drillDownDetail/customer/forProgBySpecBrndSize', drillDownCustomerDetailSalesSpecBrndSize)
+
 app.use('/api/sales/forProgram/bySpecSoakSize', getSalesSpecSoakSize)
-app.use('/api/sales/drillDownDetail/customer/forProgBySpecSoakSize', drillDownCustomerDetailSalesSpecSoakSize) //
 app.use('/api/sales/drillDown/forProgBySpecSoakSize', drillDownSalesSpecSoakSize)
 app.use('/api/sales/detail/forProgBySpecSoakSize', detailSalesSpecSoakSize)
+app.use('/api/sales/drillDownDetail/customer/forProgBySpecSoakSize', drillDownCustomerDetailSalesSpecSoakSize)
+
+app.use('/api/sales/drillDownDetail/item', getDrillDownItemDetail)
+app.use('/api/sales/drillDownLevelTwo/item', getLevelTwoDrillDownItem)
+
 app.use('/api/sales/generateSalesData', generateSalesData)
 app.use('/api/sales/generateInvAllocData', generateInvAllocFile)
 app.use('/api/sales/getFilters', getFilters)
