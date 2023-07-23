@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
 
   let response = null
 
-  response = await buildDrilldown(filters[0], startWeek, periodEnd, program, filters)
+  response = await buildDrilldown(filters[0], startWeek, periodEnd, program, filters, showFyTrend)
 
   console.log(`get level two drilldown on item route COMPLETE. \n`)
 
