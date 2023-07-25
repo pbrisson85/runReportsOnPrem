@@ -9,15 +9,15 @@ const getReportsFilters = () => {
     {
       label: 'freeze / brand / size',
       dataName: 'frzBrndSize',
-      default: false, // if true, this is the default report for an unlisted program (one which does not appear in the defaults array)
-      defaults: [], // list of programs (datanames) that this is the default report
+      default: true, // if true, this is the default report for an unlisted program (one which does not appear in the defaults array)
+      defaults: ['COD USA', 'FLATFISH USA', 'HADDOCK USA', 'PERCH USA', 'POLLOCK USA', 'SCALLOPS DOMESTIC'], // list of programs (datanames) that this is the default report
       optional: ['any'], // list of programs (datanames) that allow this, or use 'any' to allow all programs EXCEPT 'all'
     },
     {
       label: 'freeze / soak / size',
       dataName: 'frzSoakSize',
-      default: true, // if true, this is the default report for an unlisted program (one which does not appear in the defaults array)
-      defaults: ['COD USA', 'FLATFISH USA', 'HADDOCK USA', 'PERCH USA', 'POLLOCK USA', 'SCALLOPS DOMESTIC'], // list of programs (datanames) that this is the default report
+      default: false, // if true, this is the default report for an unlisted program (one which does not appear in the defaults array)
+      defaults: [], // list of programs (datanames) that this is the default report
       optional: ['any'], // list of programs (datanames) that allow this, or use 'any' to allow all programs EXCEPT 'all'
     },
     {

@@ -22,7 +22,7 @@ const cols = [
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
     reportName: 'forProgByFrzBrndSize', // report name (used in API calls to get detail data)
-    displayName: 'SOAK', // show as column header
+    displayName: 'BRAND', // show as column header
     dataName: 'l2_label', // key to pull data from
     filterName: 'l2_filter', // key to match up the column with the filter
     justifyData: 'start', // css justify content
