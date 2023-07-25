@@ -1,4 +1,4 @@
-### Report: forProgFrzSoakSize
+### Report: forProgFrzBrndSize
 
 ### Fields
 
