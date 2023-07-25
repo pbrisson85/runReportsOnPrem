@@ -13,6 +13,11 @@ const drillDownSalesByProgram = require('./reports/bySpeciesgroupProg/routes/bui
 const detailSalesByProgram = require('./reports/bySpeciesgroupProg/routes/getDetail')
 const drillDownCustomerDetailSalesByProgram = require('./reports/bySpeciesgroupProg/routes/getDetail_inDrillDownByCust')
 
+const getSalesFrzBrndSize = require('./reports/forProgByFrzBrndSize/routes/buildReport')
+const drillDownSalesFrzBrndSize = require('./reports/forProgByFrzBrndSize/routes/buildDrillDown')
+const detailSalesFrzBrndSize = require('./reports/forProgByFrzBrndSize/routes/getDetail')
+const drillDownCustomerDetailSalesFrzBrndSize = require('./reports/forProgByFrzBrndSize/routes/getDetail_inDrillDownByCust')
+
 const getSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/buildReport')
 const drillDownSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/buildDrillDown')
 const detailSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/getDetail')
@@ -63,6 +68,11 @@ app.use('/api/sales/bySpeciesgroupProg', getSalesByProgram)
 app.use('/api/sales/drillDown/bySpeciesgroupProg', drillDownSalesByProgram)
 app.use('/api/sales/detail/bySpeciesgroupProg', detailSalesByProgram)
 app.use('/api/sales/drillDownDetail/customer/bySpeciesgroupProg', drillDownCustomerDetailSalesByProgram)
+
+app.use('/api/sales/forProgram/byFrzBrndSize', getSalesFrzBrndSize)
+app.use('/api/sales/drillDown/forProgByFrzBrndSize', drillDownSalesFrzBrndSize)
+app.use('/api/sales/detail/forProgByFrzBrndSize', detailSalesFrzBrndSize)
+app.use('/api/sales/drillDownDetail/customer/forProgByFrzBrndSize', drillDownCustomerDetailSalesFrzBrndSize)
 
 app.use('/api/sales/forProgram/byFrzSoakSize', getSalesFrzSoakSize)
 app.use('/api/sales/drillDown/forProgByFrzSoakSize', drillDownSalesFrzSoakSize)
