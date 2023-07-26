@@ -11,10 +11,13 @@ const {
   lvl_0_total_getSalesByWk,
   lvl_1_subtotal_getSalesPeriodToDate,
   lvl_0_total_getSalesPeriodToDate,
-} = require('../queries/postgres/byItem_level3/getSalesTrend')
+} = require('../queries/postgres/getItemDrillDownForCustomer/byItem_level3/getSalesTrend')
 const { getCompanyTotalSales } = require('../../shared/queries/postgres/getCompanyTotalSales')
 const { lvl_0_total_getSalesPeriodToDate: lvl_0_program_getSalesPeriodToDate } = require('../queries/postgres/getSalesTrend')
-const { lvl_1_subtotal_getSalesByFy, lvl_0_total_getSalesByFy } = require('../queries/postgres/byItem_level3/getSalesTrendByFy')
+const {
+  lvl_1_subtotal_getSalesByFy,
+  lvl_0_total_getSalesByFy,
+} = require('../queries/postgres/getItemDrillDownForCustomer/byItem_level3/getSalesTrendByFy')
 const {
   lvl_1_subtotal_getFgInven,
   lvl_0_total_getFgInven,
@@ -26,8 +29,8 @@ const {
   lvl_0_total_getFgAtLoc_untagged,
   lvl_1_subtotal_getFgAtLoc_tagged,
   lvl_0_total_getFgAtLoc_tagged,
-} = require('../queries/postgres/byItem_level3/getFgInven')
-const { lvl_1_subtotal_getFgPo, lvl_0_total_getFgPo } = require('../queries/postgres/byItem_level3/getFgOpenPo')
+} = require('../queries/postgres/getItemDrillDownForCustomer/byItem_level3/getFgInven')
+const { lvl_1_subtotal_getFgPo, lvl_0_total_getFgPo } = require('../queries/postgres/getItemDrillDownForCustomer/byItem_level3/getFgOpenPo')
 const {
   lvl_1_subtotal_getSo,
   lvl_0_total_getSo,
@@ -35,7 +38,7 @@ const {
   lvl_0_total_getSoTagged,
   lvl_1_subtotal_getSoUntagged,
   lvl_0_total_getSoUntagged,
-} = require('../queries/postgres/byItem_level3/getSo')
+} = require('../queries/postgres/getItemDrillDownForCustomer/byItem_level3/getSo')
 const {
   lvl_1_subtotal_getSo_byWk,
   lvl_0_total_getSo_byWk,
@@ -43,9 +46,11 @@ const {
   lvl_0_total_getSoTagged_byWk,
   lvl_1_subtotal_getSoUntagged_byWk,
   lvl_0_total_getSoUntagged_byWk,
-} = require('../queries/postgres/byItem_level3/getSoByWeek')
-const { getRowsFirstLevelDetail } = require('../queries/postgres/byItem_level3/getRows')
-const { getRowsFirstLevelDetail: getRows_l1_showFyTrend } = require('../queries/postgres/byItem_level3/getRowsTrendByFy')
+} = require('../queries/postgres/getItemDrillDownForCustomer/byItem_level3/getSoByWeek')
+const { getRowsFirstLevelDetail } = require('../queries/postgres/getItemDrillDownForCustomer/byItem_level3/getRows')
+const {
+  getRowsFirstLevelDetail: getRows_l1_showFyTrend,
+} = require('../queries/postgres/getItemDrillDownForCustomer/byItem_level3/getRowsTrendByFy')
 const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesOneLevel')
 const mapInvenToRowTemplates = require('../../shared/models/mapInvenToRowTemplatesOneLevel')
 const combineMappedRows = require('../../shared/models/combineMappedRows')
