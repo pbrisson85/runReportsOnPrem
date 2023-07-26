@@ -7,8 +7,11 @@
 - Rows
   - Add: AND sales_line_items.customer_code = $ to the top select statement
   - Add: AND sales_orders.customer_code = $ to the bottom select statement
+  - delete section that queries inventory because we dont want to see all the inventory, only what is applicable to the sales/orders
 - Rows with FY trend
   - Add: AND sales_line_items.customer_code = $ to the top select statement
+  - Add: AND sales_orders.customer_code = $ to the bottom select statement
+  - delete section that queries inventory because we dont want to see all the inventory, only what is applicable to the sales/orders
 - Sales
   - Add sales_line_items.customer_code = $ to every query
 - Sales by FY
