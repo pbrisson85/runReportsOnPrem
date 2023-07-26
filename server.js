@@ -15,7 +15,7 @@ const drillDownCustomerDetailSalesByProgram = require('./reports/bySpeciesgroupP
 
 const getSalesFrzBrndSize = require('./reports/forProgByFrzBrndSize/routes/buildReport')
 const drillDownSalesFrzBrndSize = require('./reports/forProgByFrzBrndSize/routes/buildDrillDown')
-const drillDownItemsFrzBrndSize = require('./reports/forProgByFrzBrndSize/routes/buildDrillDown_getItemsByCust')
+const getItemDrillDownForCustomer = require('./reports/forProgByFrzBrndSize/routes/getItemDrillDownForCustomer')
 const detailSalesFrzBrndSize = require('./reports/forProgByFrzBrndSize/routes/getDetail')
 const drillDownCustomerDetailSalesFrzBrndSize = require('./reports/forProgByFrzBrndSize/routes/getDetail_inDrillDownByCust')
 
@@ -72,7 +72,7 @@ app.use('/api/sales/drillDownDetail/customer/bySpeciesgroupProg', drillDownCusto
 
 app.use('/api/sales/forProgram/byFrzBrndSize', getSalesFrzBrndSize)
 app.use('/api/sales/drillDown/forProgByFrzBrndSize', drillDownSalesFrzBrndSize)
-app.use('/api/sales/drillDown/item/forProgByFrzBrndSize', drillDownItemsFrzBrndSize) // drilldown level two
+app.use('/api/sales/drillDown/item/forProgByFrzBrndSize', getItemDrillDownForCustomer) // drilldown level two
 app.use('/api/sales/detail/forProgByFrzBrndSize', detailSalesFrzBrndSize)
 app.use('/api/sales/drillDownDetail/customer/forProgByFrzBrndSize', drillDownCustomerDetailSalesFrzBrndSize)
 
