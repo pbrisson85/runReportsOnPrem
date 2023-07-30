@@ -24,8 +24,8 @@ router.post('/', async (req, res) => {
     req.body.showFyTrend = false
   }
 
-  const periodStart = getWeekForDate(req.body.start) // temporarily until I change the data that is being passed by the front end to the week
-  const periodEnd = getWeekForDate(req.body.end) // temporarily until I change the data that is being passed by the front end to the week
+  const periodStart = await getWeekForDate(req.body.start) // temporarily until I change the data that is being passed by the front end to the week
+  const periodEnd = await getWeekForDate(req.body.end) // temporarily until I change the data that is being passed by the front end to the week
 
   const resp = await buildReport(periodStart, periodEnd, req.body.showFyTrend)
 

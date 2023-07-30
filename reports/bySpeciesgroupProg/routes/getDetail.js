@@ -15,8 +15,8 @@ router.post('/', async (req, res) => {
 
   console.log(`\nget detail data for ${reportName} route HIT...`)
 
-  periodStart = getWeekForDate(periodStart) // temporarily until I change the data that is being passed by the front end to the week
-  periodEnd = getWeekForDate(periodEnd) // temporarily until I change the data that is being passed by the front end to the week
+  periodStart = await getWeekForDate(periodStart) // temporarily until I change the data that is being passed by the front end to the week
+  periodEnd = await getWeekForDate(periodEnd) // temporarily until I change the data that is being passed by the front end to the week
 
   let response = null
 
