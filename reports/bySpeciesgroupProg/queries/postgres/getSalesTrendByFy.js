@@ -186,7 +186,7 @@ const lvl_0_total_getSalesByFyYtd = async (start, end) => {
       GROUP BY sales_line_items.fiscal_year 
       
       ORDER BY sales_line_items.fiscal_year`,
-      [strat, end, 'FG']
+      [start, end, 'FG']
     ) //prettier-ignore
 
     await pgClient.end()
