@@ -17,6 +17,10 @@ const getWeekForDate = async date => {
   // If week is 52 then return 53 since some years have 53 weeks
 
   let week = response.rows[0].week
+
+  console.log('week: ', week)
+  console.log('typeof week: ', typeof week)
+
   if (week === 52) {
     week = 53
   }
