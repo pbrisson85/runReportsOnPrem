@@ -40,7 +40,7 @@ const lvl_1_subtotal_getSalesByFyYtd = async (start, end) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`level 1: query postgres to get FG sales data by fiscal year ...`)
+    console.log(`level 1: query postgres to get FG sales data by fiscal year for week ${start} through week ${end} ...`)
 
     const response = await pgClient.query(
       `SELECT sales_line_items.fiscal_year || '_ytd' AS column, ms.species_group AS l1_label, \'SUBTOTAL\' AS l2_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
@@ -106,7 +106,7 @@ const lvl_2_subtotal_getSalesByFyYtd = async (start, end) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`level 2: query postgres to get FG sales data by fiscal year ...`)
+    console.log(`level 2: query postgres to get FG sales data by fiscal year for week ${start} through week ${end} ...`)
 
     const response = await pgClient.query(
       `SELECT sales_line_items.fiscal_year || '_ytd' AS column, ms.species_group AS l1_label, ms.program AS l2_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
@@ -172,7 +172,7 @@ const lvl_0_total_getSalesByFyYtd = async (start, end) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`level 0: query postgres to get FG sales data by fiscal year ...`)
+    console.log(`level 0: query postgres to get FG sales data by fiscal year for week ${start} through week ${end} ...`)
 
     const response = await pgClient.query(
       `SELECT sales_line_items.fiscal_year || '_ytd' AS column, \'FG SALES\' AS l1_label, \'TOTAL\' AS l2_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
