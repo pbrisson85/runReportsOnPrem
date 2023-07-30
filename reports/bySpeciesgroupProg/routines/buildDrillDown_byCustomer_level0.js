@@ -24,7 +24,7 @@ const unflattenByCompositKey = require('../../shared/models/unflattenByCompositK
 const labelCols = require('../queries/hardcode/cols_byCustomer')
 const calcPercentSalesCol = require('../../shared/models/calcPercentSalesCol')
 
-const buildDrillDown = async (program, start, end, filters, showFyTrend) => {
+const buildDrillDown = async (program, start, end, filters, showFyTrend, startWeek, endWeek) => {
   console.log(program, '\n', start, '\n', end, '\n', filters)
 
   // ///////////////////////////////// SALES ORDERS
@@ -37,8 +37,8 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend) => {
   // ///////////////////////////////// SALES DATA
   const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy()
   const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy()
-  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(start, end)
-  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(start, end)
+  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(startWeek, endWeek)
+  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(startWeek, endWeek)
   const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end, program, filters)
   const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(start, end, program, filters)
   const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(start, end, program, filters)

@@ -17,25 +17,29 @@ router.post('/', async (req, res) => {
 
   console.log(`\nget drilldown data for ${reportName} route HIT...`)
 
-  periodStart = await getWeekForDate(periodStart) // temporarily until I change the data that is being passed by the front end to the week
-  periodEnd = await getWeekForDate(periodEnd) // temporarily until I change the data that is being passed by the front end to the week
+  const startWeek = await getWeekForDate(periodStart) // temporarily until I change the data that is being passed by the front end to the week
+  const endWeek = await getWeekForDate(periodEnd) // temporarily until I change the data that is being passed by the front end to the week
+
+  // Note that start date is the END of the first week. Need the beginning of the same week to pull invoice dates that are after this:
+  const startOfWeek = await getStartOfWeek(periodStart)
+  periodStart = startOfWeek[0].formatted_date_start
 
   let response = null
 
   if (option === 'Trend By Item') {
     if (filters[1] === 'SUBTOTAL') {
       // level 1 subtotal
-      response = await buildDrillDown_byItem_level1(program, periodStart, periodEnd, filters, showFyTrend)
+      response = await buildDrillDown_byItem_level1(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
     }
 
     if (!filters[1].includes('TOTAL') && !filters[0].includes('TOTAL')) {
       // level 2 subtotal
-      response = await buildDrillDown_byItem_level2(program, periodStart, periodEnd, filters, showFyTrend)
+      response = await buildDrillDown_byItem_level2(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
     }
 
     if (filters[1] === 'TOTAL') {
       // level 0 total
-      response = await buildDrillDown_byItem_level0(program, periodStart, periodEnd, filters, showFyTrend)
+      response = await buildDrillDown_byItem_level0(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
     }
   } else {
     // option is top customer weight, margin, or bottom customer weight.
@@ -43,17 +47,17 @@ router.post('/', async (req, res) => {
 
     if (filters[1] === 'SUBTOTAL') {
       // level 1 subtotal
-      response = await buildDrillDown_byCustomer_level1(program, periodStart, periodEnd, filters, showFyTrend)
+      response = await buildDrillDown_byCustomer_level1(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
     }
 
     if (!filters[1].includes('TOTAL') && !filters[0].includes('TOTAL')) {
       // level 2 subtotal
-      response = await buildDrillDown_byCustomer_level2(program, periodStart, periodEnd, filters, showFyTrend)
+      response = await buildDrillDown_byCustomer_level2(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
     }
 
     if (filters[1] === 'TOTAL') {
       // level 0 total
-      response = await buildDrillDown_byCustomer_level0(program, periodStart, periodEnd, filters, showFyTrend)
+      response = await buildDrillDown_byCustomer_level0(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
     }
   }
 

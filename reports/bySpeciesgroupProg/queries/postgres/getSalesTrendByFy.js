@@ -49,7 +49,7 @@ const lvl_1_subtotal_getSalesByFyYtd = async (start, end) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2
+      WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND sales_line_items.week >= $1 AND sales_line_items.week <= $2
       
       GROUP BY sales_line_items.fiscal_year, ms.species_group 
       
@@ -115,7 +115,7 @@ const lvl_2_subtotal_getSalesByFyYtd = async (start, end) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 
+      WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND sales_line_items.week >= $1 AND sales_line_items.week <= $2 
       
       GROUP BY sales_line_items.fiscal_year, ms.species_group, ms.program 
       
@@ -181,7 +181,7 @@ const lvl_0_total_getSalesByFyYtd = async (start, end) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 
+      WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND sales_line_items.week >= $1 AND sales_line_items.week <= $2 
       
       GROUP BY sales_line_items.fiscal_year 
       

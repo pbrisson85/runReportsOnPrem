@@ -85,7 +85,7 @@ const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay
 const labelCols = require('../queries/hardcode/cols')
 const calcPercentSalesCol = require('../../shared/models/calcPercentSalesCol')
 
-const buildReport = async (start, end, showFyTrend) => {
+const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
   ///////////////////////////////// INVENTORY DATA
 
   /* TOTAL FG */
@@ -168,9 +168,9 @@ const buildReport = async (start, end, showFyTrend) => {
   const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy()
   const lvl_2_subtotal_salesByFy = await lvl_2_subtotal_getSalesByFy()
   const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy()
-  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(start, end)
-  const lvl_2_subtotal_salesByFyYtd = await lvl_2_subtotal_getSalesByFyYtd(start, end)
-  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(start, end)
+  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(startWeek, endWeek)
+  const lvl_2_subtotal_salesByFyYtd = await lvl_2_subtotal_getSalesByFyYtd(startWeek, endWeek)
+  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(startWeek, endWeek)
 
   ///////////////////////////////// KPI DATA
   /* % COMPANY SALES */
