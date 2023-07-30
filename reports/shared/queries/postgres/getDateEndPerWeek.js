@@ -20,7 +20,7 @@ const getDateEndPerWeekByRange = async (start, end) => {
   const pgClient = new Client() // config from ENV
   await pgClient.connect()
 
-  console.log(`query postgres for accounting period ends by week serial for ${start} through ${end} ...`)
+  console.log(`getDateEndPerWeekByRange, query postgres for accounting period ends by week serial for ${start} through ${end} ...`)
 
   const periodsByWeek = await pgClient.query(
     'SELECT period_by_week.week_serial AS dataName, period_by_week.date_end AS displayName FROM "accountingPeriods".period_by_week WHERE period_by_week.week >= $1 AND period_by_week.week <= $2 ORDER BY period_by_week.week ASC',
@@ -37,7 +37,7 @@ const getDateEndPerWeekByRange_so = async (start, end) => {
   const pgClient = new Client() // config from ENV
   await pgClient.connect()
 
-  console.log(`query postgres for accounting period ends by week serial for ${start} through ${end} ...`)
+  console.log(`getDateEndPerWeekByRange_so, query postgres for accounting period ends by week serial for ${start} through ${end} ...`)
 
   const periodsByWeek = await pgClient.query(
     'SELECT period_by_week.week_serial || \'_so\' AS dataName, period_by_week.date_end AS displayName FROM "accountingPeriods".period_by_week WHERE period_by_week.week >= $1 AND period_by_week.week <= $2 ORDER BY period_by_week.week ASC',
@@ -54,7 +54,7 @@ const getDateEndPerWeekByRange_so_tg = async (start, end) => {
   const pgClient = new Client() // config from ENV
   await pgClient.connect()
 
-  console.log(`query postgres for accounting period ends by week serial for ${start} through ${end} ...`)
+  console.log(`getDateEndPerWeekByRange_so_tg, query postgres for accounting period ends by week serial for ${start} through ${end} ...`)
 
   const periodsByWeek = await pgClient.query(
     'SELECT period_by_week.week_serial || \'_so_tg\' AS dataName, period_by_week.date_end AS displayName FROM "accountingPeriods".period_by_week WHERE period_by_week.week >= $1 AND period_by_week.week <= $2 ORDER BY period_by_week.week ASC',
@@ -71,7 +71,7 @@ const getDateEndPerWeekByRange_so_untg = async (start, end) => {
   const pgClient = new Client() // config from ENV
   await pgClient.connect()
 
-  console.log(`query postgres for accounting period ends by week serial for ${start} through ${end} ...`)
+  console.log(`getDateEndPerWeekByRange_so_untg, query postgres for accounting period ends by week serial for ${start} through ${end} ...`)
 
   const periodsByWeek = await pgClient.query(
     'SELECT period_by_week.week_serial || \'_so_untg\' AS dataName, period_by_week.date_end AS displayName FROM "accountingPeriods".period_by_week WHERE period_by_week.week >= $1 AND period_by_week.week <= $2 ORDER BY period_by_week.week ASC',
