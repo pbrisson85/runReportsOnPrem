@@ -13,7 +13,8 @@ const buildDrillDown_byCustomer_level0 = require('../routines/buildDrillDown_byC
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { program, option, filters, columnDataName, reportName, colType, periodStart, periodEnd, showFyTrend } = req.body
+  const { program, option, filters, columnDataName, reportName, colType, periodEnd, showFyTrend } = req.body
+  let { periodStart } = req.body
 
   console.log(`\nget drilldown data for ${reportName} route HIT...`)
 

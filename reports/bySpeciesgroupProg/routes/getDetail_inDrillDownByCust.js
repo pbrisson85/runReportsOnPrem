@@ -9,7 +9,8 @@ const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { program, option, filters, columnDataName, reportName, colType, periodStart, periodEnd } = req.body
+  const { program, option, filters, columnDataName, reportName, colType, periodEnd } = req.body
+  let { periodStart } = req.body
 
   console.log(`\nget detail data for ${reportName} route HIT...`)
 

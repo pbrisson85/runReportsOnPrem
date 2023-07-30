@@ -13,7 +13,8 @@ const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate
 // Instead of entering the start and end dates, enter the start week, end week. Then the same variables can be used for prior years.
 
 router.post('/', async (req, res) => {
-  const { program, option, filters, columnDataName, reportName, colType, periodStart, periodEnd, showFyTrend } = req.body
+  const { program, option, filters, columnDataName, reportName, colType, periodEnd, showFyTrend } = req.body
+  let { periodStart } = req.body
 
   console.log(`\nget drilldown data for ${reportName} route HIT...`)
 
