@@ -5,7 +5,7 @@ const getWeekForDate = async date => {
 
   console.log(`get week for date: ${date} ...`)
 
-  const week = await pgClient.query(
+  const response = await pgClient.query(
     `SELECT p.week
      FROM "accountingPeriods".period_by_day AS p
      WHERE p.formatted_date = $1`,
@@ -14,10 +14,14 @@ const getWeekForDate = async date => {
 
   await pgClient.end()
 
-  console.log(week)
-  console.log('week: ', week.rows[0].week)
+  // If week is 52 then return 53 since some years have 53 weeks
 
-  return week.rows[0].week
+  let week = response.rows[0].week
+  if (week === 52) {
+    week = 53
+  }
+
+  return week
 }
 
 module.exports.getWeekForDate = getWeekForDate
