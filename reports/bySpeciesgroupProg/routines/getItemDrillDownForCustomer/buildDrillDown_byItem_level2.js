@@ -11,7 +11,7 @@ const {
   lvl_1_subtotal_getSalesPeriodToDate,
   lvl_0_total_getSalesPeriodToDate,
 } = require('../../queries/postgres/getItemDrillDownForCustomer/byItem_level2/getSalesTrend')
-const { getCompanyTotalSales } = require('../../shared/queries/postgres/getCompanyTotalSales')
+const { getCompanyTotalSales } = require('../../../shared/queries/postgres/getCompanyTotalSales')
 const {
   lvl_1_subtotal_getSalesByFy,
   lvl_0_total_getSalesByFy,
