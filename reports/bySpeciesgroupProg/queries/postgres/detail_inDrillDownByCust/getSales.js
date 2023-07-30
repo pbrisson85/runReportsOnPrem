@@ -19,7 +19,7 @@ const lvl_1_subtotal_getSalesByWk_detail = async (program, filters, columnDataNa
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.formatted_invoice_date >= $1 AND sl.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4 AND sl.week_serial = $5 AND sl.customer_code = $6`,
+      WHERE sl.week >= $1 AND sl.week <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4 AND sl.week_serial = $5 AND sl.customer_code = $6`,
       [start, end, 'FG', filters[0], columnDataName, filters[3]]
       ) //prettier-ignore
 
@@ -49,7 +49,7 @@ const lvl_1_subtotal_getSalesPeriodToDate_detail = async (start, end, program, f
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.formatted_invoice_date >= $1 AND sl.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4 AND sl.customer_code = $5`,
+      WHERE sl.week >= $1 AND sl.week <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4 AND sl.customer_code = $5`,
       [start, end, 'FG', filters[0], filters[3]]
       ) //prettier-ignore
 
@@ -81,7 +81,7 @@ const lvl_2_subtotal_getSalesByWk_detail = async (program, filters, columnDataNa
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.formatted_invoice_date >= $1 AND sl.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4 AND ms.program = $5 AND sl.week_serial = $6 AND sl.customer_code = $7`,
+      WHERE sl.week >= $1 AND sl.week <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4 AND ms.program = $5 AND sl.week_serial = $6 AND sl.customer_code = $7`,
       [start, end, 'FG', filters[0], filters[1], columnDataName, filters[3]]
       ) //prettier-ignore
 
@@ -111,7 +111,7 @@ const lvl_2_subtotal_getSalesPeriodToDate_detail = async (start, end, program, f
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.formatted_invoice_date >= $1 AND sl.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4 AND ms.program = $5 AND sl.customer_code = $6`,
+      WHERE sl.week >= $1 AND sl.week <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4 AND ms.program = $5 AND sl.customer_code = $6`,
       [start, end, 'FG', filters[0], filters[1], filters[3]]
       ) //prettier-ignore
 
@@ -143,7 +143,7 @@ const lvl_0_total_getSalesByWk_detail = async (program, filters, columnDataName,
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.formatted_invoice_date >= $1 AND sl.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND sl.week_serial = $4 AND sl.customer_code = $5`,
+      WHERE sl.week >= $1 AND sl.week <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND sl.week_serial = $4 AND sl.customer_code = $5`,
       [start, end, 'FG', columnDataName, filters[3]]
     ) //prettier-ignore
 
@@ -173,7 +173,7 @@ const lvl_0_total_getSalesPeriodToDate_detail = async (start, end, program, filt
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.formatted_invoice_date >= $1 AND sl.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND sl.customer_code = $4`,
+      WHERE sl.week >= $1 AND sl.week <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND sl.customer_code = $4`,
       [start, end, 'FG', filters[3]]
     ) //prettier-ignore
 

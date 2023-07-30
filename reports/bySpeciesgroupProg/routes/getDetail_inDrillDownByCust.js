@@ -2,6 +2,7 @@ const router = require('express').Router()
 const getDetail_salesOrder = require('../routines/getDetail_inDrillDownByCust_salesOrder')
 const getDetail_salesInvoice = require('../routines/getDetail_inDrillDownByCust_salesInvoice')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
+const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
 
 // @route   POST /api/sales/detail/forProgBySpecBrndSize/
 // @desc    Get drilldown data for a given report and filter
@@ -12,9 +13,8 @@ router.post('/', async (req, res) => {
 
   console.log(`\nget detail data for ${reportName} route HIT...`)
 
-  // Note that start date is the END of the first week. Need the beginning of the same week to pull invoice dates that are after this:
-  let startWeek = await getStartOfWeek(periodStart)
-  startWeek = startWeek[0].formatted_date_start
+  periodStart = getWeekForDate(periodStart) // temporarily until I change the data that is being passed by the front end to the week
+  periodEnd = getWeekForDate(periodEnd) // temporarily until I change the data that is being passed by the front end to the week
 
   let response = null
 
@@ -23,7 +23,7 @@ router.post('/', async (req, res) => {
   }
 
   if (colType === 'salesInvoice') {
-    response = await getDetail_salesInvoice(program, filters, columnDataName, startWeek, periodEnd)
+    response = await getDetail_salesInvoice(program, filters, columnDataName, periodStart, periodEnd)
   }
 
   console.log(`get detail data for ${reportName} route COMPLETE. \n`)

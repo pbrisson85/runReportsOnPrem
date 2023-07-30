@@ -17,7 +17,7 @@ const lvl_1_subtotal_getSalesByWk = async (start, end, program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4 AND ms.program = $5 AND sales_line_items.customer_code = $6 
+      WHERE sales_line_items.week >= $1 AND sales_line_items.week <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4 AND ms.program = $5 AND sales_line_items.customer_code = $6 
       
       GROUP BY sales_line_items.week_serial, ms.item_num, ms.description, ms.size_name 
       
@@ -51,7 +51,7 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (start, end, program, filters)
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4 AND ms.program = $5 AND sales_line_items.customer_code = $6 
+      WHERE sales_line_items.week >= $1 AND sales_line_items.week <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4 AND ms.program = $5 AND sales_line_items.customer_code = $6 
       
       GROUP BY ms.item_num, ms.description, ms.size_name`,
       [start, end, 'FG', filters[0], filters[1], filters[3]]
@@ -85,7 +85,7 @@ const lvl_0_total_getSalesByWk = async (start, end, program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4 AND ms.program = $5 AND sales_line_items.customer_code = $6 
+      WHERE sales_line_items.week >= $1 AND sales_line_items.week <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4 AND ms.program = $5 AND sales_line_items.customer_code = $6 
       
       GROUP BY sales_line_items.week_serial ORDER BY sales_line_items.week_serial`,
       [start, end, 'FG', filters[0], filters[1], filters[3]]
@@ -117,7 +117,7 @@ const lvl_0_total_getSalesPeriodToDate = async (start, end, program, filters) =>
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4 AND ms.program = $5 AND sales_line_items.customer_code = $6`,
+      WHERE sales_line_items.week >= $1 AND sales_line_items.week <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4 AND ms.program = $5 AND sales_line_items.customer_code = $6`,
       [start, end, 'FG', filters[0], filters[1], filters[3]]
     ) //prettier-ignore
 

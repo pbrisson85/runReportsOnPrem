@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const buildReport = require('../routines/buildReport')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
+const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
 const getDefaults = require('../utils/getDefaults')
 
 // @route   POST /api/sales/byProgram
@@ -23,10 +24,10 @@ router.post('/', async (req, res) => {
     req.body.showFyTrend = false
   }
 
-  // Note that start date is the END of the first week. Need the beginning of the same week to pull invoice dates that are after this:
-  const startWeek = await getStartOfWeek(req.body.start)
+  const periodStart = getWeekForDate(req.body.start) // temporarily until I change the data that is being passed by the front end to the week
+  const periodEnd = getWeekForDate(req.body.end) // temporarily until I change the data that is being passed by the front end to the week
 
-  const resp = await buildReport(startWeek[0].formatted_date_start, req.body.end, req.body.showFyTrend)
+  const resp = await buildReport(periodStart, periodEnd, req.body.showFyTrend)
 
   console.log(`get weekly sales species group, program for ${req.body.start} through ${req.body.end} route COMPLETE. \n`)
   res.send(resp)
