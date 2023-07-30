@@ -32,7 +32,7 @@ const getFiscalYearYtdCols = async () => {
       sl.fiscal_year  || ' YTD' AS displayName, TRUE AS showFyTrendflag
     FROM "salesReporting".sales_line_items AS sl 
     
-    ORDER BY sl.fiscal_year ASC`
+    ORDER BY sl.fiscal_year || '_ytd' ASC`
   )
 
   await pgClient.end()
