@@ -14,6 +14,9 @@ const getWeekForDate = async date => {
 
   await pgClient.end()
 
+  console.log(week)
+  console.log('week: ', week.rows[0].week)
+
   return week.rows[0].week
 }
 
