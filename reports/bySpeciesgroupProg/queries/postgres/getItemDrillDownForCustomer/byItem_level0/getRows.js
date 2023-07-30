@@ -12,7 +12,7 @@ const getRowsFirstLevelDetail = async (start, end, program, filters) => {
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-            WHERE sales_line_items.week >= $1 AND sales_line_items.week <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND sales_line_items.customer_code = $4
+            WHERE sales_line_items.formatted_invoice_date >= $1 AND sales_line_items.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND sales_line_items.customer_code = $4
           
           GROUP BY ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.size_name 
           

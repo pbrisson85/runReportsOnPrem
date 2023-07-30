@@ -29,7 +29,7 @@ const lvl_1_subtotal_getSalesByWk = async (start, end, program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
       
-      WHERE sl.week >= $1 AND sl.week <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4 AND ms.program = $5 
+      WHERE sl.formatted_invoice_date >= $1 AND sl.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4 AND ms.program = $5 
       
       GROUP BY sl.week_serial, sl.customer_code, sl.customer_name
       
@@ -63,7 +63,7 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (start, end, program, filters)
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.week >= $1 AND sl.week <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4  AND ms.program = $5
+      WHERE sl.formatted_invoice_date >= $1 AND sl.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4  AND ms.program = $5
       
       GROUP BY sl.customer_code, sl.customer_name`,
       [start, end, 'FG', filters[0], filters[1]]
@@ -97,7 +97,7 @@ const lvl_0_total_getSalesByWk = async (start, end, program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.week >= $1 AND sl.week <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4  AND ms.program = $5
+      WHERE sl.formatted_invoice_date >= $1 AND sl.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4  AND ms.program = $5
       
       GROUP BY sl.week_serial 
       
@@ -131,7 +131,7 @@ const lvl_0_total_getSalesPeriodToDate = async (start, end, program, filters) =>
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.week >= $1 AND sl.week <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4 AND ms.program = $5`,
+      WHERE sl.formatted_invoice_date >= $1 AND sl.formatted_invoice_date <= $2 AND ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.species_group = $4 AND ms.program = $5`,
       [start, end, 'FG', filters[0], filters[1]]
     ) //prettier-ignore
 
