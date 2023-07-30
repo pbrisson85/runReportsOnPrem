@@ -1,3 +1,8 @@
+#### Goals for today:
+
+- Pull trend as of YTD (keep pulling full year though)
+- Option on front end to see trend full year, trend YTD, current year trend (can view one, more than one, or all at same time.)
+
 ### TO DO
 
 - Add non FG sales so report can be tied into seasoft
