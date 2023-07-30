@@ -10,7 +10,7 @@ const helmet = require('helmet')
 /* Reports */
 const getSalesByProgram = require('./reports/bySpeciesgroupProg/routes/buildReport')
 const drillDownSalesByProgram = require('./reports/bySpeciesgroupProg/routes/buildDrillDown')
-//const getItemDrillDownForCustomerbySpeciesgroupProg = require('./reports/bySpeciesgroupProg/routes/getItemDrillDownForCustomer') // drilldown level two
+const getItemDrillDownForCustomerbySpeciesgroupProg = require('./reports/bySpeciesgroupProg/routes/getItemDrillDownForCustomer') // drilldown level two
 const detailSalesByProgram = require('./reports/bySpeciesgroupProg/routes/getDetail')
 const drillDownCustomerDetailSalesByProgram = require('./reports/bySpeciesgroupProg/routes/getDetail_inDrillDownByCust')
 
@@ -71,7 +71,7 @@ app.use(helmet())
 app.use(express.json())
 app.use('/api/sales/bySpeciesgroupProg', getSalesByProgram)
 app.use('/api/sales/drillDown/bySpeciesgroupProg', drillDownSalesByProgram)
-//app.use('/api/sales/drillDown/item/bySpeciesgroupProg', getItemDrillDownForCustomerbySpeciesgroupProg) // drilldown level two
+app.use('/api/sales/drillDown/item/bySpeciesgroupProg', getItemDrillDownForCustomerbySpeciesgroupProg) // drilldown level two
 app.use('/api/sales/detail/bySpeciesgroupProg', detailSalesByProgram)
 app.use('/api/sales/drillDownDetail/customer/bySpeciesgroupProg', drillDownCustomerDetailSalesByProgram)
 
