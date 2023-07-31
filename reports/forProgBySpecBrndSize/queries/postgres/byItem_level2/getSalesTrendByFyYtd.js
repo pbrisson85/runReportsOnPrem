@@ -49,7 +49,7 @@ const lvl_0_total_getSalesByFyYtd = async (start, end, program, filters) => {
     const response = await pgClient.query(
       `SELECT sl.fiscal_year || '_ytd' AS column, \'FG SALES\' AS l1_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
       
-      FROM "salesReporting".sl AS sl 
+      FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
