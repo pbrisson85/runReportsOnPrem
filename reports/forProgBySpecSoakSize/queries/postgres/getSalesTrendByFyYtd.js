@@ -8,7 +8,7 @@ const lvl_1_subtotal_getSalesByFyYtd = async (start, end, program) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`level 1: query postgres to get FG sales data by week ...`)
+    console.log(`level 1: query postgres to get FG sales data by week for week ${start} through week ${end} ...`)
 
     const response = await pgClient.query(
       `SELECT sales_line_items.fiscal_year AS column, ms.fg_fresh_frozen AS l1_label, \'SUBTOTAL\' AS l2_label, \'SUBTOTAL\' AS l3_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
@@ -44,7 +44,7 @@ const lvl_2_subtotal_getSalesByFyYtd = async (start, end, program) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`level 2: query postgres to get FG sales data by week ...`)
+    console.log(`level 2: query postgres to get FG sales data by week for week ${start} through week ${end} ...`)
 
     const response = await pgClient.query(
       `SELECT sales_line_items.fiscal_year AS column, ms.fg_fresh_frozen AS l1_label, ms.brand AS l2_label, \'SUBTOTAL\' AS l3_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
@@ -80,7 +80,7 @@ const lvl_3_subtotal_getSalesByFyYtd = async (start, end, program) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`level 3: query postgres to get FG sales data by week ...`)
+    console.log(`level 3: query postgres to get FG sales data by week for week ${start} through week ${end} ...`)
 
     const response = await pgClient.query(
       `SELECT sales_line_items.fiscal_year AS column, ms.fg_fresh_frozen AS l1_label, ms.brand AS l2_label, ms.size_name AS l3_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
@@ -116,7 +116,7 @@ const lvl_0_total_getSalesByFyYtd = async (start, end, program) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`level 0: query postgres to get FG sales data by week ...`)
+    console.log(`level 0: query postgres to get FG sales data by week for week ${start} through week ${end} ...`)
 
     const response = await pgClient.query(
       `SELECT sales_line_items.fiscal_year AS column, \'FG SALES\' AS l1_label, \'TOTAL\' AS l2_label, \'TOTAL\' AS l3_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
