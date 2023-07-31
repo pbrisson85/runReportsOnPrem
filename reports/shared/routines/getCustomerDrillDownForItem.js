@@ -9,7 +9,11 @@ const {
 const { getCompanyTotalSales } = require('../../shared/queries/postgres/getCompanyTotalSales')
 const { getProgramTotalSales } = require('../../shared/queries/postgres/getProgramTotalSales')
 const { lvl_1_subtotal_getSalesByFy, lvl_0_total_getSalesByFy } = require('../queries/postgres/getCustomerDrillDownForItem/getSalesTrendByFy')
-const { getFiscalYearCols } = require('../queries/postgres/getFiscalYearCols')
+const {
+  lvl_1_subtotal_getSalesByFyYtd,
+  lvl_0_total_getSalesByFyYtd,
+} = require('../queries/postgres/getCustomerDrillDownForItem/getSalesTrendByFyYtd')
+const { getFiscalYearCols, getFiscalYearYtdCols } = require('../queries/postgres/getFiscalYearCols')
 const { lvl_1_subtotal_getSo, lvl_0_total_getSo } = require('../queries/postgres/getCustomerDrillDownForItem/getSo')
 const { lvl_1_subtotal_getSo_byWk, lvl_0_total_getSo_byWk } = require('../queries/postgres/getCustomerDrillDownForItem/getSoByWeek')
 const { getRowsFirstLevelDetail } = require('../queries/postgres/getCustomerDrillDownForItem/getRows')
@@ -20,7 +24,7 @@ const unflattenByCompositKey = require('../models/unflattenByCompositKey')
 const labelCols = require('../queries/hardcode/cols_byCustomer')
 const calcPercentSalesCol = require('../models/calcPercentSalesCol')
 
-const buildDrillDown = async (item, start, end, program, filters, showFyTrend) => {
+const buildDrillDown = async (item, start, end, program, filters, showFyTrend, startWeek, endWeek) => {
   console.log(item, '\n', start, '\n', end)
 
   // ///////////////////////////////// SALES ORDERS
@@ -33,6 +37,8 @@ const buildDrillDown = async (item, start, end, program, filters, showFyTrend) =
   // ///////////////////////////////// SALES DATA
   const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(item)
   const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(item)
+  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(startWeek, endWeek, item)
+  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(startWeek, endWeek, item)
   const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end, item)
   const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(start, end, item)
   const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(start, end, item)
@@ -70,7 +76,9 @@ const buildDrillDown = async (item, start, end, program, filters, showFyTrend) =
   })
 
   // switch to include fy trend data
-  const fyTrendSales = showFyTrend ? [...lvl_1_subtotal_salesByFy, ...lvl_0_total_salesByFy] : []
+  const fyTrendSales = showFyTrend
+    ? [...lvl_1_subtotal_salesByFy, ...lvl_0_total_salesByFy, ...lvl_1_subtotal_salesByFyYtd, ...lvl_0_total_salesByFyYtd]
+    : []
 
   const mappedData = mapSalesToRowTemplates(
     [
@@ -126,7 +134,9 @@ const buildDrillDown = async (item, start, end, program, filters, showFyTrend) =
 
   // get data column names by fiscal year
   let salesColsByFy = null
+  let salesColsByFyYtd = null
   if (showFyTrend) salesColsByFy = await getFiscalYearCols()
+  if (showFyTrend) salesColsByFyYtd = await getFiscalYearYtdCols()
 
   // get so by week cols
   const start_so = await getEarliestShipWk()
@@ -134,7 +144,14 @@ const buildDrillDown = async (item, start, end, program, filters, showFyTrend) =
   const soCols = await getDateEndPerWeekByRange_so(start_so, end_so)
 
   // return
-  return { data: finalData, salesColsByWk: salesColsByWk, salesColsByFy: salesColsByFy, labelCols: labelCols, soCols }
+  return {
+    data: finalData,
+    salesColsByWk: salesColsByWk,
+    salesColsByFy: salesColsByFy,
+    salesColsByFyYtd: salesColsByFyYtd,
+    labelCols: labelCols,
+    soCols,
+  }
 }
 
 module.exports = buildDrillDown
