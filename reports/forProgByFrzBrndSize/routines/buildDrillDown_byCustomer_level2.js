@@ -121,9 +121,7 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend, startWe
       return 0
     })
     .sort((a, b) => {
-      if (a.l2_label === null || b.l2_label === null) {
-        console.log('a: ', a)
-        console.log('b: ', b)
+      if (a.l2_label === null || b.l2_label === null || typeof a.l2_label === 'undefined' || typeof b.l2_label === 'undefined') {
         return 1
       }
 
