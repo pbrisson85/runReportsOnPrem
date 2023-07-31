@@ -17,12 +17,12 @@ const lvl_1_subtotal_getSalesByFyYtd = async (start, end, program) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ms.program = $2 
+      WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.program = $4 AND sales_line_items.week >= $1 AND sales_line_items.week <= $2 
       
       GROUP BY sales_line_items.fiscal_year, ms.fg_fresh_frozen 
       
       ORDER BY sales_line_items.fiscal_year`,
-      [ 'FG', program]
+      [start, end, 'FG', program]
       ) //prettier-ignore
 
     await pgClient.end()
@@ -53,12 +53,12 @@ const lvl_2_subtotal_getSalesByFyYtd = async (start, end, program) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ms.program = $2 
+      WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.program = $4 AND sales_line_items.week >= $1 AND sales_line_items.week <= $2 
       
       GROUP BY sales_line_items.fiscal_year, ms.fg_fresh_frozen, ms.brand 
       
       ORDER BY sales_line_items.fiscal_year`,
-      [ 'FG', program]
+      [ start, end,'FG', program]
       ) //prettier-ignore
 
     await pgClient.end()
@@ -89,12 +89,12 @@ const lvl_3_subtotal_getSalesByFyYtd = async (start, end, program) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ms.program = $2 
+      WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.program = $4 AND sales_line_items.week >= $1 AND sales_line_items.week <= $2 
       
       GROUP BY sales_line_items.fiscal_year, ms.fg_fresh_frozen, ms.brand, ms.size_name 
       
       ORDER BY sales_line_items.fiscal_year`,
-      ['FG', program]
+      [start, end,'FG', program]
       ) //prettier-ignore
 
     await pgClient.end()
@@ -125,12 +125,12 @@ const lvl_0_total_getSalesByFyYtd = async (start, end, program) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ms.program = $2 
+      WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.program = $4 AND sales_line_items.week >= $1 AND sales_line_items.week <= $2 
       
       GROUP BY sales_line_items.fiscal_year 
       
       ORDER BY sales_line_items.fiscal_year`,
-      ['FG', program]
+      [start, end,'FG', program]
     ) //prettier-ignore
 
     await pgClient.end()
