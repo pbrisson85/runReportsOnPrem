@@ -1,7 +1,9 @@
 #### Goals for today:
 
-- Pull trend as of YTD (keep pulling full year though)
+- Pull trend as of YTD (keep pulling full year though) < -- Only finished bySpeciesgroupProg. Need remaining four program reports
 - Option on front end to see trend full year, trend YTD, current year trend (can view one, more than one, or all at same time.)
+- Drilldowns for PY columns
+- Group customer view by cust type ()
 
 ### TO DO
 

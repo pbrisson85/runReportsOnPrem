@@ -1,5 +1,5 @@
 const { getDateEndPerWeekByRange, getDateEndPerWeekByRange_so } = require('../../shared/queries/postgres/getDateEndPerWeek')
-const { getFiscalYearCols } = require('../../shared/queries/postgres/getFiscalYearCols')
+const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../shared/queries/postgres/getFiscalYearCols')
 const { getLatestShipWk, getEarliestShipWk } = require('../../shared/queries/postgres/getSoDates')
 const {
   lvl_1_subtotal_getSalesByWk,
@@ -10,6 +10,7 @@ const {
 const { getCompanyTotalSales } = require('../../shared/queries/postgres/getCompanyTotalSales')
 const { lvl_0_total_getSalesPeriodToDate: lvl_0_program_getSalesPeriodToDate } = require('../queries/postgres/getSalesTrend')
 const { lvl_1_subtotal_getSalesByFy, lvl_0_total_getSalesByFy } = require('../queries/postgres/byCustomer_level1/getSalesTrendByFy')
+const { lvl_1_subtotal_getSalesByFyYtd, lvl_0_total_getSalesByFyYtd } = require('../queries/postgres/byCustomer_level1/getSalesTrendByFyYtd')
 const { lvl_1_subtotal_getSo, lvl_0_total_getSo } = require('../queries/postgres/byCustomer_level1/getSo')
 const { lvl_1_subtotal_getSo_byWk, lvl_0_total_getSo_byWk } = require('../queries/postgres/byCustomer_level1/getSoByWeek')
 const { getRowsFirstLevelDetail } = require('../queries/postgres/byCustomer_level1/getRows')
@@ -20,7 +21,7 @@ const unflattenByCompositKey = require('../../shared/models/unflattenByCompositK
 const labelCols = require('../queries/hardcode/cols_byCustomer')
 const calcPercentSalesCol = require('../../shared/models/calcPercentSalesCol')
 
-const buildDrillDown = async (program, start, end, filters, showFyTrend) => {
+const buildDrillDown = async (program, start, end, filters, showFyTrend, startWeek, endWeek) => {
   console.log(program, '\n', start, '\n', end, '\n', filters)
 
   // ///////////////////////////////// SALES ORDERS
@@ -33,6 +34,8 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend) => {
   // ///////////////////////////////// SALES DATA
   const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(start, end, program, filters)
   const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(start, end, program, filters)
+  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(startWeek, endWeek, program, filters)
+  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(startWeek, endWeek, program, filters)
   const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end, program, filters)
   const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(start, end, program, filters)
   const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(start, end, program, filters)
@@ -78,7 +81,9 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend) => {
   })
 
   // switch to include fy trend data
-  const fyTrendSales = showFyTrend ? [...lvl_1_subtotal_salesByFy, ...lvl_0_total_salesByFy] : []
+  const fyTrendSales = showFyTrend
+    ? [...lvl_1_subtotal_salesByFy, ...lvl_0_total_salesByFy, ...lvl_1_subtotal_salesByFyYtd, ...lvl_0_total_salesByFyYtd]
+    : []
 
   const mappedData = mapSalesToRowTemplates(
     [
@@ -134,7 +139,9 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend) => {
 
   // get data column names by fiscal year
   let salesColsByFy = null
+  let salesColsByFyYtd = null
   if (showFyTrend) salesColsByFy = await getFiscalYearCols()
+  if (showFyTrend) salesColsByFyYtd = await getFiscalYearYtdCols()
 
   // get so by week cols
   const start_so = await getEarliestShipWk()
@@ -142,7 +149,14 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend) => {
   const soCols = await getDateEndPerWeekByRange_so(start_so, end_so)
 
   // return
-  return { data: finalData, salesColsByWk: salesColsByWk, salesColsByFy: salesColsByFy, labelCols: labelCols, soCols }
+  return {
+    data: finalData,
+    salesColsByWk: salesColsByWk,
+    salesColsByFy: salesColsByFy,
+    salesColsByFyYtd: salesColsByFyYtd,
+    labelCols: labelCols,
+    soCols,
+  }
 }
 
 module.exports = buildDrillDown

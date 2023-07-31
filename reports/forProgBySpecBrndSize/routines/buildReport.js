@@ -4,7 +4,7 @@ const {
   getDateEndPerWeekByRange_so_tg,
   getDateEndPerWeekByRange_so_untg,
 } = require('../../shared/queries/postgres/getDateEndPerWeek')
-const { getFiscalYearCols } = require('../../shared/queries/postgres/getFiscalYearCols')
+const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../shared/queries/postgres/getFiscalYearCols')
 const { getLatestShipWk, getEarliestShipWk } = require('../../shared/queries/postgres/getSoDates')
 const {
   lvl_1_subtotal_getSalesByWk,
@@ -23,6 +23,12 @@ const {
   lvl_3_subtotal_getSalesByFy,
   lvl_0_total_getSalesByFy,
 } = require('../queries/postgres/getSalesTrendByFy')
+const {
+  lvl_1_subtotal_getSalesByFyYtd,
+  lvl_2_subtotal_getSalesByFyYtd,
+  lvl_3_subtotal_getSalesByFyYtd,
+  lvl_0_total_getSalesByFyYtd,
+} = require('../queries/postgres/getSalesTrendByFyYtd')
 const {
   lvl_1_subtotal_getFgInven,
   lvl_2_subtotal_getFgInven,
@@ -114,7 +120,7 @@ const calcPercentSalesCol = require('../../shared/models/calcPercentSalesCol')
 
 const labelCols = require('../queries/hardcode/cols')
 
-const buildReport = async (start, end, program, showFyTrend) => {
+const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek) => {
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
   const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(program)
@@ -205,6 +211,10 @@ const buildReport = async (start, end, program, showFyTrend) => {
   const lvl_2_subtotal_salesByFy = await lvl_2_subtotal_getSalesByFy(start, end, program)
   const lvl_3_subtotal_salesByFy = await lvl_3_subtotal_getSalesByFy(start, end, program)
   const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(start, end, program)
+  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(startWeek, endWeek, program)
+  const lvl_2_subtotal_salesByFyYtd = await lvl_2_subtotal_getSalesByFyYtd(startWeek, endWeek, program)
+  const lvl_3_subtotal_salesByFyYtd = await lvl_3_subtotal_getSalesByFyYtd(startWeek, endWeek, program)
+  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(startWeek, endWeek, program)
   const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end, program)
   const lvl_2_subtotal_salesByWk = await lvl_2_subtotal_getSalesByWk(start, end, program)
   const lvl_3_subtotal_salesByWk = await lvl_3_subtotal_getSalesByWk(start, end, program)
@@ -300,7 +310,16 @@ const buildReport = async (start, end, program, showFyTrend) => {
 
   // switch to include fy trend data
   const fyTrendSales = showFyTrend
-    ? [...lvl_1_subtotal_salesByFy, ...lvl_2_subtotal_salesByFy, ...lvl_3_subtotal_salesByFy, ...lvl_0_total_salesByFy]
+    ? [
+        ...lvl_1_subtotal_salesByFy,
+        ...lvl_2_subtotal_salesByFy,
+        ...lvl_3_subtotal_salesByFy,
+        ...lvl_0_total_salesByFy,
+        ...lvl_1_subtotal_salesByFyYtd,
+        ...lvl_2_subtotal_salesByFyYtd,
+        ...lvl_3_subtotal_salesByFyYtd,
+        ...lvl_0_total_salesByFyYtd,
+      ]
     : []
 
   const mappedSales = mapSalesToRowTemplates(
@@ -412,7 +431,9 @@ const buildReport = async (start, end, program, showFyTrend) => {
 
   // get data column names by fiscal year
   let salesColsByFy = null
+  let salesColsByFyYtd = null
   if (showFyTrend) salesColsByFy = await getFiscalYearCols()
+  if (showFyTrend) salesColsByFyYtd = await getFiscalYearYtdCols()
 
   // get so by week cols
   const start_so = await getEarliestShipWk()
@@ -426,6 +447,7 @@ const buildReport = async (start, end, program, showFyTrend) => {
     data: finalData,
     salesColsByWk: salesColsByWk,
     salesColsByFy: salesColsByFy,
+    salesColsByFyYtd: salesColsByFyYtd,
     labelCols: labelCols,
     soCols,
     soCols_tg,
