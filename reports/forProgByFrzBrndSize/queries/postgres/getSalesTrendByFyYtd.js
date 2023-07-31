@@ -27,6 +27,8 @@ const lvl_1_subtotal_getSalesByFyYtd = async (start, end, program) => {
 
     await pgClient.end()
 
+    console.log(response.rows)
+
     return response.rows
   } catch (error) {
     console.error(error)
