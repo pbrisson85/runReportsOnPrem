@@ -3,8 +3,6 @@
 // FG Species Group totals by week
 
 const lvl_1_subtotal_getSalesByFy = async filters => {
-  console.log(filters)
-
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV

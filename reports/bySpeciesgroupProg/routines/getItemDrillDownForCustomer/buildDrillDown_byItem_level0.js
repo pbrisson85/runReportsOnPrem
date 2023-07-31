@@ -107,8 +107,8 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend, startWe
   const lvl_0_total_soUntagged_byWk = await lvl_0_total_getSoUntagged_byWk(program, filters)
 
   // ///////////////////////////////// SALES DATA
-  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy()
-  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy()
+  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(filters)
+  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(filters)
   const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(startWeek, endWeek, filters)
   const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(startWeek, endWeek, filters)
   const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end, program, filters)
