@@ -11,17 +11,17 @@ const lvl_1_subtotal_getSalesByFyYtd = async (start, end, program, filters) => {
     console.log(`level 1: query postgres to get FG sales data by week ...`)
 
     const response = await pgClient.query(
-      `SELECT sales_line_items.fiscal_year || '_ytd' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.size_name AS l3_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
+      `SELECT sl.fiscal_year || '_ytd' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.size_name AS l3_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
       
       FROM "salesReporting".sales_line_items AS sl
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-          ON ms.item_num = sales_line_items.item_number 
+          ON ms.item_num = sl.item_number 
           
       WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.program = $4 AND ms.fg_fresh_frozen = $5 AND ms.brand = $6 AND sl.week >= $1 AND sl.week <= $2 
       
-      GROUP BY sales_line_items.fiscal_year, ms.item_num, ms.description, ms.size_name 
+      GROUP BY sl.fiscal_year, ms.item_num, ms.description, ms.size_name 
       
-      ORDER BY sales_line_items.fiscal_year`,
+      ORDER BY sl.fiscal_year`,
       [ start, end, 'FG', program, filters[0], filters[1]]
       ) //prettier-ignore
 
