@@ -3,6 +3,8 @@
 // FG Species Group totals by week
 
 const lvl_1_subtotal_getSalesByFyYtd = async (start, end, program, filters) => {
+  console.log('lvl_1_subtotal_getSalesByFyYtd', start, end, program, filters)
+
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -39,6 +41,8 @@ const lvl_1_subtotal_getSalesByFyYtd = async (start, end, program, filters) => {
 // All sales row totals by week for a program
 
 const lvl_0_total_getSalesByFyYtd = async (start, end, program, filters) => {
+  console.log('lvl_0_total_getSalesByFyYtd', start, end, program, filters)
+
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
