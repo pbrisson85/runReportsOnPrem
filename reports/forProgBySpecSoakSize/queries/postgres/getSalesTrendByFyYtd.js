@@ -11,7 +11,7 @@ const lvl_1_subtotal_getSalesByFyYtd = async (start, end, program) => {
     console.log(`level 1: query postgres to get FG sales data by week for week ${start} through week ${end} ...`)
 
     const response = await pgClient.query(
-      `SELECT sales_line_items.fiscal_year || '_ytd' AS column, ms.fg_fresh_frozen AS l1_label, \'SUBTOTAL\' AS l2_label, \'SUBTOTAL\' AS l3_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
+      `SELECT sales_line_items.fiscal_year || '_ytd' AS column, ms.species AS l1_label, \'SUBTOTAL\' AS l2_label, \'SUBTOTAL\' AS l3_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
       
       FROM "salesReporting".sales_line_items 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -19,7 +19,7 @@ const lvl_1_subtotal_getSalesByFyYtd = async (start, end, program) => {
           
       WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.program = $4 AND sales_line_items.week >= $1 AND sales_line_items.week <= $2 
       
-      GROUP BY sales_line_items.fiscal_year, ms.fg_fresh_frozen 
+      GROUP BY sales_line_items.fiscal_year, ms.species 
       
       ORDER BY sales_line_items.fiscal_year`,
       [ start, end,'FG', program]
@@ -47,7 +47,7 @@ const lvl_2_subtotal_getSalesByFyYtd = async (start, end, program) => {
     console.log(`level 2: query postgres to get FG sales data by week for week ${start} through week ${end} ...`)
 
     const response = await pgClient.query(
-      `SELECT sales_line_items.fiscal_year || '_ytd' AS column, ms.fg_fresh_frozen AS l1_label, ms.brand AS l2_label, \'SUBTOTAL\' AS l3_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
+      `SELECT sales_line_items.fiscal_year || '_ytd' AS column, ms.species AS l1_label, ms.fg_treatment AS l2_label, \'SUBTOTAL\' AS l3_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
       
       FROM "salesReporting".sales_line_items 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -55,7 +55,7 @@ const lvl_2_subtotal_getSalesByFyYtd = async (start, end, program) => {
           
       WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.program = $4 AND sales_line_items.week >= $1 AND sales_line_items.week <= $2 
       
-      GROUP BY sales_line_items.fiscal_year, ms.fg_fresh_frozen, ms.brand 
+      GROUP BY sales_line_items.fiscal_year, ms.species, ms.fg_treatment 
       
       ORDER BY sales_line_items.fiscal_year`,
       [start, end, 'FG', program]
@@ -83,7 +83,7 @@ const lvl_3_subtotal_getSalesByFyYtd = async (start, end, program) => {
     console.log(`level 3: query postgres to get FG sales data by week for week ${start} through week ${end} ...`)
 
     const response = await pgClient.query(
-      `SELECT sales_line_items.fiscal_year || '_ytd' AS column, ms.fg_fresh_frozen AS l1_label, ms.brand AS l2_label, ms.size_name AS l3_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
+      `SELECT sales_line_items.fiscal_year || '_ytd' AS column, ms.species AS l1_label, ms.fg_treatment AS l2_label, ms.size_name AS l3_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
       
       FROM "salesReporting".sales_line_items 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -91,7 +91,7 @@ const lvl_3_subtotal_getSalesByFyYtd = async (start, end, program) => {
           
       WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.program = $4 AND sales_line_items.week >= $1 AND sales_line_items.week <= $2 
       
-      GROUP BY sales_line_items.fiscal_year, ms.fg_fresh_frozen, ms.brand, ms.size_name 
+      GROUP BY sales_line_items.fiscal_year, ms.species, ms.fg_treatment, ms.size_name 
       
       ORDER BY sales_line_items.fiscal_year`,
       [start, end,'FG', program]
