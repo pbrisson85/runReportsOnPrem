@@ -17,12 +17,12 @@ const lvl_1_subtotal_getSalesByFyYtd = async (start, end, program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
       
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.program = $4 AND ms.species = $5 AND sl.week >= $1 AND sl.week <= $2
+      WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.program = $4 AND ms.species = $5 AND ms.fg_treatment = $6 AND sl.week >= $1 AND sl.week <= $2
       
       GROUP BY sl.fiscal_year, sl.customer_code, sl.customer_name
       
       ORDER BY sl.fiscal_year`,
-      [ start, end, 'FG', program, filters[0]]
+      [ start, end, 'FG', program, filters[0], filters[1]]
       ) //prettier-ignore
 
     await pgClient.end()
@@ -53,12 +53,12 @@ const lvl_0_total_getSalesByFyYtd = async (start, end, program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.program = $4 AND ms.species = $5 AND sl.week >= $1 AND sl.week <= $2
+      WHERE ms.byproduct_type IS NULL AND ms.item_type = $3 AND ms.program = $4 AND ms.species = $5 AND ms.fg_treatment = $6 AND sl.week >= $1 AND sl.week <= $2
       
       GROUP BY sl.fiscal_year 
       
       ORDER BY sl.fiscal_year`,
-      [start, end, 'FG', program, filters[0]]
+      [start, end, 'FG', program, filters[0], filters[1]]
     ) //prettier-ignore
 
     await pgClient.end()
