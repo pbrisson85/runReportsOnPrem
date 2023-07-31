@@ -2,7 +2,7 @@
 
 // FG Species Group totals by week
 
-const lvl_1_subtotal_getSalesByFy = async (start, end, program) => {
+const lvl_1_subtotal_getSalesByFyYtd = async (start, end, program) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -38,7 +38,7 @@ const lvl_1_subtotal_getSalesByFy = async (start, end, program) => {
 
 // FG Program row totals by week
 
-const lvl_2_subtotal_getSalesByFy = async (start, end, program) => {
+const lvl_2_subtotal_getSalesByFyYtd = async (start, end, program) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -74,7 +74,7 @@ const lvl_2_subtotal_getSalesByFy = async (start, end, program) => {
 
 // FG Program row totals by week
 
-const lvl_3_subtotal_getSalesByFy = async (start, end, program) => {
+const lvl_3_subtotal_getSalesByFyYtd = async (start, end, program) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -110,7 +110,7 @@ const lvl_3_subtotal_getSalesByFy = async (start, end, program) => {
 
 // All sales row totals by week for a program
 
-const lvl_0_total_getSalesByFy = async (start, end, program) => {
+const lvl_0_total_getSalesByFyYtd = async (start, end, program) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -142,7 +142,7 @@ const lvl_0_total_getSalesByFy = async (start, end, program) => {
   }
 }
 
-module.exports.lvl_0_total_getSalesByFy = lvl_0_total_getSalesByFy
-module.exports.lvl_2_subtotal_getSalesByFy = lvl_2_subtotal_getSalesByFy
-module.exports.lvl_1_subtotal_getSalesByFy = lvl_1_subtotal_getSalesByFy
-module.exports.lvl_3_subtotal_getSalesByFy = lvl_3_subtotal_getSalesByFy
+module.exports.lvl_0_total_getSalesByFyYtd = lvl_0_total_getSalesByFyYtd
+module.exports.lvl_2_subtotal_getSalesByFyYtd = lvl_2_subtotal_getSalesByFyYtd
+module.exports.lvl_1_subtotal_getSalesByFyYtd = lvl_1_subtotal_getSalesByFyYtd
+module.exports.lvl_3_subtotal_getSalesByFyYtd = lvl_3_subtotal_getSalesByFyYtd

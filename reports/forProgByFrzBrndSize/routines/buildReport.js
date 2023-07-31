@@ -18,16 +18,16 @@ const {
 } = require('../queries/postgres/getSalesTrend')
 const { getCompanyTotalSales } = require('../../shared/queries/postgres/getCompanyTotalSales')
 const {
-  lvl_1_subtotal_getSalesByFy,
-  lvl_2_subtotal_getSalesByFy,
-  lvl_3_subtotal_getSalesByFy,
-  lvl_0_total_getSalesByFy,
-} = require('../queries/postgres/getSalesTrendByFy')
-const {
   lvl_1_subtotal_getSalesByFyYtd,
   lvl_2_subtotal_getSalesByFyYtd,
   lvl_3_subtotal_getSalesByFyYtd,
   lvl_0_total_getSalesByFyYtd,
+} = require('../queries/postgres/getSalesTrendByFy')
+const {
+  lvl_1_subtotal_getSalesByFyYtdYtd,
+  lvl_2_subtotal_getSalesByFyYtdYtd,
+  lvl_3_subtotal_getSalesByFyYtdYtd,
+  lvl_0_total_getSalesByFyYtdYtd,
 } = require('../queries/postgres/getSalesTrendByFyYtd')
 const {
   lvl_1_subtotal_getFgInven,
@@ -209,14 +209,14 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek)
   const lvl_0_total_soUntagged_byWk = await lvl_0_total_getSoUntagged_byWk(program)
 
   // ///////////////////////////////// SALES DATA
-  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(start, end, program)
-  const lvl_2_subtotal_salesByFy = await lvl_2_subtotal_getSalesByFy(start, end, program)
-  const lvl_3_subtotal_salesByFy = await lvl_3_subtotal_getSalesByFy(start, end, program)
-  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(start, end, program)
-  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(startWeek, endWeek, program)
-  const lvl_2_subtotal_salesByFyYtd = await lvl_2_subtotal_getSalesByFyYtd(startWeek, endWeek, program)
-  const lvl_3_subtotal_salesByFyYtd = await lvl_3_subtotal_getSalesByFyYtd(startWeek, endWeek, program)
-  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(startWeek, endWeek, program)
+  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFyYtd(start, end, program)
+  const lvl_2_subtotal_salesByFy = await lvl_2_subtotal_getSalesByFyYtd(start, end, program)
+  const lvl_3_subtotal_salesByFy = await lvl_3_subtotal_getSalesByFyYtd(start, end, program)
+  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFyYtd(start, end, program)
+  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtdYtd(startWeek, endWeek, program)
+  const lvl_2_subtotal_salesByFyYtd = await lvl_2_subtotal_getSalesByFyYtdYtd(startWeek, endWeek, program)
+  const lvl_3_subtotal_salesByFyYtd = await lvl_3_subtotal_getSalesByFyYtdYtd(startWeek, endWeek, program)
+  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtdYtd(startWeek, endWeek, program)
   const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end, program)
   const lvl_2_subtotal_salesByWk = await lvl_2_subtotal_getSalesByWk(start, end, program)
   const lvl_3_subtotal_salesByWk = await lvl_3_subtotal_getSalesByWk(start, end, program)
