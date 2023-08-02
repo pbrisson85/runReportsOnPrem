@@ -18,7 +18,11 @@ const calcWeeksInvOnHand = (invenData, salesData, colName, numLabels) => {
     requestEmailNotification(`Error in calcWeeksInvOnHand.js: numLabels is not 1, 2, or 3. numLabels = ${numLabels}`)
   }
 
+  console.log('sales_unflat', sales_unflat)
+
   const weeksInvOnHand = invenData.map(row => {
+    console.log('row', row)
+
     const { lbs, cogs, l1_label, l2_label, l3_label } = row
 
     let lbsPerWeek = null
