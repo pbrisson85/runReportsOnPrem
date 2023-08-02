@@ -25,6 +25,8 @@ const calcWeeksInvOnHand = (invenData, salesData, colName, numLabels) => {
     let key = null
     let calcData = null
     if (numLabels === 1) {
+      console.log('numLabels === 1')
+
       key = `${l1_label}`
       lbsPerWeek = sales_unflat[key]?.lbs ?? 0
       lbsPerWeek = sales_unflat[key]?.cogs ?? 0
@@ -32,6 +34,8 @@ const calcWeeksInvOnHand = (invenData, salesData, colName, numLabels) => {
       console.log('key', key)
       console.log('sales_unflat[key]', sales_unflat[key])
     } else if (numLabels === 2) {
+      console.log('numLabels === 2')
+
       key = `${l1_label}-${l2_label}`
       lbsPerWeek = sales_unflat[key]?.lbs ?? 0
       lbsPerWeek = sales_unflat[key]?.cogs ?? 0
@@ -39,6 +43,8 @@ const calcWeeksInvOnHand = (invenData, salesData, colName, numLabels) => {
       console.log('key', key)
       console.log('sales_unflat[key]', sales_unflat[key])
     } else if (numLabels === 3) {
+      console.log('numLabels === 3')
+
       key = `${l1_label}-${l2_label}-${l3_label}`
       lbsPerWeek = sales_unflat[key]?.lbs ?? 0
       lbsPerWeek = sales_unflat[key]?.cogs ?? 0
@@ -59,6 +65,11 @@ const calcWeeksInvOnHand = (invenData, salesData, colName, numLabels) => {
 
       return calcData
     }
+
+    console.log('lbs', lbs)
+    console.log('cogs', cogs)
+    console.log('lbsPerWeek', lbsPerWeek)
+    console.log('cogsPerWeek', cogsPerWeek)
 
     calcData = {
       ...row,
