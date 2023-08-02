@@ -8,7 +8,7 @@ const calcPercentKeyCol = (eachRowData, denomKey, numerKey) => {
   console.log('denomKey', denomKey)
   console.log('numerKey', numerKey, '\n')
 
-  let demons = {}
+  let denoms = {}
 
   eachRowData.forEach(row => {
     const { lbs, sales, cogs, othp } = row
@@ -29,7 +29,7 @@ const calcPercentKeyCol = (eachRowData, denomKey, numerKey) => {
     }
   })
 
-  console.log('demons', demons, '\n')
+  console.log('denoms', denoms, '\n')
 
   return []
 
