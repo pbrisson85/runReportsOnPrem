@@ -84,6 +84,7 @@ const combineMappedRows = require('../../shared/models/combineMappedRows')
 const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay')
 const labelCols = require('../queries/hardcode/cols')
 const calcPercentSalesCol = require('../../shared/models/calcPercentSalesCol')
+const calcPercentKeyCol = require('../../shared/models/calcPercentKeyCol')
 
 const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
   ///////////////////////////////// INVENTORY DATA
@@ -185,6 +186,14 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
     'percentCompanySales'
   )
   const lvl_0_percent_companySales = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentCompanySales')
+
+  console.log('lvl_2_percent_companySales: ', lvl_2_percent_companySales)
+
+  /* % SPECIES GROUP SALES */
+  // write function to pass in an array of objects example:
+  const lvl_1_percent_speciesGroupSales = calcPercentKeyCol(lvl_1_subtotal_salesPeriodToDate, 'percentSpeciesGroupSales')
+  const lvl_2_percent_speciesGroupSales = calcPercentKeyCol(lvl_2_subtotal_salesPeriodToDate, 'percentSpeciesGroupSales')
+  const lvl_0_percent_speciesGroupSales = calcPercentKeyCol(lvl_0_total_salesPeriodToDate, 'percentSpeciesGroupSales')
 
   ///////////////////////////////// ROWS
   let levelTwoRows

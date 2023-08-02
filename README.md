@@ -1,22 +1,24 @@
-#### Goals for today:
+#### Goals:
 
-- Pull trend as of YTD (keep pulling full year though) < -- Only finished bySpeciesgroupProg. Need remaining four program reports
-- Option on front end to see trend full year, trend YTD, current year trend (can view one, more than one, or all at same time.)
+- Make average weekly sales column
+- Make weeks inventory col.
+- Make col for each type of projection (using ave weekly sales, using a certain years sales, using a growth or shrink percentage, apply a % downside and % upside)
+- Add trends for customer by category
+  - On generate sales need to look up the delivery location. If no delivery location then use the customer master. If the location is foreign then classify as foreign sale. If the location is not foreign then classify using the customer type in the customer master. Fix the customer master classifications and have them maintained by AR dept.
+- In the main program report. Add a report format that includes a third level of fresh/frozen
 - Drilldowns for PY columns
 - Group customer view by cust type ()
+- Add inventory by country columns
+- When clicking into trend clear the cache of the non trend data.
+- when clicking out of the trend. clear the cache of the trend data.
+- when clicking out of the detail window. clear the detail cache.
+- Default on load to date range stopping at the current week so dont need to set.
+- Add get detail to all the level two drilldowns.
 
 ### TO DO
 
 - Add non FG sales so report can be tied into seasoft
 - MAKE SALES TREND VIEWABLE BY CALENDAR MONTH, FISCAL PERIOD, CALENDAR QUARTER, CALENDAR YEAR, FISCAL YEAR
-
-- FrzSoakSize - sort the size correctly
-- FrzSoakSize - add detail routes
-
-### Reports:
-
-- FrzSoakSize: By Fresh/Frozen, Processed/Dry, Size
-- SpecSoakSize: By Species, Processed/Dry, Size
 
 ### GL Work
 
@@ -43,20 +45,11 @@ On Front End:
 - Bugs:
 
   - When in a trend, the filter row is not accurate.
-  - When in customer or item trend, after hitting back button the spinner is not appearing and the column change looks like junk.
-  - When double clicking in a drilldown it sorts and I dont like that
-  - Cant sort in both directions in a drilldown pane
-  - PO column in item drilldown is correct on the total but missing data on the rows **\*\***\*\***\*\***
-  - When the scrollbar is all the way to the top and you scroll sideways the rows jump up and down
+  - PO column in item drilldown is correct on the total but missing data on the rows - I cant recreate this. I dont see the problem anymore
+  - When the scrollbar is all the way to the top and you scroll sideways the rows jump up and down - seems to happen when scroll gets stuck vertically
   - If name of vendor is changed then the trend by cust is not grouping correctly. Algo overwrites when name is changed.
-  - scroll jumps when double clicking the heading to change trend data
-  - In transit and on hand inventory item drilldown get detail not getting the correct data it is getting all inventory priority!!!!!!!!
-
-- Testing:
-
-  - Need to test prior years
-  - What happens if I change the report format or year or date range when in a drilldown
-  - All drilldowns and data detail in prior years.
+  - scroll jumps when double clicking the heading to change trend data - Not bad after retesting.
+  - In transit and on hand inventory item drilldown get detail not getting the correct data it is getting all inventory - cant recreate. I think I already fixed
 
 - Data Errors:
   - Scal Domestic -> Fresh -> Light -> Chunk
