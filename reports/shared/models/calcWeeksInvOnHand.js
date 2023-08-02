@@ -3,9 +3,6 @@ const requestEmailNotification = require('../../../requests/requestEmail')
 const unflattenByCompositKey = require('./unflattenByCompositKey')
 
 const calcWeeksInvOnHand = (invenData, salesData, colName, numLabels) => {
-  console.log('invenData', invenData)
-  console.log('salesData', salesData)
-
   // Do not know how many columns the data is grouped by
   let sales_unflat = {}
   if (numLabels === 1) {
@@ -18,8 +15,6 @@ const calcWeeksInvOnHand = (invenData, salesData, colName, numLabels) => {
     requestEmailNotification(`Error in calcWeeksInvOnHand.js: numLabels is not 1, 2, or 3. numLabels = ${numLabels}`)
   }
 
-  console.log('sales_unflat', sales_unflat)
-
   const weeksInvOnHand = invenData.map(row => {
     console.log('row', row)
 
@@ -28,33 +23,53 @@ const calcWeeksInvOnHand = (invenData, salesData, colName, numLabels) => {
     let lbsPerWeek = null
     let cogsPerWeek = null
     let key = null
+    let calcData = null
     if (numLabels === 1) {
       key = `${l1_label}`
       lbsPerWeek = sales_unflat[key]?.lbs ?? 0
       lbsPerWeek = sales_unflat[key]?.cogs ?? 0
+
+      console.log('key', key)
+      console.log('sales_unflat[key]', sales_unflat[key])
     } else if (numLabels === 2) {
       key = `${l1_label}-${l2_label}`
       lbsPerWeek = sales_unflat[key]?.lbs ?? 0
       lbsPerWeek = sales_unflat[key]?.cogs ?? 0
+
+      console.log('key', key)
+      console.log('sales_unflat[key]', sales_unflat[key])
     } else if (numLabels === 3) {
       key = `${l1_label}-${l2_label}-${l3_label}`
       lbsPerWeek = sales_unflat[key]?.lbs ?? 0
       lbsPerWeek = sales_unflat[key]?.cogs ?? 0
+
+      console.log('key', key)
+      console.log('sales_unflat[key]', sales_unflat[key])
     } else {
-      return {
+      console.log('Error in calcWeeksInvOnHand.js: numLabels is not 1, 2, or 3. numLabels = ', numLabels)
+      console.log('row', row)
+      console.log('calcData', calcData)
+
+      calcData = {
         ...row,
         column: colName,
         lbs: lbs,
         cogs: cogs,
       }
+
+      return calcData
     }
 
-    return {
+    calcData = {
       ...row,
       column: colName,
       lbs: lbsPerWeek === 0 ? 0 : lbs / lbsPerWeek,
       cogs: cogsPerWeek === 0 ? 0 : cogs / cogsPerWeek,
     }
+
+    console.log('calcData', calcData)
+
+    return calcData
   })
 
   return weeksInvOnHand
