@@ -29,7 +29,7 @@ const calcWeeksInvOnHand = (invenData, salesData, colName, numLabels) => {
 
       key = `${l1_label}`
       lbsPerWeek = sales_unflat[key]?.lbs ?? 0
-      lbsPerWeek = sales_unflat[key]?.cogs ?? 0
+      cogsPerWeek = sales_unflat[key]?.cogs ?? 0
 
       console.log('key', key)
       console.log('sales_unflat[key]', sales_unflat[key])
@@ -38,7 +38,7 @@ const calcWeeksInvOnHand = (invenData, salesData, colName, numLabels) => {
 
       key = `${l1_label}-${l2_label}`
       lbsPerWeek = sales_unflat[key]?.lbs ?? 0
-      lbsPerWeek = sales_unflat[key]?.cogs ?? 0
+      cogsPerWeek = sales_unflat[key]?.cogs ?? 0
 
       console.log('key', key)
       console.log('sales_unflat[key]', sales_unflat[key])
@@ -47,7 +47,7 @@ const calcWeeksInvOnHand = (invenData, salesData, colName, numLabels) => {
 
       key = `${l1_label}-${l2_label}-${l3_label}`
       lbsPerWeek = sales_unflat[key]?.lbs ?? 0
-      lbsPerWeek = sales_unflat[key]?.cogs ?? 0
+      cogsPerWeek = sales_unflat[key]?.cogs ?? 0
 
       console.log('key', key)
       console.log('sales_unflat[key]', sales_unflat[key])
