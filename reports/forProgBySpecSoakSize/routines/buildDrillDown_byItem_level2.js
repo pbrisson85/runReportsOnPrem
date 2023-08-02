@@ -129,6 +129,10 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend, startWe
     lvl_0_total_salesPeriodToDate,
     'percentProgramSales'
   )
+  /* % REPORT TOTAL */
+  const lvl_1_percent_reportTotal = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_1_subtotal_salesPeriodToDate, 'percentReportTotal')
+  const lvl_0_percent_reportTotal = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentReportTotal')
+
   ///////////////////////////////// ROWS
   let rowsFirstLevelDetail
   if (showFyTrend) {
@@ -178,6 +182,8 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend, startWe
       ...lvl_0_percent_companySales,
       ...lvl_1_percent_programSales,
       ...lvl_0_percent_programSales,
+      ...lvl_1_percent_reportTotal,
+      ...lvl_0_percent_reportTotal,
     ],
     rowTemplate_unflat
   )
