@@ -1,5 +1,7 @@
 #### Goals:
 
+- In the calcWeeksInvOnHand why am i passing in the freaking number of cols? Why not just assume there are 5 or 10 and let the undefined be undefined. Will calling the function easier, Will make the function code WAY cleaner.
+
 - Customer drilldown from item does not have the weekly sales yet. Also need to add weekly sales and weeks inventory on all reports other than the "all" program report
 
 - I put % of maj species into each main report but not any drilldowns.

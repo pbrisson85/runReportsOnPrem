@@ -294,10 +294,10 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek)
   const lvl_0_aveWeeklySales = calcAveWeeklySales(lvl_0_total_salesPeriodToDate, 'aveWeeklySales', weeks)
 
   /* WEEKS INV ON HAND */
-  const lvl_1_weeksInvOnHand = calcWeeksInvOnHand(lvl_1_subtotal_fgInven, lvl_1_aveWeeklySales, 'weeksInvenOnHand', 2)
-  const lvl_2_weeksInvOnHand = calcWeeksInvOnHand(lvl_2_subtotal_fgInven, lvl_2_aveWeeklySales, 'weeksInvenOnHand', 2)
-  const lvl_3_weeksInvOnHand = calcWeeksInvOnHand(lvl_3_subtotal_fgInven, lvl_3_aveWeeklySales, 'weeksInvenOnHand', 2)
-  const lvl_0_weeksInvOnHand = calcWeeksInvOnHand(lvl_0_total_fgInven, lvl_0_aveWeeklySales, 'weeksInvenOnHand', 2)
+  const lvl_1_weeksInvOnHand = calcWeeksInvOnHand(lvl_1_subtotal_fgInven, lvl_1_aveWeeklySales, 'weeksInvenOnHand', 3)
+  const lvl_2_weeksInvOnHand = calcWeeksInvOnHand(lvl_2_subtotal_fgInven, lvl_2_aveWeeklySales, 'weeksInvenOnHand', 3)
+  const lvl_3_weeksInvOnHand = calcWeeksInvOnHand(lvl_3_subtotal_fgInven, lvl_3_aveWeeklySales, 'weeksInvenOnHand', 3)
+  const lvl_0_weeksInvOnHand = calcWeeksInvOnHand(lvl_0_total_fgInven, lvl_0_aveWeeklySales, 'weeksInvenOnHand', 3)
 
   ///////////////////////////////// ROWS
   let rowsThirdLevelDetail
