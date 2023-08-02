@@ -20,12 +20,21 @@ const mapInvenToRowTemplates = (invenLines, rowTemplate) => {
     const netSales = parseFloat(invenLine.cogs.toFixed(2))
     const grossMargin = parseFloat(invenLine.cogs.toFixed(2))
 
-    if (invenLine.lbs !== null && invenLine.lbs !== 0) {
-      revenuePerLb = parseFloat(new Decimal(invenLine.cogs).dividedBy(invenLine.lbs).toFixed(2)) // Revenue, COGS, OTHP, Net Sales, Gross Margin are all the same for inven data.
-      cogsPerLb = parseFloat(new Decimal(invenLine.cogs).dividedBy(invenLine.lbs).toFixed(2))
-      othpPerLb = parseFloat(new Decimal(invenLine.cogs).dividedBy(invenLine.lbs).toFixed(2))
-      netSalesPerLb = parseFloat(new Decimal(invenLine.cogs).dividedBy(invenLine.lbs).toFixed(2))
-      grossMarginPerLb = parseFloat(new Decimal(invenLine.cogs).dividedBy(invenLine.lbs).toFixed(2))
+    if (weeksOnHandFlag) {
+      // Dont calc per lb for kpi ratio
+      revenuePerLb = revenue
+      cogsPerLb = cogs
+      othpPerLb = othp
+      netSalesPerLb = netSales
+      grossMarginPerLb = grossMargin
+    } else {
+      if (invenLine.lbs !== null && invenLine.lbs !== 0) {
+        revenuePerLb = parseFloat(new Decimal(invenLine.cogs).dividedBy(invenLine.lbs).toFixed(2)) // Revenue, COGS, OTHP, Net Sales, Gross Margin are all the same for inven data.
+        cogsPerLb = parseFloat(new Decimal(invenLine.cogs).dividedBy(invenLine.lbs).toFixed(2))
+        othpPerLb = parseFloat(new Decimal(invenLine.cogs).dividedBy(invenLine.lbs).toFixed(2))
+        netSalesPerLb = parseFloat(new Decimal(invenLine.cogs).dividedBy(invenLine.lbs).toFixed(2))
+        grossMarginPerLb = parseFloat(new Decimal(invenLine.cogs).dividedBy(invenLine.lbs).toFixed(2))
+      }
     }
 
     // Note that using index 0 on the rowTemplate because the unflattenRowTemplate function now uses an array of objects

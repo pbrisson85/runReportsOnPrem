@@ -59,8 +59,9 @@ const calcWeeksInvOnHand = (invenData, salesData, colName, numLabels) => {
       calcData = {
         ...row,
         column: colName,
-        lbs: lbs,
-        cogs: cogs,
+        lbs: 0,
+        cogs: 0,
+        weeksOnHandFlag: true, // in inventory rows map will not calc / lb, will only use the weight or cogs ratio
       }
 
       return calcData
@@ -76,6 +77,7 @@ const calcWeeksInvOnHand = (invenData, salesData, colName, numLabels) => {
       column: colName,
       lbs: lbsPerWeek === 0 ? 0 : lbs / lbsPerWeek,
       cogs: cogsPerWeek === 0 ? 0 : cogs / cogsPerWeek,
+      weeksOnHandFlag: true, // in inventory rows map will not calc / lb, will only use the weight or cogs ratio
     }
 
     console.log('calcData', calcData)
