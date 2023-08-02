@@ -1,6 +1,4 @@
-const calcPercentKeyCol = (eachRowData, denomKey, numerKey) => {
-  // create obj with each key value as the new key. increment each value. These will be the denominators
-
+const calcPercentKeyCol = (eachRowData, denomKey, numerKey, colName) => {
   console.log('\n\n')
   console.log('in calcPercentKeyCol...', '\n')
   console.log('eachRowData.length', eachRowData.length, '\n')
@@ -8,6 +6,7 @@ const calcPercentKeyCol = (eachRowData, denomKey, numerKey) => {
   console.log('denomKey', denomKey)
   console.log('numerKey', numerKey, '\n')
 
+  // create obj with each key value as the new key. increment each value. These will be the denominators
   let denoms = {}
 
   eachRowData.forEach(row => {
@@ -31,11 +30,32 @@ const calcPercentKeyCol = (eachRowData, denomKey, numerKey) => {
 
   console.log('denoms', denoms, '\n')
 
-  return []
-
   // loop through each and add denom if the key exists in denoms
   const percent_key = eachRowData.map(row => {
-    if (typeof denom[row[numerKey]] === 'undefined') {
+    const { lbs, sales, cogs, othp } = row
+
+    if (typeof denoms[row[denomKey]] === 'undefined') {
+      // if the key doesn't exist in denoms, return the row with 0s
+      return {
+        ...row,
+        column: colName,
+
+        lbs_numerator: lbs,
+        sales_numerator: sales,
+        cogs_numerator: cogs,
+        othp_numerator: othp,
+
+        lbs_denominator: 0,
+        sales_denominator: 0,
+        cogs_denominator: 0,
+        othp_denominator: 0,
+
+        percentFormat: true, // flag for the map sales rows model
+      }
+    } else {
+      // if the key does exist in denoms, return the row with the values
+      const { lbs: coLbs, sales: coSales, cogs: coCogs, othp: coOthp } = denoms[row[denomKey]]
+
       return {
         ...row,
         column: colName,
@@ -52,26 +72,6 @@ const calcPercentKeyCol = (eachRowData, denomKey, numerKey) => {
 
         percentFormat: true, // flag for the map sales rows model
       }
-    }
-    const { lbs: coLbs, sales: coSales, cogs: coCogs, othp: coOthp } = totalData
-
-    const { lbs, sales, cogs, othp } = row
-
-    return {
-      ...row,
-      column: colName,
-
-      lbs_numerator: lbs,
-      sales_numerator: sales,
-      cogs_numerator: cogs,
-      othp_numerator: othp,
-
-      lbs_denominator: coLbs,
-      sales_denominator: coSales,
-      cogs_denominator: coCogs,
-      othp_denominator: coOthp,
-
-      percentFormat: true, // flag for the map sales rows model
     }
   })
 
