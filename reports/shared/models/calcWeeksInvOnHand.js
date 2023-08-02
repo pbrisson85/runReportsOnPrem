@@ -9,11 +9,11 @@ const calcWeeksInvOnHand = (invenData, salesData, colName, numLabels) => {
   // Do not know how many columns the data is grouped by
   let sales_unflat = {}
   if (numLabels === 1) {
-    sales_unflat = unflattenByCompositKey(genTblOthp, { 1: 'l1_label' })
+    sales_unflat = unflattenByCompositKey(salesData, { 1: 'l1_label' })
   } else if (numLabels === 2) {
-    sales_unflat = unflattenByCompositKey(genTblOthp, { 1: 'l1_label', 2: 'l2_label' })
+    sales_unflat = unflattenByCompositKey(salesData, { 1: 'l1_label', 2: 'l2_label' })
   } else if (numLabels === 3) {
-    sales_unflat = unflattenByCompositKey(genTblOthp, { 1: 'l1_label', 2: 'l2_label', 3: 'l3_label' })
+    sales_unflat = unflattenByCompositKey(salesData, { 1: 'l1_label', 2: 'l2_label', 3: 'l3_label' })
   } else {
     requestEmailNotification(`Error in calcWeeksInvOnHand.js: numLabels is not 1, 2, or 3. numLabels = ${numLabels}`)
   }
