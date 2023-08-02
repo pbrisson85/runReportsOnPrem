@@ -6,7 +6,7 @@ const getSpeciesGroupTotalSales = async (start, end, program) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`look up species group based on program`)
+    console.log(`look up species group for program ${program} ...`)
 
     const speciesGroupResponse = await pgClient.query(
       `SELECT DISTINCT(ms.species_group) AS species_group
@@ -21,6 +21,8 @@ const getSpeciesGroupTotalSales = async (start, end, program) => {
     }
 
     const speciesGroup = speciesGroupResponse.rows[0].species_group
+
+    console.log(`look up species group total sales for ${speciesGroup} ...`)
 
     const response = await pgClient.query(
         `SELECT COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
@@ -42,4 +44,4 @@ const getSpeciesGroupTotalSales = async (start, end, program) => {
   }
 }
 
-module.exports.getSpeciesGroupTotalSales = getSpeciesGroupTotalSales
+module.exports = getSpeciesGroupTotalSales
