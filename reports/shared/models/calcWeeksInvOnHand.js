@@ -30,30 +30,30 @@ const calcWeeksInvOnHand = (invenData, salesData, colName, numLabels) => {
     let key = null
     if (numLabels === 1) {
       key = `${l1_label}`
-      lbsPerWeek = sales_unflat[key].lbs
-      lbsPerWeek = sales_unflat[key].cogs
+      lbsPerWeek = sales_unflat[key]?.lbs ?? 0
+      lbsPerWeek = sales_unflat[key]?.cogs ?? 0
     } else if (numLabels === 2) {
       key = `${l1_label}-${l2_label}`
-      lbsPerWeek = sales_unflat[key].lbs
-      lbsPerWeek = sales_unflat[key].cogs
+      lbsPerWeek = sales_unflat[key]?.lbs ?? 0
+      lbsPerWeek = sales_unflat[key]?.cogs ?? 0
     } else if (numLabels === 3) {
       key = `${l1_label}-${l2_label}-${l3_label}`
-      lbsPerWeek = sales_unflat[key].lbs
-      lbsPerWeek = sales_unflat[key].cogs
+      lbsPerWeek = sales_unflat[key]?.lbs ?? 0
+      lbsPerWeek = sales_unflat[key]?.cogs ?? 0
     } else {
       return {
         ...row,
         column: colName,
-        lbs: lbs / lbsPerWeek,
-        cogs: cogs / cogsPerWeek,
+        lbs: lbs,
+        cogs: cogs,
       }
     }
 
     return {
       ...row,
       column: colName,
-      lbs: lbs,
-      cogs: cogs,
+      lbs: lbsPerWeek === 0 ? 0 : lbs / lbsPerWeek,
+      cogs: cogsPerWeek === 0 ? 0 : cogs / cogsPerWeek,
     }
   })
 
