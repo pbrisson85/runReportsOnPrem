@@ -1,5 +1,7 @@
 #### Goals:
 
+- Customer drilldown from item does not have the weekly sales yet. Also need to add weekly sales and weeks inventory on all reports other than the "all" program report
+
 - I put % of maj species into each main report but not any drilldowns.
 
 - Make average weekly sales column

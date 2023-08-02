@@ -62,6 +62,8 @@ const cleanLabelsForDisplay = require('../../../shared/models/cleanLabelsForDisp
 const unflattenByCompositKey = require('../../../shared/models/unflattenByCompositKey')
 const calcPercentSalesCol = require('../../../shared/models/calcPercentSalesCol')
 const labelCols = require('../../queries/hardcode/cols_byItem_level0')
+const calcAveWeeklySales = require('../../../shared/models/calcAveWeeklySales')
+const calcWeeksInvOnHand = require('../../../shared/models/calcWeeksInvOnHand')
 
 const buildDrillDown = async (program, start, end, filters, showFyTrend, startWeek, endWeek) => {
   console.log(program, '\n', start, '\n', end, '\n', filters)
@@ -141,6 +143,15 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend, startWe
   const lvl_1_percent_reportTotal = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_1_subtotal_salesPeriodToDate, 'percentReportTotal')
   const lvl_0_percent_reportTotal = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentReportTotal')
 
+  /* AVE WEEKLY SALES */
+  const weeks = endWeek - startWeek + 1
+  const lvl_1_aveWeeklySales = calcAveWeeklySales(lvl_1_subtotal_salesPeriodToDate, 'aveWeeklySales', weeks)
+  const lvl_0_aveWeeklySales = calcAveWeeklySales(lvl_0_total_salesPeriodToDate, 'aveWeeklySales', weeks)
+
+  /* WEEKS INV ON HAND */
+  const lvl_1_weeksInvOnHand = calcWeeksInvOnHand(lvl_1_subtotal_fgInven, lvl_1_aveWeeklySales, 'weeksInvenOnHand', 1)
+  const lvl_0_weeksInvOnHand = calcWeeksInvOnHand(lvl_0_total_fgInven, lvl_0_aveWeeklySales, 'weeksInvenOnHand', 1)
+
   ///////////////////////////////// ROWS
   let rowsFirstLevelDetail
   if (showFyTrend) {
@@ -191,6 +202,8 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend, startWe
       ...lvl_0_percent_programSales,
       ...lvl_1_percent_reportTotal,
       ...lvl_0_percent_reportTotal,
+      ...lvl_1_aveWeeklySales,
+      ...lvl_0_aveWeeklySales,
     ],
     rowTemplate_unflat
   )
@@ -209,6 +222,8 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend, startWe
       ...lvl_0_total_fgAtLoc_tagged,
       ...lvl_1_subtotal_fgPo,
       ...lvl_0_total_fgPo,
+      ...lvl_1_weeksInvOnHand,
+      ...lvl_0_weeksInvOnHand,
     ],
     rowTemplate_unflat
   )

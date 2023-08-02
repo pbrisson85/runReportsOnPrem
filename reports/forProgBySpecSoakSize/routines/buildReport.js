@@ -119,6 +119,8 @@ const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay
 const unflattenByCompositKey = require('../../shared/models/unflattenByCompositKey')
 const calcPercentSalesCol = require('../../shared/models/calcPercentSalesCol')
 const getSpeciesGroupTotalSales = require('../../shared/queries/postgres/getSpeciesGroupTotalSalesFromProgram')
+const calcAveWeeklySales = require('../../shared/models/calcAveWeeklySales')
+const calcWeeksInvOnHand = require('../../shared/models/calcWeeksInvOnHand')
 
 const labelCols = require('../queries/hardcode/cols')
 
@@ -284,6 +286,19 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek)
   const lvl_3_percent_reportTotal = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_3_subtotal_salesPeriodToDate, 'percentReportTotal')
   const lvl_0_percent_reportTotal = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentReportTotal')
 
+  /* AVE WEEKLY SALES */
+  const weeks = endWeek - startWeek + 1
+  const lvl_1_aveWeeklySales = calcAveWeeklySales(lvl_1_subtotal_salesPeriodToDate, 'aveWeeklySales', weeks)
+  const lvl_2_aveWeeklySales = calcAveWeeklySales(lvl_2_subtotal_salesPeriodToDate, 'aveWeeklySales', weeks)
+  const lvl_3_aveWeeklySales = calcAveWeeklySales(lvl_3_subtotal_salesPeriodToDate, 'aveWeeklySales', weeks)
+  const lvl_0_aveWeeklySales = calcAveWeeklySales(lvl_0_total_salesPeriodToDate, 'aveWeeklySales', weeks)
+
+  /* WEEKS INV ON HAND */
+  const lvl_1_weeksInvOnHand = calcWeeksInvOnHand(lvl_1_subtotal_fgInven, lvl_1_aveWeeklySales, 'weeksInvenOnHand', 2)
+  const lvl_2_weeksInvOnHand = calcWeeksInvOnHand(lvl_2_subtotal_fgInven, lvl_2_aveWeeklySales, 'weeksInvenOnHand', 2)
+  const lvl_3_weeksInvOnHand = calcWeeksInvOnHand(lvl_3_subtotal_fgInven, lvl_3_aveWeeklySales, 'weeksInvenOnHand', 2)
+  const lvl_0_weeksInvOnHand = calcWeeksInvOnHand(lvl_0_total_fgInven, lvl_0_aveWeeklySales, 'weeksInvenOnHand', 2)
+
   ///////////////////////////////// ROWS
   let rowsThirdLevelDetail
   let rowsSecondLevelDetail
@@ -407,6 +422,10 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek)
       ...lvl_2_percent_reportTotal,
       ...lvl_3_percent_reportTotal,
       ...lvl_0_percent_reportTotal,
+      ...lvl_1_aveWeeklySales,
+      ...lvl_2_aveWeeklySales,
+      ...lvl_3_aveWeeklySales,
+      ...lvl_0_aveWeeklySales,
     ],
     rowTemplate_unflat
   )
@@ -453,6 +472,10 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek)
       // ...lvl_2_subtotal_rmAtLoc,
       // ...lvl_3_subtotal_rmAtLoc,
       // ...lvl_0_total_rmAtLoc,
+      ...lvl_1_weeksInvOnHand,
+      ...lvl_2_weeksInvOnHand,
+      ...lvl_3_weeksInvOnHand,
+      ...lvl_0_weeksInvOnHand,
     ],
     rowTemplate_unflat
   )
