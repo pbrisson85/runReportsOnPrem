@@ -1,11 +1,4 @@
 const calcPercentKeyCol = (eachRowData, denomKey, numerKey, colName) => {
-  console.log('\n\n')
-  console.log('in calcPercentKeyCol...', '\n')
-  console.log('eachRowData.length', eachRowData.length, '\n')
-  console.log('eachRowData[0]', eachRowData[0], '\n')
-  console.log('denomKey', denomKey)
-  console.log('numerKey', numerKey, '\n')
-
   // create obj with each key value as the new key. increment each value. These will be the denominators
   let denoms = {}
 

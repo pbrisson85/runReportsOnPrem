@@ -193,8 +193,6 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
   const lvl_2_percent_speciesGroupSales = calcPercentKeyCol(lvl_2_subtotal_salesPeriodToDate, 'l1_label', 'l2_label', 'percentSpeciesGroupSales')
   const lvl_0_percent_speciesGroupSales = calcPercentKeyCol(lvl_0_total_salesPeriodToDate, 'l1_label', 'l2_label', 'percentSpeciesGroupSales')
 
-  console.log('lvl_2_percent_speciesGroupSales: ', lvl_2_percent_speciesGroupSales)
-
   ///////////////////////////////// ROWS
   let levelTwoRows
   let levelOneRows
@@ -269,6 +267,9 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
       ...lvl_1_percent_companySales,
       ...lvl_2_percent_companySales,
       ...lvl_0_percent_companySales,
+      ...lvl_1_percent_speciesGroupSales,
+      ...lvl_2_percent_speciesGroupSales,
+      ...lvl_0_percent_speciesGroupSales,
     ],
     rowTemplate_unflat
   )
