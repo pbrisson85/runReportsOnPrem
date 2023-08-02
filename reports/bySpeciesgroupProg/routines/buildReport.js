@@ -191,9 +191,9 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
 
   /* % SPECIES GROUP SALES */
   // write function to pass in an array of objects example:
-  const lvl_1_percent_speciesGroupSales = calcPercentKeyCol(lvl_1_subtotal_salesPeriodToDate, 'percentSpeciesGroupSales')
-  const lvl_2_percent_speciesGroupSales = calcPercentKeyCol(lvl_2_subtotal_salesPeriodToDate, 'percentSpeciesGroupSales')
-  const lvl_0_percent_speciesGroupSales = calcPercentKeyCol(lvl_0_total_salesPeriodToDate, 'percentSpeciesGroupSales')
+  const lvl_1_percent_speciesGroupSales = calcPercentKeyCol(lvl_1_subtotal_salesPeriodToDate, 'l1_label', 'l2_label')
+  const lvl_2_percent_speciesGroupSales = calcPercentKeyCol(lvl_2_subtotal_salesPeriodToDate, 'l1_label', 'l2_label')
+  const lvl_0_percent_speciesGroupSales = calcPercentKeyCol(lvl_0_total_salesPeriodToDate, 'l1_label', 'l2_label')
 
   ///////////////////////////////// ROWS
   let levelTwoRows
