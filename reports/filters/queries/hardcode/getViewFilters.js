@@ -4,7 +4,7 @@ const getViewFilters = () => {
       label: 'WEIGHT (lbs)',
       dataName: 'weight',
       additionalData: { decimals: 0 },
-      cols: ['label', 'salesInvoice', 'salesOrder', 'invenFg', 'invenRm', 'purchaseOrder', 'salesKpi'], // list of colTypes that should be displayed in this view
+      cols: ['label', 'salesInvoice', 'salesOrder', 'invenFg', 'invenRm', 'purchaseOrder', 'salesKpi', 'invenKpi'], // list of colTypes that should be displayed in this view
     },
     // {
     //   label: 'REVENUE $',
@@ -28,7 +28,7 @@ const getViewFilters = () => {
       label: 'COST',
       dataName: 'cogs',
       additionalData: { decimals: 0 },
-      cols: ['label', 'salesInvoice', 'salesOrder', 'invenFg', 'invenRm', 'purchaseOrder', 'salesKpi'],
+      cols: ['label', 'salesInvoice', 'salesOrder', 'invenFg', 'invenRm', 'purchaseOrder', 'salesKpi', 'invenKpi'],
     },
     {
       label: 'GROSS MARGIN',
@@ -58,7 +58,7 @@ const getViewFilters = () => {
       label: 'COST/LB',
       dataName: 'cogsPerLb',
       additionalData: { decimals: 2 },
-      cols: ['label', 'salesInvoice', 'salesOrder', 'invenFg', 'invenRm', 'purchaseOrder', 'salesKpi'],
+      cols: ['label', 'salesInvoice', 'salesOrder', 'invenFg', 'invenRm', 'purchaseOrder', 'salesKpi', 'invenKpi'],
     },
     {
       label: 'GROSS MARGIN/LB',
