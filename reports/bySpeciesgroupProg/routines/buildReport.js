@@ -191,6 +191,11 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
   const lvl_2_percent_speciesGroupSales = calcPercentKeyCol(lvl_2_subtotal_salesPeriodToDate, 'l1_label', 'percentSpeciesGroupSales')
   const lvl_0_percent_speciesGroupSales = calcPercentKeyCol(lvl_0_total_salesPeriodToDate, 'l1_label', 'percentSpeciesGroupSales')
 
+  /* % REPORT TOTAL */
+  const lvl_1_percent_reportTotal = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_1_subtotal_salesPeriodToDate, 'percentReportTotal')
+  const lvl_2_percent_reportTotal = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_2_subtotal_salesPeriodToDate, 'percentReportTotal')
+  const lvl_0_percent_reportTotal = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentReportTotal')
+
   ///////////////////////////////// ROWS
   let levelTwoRows
   let levelOneRows
@@ -268,6 +273,9 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
       ...lvl_1_percent_speciesGroupSales,
       ...lvl_2_percent_speciesGroupSales,
       ...lvl_0_percent_speciesGroupSales,
+      ...lvl_1_percent_reportTotal,
+      ...lvl_2_percent_reportTotal,
+      ...lvl_0_percent_reportTotal,
     ],
     rowTemplate_unflat
   )

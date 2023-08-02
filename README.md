@@ -1,5 +1,7 @@
 #### Goals:
 
+- I put % of maj species into each main report but not any drilldowns.
+
 - Make average weekly sales column
 - Make weeks inventory col.
 - Make col for each type of projection (using ave weekly sales, using a certain years sales, using a growth or shrink percentage, apply a % downside and % upside)
