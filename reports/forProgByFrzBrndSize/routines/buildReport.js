@@ -118,7 +118,9 @@ const combineMappedRows = require('../../shared/models/combineMappedRows')
 const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../../shared/models/unflattenByCompositKey')
 const calcPercentSalesCol = require('../../shared/models/calcPercentSalesCol')
+const calcPercentKeyCol = require('../../shared/models/calcPercentKeyCol')
 const labelCols = require('../queries/hardcode/cols')
+const getSpeciesGroupTotalSales = require('../../shared/queries/postgres/getSpeciesGroupTotalSalesFromProgram')
 
 const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek) => {
   ///////////////////////////////// INVENTORY DATA
@@ -252,6 +254,30 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek)
   )
   const lvl_0_percent_programSales = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentProgramSales')
 
+  /* % SPECIES GROUP SALES */
+  // look up species group based on program
+  const speciesGroupTotalSales = await getSpeciesGroupTotalSales(start, end, program)
+  const lvl_1_percent_speciesGroupSales = calcPercentSalesCol(
+    speciesGroupTotalSales[0],
+    lvl_1_subtotal_salesPeriodToDate,
+    'percentSpeciesGroupSales'
+  )
+  const lvl_2_percent_speciesGroupSales = calcPercentSalesCol(
+    speciesGroupTotalSales[0],
+    lvl_2_subtotal_salesPeriodToDate,
+    'percentSpeciesGroupSales'
+  )
+  const lvl_3_percent_speciesGroupSales = calcPercentSalesCol(
+    speciesGroupTotalSales[0],
+    lvl_3_subtotal_salesPeriodToDate,
+    'percentSpeciesGroupSales'
+  )
+  const lvl_0_percent_speciesGroupSales = calcPercentSalesCol(
+    speciesGroupTotalSales[0],
+    lvl_0_total_salesPeriodToDate,
+    'percentSpeciesGroupSales'
+  )
+
   ///////////////////////////////// ROWS
   let rowsThirdLevelDetail
   let rowsSecondLevelDetail
@@ -366,6 +392,10 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek)
       ...lvl_2_percent_programSales,
       ...lvl_3_percent_programSales,
       ...lvl_0_percent_programSales,
+      ...lvl_1_percent_speciesGroupSales,
+      ...lvl_2_percent_speciesGroupSales,
+      ...lvl_3_percent_speciesGroupSales,
+      ...lvl_0_percent_speciesGroupSales,
     ],
     rowTemplate_unflat
   )
