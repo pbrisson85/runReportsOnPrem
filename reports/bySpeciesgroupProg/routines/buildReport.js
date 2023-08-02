@@ -86,6 +86,7 @@ const labelCols = require('../queries/hardcode/cols')
 const calcPercentSalesCol = require('../../shared/models/calcPercentSalesCol')
 const calcPercentKeyCol = require('../../shared/models/calcPercentKeyCol')
 const calcAveWeeklySales = require('../../shared/models/calcAveWeeklySales')
+const calcWeeksInvOnHand = require('../../shared/models/calcWeeksInvOnHand')
 
 const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
   ///////////////////////////////// INVENTORY DATA
@@ -202,6 +203,11 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
   const lvl_1_aveWeeklySales = calcAveWeeklySales(lvl_1_subtotal_salesPeriodToDate, 'aveWeeklySales', weeks)
   const lvl_2_aveWeeklySales = calcAveWeeklySales(lvl_2_subtotal_salesPeriodToDate, 'aveWeeklySales', weeks)
   const lvl_0_aveWeeklySales = calcAveWeeklySales(lvl_0_total_salesPeriodToDate, 'aveWeeklySales', weeks)
+
+  /* WEEKS INV ON HAND */
+  const lvl_1_weeksInvOnHand = calcWeeksInvOnHand(lvl_1_subtotal_fgInven, lvl_1_aveWeeklySales, 'weeksInvenOnHand')
+  const lvl_2_weeksInvOnHand = calcWeeksInvOnHand(lvl_2_subtotal_fgInven, lvl_2_aveWeeklySales, 'weeksInvenOnHand')
+  const lvl_0_weeksInvOnHand = calcWeeksInvOnHand(lvl_0_total_fgInven, lvl_0_aveWeeklySales, 'weeksInvenOnHand')
 
   ///////////////////////////////// ROWS
   let levelTwoRows
@@ -322,6 +328,9 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
       ...lvl_1_subtotal_fgAtLoc_untagged,
       ...lvl_2_subtotal_fgAtLoc_untagged,
       ...lvl_0_total_fgAtLoc_untagged,
+      ...lvl_1_weeksInvOnHand,
+      ...lvl_2_weeksInvOnHand,
+      ...lvl_0_weeksInvOnHand,
     ],
     rowTemplate_unflat
   )
