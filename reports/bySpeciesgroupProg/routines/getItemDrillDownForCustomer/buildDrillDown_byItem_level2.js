@@ -226,6 +226,7 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend, startWe
 
   // get data column names by fiscal year
   let salesColsByFy = null
+  let salesColsByFyYtd = null
   if (showFyTrend) salesColsByFy = await getFiscalYearCols()
   if (showFyTrend) salesColsByFyYtd = await getFiscalYearYtdCols()
 
