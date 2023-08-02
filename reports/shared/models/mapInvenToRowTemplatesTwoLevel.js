@@ -20,7 +20,7 @@ const mapInvenToRowTemplates = (invenLines, rowTemplate) => {
     const netSales = parseFloat(invenLine.cogs.toFixed(2))
     const grossMargin = parseFloat(invenLine.cogs.toFixed(2))
 
-    if (weeksOnHandFlag) {
+    if (invenLine.weeksOnHandFlag) {
       // Dont calc per lb for kpi ratio
       revenuePerLb = revenue
       cogsPerLb = cogs
