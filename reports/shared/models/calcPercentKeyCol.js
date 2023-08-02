@@ -12,20 +12,20 @@ const calcPercentKeyCol = (eachRowData, denomKey, numerKey) => {
 
   eachRowData.forEach(row => {
     const { lbs, sales, cogs, othp } = row
-    const denom = row[denomKey]
+    const denomCategory = row[denomKey]
 
-    if (typeof denoms.denom === 'undefined') {
-      denoms.denom = {
+    if (typeof denoms[denomCategory] === 'undefined') {
+      denoms[denomCategory] = {
         lbs,
         sales,
         cogs,
         othp,
       }
     } else {
-      denoms.denom.lbs += lbs
-      denoms.denom.sales += sales
-      denoms.denom.cogs += cogs
-      denoms.denom.othp += othp
+      denoms[denomCategory].lbs += lbs
+      denoms[denomCategory].sales += sales
+      denoms[denomCategory].cogs += cogs
+      denoms[denomCategory].othp += othp
     }
   })
 
