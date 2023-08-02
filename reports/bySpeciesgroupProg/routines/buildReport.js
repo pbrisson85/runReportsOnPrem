@@ -85,6 +85,7 @@ const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay
 const labelCols = require('../queries/hardcode/cols')
 const calcPercentSalesCol = require('../../shared/models/calcPercentSalesCol')
 const calcPercentKeyCol = require('../../shared/models/calcPercentKeyCol')
+const calcAveWeeklySales = require('../../shared/models/calcAveWeeklySales')
 
 const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
   ///////////////////////////////// INVENTORY DATA
@@ -196,6 +197,12 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
   const lvl_2_percent_reportTotal = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_2_subtotal_salesPeriodToDate, 'percentReportTotal')
   const lvl_0_percent_reportTotal = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentReportTotal')
 
+  /* AVE WEEKLY SALES */
+  const weeks = endWeek - startWeek + 1
+  const lvl_1_aveWeeklySales = calcAveWeeklySales(lvl_1_subtotal_salesPeriodToDate, 'aveWeeklySales', weeks)
+  const lvl_2_aveWeeklySales = calcAveWeeklySales(lvl_2_subtotal_salesPeriodToDate, 'aveWeeklySales', weeks)
+  const lvl_0_aveWeeklySales = calcAveWeeklySales(lvl_0_total_salesPeriodToDate, 'aveWeeklySales', weeks)
+
   ///////////////////////////////// ROWS
   let levelTwoRows
   let levelOneRows
@@ -276,6 +283,9 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
       ...lvl_1_percent_reportTotal,
       ...lvl_2_percent_reportTotal,
       ...lvl_0_percent_reportTotal,
+      ...lvl_1_aveWeeklySales,
+      ...lvl_2_aveWeeklySales,
+      ...lvl_0_aveWeeklySales,
     ],
     rowTemplate_unflat
   )
