@@ -23,6 +23,7 @@ const cleanLabelsForDisplay = require('../models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../models/unflattenByCompositKey')
 const labelCols = require('../queries/hardcode/cols_byCustomer')
 const calcPercentSalesCol = require('../models/calcPercentSalesCol')
+const calcAveWeeklySales = require('../models/calcAveWeeklySales')
 
 const buildDrillDown = async (item, start, end, program, filters, showFyTrend, startWeek, endWeek) => {
   console.log(item, '\n', start, '\n', end)
@@ -58,6 +59,11 @@ const buildDrillDown = async (item, start, end, program, filters, showFyTrend, s
   /* % REPORT TOTAL */
   const lvl_1_percent_reportTotal = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_1_subtotal_salesPeriodToDate, 'percentReportTotal')
   const lvl_0_percent_reportTotal = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentReportTotal')
+
+  /* AVE WEEKLY SALES */
+  const weeks = endWeek - startWeek + 1
+  const lvl_1_aveWeeklySales = calcAveWeeklySales(lvl_1_subtotal_salesPeriodToDate, 'aveWeeklySales', weeks)
+  const lvl_0_aveWeeklySales = calcAveWeeklySales(lvl_0_total_salesPeriodToDate, 'aveWeeklySales', weeks)
 
   ///////////////////////////////// ROWS
   let rowsFirstLevelDetail
@@ -101,6 +107,8 @@ const buildDrillDown = async (item, start, end, program, filters, showFyTrend, s
       ...lvl_0_percent_programSales,
       ...lvl_1_percent_reportTotal,
       ...lvl_0_percent_reportTotal,
+      ...lvl_1_aveWeeklySales,
+      ...lvl_0_aveWeeklySales,
     ],
     rowTemplate_unflat
   )
