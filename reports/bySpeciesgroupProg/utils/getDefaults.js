@@ -15,7 +15,6 @@ const getDefaults = async () => {
   const start = periods[0].displayname
 
   // By default set the end period to the previos week.
-  console.log('periods', periods)
 
   // Look up current week
   const today = new Date()

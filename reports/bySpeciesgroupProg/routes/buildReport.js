@@ -13,10 +13,12 @@ router.post('/', async (req, res) => {
   console.log(`\nget get weekly sales species group, program for ${req.body.start} through ${req.body.end} route HIT...`)
 
   // If no program, start, or end passed then default to the current fiscal year, first program alphabetically
+  let defaultDate = false
   if (typeof typeof req.body.start === 'undefined' || typeof req.body.end === 'undefined') {
     const { start, end } = await getDefaults()
     req.body.start = start
     req.body.end = end
+    defaultDate = true
   }
 
   // If showFyTrend param not passed in body then default to false
@@ -32,6 +34,11 @@ router.post('/', async (req, res) => {
   const periodStart = startOfWeek[0].formatted_date_start
 
   const resp = await buildReport(periodStart, req.body.end, req.body.showFyTrend, startWeek, endWeek)
+
+  // if default date then add to response
+  if (defaultDate) {
+    resp.defaultDate = req.body.end
+  }
 
   console.log(`get weekly sales species group, program for ${req.body.start} through ${req.body.end} route COMPLETE. \n`)
   res.send(resp)
