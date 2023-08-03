@@ -13,6 +13,10 @@ const getDefaults = async () => {
 
   const periods = await getDateEndPerWeek(fys[0].label)
   const start = periods[0].displayname
+
+  // By default set the end period to the previos week.
+  console.log('periods', periods)
+
   const end = periods[periods.length - 1].displayname
 
   return { start, end }

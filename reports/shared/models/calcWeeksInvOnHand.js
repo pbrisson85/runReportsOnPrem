@@ -16,8 +16,6 @@ const calcWeeksInvOnHand = (invenData, salesData, colName, numLabels) => {
   }
 
   const weeksInvOnHand = invenData.map(row => {
-    console.log('row', row)
-
     const { lbs, cogs, l1_label, l2_label, l3_label } = row
 
     let lbsPerWeek = null
@@ -25,37 +23,18 @@ const calcWeeksInvOnHand = (invenData, salesData, colName, numLabels) => {
     let key = null
     let calcData = null
     if (numLabels === 1) {
-      console.log('numLabels === 1')
-
       key = `${l1_label}`
       lbsPerWeek = sales_unflat[key]?.lbs ?? 0
       cogsPerWeek = sales_unflat[key]?.cogs ?? 0
-
-      console.log('key', key)
-      console.log('sales_unflat[key]', sales_unflat[key])
     } else if (numLabels === 2) {
-      console.log('numLabels === 2')
-
       key = `${l1_label}-${l2_label}`
       lbsPerWeek = sales_unflat[key]?.lbs ?? 0
       cogsPerWeek = sales_unflat[key]?.cogs ?? 0
-
-      console.log('key', key)
-      console.log('sales_unflat[key]', sales_unflat[key])
     } else if (numLabels === 3) {
-      console.log('numLabels === 3')
-
       key = `${l1_label}-${l2_label}-${l3_label}`
       lbsPerWeek = sales_unflat[key]?.lbs ?? 0
       cogsPerWeek = sales_unflat[key]?.cogs ?? 0
-
-      console.log('key', key)
-      console.log('sales_unflat[key]', sales_unflat[key])
     } else {
-      console.log('Error in calcWeeksInvOnHand.js: numLabels is not 1, 2, or 3. numLabels = ', numLabels)
-      console.log('row', row)
-      console.log('calcData', calcData)
-
       calcData = {
         ...row,
         column: colName,
@@ -67,11 +46,6 @@ const calcWeeksInvOnHand = (invenData, salesData, colName, numLabels) => {
       return calcData
     }
 
-    console.log('lbs', lbs)
-    console.log('cogs', cogs)
-    console.log('lbsPerWeek', lbsPerWeek)
-    console.log('cogsPerWeek', cogsPerWeek)
-
     calcData = {
       ...row,
       column: colName,
@@ -79,8 +53,6 @@ const calcWeeksInvOnHand = (invenData, salesData, colName, numLabels) => {
       cogs: cogsPerWeek === 0 ? 0 : cogs / cogsPerWeek,
       weeksOnHandFlag: true, // in inventory rows map will not calc / lb, will only use the weight or cogs ratio
     }
-
-    console.log('calcData', calcData)
 
     return calcData
   })
