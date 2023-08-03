@@ -19,14 +19,19 @@ const getDefaults = async () => {
 
   // Look up current week
   const today = new Date()
-  const todayWeek = periods.find(period => {
+  const todayWeek = periods.findIndex(period => {
     const periodEnd = new Date(period.displayname)
     return today <= periodEnd
   })
 
-  console.log('todayWeek', todayWeek)
-
-  const end = periods[periods.length - 1].displayname
+  let end
+  if (todayWeek === -1) {
+    end = periods[periods.length - 1].displayname
+  } else if (todayWeek === 0) {
+    end = periods[0].displayname
+  } else {
+    end = periods[todayWeek - 1].displayname
+  }
 
   return { start, end }
 }
