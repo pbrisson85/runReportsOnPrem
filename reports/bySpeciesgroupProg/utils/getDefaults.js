@@ -21,7 +21,7 @@ const getDefaults = async () => {
   const today = new Date()
   const todayWeek = periods.find(period => {
     const periodEnd = new Date(period.displayname)
-    return today >= periodEnd
+    return today <= periodEnd
   })
 
   console.log('todayWeek', todayWeek)
