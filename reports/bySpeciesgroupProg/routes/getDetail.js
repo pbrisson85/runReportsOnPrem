@@ -46,7 +46,7 @@ router.post('/', async (req, res) => {
       priorYearData = true
       year = columnDataName.split('_')[0]
     }
-    if (columnDataName.split('-')[1].charAt(0) === 'W') {
+    if (columnDataName.split('-')[1]?.charAt(0) === 'W') {
       startWeek = columnDataName.split('-')[1].split('W')[1]
       endWeek = columnDataName.split('-')[1].split('W')[1]
       year = columnDataName.split('-')[0]
