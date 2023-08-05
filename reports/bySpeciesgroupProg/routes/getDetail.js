@@ -11,14 +11,10 @@ const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { program, option, filters, columnDataName, reportName, colType, periodEnd, fyTrendCol, fyYtdTrendCol } = req.body
-  let { periodStart, year } = req.body
+  const { program, option, filters, columnDataName, reportName, colType, periodStart, periodEnd, fyTrendCol, fyYtdTrendCol } = req.body
+  let { year } = req.body
 
   console.log(`\nget detail data for ${reportName} route HIT...`)
-
-  // Note that start date is the END of the first week. Need the beginning of the same week to pull invoice dates that are after this:
-  const startOfWeek = await getStartOfWeek(periodStart)
-  periodStart = startOfWeek[0].formatted_date_start
 
   let response = null
 
