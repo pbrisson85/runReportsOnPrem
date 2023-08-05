@@ -3,7 +3,6 @@ const getDetail_invenFg = require('../routines/getDetail_invenFg')
 const getDetail_salesOrder = require('../routines/getDetail_salesOrder')
 const getDetail_salesInvoice = require('../routines/getDetail_salesInvoice')
 const getDetail_purchaseOrder = require('../routines/getDetail_purchaseOrder')
-const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
 
 // @route   POST /api/sales/detail/forProgBySpecBrndSize/
