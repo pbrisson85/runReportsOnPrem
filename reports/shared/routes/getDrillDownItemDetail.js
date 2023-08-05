@@ -9,7 +9,7 @@ const getDetail_purchaseOrder = require('../routines/getDetail_purchaseOrder')
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { program, option, filters, columnDataName, reportName, colType, periodStart, periodEnd } = req.body
+  const { program, option, filters, columnDataName, reportName, colType, periodStart, periodEnd, fyTrendCol, fyYtdTrendCol } = req.body
   let { year } = req.body
 
   console.log(`\nget detail data for ${reportName} route HIT...`)
