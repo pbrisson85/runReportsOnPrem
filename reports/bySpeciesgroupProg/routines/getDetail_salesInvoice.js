@@ -1,55 +1,25 @@
 const {
-  lvl_0_total_getSalesByWk_detail,
-  lvl_0_total_getSalesPeriodToDate_detail,
-  lvl_2_subtotal_getSalesByWk_detail,
-  lvl_2_subtotal_getSalesPeriodToDate_detail,
-  lvl_1_subtotal_getSalesByWk_detail,
-  lvl_1_subtotal_getSalesPeriodToDate_detail,
+  lvl_0_total_getSales_detail,
+  lvl_2_subtotal_getSales_detail,
+  lvl_1_subtotal_getSales_detail,
 } = require('../queries/postgres/detail/getSales')
 
-const getDetail = async (program, filters, columnDataName, startWeek, periodEnd) => {
+const getDetail = async (program, filters, startWeek, endWeek, year) => {
   let detail = null
 
   if (filters[0] === 'SUBTOTAL' || filters[1] === 'SUBTOTAL') {
     // get level 1 subtotal where freeze = filters[0] and soak = filters[1] and size = filters[2]
-
-    switch (columnDataName) {
-      case 'SALES TOTAL':
-        detail = await lvl_1_subtotal_getSalesPeriodToDate_detail(startWeek, periodEnd, program, filters)
-        break
-      default:
-        // this is a trend column
-        detail = await lvl_1_subtotal_getSalesByWk_detail(program, filters, columnDataName, startWeek, periodEnd)
-        break
-    }
+    detail = await lvl_1_subtotal_getSales_detail(startWeek, endWeek, program, filters, year)
   }
 
   if (filters[0] !== 'SUBTOTAL' && filters[1] !== 'SUBTOTAL') {
     // get level 2 subtotal where freeze = filters[0] and soak = filters[1] and size = filters[2]
-
-    switch (columnDataName) {
-      case 'SALES TOTAL':
-        detail = await lvl_2_subtotal_getSalesPeriodToDate_detail(startWeek, periodEnd, program, filters)
-        break
-      default:
-        // this is a trend column
-        detail = await lvl_2_subtotal_getSalesByWk_detail(program, filters, columnDataName, startWeek, periodEnd)
-        break
-    }
+    detail = await lvl_2_subtotal_getSales_detail(startWeek, endWeek, program, filters, year)
   }
 
   if (filters[1] === 'TOTAL') {
     // get level 0 total where freeze = filters[0] and soak = filters[1] and size = filters[2]
-
-    switch (columnDataName) {
-      case 'SALES TOTAL':
-        detail = await lvl_0_total_getSalesPeriodToDate_detail(startWeek, periodEnd, program, filters)
-        break
-      default:
-        // this is a trend column
-        detail = await lvl_0_total_getSalesByWk_detail(program, filters, columnDataName, startWeek, periodEnd)
-        break
-    }
+    detail = await lvl_0_total_getSales_detail(startWeek, endWeek, program, filters, year)
   }
 
   return detail

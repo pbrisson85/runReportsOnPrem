@@ -9,13 +9,10 @@ const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { program, option, filters, columnDataName, reportName, colType, periodEnd } = req.body
-  let { periodStart } = req.body
+  const { program, option, filters, columnDataName, reportName, colType, periodEnd, fyTrendCol, fyYtdTrendCol } = req.body
+  let { periodStart, year } = req.body
 
   console.log(`\nget detail data for ${reportName} route HIT...`)
-
-  const startWeek = await getWeekForDate(periodStart) // temporarily until I change the data that is being passed by the front end to the week
-  const endWeek = await getWeekForDate(periodEnd) // temporarily until I change the data that is being passed by the front end to the week
 
   // Note that start date is the END of the first week. Need the beginning of the same week to pull invoice dates that are after this:
   const startOfWeek = await getStartOfWeek(periodStart)
@@ -28,7 +25,27 @@ router.post('/', async (req, res) => {
   }
 
   if (colType === 'salesInvoice') {
-    response = await getDetail_salesInvoice(program, filters, columnDataName, periodStart, periodEnd)
+    // Transform all queries to have a start week, end week, and year
+    let startWeek = 1
+    let endWeek = 53
+    let priorYearData = false
+
+    if (fyYtdTrendCol) {
+      startWeek = await getWeekForDate(periodStart)
+      endWeek = await getWeekForDate(periodEnd)
+      priorYearData = true
+      year = columnDataName.split('_')[0]
+    }
+    if (fyTrendCol) {
+      priorYearData = true
+      year = columnDataName.split('_')[0]
+    }
+    if (columnDataName.split('-')[1].charAt(0) === 'W') {
+      startWeek = columnDataName.split('-')[1].split('W')[1]
+      endWeek = columnDataName.split('-')[1].split('W')[1]
+      year = columnDataName.split('-')[0]
+    }
+    response = await getDetail_salesInvoice(program, filters, startWeek, endWeek, year)
   }
 
   console.log(`get detail data for ${reportName} route COMPLETE. \n`)

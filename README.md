@@ -1,13 +1,22 @@
 #### Goals:
 
+- Priorities:
+
+  - Prior year drilldowns.
+  - Filter non domestic by species
+  - Charts
+  - If no sales put "ns" in the weeks inventory col instead of zero
+  - Add a notes field
+  - Add a way to create projections. And have projection to actual.
+  - Add Customer by category
+  - Add Item drilldowns for skinless vs skin on. for fresh vs frozen. for brand. for cut.
+
 - In the calcWeeksInvOnHand why am i passing in the freaking number of cols? Why not just assume there are 5 or 10 and let the undefined be undefined. Will calling the function easier, Will make the function code WAY cleaner.
 
 - Customer drilldown from item does not have the weekly sales yet. Also need to add weekly sales and weeks inventory on all reports other than the "all" program report
 
 - I put % of maj species into each main report but not any drilldowns.
 
-- Make average weekly sales column
-- Make weeks inventory col.
 - Make col for each type of projection (using ave weekly sales, using a certain years sales, using a growth or shrink percentage, apply a % downside and % upside)
 - Add trends for customer by category
   - On generate sales need to look up the delivery location. If no delivery location then use the customer master. If the location is foreign then classify as foreign sale. If the location is not foreign then classify using the customer type in the customer master. Fix the customer master classifications and have them maintained by AR dept.
@@ -18,7 +27,6 @@
 - When clicking into trend clear the cache of the non trend data.
 - when clicking out of the trend. clear the cache of the trend data.
 - when clicking out of the detail window. clear the detail cache.
-- Default on load to date range stopping at the current week so dont need to set.
 - Add get detail to all the level two drilldowns.
 
 ### TO DO
