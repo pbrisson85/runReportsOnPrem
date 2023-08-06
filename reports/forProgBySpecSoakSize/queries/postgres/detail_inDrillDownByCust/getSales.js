@@ -2,7 +2,7 @@
 
 // FG Species Group col total for period
 
-const lvl_1_subtotal_getSalesPeriodToDate_detail = async (start, end, program, filters, year) => {
+const lvl_1_subtotal_getSales_detail = async (start, end, program, filters, year) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -34,7 +34,7 @@ const lvl_1_subtotal_getSalesPeriodToDate_detail = async (start, end, program, f
 
 // FG Program col total for period
 
-const lvl_2_subtotal_getSalesPeriodToDate_detail = async (start, end, program, filters, year) => {
+const lvl_2_subtotal_getSales_detail = async (start, end, program, filters, year) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -66,7 +66,7 @@ const lvl_2_subtotal_getSalesPeriodToDate_detail = async (start, end, program, f
 
 // FG Program col total for period
 
-const lvl_3_subtotal_getSalesPeriodToDate_detail = async (start, end, program, filters, year) => {
+const lvl_3_subtotal_getSales_detail = async (start, end, program, filters, year) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -98,7 +98,7 @@ const lvl_3_subtotal_getSalesPeriodToDate_detail = async (start, end, program, f
 
 // All sales col total for a program
 
-const lvl_0_total_getSalesPeriodToDate_detail = async (start, end, program, filters, year) => {
+const lvl_0_total_getSales_detail = async (start, end, program, filters, year) => {
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
@@ -126,7 +126,7 @@ const lvl_0_total_getSalesPeriodToDate_detail = async (start, end, program, filt
   }
 }
 
-module.exports.lvl_0_total_getSalesPeriodToDate_detail = lvl_0_total_getSalesPeriodToDate_detail
-module.exports.lvl_2_subtotal_getSalesPeriodToDate_detail = lvl_2_subtotal_getSalesPeriodToDate_detail
-module.exports.lvl_1_subtotal_getSalesPeriodToDate_detail = lvl_1_subtotal_getSalesPeriodToDate_detail
-module.exports.lvl_3_subtotal_getSalesPeriodToDate_detail = lvl_3_subtotal_getSalesPeriodToDate_detail
+module.exports.lvl_0_total_getSales_detail = lvl_0_total_getSales_detail
+module.exports.lvl_2_subtotal_getSales_detail = lvl_2_subtotal_getSales_detail
+module.exports.lvl_1_subtotal_getSales_detail = lvl_1_subtotal_getSales_detail
+module.exports.lvl_3_subtotal_getSales_detail = lvl_3_subtotal_getSales_detail
