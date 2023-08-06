@@ -3,6 +3,7 @@ const getDetail_invenFg = require('../routines/getDetail_invenFg')
 const getDetail_salesOrder = require('../routines/getDetail_salesOrder')
 const getDetail_salesInvoice = require('../routines/getDetail_salesInvoice')
 const getDetail_purchaseOrder = require('../routines/getDetail_purchaseOrder')
+const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
 
 // @route   POST /api/sales/detail/forProgBySpecBrndSize/
 // @desc    Get drilldown data for a given report and filter
