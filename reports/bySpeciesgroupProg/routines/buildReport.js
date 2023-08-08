@@ -87,7 +87,7 @@ const calcPercentSalesCol = require('../../shared/models/calcPercentSalesCol')
 const calcPercentKeyCol = require('../../shared/models/calcPercentKeyCol')
 const calcAveWeeklySales = require('../../shared/models/calcAveWeeklySales')
 const calcWeeksInvOnHand = require('../../shared/models/calcWeeksInvOnHand')
-const calcWeeksInvAvailable = require('../../shared/models/calcWeeksInvAvailable')
+const calcInventoryAvailable = require('../../shared/models/calcInventoryAvailable')
 
 const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
   ///////////////////////////////// INVENTORY DATA
@@ -353,7 +353,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
   const finalData = cleanLabelsForDisplay(flattenedMappedData)
 
   // KPI's continued
-  calcWeeksInvAvailable(finalData)
+  calcInventoryAvailable(finalData)
 
   // get data column names
   const salesColsByWk = await getDateEndPerWeekByRange(start, end)
