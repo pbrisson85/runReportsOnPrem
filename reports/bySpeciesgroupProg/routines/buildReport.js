@@ -86,7 +86,7 @@ const labelCols = require('../queries/hardcode/cols')
 const calcPercentSalesCol = require('../../shared/models/calcPercentSalesCol')
 const calcPercentKeyCol = require('../../shared/models/calcPercentKeyCol')
 const calcAveWeeklySales = require('../../shared/models/calcAveWeeklySales')
-const calcWeeksInvOnHand = require('../../shared/models/calcWeeksInvOnHand_old')
+const calcWeeksInvOnHand = require('../../shared/models/calcWeeksInvOnHand')
 const calcInventoryAvailable = require('../../shared/models/calcInventoryAvailable')
 
 const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
@@ -216,6 +216,35 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
   const lvl_0_invAvailable = calcInventoryAvailable(lvl_0_total_fgInven, lvl_0_total_fgPo, lvl_0_total_so, 'invenAvailable')
 
   /* WEEKS INV AVAILABLE */
+
+  ///////////////////////////////// ROWS
+  let levelTwoRows
+  let levelOneRows
+  if (showFyTrend) {
+    // full fy trend requested. need rows for all data
+    levelTwoRows = await getRows_l2_showFyTrend(start, end)
+    levelOneRows = await getRows_l1_showFyTrend(start, end)
+  } else {
+    // data request with start and end dates
+    levelTwoRows = await getLevelTwoRows(start, end)
+    levelOneRows = await getLevelOneRows(start, end)
+  }
+  const totalsRow = [{ totalRow: true, l1_label: 'FG SALES', l2_label: 'TOTAL' }]
+
+  // COMPILE FINAL ROW TEMPLATE
+  const rowTemplate = [...levelTwoRows, ...levelOneRows]
+    .sort((a, b) => {
+      if (a.l2_label < b.l2_label) return -1
+      if (a.l2_label > b.l2_label) return 1
+      return 0
+    })
+    .sort((a, b) => {
+      if (a.l1_label < b.l1_label) return -1
+      if (a.l1_label > b.l1_label) return 1
+      return 0
+    })
+
+  rowTemplate.push(...totalsRow)
 
   // map data into row template
   const rowTemplate_unflat = unflattenRowTemplate(rowTemplate)
