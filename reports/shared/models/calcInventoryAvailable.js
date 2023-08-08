@@ -55,7 +55,7 @@ const calcInventoryAvailable = (fgInven, fgPo, fgSo, colName) => {
       column: colName,
       lbs: lbsInven + lbsPo - lbsSo,
       cogs: cogsInven + cogsPo - cogsSo,
-      suppressCalcPerLb: true, // in inventory rows map will not calc / lb, will only use the weight or cogs ratio
+      suppressCalcPerLb: false, // in inventory rows map will not calc / lb, will only use the weight or cogs ratio
     }
 
     return calcData
