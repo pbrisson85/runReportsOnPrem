@@ -87,6 +87,7 @@ const calcPercentSalesCol = require('../../shared/models/calcPercentSalesCol')
 const calcPercentKeyCol = require('../../shared/models/calcPercentKeyCol')
 const calcAveWeeklySales = require('../../shared/models/calcAveWeeklySales')
 const calcWeeksInvOnHand = require('../../shared/models/calcWeeksInvOnHand')
+const calcWeeksInvAvailable = require('../../shared/models/calcWeeksInvAvailable')
 
 const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
   ///////////////////////////////// INVENTORY DATA
@@ -208,6 +209,10 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
   const lvl_1_weeksInvOnHand = calcWeeksInvOnHand(lvl_1_subtotal_fgInven, lvl_1_aveWeeklySales, 'weeksInvenOnHand', 2)
   const lvl_2_weeksInvOnHand = calcWeeksInvOnHand(lvl_2_subtotal_fgInven, lvl_2_aveWeeklySales, 'weeksInvenOnHand', 2)
   const lvl_0_weeksInvOnHand = calcWeeksInvOnHand(lvl_0_total_fgInven, lvl_0_aveWeeklySales, 'weeksInvenOnHand', 2)
+
+  /* INVENTORY AVAILABLE */
+
+  /* WEEKS INV AVAILABLE */
 
   ///////////////////////////////// ROWS
   let levelTwoRows
@@ -346,6 +351,9 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
 
   // remove row labels for l1_label except first row of each grouping // ALSO add filter datapoint with each l1_label, l2_label, l3_label
   const finalData = cleanLabelsForDisplay(flattenedMappedData)
+
+  // KPI's continued
+  calcWeeksInvAvailable(finalData)
 
   // get data column names
   const salesColsByWk = await getDateEndPerWeekByRange(start, end)

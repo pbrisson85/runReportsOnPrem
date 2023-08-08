@@ -2,7 +2,11 @@
 
 - Priorities:
 
-  - Prior year drilldowns.
+  - Col for FG Available
+  - Col for Weeks FG Avail
+  - Drilldown for skinless vs skin on
+  - Joe B report
+
   - Filter non domestic by species
   - Charts
   - If no sales put "ns" in the weeks inventory col instead of zero
