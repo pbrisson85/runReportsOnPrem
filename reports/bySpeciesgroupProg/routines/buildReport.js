@@ -358,9 +358,6 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
   // remove row labels for l1_label except first row of each grouping // ALSO add filter datapoint with each l1_label, l2_label, l3_label
   const finalData = cleanLabelsForDisplay(flattenedMappedData)
 
-  // KPI's continued
-  calcInventoryAvailable(finalData)
-
   // get data column names
   const salesColsByWk = await getDateEndPerWeekByRange(start, end)
 
