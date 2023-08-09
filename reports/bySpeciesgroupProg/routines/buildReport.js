@@ -215,10 +215,11 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
   const lvl_2_invAvailable = calcInventoryAvailable(lvl_2_subtotal_fgInven, lvl_2_subtotal_fgPo, lvl_2_subtotal_so, 'invenAvailable')
   const lvl_0_invAvailable = calcInventoryAvailable(lvl_0_total_fgInven, lvl_0_total_fgPo, lvl_0_total_so, 'invenAvailable')
 
-  /* WEEKS INV AVAILABLE */
-  const lvl_1_weeksInvAvail = calcWeeksInvOnHand(lvl_1_invAvailable, lvl_1_aveWeeklySales, 'weeksInvenAvailable')
-  const lvl_2_weeksInvAvail = calcWeeksInvOnHand(lvl_2_invAvailable, lvl_2_aveWeeklySales, 'weeksInvenAvailable')
-  const lvl_0_weeksInvOAvail = calcWeeksInvOnHand(lvl_0_invAvailable, lvl_0_aveWeeklySales, 'weeksInvenAvailable')
+  // /* WEEKS INV AVAILABLE */
+  // THIS IS NOT A GOOD METRIC.
+  // const lvl_1_weeksInvAvail = calcWeeksInvOnHand(lvl_1_invAvailable, lvl_1_aveWeeklySales, 'weeksInvenAvailable')
+  // const lvl_2_weeksInvAvail = calcWeeksInvOnHand(lvl_2_invAvailable, lvl_2_aveWeeklySales, 'weeksInvenAvailable')
+  // const lvl_0_weeksInvOAvail = calcWeeksInvOnHand(lvl_0_invAvailable, lvl_0_aveWeeklySales, 'weeksInvenAvailable')
 
   ///////////////////////////////// ROWS
   let levelTwoRows
@@ -345,9 +346,6 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
       ...lvl_1_invAvailable,
       ...lvl_2_invAvailable,
       ...lvl_0_invAvailable,
-      ...lvl_1_weeksInvAvail,
-      ...lvl_2_weeksInvAvail,
-      ...lvl_0_weeksInvOAvail,
     ],
     rowTemplate_unflat
   )

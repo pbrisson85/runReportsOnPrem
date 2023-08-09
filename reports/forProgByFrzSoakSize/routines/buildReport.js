@@ -122,6 +122,7 @@ const labelCols = require('../queries/hardcode/cols')
 const getSpeciesGroupTotalSales = require('../../shared/queries/postgres/getSpeciesGroupTotalSalesFromProgram')
 const calcAveWeeklySales = require('../../shared/models/calcAveWeeklySales')
 const calcWeeksInvOnHand = require('../../shared/models/calcWeeksInvOnHand')
+const calcInventoryAvailable = require('../../shared/models/calcInventoryAvailable')
 
 const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek) => {
   ///////////////////////////////// INVENTORY DATA
@@ -296,6 +297,12 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek)
   const lvl_2_weeksInvOnHand = calcWeeksInvOnHand(lvl_2_subtotal_fgInven, lvl_2_aveWeeklySales, 'weeksInvenOnHand')
   const lvl_3_weeksInvOnHand = calcWeeksInvOnHand(lvl_3_subtotal_fgInven, lvl_3_aveWeeklySales, 'weeksInvenOnHand')
   const lvl_0_weeksInvOnHand = calcWeeksInvOnHand(lvl_0_total_fgInven, lvl_0_aveWeeklySales, 'weeksInvenOnHand')
+
+  /* INVENTORY AVAILABLE */
+  const lvl_1_invAvailable = calcInventoryAvailable(lvl_1_subtotal_fgInven, lvl_1_subtotal_fgPo, lvl_1_subtotal_so, 'invenAvailable')
+  const lvl_2_invAvailable = calcInventoryAvailable(lvl_2_subtotal_fgInven, lvl_2_subtotal_fgPo, lvl_2_subtotal_so, 'invenAvailable')
+  const lvl_3_invAvailable = calcInventoryAvailable(lvl_3_subtotal_fgInven, lvl_3_subtotal_fgPo, lvl_3_subtotal_so, 'invenAvailable')
+  const lvl_0_invAvailable = calcInventoryAvailable(lvl_0_total_fgInven, lvl_0_total_fgPo, lvl_0_total_so, 'invenAvailable')
 
   ///////////////////////////////// ROWS
   let rowsThirdLevelDetail
@@ -473,6 +480,10 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek)
       ...lvl_2_weeksInvOnHand,
       ...lvl_3_weeksInvOnHand,
       ...lvl_0_weeksInvOnHand,
+      ...lvl_1_invAvailable,
+      ...lvl_2_invAvailable,
+      ...lvl_3_invAvailable,
+      ...lvl_0_invAvailable,
     ],
     rowTemplate_unflat
   )

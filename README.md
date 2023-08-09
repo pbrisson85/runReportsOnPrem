@@ -2,8 +2,6 @@
 
 - Priorities:
 
-  - Col for FG Available
-  - Col for Weeks FG Avail
   - Drilldown for skinless vs skin on
   - Joe B report
 

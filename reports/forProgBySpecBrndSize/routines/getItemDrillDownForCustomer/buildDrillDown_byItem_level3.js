@@ -64,6 +64,7 @@ const labelCols = require('../../queries/hardcode/cols_byItem_level3')
 const calcPercentSalesCol = require('../../../shared/models/calcPercentSalesCol')
 const calcAveWeeklySales = require('../../../shared/models/calcAveWeeklySales')
 const calcWeeksInvOnHand = require('../../../shared/models/calcWeeksInvOnHand')
+const calcInventoryAvailable = require('../../../shared/models/calcInventoryAvailable')
 
 const buildDrillDown = async (program, start, end, filters, showFyTrend, startWeek, endWeek) => {
   console.log(program, '\n', start, '\n', end, '\n', filters)
@@ -149,8 +150,12 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend, startWe
   const lvl_0_aveWeeklySales = calcAveWeeklySales(lvl_0_total_salesPeriodToDate, 'aveWeeklySales', weeks)
 
   /* WEEKS INV ON HAND */
-  const lvl_1_weeksInvOnHand = calcWeeksInvOnHand(lvl_1_subtotal_fgInven, lvl_1_aveWeeklySales, 'weeksInvenOnHand', 1)
-  const lvl_0_weeksInvOnHand = calcWeeksInvOnHand(lvl_0_total_fgInven, lvl_0_aveWeeklySales, 'weeksInvenOnHand', 1)
+  const lvl_1_weeksInvOnHand = calcWeeksInvOnHand(lvl_1_subtotal_fgInven, lvl_1_aveWeeklySales, 'weeksInvenOnHand')
+  const lvl_0_weeksInvOnHand = calcWeeksInvOnHand(lvl_0_total_fgInven, lvl_0_aveWeeklySales, 'weeksInvenOnHand')
+
+  /* INVENTORY AVAILABLE */
+  const lvl_1_invAvailable = calcInventoryAvailable(lvl_1_subtotal_fgInven, lvl_1_subtotal_fgPo, lvl_1_subtotal_so, 'invenAvailable')
+  const lvl_0_invAvailable = calcInventoryAvailable(lvl_0_total_fgInven, lvl_0_total_fgPo, lvl_0_total_so, 'invenAvailable')
 
   ///////////////////////////////// ROWS
   let rowsFirstLevelDetail
@@ -224,6 +229,8 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend, startWe
       ...lvl_0_total_fgPo,
       ...lvl_1_weeksInvOnHand,
       ...lvl_0_weeksInvOnHand,
+      ...lvl_1_invAvailable,
+      ...lvl_0_invAvailable,
     ],
     rowTemplate_unflat
   )
