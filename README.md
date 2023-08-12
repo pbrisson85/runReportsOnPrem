@@ -2,6 +2,22 @@
 
 - Priorities:
 
+  - Sales order detail net sales price is wrong on the walmart case items.
+
+  - Metrics:
+
+    - 4 Wk Ave Sales, 8 Week Ave Sales, 12 Week Ave Sales, 4 Week Ave So
+    - Weeks on hand using Inven + PO/ave sales (better of past 8 weeks ave or next 4 weeks ave.)
+
+  - Make report:
+
+    - Species (subtotal)/Cut (subtotal)/Brand (subtotal)/Soak (subtotal)/Item /Description/ Size
+      - Once made will be a template for a four level report. CONSIDER using postgresJS and building the queries. Once made will then add a WHERE clause to SELECT only for Joe B items.
+
+  - Make report
+
+    - Inventory report that allows to enter user defined fields (so that bulk lot)
+
   - Drilldown for skinless vs skin on
   - Joe B report
 
