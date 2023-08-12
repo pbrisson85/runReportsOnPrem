@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
     where ms.private_label_cust = 'DAMI00'
   `
 
-  return item
+  res.send(item)
 })
 
 module.exports = router
