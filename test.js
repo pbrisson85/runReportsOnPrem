@@ -6,11 +6,14 @@ const postgres = require('postgres')
 const sql = postgres()
 
 router.get('/', async (req, res) => {
+  const customer = 'DAMI00'
+  const fileds = ['ms.item_num', 'ms.species']
+
   const item = await sql`
     select
-      ms.item_num, ms.species
+      ${sql(fileds)}
     from "invenReporting".master_supplement ms
-    where ms.private_label_cust = 'DAMI00'
+    where ms.private_label_cust = ${customer}
   `
 
   res.send(item)
