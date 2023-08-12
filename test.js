@@ -8,12 +8,12 @@ const sql = postgres()
 router.get('/', async (req, res) => {
   const customerFilter = 'DAMI00'
   const fileds = ['ms.item_num', 'ms.species']
-  const table = `invenReporting.master_supplement`
+  const table = `invenReporting.master_supplement ms`
 
   const item = await sql`
     select
       ${sql(fileds)}
-    from ${sql(table)} AS ms
+    from ${sql(table)}
     where ms.private_label_cust = ${customerFilter}
   `
 
