@@ -8,6 +8,9 @@ const helmet = require('helmet')
 
 // initialize routes
 /* Reports */
+
+const test = require('./test')
+
 const getSalesByProgram = require('./reports/bySpeciesgroupProg/routes/buildReport')
 const drillDownSalesByProgram = require('./reports/bySpeciesgroupProg/routes/buildDrillDown')
 const getItemDrillDownForCustomerbySpeciesgroupProg = require('./reports/bySpeciesgroupProg/routes/getItemDrillDownForCustomer') // drilldown level two
@@ -69,6 +72,9 @@ process.on('unhandledRejection', ex => {
 // routes
 app.use(helmet())
 app.use(express.json())
+
+app.use('/api/sales/test', test)
+
 app.use('/api/sales/bySpeciesgroupProg', getSalesByProgram)
 app.use('/api/sales/drillDown/bySpeciesgroupProg', drillDownSalesByProgram)
 app.use('/api/sales/drillDown/item/bySpeciesgroupProg', getItemDrillDownForCustomerbySpeciesgroupProg) // drilldown level two
