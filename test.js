@@ -2,7 +2,7 @@
 const router = require('express').Router()
 
 // db.js
-import postgres from 'postgres'
+const postgres = require('postgres')
 const sql = postgres()
 
 router.get('/', async (req, res) => {
