@@ -4,7 +4,7 @@ const sql = require('../../../../../server')
 
 // FG Species Group col total for period
 
-const lvl_1_subtotal_getSales_detail = async (start, end, program, filters, year) => {
+const lvl_1_subtotal_getSales_detail = async (config, start, end, program, filters, year) => {
   try {
     console.log(`level 1: query postgres to get FG sales data period total ...`)
 
@@ -15,7 +15,7 @@ const lvl_1_subtotal_getSales_detail = async (start, end, program, filters, year
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.week >= ${start} AND sl.week <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ms.species = ${filters[0]} AND sl.fiscal_year = ${year}` //prettier-ignore
+      WHERE sl.week >= ${start} AND sl.week <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ${sql(config.l1_field)} = ${filters[0]} AND sl.fiscal_year = ${year}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -28,7 +28,7 @@ const lvl_1_subtotal_getSales_detail = async (start, end, program, filters, year
 
 // FG Program col total for period
 
-const lvl_2_subtotal_getSales_detail = async (start, end, program, filters, year) => {
+const lvl_2_subtotal_getSales_detail = async (config, start, end, program, filters, year) => {
   try {
     console.log(`level 2: query postgres to get FG sales data period total ...`)
 
@@ -39,7 +39,7 @@ const lvl_2_subtotal_getSales_detail = async (start, end, program, filters, year
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.week >= ${start} AND sl.week <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ms.species = ${filters[0]} AND ms.brand = ${filters[1]} AND sl.fiscal_year = ${year}` //prettier-ignore
+      WHERE sl.week >= ${start} AND sl.week <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND sl.fiscal_year = ${year}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -52,7 +52,7 @@ const lvl_2_subtotal_getSales_detail = async (start, end, program, filters, year
 
 // FG Program col total for period
 
-const lvl_3_subtotal_getSales_detail = async (start, end, program, filters, year) => {
+const lvl_3_subtotal_getSales_detail = async (config, start, end, program, filters, year) => {
   try {
     console.log(`level 3: query postgres to get FG sales data period total ...`)
 
@@ -63,7 +63,7 @@ const lvl_3_subtotal_getSales_detail = async (start, end, program, filters, year
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.week >= ${start} AND sl.week <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ms.species = ${filters[0]} AND ms.brand = ${filters[1]} AND ms.size_name = ${filters[2]} AND sl.fiscal_year = ${year}` //prettier-ignore
+      WHERE sl.week >= ${start} AND sl.week <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]} AND sl.fiscal_year = ${year}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -76,7 +76,7 @@ const lvl_3_subtotal_getSales_detail = async (start, end, program, filters, year
 
 // All sales col total for a program
 
-const lvl_0_total_getSales_detail = async (start, end, program, filters, year) => {
+const lvl_0_total_getSales_detail = async (config, start, end, program, filters, year) => {
   try {
     console.log(`level 0: query postgres to get FG sales data period total ...`)
 

@@ -2,7 +2,7 @@ const sql = require('../../../../../server')
 
 /* *********************************************** level 1 *********************************************** */
 
-const lvl_1_subtotal_getSoByWk_detail = async (program, filters, weekSerial) => {
+const lvl_1_subtotal_getSoByWk_detail = async (config, program, filters, weekSerial) => {
   try {
     console.log(`level 1: query postgres for FG Sales Orders ...`)
 
@@ -15,7 +15,7 @@ const lvl_1_subtotal_getSoByWk_detail = async (program, filters, weekSerial) => 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND ms.species = ${filters[0]} AND so.week_serial = ${weekSerial}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND ${sql(config.l1_field)} = ${filters[0]} AND so.week_serial = ${weekSerial}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -24,7 +24,7 @@ const lvl_1_subtotal_getSoByWk_detail = async (program, filters, weekSerial) => 
   }
 }
 
-const lvl_1_subtotal_getSoTagged_detail = async (program, filters, weekSerial) => {
+const lvl_1_subtotal_getSoTagged_detail = async (config, program, filters, weekSerial) => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders ...`)
 
@@ -35,7 +35,7 @@ const lvl_1_subtotal_getSoTagged_detail = async (program, filters, weekSerial) =
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND so.tagged_weight > 0 AND ms.species = ${filters[0]} AND so.week_serial = ${weekSerial}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND so.tagged_weight > 0 AND ${sql(config.l1_field)} = ${filters[0]} AND so.week_serial = ${weekSerial}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -44,7 +44,7 @@ const lvl_1_subtotal_getSoTagged_detail = async (program, filters, weekSerial) =
   }
 }
 
-const lvl_1_subtotal_getSoByWkUntagged_detail = async (program, filters, weekSerial) => {
+const lvl_1_subtotal_getSoByWkUntagged_detail = async (config, program, filters, weekSerial) => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders ...`)
 
@@ -55,7 +55,7 @@ const lvl_1_subtotal_getSoByWkUntagged_detail = async (program, filters, weekSer
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND so.untagged_weight > 0 AND ms.species = ${filters[0]} AND so.week_serial = ${weekSerial}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND so.untagged_weight > 0 AND ${sql(config.l1_field)} = ${filters[0]} AND so.week_serial = ${weekSerial}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -66,7 +66,7 @@ const lvl_1_subtotal_getSoByWkUntagged_detail = async (program, filters, weekSer
 
 /* *********************************************** level 2 *********************************************** */
 
-const lvl_2_subtotal_getSoByWk_detail = async (program, filters, weekSerial) => {
+const lvl_2_subtotal_getSoByWk_detail = async (config, program, filters, weekSerial) => {
   try {
     console.log(`level 2: query postgres for FG Sales Orders ...`)
 
@@ -77,7 +77,7 @@ const lvl_2_subtotal_getSoByWk_detail = async (program, filters, weekSerial) => 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND ms.species = ${filters[0]} AND ms.brand = ${filters[1]} AND so.week_serial = ${weekSerial}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND so.week_serial = ${weekSerial}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -86,7 +86,7 @@ const lvl_2_subtotal_getSoByWk_detail = async (program, filters, weekSerial) => 
   }
 }
 
-const lvl_2_subtotal_getSoTagged_detail = async (program, filters, weekSerial) => {
+const lvl_2_subtotal_getSoTagged_detail = async (config, program, filters, weekSerial) => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders ...`)
 
@@ -97,7 +97,7 @@ const lvl_2_subtotal_getSoTagged_detail = async (program, filters, weekSerial) =
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND so.tagged_weight > 0 AND ms.species = ${filters[0]} AND ms.brand = ${filters[1]} AND so.week_serial = ${weekSerial}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND so.tagged_weight > 0 AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND so.week_serial = ${weekSerial}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -106,7 +106,7 @@ const lvl_2_subtotal_getSoTagged_detail = async (program, filters, weekSerial) =
   }
 }
 
-const lvl_2_subtotal_getSoByWkUntagged_detail = async (program, filters, weekSerial) => {
+const lvl_2_subtotal_getSoByWkUntagged_detail = async (config, program, filters, weekSerial) => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders ...`)
 
@@ -117,7 +117,7 @@ const lvl_2_subtotal_getSoByWkUntagged_detail = async (program, filters, weekSer
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 
           
-      FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND so.untagged_weight > 0 AND ms.species = ${filters[0]} AND ms.brand = ${filters[1]} AND so.week_serial = ${weekSerial}` //prettier-ignore
+      FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND so.untagged_weight > 0 AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND so.week_serial = ${weekSerial}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -128,7 +128,7 @@ const lvl_2_subtotal_getSoByWkUntagged_detail = async (program, filters, weekSer
 
 /* *********************************************** level 3 *********************************************** */
 
-const lvl_3_subtotal_getSoByWk_detail = async (program, filters, weekSerial) => {
+const lvl_3_subtotal_getSoByWk_detail = async (config, program, filters, weekSerial) => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders ...`)
 
@@ -139,7 +139,7 @@ const lvl_3_subtotal_getSoByWk_detail = async (program, filters, weekSerial) => 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND ms.species = ${filters[0]} AND ms.brand = ${filters[1]} AND ms.size_name = ${filters[2]} AND so.week_serial = ${weekSerial}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]} AND so.week_serial = ${weekSerial}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -148,7 +148,7 @@ const lvl_3_subtotal_getSoByWk_detail = async (program, filters, weekSerial) => 
   }
 }
 
-const lvl_3_subtotal_getSoTagged_detail = async (program, filters, weekSerial) => {
+const lvl_3_subtotal_getSoTagged_detail = async (config, program, filters, weekSerial) => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders ...`)
 
@@ -159,7 +159,7 @@ const lvl_3_subtotal_getSoTagged_detail = async (program, filters, weekSerial) =
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND so.tagged_weight > 0 AND ms.species = ${filters[0]} AND ms.brand = ${filters[1]} AND ms.size_name = ${filters[2]} AND so.week_serial = ${weekSerial}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND so.tagged_weight > 0 AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]} AND so.week_serial = ${weekSerial}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -168,7 +168,7 @@ const lvl_3_subtotal_getSoTagged_detail = async (program, filters, weekSerial) =
   }
 }
 
-const lvl_3_subtotal_getSoByWkUntagged_detail = async (program, filters, weekSerial) => {
+const lvl_3_subtotal_getSoByWkUntagged_detail = async (config, program, filters, weekSerial) => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders ...`)
 
@@ -179,7 +179,7 @@ const lvl_3_subtotal_getSoByWkUntagged_detail = async (program, filters, weekSer
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND so.untagged_weight > 0 AND ms.species = ${filters[0]} AND ms.brand = ${filters[1]} AND ms.size_name = ${filters[2]} AND so.week_serial = ${weekSerial}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND so.untagged_weight > 0 AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]} AND so.week_serial = ${weekSerial}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -190,7 +190,7 @@ const lvl_3_subtotal_getSoByWkUntagged_detail = async (program, filters, weekSer
 
 /* *********************************************** TOTAL *********************************************** */
 
-const lvl_0_total_getSoByWk_detail = async (program, filters, weekSerial) => {
+const lvl_0_total_getSoByWk_detail = async (config, program, filters, weekSerial) => {
   try {
     console.log(`level 0: query postgres for FG Sales Orders ...`)
 
@@ -210,7 +210,7 @@ const lvl_0_total_getSoByWk_detail = async (program, filters, weekSerial) => {
   }
 }
 
-const lvl_0_total_getSoTagged_detail = async (program, filters, weekSerial) => {
+const lvl_0_total_getSoTagged_detail = async (config, program, filters, weekSerial) => {
   try {
     console.log(`level 0: query postgres for FG Sales Orders ...`)
 
@@ -230,7 +230,7 @@ const lvl_0_total_getSoTagged_detail = async (program, filters, weekSerial) => {
   }
 }
 
-const lvl_0_total_getSoByWkUntagged_detail = async (program, filters, weekSerial) => {
+const lvl_0_total_getSoByWkUntagged_detail = async (config, program, filters, weekSerial) => {
   try {
     console.log(`level 0: query postgres for FG Sales Orders ...`)
 

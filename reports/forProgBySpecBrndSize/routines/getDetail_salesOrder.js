@@ -28,7 +28,7 @@ const {
   lvl_0_total_getSoByWkUntagged_detail,
 } = require('../queries/postgres/detail/getSoByWeek')
 
-const getDetail = async (program, filters, columnDataName) => {
+const getDetail = async (config, program, filters, columnDataName) => {
   let detail = null
 
   if (filters[1] === 'SUBTOTAL' && filters[2] === 'SUBTOTAL') {
@@ -36,13 +36,13 @@ const getDetail = async (program, filters, columnDataName) => {
 
     switch (columnDataName) {
       case 'FG OPEN ORDER':
-        detail = await lvl_1_subtotal_getSo_detail(program, filters)
+        detail = await lvl_1_subtotal_getSo_detail(config, program, filters)
         break
       case 'FG OPEN ORDER TAGGED':
-        detail = await lvl_1_subtotal_getSoTagged_detail(program, filters)
+        detail = await lvl_1_subtotal_getSoTagged_detail(config, program, filters)
         break
       case 'FG OPEN ORDER UNTAGGED':
-        detail = await lvl_1_subtotal_getSoUntagged_detail(program, filters)
+        detail = await lvl_1_subtotal_getSoUntagged_detail(config, program, filters)
         break
       default:
         // Must be a trend column
@@ -53,11 +53,11 @@ const getDetail = async (program, filters, columnDataName) => {
         const weekSerial = columnDataName.split('_')[0]
 
         // query trend for all sales orders
-        if (isSo) detail = await lvl_1_subtotal_getSoByWk_detail(program, filters, weekSerial)
+        if (isSo) detail = await lvl_1_subtotal_getSoByWk_detail(config, program, filters, weekSerial)
         // query trend for untagged sales orders
-        if (isSoUntg) detail = await lvl_1_subtotal_getSoByWkUntagged_detail(program, filters, weekSerial)
+        if (isSoUntg) detail = await lvl_1_subtotal_getSoByWkUntagged_detail(config, program, filters, weekSerial)
         // query trend for tagged sales orders
-        if (isSoTg) detail = await lvl_1_subtotal_getSoByWkTagged_detail(program, filters, weekSerial)
+        if (isSoTg) detail = await lvl_1_subtotal_getSoByWkTagged_detail(config, program, filters, weekSerial)
         break
     }
   }
@@ -67,13 +67,13 @@ const getDetail = async (program, filters, columnDataName) => {
 
     switch (columnDataName) {
       case 'FG OPEN ORDER':
-        detail = await lvl_2_subtotal_getSo_detail(program, filters)
+        detail = await lvl_2_subtotal_getSo_detail(config, program, filters)
         break
       case 'FG OPEN ORDER TAGGED':
-        detail = await lvl_2_subtotal_getSoTagged_detail(program, filters)
+        detail = await lvl_2_subtotal_getSoTagged_detail(config, program, filters)
         break
       case 'FG OPEN ORDER UNTAGGED':
-        detail = await lvl_2_subtotal_getSoUntagged_detail(program, filters)
+        detail = await lvl_2_subtotal_getSoUntagged_detail(config, program, filters)
         break
       default:
         // Must be a trend column
@@ -84,11 +84,11 @@ const getDetail = async (program, filters, columnDataName) => {
         const weekSerial = columnDataName.split('_')[0]
 
         // query trend for all sales orders
-        if (isSo) detail = await lvl_2_subtotal_getSoByWk_detail(program, filters, weekSerial)
+        if (isSo) detail = await lvl_2_subtotal_getSoByWk_detail(config, program, filters, weekSerial)
         // query trend for untagged sales orders
-        if (isSoUntg) detail = await lvl_2_subtotal_getSoByWkUntagged_detail(program, filters, weekSerial)
+        if (isSoUntg) detail = await lvl_2_subtotal_getSoByWkUntagged_detail(config, program, filters, weekSerial)
         // query trend for tagged sales orders
-        if (isSoTg) detail = await lvl_2_subtotal_getSoByWkTagged_detail(program, filters, weekSerial)
+        if (isSoTg) detail = await lvl_2_subtotal_getSoByWkTagged_detail(config, program, filters, weekSerial)
         break
     }
   }
@@ -98,13 +98,13 @@ const getDetail = async (program, filters, columnDataName) => {
 
     switch (columnDataName) {
       case 'FG OPEN ORDER':
-        detail = await lvl_3_subtotal_getSo_detail(program, filters)
+        detail = await lvl_3_subtotal_getSo_detail(config, program, filters)
         break
       case 'FG OPEN ORDER TAGGED':
-        detail = await lvl_3_subtotal_getSoTagged_detail(program, filters)
+        detail = await lvl_3_subtotal_getSoTagged_detail(config, program, filters)
         break
       case 'FG OPEN ORDER UNTAGGED':
-        detail = await lvl_3_subtotal_getSoUntagged_detail(program, filters)
+        detail = await lvl_3_subtotal_getSoUntagged_detail(config, program, filters)
         break
       default:
         // Must be a trend column
@@ -115,11 +115,11 @@ const getDetail = async (program, filters, columnDataName) => {
         const weekSerial = columnDataName.split('_')[0]
 
         // query trend for all sales orders
-        if (isSo) detail = await lvl_3_subtotal_getSoByWk_detail(program, filters, weekSerial)
+        if (isSo) detail = await lvl_3_subtotal_getSoByWk_detail(config, program, filters, weekSerial)
         // query trend for untagged sales orders
-        if (isSoUntg) detail = await lvl_3_subtotal_getSoByWkUntagged_detail(program, filters, weekSerial)
+        if (isSoUntg) detail = await lvl_3_subtotal_getSoByWkUntagged_detail(config, program, filters, weekSerial)
         // query trend for tagged sales orders
-        if (isSoTg) detail = await lvl_3_subtotal_getSoByWkTagged_detail(program, filters, weekSerial)
+        if (isSoTg) detail = await lvl_3_subtotal_getSoByWkTagged_detail(config, program, filters, weekSerial)
         break
     }
   }
@@ -129,13 +129,13 @@ const getDetail = async (program, filters, columnDataName) => {
 
     switch (columnDataName) {
       case 'FG OPEN ORDER':
-        detail = await lvl_0_total_getSo_detail(program, filters)
+        detail = await lvl_0_total_getSo_detail(config, program, filters)
         break
       case 'FG OPEN ORDER TAGGED':
-        detail = await lvl_0_total_getSoTagged_detail(program, filters)
+        detail = await lvl_0_total_getSoTagged_detail(config, program, filters)
         break
       case 'FG OPEN ORDER UNTAGGED':
-        detail = await lvl_0_total_getSoUntagged_detail(program, filters)
+        detail = await lvl_0_total_getSoUntagged_detail(config, program, filters)
         break
       default:
         // Must be a trend column
@@ -146,11 +146,11 @@ const getDetail = async (program, filters, columnDataName) => {
         const weekSerial = columnDataName.split('_')[0]
 
         // query trend for all sales orders
-        if (isSo) detail = await lvl_0_total_getSoByWk_detail(program, filters, weekSerial)
+        if (isSo) detail = await lvl_0_total_getSoByWk_detail(config, program, filters, weekSerial)
         // query trend for untagged sales orders
-        if (isSoUntg) detail = await lvl_0_total_getSoByWkUntagged_detail(program, filters, weekSerial)
+        if (isSoUntg) detail = await lvl_0_total_getSoByWkUntagged_detail(config, program, filters, weekSerial)
         // query trend for tagged sales orders
-        if (isSoTg) detail = await lvl_0_total_getSoByWkTagged_detail(program, filters, weekSerial)
+        if (isSoTg) detail = await lvl_0_total_getSoByWkTagged_detail(config, program, filters, weekSerial)
         break
     }
   }

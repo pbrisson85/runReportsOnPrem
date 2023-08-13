@@ -2,7 +2,7 @@ const sql = require('../../../../../server')
 
 /* *********************************************** Level 1 *********************************************** */
 
-const lvl_1_subtotal_getFgPo_detail = async (program, filters) => {
+const lvl_1_subtotal_getFgPo_detail = async (config, program, filters) => {
   try {
     console.log(`level 1: query postgres for FG open PO ...`)
 
@@ -13,7 +13,7 @@ const lvl_1_subtotal_getFgPo_detail = async (program, filters) => {
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = p.item_number 
             
-        WHERE ms.item_type = ${'FG'} AND p.on_order_lbs <> 0 AND p.version = (SELECT MAX(p2.version) - 1 FROM "invenReporting".perpetual_inventory AS p2) AND ms.program = ${program} AND ms.species = ${filters[0]}` //prettier-ignore
+        WHERE ms.item_type = ${'FG'} AND p.on_order_lbs <> 0 AND p.version = (SELECT MAX(p2.version) - 1 FROM "invenReporting".perpetual_inventory AS p2) AND ms.program = ${program} AND ${sql(config.l1_field)} = ${filters[0]}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -26,7 +26,7 @@ const lvl_1_subtotal_getFgPo_detail = async (program, filters) => {
 
 // FG open PO grouped by program (includes in transit)
 
-const lvl_2_subtotal_getFgPo_detail = async (program, filters) => {
+const lvl_2_subtotal_getFgPo_detail = async (config, program, filters) => {
   try {
     console.log(`level 2: query postgres for FG open PO ...`)
 
@@ -37,7 +37,7 @@ const lvl_2_subtotal_getFgPo_detail = async (program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = p.item_number 
           
-      WHERE ms.item_type = ${'FG'} AND p.on_order_lbs <> 0 AND p.version = (SELECT MAX(p2.version) - 1 FROM "invenReporting".perpetual_inventory AS p2) AND ms.program = ${program} AND ms.species = ${filters[0]} AND ms.brand = ${filters[1]}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND p.on_order_lbs <> 0 AND p.version = (SELECT MAX(p2.version) - 1 FROM "invenReporting".perpetual_inventory AS p2) AND ms.program = ${program} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -50,7 +50,7 @@ const lvl_2_subtotal_getFgPo_detail = async (program, filters) => {
 
 // FG open PO grouped by program (includes in transit)
 
-const lvl_3_subtotal_getFgPo_detail = async (program, filters) => {
+const lvl_3_subtotal_getFgPo_detail = async (config, program, filters) => {
   try {
     console.log(`level 3: query postgres for FG open PO ...`)
 
@@ -61,7 +61,7 @@ const lvl_3_subtotal_getFgPo_detail = async (program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = p.item_number 
           
-      WHERE ms.item_type = ${'FG'} AND p.on_order_lbs <> 0 AND p.version = (SELECT MAX(p2.version) - 1 FROM "invenReporting".perpetual_inventory AS p2) AND ms.program = ${program} AND ms.species = ${filters[0]} AND ms.brand = ${filters[1]} AND ms.size_name = ${filters[2]}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND p.on_order_lbs <> 0 AND p.version = (SELECT MAX(p2.version) - 1 FROM "invenReporting".perpetual_inventory AS p2) AND ms.program = ${program} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -72,7 +72,7 @@ const lvl_3_subtotal_getFgPo_detail = async (program, filters) => {
 
 /* *********************************************** TOTAL *********************************************** */
 
-const lvl_0_total_getFgPo_detail = async (program, filters) => {
+const lvl_0_total_getFgPo_detail = async (config, program, filters) => {
   try {
     console.log(`level 0: query postgres for FG open PO ...`)
 

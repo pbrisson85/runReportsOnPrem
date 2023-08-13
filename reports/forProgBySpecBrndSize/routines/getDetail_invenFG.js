@@ -21,7 +21,7 @@ const {
   lvl_2_subtotal_getFgAtLoc_tagged_detail,
 } = require('../queries/postgres/detail/getFgInven')
 
-const getDetail = async (program, filters, columnDataName) => {
+const getDetail = async (config, program, filters, columnDataName) => {
   let detail = null
 
   if (filters[1] === 'SUBTOTAL' && filters[2] === 'SUBTOTAL') {
@@ -29,19 +29,19 @@ const getDetail = async (program, filters, columnDataName) => {
 
     switch (columnDataName) {
       case 'FG INVEN':
-        detail = await lvl_1_subtotal_getFgInven_detail(program, filters)
+        detail = await lvl_1_subtotal_getFgInven_detail(config, program, filters)
         break
       case 'FG IN TRANSIT':
-        detail = await lvl_1_subtotal_getFgInTransit_detail(program, filters)
+        detail = await lvl_1_subtotal_getFgInTransit_detail(config, program, filters)
         break
       case 'FG ON HAND':
-        detail = await lvl_1_subtotal_getFgAtLoc_detail(program, filters)
+        detail = await lvl_1_subtotal_getFgAtLoc_detail(config, program, filters)
         break
       case 'FG ON HAND UNTAGGED':
-        detail = await lvl_1_subtotal_getFgAtLoc_untagged_detail(program, filters)
+        detail = await lvl_1_subtotal_getFgAtLoc_untagged_detail(config, program, filters)
         break
       case 'FG ON HAND TAGGED':
-        detail = await lvl_1_subtotal_getFgAtLoc_tagged_detail(program, filters)
+        detail = await lvl_1_subtotal_getFgAtLoc_tagged_detail(config, program, filters)
         break
     }
   }
@@ -51,19 +51,19 @@ const getDetail = async (program, filters, columnDataName) => {
 
     switch (columnDataName) {
       case 'FG INVEN':
-        detail = await lvl_2_subtotal_getFgInven_detail(program, filters)
+        detail = await lvl_2_subtotal_getFgInven_detail(config, program, filters)
         break
       case 'FG IN TRANSIT':
-        detail = await lvl_2_subtotal_getFgInTransit_detail(program, filters)
+        detail = await lvl_2_subtotal_getFgInTransit_detail(config, program, filters)
         break
       case 'FG ON HAND':
-        detail = await lvl_2_subtotal_getFgAtLoc_detail(program, filters)
+        detail = await lvl_2_subtotal_getFgAtLoc_detail(config, program, filters)
         break
       case 'FG ON HAND UNTAGGED':
-        detail = await lvl_2_subtotal_getFgAtLoc_untagged_detail(program, filters)
+        detail = await lvl_2_subtotal_getFgAtLoc_untagged_detail(config, program, filters)
         break
       case 'FG ON HAND TAGGED':
-        detail = await lvl_2_subtotal_getFgAtLoc_tagged_detail(program, filters)
+        detail = await lvl_2_subtotal_getFgAtLoc_tagged_detail(config, program, filters)
         break
     }
   }
@@ -73,19 +73,19 @@ const getDetail = async (program, filters, columnDataName) => {
 
     switch (columnDataName) {
       case 'FG INVEN':
-        detail = await lvl_3_subtotal_getFgInven_detail(program, filters)
+        detail = await lvl_3_subtotal_getFgInven_detail(config, program, filters)
         break
       case 'FG IN TRANSIT':
-        detail = await lvl_3_subtotal_getFgInTransit_detail(program, filters)
+        detail = await lvl_3_subtotal_getFgInTransit_detail(config, program, filters)
         break
       case 'FG ON HAND':
-        detail = await lvl_3_subtotal_getFgAtLoc_detail(program, filters)
+        detail = await lvl_3_subtotal_getFgAtLoc_detail(config, program, filters)
         break
       case 'FG ON HAND UNTAGGED':
-        detail = await lvl_3_subtotal_getFgAtLoc_untagged_detail(program, filters)
+        detail = await lvl_3_subtotal_getFgAtLoc_untagged_detail(config, program, filters)
         break
       case 'FG ON HAND TAGGED':
-        detail = await lvl_3_subtotal_getFgAtLoc_tagged_detail(program, filters)
+        detail = await lvl_3_subtotal_getFgAtLoc_tagged_detail(config, program, filters)
         break
     }
   }
@@ -95,19 +95,19 @@ const getDetail = async (program, filters, columnDataName) => {
 
     switch (columnDataName) {
       case 'FG INVEN':
-        detail = await lvl_0_total_getFgInven_detail(program, filters)
+        detail = await lvl_0_total_getFgInven_detail(config, program, filters)
         break
       case 'FG IN TRANSIT':
-        detail = await lvl_0_total_getFgInTransit_detail(program, filters)
+        detail = await lvl_0_total_getFgInTransit_detail(config, program, filters)
         break
       case 'FG ON HAND':
-        detail = await lvl_0_total_getFgAtLoc_detail(program, filters)
+        detail = await lvl_0_total_getFgAtLoc_detail(config, program, filters)
         break
       case 'FG ON HAND UNTAGGED':
-        detail = await lvl_0_total_getFgAtLoc_untagged_detail(program, filters)
+        detail = await lvl_0_total_getFgAtLoc_untagged_detail(config, program, filters)
         break
       case 'FG ON HAND TAGGED':
-        detail = await lvl_0_total_getFgAtLoc_tagged_detail(program, filters)
+        detail = await lvl_0_total_getFgAtLoc_tagged_detail(config, program, filters)
         break
     }
   }
