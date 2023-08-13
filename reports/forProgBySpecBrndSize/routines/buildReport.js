@@ -126,32 +126,40 @@ const calcInventoryAvailable = require('../../shared/models/calcInventoryAvailab
 const labelCols = require('../queries/hardcode/cols')
 
 const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek) => {
+  // The routine and all of the queries can be the same for all reports. Going to buikd out this rpeort and then change the config manually to test.
+
+  const config = {
+    l1_field: 'ms.species',
+    l2_field: 'ms.brand',
+    l3_field: 'ms.size_name',
+  }
+
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
-  const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(program)
-  const lvl_2_subtotal_fgInven = await lvl_2_subtotal_getFgInven(program)
-  const lvl_3_subtotal_fgInven = await lvl_3_subtotal_getFgInven(program)
-  const lvl_0_total_fgInven = await lvl_0_total_getFgInven(program)
+  const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(config, program)
+  const lvl_2_subtotal_fgInven = await lvl_2_subtotal_getFgInven(config, program)
+  const lvl_3_subtotal_fgInven = await lvl_3_subtotal_getFgInven(config, program)
+  const lvl_0_total_fgInven = await lvl_0_total_getFgInven(config, program)
   /* FG IN TRANSIT*/
-  const lvl_1_subtotal_fgInTransit = await lvl_1_subtotal_getFgInTransit(program)
-  const lvl_2_subtotal_fgInTransit = await lvl_2_subtotal_getFgInTransit(program)
-  const lvl_3_subtotal_fgInTransit = await lvl_3_subtotal_getFgInTransit(program)
-  const lvl_0_total_fgInTransit = await lvl_0_total_getFgInTransit(program)
+  const lvl_1_subtotal_fgInTransit = await lvl_1_subtotal_getFgInTransit(config, program)
+  const lvl_2_subtotal_fgInTransit = await lvl_2_subtotal_getFgInTransit(config, program)
+  const lvl_3_subtotal_fgInTransit = await lvl_3_subtotal_getFgInTransit(config, program)
+  const lvl_0_total_fgInTransit = await lvl_0_total_getFgInTransit(config, program)
   /* FG ON HAND (LESS IN TRANSIT) */
-  const lvl_1_subtotal_fgAtLoc = await lvl_1_subtotal_getFgAtLoc(program)
-  const lvl_2_subtotal_fgAtLoc = await lvl_2_subtotal_getFgAtLoc(program)
-  const lvl_3_subtotal_fgAtLoc = await lvl_3_subtotal_getFgAtLoc(program)
-  const lvl_0_total_fgAtLoc = await lvl_0_total_getFgAtLoc(program)
+  const lvl_1_subtotal_fgAtLoc = await lvl_1_subtotal_getFgAtLoc(config, program)
+  const lvl_2_subtotal_fgAtLoc = await lvl_2_subtotal_getFgAtLoc(config, program)
+  const lvl_3_subtotal_fgAtLoc = await lvl_3_subtotal_getFgAtLoc(config, program)
+  const lvl_0_total_fgAtLoc = await lvl_0_total_getFgAtLoc(config, program)
   /* FG ON HAND UNTAGGED */
-  const lvl_1_subtotal_fgAtLoc_untagged = await lvl_1_subtotal_getFgAtLoc_untagged(program)
-  const lvl_2_subtotal_fgAtLoc_untagged = await lvl_2_subtotal_getFgAtLoc_untagged(program)
-  const lvl_3_subtotal_fgAtLoc_untagged = await lvl_3_subtotal_getFgAtLoc_untagged(program)
-  const lvl_0_total_fgAtLoc_untagged = await lvl_0_total_getFgAtLoc_untagged(program)
+  const lvl_1_subtotal_fgAtLoc_untagged = await lvl_1_subtotal_getFgAtLoc_untagged(config, program)
+  const lvl_2_subtotal_fgAtLoc_untagged = await lvl_2_subtotal_getFgAtLoc_untagged(config, program)
+  const lvl_3_subtotal_fgAtLoc_untagged = await lvl_3_subtotal_getFgAtLoc_untagged(config, program)
+  const lvl_0_total_fgAtLoc_untagged = await lvl_0_total_getFgAtLoc_untagged(config, program)
   /* FG ON HAND TAGGED */
-  // const lvl_1_subtotal_fgAtLoc_tagged = await lvl_1_subtotal_getFgAtLoc_tagged(program)
-  // const lvl_2_subtotal_fgAtLoc_tagged = await lvl_2_subtotal_getFgAtLoc_tagged(program)
-  // const lvl_3_subtotal_fgAtLoc_tagged = await lvl_3_subtotal_getFgAtLoc_tagged(program)
-  // const lvl_0_total_fgAtLoc_tagged = await lvl_0_total_getFgAtLoc_tagged(program)
+  // const lvl_1_subtotal_fgAtLoc_tagged = await lvl_1_subtotal_getFgAtLoc_tagged(config, program)
+  // const lvl_2_subtotal_fgAtLoc_tagged = await lvl_2_subtotal_getFgAtLoc_tagged(config, program)
+  // const lvl_3_subtotal_fgAtLoc_tagged = await lvl_3_subtotal_getFgAtLoc_tagged(config, program)
+  // const lvl_0_total_fgAtLoc_tagged = await lvl_0_total_getFgAtLoc_tagged(config, program)
 
   /* TOTAL RM */
   // const lvl_1_subtotal_rmInven = await lvl_1_subtotal_getRmInven(program)
@@ -306,12 +314,6 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek)
   let rowsThirdLevelDetail
   let rowsSecondLevelDetail
   let rowsFirstLevelDetail
-
-  const config = {
-    l1_field: 'ms.species',
-    l2_field: 'ms.brand',
-    l3_field: 'ms.size_name',
-  }
 
   if (showFyTrend) {
     // full fy trend requested. need rows for all data
