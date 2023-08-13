@@ -3,9 +3,9 @@ const {
   getDateEndPerWeekByRange_so,
   getDateEndPerWeekByRange_so_tg,
   getDateEndPerWeekByRange_so_untg,
-} = require('../../shared/queries/postgres/getDateEndPerWeek')
-const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../shared/queries/postgres/getFiscalYearCols')
-const { getLatestShipWk, getEarliestShipWk } = require('../../shared/queries/postgres/getSoDates')
+} = require('../queries/postgres/getDateEndPerWeek')
+const { getFiscalYearCols, getFiscalYearYtdCols } = require('../queries/postgres/getFiscalYearCols')
+const { getLatestShipWk, getEarliestShipWk } = require('../queries/postgres/getSoDates')
 const {
   lvl_1_subtotal_getSalesByWk,
   lvl_2_subtotal_getSalesByWk,
@@ -15,21 +15,21 @@ const {
   lvl_2_subtotal_getSalesPeriodToDate,
   lvl_3_subtotal_getSalesPeriodToDate,
   lvl_0_total_getSalesPeriodToDate,
-} = require('../queries/postgres/getSalesTrend')
+} = require('../queries/postgres/baseReport/getSalesTrend')
 
-const { getCompanyTotalSales } = require('../../shared/queries/postgres/getCompanyTotalSales')
+const { getCompanyTotalSales } = require('../queries/postgres/getCompanyTotalSales')
 const {
   lvl_1_subtotal_getSalesByFy,
   lvl_2_subtotal_getSalesByFy,
   lvl_3_subtotal_getSalesByFy,
   lvl_0_total_getSalesByFy,
-} = require('../queries/postgres/getSalesTrendByFy')
+} = require('../queries/postgres/baseReport/getSalesTrendByFy')
 const {
   lvl_1_subtotal_getSalesByFyYtd,
   lvl_2_subtotal_getSalesByFyYtd,
   lvl_3_subtotal_getSalesByFyYtd,
   lvl_0_total_getSalesByFyYtd,
-} = require('../queries/postgres/getSalesTrendByFyYtd')
+} = require('../queries/postgres/baseReport/getSalesTrendByFyYtd')
 const {
   lvl_1_subtotal_getFgInven,
   lvl_2_subtotal_getFgInven,
@@ -51,7 +51,7 @@ const {
   lvl_2_subtotal_getFgAtLoc_tagged,
   lvl_3_subtotal_getFgAtLoc_tagged,
   lvl_0_total_getFgAtLoc_tagged,
-} = require('../queries/postgres/getFgInven')
+} = require('../queries/postgres/baseReport/getFgInven')
 const {
   lvl_3_subtotal_getRmInven,
   lvl_3_subtotal_getRmInTransit,
@@ -65,19 +65,19 @@ const {
   lvl_0_total_getRmInven,
   lvl_0_total_getRmInTransit,
   lvl_0_total_getRmAtLoc,
-} = require('../queries/postgres/getRmInven_deprecated')
+} = require('../queries/postgres/baseReport/getRmInven_deprecated')
 const {
   lvl_1_subtotal_getFgPo,
   lvl_2_subtotal_getFgPo,
   lvl_3_subtotal_getFgPo,
   lvl_0_total_getFgPo,
-} = require('../queries/postgres/getFgOpenPo')
+} = require('../queries/postgres/baseReport/getFgOpenPo')
 const {
   lvl_1_subtotal_getRmPo,
   lvl_2_subtotal_getRmPo,
   lvl_3_subtotal_getRmPo,
   lvl_0_total_getRmPo,
-} = require('../queries/postgres/getRmOpenPo_deprecated')
+} = require('../queries/postgres/baseReport/getRmOpenPo_deprecated')
 const {
   lvl_1_subtotal_getSo,
   lvl_2_subtotal_getSo,
@@ -91,7 +91,7 @@ const {
   lvl_2_subtotal_getSoUntagged,
   lvl_3_subtotal_getSoUntagged,
   lvl_0_total_getSoUntagged,
-} = require('../queries/postgres/getSo')
+} = require('../queries/postgres/baseReport/getSo')
 const {
   lvl_1_subtotal_getSo_byWk,
   lvl_2_subtotal_getSo_byWk,
@@ -105,27 +105,27 @@ const {
   lvl_2_subtotal_getSoUntagged_byWk,
   lvl_3_subtotal_getSoUntagged_byWk,
   lvl_0_total_getSoUntagged_byWk,
-} = require('../queries/postgres/getSoByWeek')
-const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../queries/postgres/getRows')
+} = require('../queries/postgres/baseReport/getSoByWeek')
+const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../queries/postgres/baseReport/getRows')
 const {
   getRowsThirdLevelDetail: getRows_l3_showFyTrend,
   getRowsSecondLevelDetail: getRows_l2_showFyTrend,
   getRowsFirstLevelDetail: getRows_l1_showFyTrend,
-} = require('../queries/postgres/getRowsTrendByFy')
-const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesThreeLevel')
-const mapInvenToRowTemplates = require('../../shared/models/mapInvenToRowTemplatesThreeLevel')
-const combineMappedRows = require('../../shared/models/combineMappedRows')
-const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay')
-const unflattenByCompositKey = require('../../shared/models/unflattenByCompositKey')
-const calcPercentSalesCol = require('../../shared/models/calcPercentSalesCol')
-const getSpeciesGroupTotalSales = require('../../shared/queries/postgres/getSpeciesGroupTotalSalesFromProgram')
-const calcAveWeeklySales = require('../../shared/models/calcAveWeeklySales')
-const calcWeeksInvOnHand = require('../../shared/models/calcWeeksInvOnHand')
-const calcInventoryAvailable = require('../../shared/models/calcInventoryAvailable')
+} = require('../queries/postgres/baseReport/getRowsTrendByFy')
+const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplatesThreeLevel')
+const mapInvenToRowTemplates = require('../models/mapInvenToRowTemplatesThreeLevel')
+const combineMappedRows = require('../models/combineMappedRows')
+const cleanLabelsForDisplay = require('../models/cleanLabelsForDisplay')
+const unflattenByCompositKey = require('../models/unflattenByCompositKey')
+const calcPercentSalesCol = require('../models/calcPercentSalesCol')
+const getSpeciesGroupTotalSales = require('../queries/postgres/getSpeciesGroupTotalSalesFromProgram')
+const calcAveWeeklySales = require('../models/calcAveWeeklySales')
+const calcWeeksInvOnHand = require('../models/calcWeeksInvOnHand')
+const calcInventoryAvailable = require('../models/calcInventoryAvailable')
 
 const labelCols = require('../queries/hardcode/cols')
 
-const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek) => {
+const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek, config) => {
   // The routine and all of the queries can be the same for all reports. Going to buikd out this rpeort and then change the config manually to test.
 
   /*
@@ -153,12 +153,6 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek)
     l3_field: 'ms.size_name',
   }
   */
-
-  const config = {
-    l1_field: 'ms.species',
-    l2_field: 'ms.brand',
-    l3_field: 'ms.size_name',
-  }
 
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
