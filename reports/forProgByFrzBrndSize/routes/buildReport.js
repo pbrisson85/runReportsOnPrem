@@ -1,7 +1,8 @@
 const router = require('express').Router()
-const buildReport = require('../routines/buildReport')
+const buildReport = require('../../shared/routines/buildReport')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
+const labelCols = require('../queries/hardcode/cols')
 
 // @route   POST /api/sales/forProgramFfpds
 // @desc
@@ -25,7 +26,13 @@ router.post('/', async (req, res) => {
   const startWeek = await getWeekForDate(req.body.start) // temporarily until I change the data that is being passed by the front end to the week
   const endWeek = await getWeekForDate(req.body.end) // temporarily until I change the data that is being passed by the front end to the week
 
-  const resp = await buildReport(periodStart, req.body.end, req.body.program, req.body.showFyTrend, startWeek, endWeek)
+  const config = {
+    l1_field: 'ms.fg_fresh_frozen',
+    l2_field: 'ms.brand',
+    l3_field: 'ms.size_name',
+  }
+
+  const resp = await buildReport(periodStart, req.body.end, req.body.program, req.body.showFyTrend, startWeek, endWeek, config, labelCols)
 
   console.log(
     `get get weekly sales for ${req.body.program} by freeze, soak, size during ${req.body.start} through ${req.body.end} route COMPLETE. \n`

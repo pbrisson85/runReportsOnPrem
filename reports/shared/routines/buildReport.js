@@ -126,32 +126,6 @@ const calcInventoryAvailable = require('../models/calcInventoryAvailable')
 const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek, config, labelCols) => {
   // The routine and all of the queries can be the same for all reports. Going to buikd out this rpeort and then change the config manually to test.
 
-  /*
-  const config = {
-    l1_field: 'ms.species',
-    l2_field: 'ms.brand',
-    l3_field: 'ms.size_name',
-  }
-
-  const config = {
-    l1_field: 'ms.species',
-    l2_field: 'ms.fg_treatment',
-    l3_field: 'ms.size_name',
-  }
-
-  const config = {
-    l1_field: 'ms.fg_fresh_frozen',
-    l2_field: 'ms.brand',
-    l3_field: 'ms.size_name',
-  }
-
-  const config = {
-    l1_field: 'ms.fg_fresh_frozen',
-    l2_field: 'ms.fg_treatment',
-    l3_field: 'ms.size_name',
-  }
-  */
-
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
   const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(config, program)
