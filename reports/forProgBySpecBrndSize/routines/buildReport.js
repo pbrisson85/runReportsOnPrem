@@ -65,7 +65,7 @@ const {
   lvl_0_total_getRmInven,
   lvl_0_total_getRmInTransit,
   lvl_0_total_getRmAtLoc,
-} = require('../queries/postgres/getRmInven')
+} = require('../queries/postgres/getRmInven_deprecated')
 const {
   lvl_1_subtotal_getFgPo,
   lvl_2_subtotal_getFgPo,
@@ -77,7 +77,7 @@ const {
   lvl_2_subtotal_getRmPo,
   lvl_3_subtotal_getRmPo,
   lvl_0_total_getRmPo,
-} = require('../queries/postgres/getRmOpenPo')
+} = require('../queries/postgres/getRmOpenPo_deprecated')
 const {
   lvl_1_subtotal_getSo,
   lvl_2_subtotal_getSo,
@@ -130,8 +130,8 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek)
 
   const config = {
     l1_field: 'ms.species',
-    l2_field: 'ms.brand',
-    l3_field: 'ms.size_name',
+    l2_field: '${sql(config.l2_field)}',
+    l3_field: '${sql(config.l3_field)}',
   }
 
   ///////////////////////////////// INVENTORY DATA
@@ -200,22 +200,23 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek)
   const lvl_0_total_soUntagged_byWk = await lvl_0_total_getSoUntagged_byWk(config, program)
 
   // ///////////////////////////////// SALES DATA
-  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(start, end, program)
-  const lvl_2_subtotal_salesByFy = await lvl_2_subtotal_getSalesByFy(start, end, program)
-  const lvl_3_subtotal_salesByFy = await lvl_3_subtotal_getSalesByFy(start, end, program)
-  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(start, end, program)
-  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(startWeek, endWeek, program)
-  const lvl_2_subtotal_salesByFyYtd = await lvl_2_subtotal_getSalesByFyYtd(startWeek, endWeek, program)
-  const lvl_3_subtotal_salesByFyYtd = await lvl_3_subtotal_getSalesByFyYtd(startWeek, endWeek, program)
-  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(startWeek, endWeek, program)
-  const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end, program)
-  const lvl_2_subtotal_salesByWk = await lvl_2_subtotal_getSalesByWk(start, end, program)
-  const lvl_3_subtotal_salesByWk = await lvl_3_subtotal_getSalesByWk(start, end, program)
-  const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(start, end, program)
-  const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(start, end, program)
-  const lvl_2_subtotal_salesPeriodToDate = await lvl_2_subtotal_getSalesPeriodToDate(start, end, program)
-  const lvl_3_subtotal_salesPeriodToDate = await lvl_3_subtotal_getSalesPeriodToDate(start, end, program)
-  const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(start, end, program)
+  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(config, start, end, program)
+  const lvl_2_subtotal_salesByFy = await lvl_2_subtotal_getSalesByFy(config, start, end, program)
+  const lvl_3_subtotal_salesByFy = await lvl_3_subtotal_getSalesByFy(config, start, end, program)
+  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(config, start, end, program)
+  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program)
+  const lvl_2_subtotal_salesByFyYtd = await lvl_2_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program)
+  const lvl_3_subtotal_salesByFyYtd = await lvl_3_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program)
+  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, program)
+  const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(config, start, end, program)
+  const lvl_2_subtotal_salesByWk = await lvl_2_subtotal_getSalesByWk(config, start, end, program)
+  const lvl_3_subtotal_salesByWk = await lvl_3_subtotal_getSalesByWk(config, start, end, program)
+  const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(config, start, end, program)
+  const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(config, start, end, program)
+  const lvl_2_subtotal_salesPeriodToDate = await lvl_2_subtotal_getSalesPeriodToDate(config, start, end, program)
+  const lvl_3_subtotal_salesPeriodToDate = await lvl_3_subtotal_getSalesPeriodToDate(config, start, end, program)
+  const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(config, start, end, program)
+
   const companyTotalSales = await getCompanyTotalSales(start, end)
 
   ///////////////////////////////// KPI DATA
