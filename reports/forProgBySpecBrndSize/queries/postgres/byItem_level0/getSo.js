@@ -6,7 +6,7 @@ const lvl_1_subtotal_getSo = async (config, program, filters) => {
     console.log(`level 1: query postgres for FG Sales Orders ...`)
 
     const response = await sql
-         `SELECT \'FG OPEN ORDER\' AS column, ms.item_num AS l1_label, ms.description AS l2_label,  ms.species AS l3_label, ms.brand AS l4_label , ms.size_name AS l5_label, COALESCE(SUM(sales_orders.ext_weight),0) AS lbs, COALESCE(SUM(sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.ext_cost),0) AS cogs, COALESCE(SUM(sales_orders.ext_othp),0) AS othp 
+         `SELECT \'FG OPEN ORDER\' AS column, ms.item_num AS l1_label, ms.description AS l2_label,  ${sql(config.l1_field)} AS l3_label, ${sql(config.l2_field)} AS l4_label , ${sql(config.l3_field)} AS l5_label, COALESCE(SUM(sales_orders.ext_weight),0) AS lbs, COALESCE(SUM(sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.ext_cost),0) AS cogs, COALESCE(SUM(sales_orders.ext_othp),0) AS othp 
          
          FROM "salesReporting".sales_orders 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -14,7 +14,7 @@ const lvl_1_subtotal_getSo = async (config, program, filters) => {
             
         WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL 
         
-        GROUP BY ms.item_num, ms.description,ms.species, ms.brand, ms.size_name` //prettier-ignore
+        GROUP BY ms.item_num, ms.description,${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -28,7 +28,7 @@ const lvl_1_subtotal_getSoTagged = async (config, program, filters) => {
     console.log(`level 3: query postgres for FG Sales Orders ...`)
 
     const response = await sql
-           `SELECT \'FG OPEN ORDER TAGGED\' AS column, ms.item_num AS l1_label, ms.description AS l2_label,  ms.species AS l3_label, ms.brand AS l4_label , ms.size_name AS l5_label, COALESCE(SUM(sales_orders.tagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.tagged_weight * ave_tagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
+           `SELECT \'FG OPEN ORDER TAGGED\' AS column, ms.item_num AS l1_label, ms.description AS l2_label,  ${sql(config.l1_field)} AS l3_label, ${sql(config.l2_field)} AS l4_label , ${sql(config.l3_field)} AS l5_label, COALESCE(SUM(sales_orders.tagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.tagged_weight * ave_tagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
            
            FROM "salesReporting".sales_orders 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -36,7 +36,7 @@ const lvl_1_subtotal_getSoTagged = async (config, program, filters) => {
               
           WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND sales_orders.tagged_weight > 0 
           
-          GROUP BY ms.item_num, ms.description,ms.species, ms.brand, ms.size_name` //prettier-ignore
+          GROUP BY ms.item_num, ms.description,${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -50,7 +50,7 @@ const lvl_1_subtotal_getSoUntagged = async (config, program, filters) => {
     console.log(`level 3: query postgres for FG Sales Orders ...`)
 
     const response = await sql
-      `SELECT \'FG OPEN ORDER UNTAGGED\' AS column, ms.item_num AS l1_label, ms.description AS l2_label,  ms.species AS l3_label, ms.brand AS l4_label , ms.size_name AS l5_label, COALESCE(SUM(sales_orders.untagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.untagged_weight * ave_untagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
+      `SELECT \'FG OPEN ORDER UNTAGGED\' AS column, ms.item_num AS l1_label, ms.description AS l2_label,  ${sql(config.l1_field)} AS l3_label, ${sql(config.l2_field)} AS l4_label , ${sql(config.l3_field)} AS l5_label, COALESCE(SUM(sales_orders.untagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.untagged_weight * ave_untagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
       
       FROM "salesReporting".sales_orders 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -58,7 +58,7 @@ const lvl_1_subtotal_getSoUntagged = async (config, program, filters) => {
           
       WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND sales_orders.untagged_weight > 0 
       
-      GROUP BY ms.item_num, ms.description,ms.species, ms.brand, ms.size_name` //prettier-ignore
+      GROUP BY ms.item_num, ms.description,${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}` //prettier-ignore
 
     return response
   } catch (error) {

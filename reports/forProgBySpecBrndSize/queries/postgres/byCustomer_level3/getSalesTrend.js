@@ -1,3 +1,4 @@
+const sql = require('../../../../../server')
 /* *********************************************** Level 1 Group *********************************************** */
 
 // FG Species Group totals by week
@@ -13,7 +14,7 @@ const lvl_1_subtotal_getSalesByWk = async (config, start, end, program, filters)
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
       
-      WHERE sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ms.species = ${filters[0]} AND ms.brand = ${filters[1]} AND ms.size_name = ${filters[2]} 
+      WHERE sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]} 
       
       GROUP BY sl.week_serial, sl.customer_code, sl.customer_name
       
@@ -39,7 +40,7 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (config, start, end, program, 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ms.species = ${filters[0]} AND ms.brand = ${filters[1]} AND ms.size_name = ${filters[2]} 
+      WHERE sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]} 
       
       GROUP BY sl.customer_code, sl.customer_name` //prettier-ignore
 
@@ -65,7 +66,7 @@ const lvl_0_total_getSalesByWk = async (config, start, end, program, filters) =>
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ms.species = ${filters[0]} AND ms.brand = ${filters[1]} AND ms.size_name = ${filters[2]} 
+      WHERE sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]} 
       
       GROUP BY sl.week_serial 
       
@@ -91,7 +92,7 @@ const lvl_0_total_getSalesPeriodToDate = async (config, start, end, program, fil
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ms.species = ${filters[0]} AND ms.brand = ${filters[1]} AND ms.size_name = ${filters[2]}` //prettier-ignore
+      WHERE sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]}` //prettier-ignore
 
     return response
   } catch (error) {

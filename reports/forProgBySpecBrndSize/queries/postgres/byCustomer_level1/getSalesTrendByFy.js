@@ -1,3 +1,4 @@
+const sql = require('../../../../../server')
 /* *********************************************** Level 1 Group *********************************************** */
 
 // FG Species Group totals by week
@@ -13,7 +14,7 @@ const lvl_1_subtotal_getSalesByFy = async (config, start, end, program, filters)
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
       
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ms.species = ${filters[0]}
+      WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ${sql(config.l1_field)} = ${filters[0]}
       
       GROUP BY sl.fiscal_year, sl.customer_code, sl.customer_name
       
@@ -41,7 +42,7 @@ const lvl_0_total_getSalesByFy = async (config, start, end, program, filters) =>
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ms.species = ${filters[0]}
+      WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ${sql(config.l1_field)} = ${filters[0]}
       
       GROUP BY sl.fiscal_year 
       

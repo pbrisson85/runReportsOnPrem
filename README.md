@@ -1,5 +1,7 @@
 #### Goals:
 
+#### I have all the drilldown queries open. Need to add the config.level1, 2, 3 params, then need to pass on the config file. Then test, Then convert all other reports over to use this.
+
 - Priorities:
 
   - Sales order detail net sales price is wrong on the walmart case items.
