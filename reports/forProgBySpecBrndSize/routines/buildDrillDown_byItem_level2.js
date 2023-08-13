@@ -60,7 +60,7 @@ const calcWeeksInvOnHand = require('../../shared/models/calcWeeksInvOnHand')
 const calcInventoryAvailable = require('../../shared/models/calcInventoryAvailable')
 const labelCols = require('../queries/hardcode/cols_byItem_level2')
 
-const buildDrillDown = async (program, start, end, filters, showFyTrend, startWeek, endWeek) => {
+const buildDrillDown = async (config, program, start, end, filters, showFyTrend, startWeek, endWeek) => {
   console.log(program, '\n', start, '\n', end, '\n', filters)
 
   ///////////////////////////////// INVENTORY DATA
@@ -116,7 +116,7 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend, startWe
   const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(start, end, program, filters)
   const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(start, end, program, filters)
   const companyTotalSales = await getCompanyTotalSales(start, end)
-  const lvl_0_program_salesPeriodToDate = await lvl_0_program_getSalesPeriodToDate(start, end, program)
+  const lvl_0_program_salesPeriodToDate = await lvl_0_program_getSalesPeriodToDate(config, start, end, program)
 
   ///////////////////////////////// KPI DATA
   /* % COMPANY SALES */

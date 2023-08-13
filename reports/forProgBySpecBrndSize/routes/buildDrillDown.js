@@ -18,6 +18,12 @@ router.post('/', async (req, res) => {
   const { program, option, filters, columnDataName, reportName, colType, periodEnd, showFyTrend } = req.body
   let { periodStart } = req.body
 
+  const config = {
+    l1_field: 'ms.species',
+    l2_field: 'ms.brand',
+    l3_field: 'ms.size_name',
+  }
+
   console.log(`\nget drilldown data for ${reportName} route HIT...`)
 
   const startWeek = await getWeekForDate(periodStart) // temporarily until I change the data that is being passed by the front end to the week
@@ -33,25 +39,25 @@ router.post('/', async (req, res) => {
     if (filters[1] === 'SUBTOTAL') {
       // level 1 subtotal
       console.log(`getting level 1 subtotal for ${colType}...`)
-      response = await buildDrillDown_byItem_level1(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+      response = await buildDrillDown_byItem_level1(config, program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
     }
 
     if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') {
       // level 2 subtotal
       console.log(`getting level 2 subtotal for ${colType}...`)
-      response = await buildDrillDown_byItem_level2(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+      response = await buildDrillDown_byItem_level2(config, program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
     }
 
     if (filters[1] !== 'TOTAL' && filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL') {
       // level 3 subtotal
       console.log(`getting level 3 subtotal for ${colType}...`)
-      response = await buildDrillDown_byItem_level3(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+      response = await buildDrillDown_byItem_level3(config, program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
     }
 
     if (filters[1] === 'TOTAL') {
       // level 0 total
       console.log(`getting level 0 subtotal for ${colType}...`)
-      response = await buildDrillDown_byItem_level0(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+      response = await buildDrillDown_byItem_level0(config, program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
     }
   } else {
     // option is top customer weight, margin, or bottom customer weight.
@@ -60,25 +66,25 @@ router.post('/', async (req, res) => {
     if (filters[1] === 'SUBTOTAL') {
       // level 1 subtotal
       console.log(`getting level 1 subtotal for ${colType}...`)
-      response = await buildDrillDown_byCustomer_level1(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+      response = await buildDrillDown_byCustomer_level1(config, program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
     }
 
     if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') {
       // level 2 subtotal
       console.log(`getting level 2 subtotal for ${colType}...`)
-      response = await buildDrillDown_byCustomer_level2(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+      response = await buildDrillDown_byCustomer_level2(config, program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
     }
 
     if (filters[1] !== 'TOTAL' && filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL') {
       // level 3 subtotal
       console.log(`getting level 3 subtotal for ${colType}...`)
-      response = await buildDrillDown_byCustomer_level3(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+      response = await buildDrillDown_byCustomer_level3(config, program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
     }
 
     if (filters[1] === 'TOTAL') {
       // level 0 total
       console.log(`getting level 0 subtotal for ${colType}...`)
-      response = await buildDrillDown_byCustomer_level0(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+      response = await buildDrillDown_byCustomer_level0(config, program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
     }
   }
 
