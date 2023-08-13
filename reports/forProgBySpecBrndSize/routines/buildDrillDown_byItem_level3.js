@@ -61,7 +61,7 @@ const calcWeeksInvOnHand = require('../../shared/models/calcWeeksInvOnHand')
 const calcInventoryAvailable = require('../../shared/models/calcInventoryAvailable')
 const labelCols = require('../queries/hardcode/cols_byItem_level3')
 
-const buildDrillDown = async (config, config, program, start, end, filters, showFyTrend, startWeek, endWeek) => {
+const buildDrillDown = async (config, program, start, end, filters, showFyTrend, startWeek, endWeek) => {
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
   const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(program, filters)
