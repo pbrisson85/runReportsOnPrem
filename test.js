@@ -1,9 +1,6 @@
 // testing postgres js
 const router = require('express').Router()
-
-// db.js
-const postgres = require('postgres')
-const sql = postgres()
+const sql = require('./server')
 
 router.get('/', async (req, res) => {
   const fileds = ['ms.item_num', 'ms.species']

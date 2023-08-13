@@ -1,0 +1,89 @@
+const router = require('express').Router()
+const buildDrillDown_byItem_level3 = require('../routines/buildDrillDown_byItem_level3')
+const buildDrillDown_byItem_level2 = require('../routines/buildDrillDown_byItem_level2')
+const buildDrillDown_byItem_level1 = require('../routines/buildDrillDown_byItem_level1')
+const buildDrillDown_byItem_level0 = require('../routines/buildDrillDown_byItem_level0')
+const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
+const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
+const buildDrillDown_byCustomer_level3 = require('../routines/buildDrillDown_byCustomer_level3')
+const buildDrillDown_byCustomer_level2 = require('../routines/buildDrillDown_byCustomer_level2')
+const buildDrillDown_byCustomer_level1 = require('../routines/buildDrillDown_byCustomer_level1')
+const buildDrillDown_byCustomer_level0 = require('../routines/buildDrillDown_byCustomer_level0')
+
+// @route   POST /api/sales/drillDown/forProgBySpecSoakSize
+// @desc    Get drilldown data for a given report and filter
+// @access  Private
+
+router.post('/', async (req, res) => {
+  const { program, option, filters, columnDataName, reportName, colType, periodEnd, showFyTrend } = req.body
+  let { periodStart } = req.body
+
+  console.log(`\nget drilldown data for ${reportName} route HIT...`)
+
+  const startWeek = await getWeekForDate(periodStart) // temporarily until I change the data that is being passed by the front end to the week
+  const endWeek = await getWeekForDate(periodEnd) // temporarily until I change the data that is being passed by the front end to the week
+
+  // Note that start date is the END of the first week. Need the beginning of the same week to pull invoice dates that are after this:
+  const startOfWeek = await getStartOfWeek(periodStart)
+  periodStart = startOfWeek[0].formatted_date_start
+
+  let response = null
+
+  if (option === 'Trend By Item') {
+    if (filters[1] === 'SUBTOTAL') {
+      // level 1 subtotal
+      console.log(`getting level 1 subtotal for ${colType}...`)
+      response = await buildDrillDown_byItem_level1(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+    }
+
+    if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') {
+      // level 2 subtotal
+      console.log(`getting level 2 subtotal for ${colType}...`)
+      response = await buildDrillDown_byItem_level2(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+    }
+
+    if (filters[1] !== 'TOTAL' && filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL') {
+      // level 3 subtotal
+      console.log(`getting level 3 subtotal for ${colType}...`)
+      response = await buildDrillDown_byItem_level3(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+    }
+
+    if (filters[1] === 'TOTAL') {
+      // level 0 total
+      console.log(`getting level 0 subtotal for ${colType}...`)
+      response = await buildDrillDown_byItem_level0(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+    }
+  } else {
+    // option is top customer weight, margin, or bottom customer weight.
+    // Pull one set of data and filter/sum at the end based on the option.
+
+    if (filters[1] === 'SUBTOTAL') {
+      // level 1 subtotal
+      console.log(`getting level 1 subtotal for ${colType}...`)
+      response = await buildDrillDown_byCustomer_level1(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+    }
+
+    if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') {
+      // level 2 subtotal
+      console.log(`getting level 2 subtotal for ${colType}...`)
+      response = await buildDrillDown_byCustomer_level2(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+    }
+
+    if (filters[1] !== 'TOTAL' && filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL') {
+      // level 3 subtotal
+      console.log(`getting level 3 subtotal for ${colType}...`)
+      response = await buildDrillDown_byCustomer_level3(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+    }
+
+    if (filters[1] === 'TOTAL') {
+      // level 0 total
+      console.log(`getting level 0 subtotal for ${colType}...`)
+      response = await buildDrillDown_byCustomer_level0(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+    }
+  }
+
+  console.log(`get drilldown data for ${reportName} route COMPLETE. \n`)
+  res.send(response)
+})
+
+module.exports = router

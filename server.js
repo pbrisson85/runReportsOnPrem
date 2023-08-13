@@ -6,6 +6,11 @@ const express = require('express')
 const app = express()
 const helmet = require('helmet')
 
+// initialize postgres js
+const postgres = require('postgres')
+const sql = postgres()
+module.exports = sql
+
 // initialize routes
 /* Reports */
 
