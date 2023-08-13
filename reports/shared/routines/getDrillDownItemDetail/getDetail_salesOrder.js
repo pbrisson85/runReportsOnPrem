@@ -1,4 +1,4 @@
-const { byItem_getSo_detail, byItem_getSoTagged_detail, byItem_getSoUntagged_detail } = require('../queries/postgres/detailByItem/getSo')
+const { byItem_getSo_detail, byItem_getSoTagged_detail, byItem_getSoUntagged_detail } = require('../../queries/postgres/detailByItem/getSo')
 
 const {
   byItem_getSoByWk_detail,
