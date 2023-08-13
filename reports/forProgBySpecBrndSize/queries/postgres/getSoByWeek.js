@@ -1,3 +1,5 @@
+const sql = require('../../../../server')
+
 /* *********************************************** level 1 *********************************************** */
 
 const lvl_1_subtotal_getSo_byWk = async program => {
