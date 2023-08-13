@@ -156,7 +156,7 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek)
 
   const config = {
     l1_field: 'ms.fg_fresh_frozen',
-    l2_field: 'ms.fg_treatment',
+    l2_field: 'ms.brand',
     l3_field: 'ms.size_name',
   }
 
