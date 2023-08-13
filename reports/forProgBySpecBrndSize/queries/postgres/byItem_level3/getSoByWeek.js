@@ -3,12 +3,6 @@ const sql = require('../../../../../server')
 /* *********************************************** level 1 *********************************************** */
 
 const lvl_1_subtotal_getSo_byWk = async (config, program, filters) => {
-  const config = {
-    l1_field: '${sql(config.l1_field)}',
-    l2_field: '${sql(config.l2_field)}',
-    l3_field: '${sql(config.l3_field)}',
-  }
-
   try {
     console.log(`level 1: query postgres for FG Sales Orders By Week ...`)
 
