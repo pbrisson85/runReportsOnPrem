@@ -1,4 +1,4 @@
-const sql = require('../../../../server')
+const sql = require('../../../../../server')
 
 const getRowsThirdLevelDetail = async (config, start, end, program) => {
   try {
