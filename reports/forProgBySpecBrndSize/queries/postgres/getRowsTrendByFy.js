@@ -2,10 +2,6 @@ const sql = require('../../../../server')
 
 const getRowsThirdLevelDetail = async (start, end, program) => {
   try {
-    // const { Client } = require('pg')
-    // const pgClient = new Client() // config from ENV
-    // await pgClient.connect()
-
     console.log(`query postgres to get weekly purchses ...`)
 
     const response = await sql
@@ -39,9 +35,6 @@ const getRowsThirdLevelDetail = async (start, end, program) => {
             
             GROUP BY ms.species, ms.brand, ms.size_name` //prettier-ignore
 
-    // await pgClient.end()
-
-    // return response.rows
     return response
   } catch (error) {
     console.error(error)
@@ -51,48 +44,40 @@ const getRowsThirdLevelDetail = async (start, end, program) => {
 
 const getRowsSecondLevelDetail = async (start, end, program) => {
   try {
-    const { Client } = require('pg')
-    const pgClient = new Client() // config from ENV
-    await pgClient.connect()
-
     console.log(`query postgres to get weekly purchses ...`)
 
-    const response = await pgClient.query(
-        `SELECT ms.species AS l1_label, ms.brand AS l2_label, \'SUBTOTAL\' AS l3_label 
+    const response = await sql
+        `SELECT ms.species AS l1_label, ms.brand AS l2_label, 'SUBTOTAL' AS l3_label 
         
             FROM "salesReporting".sales_line_items 
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                 ON ms.item_num = sales_line_items.item_number 
                 
-            WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ms.program = $2 
+            WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} 
             
             GROUP BY ms.species, ms.brand 
             
-        UNION SELECT ms.species AS l1_label, ms.brand AS l2_label, \'SUBTOTAL\' AS l3_label 
+        UNION SELECT ms.species AS l1_label, ms.brand AS l2_label, 'SUBTOTAL' AS l3_label 
         
             FROM "invenReporting".perpetual_inventory 
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                 ON ms.item_num = perpetual_inventory.item_number 
                 
-            WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ms.program = $2 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+            WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             
             GROUP BY ms.species, ms.brand 
         
-        UNION SELECT ms.species AS l1_label, ms.brand AS l2_label, \'SUBTOTAL\' AS l3_label 
+        UNION SELECT ms.species AS l1_label, ms.brand AS l2_label, 'SUBTOTAL' AS l3_label 
         
             FROM "salesReporting".sales_orders 
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                 ON ms.item_num = sales_orders.item_num 
                 
-            WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ms.program = $2 AND sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
+            WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
             
-            GROUP BY ms.species, ms.brand`,
-        [ 'FG', program]
-        ) //prettier-ignore
+            GROUP BY ms.species, ms.brand` //prettier-ignore
 
-    await pgClient.end()
-
-    return response.rows
+    return response
   } catch (error) {
     console.error(error)
     return error
@@ -101,46 +86,38 @@ const getRowsSecondLevelDetail = async (start, end, program) => {
 
 const getRowsFirstLevelDetail = async (start, end, program) => {
   try {
-    const { Client } = require('pg')
-    const pgClient = new Client() // config from ENV
-    await pgClient.connect()
-
     console.log(`query postgres to get weekly purchses ...`)
 
-    const response = await pgClient.query(
-        `SELECT ms.species AS l1_label, \'SUBTOTAL\' AS l2_label, \'SUBTOTAL\' AS l3_label 
+    const response = await sql
+        `SELECT ms.species AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label 
         
             FROM "salesReporting".sales_line_items 
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                 ON ms.item_num = sales_line_items.item_number 
                 
-            WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ms.program = $2 GROUP BY ms.species 
+            WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} GROUP BY ms.species 
         
-        UNION SELECT ms.species AS l1_label, \'SUBTOTAL\' AS l2_label, \'SUBTOTAL\' AS l3_label 
+        UNION SELECT ms.species AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label 
         
             FROM "invenReporting".perpetual_inventory 
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                 ON ms.item_num = perpetual_inventory.item_number 
                 
-            WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ms.program = $2 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+            WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             
             GROUP BY ms.species 
         
-        UNION SELECT ms.species AS l1_label, \'SUBTOTAL\' AS l2_label, \'SUBTOTAL\' AS l3_label 
+        UNION SELECT ms.species AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label 
         
             FROM "salesReporting".sales_orders 
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                 ON ms.item_num = sales_orders.item_num 
                 
-            WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ms.program = $2 AND sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
+            WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
             
-            GROUP BY ms.species`,
-        [ 'FG', program]
-        ) //prettier-ignore
+            GROUP BY ms.species` //prettier-ignore
 
-    await pgClient.end()
-
-    return response.rows
+    return response
   } catch (error) {
     console.error(error)
     return error
