@@ -130,8 +130,8 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek)
 
   const config = {
     l1_field: 'ms.species',
-    l2_field: '${sql(config.l2_field)}',
-    l3_field: '${sql(config.l3_field)}',
+    l2_field: 'ms.brand',
+    l3_field: 'ms.size_name',
   }
 
   ///////////////////////////////// INVENTORY DATA
