@@ -2,7 +2,7 @@ const sql = require('../../../../server')
 
 /* *********************************************** level 1 *********************************************** */
 
-const lvl_1_subtotal_getSo_byWk = async program => {
+const lvl_1_subtotal_getSo_byWk = async (config, program) => {
   try {
     console.log(`level 1: query postgres for FG Sales Orders By Week ...`)
 
@@ -26,7 +26,7 @@ const lvl_1_subtotal_getSo_byWk = async program => {
   }
 }
 
-const lvl_1_subtotal_getSoTagged_byWk = async program => {
+const lvl_1_subtotal_getSoTagged_byWk = async (config, program) => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders By Week ...`)
 
@@ -48,7 +48,7 @@ const lvl_1_subtotal_getSoTagged_byWk = async program => {
   }
 }
 
-const lvl_1_subtotal_getSoUntagged_byWk = async program => {
+const lvl_1_subtotal_getSoUntagged_byWk = async (config, program) => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders By Week ...`)
 
@@ -72,7 +72,7 @@ const lvl_1_subtotal_getSoUntagged_byWk = async program => {
 
 /* *********************************************** level 2 *********************************************** */
 
-const lvl_2_subtotal_getSo_byWk = async program => {
+const lvl_2_subtotal_getSo_byWk = async (config, program) => {
   try {
     console.log(`level 2: query postgres for FG Sales Orders By Week ...`)
 
@@ -94,7 +94,7 @@ const lvl_2_subtotal_getSo_byWk = async program => {
   }
 }
 
-const lvl_2_subtotal_getSoTagged_byWk = async program => {
+const lvl_2_subtotal_getSoTagged_byWk = async (config, program) => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders By Week ...`)
 
@@ -116,7 +116,7 @@ const lvl_2_subtotal_getSoTagged_byWk = async program => {
   }
 }
 
-const lvl_2_subtotal_getSoUntagged_byWk = async program => {
+const lvl_2_subtotal_getSoUntagged_byWk = async (config, program) => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders By Week ...`)
 
@@ -140,7 +140,7 @@ const lvl_2_subtotal_getSoUntagged_byWk = async program => {
 
 /* *********************************************** level 3 *********************************************** */
 
-const lvl_3_subtotal_getSo_byWk = async program => {
+const lvl_3_subtotal_getSo_byWk = async (config, program) => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders By Week ...`)
 
@@ -162,7 +162,7 @@ const lvl_3_subtotal_getSo_byWk = async program => {
   }
 }
 
-const lvl_3_subtotal_getSoTagged_byWk = async program => {
+const lvl_3_subtotal_getSoTagged_byWk = async (config, program) => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders By Week ...`)
 
@@ -184,7 +184,7 @@ const lvl_3_subtotal_getSoTagged_byWk = async program => {
   }
 }
 
-const lvl_3_subtotal_getSoUntagged_byWk = async program => {
+const lvl_3_subtotal_getSoUntagged_byWk = async (config, program) => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders By Week ...`)
 
@@ -208,7 +208,7 @@ const lvl_3_subtotal_getSoUntagged_byWk = async program => {
 
 /* *********************************************** TOTAL *********************************************** */
 
-const lvl_0_total_getSo_byWk = async program => {
+const lvl_0_total_getSo_byWk = async (config, program) => {
   try {
     console.log(`level 0: query postgres for FG Sales Orders By Week ...`)
 
@@ -230,7 +230,7 @@ const lvl_0_total_getSo_byWk = async program => {
   }
 }
 
-const lvl_0_total_getSoTagged_byWk = async program => {
+const lvl_0_total_getSoTagged_byWk = async (config, program) => {
   try {
     console.log(`level 0: query postgres for FG Sales Orders By Week ...`)
 
@@ -252,7 +252,7 @@ const lvl_0_total_getSoTagged_byWk = async program => {
   }
 }
 
-const lvl_0_total_getSoUntagged_byWk = async program => {
+const lvl_0_total_getSoUntagged_byWk = async (config, program) => {
   try {
     console.log(`level 0: query postgres for FG Sales Orders By Week ...`)
 
