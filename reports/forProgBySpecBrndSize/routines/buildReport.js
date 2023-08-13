@@ -128,10 +128,36 @@ const labelCols = require('../queries/hardcode/cols')
 const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek) => {
   // The routine and all of the queries can be the same for all reports. Going to buikd out this rpeort and then change the config manually to test.
 
+  /*
   const config = {
     l1_field: 'ms.species',
     l2_field: 'ms.brand',
-    l3_field: 'ms.fg_treatment',
+    l3_field: 'ms.size_name',
+  }
+
+  const config = {
+    l1_field: 'ms.species',
+    l2_field: 'ms.fg_treatment',
+    l3_field: 'ms.size_name',
+  }
+
+  const config = {
+    l1_field: 'ms.fresh_frozen',
+    l2_field: 'ms.brand',
+    l3_field: 'ms.size_name',
+  }
+
+  const config = {
+    l1_field: 'ms.fresh_frozen',
+    l2_field: 'ms.fg_treatment',
+    l3_field: 'ms.size_name',
+  }
+  */
+
+  const config = {
+    l1_field: 'ms.fresh_frozen',
+    l2_field: 'ms.fg_treatment',
+    l3_field: 'ms.size_name',
   }
 
   ///////////////////////////////// INVENTORY DATA
