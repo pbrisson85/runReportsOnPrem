@@ -1,26 +1,21 @@
+const sql = require('../../../../server')
+
 /* *********************************************** Level 1 *********************************************** */
 
-const lvl_1_subtotal_getFgPo = async program => {
+const lvl_1_subtotal_getFgPo = async (config, program) => {
   try {
-    const { Client } = require('pg')
-    const pgClient = new Client() // config from ENV
-    await pgClient.connect()
-
     console.log(`level 1: query postgres for FG open PO ...`)
 
-    const response = await pgClient.query(
-         `SELECT 'FG ON ORDER' AS column, ms.species AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.on_order_extended),0) AS cogs 
+    const response = await sql
+         `SELECT 'FG ON ORDER' AS column, ${sql(config.l1_field)} AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.on_order_extended),0) AS cogs 
         
          FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
          
-         WHERE ms.item_type = $1 AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.program = $2 
+         WHERE ms.item_type = ${'FG'} AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.program = ${program} 
          
-         GROUP BY ms.species`, ['FG', program]
-        ) //prettier-ignore
+         GROUP BY ${sql(config.l1_field)}` //prettier-ignore
 
-    await pgClient.end()
-
-    return response.rows
+    return response
   } catch (error) {
     console.error(error)
     return error
@@ -31,27 +26,20 @@ const lvl_1_subtotal_getFgPo = async program => {
 
 // FG open PO grouped by program (includes in transit)
 
-const lvl_2_subtotal_getFgPo = async program => {
+const lvl_2_subtotal_getFgPo = async (config, program) => {
   try {
-    const { Client } = require('pg')
-    const pgClient = new Client() // config from ENV
-    await pgClient.connect()
-
     console.log(`level 2: query postgres for FG open PO ...`)
 
-    const response = await pgClient.query(
-       `SELECT 'FG ON ORDER' AS column, ms.species AS l1_label, ms.brand AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.on_order_extended),0) AS cogs 
+    const response = await sql
+       `SELECT 'FG ON ORDER' AS column, ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.on_order_extended),0) AS cogs 
        
        FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
        
-       WHERE ms.item_type = $1 AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.program = $2 
+       WHERE ms.item_type = ${'FG'} AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.program = ${program} 
        
-       GROUP BY ms.species, ms.brand`, ['FG', program]
-      ) //prettier-ignore
+       GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}` //prettier-ignore
 
-    await pgClient.end()
-
-    return response.rows
+    return response
   } catch (error) {
     console.error(error)
     return error
@@ -62,27 +50,20 @@ const lvl_2_subtotal_getFgPo = async program => {
 
 // FG open PO grouped by program (includes in transit)
 
-const lvl_3_subtotal_getFgPo = async program => {
+const lvl_3_subtotal_getFgPo = async (config, program) => {
   try {
-    const { Client } = require('pg')
-    const pgClient = new Client() // config from ENV
-    await pgClient.connect()
-
     console.log(`level 3: query postgres for FG open PO ...`)
 
-    const response = await pgClient.query(
-       `SELECT 'FG ON ORDER' AS column, ms.species AS l1_label, ms.brand AS l2_label, ms.size_name AS l3_label, COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.on_order_extended),0) AS cogs 
+    const response = await sql
+       `SELECT 'FG ON ORDER' AS column, ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, ${sql(config.l3_field)} AS l3_label, COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.on_order_extended),0) AS cogs 
        
        FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
        
-       WHERE ms.item_type = $1 AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.program = $2 
+       WHERE ms.item_type = ${'FG'} AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.program = ${program} 
        
-       GROUP BY ms.species, ms.brand, ms.size_name`, ['FG', program]
-      ) //prettier-ignore
+       GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}` //prettier-ignore
 
-    await pgClient.end()
-
-    return response.rows
+    return response
   } catch (error) {
     console.error(error)
     return error
@@ -91,25 +72,18 @@ const lvl_3_subtotal_getFgPo = async program => {
 
 /* *********************************************** TOTAL *********************************************** */
 
-const lvl_0_total_getFgPo = async program => {
+const lvl_0_total_getFgPo = async (config, program) => {
   try {
-    const { Client } = require('pg')
-    const pgClient = new Client() // config from ENV
-    await pgClient.connect()
-
     console.log(`level 0: query postgres for FG open PO ...`)
 
-    const response = await pgClient.query(
+    const response = await sql
          `SELECT 'FG ON ORDER' AS column, 'FG SALES' AS l1_label, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.on_order_extended),0) AS cogs 
          
          FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
          
-         WHERE ms.item_type = $1 AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.program = $2`, ['FG', program]
-        ) //prettier-ignore
+         WHERE ms.item_type = ${'FG'} AND perpetual_inventory.on_order_lbs <> 0 AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.program = ${program}` //prettier-ignore
 
-    await pgClient.end()
-
-    return response.rows
+    return response
   } catch (error) {
     console.error(error)
     return error

@@ -161,31 +161,11 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek)
   // const lvl_3_subtotal_fgAtLoc_tagged = await lvl_3_subtotal_getFgAtLoc_tagged(config, program)
   // const lvl_0_total_fgAtLoc_tagged = await lvl_0_total_getFgAtLoc_tagged(config, program)
 
-  /* TOTAL RM */
-  // const lvl_1_subtotal_rmInven = await lvl_1_subtotal_getRmInven(program)
-  // const lvl_2_subtotal_rmInven = await lvl_2_subtotal_getRmInven(program)
-  // const lvl_3_subtotal_rmInven = await lvl_3_subtotal_getRmInven(program)
-  // const lvl_0_total_rmInven = await lvl_0_total_getRmInven(program)
-  /* RM IN TRANSIT (OUT COUNTRY PLUS IN TRANSIT) */
-  // const lvl_1_subtotal_rmInTransit = await lvl_1_subtotal_getRmInTransit(program)
-  // const lvl_2_subtotal_rmInTransit = await lvl_2_subtotal_getRmInTransit(program)
-  // const lvl_3_subtotal_rmInTransit = await lvl_3_subtotal_getRmInTransit(program)
-  // const lvl_0_total_rmInTransit = await lvl_0_total_getRmInTransit(program)
-  /* RM ON HAND (IN COUNTRY LESS IN TRANSIT) */
-  // const lvl_1_subtotal_rmAtLoc = await lvl_1_subtotal_getRmAtLoc(program)
-  // const lvl_2_subtotal_rmAtLoc = await lvl_2_subtotal_getRmAtLoc(program)
-  // const lvl_3_subtotal_rmAtLoc = await lvl_3_subtotal_getRmAtLoc(program)
-  // const lvl_0_total_rmAtLoc = await lvl_0_total_getRmAtLoc(program)
-  /* RM ON ORDER */
-  // const lvl_1_subtotal_rmPo = await lvl_1_subtotal_getRmPo(program)
-  // const lvl_2_subtotal_rmPo = await lvl_2_subtotal_getRmPo(program)
-  // const lvl_3_subtotal_rmPo = await lvl_3_subtotal_getRmPo(program)
-  // const lvl_0_total_rmPo = await lvl_0_total_getRmPo(program)
   /* FG ON ORDER */
-  const lvl_1_subtotal_fgPo = await lvl_1_subtotal_getFgPo(program)
-  const lvl_2_subtotal_fgPo = await lvl_2_subtotal_getFgPo(program)
-  const lvl_3_subtotal_fgPo = await lvl_3_subtotal_getFgPo(program)
-  const lvl_0_total_fgPo = await lvl_0_total_getFgPo(program)
+  const lvl_1_subtotal_fgPo = await lvl_1_subtotal_getFgPo(config, program)
+  const lvl_2_subtotal_fgPo = await lvl_2_subtotal_getFgPo(config, program)
+  const lvl_3_subtotal_fgPo = await lvl_3_subtotal_getFgPo(config, program)
+  const lvl_0_total_fgPo = await lvl_0_total_getFgPo(config, program)
 
   // ///////////////////////////////// SALES ORDERS
   /* ALL SO */
