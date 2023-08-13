@@ -123,9 +123,7 @@ const calcAveWeeklySales = require('../models/calcAveWeeklySales')
 const calcWeeksInvOnHand = require('../models/calcWeeksInvOnHand')
 const calcInventoryAvailable = require('../models/calcInventoryAvailable')
 
-const labelCols = require('../queries/hardcode/cols')
-
-const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek, config) => {
+const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek, config, labelCols) => {
   // The routine and all of the queries can be the same for all reports. Going to buikd out this rpeort and then change the config manually to test.
 
   /*

@@ -2,6 +2,7 @@ const router = require('express').Router()
 const buildReport = require('../../shared/routines/buildReport')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
+const labelCols = require('../queries/hardcode/cols')
 
 // @route   POST /api/sales/forProgramFfpds
 // @desc
@@ -31,7 +32,7 @@ router.post('/', async (req, res) => {
     l3_field: 'ms.size_name',
   }
 
-  const resp = await buildReport(periodStart, req.body.end, req.body.program, req.body.showFyTrend, startWeek, endWeek, config)
+  const resp = await buildReport(periodStart, req.body.end, req.body.program, req.body.showFyTrend, startWeek, endWeek, config, labelCols)
 
   console.log(
     `get get weekly sales for ${req.body.program} by specis, brand, size during ${req.body.start} through ${req.body.end} route COMPLETE. \n`
