@@ -7,22 +7,18 @@ NOTE TO GET A COMPLETE POPULATION OF ALL POSSIBLE ROW LABELS PERFORMING A UNION 
 
 */
 
-const getRowsFirstLevelDetail = async (start, end, program, filters) => {
+const getRowsFirstLevelDetail = async (config, start, end, program, filters) => {
   try {
-    const { Client } = require('pg')
-    const pgClient = new Client() // config from ENV
-    await pgClient.connect()
-
     console.log(`query postgres to get weekly purchses ...`)
 
-    const response = await pgClient.query(
+    const response = await sql
         `SELECT ms.item_num AS l1_label,  ms.description AS l2_label 
         
             FROM "salesReporting".sales_line_items 
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                 ON ms.item_num = sales_line_items.item_number 
                 
-            WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ms.program = $2 AND ms.species = $3 AND ms.brand = $4 AND ms.size_name = $5 
+            WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ms.species = ${filters[0]} AND ms.brand = ${filters[1]} AND ms.size_name = ${filters[2]} 
             
             GROUP BY ms.item_num, ms.description 
         
@@ -32,7 +28,7 @@ const getRowsFirstLevelDetail = async (start, end, program, filters) => {
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                 ON ms.item_num = perpetual_inventory.item_number 
                 
-            WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ms.program = $2 AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.species = $3 AND ms.brand = $4 AND ms.size_name = $5 
+            WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.species = ${filters[0]} AND ms.brand = ${filters[1]} AND ms.size_name = ${filters[2]} 
                 
             GROUP BY ms.item_num, ms.description 
         
@@ -42,15 +38,11 @@ const getRowsFirstLevelDetail = async (start, end, program, filters) => {
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                 ON ms.item_num = sales_orders.item_num 
                 
-            WHERE ms.byproduct_type IS NULL AND ms.item_type = $1 AND ms.program = $2 AND sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) AND ms.species = $3 AND ms.brand = $4 AND ms.size_name = $5 
+            WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) AND ms.species = ${filters[0]} AND ms.brand = ${filters[1]} AND ms.size_name = ${filters[2]} 
             
-            GROUP BY ms.item_num, ms.description`,
-        [ 'FG', program, filters[0], filters[1], filters[2]]
-        ) //prettier-ignore
+            GROUP BY ms.item_num, ms.description` //prettier-ignore
 
-    await pgClient.end()
-
-    return response.rows
+    return response
   } catch (error) {
     console.error(error)
     return error
