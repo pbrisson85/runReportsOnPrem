@@ -11,13 +11,13 @@ const lvl_1_subtotal_getFgInven = async (config, program) => {
     // level 1 detail
 
     const response = await sql
-      `SELECT 'FG INVEN' AS column, ${config.l1_field} AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
+      `SELECT 'FG INVEN' AS column, ${sql(config.l1_field)} AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.program = ${program} 
       
-      GROUP BY ${config.l1_field}` //prettier-ignore
+      GROUP BY ${sql(config.l1_field)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -33,13 +33,13 @@ const lvl_1_subtotal_getFgInTransit = async (config, program) => {
     console.log(`level 1: query postgres for FG in transit ...`)
 
     const response = await sql
-      `SELECT 'FG IN TRANSIT' AS column, ${config.l1_field} AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
+      `SELECT 'FG IN TRANSIT' AS column, ${sql(config.l1_field)} AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type = ${'IN TRANSIT'} AND ms.program = ${program} 
       
-      GROUP BY ${config.l1_field}` //prettier-ignore
+      GROUP BY ${sql(config.l1_field)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -55,13 +55,13 @@ const lvl_1_subtotal_getFgAtLoc = async (config, program) => {
     console.log(`level 1: query postgres for FG at location ...`)
 
     const response = await sql
-      `SELECT 'FG ON HAND' AS column, ${config.l1_field} AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
+      `SELECT 'FG ON HAND' AS column, ${sql(config.l1_field)} AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type <> ${'IN TRANSIT'} AND ms.program = ${program} 
       
-      GROUP BY ${config.l1_field}` //prettier-ignore
+      GROUP BY ${sql(config.l1_field)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -75,7 +75,7 @@ const lvl_1_subtotal_getFgAtLoc_untagged = async (config, program) => {
     console.log(`level 1: query postgres for FG at location UNTAGGED ...`)
 
     const response = await sql
- `SELECT 'FG ON HAND UNTAGGED' AS column, ${config.l1_field} AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
+ `SELECT 'FG ON HAND UNTAGGED' AS column, ${sql(config.l1_field)} AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
  
  FROM (
   SELECT pi.cost_extended, pi.item_number, pi.lot, pi.on_hand_lbs, pi.location_code 
@@ -97,7 +97,7 @@ const lvl_1_subtotal_getFgAtLoc_untagged = async (config, program) => {
     
     WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} 
     
-    GROUP BY ${config.l1_field}` //prettier-ignore
+    GROUP BY ${sql(config.l1_field)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -111,13 +111,13 @@ const lvl_1_subtotal_getFgAtLoc_tagged = async (config, program) => {
     console.log(`level 1: query postgres for FG at location TAGGED...`)
 
     const response = await sql
-      `SELECT 'FG ON HAND TAGGED' AS column, ${config.l1_field} AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
+      `SELECT 'FG ON HAND TAGGED' AS column, ${sql(config.l1_field)} AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
       
       FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.item_num 
       
       WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.program = ${program} 
       
-      GROUP BY ${config.l1_field}` //prettier-ignore
+      GROUP BY ${sql(config.l1_field)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -136,13 +136,13 @@ const lvl_2_subtotal_getFgInven = async (config, program) => {
     // Level 2 detail
 
     const response = await sql
-      `SELECT 'FG INVEN' AS column, ${config.l1_field} AS l1_label, ${config.l2_field} AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
+      `SELECT 'FG INVEN' AS column, ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.program = ${program} 
       
-      GROUP BY ${config.l1_field}, ${config.l2_field}` //prettier-ignore
+      GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -158,13 +158,13 @@ const lvl_2_subtotal_getFgInTransit = async (config, program) => {
     console.log(`level 2: query postgres for FG in transit ...`)
 
     const response = await sql
-      `SELECT 'FG IN TRANSIT' AS column, ${config.l1_field} AS l1_label, ${config.l2_field} AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
+      `SELECT 'FG IN TRANSIT' AS column, ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type = ${'IN TRANSIT'} AND ms.program = ${program} 
       
-      GROUP BY ${config.l1_field}, ${config.l2_field}` //prettier-ignore
+      GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -180,13 +180,13 @@ const lvl_2_subtotal_getFgAtLoc = async (config, program) => {
     console.log(`level 2: query postgres for FG at location ...`)
 
     const response = await sql
-      `SELECT 'FG ON HAND' AS column, ${config.l1_field} AS l1_label, ${config.l2_field} AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
+      `SELECT 'FG ON HAND' AS column, ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type <> ${'IN TRANSIT'} AND ms.program = ${program} 
       
-      GROUP BY ${config.l1_field}, ${config.l2_field}` //prettier-ignore
+      GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -200,7 +200,7 @@ const lvl_2_subtotal_getFgAtLoc_untagged = async (config, program) => {
     console.log(`level 2: query postgres for FG at location UNTAGGED ...`)
 
     const response = await sql
- `SELECT 'FG ON HAND UNTAGGED' AS column, ${config.l1_field} AS l1_label, ${config.l2_field} AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
+ `SELECT 'FG ON HAND UNTAGGED' AS column, ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
  
  FROM (
       SELECT pi.cost_extended, pi.item_number, pi.lot, pi.on_hand_lbs, pi.location_code 
@@ -224,7 +224,7 @@ const lvl_2_subtotal_getFgAtLoc_untagged = async (config, program) => {
   
   WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} 
   
-  GROUP BY ${config.l1_field}, ${config.l2_field}` //prettier-ignore
+  GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -238,13 +238,13 @@ const lvl_2_subtotal_getFgAtLoc_tagged = async (config, program) => {
     console.log(`level 2: query postgres for FG at location TAGGED ...`)
 
     const response = await sql
-      `SELECT 'FG ON HAND TAGGED' AS column, ${config.l1_field} AS l1_label, ${config.l2_field} AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
+      `SELECT 'FG ON HAND TAGGED' AS column, ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
       
       FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.item_num 
       
       WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.program = ${program} 
       
-      GROUP BY ${config.l1_field}, ${config.l2_field}` //prettier-ignore
+      GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -261,13 +261,13 @@ const lvl_3_subtotal_getFgInven = async (config, program) => {
     console.log(`level 3: query postgres for FG on hand ...`)
 
     const response = await sql
-      `SELECT 'FG INVEN' AS column, ${config.l1_field} AS l1_label, ${config.l2_field} AS l2_label, ${config.l3_field} AS l3_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
+      `SELECT 'FG INVEN' AS column, ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, ${sql(config.l3_field)} AS l3_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.program = ${program} 
       
-      GROUP BY ${config.l1_field}, ${config.l2_field}, ${config.l3_field}` //prettier-ignore
+      GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -281,13 +281,13 @@ const lvl_3_subtotal_getFgInTransit = async (config, program) => {
     console.log(`level 3: query postgres for FG in transit ...`)
 
     const response = await sql
-      `SELECT 'FG IN TRANSIT' AS column, ${config.l1_field} AS l1_label, ${config.l2_field} AS l2_label, ${config.l3_field} AS l3_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
+      `SELECT 'FG IN TRANSIT' AS column, ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, ${sql(config.l3_field)} AS l3_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type = ${'IN TRANSIT'} AND ms.program = ${program} 
       
-      GROUP BY ${config.l1_field}, ${config.l2_field}, ${config.l3_field}` //prettier-ignore
+      GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -301,13 +301,13 @@ const lvl_3_subtotal_getFgAtLoc = async (config, program) => {
     console.log(`level 3: query postgres for FG at location TAGGED ...`)
 
     const response = await sql
-      `SELECT 'FG ON HAND' AS column, ${config.l1_field} AS l1_label, ${config.l2_field} AS l2_label, ${config.l3_field} AS l3_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
+      `SELECT 'FG ON HAND' AS column, ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, ${sql(config.l3_field)} AS l3_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND perpetual_inventory.location_type <> ${'IN TRANSIT'} AND ms.program = ${program} 
       
-      GROUP BY ${config.l1_field}, ${config.l2_field}, ${config.l3_field}` //prettier-ignore
+      GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -321,7 +321,7 @@ const lvl_3_subtotal_getFgAtLoc_untagged = async (config, program) => {
     console.log(`level 3: query postgres for FG at location UNTAGGED ...`)
 
     const response = await sql
- `SELECT 'FG ON HAND UNTAGGED' AS column, ${config.l1_field} AS l1_label, ${config.l2_field} AS l2_label, ${config.l3_field} AS l3_label, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
+ `SELECT 'FG ON HAND UNTAGGED' AS column, ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, ${sql(config.l3_field)} AS l3_label, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
  
  FROM (
       SELECT pi.cost_extended, pi.item_number, pi.lot, pi.on_hand_lbs, pi.location_code 
@@ -342,7 +342,7 @@ const lvl_3_subtotal_getFgAtLoc_untagged = async (config, program) => {
     ON tagged_t.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code 
       
       WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} 
-      GROUP BY ${config.l1_field}, ${config.l2_field}, ${config.l3_field}` //prettier-ignore
+      GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -356,13 +356,13 @@ const lvl_3_subtotal_getFgAtLoc_tagged = async (config, program) => {
     console.log(`level 3: query postgres for FG at location TAGGED ...`)
 
     const response = await sql
-      `SELECT 'FG ON HAND TAGGED' AS column, ${config.l1_field} AS l1_label, ${config.l2_field} AS l2_label, ${config.l3_field} AS l3_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
+      `SELECT 'FG ON HAND TAGGED' AS column, ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, ${sql(config.l3_field)} AS l3_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
       
       FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.item_num 
       
       WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.program = ${program} 
       
-      GROUP BY ${config.l1_field}, ${config.l2_field}, ${config.l3_field}` //prettier-ignore
+      GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}` //prettier-ignore
 
     return response
   } catch (error) {
