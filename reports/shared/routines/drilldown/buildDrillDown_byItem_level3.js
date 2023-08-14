@@ -60,9 +60,8 @@ const calcPercentSalesCol = require('../../models/calcPercentSalesCol')
 const calcAveWeeklySales = require('../../models/calcAveWeeklySales')
 const calcWeeksInvOnHand = require('../../models/calcWeeksInvOnHand')
 const calcInventoryAvailable = require('../../models/calcInventoryAvailable')
-const labelCols = require('../../queries/hardcode/cols_byItem_level3')
 
-const buildDrillDown = async (config, program, start, end, filters, showFyTrend, startWeek, endWeek) => {
+const buildDrillDown = async (labelCols, config, program, start, end, filters, showFyTrend, startWeek, endWeek) => {
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
   const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(config, program, filters)

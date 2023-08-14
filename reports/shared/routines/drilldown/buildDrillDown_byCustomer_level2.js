@@ -21,11 +21,10 @@ const { getRowsFirstLevelDetail: getRows_l1_showFyTrend } = require('../../queri
 const mapSalesToRowTemplates = require('../../models/mapSalesToRowTemplatesOneLevel')
 const cleanLabelsForDisplay = require('../../models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../../models/unflattenByCompositKey')
-const labelCols = require('../../queries/hardcode/cols_byCustomer')
 const calcPercentSalesCol = require('../../models/calcPercentSalesCol')
 const calcAveWeeklySales = require('../../models/calcAveWeeklySales')
 
-const buildDrillDown = async (config, program, start, end, filters, showFyTrend, startWeek, endWeek) => {
+const buildDrillDown = async (labelCols, config, program, start, end, filters, showFyTrend, startWeek, endWeek) => {
   console.log(program, '\n', start, '\n', end, '\n', filters)
 
   // ///////////////////////////////// SALES ORDERS
