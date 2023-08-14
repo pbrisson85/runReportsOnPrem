@@ -1,14 +1,14 @@
 const router = require('express').Router()
-const buildDrillDown_byItem_level3 = require('../routines/buildDrillDown_byItem_level3')
-const buildDrillDown_byItem_level2 = require('../routines/buildDrillDown_byItem_level2')
-const buildDrillDown_byItem_level1 = require('../routines/buildDrillDown_byItem_level1')
-const buildDrillDown_byItem_level0 = require('../routines/buildDrillDown_byItem_level0')
+const buildDrillDown_byItem_level3 = require('../../shared/routines/drilldown/buildDrillDown_byItem_level3')
+const buildDrillDown_byItem_level2 = require('../../shared/routines/drilldown/buildDrillDown_byItem_level2')
+const buildDrillDown_byItem_level1 = require('../../shared/routines/drilldown/buildDrillDown_byItem_level1')
+const buildDrillDown_byItem_level0 = require('../../shared/routines/drilldown/buildDrillDown_byItem_level0')
+const buildDrillDown_byCustomer_level3 = require('../../shared/routines/drilldown/buildDrillDown_byCustomer_level3')
+const buildDrillDown_byCustomer_level2 = require('../../shared/routines/drilldown/buildDrillDown_byCustomer_level2')
+const buildDrillDown_byCustomer_level1 = require('../../shared/routines/drilldown/buildDrillDown_byCustomer_level1')
+const buildDrillDown_byCustomer_level0 = require('../../shared/routines/drilldown/buildDrillDown_byCustomer_level0')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
-const buildDrillDown_byCustomer_level3 = require('../routines/buildDrillDown_byCustomer_level3')
-const buildDrillDown_byCustomer_level2 = require('../routines/buildDrillDown_byCustomer_level2')
-const buildDrillDown_byCustomer_level1 = require('../routines/buildDrillDown_byCustomer_level1')
-const buildDrillDown_byCustomer_level0 = require('../routines/buildDrillDown_byCustomer_level0')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
 // @desc    Get drilldown data for a given report and filter
