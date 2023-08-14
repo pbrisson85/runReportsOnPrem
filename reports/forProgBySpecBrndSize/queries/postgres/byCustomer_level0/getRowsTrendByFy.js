@@ -1,3 +1,4 @@
+const sql = require('../../../../../server')
 const getRowsFirstLevelDetail = async (config, start, end, program, filters) => {
   try {
     console.log(`query postgres to get weekly purchses ...`)

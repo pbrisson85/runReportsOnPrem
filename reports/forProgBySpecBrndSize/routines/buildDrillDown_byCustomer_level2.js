@@ -29,22 +29,23 @@ const buildDrillDown = async (config, program, start, end, filters, showFyTrend,
 
   // ///////////////////////////////// SALES ORDERS
   /* ALL SO */
-  const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(program, filters)
-  const lvl_0_total_so = await lvl_0_total_getSo(program, filters)
-  const lvl_1_subtotal_so_byWk = await lvl_1_subtotal_getSo_byWk(program, filters)
-  const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk(program, filters)
+  const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(config, program, filters)
+  const lvl_0_total_so = await lvl_0_total_getSo(config, program, filters)
+  const lvl_1_subtotal_so_byWk = await lvl_1_subtotal_getSo_byWk(config, program, filters)
+  const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk(config, program, filters)
 
   // ///////////////////////////////// SALES DATA
-  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(start, end, program, filters)
-  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(start, end, program, filters)
-  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(startWeek, endWeek, program, filters)
-  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(startWeek, endWeek, program, filters)
-  const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end, program, filters)
-  const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(start, end, program, filters)
-  const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(start, end, program, filters)
-  const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(start, end, program, filters)
-  const companyTotalSales = await getCompanyTotalSales(start, end)
+  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(config, start, end, program, filters)
+  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(config, start, end, program, filters)
+  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, filters)
+  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, program, filters)
+  const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(config, start, end, program, filters)
+  const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(config, start, end, program, filters)
+  const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(config, start, end, program, filters)
+  const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(config, start, end, program, filters)
   const lvl_0_program_salesPeriodToDate = await lvl_0_program_getSalesPeriodToDate(config, start, end, program)
+
+  const companyTotalSales = await getCompanyTotalSales(start, end)
 
   ///////////////////////////////// KPI DATA
   /* % COMPANY SALES */
@@ -75,10 +76,10 @@ const buildDrillDown = async (config, program, start, end, filters, showFyTrend,
   let rowsFirstLevelDetail
   if (showFyTrend) {
     // full fy trend requested. need rows for all data
-    rowsFirstLevelDetail = await getRows_l1_showFyTrend(start, end, program, filters)
+    rowsFirstLevelDetail = await getRows_l1_showFyTrend(config, start, end, program, filters)
   } else {
     // data request with start and end dates
-    rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, program, filters)
+    rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, program, filters)
   }
 
   const totalsRow = [{ totalRow: true, l1_label: `FG SALES`, l2_label: `TOTAL` }] // Need an l2_label of TOTAL for front end styling
