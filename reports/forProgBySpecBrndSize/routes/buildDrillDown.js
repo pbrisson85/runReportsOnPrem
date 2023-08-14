@@ -9,11 +9,11 @@ const buildDrillDown_byCustomer_level1 = require('../../shared/routines/drilldow
 const buildDrillDown_byCustomer_level0 = require('../../shared/routines/drilldown/buildDrillDown_byCustomer_level0')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
-const labelCols_byCust = require('../../queries/hardcode/cols_byCustomer')
-const labelCols_byItem_l0 = require('../../queries/hardcode/cols_byItem_level0')
-const labelCols_byItem_l1 = require('../../queries/hardcode/cols_byItem_level1')
-const labelCols_byItem_l2 = require('../../queries/hardcode/cols_byItem_level2')
-const labelCols_byItem_l3 = require('../../queries/hardcode/cols_byItem_level3')
+const labelCols_byCust = require('../queries/hardcode/cols_byCustomer')
+const labelCols_byItem_l0 = require('../queries/hardcode/cols_byItem_level0')
+const labelCols_byItem_l1 = require('../queries/hardcode/cols_byItem_level1')
+const labelCols_byItem_l2 = require('../queries/hardcode/cols_byItem_level2')
+const labelCols_byItem_l3 = require('../queries/hardcode/cols_byItem_level3')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
 // @desc    Get drilldown data for a given report and filter
