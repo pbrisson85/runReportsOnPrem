@@ -5,10 +5,10 @@ const buildDrillDown_byItem_level1 = require('../../shared/routines/getItemDrill
 const buildDrillDown_byItem_level0 = require('../../shared/routines/getItemDrillDownForCustomer/buildDrillDown_byItem_level0')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
-const labelCols_l0 = require('../../queries/hardcode/cols_byItem_level0')
-const labelCols_l1 = require('../../queries/hardcode/cols_byItem_level1')
-const labelCols_l2 = require('../../queries/hardcode/cols_byItem_level2')
-const labelCols_l3 = require('../../queries/hardcode/cols_byItem_level3')
+const labelCols_l0 = require('../queries/hardcode/cols_byItem_level0')
+const labelCols_l1 = require('../queries/hardcode/cols_byItem_level1')
+const labelCols_l2 = require('../queries/hardcode/cols_byItem_level2')
+const labelCols_l3 = require('../queries/hardcode/cols_byItem_level3')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
 // @desc    Get drilldown data for a given report and filter
