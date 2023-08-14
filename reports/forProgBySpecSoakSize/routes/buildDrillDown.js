@@ -1,14 +1,19 @@
 const router = require('express').Router()
-const buildDrillDown_byItem_level3 = require('../routines/buildDrillDown_byItem_level3')
-const buildDrillDown_byItem_level2 = require('../routines/buildDrillDown_byItem_level2')
-const buildDrillDown_byItem_level1 = require('../routines/buildDrillDown_byItem_level1')
-const buildDrillDown_byItem_level0 = require('../routines/buildDrillDown_byItem_level0')
+const buildDrillDown_byItem_level3 = require('../../shared/routines/drilldown/buildDrillDown_byItem_level3')
+const buildDrillDown_byItem_level2 = require('../../shared/routines/drilldown/buildDrillDown_byItem_level2')
+const buildDrillDown_byItem_level1 = require('../../shared/routines/drilldown/buildDrillDown_byItem_level1')
+const buildDrillDown_byItem_level0 = require('../../shared/routines/drilldown/buildDrillDown_byItem_level0')
+const buildDrillDown_byCustomer_level3 = require('../../shared/routines/drilldown/buildDrillDown_byCustomer_level3')
+const buildDrillDown_byCustomer_level2 = require('../../shared/routines/drilldown/buildDrillDown_byCustomer_level2')
+const buildDrillDown_byCustomer_level1 = require('../../shared/routines/drilldown/buildDrillDown_byCustomer_level1')
+const buildDrillDown_byCustomer_level0 = require('../../shared/routines/drilldown/buildDrillDown_byCustomer_level0')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
-const buildDrillDown_byCustomer_level3 = require('../routines/buildDrillDown_byCustomer_level3')
-const buildDrillDown_byCustomer_level2 = require('../routines/buildDrillDown_byCustomer_level2')
-const buildDrillDown_byCustomer_level1 = require('../routines/buildDrillDown_byCustomer_level1')
-const buildDrillDown_byCustomer_level0 = require('../routines/buildDrillDown_byCustomer_level0')
+const labelCols_byCust = require('../queries/hardcode/cols_byCustomer')
+const labelCols_byItem_l0 = require('../queries/hardcode/cols_byItem_level0')
+const labelCols_byItem_l1 = require('../queries/hardcode/cols_byItem_level1')
+const labelCols_byItem_l2 = require('../queries/hardcode/cols_byItem_level2')
+const labelCols_byItem_l3 = require('../queries/hardcode/cols_byItem_level3')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
 // @desc    Get drilldown data for a given report and filter
@@ -17,6 +22,12 @@ const buildDrillDown_byCustomer_level0 = require('../routines/buildDrillDown_byC
 router.post('/', async (req, res) => {
   const { program, option, filters, columnDataName, reportName, colType, periodEnd, showFyTrend } = req.body
   let { periodStart } = req.body
+
+  const config = {
+    l1_field: 'ms.species',
+    l2_field: 'ms.fg_treatment',
+    l3_field: 'ms.size_name',
+  }
 
   console.log(`\nget drilldown data for ${reportName} route HIT...`)
 
@@ -32,22 +43,62 @@ router.post('/', async (req, res) => {
   if (option === 'Trend By Item') {
     if (filters[1] === 'SUBTOTAL') {
       // level 1 subtotal
-      response = await buildDrillDown_byItem_level1(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+      response = await buildDrillDown_byItem_level1(
+        labelCols_byItem_l1,
+        config,
+        program,
+        periodStart,
+        periodEnd,
+        filters,
+        showFyTrend,
+        startWeek,
+        endWeek
+      )
     }
 
     if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') {
       // level 2 subtotal
-      response = await buildDrillDown_byItem_level2(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+      response = await buildDrillDown_byItem_level2(
+        labelCols_byItem_l2,
+        config,
+        program,
+        periodStart,
+        periodEnd,
+        filters,
+        showFyTrend,
+        startWeek,
+        endWeek
+      )
     }
 
     if (filters[1] !== 'TOTAL' && filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL') {
       // level 3 subtotal
-      response = await buildDrillDown_byItem_level3(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+      response = await buildDrillDown_byItem_level3(
+        labelCols_byItem_l3,
+        config,
+        program,
+        periodStart,
+        periodEnd,
+        filters,
+        showFyTrend,
+        startWeek,
+        endWeek
+      )
     }
 
     if (filters[1] === 'TOTAL') {
       // level 0 total
-      response = await buildDrillDown_byItem_level0(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+      response = await buildDrillDown_byItem_level0(
+        labelCols_byItem_l0,
+        config,
+        program,
+        periodStart,
+        periodEnd,
+        filters,
+        showFyTrend,
+        startWeek,
+        endWeek
+      )
     }
   } else {
     // option is top customer weight, margin, or bottom customer weight.
@@ -55,22 +106,62 @@ router.post('/', async (req, res) => {
 
     if (filters[1] === 'SUBTOTAL') {
       // level 1 subtotal
-      response = await buildDrillDown_byCustomer_level1(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+      response = await buildDrillDown_byCustomer_level1(
+        labelCols_byCust,
+        config,
+        program,
+        periodStart,
+        periodEnd,
+        filters,
+        showFyTrend,
+        startWeek,
+        endWeek
+      )
     }
 
     if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') {
       // level 2 subtotal
-      response = await buildDrillDown_byCustomer_level2(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+      response = await buildDrillDown_byCustomer_level2(
+        labelCols_byCust,
+        config,
+        program,
+        periodStart,
+        periodEnd,
+        filters,
+        showFyTrend,
+        startWeek,
+        endWeek
+      )
     }
 
     if (filters[1] !== 'TOTAL' && filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL') {
       // level 3 subtotal
-      response = await buildDrillDown_byCustomer_level3(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+      response = await buildDrillDown_byCustomer_level3(
+        labelCols_byCust,
+        config,
+        program,
+        periodStart,
+        periodEnd,
+        filters,
+        showFyTrend,
+        startWeek,
+        endWeek
+      )
     }
 
     if (filters[1] === 'TOTAL') {
       // level 0 total
-      response = await buildDrillDown_byCustomer_level0(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+      response = await buildDrillDown_byCustomer_level0(
+        labelCols_byCust,
+        config,
+        program,
+        periodStart,
+        periodEnd,
+        filters,
+        showFyTrend,
+        startWeek,
+        endWeek
+      )
     }
   }
 
