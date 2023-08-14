@@ -1,4 +1,4 @@
-const sql = require('../../../../../server')
+const sql = require('../../../../../../server')
 
 /*
 NOTE TO GET A COMPLETE POPULATION OF ALL POSSIBLE ROW LABELS PERFORMING A UNION OF 
