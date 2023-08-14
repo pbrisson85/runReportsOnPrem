@@ -63,12 +63,11 @@ const combineMappedRows = require('../../../shared/models/combineMappedRows')
 const cleanLabelsForDisplay = require('../../../shared/models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../../../shared/models/unflattenByCompositKey')
 const calcPercentSalesCol = require('../../../shared/models/calcPercentSalesCol')
-const labelCols = require('../../queries/hardcode/cols_byItem_level2')
 const calcAveWeeklySales = require('../../../shared/models/calcAveWeeklySales')
 const calcWeeksInvOnHand = require('../../../shared/models/calcWeeksInvOnHand')
 const calcInventoryAvailable = require('../../../shared/models/calcInventoryAvailable')
 
-const buildDrillDown = async (config, program, start, end, filters, showFyTrend, startWeek, endWeek) => {
+const buildDrillDown = async (labelCols, config, program, start, end, filters, showFyTrend, startWeek, endWeek) => {
   console.log(program, '\n', start, '\n', end, '\n', filters)
 
   ///////////////////////////////// INVENTORY DATA
