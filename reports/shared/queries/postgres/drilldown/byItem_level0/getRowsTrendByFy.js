@@ -1,7 +1,7 @@
 const sql = require('../../../../../../server')
 const getRowsFirstLevelDetail = async (config, start, end, program, filters) => {
   try {
-    console.log(`query postgres to get weekly purchses ...`)
+    console.log(`query postgres to get row labels ...`)
 
     const response = await sql
         `SELECT ms.item_num AS l1_label, ms.description AS l2_label, ${sql(config.l1_field)} AS l3_label, ${sql(config.l2_field)} AS l4_label , ${sql(config.l3_field)} AS l5_label 

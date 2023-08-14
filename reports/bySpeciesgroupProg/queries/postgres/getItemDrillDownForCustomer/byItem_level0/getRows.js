@@ -4,7 +4,7 @@ const getRowsFirstLevelDetail = async (start, end, program, filters) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`query postgres to get weekly purchses ...`)
+    console.log(`query postgres to get row labels ...`)
 
     const response = await pgClient.query(
       `SELECT ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label , ms.size_name AS l5_label 

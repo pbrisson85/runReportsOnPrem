@@ -4,7 +4,7 @@ const getRowsFirstLevelDetail = async (start, end) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`query postgres to get weekly purchses ...`)
+    console.log(`query postgres to get row labels ...`)
 
     const response = await pgClient.query(
       `SELECT sl.customer_code AS l1_label, sl.customer_name AS l2_label 

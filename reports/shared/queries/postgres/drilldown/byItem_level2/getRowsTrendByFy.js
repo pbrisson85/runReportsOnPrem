@@ -11,7 +11,7 @@ NOTE TO GET A COMPLETE POPULATION OF ALL POSSIBLE ROW LABELS PERFORMING A UNION 
 
 const getRowsFirstLevelDetail = async (config, start, end, program, filters) => {
   try {
-    console.log(`query postgres to get weekly purchses ...`)
+    console.log(`query postgres to get row labels ...`)
 
     const response = await sql
         `SELECT ms.item_num AS l1_label, ms.description AS l2_label, ${sql(config.l3_field)} AS l3_label 

@@ -2,7 +2,7 @@ const sql = require('../../../../../server')
 
 const getRowsThirdLevelDetail = async (config, start, end, program) => {
   try {
-    console.log(`query postgres to get weekly purchses ...`)
+    console.log(`query postgres to get row labels ...`)
 
     const response = await sql
         `SELECT ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, ${sql(config.l3_field)} AS l3_label 
@@ -44,7 +44,7 @@ const getRowsThirdLevelDetail = async (config, start, end, program) => {
 
 const getRowsSecondLevelDetail = async (config, start, end, program) => {
   try {
-    console.log(`query postgres to get weekly purchses ...`)
+    console.log(`query postgres to get row labels ...`)
 
     const response = await sql
         `SELECT ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, 'SUBTOTAL' AS l3_label 
@@ -80,7 +80,7 @@ const getRowsSecondLevelDetail = async (config, start, end, program) => {
 
 const getRowsFirstLevelDetail = async (config, start, end, program) => {
   try {
-    console.log(`query postgres to get weekly purchses ...`)
+    console.log(`query postgres to get row labels ...`)
 
     const response = await sql
         `SELECT ${sql(config.l1_field)} AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label 

@@ -4,7 +4,7 @@ const getLevelOneRows = async (start, end) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`query postgres to get weekly purchses ...`)
+    console.log(`query postgres to get row labels ...`)
 
     const response = await pgClient.query(
       ` SELECT ms.species_group AS l1_label, \'SUBTOTAL\' AS l2_label 
@@ -54,7 +54,7 @@ const getLevelTwoRows = async (start, end) => {
     const pgClient = new Client() // config from ENV
     await pgClient.connect()
 
-    console.log(`query postgres to get weekly purchses ...`)
+    console.log(`query postgres to get row labels ...`)
 
     // Note that pulling the same query form the sales data and the inventory data and using a union because we may have inventory oin hand that does not have sales and the row will not exist otherwise
 
