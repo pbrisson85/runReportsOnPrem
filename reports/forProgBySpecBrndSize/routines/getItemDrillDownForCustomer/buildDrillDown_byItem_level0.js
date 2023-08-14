@@ -68,63 +68,64 @@ const calcAveWeeklySales = require('../../../shared/models/calcAveWeeklySales')
 const calcWeeksInvOnHand = require('../../../shared/models/calcWeeksInvOnHand')
 const calcInventoryAvailable = require('../../../shared/models/calcInventoryAvailable')
 
-const buildDrillDown = async (program, start, end, filters, showFyTrend, startWeek, endWeek) => {
+const buildDrillDown = async (config, program, start, end, filters, showFyTrend, startWeek, endWeek) => {
   console.log(program, '\n', start, '\n', end, '\n', filters)
 
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
-  const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(program, filters)
-  const lvl_0_total_fgInven = await lvl_0_total_getFgInven(program, filters)
+  const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(config, program, filters)
+  const lvl_0_total_fgInven = await lvl_0_total_getFgInven(config, program, filters)
   /* FG IN TRANSIT*/
-  const lvl_1_subtotal_fgInTransit = await lvl_1_subtotal_getFgInTransit(program, filters)
-  const lvl_0_total_fgInTransit = await lvl_0_total_getFgInTransit(program, filters)
+  const lvl_1_subtotal_fgInTransit = await lvl_1_subtotal_getFgInTransit(config, program, filters)
+  const lvl_0_total_fgInTransit = await lvl_0_total_getFgInTransit(config, program, filters)
   /* FG ON HAND (LESS IN TRANSIT) */
-  const lvl_1_subtotal_fgAtLoc = await lvl_1_subtotal_getFgAtLoc(program, filters)
-  const lvl_0_total_fgAtLoc = await lvl_0_total_getFgAtLoc(program, filters)
+  const lvl_1_subtotal_fgAtLoc = await lvl_1_subtotal_getFgAtLoc(config, program, filters)
+  const lvl_0_total_fgAtLoc = await lvl_0_total_getFgAtLoc(config, program, filters)
   /* FG ON HAND UNTAGGED */
-  const lvl_1_subtotal_fgAtLoc_untagged = await lvl_1_subtotal_getFgAtLoc_untagged(program, filters)
-  const lvl_0_total_fgAtLoc_untagged = await lvl_0_total_getFgAtLoc_untagged(program, filters)
+  const lvl_1_subtotal_fgAtLoc_untagged = await lvl_1_subtotal_getFgAtLoc_untagged(config, program, filters)
+  const lvl_0_total_fgAtLoc_untagged = await lvl_0_total_getFgAtLoc_untagged(config, program, filters)
   /* FG ON HAND TAGGED */
-  const lvl_1_subtotal_fgAtLoc_tagged = await lvl_1_subtotal_getFgAtLoc_tagged(program, filters)
-  const lvl_0_total_fgAtLoc_tagged = await lvl_0_total_getFgAtLoc_tagged(program, filters)
+  const lvl_1_subtotal_fgAtLoc_tagged = await lvl_1_subtotal_getFgAtLoc_tagged(config, program, filters)
+  const lvl_0_total_fgAtLoc_tagged = await lvl_0_total_getFgAtLoc_tagged(config, program, filters)
 
   /* FG ON ORDER */
-  const lvl_1_subtotal_fgPo = await lvl_1_subtotal_getFgPo(program, filters)
-  const lvl_0_total_fgPo = await lvl_0_total_getFgPo(program, filters)
+  const lvl_1_subtotal_fgPo = await lvl_1_subtotal_getFgPo(config, program, filters)
+  const lvl_0_total_fgPo = await lvl_0_total_getFgPo(config, program, filters)
 
   // ///////////////////////////////// SALES ORDERS
   /* ALL SO */
-  const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(program, filters)
-  const lvl_0_total_so = await lvl_0_total_getSo(program, filters)
+  const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(config, program, filters)
+  const lvl_0_total_so = await lvl_0_total_getSo(config, program, filters)
 
-  const lvl_1_subtotal_so_byWk = await lvl_1_subtotal_getSo_byWk(program, filters)
-  const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk(program, filters)
+  const lvl_1_subtotal_so_byWk = await lvl_1_subtotal_getSo_byWk(config, program, filters)
+  const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk(config, program, filters)
 
   /* TAGGED SO */
-  const lvl_1_subtotal_soTagged = await lvl_1_subtotal_getSoTagged(program, filters)
-  const lvl_0_total_soTagged = await lvl_0_total_getSoTagged(program, filters)
+  const lvl_1_subtotal_soTagged = await lvl_1_subtotal_getSoTagged(config, program, filters)
+  const lvl_0_total_soTagged = await lvl_0_total_getSoTagged(config, program, filters)
 
-  const lvl_1_subtotal_soTagged_byWk = await lvl_1_subtotal_getSoTagged_byWk(program, filters)
-  const lvl_0_total_soTagged_byWk = await lvl_0_total_getSoTagged_byWk(program, filters)
+  const lvl_1_subtotal_soTagged_byWk = await lvl_1_subtotal_getSoTagged_byWk(config, program, filters)
+  const lvl_0_total_soTagged_byWk = await lvl_0_total_getSoTagged_byWk(config, program, filters)
 
   /* UNTAGGED SO */
-  const lvl_1_subtotal_soUntagged = await lvl_1_subtotal_getSoUntagged(program, filters)
-  const lvl_0_total_soUntagged = await lvl_0_total_getSoUntagged(program, filters)
+  const lvl_1_subtotal_soUntagged = await lvl_1_subtotal_getSoUntagged(config, program, filters)
+  const lvl_0_total_soUntagged = await lvl_0_total_getSoUntagged(config, program, filters)
 
-  const lvl_1_subtotal_soUntagged_byWk = await lvl_1_subtotal_getSoUntagged_byWk(program, filters)
-  const lvl_0_total_soUntagged_byWk = await lvl_0_total_getSoUntagged_byWk(program, filters)
+  const lvl_1_subtotal_soUntagged_byWk = await lvl_1_subtotal_getSoUntagged_byWk(config, program, filters)
+  const lvl_0_total_soUntagged_byWk = await lvl_0_total_getSoUntagged_byWk(config, program, filters)
 
   // ///////////////////////////////// SALES DATA
-  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(start, end, program, filters)
-  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(start, end, program, filters)
-  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(startWeek, endWeek, program, filters)
-  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(startWeek, endWeek, program, filters)
-  const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end, program, filters)
-  const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(start, end, program, filters)
-  const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(start, end, program, filters)
-  const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(start, end, program, filters)
+  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(config, start, end, program, filters)
+  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(config, start, end, program, filters)
+  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, filters)
+  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, program, filters)
+  const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(config, start, end, program, filters)
+  const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(config, start, end, program, filters)
+  const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(config, start, end, program, filters)
+  const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(config, start, end, program, filters)
+  const lvl_0_program_salesPeriodToDate = await lvl_0_program_getSalesPeriodToDate(config, start, end, program)
+
   const companyTotalSales = await getCompanyTotalSales(start, end)
-  const lvl_0_program_salesPeriodToDate = await lvl_0_program_getSalesPeriodToDate(start, end, program)
 
   ///////////////////////////////// KPI DATA
   /* % COMPANY SALES */
@@ -163,10 +164,10 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend, startWe
   let rowsFirstLevelDetail
   if (showFyTrend) {
     // full fy trend requested. need rows for all data
-    rowsFirstLevelDetail = await getRows_l1_showFyTrend(start, end, program, filters)
+    rowsFirstLevelDetail = await getRows_l1_showFyTrend(config, start, end, program, filters)
   } else {
     // data request with start and end dates
-    rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, program, filters)
+    rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, program, filters)
   }
   const totalsRow = [{ totalRow: true, l1_label: `FG SALES`, l2_label: `TOTAL` }] // Need an l2_label of TOTAL for front end styling
   const filterRow = [{ filterRow: true, l1_label: `PROGRAM: ${program}, FILTERS: ${filters[0]}, ${filters[1]}` }] // shows at top of report
