@@ -114,8 +114,9 @@ const buildDrillDown = async (config, program, start, end, filters, showFyTrend,
   const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(config, start, end, program, filters)
   const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(config, start, end, program, filters)
   const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(config, start, end, program, filters)
-  const companyTotalSales = await getCompanyTotalSales(config, start, end)
   const lvl_0_program_salesPeriodToDate = await lvl_0_program_getSalesPeriodToDate(config, start, end, program)
+
+  const companyTotalSales = await getCompanyTotalSales(start, end)
 
   ///////////////////////////////// KPI DATA
   /* % COMPANY SALES */
