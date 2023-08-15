@@ -1,9 +1,9 @@
 #### Goals:
 
-#### I have all the drilldown queries open. Need to add the config.level1, 2, 3 params, then need to pass on the config file. Then test, Then convert all other reports over to use this.
-
 - Priorities:
 
+  - Fix data: size on COD should be Mkt or Scrod but is listed as any
+  - In freeze/Brand/Size customer drilldown on fresh subtotal. Then item drilldown on MADI00. The FG inven is on the total but not on the lines.
   - Sales order detail net sales price is wrong on the walmart case items.
 
   - Metrics:

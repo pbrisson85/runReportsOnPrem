@@ -11,7 +11,7 @@ const {
   lvl_0_total_getSo_detail,
   lvl_0_total_getSoTagged_detail,
   lvl_0_total_getSoUntagged_detail,
-} = require('../queries/postgres/detail_inDrillDownByCust/getSo')
+} = require('../../queries/postgres/detail_inDrillDownByCust/getSo')
 
 const {
   lvl_1_subtotal_getSoByWk_detail,
@@ -26,7 +26,7 @@ const {
   lvl_0_total_getSoByWk_detail,
   lvl_0_total_getSoByWkTagged_detail,
   lvl_0_total_getSoByWkUntagged_detail,
-} = require('../queries/postgres/detail_inDrillDownByCust/getSoByWeek')
+} = require('../../queries/postgres/detail_inDrillDownByCust/getSoByWeek')
 
 const getDetail = async (config, program, filters, columnDataName) => {
   let detail = null
