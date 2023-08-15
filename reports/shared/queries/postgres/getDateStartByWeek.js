@@ -1,5 +1,4 @@
-const sql = require('../../../../../../server')
-
+const sql = require('../../../../server')
 const getStartOfWeek = async dateWeekEnd => {
   console.log(`query postgres for accounting period start of week ending: ${dateWeekEnd} ...`)
 

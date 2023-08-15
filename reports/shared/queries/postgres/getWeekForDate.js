@@ -1,4 +1,4 @@
-const sql = require('../../../../../../server')
+const sql = require('../../../../server')
 
 const getWeekForDate = async date => {
   console.log(`get week for date: ${date} ...`)

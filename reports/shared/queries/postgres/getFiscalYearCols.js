@@ -1,4 +1,4 @@
-const sql = require('../../../../../../server')
+const sql = require('../../../../server')
 
 const getFiscalYearCols = async () => {
   console.log(`query postgres for fiscal years in sales subledger ...`)

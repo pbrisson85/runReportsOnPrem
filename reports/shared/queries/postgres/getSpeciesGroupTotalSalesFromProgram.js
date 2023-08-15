@@ -1,5 +1,5 @@
 const requestEmailNotification = require('../../../../requests/requestEmail')
-const sql = require('../../../../../../server')
+const sql = require('../../../../server')
 
 const getSpeciesGroupTotalSales = async (start, end, program) => {
   try {
