@@ -1,7 +1,5 @@
 const sql = require('../../../../../../server')
 
-const sql = require('../../../../../../server')
-
 /* *********************************************** Level 1 *********************************************** */
 
 // RM on hand grouped by species (includes in transit)
