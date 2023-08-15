@@ -1,18 +1,13 @@
+const sql = require('../../../../../../server')
+
 const getEarliestShipWk = async () => {
   try {
-    const { Client } = require('pg')
-    const pgClient = new Client() // config from ENV
-    await pgClient.connect()
-
     console.log(`Query Postgres for earliest ship week ...`)
 
-    const response = await pgClient.query(
-             'SELECT MIN(sales_orders.formatted_ship_date) AS formatted_ship_date FROM "salesReporting".sales_orders WHERE sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)',
-            ) //prettier-ignore
+    const response =
+      await sql`SELECT MIN(sales_orders.formatted_ship_date) AS formatted_ship_date FROM "salesReporting".sales_orders WHERE sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)`
 
-    await pgClient.end()
-
-    return response.rows[0].formatted_ship_date
+    return response[0].formatted_ship_date
   } catch (error) {
     console.error(error)
     return error
@@ -21,19 +16,12 @@ const getEarliestShipWk = async () => {
 
 const getLatestShipWk = async () => {
   try {
-    const { Client } = require('pg')
-    const pgClient = new Client() // config from ENV
-    await pgClient.connect()
-
     console.log(`Query Postgres for latest ship week ...`)
 
-    const response = await pgClient.query(
-                 'SELECT MAX(sales_orders.formatted_ship_date) AS formatted_ship_date FROM "salesReporting".sales_orders WHERE sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)',
-                ) //prettier-ignore
+    const response =
+      await sql`SELECT MAX(sales_orders.formatted_ship_date) AS formatted_ship_date FROM "salesReporting".sales_orders WHERE sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)`
 
-    await pgClient.end()
-
-    return response.rows[0].formatted_ship_date
+    return response[0].formatted_ship_date
   } catch (error) {
     console.error(error)
     return error
