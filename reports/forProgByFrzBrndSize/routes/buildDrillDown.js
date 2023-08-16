@@ -23,6 +23,8 @@ router.post('/', async (req, res) => {
   const { program, option, filters, columnDataName, reportName, colType, periodEnd, showFyTrend } = req.body
   let { periodStart } = req.body
 
+  console.log(req.body)
+
   const config = {
     l1_field: 'ms.fg_fresh_frozen',
     l2_field: 'ms.brand',
