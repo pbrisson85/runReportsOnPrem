@@ -5,6 +5,9 @@ const sql = require('../../../../../server')
 // FG on hand (includes in transit)
 
 const lvl_1_subtotal_getFgInven = async (config, program) => {
+  console.log('program?', program ? true : false)
+  console.log('config.l3_field?', config.l3_field ? true : false)
+
   try {
     console.log(`level 1: query postgres for FG on hand ...`)
 
