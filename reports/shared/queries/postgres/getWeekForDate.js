@@ -10,6 +10,8 @@ const getWeekForDate = async date => {
 
   // If week is 52 then return 53 since some years have 53 weeks
 
+  console.log(response)
+
   let week = parseInt(response[0].week)
 
   if (week === 52) {
