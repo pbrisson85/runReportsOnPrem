@@ -44,7 +44,7 @@ const getRowsThirdLevelDetail = async (config, start, end, program, showFyTrend)
   }
 }
 
-const getRowsSecondLevelDetail = async (config, start, end, program) => {
+const getRowsSecondLevelDetail = async (config, start, end, program, showFyTrend) => {
   try {
     console.log(`query postgres to get row labels ...`)
 
@@ -80,7 +80,7 @@ const getRowsSecondLevelDetail = async (config, start, end, program) => {
   }
 }
 
-const getRowsFirstLevelDetail = async (config, start, end, program) => {
+const getRowsFirstLevelDetail = async (config, start, end, program, showFyTrend) => {
   try {
     console.log(`query postgres to get row labels ...`)
 
