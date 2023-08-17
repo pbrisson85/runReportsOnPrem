@@ -16,14 +16,7 @@ const {
   lvl_3_subtotal_getSalesPeriodToDate,
   lvl_0_total_getSalesPeriodToDate,
 } = require('../queries/postgres/baseReport/getSalesTrend')
-
 const { getCompanyTotalSales } = require('../queries/postgres/getCompanyTotalSales')
-const {
-  lvl_1_subtotal_getSalesByFy,
-  lvl_2_subtotal_getSalesByFy,
-  lvl_3_subtotal_getSalesByFy,
-  lvl_0_total_getSalesByFy,
-} = require('../queries/postgres/baseReport/getSalesTrendByFy')
 const {
   lvl_1_subtotal_getSalesByFyYtd,
   lvl_2_subtotal_getSalesByFyYtd,
@@ -53,31 +46,11 @@ const {
   lvl_0_total_getFgAtLoc_tagged,
 } = require('../queries/postgres/baseReport/getFgInven')
 const {
-  lvl_3_subtotal_getRmInven,
-  lvl_3_subtotal_getRmInTransit,
-  lvl_3_subtotal_getRmAtLoc,
-  lvl_2_subtotal_getRmInven,
-  lvl_2_subtotal_getRmInTransit,
-  lvl_2_subtotal_getRmAtLoc,
-  lvl_1_subtotal_getRmInven,
-  lvl_1_subtotal_getRmInTransit,
-  lvl_1_subtotal_getRmAtLoc,
-  lvl_0_total_getRmInven,
-  lvl_0_total_getRmInTransit,
-  lvl_0_total_getRmAtLoc,
-} = require('../queries/postgres/baseReport/getRmInven_deprecated')
-const {
   lvl_1_subtotal_getFgPo,
   lvl_2_subtotal_getFgPo,
   lvl_3_subtotal_getFgPo,
   lvl_0_total_getFgPo,
 } = require('../queries/postgres/baseReport/getFgOpenPo')
-const {
-  lvl_1_subtotal_getRmPo,
-  lvl_2_subtotal_getRmPo,
-  lvl_3_subtotal_getRmPo,
-  lvl_0_total_getRmPo,
-} = require('../queries/postgres/baseReport/getRmOpenPo_deprecated')
 const {
   lvl_1_subtotal_getSo,
   lvl_2_subtotal_getSo,
@@ -187,14 +160,16 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
   const lvl_0_total_soUntagged_byWk = await lvl_0_total_getSoUntagged_byWk(config, program)
 
   // ///////////////////////////////// SALES DATA
-  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(config, start, end, program)
-  const lvl_2_subtotal_salesByFy = await lvl_2_subtotal_getSalesByFy(config, start, end, program)
-  const lvl_3_subtotal_salesByFy = await lvl_3_subtotal_getSalesByFy(config, start, end, program)
-  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(config, start, end, program)
-  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program)
-  const lvl_2_subtotal_salesByFyYtd = await lvl_2_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program)
-  const lvl_3_subtotal_salesByFyYtd = await lvl_3_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program)
-  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, program)
+  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, false)
+  const lvl_2_subtotal_salesByFy = await lvl_2_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, false)
+  const lvl_3_subtotal_salesByFy = await lvl_3_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, false)
+  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, program, false)
+
+  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, true)
+  const lvl_2_subtotal_salesByFyYtd = await lvl_2_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, true)
+  const lvl_3_subtotal_salesByFyYtd = await lvl_3_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, true)
+  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, program, true)
+
   const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(config, start, end, program)
   const lvl_2_subtotal_salesByWk = await lvl_2_subtotal_getSalesByWk(config, start, end, program)
   const lvl_3_subtotal_salesByWk = await lvl_3_subtotal_getSalesByWk(config, start, end, program)
@@ -423,22 +398,6 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
       ...lvl_2_subtotal_fgPo,
       ...lvl_3_subtotal_fgPo,
       ...lvl_0_total_fgPo,
-      // ...lvl_1_subtotal_rmPo,
-      // ...lvl_2_subtotal_rmPo,
-      // ...lvl_3_subtotal_rmPo,
-      // ...lvl_0_total_rmPo,
-      // ...lvl_1_subtotal_rmInven,
-      // ...lvl_2_subtotal_rmInven,
-      // ...lvl_3_subtotal_rmInven,
-      // ...lvl_0_total_rmInven,
-      // ...lvl_1_subtotal_rmInTransit,
-      // ...lvl_2_subtotal_rmInTransit,
-      // ...lvl_3_subtotal_rmInTransit,
-      // ...lvl_0_total_rmInTransit,
-      // ...lvl_1_subtotal_rmAtLoc,
-      // ...lvl_2_subtotal_rmAtLoc,
-      // ...lvl_3_subtotal_rmAtLoc,
-      // ...lvl_0_total_rmAtLoc,
       ...lvl_1_weeksInvOnHand,
       ...lvl_2_weeksInvOnHand,
       ...lvl_3_weeksInvOnHand,

@@ -15,13 +15,10 @@ const {
   lvl_0_total_getSalesPeriodToDate,
 } = require('../../shared/queries/postgres/baseReport/getSalesTrend')
 const {
-  lvl_1_subtotal_getSalesByFy,
-  lvl_2_subtotal_getSalesByFy,
-  lvl_0_total_getSalesByFy,
   lvl_1_subtotal_getSalesByFyYtd,
   lvl_2_subtotal_getSalesByFyYtd,
   lvl_0_total_getSalesByFyYtd,
-} = require('../queries/postgres/getSalesTrendByFy')
+} = require('../../shared/queries/postgres/baseReport/getSalesTrendByFyYtd')
 const {
   lvl_1_subtotal_getFgInven,
   lvl_2_subtotal_getFgInven,
@@ -148,12 +145,12 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
   const lvl_2_subtotal_salesPeriodToDate = await lvl_2_subtotal_getSalesPeriodToDate(config, start, end, config.program)
   const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(config, start, end, config.program)
   /* EACH YEAR */
-  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy()
-  const lvl_2_subtotal_salesByFy = await lvl_2_subtotal_getSalesByFy()
-  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy()
-  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(startWeek, endWeek)
-  const lvl_2_subtotal_salesByFyYtd = await lvl_2_subtotal_getSalesByFyYtd(startWeek, endWeek)
-  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(startWeek, endWeek)
+  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, false)
+  const lvl_2_subtotal_salesByFy = await lvl_2_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, false)
+  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, program, false)
+  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, true)
+  const lvl_2_subtotal_salesByFyYtd = await lvl_2_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, true)
+  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, program, true)
 
   ///////////////////////////////// KPI DATA
   /* % COMPANY SALES */
