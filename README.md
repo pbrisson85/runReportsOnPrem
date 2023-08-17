@@ -2,6 +2,9 @@
 
 - Priorities:
 
+  - Get detail on sales YTD when the from and to date are changed from default does not work. It is pulling a different date range
+  - Refactor
+
   - Fix data: size on COD should be Mkt or Scrod but is listed as any
   - In freeze/Brand/Size customer drilldown on fresh subtotal. Then item drilldown on MADI00. The FG inven is on the total but not on the lines.
   - Sales order detail net sales price is wrong on the walmart case items.

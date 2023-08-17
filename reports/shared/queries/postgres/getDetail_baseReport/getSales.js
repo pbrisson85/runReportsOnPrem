@@ -5,6 +5,14 @@ const sql = require('../../../../../server')
 // FG Species Group col total for period
 
 const lvl_1_subtotal_getSales_detail = async (config, start, end, program, filters, year) => {
+  console.log('testing params for query:')
+  console.log('config: ', config)
+  console.log('start: ', start)
+  console.log('end: ', end)
+  console.log('program: ', program)
+  console.log('filters: ', filters)
+  console.log('year: ', year)
+
   try {
     console.log(`level 1: query postgres to get FG sales data period total ...`)
 
@@ -29,6 +37,14 @@ const lvl_1_subtotal_getSales_detail = async (config, start, end, program, filte
 // FG Program col total for period
 
 const lvl_2_subtotal_getSales_detail = async (config, start, end, program, filters, year) => {
+  console.log('testing params for query:')
+  console.log('config: ', config)
+  console.log('start: ', start)
+  console.log('end: ', end)
+  console.log('program: ', program)
+  console.log('filters: ', filters)
+  console.log('year: ', year)
+
   try {
     console.log(`level 2: query postgres to get FG sales data period total ...`)
 
@@ -53,6 +69,14 @@ const lvl_2_subtotal_getSales_detail = async (config, start, end, program, filte
 // FG Program col total for period
 
 const lvl_3_subtotal_getSales_detail = async (config, start, end, program, filters, year) => {
+  console.log('testing params for query:')
+  console.log('config: ', config)
+  console.log('start: ', start)
+  console.log('end: ', end)
+  console.log('program: ', program)
+  console.log('filters: ', filters)
+  console.log('year: ', year)
+
   try {
     console.log(`level 3: query postgres to get FG sales data period total ...`)
 
@@ -77,6 +101,14 @@ const lvl_3_subtotal_getSales_detail = async (config, start, end, program, filte
 // All sales col total for a program
 
 const lvl_0_total_getSales_detail = async (config, start, end, program, filters, year) => {
+  console.log('testing params for query:')
+  console.log('config: ', config)
+  console.log('start: ', start)
+  console.log('end: ', end)
+  console.log('program: ', program)
+  console.log('filters: ', filters)
+  console.log('year: ', year)
+
   try {
     console.log(`level 0: query postgres to get FG sales data period total ...`)
 
