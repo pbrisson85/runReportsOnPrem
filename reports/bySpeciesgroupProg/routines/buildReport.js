@@ -94,7 +94,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
 
   const config = {
     l1_field: 'ms.species_group',
-    l1_field: 'ms.program',
+    l2_field: 'ms.program',
   }
 
   /* TOTAL FG */
