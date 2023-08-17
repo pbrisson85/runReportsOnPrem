@@ -8,8 +8,6 @@ const lvl_1_subtotal_getSo = async (program, filters) => {
 
     console.log(`level 1: query postgres for FG Sales Orders ...`)
 
-    // Note that this is pulling ext_cost and the cost on a sales order is determined in the runSalesOrdersOnPrem app using the tagged lots, if no tagged lots then using the average on hand, if no average on hand then using the last sales order cost, if no sales orders THEN THERE IS NO COST. We will need to start generating a standard cost for inventory and use that instead of the last sales order cost.
-
     const response = await pgClient.query(
          `SELECT \'FG OPEN ORDER\' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_treatment AS l3_label, ms.size_name AS l4_label, COALESCE(SUM(sales_orders.ext_weight),0) AS lbs, COALESCE(SUM(sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.ext_cost),0) AS cogs, COALESCE(SUM(sales_orders.ext_othp),0) AS othp 
          

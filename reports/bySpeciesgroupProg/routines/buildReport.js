@@ -50,7 +50,7 @@ const {
   lvl_1_subtotal_getSoUntagged,
   lvl_2_subtotal_getSoUntagged,
   lvl_0_total_getSoUntagged,
-} = require('../queries/postgres/getSo')
+} = require('../../shared/queries/postgres/baseReport/getSo')
 const {
   lvl_1_subtotal_getSo_byWk,
   lvl_2_subtotal_getSo_byWk,
@@ -61,7 +61,7 @@ const {
   lvl_1_subtotal_getSoUntagged_byWk,
   lvl_2_subtotal_getSoUntagged_byWk,
   lvl_0_total_getSoUntagged_byWk,
-} = require('../queries/postgres/getSoByWeek')
+} = require('../../shared/queries/postgres/baseReport/getSoByWeek')
 const { getLevelTwoRows, getLevelOneRows } = require('../queries/postgres/getRows')
 const { getLevelTwoRows: getRows_l2_showFyTrend, getLevelOneRows: getRows_l1_showFyTrend } = require('../queries/postgres/getRowsTrendByFy')
 
@@ -115,28 +115,28 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
 
   ///////////////////////////////// SALES ORDERS
   /* TOTAL SO */
-  const lvl_1_subtotal_so = await lvl_1_subtotal_getSo()
-  const lvl_2_subtotal_so = await lvl_2_subtotal_getSo()
-  const lvl_0_total_so = await lvl_0_total_getSo()
-  const lvl_1_subtotal_so_byWk = await lvl_1_subtotal_getSo_byWk()
-  const lvl_2_subtotal_so_byWk = await lvl_2_subtotal_getSo_byWk()
-  const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk()
+  const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(config, config.program)
+  const lvl_2_subtotal_so = await lvl_2_subtotal_getSo(config, config.program)
+  const lvl_0_total_so = await lvl_0_total_getSo(config, config.program)
+  const lvl_1_subtotal_so_byWk = await lvl_1_subtotal_getSo_byWk(config, config.program)
+  const lvl_2_subtotal_so_byWk = await lvl_2_subtotal_getSo_byWk(config, config.program)
+  const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk(config, config.program)
 
   /* SO TAGGED */
-  // const lvl_1_subtotal_soTagged = await lvl_1_subtotal_getSoTagged()
-  // const lvl_2_subtotal_soTagged = await lvl_2_subtotal_getSoTagged()
-  // const lvl_0_total_soTagged = await lvl_0_total_getSoTagged()
-  // const lvl_1_subtotal_soTagged_byWk = await lvl_1_subtotal_getSoTagged_byWk()
-  // const lvl_2_subtotal_soTagged_byWk = await lvl_2_subtotal_getSoTagged_byWk()
-  // const lvl_0_total_soTagged_byWk = await lvl_0_total_getSoTagged_byWk()
+  // const lvl_1_subtotal_soTagged = await lvl_1_subtotal_getSoTagged(config, config.program)
+  // const lvl_2_subtotal_soTagged = await lvl_2_subtotal_getSoTagged(config, config.program)
+  // const lvl_0_total_soTagged = await lvl_0_total_getSoTagged(config, config.program)
+  // const lvl_1_subtotal_soTagged_byWk = await lvl_1_subtotal_getSoTagged_byWk(config, config.program)
+  // const lvl_2_subtotal_soTagged_byWk = await lvl_2_subtotal_getSoTagged_byWk(config, config.program)
+  // const lvl_0_total_soTagged_byWk = await lvl_0_total_getSoTagged_byWk(config, config.program)
 
   /* SO UNTAGGED */
-  const lvl_1_subtotal_soUntagged = await lvl_1_subtotal_getSoUntagged()
-  const lvl_2_subtotal_soUntagged = await lvl_2_subtotal_getSoUntagged()
-  const lvl_0_total_soUntagged = await lvl_0_total_getSoUntagged()
-  const lvl_1_subtotal_soUntagged_byWk = await lvl_1_subtotal_getSoUntagged_byWk()
-  const lvl_2_subtotal_soUntagged_byWk = await lvl_2_subtotal_getSoUntagged_byWk()
-  const lvl_0_total_soUntagged_byWk = await lvl_0_total_getSoUntagged_byWk()
+  const lvl_1_subtotal_soUntagged = await lvl_1_subtotal_getSoUntagged(config, config.program)
+  const lvl_2_subtotal_soUntagged = await lvl_2_subtotal_getSoUntagged(config, config.program)
+  const lvl_0_total_soUntagged = await lvl_0_total_getSoUntagged(config, config.program)
+  const lvl_1_subtotal_soUntagged_byWk = await lvl_1_subtotal_getSoUntagged_byWk(config, config.program)
+  const lvl_2_subtotal_soUntagged_byWk = await lvl_2_subtotal_getSoUntagged_byWk(config, config.program)
+  const lvl_0_total_soUntagged_byWk = await lvl_0_total_getSoUntagged_byWk(config, config.program)
 
   ///////////////////////////////// SALES DATA
   /* EACH WEEK */
