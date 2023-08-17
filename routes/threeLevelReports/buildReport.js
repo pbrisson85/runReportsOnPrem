@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const buildReport = require('../../shared/routines/buildReport')
+const buildReport = require('../../shared/routines/baseReport')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
 const labelCols = require('../queries/hardcode/cols')

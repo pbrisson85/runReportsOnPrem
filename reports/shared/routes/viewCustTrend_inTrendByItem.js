@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const buildDrilldown = require('../routines/getCustomerDrillDownForItem')
+const buildDrilldown = require('../routines/viewCustTrend_inTrendByItem')
 const { getStartOfWeek } = require('../queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../queries/postgres/getWeekForDate')
 

@@ -20,36 +20,36 @@ const getSalesByProgram = require('./reports/bySpeciesgroupProg/routes/buildRepo
 const drillDownSalesByProgram = require('./reports/bySpeciesgroupProg/routes/buildDrillDown')
 const getItemDrillDownForCustomerbySpeciesgroupProg = require('./reports/bySpeciesgroupProg/routes/getItemDrillDownForCustomer') // drilldown level two
 const detailSalesByProgram = require('./reports/bySpeciesgroupProg/routes/getDetail')
-const drillDownCustomerDetailSalesByProgram = require('./reports/bySpeciesgroupProg/routes/getDetail_inDrillDownByCust')
+const drillDownCustomerDetailSalesByProgram = require('./reports/bySpeciesgroupProg/routes/getDetail_inTrendByCust')
 
 const getSalesFrzBrndSize = require('./reports/forProgByFrzBrndSize/routes/buildReport')
 const drillDownSalesFrzBrndSize = require('./reports/forProgByFrzBrndSize/routes/buildDrillDown')
 const getItemDrillDownForCustomerforProgByFrzBrndSize = require('./reports/forProgByFrzBrndSize/routes/getItemDrillDownForCustomer') // drilldown level two
 const detailSalesFrzBrndSize = require('./reports/forProgByFrzBrndSize/routes/getDetail')
-const drillDownCustomerDetailSalesFrzBrndSize = require('./reports/forProgByFrzBrndSize/routes/getDetail_inDrillDownByCust')
+const drillDownCustomerDetailSalesFrzBrndSize = require('./reports/forProgByFrzBrndSize/routes/getDetail_inTrendByCust')
 
 const getSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/buildReport')
 const drillDownSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/buildDrillDown')
 const getItemDrillDownForCustomerforProgByFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/getItemDrillDownForCustomer') // drilldown level two
 const detailSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/getDetail')
-const drillDownCustomerDetailSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/getDetail_inDrillDownByCust')
+const drillDownCustomerDetailSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/getDetail_inTrendByCust')
 
 const getSalesSpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/buildReport')
 const drillDownSalesSpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/buildDrillDown')
 const getItemDrillDownForCustomerforProgBySpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/getItemDrillDownForCustomer') // drilldown level two
 const detailSalesSpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/getDetail')
-const drillDownCustomerDetailSalesSpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/getDetail_inDrillDownByCust')
+const drillDownCustomerDetailSalesSpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/getDetail_inTrendByCust')
 
 const getSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/buildReport')
 const drillDownSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/buildDrillDown')
 const getItemDrillDownForCustomerforProgBySpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/getItemDrillDownForCustomer') // drilldown level two
 const detailSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/getDetail')
-const drillDownCustomerDetailSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/getDetail_inDrillDownByCust')
+const drillDownCustomerDetailSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/getDetail_inTrendByCust')
 
 const glRevCogs = require('./reports/gl/routes/glRevCogs')
 const glOthp = require('./reports/gl/routes/glOthp')
-const getDrillDownItemDetail = require('./reports/shared/routes/getDrillDownItemDetail')
-const getCustomerDrillDownForItem = require('./reports/shared/routes/getCustomerDrillDownForItem')
+const getDrillDownItemDetail = require('./reports/shared/routes/getDetail_inTrendByItem')
+const getCustomerDrillDownForItem = require('./reports/shared/routes/viewCustTrend_inTrendByItem')
 
 /* Data */
 const generateSalesData = require('./generateSales/routes/generateSales')

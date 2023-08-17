@@ -1,12 +1,12 @@
 const router = require('express').Router()
-const buildDrillDown_byItem_level3 = require('../../shared/routines/drilldown/buildDrillDown_byItem_level3')
-const buildDrillDown_byItem_level2 = require('../../shared/routines/drilldown/buildDrillDown_byItem_level2')
-const buildDrillDown_byItem_level1 = require('../../shared/routines/drilldown/buildDrillDown_byItem_level1')
-const buildDrillDown_byItem_level0 = require('../../shared/routines/drilldown/buildDrillDown_byItem_level0')
-const buildDrillDown_byCustomer_level3 = require('../../shared/routines/drilldown/buildDrillDown_byCustomer_level3')
-const buildDrillDown_byCustomer_level2 = require('../../shared/routines/drilldown/buildDrillDown_byCustomer_level2')
-const buildDrillDown_byCustomer_level1 = require('../../shared/routines/drilldown/buildDrillDown_byCustomer_level1')
-const buildDrillDown_byCustomer_level0 = require('../../shared/routines/drilldown/buildDrillDown_byCustomer_level0')
+const buildDrillDown_byItem_level3 = require('../../shared/routines/viewItemTrend_baseReport/level3')
+const buildDrillDown_byItem_level2 = require('../../shared/routines/viewItemTrend_baseReport/level2')
+const buildDrillDown_byItem_level1 = require('../../shared/routines/viewItemTrend_baseReport/level1')
+const buildDrillDown_byItem_level0 = require('../../shared/routines/viewItemTrend_baseReport/level0')
+const buildDrillDown_byCustomer_level3 = require('../../shared/routines/viewCustTrend_baseReport/level3')
+const buildDrillDown_byCustomer_level2 = require('../../shared/routines/viewCustTrend_baseReport/level2')
+const buildDrillDown_byCustomer_level1 = require('../../shared/routines/viewCustTrend_baseReport/level1')
+const buildDrillDown_byCustomer_level0 = require('../../shared/routines/viewCustTrend_baseReport/level0')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
 
@@ -51,7 +51,7 @@ router.post('/', async (req, res) => {
   let labelCols_byItem_l3 = null
 
   switch (report) {
-    case 'frzBrndSize':
+    case 'forProgByFrzBrndSize':
       labelCols_byCust = labelCols_byCust_forProgByFrzBrndSize
       labelCols_byItem_l0 = labelCols_byItem_l0_forProgByFrzBrndSize
       labelCols_byItem_l1 = labelCols_byItem_l1_forProgByFrzBrndSize
@@ -64,7 +64,7 @@ router.post('/', async (req, res) => {
         l3_field: 'ms.size_name',
       }
       break
-    case 'frzSoakSize':
+    case 'forProgByFrzSoakSize':
       labelCols_byCust = labelCols_byCust_forProgByFrzSoakSize
       labelCols_byItem_l0 = labelCols_byItem_l0_forProgByFrzSoakSize
       labelCols_byItem_l1 = labelCols_byItem_l1_forProgByFrzSoakSize
@@ -77,7 +77,7 @@ router.post('/', async (req, res) => {
         l3_field: 'ms.size_name',
       }
       break
-    case 'specBrndSize':
+    case 'forProgBySpecBrndSize':
       labelCols_byCust = labelCols_byCust_forProgBySpecBrndSize
       labelCols_byItem_l0 = labelCols_byItem_l0_forProgBySpecBrndSize
       labelCols_byItem_l1 = labelCols_byItem_l1_forProgBySpecBrndSize
@@ -90,7 +90,7 @@ router.post('/', async (req, res) => {
         l3_field: 'ms.size_name',
       }
       break
-    case 'specSoakSize':
+    case 'forProgBySpecSoakSize':
       labelCols_byCust = labelCols_byCust_forProgBySpecSoakSize
       labelCols_byItem_l0 = labelCols_byItem_l0_forProgBySpecSoakSize
       labelCols_byItem_l1 = labelCols_byItem_l1_forProgBySpecSoakSize

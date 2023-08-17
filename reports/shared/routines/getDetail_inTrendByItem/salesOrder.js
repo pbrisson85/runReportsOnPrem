@@ -1,10 +1,14 @@
-const { byItem_getSo_detail, byItem_getSoTagged_detail, byItem_getSoUntagged_detail } = require('../../queries/postgres/detailByItem/getSo')
+const {
+  byItem_getSo_detail,
+  byItem_getSoTagged_detail,
+  byItem_getSoUntagged_detail,
+} = require('../../queries/postgres/getDetail_inTrendByItem/getSo')
 
 const {
   byItem_getSoByWk_detail,
   byItem_getSoByWkTagged_detail,
   byItem_getSoByWkUntagged_detail,
-} = require('../../queries/postgres/detailByItem/getSoByWeek')
+} = require('../../queries/postgres/getDetail_inTrendByItem/getSoByWeek')
 
 const getDetail = async (program, filters, columnDataName) => {
   let detail = null

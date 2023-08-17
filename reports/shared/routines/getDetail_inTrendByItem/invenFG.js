@@ -4,7 +4,7 @@ const {
   byItem_getFgAtLoc_detail,
   byItem_getFgAtLoc_untagged_detail,
   byItem_getFgAtLoc_tagged_detail,
-} = require('../../queries/postgres/detailByItem/getFgInven')
+} = require('../../queries/postgres/getDetail_inTrendByItem/getFgInven')
 
 const getDetail = async (program, filters, columnDataName) => {
   let detail = null

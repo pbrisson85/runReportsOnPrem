@@ -1,12 +1,12 @@
 const router = require('express').Router()
-const buildDrillDown_byItem_level3 = require('../../shared/routines/drilldown/buildDrillDown_byItem_level3')
-const buildDrillDown_byItem_level2 = require('../../shared/routines/drilldown/buildDrillDown_byItem_level2')
-const buildDrillDown_byItem_level1 = require('../../shared/routines/drilldown/buildDrillDown_byItem_level1')
-const buildDrillDown_byItem_level0 = require('../../shared/routines/drilldown/buildDrillDown_byItem_level0')
-const buildDrillDown_byCustomer_level3 = require('../../shared/routines/drilldown/buildDrillDown_byCustomer_level3')
-const buildDrillDown_byCustomer_level2 = require('../../shared/routines/drilldown/buildDrillDown_byCustomer_level2')
-const buildDrillDown_byCustomer_level1 = require('../../shared/routines/drilldown/buildDrillDown_byCustomer_level1')
-const buildDrillDown_byCustomer_level0 = require('../../shared/routines/drilldown/buildDrillDown_byCustomer_level0')
+const buildDrillDown_byItem_level3 = require('../../shared/routines/viewItemTrend_baseReport/level3')
+const buildDrillDown_byItem_level2 = require('../../shared/routines/viewItemTrend_baseReport/level2')
+const buildDrillDown_byItem_level1 = require('../../shared/routines/viewItemTrend_baseReport/level1')
+const buildDrillDown_byItem_level0 = require('../../shared/routines/viewItemTrend_baseReport/level0')
+const buildDrillDown_byCustomer_level3 = require('../../shared/routines/viewCustTrend_baseReport/level3')
+const buildDrillDown_byCustomer_level2 = require('../../shared/routines/viewCustTrend_baseReport/level2')
+const buildDrillDown_byCustomer_level1 = require('../../shared/routines/viewCustTrend_baseReport/level1')
+const buildDrillDown_byCustomer_level0 = require('../../shared/routines/viewCustTrend_baseReport/level0')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
 const labelCols_byCust = require('../queries/hardcode/cols_byCustomer')
@@ -22,8 +22,6 @@ const labelCols_byItem_l3 = require('../queries/hardcode/cols_byItem_level3')
 router.post('/', async (req, res) => {
   const { program, option, filters, columnDataName, reportName, colType, periodEnd, showFyTrend } = req.body
   let { periodStart } = req.body
-
-  console.log(req.body)
 
   const config = {
     l1_field: 'ms.fg_fresh_frozen',

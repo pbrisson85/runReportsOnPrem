@@ -3,7 +3,7 @@ const {
   lvl_2_subtotal_getFgPo_detail,
   lvl_1_subtotal_getFgPo_detail,
   lvl_3_subtotal_getFgPo_detail,
-} = require('../queries/postgres/detail/getFgOpenPo')
+} = require('../queries/postgres/getDetail_baseReport/getFgOpenPo')
 
 const getDetail = async (config, program, filters) => {
   let detail = null
