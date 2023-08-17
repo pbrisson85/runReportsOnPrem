@@ -6,18 +6,26 @@ const {
   lvl_0_total_getSalesByWk,
   lvl_1_subtotal_getSalesPeriodToDate,
   lvl_0_total_getSalesPeriodToDate,
-} = require('../../queries/postgres/drilldown/byCustomer_level0/getSalesTrend')
+} = require('../../queries/postgres/viewCustTrend_baseReport/byCustomer_level0/getSalesTrend')
 const { getCompanyTotalSales } = require('../../queries/postgres/getCompanyTotalSales')
 const { lvl_0_total_getSalesPeriodToDate: lvl_0_program_getSalesPeriodToDate } = require('../../queries/postgres/baseReport/getSalesTrend')
-const { lvl_1_subtotal_getSalesByFy, lvl_0_total_getSalesByFy } = require('../../queries/postgres/drilldown/byCustomer_level0/getSalesTrendByFy')
+const {
+  lvl_1_subtotal_getSalesByFy,
+  lvl_0_total_getSalesByFy,
+} = require('../../queries/postgres/viewCustTrend_baseReport/byCustomer_level0/getSalesTrendByFy')
 const {
   lvl_1_subtotal_getSalesByFyYtd,
   lvl_0_total_getSalesByFyYtd,
-} = require('../../queries/postgres/drilldown/byCustomer_level0/getSalesTrendByFyYtd')
-const { lvl_1_subtotal_getSo, lvl_0_total_getSo } = require('../../queries/postgres/drilldown/byCustomer_level0/getSo')
-const { lvl_1_subtotal_getSo_byWk, lvl_0_total_getSo_byWk } = require('../../queries/postgres/drilldown/byCustomer_level0/getSoByWeek')
-const { getRowsFirstLevelDetail } = require('../../queries/postgres/drilldown/byCustomer_level0/getRows')
-const { getRowsFirstLevelDetail: getRows_l1_showFyTrend } = require('../../queries/postgres/drilldown/byCustomer_level0/getRowsTrendByFy')
+} = require('../../queries/postgres/viewCustTrend_baseReport/byCustomer_level0/getSalesTrendByFyYtd')
+const { lvl_1_subtotal_getSo, lvl_0_total_getSo } = require('../../queries/postgres/viewCustTrend_baseReport/byCustomer_level0/getSo')
+const {
+  lvl_1_subtotal_getSo_byWk,
+  lvl_0_total_getSo_byWk,
+} = require('../../queries/postgres/viewCustTrend_baseReport/byCustomer_level0/getSoByWeek')
+const { getRowsFirstLevelDetail } = require('../../queries/postgres/viewCustTrend_baseReport/byCustomer_level0/getRows')
+const {
+  getRowsFirstLevelDetail: getRows_l1_showFyTrend,
+} = require('../../queries/postgres/viewCustTrend_baseReport/byCustomer_level0/getRowsTrendByFy')
 const mapSalesToRowTemplates = require('../../models/mapSalesToRowTemplatesOneLevel')
 const cleanLabelsForDisplay = require('../../models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../../models/unflattenByCompositKey')
