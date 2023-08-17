@@ -14,7 +14,7 @@ const {
   lvl_1_subtotal_getFgAtLoc_tagged_detail,
   lvl_2_subtotal_getFgAtLoc_untagged_detail,
   lvl_2_subtotal_getFgAtLoc_tagged_detail,
-} = require('../../shared/queries/postgres/getDetail_baseReport')
+} = require('../../shared/queries/postgres/getDetail_baseReport/getFgInven')
 
 const getDetail = async (program, filters, columnDataName) => {
   let detail = null
