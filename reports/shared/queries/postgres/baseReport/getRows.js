@@ -13,7 +13,7 @@ const getRowsThirdLevelDetail = async (config, start, end, program, showFyTrend)
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = sales_line_items.item_number 
         
-          WHERE ${!showFyTrend ? sql`sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ` : sql``} ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} 
+          WHERE ${!showFyTrend ? sql`sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ` : sql``} ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} 
           
           GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)} 
         
@@ -23,7 +23,7 @@ const getRowsThirdLevelDetail = async (config, start, end, program, showFyTrend)
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = perpetual_inventory.item_number 
         
-          WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.program = ${program} 
+          WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) ${program ? sql`AND ms.program = ${program}`: sql``} 
           
           GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)} 
         
@@ -33,7 +33,7 @@ const getRowsThirdLevelDetail = async (config, start, end, program, showFyTrend)
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = sales_orders.item_num 
         
-          WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} 
+          WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} 
           
           GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}` //prettier-ignore
 
@@ -51,25 +51,31 @@ const getRowsSecondLevelDetail = async (config, start, end, program, showFyTrend
     const response = await sql
         `SELECT ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, 'SUBTOTAL' AS l3_label 
         
-          FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number 
+          FROM "salesReporting".sales_line_items 
+            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+              ON ms.item_num = sales_line_items.item_number 
         
-          WHERE ${!showFyTrend ? sql`sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ` : sql``} ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} 
+          WHERE ${!showFyTrend ? sql`sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ` : sql``} ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} 
           
           GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)} 
         
         UNION SELECT ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, 'SUBTOTAL' AS l3_label 
         
-          FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
+          FROM "invenReporting".perpetual_inventory 
+            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+              ON ms.item_num = perpetual_inventory.item_number 
         
-          WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+          WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
           
           GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)} 
         
         UNION SELECT ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, 'SUBTOTAL' AS l3_label 
         
-          FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
+          FROM "salesReporting".sales_orders 
+            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+              ON ms.item_num = sales_orders.item_num 
         
-          WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
+          WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} AND sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
           
           GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}` //prettier-ignore
 
@@ -87,25 +93,31 @@ const getRowsFirstLevelDetail = async (config, start, end, program, showFyTrend)
     const response = await sql
         `SELECT ${sql(config.l1_field)} AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label 
         
-          FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number 
+          FROM "salesReporting".sales_line_items 
+            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+              ON ms.item_num = sales_line_items.item_number 
           
-          WHERE ${!showFyTrend ? sql`sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ` : sql``} ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} 
-          
-          GROUP BY ${sql(config.l1_field)} 
-        
-        UNION SELECT ${sql(config.l1_field)} AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label 
-        
-          FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
-          
-          WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+          WHERE ${!showFyTrend ? sql`sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ` : sql``} ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} 
           
           GROUP BY ${sql(config.l1_field)} 
         
         UNION SELECT ${sql(config.l1_field)} AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label 
         
-          FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
+          FROM "invenReporting".perpetual_inventory 
+            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+              ON ms.item_num = perpetual_inventory.item_number 
           
-          WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
+          WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+          
+          GROUP BY ${sql(config.l1_field)} 
+        
+        UNION SELECT ${sql(config.l1_field)} AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label 
+        
+          FROM "salesReporting".sales_orders 
+            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+              ON ms.item_num = sales_orders.item_num 
+          
+          WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} AND sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
           
           GROUP BY ${sql(config.l1_field)}` //prettier-ignore
 

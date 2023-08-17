@@ -59,8 +59,8 @@ const {
   lvl_2_subtotal_getSoUntagged_byWk,
   lvl_0_total_getSoUntagged_byWk,
 } = require('../../shared/queries/postgres/baseReport/getSoByWeek')
-const { getLevelTwoRows, getLevelOneRows } = require('../queries/postgres/getRows')
-const { getLevelTwoRows: getRows_l2_showFyTrend, getLevelOneRows: getRows_l1_showFyTrend } = require('../queries/postgres/getRowsTrendByFy')
+
+const { getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../../shared/queries/postgres/baseReport/getRows')
 
 const unflattenRowTemplate = require('../../shared/models/unflattenRowTemplate')
 const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesTwoLevel')
@@ -198,17 +198,9 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
   // const lvl_0_weeksInvOAvail = calcWeeksInvOnHand(lvl_0_invAvailable, lvl_0_aveWeeklySales, 'weeksInvenAvailable')
 
   ///////////////////////////////// ROWS
-  let levelTwoRows
-  let levelOneRows
-  if (showFyTrend) {
-    // full fy trend requested. need rows for all data
-    levelTwoRows = await getRows_l2_showFyTrend(start, end)
-    levelOneRows = await getRows_l1_showFyTrend(start, end)
-  } else {
-    // data request with start and end dates
-    levelTwoRows = await getLevelTwoRows(start, end)
-    levelOneRows = await getLevelOneRows(start, end)
-  }
+  const levelTwoRows = await getRowsSecondLevelDetail(config, start, end, config.program, showFyTrend)
+  const levelOneRows = await getRowsFirstLevelDetail(config, start, end, config.program, showFyTrend)
+
   const totalsRow = [{ totalRow: true, l1_label: 'FG SALES', l2_label: 'TOTAL' }]
 
   // COMPILE FINAL ROW TEMPLATE
