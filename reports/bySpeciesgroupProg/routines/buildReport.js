@@ -38,7 +38,7 @@ const {
   lvl_1_subtotal_getFgAtLoc_untagged,
   lvl_2_subtotal_getFgAtLoc_untagged,
   lvl_0_total_getFgAtLoc_untagged,
-} = require('../queries/postgres/getFgInven')
+} = require('../../shared/queries/postgres/baseReport/getFgInven') // Testing
 const {
   lvl_1_subtotal_getRmInven,
   lvl_2_subtotal_getRmInven,
@@ -92,26 +92,31 @@ const calcInventoryAvailable = require('../../shared/models/calcInventoryAvailab
 const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
   ///////////////////////////////// INVENTORY DATA
 
+  const config = {
+    l1_field: 'ms.species_group',
+    l1_field: 'ms.program',
+  }
+
   /* TOTAL FG */
-  const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven()
-  const lvl_2_subtotal_fgInven = await lvl_2_subtotal_getFgInven()
-  const lvl_0_total_fgInven = await lvl_0_total_getFgInven()
+  const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(config)
+  const lvl_2_subtotal_fgInven = await lvl_2_subtotal_getFgInven(config)
+  const lvl_0_total_fgInven = await lvl_0_total_getFgInven(config)
   /* FG IN TRANSIT*/
-  const lvl_1_subtotal_fgInTransit = await lvl_1_subtotal_getFgInTransit()
-  const lvl_2_subtotal_fgInTransit = await lvl_2_subtotal_getFgInTransit()
-  const lvl_0_total_fgInTransit = await lvl_0_total_getFgInTransit()
+  const lvl_1_subtotal_fgInTransit = await lvl_1_subtotal_getFgInTransit(config)
+  const lvl_2_subtotal_fgInTransit = await lvl_2_subtotal_getFgInTransit(config)
+  const lvl_0_total_fgInTransit = await lvl_0_total_getFgInTransit(config)
   /* FG ON HAND (LESS IN TRANSIT) */
-  const lvl_1_subtotal_fgAtLoc = await lvl_1_subtotal_getFgAtLoc()
-  const lvl_2_subtotal_fgAtLoc = await lvl_2_subtotal_getFgAtLoc()
-  const lvl_0_total_fgAtLocation = await lvl_0_total_getFgAtLoc()
+  const lvl_1_subtotal_fgAtLoc = await lvl_1_subtotal_getFgAtLoc(config)
+  const lvl_2_subtotal_fgAtLoc = await lvl_2_subtotal_getFgAtLoc(config)
+  const lvl_0_total_fgAtLocation = await lvl_0_total_getFgAtLoc(config)
   /* FG ON HAND TAGGED*/
-  // const lvl_1_subtotal_fgAtLoc_tagged = await lvl_1_subtotal_getFgAtLoc_tagged()
-  // const lvl_2_subtotal_fgAtLoc_tagged = await lvl_2_subtotal_getFgAtLoc_tagged()
-  // const lvl_0_total_fgAtLoc_tagged = await lvl_0_total_getFgAtLoc_tagged()
+  // const lvl_1_subtotal_fgAtLoc_tagged = await lvl_1_subtotal_getFgAtLoc_tagged(config)
+  // const lvl_2_subtotal_fgAtLoc_tagged = await lvl_2_subtotal_getFgAtLoc_tagged(config)
+  // const lvl_0_total_fgAtLoc_tagged = await lvl_0_total_getFgAtLoc_tagged(config)
   /* FG ON HAND UNTAGGED*/
-  const lvl_1_subtotal_fgAtLoc_untagged = await lvl_1_subtotal_getFgAtLoc_untagged()
-  const lvl_2_subtotal_fgAtLoc_untagged = await lvl_2_subtotal_getFgAtLoc_untagged()
-  const lvl_0_total_fgAtLoc_untagged = await lvl_0_total_getFgAtLoc_untagged()
+  const lvl_1_subtotal_fgAtLoc_untagged = await lvl_1_subtotal_getFgAtLoc_untagged(config)
+  const lvl_2_subtotal_fgAtLoc_untagged = await lvl_2_subtotal_getFgAtLoc_untagged(config)
+  const lvl_0_total_fgAtLoc_untagged = await lvl_0_total_getFgAtLoc_untagged(config)
 
   /* FG ON ORDER */
   const lvl_1_subtotal_fgPo = await lvl_1_subtotal_getFgPo()
