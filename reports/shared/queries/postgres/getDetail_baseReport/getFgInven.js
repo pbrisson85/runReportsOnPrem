@@ -83,11 +83,12 @@ const lvl_1_subtotal_getFgAtLoc_untagged_detail = async (config, program, filter
                   LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                       ON ms.item_num = pi.item_number 
                   WHERE pi.on_hand_lbs <> 0 AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 
-                  FROM "invenReporting".perpetual_inventory) AND pi.location_type <> ${'IN TRANSIT'} ${program ? sql`AND ms.program = ${program}`: sql``} AND ${sql(config.l1_field)} = ${filters[0]}) 
-                  AS all_inven
+                  FROM "invenReporting".perpetual_inventory) AND pi.location_type <> ${'IN TRANSIT'} ${program ? sql`AND ms.program = ${program}`: sql``} AND ${sql(config.l1_field)} = ${filters[0]}
+                  
+              ) AS all_inven
                    
           LEFT OUTER JOIN (
-              SELECT ti.location, ti.item_num AS item, ti.lot, SUM(ti.weight AS lbs), SUM(ti.cost * ti.weight) AS cost_ext 
+              SELECT ti.location, ti.item_num AS item, ti.lot, SUM(ti.weight) AS lbs, SUM(ti.cost * ti.weight) AS cost_ext 
                   FROM "salesReporting".tagged_inventory AS ti 
                   LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                       ON ms.item_num = ti.item_num   
