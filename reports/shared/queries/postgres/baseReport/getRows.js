@@ -49,7 +49,7 @@ const getRowsSecondLevelDetail = async (config, start, end, program, showFyTrend
     console.log(`query postgres to get row labels ...`)
 
     const response = await sql
-        `SELECT ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, 'SUBTOTAL' AS l3_label 
+        `SELECT ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``}
         
           FROM "salesReporting".sales_line_items 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -59,7 +59,7 @@ const getRowsSecondLevelDetail = async (config, start, end, program, showFyTrend
           
           GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)} 
         
-        UNION SELECT ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, 'SUBTOTAL' AS l3_label 
+        UNION SELECT ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} 
         
           FROM "invenReporting".perpetual_inventory 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -69,7 +69,7 @@ const getRowsSecondLevelDetail = async (config, start, end, program, showFyTrend
           
           GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)} 
         
-        UNION SELECT ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, 'SUBTOTAL' AS l3_label 
+        UNION SELECT ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} 
         
           FROM "salesReporting".sales_orders 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -91,7 +91,7 @@ const getRowsFirstLevelDetail = async (config, start, end, program, showFyTrend)
     console.log(`query postgres to get row labels ...`)
 
     const response = await sql
-        `SELECT ${sql(config.l1_field)} AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label 
+        `SELECT ${sql(config.l1_field)} AS l1_label, 'SUBTOTAL' AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} 
         
           FROM "salesReporting".sales_line_items 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -101,7 +101,7 @@ const getRowsFirstLevelDetail = async (config, start, end, program, showFyTrend)
           
           GROUP BY ${sql(config.l1_field)} 
         
-        UNION SELECT ${sql(config.l1_field)} AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label 
+        UNION SELECT ${sql(config.l1_field)} AS l1_label, 'SUBTOTAL' AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} 
         
           FROM "invenReporting".perpetual_inventory 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -111,7 +111,7 @@ const getRowsFirstLevelDetail = async (config, start, end, program, showFyTrend)
           
           GROUP BY ${sql(config.l1_field)} 
         
-        UNION SELECT ${sql(config.l1_field)} AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label 
+        UNION SELECT ${sql(config.l1_field)} AS l1_label, 'SUBTOTAL' AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} 
         
           FROM "salesReporting".sales_orders 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
