@@ -107,11 +107,6 @@ const {
   lvl_0_total_getSoUntagged_byWk,
 } = require('../queries/postgres/baseReport/getSoByWeek')
 const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../queries/postgres/baseReport/getRows')
-const {
-  getRowsThirdLevelDetail: getRows_l3_showFyTrend,
-  getRowsSecondLevelDetail: getRows_l2_showFyTrend,
-  getRowsFirstLevelDetail: getRows_l1_showFyTrend,
-} = require('../queries/postgres/baseReport/getRowsTrendByFy')
 const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplatesThreeLevel')
 const mapInvenToRowTemplates = require('../models/mapInvenToRowTemplatesThreeLevel')
 const combineMappedRows = require('../models/combineMappedRows')
@@ -284,21 +279,9 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
   const lvl_0_invAvailable = calcInventoryAvailable(lvl_0_total_fgInven, lvl_0_total_fgPo, lvl_0_total_so, 'invenAvailable')
 
   ///////////////////////////////// ROWS
-  let rowsThirdLevelDetail
-  let rowsSecondLevelDetail
-  let rowsFirstLevelDetail
-
-  // if (showFyTrend) {
-  //   // full fy trend requested. need rows for all data
-  //   rowsThirdLevelDetail = await getRows_l3_showFyTrend(config, start, end, program)
-  //   rowsSecondLevelDetail = await getRows_l2_showFyTrend(config, start, end, program)
-  //   rowsFirstLevelDetail = await getRows_l1_showFyTrend(config, start, end, program)
-  // } else {
-  // data request with start and end dates
-  rowsThirdLevelDetail = await getRowsThirdLevelDetail(config, start, end, program, showFyTrend)
-  rowsSecondLevelDetail = await getRowsSecondLevelDetail(config, start, end, program, showFyTrend)
-  rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, program, showFyTrend)
-  // }
+  const rowsThirdLevelDetail = await getRowsThirdLevelDetail(config, start, end, program, showFyTrend)
+  const rowsSecondLevelDetail = await getRowsSecondLevelDetail(config, start, end, program, showFyTrend)
+  const rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, program, showFyTrend)
 
   const totalsRow = [{ totalRow: true, l1_label: 'FG SALES', l2_label: 'TOTAL', l3_label: 'TOTAL' }]
 
