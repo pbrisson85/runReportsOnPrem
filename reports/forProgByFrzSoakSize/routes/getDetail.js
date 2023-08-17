@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const getDetail_invenFg = require('../../shared/routines/getDetail_baseReport/getDetail_baseReport/invenFG')
+const getDetail_invenFg = require('../../shared/routines/getDetail_baseReport/invenFG')
 const getDetail_salesOrder = require('../../shared/routines/getDetail_baseReport/salesOrder')
 const getDetail_salesInvoice = require('../../shared/routines/getDetail_baseReport/salesInvoice')
 const getDetail_purchaseOrder = require('../../shared/routines/getDetail_baseReport/purchaseOrder')
