@@ -3,7 +3,7 @@ const {
   lvl_2_subtotal_getSales_detail,
   lvl_1_subtotal_getSales_detail,
   lvl_3_subtotal_getSales_detail,
-} = require('../queries/postgres/getDetail_baseReport/getSales')
+} = require('../../queries/postgres/getDetail_baseReport/getSales')
 
 const getDetail = async (config, program, filters, startWeek, endWeek, year) => {
   let detail = null
