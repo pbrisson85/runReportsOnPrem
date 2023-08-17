@@ -13,7 +13,7 @@ const {
   lvl_1_subtotal_getSalesPeriodToDate,
   lvl_2_subtotal_getSalesPeriodToDate,
   lvl_0_total_getSalesPeriodToDate,
-} = require('../queries/postgres/getSalesTrend')
+} = require('../../shared/queries/postgres/baseReport/getSalesTrend')
 const {
   lvl_1_subtotal_getSalesByFy,
   lvl_2_subtotal_getSalesByFy,
@@ -140,13 +140,13 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek) => {
 
   ///////////////////////////////// SALES DATA
   /* EACH WEEK */
-  const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end)
-  const lvl_2_subtotal_salesByWk = await lvl_2_subtotal_getSalesByWk(start, end)
-  const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(start, end)
+  const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(config, start, end, config.program)
+  const lvl_2_subtotal_salesByWk = await lvl_2_subtotal_getSalesByWk(config, start, end, config.program)
+  const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(config, start, end, config.program)
   /* TOTAL COL */
-  const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(start, end)
-  const lvl_2_subtotal_salesPeriodToDate = await lvl_2_subtotal_getSalesPeriodToDate(start, end)
-  const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(start, end)
+  const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(config, start, end, config.program)
+  const lvl_2_subtotal_salesPeriodToDate = await lvl_2_subtotal_getSalesPeriodToDate(config, start, end, config.program)
+  const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(config, start, end, config.program)
   /* EACH YEAR */
   const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy()
   const lvl_2_subtotal_salesByFy = await lvl_2_subtotal_getSalesByFy()
