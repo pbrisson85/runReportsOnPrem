@@ -1,6 +1,8 @@
 const sql = require('../../../../../server')
 
-const getRowsThirdLevelDetail = async (config, start, end, program) => {
+const getRowsThirdLevelDetail = async (config, start, end, program, showFyTrend) => {
+  // Note showFyTrend is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
+
   try {
     console.log(`query postgres to get row labels ...`)
 
@@ -11,7 +13,7 @@ const getRowsThirdLevelDetail = async (config, start, end, program) => {
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = sales_line_items.item_number 
         
-          WHERE sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} 
+          WHERE ${!showFyTrend ? sql`sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ` : sql``} ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} 
           
           GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)} 
         
@@ -51,7 +53,7 @@ const getRowsSecondLevelDetail = async (config, start, end, program) => {
         
           FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number 
         
-          WHERE sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} 
+          WHERE ${!showFyTrend ? sql`sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ` : sql``} ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} 
           
           GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)} 
         
@@ -87,7 +89,7 @@ const getRowsFirstLevelDetail = async (config, start, end, program) => {
         
           FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number 
           
-          WHERE sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} 
+          WHERE ${!showFyTrend ? sql`sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ` : sql``} ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} 
           
           GROUP BY ${sql(config.l1_field)} 
         

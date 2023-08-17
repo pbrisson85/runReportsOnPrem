@@ -288,17 +288,17 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
   let rowsSecondLevelDetail
   let rowsFirstLevelDetail
 
-  if (showFyTrend) {
-    // full fy trend requested. need rows for all data
-    rowsThirdLevelDetail = await getRows_l3_showFyTrend(config, start, end, program)
-    rowsSecondLevelDetail = await getRows_l2_showFyTrend(config, start, end, program)
-    rowsFirstLevelDetail = await getRows_l1_showFyTrend(config, start, end, program)
-  } else {
-    // data request with start and end dates
-    rowsThirdLevelDetail = await getRowsThirdLevelDetail(config, start, end, program)
-    rowsSecondLevelDetail = await getRowsSecondLevelDetail(config, start, end, program)
-    rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, program)
-  }
+  // if (showFyTrend) {
+  //   // full fy trend requested. need rows for all data
+  //   rowsThirdLevelDetail = await getRows_l3_showFyTrend(config, start, end, program)
+  //   rowsSecondLevelDetail = await getRows_l2_showFyTrend(config, start, end, program)
+  //   rowsFirstLevelDetail = await getRows_l1_showFyTrend(config, start, end, program)
+  // } else {
+  // data request with start and end dates
+  rowsThirdLevelDetail = await getRowsThirdLevelDetail(config, start, end, program, showFyTrend)
+  rowsSecondLevelDetail = await getRowsSecondLevelDetail(config, start, end, program, showFyTrend)
+  rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, program, showFyTrend)
+  // }
 
   const totalsRow = [{ totalRow: true, l1_label: 'FG SALES', l2_label: 'TOTAL', l3_label: 'TOTAL' }]
 
