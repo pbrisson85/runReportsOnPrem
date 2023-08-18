@@ -15,10 +15,6 @@ const {
 const { getCompanyTotalSales } = require('../../queries/postgres/getCompanyTotalSales')
 const { lvl_0_total_getSalesPeriodToDate: lvl_0_program_getSalesPeriodToDate } = require('../../queries/postgres/baseReport/getSalesTrend')
 const {
-  lvl_1_subtotal_getSalesByFy,
-  lvl_0_total_getSalesByFy,
-} = require('../../queries/postgres/viewItemTrend_inTrendByCust/byItem_level0/getSalesTrendByFy')
-const {
   lvl_1_subtotal_getSalesByFyYtd,
   lvl_0_total_getSalesByFyYtd,
 } = require('../../queries/postgres/viewItemTrend_inTrendByCust/byItem_level0/getSalesTrendByFyYtd')
@@ -112,10 +108,12 @@ const buildDrillDown = async (labelCols, config, program, start, end, filters, s
   const lvl_0_total_soUntagged_byWk = await lvl_0_total_getSoUntagged_byWk(config, program, filters)
 
   // ///////////////////////////////// SALES DATA
-  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(config, start, end, program, filters)
-  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(config, start, end, program, filters)
-  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, filters)
-  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, program, filters)
+  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFyYtd(config, start, end, program, filters, false)
+  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFyYtd(config, start, end, program, filters, false)
+
+  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, filters, true)
+  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, program, filters, true)
+
   const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(config, start, end, program, filters)
   const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(config, start, end, program, filters)
   const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(config, start, end, program, filters)

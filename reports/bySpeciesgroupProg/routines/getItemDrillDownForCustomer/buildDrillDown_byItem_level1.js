@@ -13,11 +13,9 @@ const {
 } = require('../../../shared/queries/postgres/viewItemTrend_inTrendByCust/byItem_level1/getSalesTrend')
 const { getCompanyTotalSales } = require('../../../shared/queries/postgres/getCompanyTotalSales')
 const {
-  lvl_1_subtotal_getSalesByFy,
-  lvl_0_total_getSalesByFy,
   lvl_1_subtotal_getSalesByFyYtd,
   lvl_0_total_getSalesByFyYtd,
-} = require('../../../shared/queries/postgres/viewItemTrend_inTrendByCust/byItem_level1/getSalesTrendByFy')
+} = require('../../../shared/queries/postgres/viewItemTrend_inTrendByCust/byItem_level1/getSalesTrendByFyYtd')
 const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../../shared/queries/postgres/getFiscalYearCols')
 const {
   lvl_1_subtotal_getFgInven,
@@ -121,10 +119,11 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend, startWe
   const lvl_0_total_soUntagged_byWk = await lvl_0_total_getSoUntagged_byWk(config, program, filters)
 
   // ///////////////////////////////// SALES DATA
-  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(config, startWeek, endWeek, program, filters)
-  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(config, startWeek, endWeek, program, filters)
-  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, filters)
-  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, program, filters)
+  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, filters, false)
+  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, program, filters, false)
+
+  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, filters, true)
+  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, program, filters, true)
 
   const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(config, start, end, program, filters)
   const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(config, start, end, program, filters)
