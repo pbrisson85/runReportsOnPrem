@@ -62,7 +62,7 @@ const calcPercentSalesCol = require('../../../shared/models/calcPercentSalesCol'
 const calcAveWeeklySales = require('../../../shared/models/calcAveWeeklySales')
 const calcWeeksInvOnHand = require('../../../shared/models/calcWeeksInvOnHand')
 const calcInventoryAvailable = require('../../../shared/models/calcInventoryAvailable')
-const labelCols = require('../../queries/hardcode/cols_byItem_level2')
+const labelCols = require('../../queries/hardcode/cols_byItem')
 
 const buildDrillDown = async (program, start, end, filters, showFyTrend, startWeek, endWeek) => {
   console.log(program, '\n', start, '\n', end, '\n', filters)

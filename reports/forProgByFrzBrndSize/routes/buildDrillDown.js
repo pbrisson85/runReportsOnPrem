@@ -10,10 +10,7 @@ const buildDrillDown_byCustomer_level0 = require('../../shared/routines/viewCust
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
 const labelCols_byCust = require('../queries/hardcode/cols_byCustomer')
-const labelCols_byItem_l0 = require('../queries/hardcode/cols_byItem_level0')
-const labelCols_byItem_l1 = require('../queries/hardcode/cols_byItem_level1')
-const labelCols_byItem_l2 = require('../queries/hardcode/cols_byItem_level2')
-const labelCols_byItem_l3 = require('../queries/hardcode/cols_byItem_level3')
+const labelCols_byItem = require('../queries/hardcode/cols_byItem')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
 // @desc    Get drilldown data for a given report and filter
@@ -44,7 +41,7 @@ router.post('/', async (req, res) => {
     if (filters[1] === 'SUBTOTAL') {
       // level 1 subtotal
       response = await buildDrillDown_byItem_level1(
-        labelCols_byItem_l1,
+        labelCols_byItem,
         config,
         program,
         periodStart,
@@ -59,7 +56,7 @@ router.post('/', async (req, res) => {
     if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') {
       // level 2 subtotal
       response = await buildDrillDown_byItem_level2(
-        labelCols_byItem_l2,
+        labelCols_byItem,
         config,
         program,
         periodStart,
@@ -74,7 +71,7 @@ router.post('/', async (req, res) => {
     if (filters[1] !== 'TOTAL' && filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL') {
       // level 3 subtotal
       response = await buildDrillDown_byItem_level3(
-        labelCols_byItem_l3,
+        labelCols_byItem,
         config,
         program,
         periodStart,
@@ -89,7 +86,7 @@ router.post('/', async (req, res) => {
     if (filters[1] === 'TOTAL') {
       // level 0 total
       response = await buildDrillDown_byItem_level0(
-        labelCols_byItem_l0,
+        labelCols_byItem,
         config,
         program,
         periodStart,

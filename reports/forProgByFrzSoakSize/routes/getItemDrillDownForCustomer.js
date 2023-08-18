@@ -5,10 +5,7 @@ const buildDrillDown_byItem_level1 = require('../../shared/routines/viewItemTren
 const buildDrillDown_byItem_level0 = require('../../shared/routines/viewItemTrend_inTrendByCust/level0')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
-const labelCols_l0 = require('../queries/hardcode/cols_byItem_level0')
-const labelCols_l1 = require('../queries/hardcode/cols_byItem_level1')
-const labelCols_l2 = require('../queries/hardcode/cols_byItem_level2')
-const labelCols_l3 = require('../queries/hardcode/cols_byItem_level3')
+const labelCols = require('../queries/hardcode/cols_byItem')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
 // @desc    Get drilldown data for a given report and filter
@@ -38,65 +35,25 @@ router.post('/', async (req, res) => {
   if (filters[1] === 'SUBTOTAL') {
     console.log('hit level 1')
     // level 1 subtotal
-    response = await buildDrillDown_byItem_level1(
-      labelCols_l1,
-      config,
-      program,
-      periodStart,
-      periodEnd,
-      filters,
-      showFyTrend,
-      startWeek,
-      endWeek
-    )
+    response = await buildDrillDown_byItem_level1(labelCols, config, program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
   }
 
   if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') {
     console.log('hit level 2')
     // level 2 subtotal
-    response = await buildDrillDown_byItem_level2(
-      labelCols_l2,
-      config,
-      program,
-      periodStart,
-      periodEnd,
-      filters,
-      showFyTrend,
-      startWeek,
-      endWeek
-    )
+    response = await buildDrillDown_byItem_level2(labelCols, config, program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
   }
 
   if (filters[1] !== 'TOTAL' && filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL') {
     console.log('hit level 3')
     // level 3 subtotal
-    response = await buildDrillDown_byItem_level3(
-      labelCols_l3,
-      config,
-      program,
-      periodStart,
-      periodEnd,
-      filters,
-      showFyTrend,
-      startWeek,
-      endWeek
-    )
+    response = await buildDrillDown_byItem_level3(labelCols, config, program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
   }
 
   if (filters[1] === 'TOTAL') {
     console.log('hit level 0')
     // level 0 total
-    response = await buildDrillDown_byItem_level0(
-      labelCols_l0,
-      config,
-      program,
-      periodStart,
-      periodEnd,
-      filters,
-      showFyTrend,
-      startWeek,
-      endWeek
-    )
+    response = await buildDrillDown_byItem_level0(labelCols, config, program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
   }
 
   console.log(`get drilldown data for ${reportName} route COMPLETE. \n`)
