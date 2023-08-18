@@ -9,7 +9,7 @@ const lvl_1_subtotal_getSalesByFyYtd = async (config, start, end, program, filte
     console.log(`level 1: query postgres to get FG sales data by week ...`)
 
     const response = await sql
-      `SELECT sl.fiscal_year || '_ytd' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ${sql(config.l1_field)} AS l3_label, ${sql(config.l2_field)} AS l4_label , ${sql(config.l3_field)} AS l5_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
+      `SELECT sl.fiscal_year || '_ytd' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
       
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -17,7 +17,7 @@ const lvl_1_subtotal_getSalesByFyYtd = async (config, start, end, program, filte
           
       WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} AND sl.customer_code = ${filters[3]} AND sl.week >= ${start} AND sl.week <= ${end}
       
-      GROUP BY sl.fiscal_year, ms.item_num, ms.description, ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)} 
+      GROUP BY sl.fiscal_year, ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.brand, ms.size_name 
       
       ORDER BY sl.fiscal_year` //prettier-ignore
 
