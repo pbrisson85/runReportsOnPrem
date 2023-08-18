@@ -2,6 +2,8 @@
 
 - Priorities:
 
+  - Continue to refactor, Get to the point where there are only one set of postgres queries. Then get to the point where all routes and routines are refactored. THEN can build out the Joe B report by either adding a WHERE clause to every query or by making the tables dynamic and making an app that creates new tables that are pre-filtered. LIKELY will make a table of all the eligible items and then add a where clause to all queries.
+
   - Error: when drilling down on bySpeciesGroupProg, level 2 by either customer or item the total is not tying. I saw this on USA COD
   - Same thing with when I am getting detail on the customer drilldown.
 

@@ -1,3 +1,4 @@
+const sql = require('../../../../../../server')
 /* *********************************************** Level 1 *********************************************** */
 
 const lvl_1_subtotal_getFgPo = async (config, program, filters) => {
@@ -22,7 +23,6 @@ const lvl_1_subtotal_getFgPo = async (config, program, filters) => {
   }
 }
 
-const sql = require('../../../../../../server')
 /* *********************************************** TOTAL *********************************************** */
 
 const lvl_0_total_getFgPo = async (config, program, filters) => {
