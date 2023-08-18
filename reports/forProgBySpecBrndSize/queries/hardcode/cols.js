@@ -18,6 +18,8 @@ const cols = [
     borderRight: false, // border right on ladst frozen cell
     rightClickMenu: [], // array of options for right click menu
     colType: 'label',
+    optional: false, // flag to determine if the col is optional
+    showByDefault: true, // flag to determine if optional col is shown by default
   },
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
@@ -38,6 +40,8 @@ const cols = [
     borderRight: false, // border right on ladst frozen cell
     rightClickMenu: [], // array of options for right click menu
     colType: 'label',
+    optional: false, // flag to determine if the col is optional
+    showByDefault: true, // flag to determine if optional col is shown by default
   },
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
@@ -58,6 +62,8 @@ const cols = [
     borderRight: true, // border right on ladst frozen cell
     rightClickMenu: [], // array of options for right click menu
     colType: 'label',
+    optional: false, // flag to determine if the col is optional
+    showByDefault: true, // flag to determine if optional col is shown by default
   },
 ]
 

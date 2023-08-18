@@ -18,6 +18,8 @@ const cols = [
     borderRight: false, // border right on ladst frozen cell
     rightClickMenu: [], // array of options for right click menu
     colType: 'label',
+    optional: false, // flag to determine if the col is optional
+    showByDefault: true, // flag to determine if optional col is shown by default
     drillDownSortable: true, // used to determine what cols are sortable IN DRILLDOWN MODE
   },
   {
@@ -39,6 +41,8 @@ const cols = [
     borderRight: false, // border right on ladst frozen cell
     rightClickMenu: [], // array of options for right click menu
     colType: 'label',
+    optional: false, // flag to determine if the col is optional
+    showByDefault: true, // flag to determine if optional col is shown by default
     drillDownSortable: true, // used to determine what cols are sortable IN DRILLDOWN MODE
   },
   {
@@ -60,6 +64,8 @@ const cols = [
     borderRight: false, // border right on ladst frozen cell
     rightClickMenu: [], // array of options for right click menu
     colType: 'label',
+    optional: true, // flag to determine if the col is optional
+    showByDefault: false, // flag to determine if optional col is shown by default
     drillDownSortable: true, // used to determine what cols are sortable IN DRILLDOWN MODE
   },
   {
@@ -81,6 +87,8 @@ const cols = [
     borderRight: false, // border right on ladst frozen cell
     rightClickMenu: [], // array of options for right click menu
     colType: 'label',
+    optional: true, // flag to determine if the col is optional
+    showByDefault: false, // flag to determine if optional col is shown by default
     drillDownSortable: true, // used to determine what cols are sortable IN DRILLDOWN MODE
   },
   {
@@ -102,6 +110,8 @@ const cols = [
     borderRight: false, // border right on ladst frozen cell
     rightClickMenu: [], // array of options for right click menu
     colType: 'label',
+    optional: true, // flag to determine if the col is optional
+    showByDefault: false, // flag to determine if optional col is shown by default
     drillDownSortable: true, // used to determine what cols are sortable IN DRILLDOWN MODE
   },
   {
@@ -123,6 +133,8 @@ const cols = [
     borderRight: true, // border right on ladst frozen cell
     rightClickMenu: [], // array of options for right click menu
     colType: 'label',
+    optional: true, // flag to determine if the col is optional
+    showByDefault: false, // flag to determine if optional col is shown by default
     drillDownSortable: true, // used to determine what cols are sortable IN DRILLDOWN MODE
   },
 ]
