@@ -13,6 +13,8 @@ const mapInvenToRowTemplates = (invenLines, rowTemplate) => {
   // Note only cost and lbs for inven data.
 
   invenLines.forEach((invenLine, idx) => {
+    console.log('invenLine: ', invenLine)
+
     const revenue = parseFloat(invenLine.cogs.toFixed(2))
     const weight = parseFloat(invenLine.lbs.toFixed(2))
     const cogs = parseFloat(invenLine.cogs.toFixed(2))
