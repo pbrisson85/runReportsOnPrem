@@ -2,6 +2,8 @@
 
 - Priorities:
 
+  - Error: when drilling down on bySpeciesGroupProg, level 2 by either customer or item the total is not tying. I saw this on USA COD
+
   - Get detail on sales YTD when the from and to date are changed from default does not work. It is pulling a different date range
   - Refactor
 

@@ -1,6 +1,13 @@
 const sql = require('../../../../../../server')
 
 const getRowsFirstLevelDetail = async (config, start, end, program, filters) => {
+  console.log('getting rows:')
+  console.log('config', config)
+  console.log('start', start)
+  console.log('end', end)
+  console.log('program', program)
+  console.log('filters', filters)
+
   try {
     console.log(`query postgres to get row labels ...`)
 
@@ -24,6 +31,8 @@ const getRowsFirstLevelDetail = async (config, start, end, program, filters) => 
           WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} AND sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND sales_orders.customer_code = ${filters[3]} 
           
           GROUP BY ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.brand, ms.size_name` //prettier-ignore
+
+    console.log(response)
 
     return response
   } catch (error) {
