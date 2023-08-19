@@ -10,9 +10,11 @@ const { getCompanyTotalSales } = require('../../shared/queries/postgres/getCompa
 const {
   lvl_1_subtotal_getSalesByFy,
   lvl_0_total_getSalesByFy,
+} = require('../../shared/queries/postgres/viewCustTrend_baseReport/byCustomer_level1/getSalesTrendByFy')
+const {
   lvl_1_subtotal_getSalesByFyYtd,
   lvl_0_total_getSalesByFyYtd,
-} = require('../../shared/queries/postgres/viewCustTrend_baseReport/byCustomer_level1/getSalesTrendByFy')
+} = require('../../shared/queries/postgres/viewCustTrend_baseReport/byCustomer_level0/getSalesTrendByFyYtd')
 const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../shared/queries/postgres/getFiscalYearCols')
 const { lvl_1_subtotal_getSo, lvl_0_total_getSo } = require('../../shared/queries/postgres/viewCustTrend_baseReport/byCustomer_level1/getSo')
 const {
