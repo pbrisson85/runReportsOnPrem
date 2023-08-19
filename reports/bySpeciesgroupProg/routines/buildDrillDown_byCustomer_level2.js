@@ -5,19 +5,24 @@ const {
   lvl_0_total_getSalesByWk,
   lvl_1_subtotal_getSalesPeriodToDate,
   lvl_0_total_getSalesPeriodToDate,
-} = require('../queries/postgres/byCustomer_level2/getSalesTrend')
+} = require('../../shared/queries/postgres/viewCustTrend_baseReport/byCustomer_level2/getSalesTrend')
 const { getCompanyTotalSales } = require('../../shared/queries/postgres/getCompanyTotalSales')
 const {
   lvl_1_subtotal_getSalesByFy,
   lvl_0_total_getSalesByFy,
   lvl_1_subtotal_getSalesByFyYtd,
   lvl_0_total_getSalesByFyYtd,
-} = require('../queries/postgres/byCustomer_level2/getSalesTrendByFy')
+} = require('../../shared/queries/postgres/viewCustTrend_baseReport/byCustomer_level2/getSalesTrendByFy')
 const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../shared/queries/postgres/getFiscalYearCols')
-const { lvl_1_subtotal_getSo, lvl_0_total_getSo } = require('../queries/postgres/byCustomer_level2/getSo')
-const { lvl_1_subtotal_getSo_byWk, lvl_0_total_getSo_byWk } = require('../queries/postgres/byCustomer_level2/getSoByWeek')
-const { getRowsFirstLevelDetail } = require('../queries/postgres/byCustomer_level2/getRows')
-const { getRowsFirstLevelDetail: getRows_l1_showFyTrend } = require('../queries/postgres/byCustomer_level2/getRowsTrendByFy')
+const { lvl_1_subtotal_getSo, lvl_0_total_getSo } = require('../../shared/queries/postgres/viewCustTrend_baseReport/byCustomer_level2/getSo')
+const {
+  lvl_1_subtotal_getSo_byWk,
+  lvl_0_total_getSo_byWk,
+} = require('../../shared/queries/postgres/viewCustTrend_baseReport/byCustomer_level2/getSoByWeek')
+const { getRowsFirstLevelDetail } = require('../../shared/queries/postgres/viewCustTrend_baseReport/byCustomer_level2/getRows')
+const {
+  getRowsFirstLevelDetail: getRows_l1_showFyTrend,
+} = require('../../shared/queries/postgres/viewCustTrend_baseReport/byCustomer_level2/getRowsTrendByFy')
 const mapSalesToRowTemplates = require('../../shared/models/mapSalesToRowTemplatesOneLevel')
 const cleanLabelsForDisplay = require('../../shared/models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../../shared/models/unflattenByCompositKey')
@@ -28,22 +33,33 @@ const calcAveWeeklySales = require('../../shared/models/calcAveWeeklySales')
 const buildDrillDown = async (program, start, end, filters, showFyTrend, startWeek, endWeek) => {
   console.log(program, '\n', start, '\n', end, '\n', filters)
 
+  const config = {
+    l1_field: 'ms.species_group',
+    l2_field: 'ms.program',
+    program: null,
+  }
+
+  program = config.program
+
   // ///////////////////////////////// SALES ORDERS
   /* ALL SO */
-  const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(program, filters)
-  const lvl_0_total_so = await lvl_0_total_getSo(program, filters)
-  const lvl_1_subtotal_so_byWk = await lvl_1_subtotal_getSo_byWk(program, filters)
-  const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk(program, filters)
+  const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(config, program, filters)
+  const lvl_0_total_so = await lvl_0_total_getSo(config, program, filters)
+  const lvl_1_subtotal_so_byWk = await lvl_1_subtotal_getSo_byWk(config, program, filters)
+  const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk(config, program, filters)
 
   // ///////////////////////////////// SALES DATA
-  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(filters)
-  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(filters)
-  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(startWeek, endWeek, filters)
-  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(startWeek, endWeek, filters)
-  const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(start, end, program, filters)
-  const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(start, end, program, filters)
-  const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(start, end, program, filters)
-  const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(start, end, program, filters)
+  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(config, start, end, program, filters)
+  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(config, start, end, program, filters)
+
+  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, filters)
+  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, program, filters)
+
+  const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(config, start, end, program, filters)
+  const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(config, start, end, program, filters)
+  const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(config, start, end, program, filters)
+  const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(config, start, end, program, filters)
+
   const companyTotalSales = await getCompanyTotalSales(start, end)
 
   ///////////////////////////////// KPI DATA
@@ -64,10 +80,10 @@ const buildDrillDown = async (program, start, end, filters, showFyTrend, startWe
   let rowsFirstLevelDetail
   if (showFyTrend) {
     // full fy trend requested. need rows for all data
-    rowsFirstLevelDetail = await getRows_l1_showFyTrend(start, end, program, filters)
+    rowsFirstLevelDetail = await getRows_l1_showFyTrend(config, start, end, program, filters)
   } else {
     // data request with start and end dates
-    rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, program, filters)
+    rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, program, filters)
   }
   const totalsRow = [{ totalRow: true, l1_label: `FG SALES`, l2_label: `TOTAL` }] // Need an l2_label of TOTAL for front end styling
   const filterRow = [{ filterRow: true, l1_label: `PROGRAM: ${program}, FILTERS: ${filters[0]}, ${filters[1]}, ${filters[2]}` }] // shows at top of report
