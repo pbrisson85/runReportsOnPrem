@@ -10,12 +10,6 @@ const lvl_1_subtotal_getSales_detail = async (startWeek, endWeek, program, filte
 
     console.log(`level 1: query postgres to get FG sales data period total ...`)
 
-    console.log('startWeek: ', startWeek)
-    console.log('endWeek: ', endWeek)
-    console.log('program: ', program)
-    console.log('filters: ', filters)
-    console.log('year: ', year)
-
     const response = await pgClient.query(
       `SELECT sl.net_sales_ext, sl.gross_margin_lb, sl.cost_lb, sl.net_sales_lb, sl.othp_lb, sl.gross_sales_lb, sl.location, sl.customer_code, sl.customer_name, sl.invoice_number, sl.line_number, sl.formatted_invoice_date, sl.week_serial, sl.item_number, ms.description, ms.species, ms.brand, ms.size_name, ms.fg_treatment, ms.fg_fresh_frozen, sl.calc_gm_rept_weight, sl.gross_sales_ext, sl.othp_ext, sl.cogs_ext_gl, sl.gross_margin_ext 
       
@@ -41,12 +35,6 @@ const lvl_1_subtotal_getSales_detail = async (startWeek, endWeek, program, filte
 // FG Program col total for period
 
 const lvl_2_subtotal_getSales_detail = async (startWeek, endWeek, program, filters, year) => {
-  console.log('startWeek: ', startWeek)
-  console.log('endWeek: ', endWeek)
-  console.log('program: ', program)
-  console.log('filters: ', filters)
-  console.log('year: ', year)
-
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV

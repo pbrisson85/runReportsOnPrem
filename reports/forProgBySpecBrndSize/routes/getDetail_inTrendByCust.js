@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
     l3_field: 'ms.size_name',
   }
 
-  console.log(`\nget detail data for ${reportName} route HIT...`)
+  console.log(`\nget detail data in trend by customer for ${reportName} route HIT...`)
 
   let response = null
 
@@ -49,7 +49,7 @@ router.post('/', async (req, res) => {
     response = await getDetail_salesInvoice(config, program, filters, startWeek, endWeek, year)
   }
 
-  console.log(`get detail data for ${reportName} route COMPLETE. \n`)
+  console.log(`get detail data in trend by customer for ${reportName} route COMPLETE. \n`)
   res.send(response)
 })
 

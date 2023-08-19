@@ -13,7 +13,7 @@ router.post('/', async (req, res) => {
   const { program, option, filters, columnDataName, reportName, colType, periodStart, periodEnd, fyTrendCol, fyYtdTrendCol } = req.body
   let { year } = req.body
 
-  console.log(`\nget detail data for ${reportName} route HIT...`)
+  console.log(`\nget detail data in trend by customer for ${reportName} route HIT...`)
 
   let response = null
 
@@ -53,7 +53,7 @@ router.post('/', async (req, res) => {
     response = await getDetail_purchaseOrder(program, filters)
   }
 
-  console.log(`get detail data for ${reportName} route COMPLETE. \n`)
+  console.log(`get detail data in trend by customer for ${reportName} route COMPLETE. \n`)
 
   res.send(response)
 })
