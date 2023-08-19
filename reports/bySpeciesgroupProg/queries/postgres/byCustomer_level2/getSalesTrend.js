@@ -64,6 +64,8 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (start, end, program, filters)
 
     await pgClient.end()
 
+    console.log('response.rows', response.rows)
+
     return response.rows
   } catch (error) {
     console.error(error)
