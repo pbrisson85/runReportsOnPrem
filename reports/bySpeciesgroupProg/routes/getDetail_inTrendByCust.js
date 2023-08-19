@@ -11,6 +11,8 @@ router.post('/', async (req, res) => {
   const { program, option, filters, columnDataName, reportName, colType, periodStart, periodEnd, fyTrendCol, fyYtdTrendCol } = req.body
   let { year } = req.body
 
+  console.log('I am where I think I am')
+
   console.log(`\nget detail data for ${reportName} route HIT...`)
 
   let response = null
