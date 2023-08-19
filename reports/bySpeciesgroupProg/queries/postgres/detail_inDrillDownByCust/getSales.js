@@ -35,6 +35,12 @@ const lvl_1_subtotal_getSales_detail = async (startWeek, endWeek, program, filte
 // FG Program col total for period
 
 const lvl_2_subtotal_getSales_detail = async (startWeek, endWeek, program, filters, year) => {
+  console.log('startWeek: ', startWeek)
+  console.log('endWeek: ', endWeek)
+  console.log('program: ', program)
+  console.log('filters: ', filters)
+  console.log('year: ', year)
+
   try {
     const { Client } = require('pg')
     const pgClient = new Client() // config from ENV
