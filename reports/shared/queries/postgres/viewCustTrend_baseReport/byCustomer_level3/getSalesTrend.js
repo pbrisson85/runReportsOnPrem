@@ -14,7 +14,7 @@ const lvl_1_subtotal_getSalesByWk = async (config, start, end, program, filters)
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
       
-      WHERE sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]} 
+      WHERE sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]} 
       
       GROUP BY sl.week_serial, sl.customer_code, sl.customer_name
       
@@ -34,13 +34,13 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (config, start, end, program, 
     console.log(`level 1: query postgres to get FG sales data period total ...`)
 
     const response = await sql
-      `SELECT \'SALES TOTAL\' AS column, sl.customer_code AS l1_label, sl.customer_name AS l2_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
+      `SELECT 'SALES TOTAL' AS column, sl.customer_code AS l1_label, sl.customer_name AS l2_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
       
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]} 
+      WHERE sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]} 
       
       GROUP BY sl.customer_code, sl.customer_name` //prettier-ignore
 
@@ -60,13 +60,13 @@ const lvl_0_total_getSalesByWk = async (config, start, end, program, filters) =>
     console.log(`level 0: query postgres to get FG sales data by week ...`)
 
     const response = await sql
-      `SELECT sl.week_serial AS column, \'FG SALES\' AS l1_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
+      `SELECT sl.week_serial AS column, 'FG SALES' AS l1_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
       
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]} 
+      WHERE sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]} 
       
       GROUP BY sl.week_serial 
       
@@ -86,13 +86,13 @@ const lvl_0_total_getSalesPeriodToDate = async (config, start, end, program, fil
     console.log(`level 0: query postgres to get FG sales data period total ...`)
 
     const response = await sql
-      `SELECT \'SALES TOTAL\' AS column, \'FG SALES\' AS l1_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
+      `SELECT 'SALES TOTAL' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
       
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]}` //prettier-ignore
+      WHERE sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]}` //prettier-ignore
 
     return response
   } catch (error) {
