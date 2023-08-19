@@ -27,6 +27,15 @@ router.post('/', async (req, res) => {
 
   let response = null
 
+  console.log('getting drilldown data for: ', reportName)
+  console.log('program: ', program)
+  console.log('periodStart: ', periodStart)
+  console.log('periodEnd: ', periodEnd)
+  console.log('filters: ', filters)
+  console.log('showFyTrend: ', showFyTrend)
+  console.log('startWeek: ', startWeek)
+  console.log('endWeek: ', endWeek)
+
   if (option === 'Trend By Item') {
     if (filters[1] === 'SUBTOTAL') {
       // level 1 subtotal
