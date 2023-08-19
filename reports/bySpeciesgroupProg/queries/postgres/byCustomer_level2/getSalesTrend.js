@@ -1,15 +1,3 @@
-// method of converting from standard report to item drillDown:
-// Level 1:
-// 1. replace: [something] AS l1_label, [something] AS l2_label, [something] AS l3_label with ms.item_num AS l1_label
-// 2. add: WHERE ms.species_group = filters[0] AND ms.fg_treatment = filters[1] AND ms.size_name = filters[2]
-// 3. change GROUP BY to ms.item_num
-
-// Level 2: delete
-// Level 3: delete
-// Total:
-// 1. replace: [something] AS l1_label, [something] AS l2_label, [something] AS l3_label with ms.item_num AS l1_label
-// 2. add: WHERE ms.species_group = filters[0] AND ms.fg_treatment = filters[1] AND ms.size_name = filters[2]
-
 /* *********************************************** Level 1 Group *********************************************** */
 
 // FG Species Group totals by week
@@ -55,6 +43,11 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (start, end, program, filters)
     await pgClient.connect()
 
     console.log(`level 1: query postgres to get FG sales data period total ...`)
+
+    console.log('start: ', start)
+    console.log('end: ', end)
+    console.log('program: ', program)
+    console.log('filters: ', filters)
 
     const response = await pgClient.query(
       `SELECT \'SALES TOTAL\' AS column, sl.customer_code AS l1_label, sl.customer_name AS l2_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
