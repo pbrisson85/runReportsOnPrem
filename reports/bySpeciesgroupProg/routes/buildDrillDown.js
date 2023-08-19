@@ -9,7 +9,7 @@ const buildDrillDown_byCustomer_level1 = require('../routines/buildDrillDown_byC
 const buildDrillDown_byCustomer_level0 = require('../routines/buildDrillDown_byCustomer_level0')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
-// @desc    Get drilldown data for a given report and filter
+// @desc
 // @access  Private
 
 router.post('/', async (req, res) => {

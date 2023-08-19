@@ -6,7 +6,7 @@ const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartBy
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
-// @desc    Get drilldown data for a given report and filter
+// @desc
 // @access  Private
 
 // on all routes change the following:

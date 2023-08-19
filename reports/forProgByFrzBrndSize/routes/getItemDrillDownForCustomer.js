@@ -8,7 +8,7 @@ const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate
 const labelCols = require('../queries/hardcode/cols_byItem')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
-// @desc    Get drilldown data for a given report and filter
+// @desc
 // @access  Private
 
 router.post('/', async (req, res) => {

@@ -13,7 +13,7 @@ const labelCols_byCust = require('../queries/hardcode/cols_byCustomer')
 const labelCols_byItem = require('../queries/hardcode/cols_byItem')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
-// @desc    Get drilldown data for a given report and filter
+// @desc
 // @access  Private
 
 router.post('/', async (req, res) => {

@@ -6,7 +6,7 @@ const getDetail_purchaseOrder = require('../../shared/routines/getDetail_baseRep
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
 
 // @route   POST /api/sales/detail/forProgBySpecBrndSize/
-// @desc    Get drilldown data for a given report and filter
+// @desc
 // @access  Private
 
 router.post('/', async (req, res) => {
