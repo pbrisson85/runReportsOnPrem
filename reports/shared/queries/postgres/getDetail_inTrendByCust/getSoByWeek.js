@@ -75,7 +75,7 @@ const lvl_2_subtotal_getSoByWk_detail = async (config, program, filters, weekSer
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND ${sql(config.l1_field)} =  ${filters[0]} AND ${sql(config.l1_field)} =  ${filters[1]} AND so.week_serial = ${weekSerial} AND so.customer_code = ${filters[3]}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND ${sql(config.l1_field)} =  ${filters[0]} AND ${sql(config.l2_field)} =  ${filters[1]} AND so.week_serial = ${weekSerial} AND so.customer_code = ${filters[3]}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -95,7 +95,7 @@ const lvl_2_subtotal_getSoTagged_detail = async (config, program, filters, weekS
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND so.tagged_weight > 0 AND ${sql(config.l1_field)} =  ${filters[0]} AND ${sql(config.l1_field)} =  ${filters[1]} AND so.week_serial = ${weekSerial} AND so.customer_code = ${filters[3]}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND so.tagged_weight > 0 AND ${sql(config.l1_field)} =  ${filters[0]} AND ${sql(config.l2_field)} =  ${filters[1]} AND so.week_serial = ${weekSerial} AND so.customer_code = ${filters[3]}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -115,7 +115,7 @@ const lvl_2_subtotal_getSoByWkUntagged_detail = async (config, program, filters,
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 
           
-      FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND so.untagged_weight > 0 AND ${sql(config.l1_field)} =  ${filters[0]} AND ${sql(config.l1_field)} =  ${filters[1]} AND so.week_serial = ${weekSerial} AND so.customer_code = ${filters[3]}` //prettier-ignore
+      FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND so.untagged_weight > 0 AND ${sql(config.l1_field)} =  ${filters[0]} AND ${sql(config.l2_field)} =  ${filters[1]} AND so.week_serial = ${weekSerial} AND so.customer_code = ${filters[3]}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -137,7 +137,7 @@ const lvl_3_subtotal_getSoByWk_detail = async (config, program, filters, weekSer
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND ${sql(config.l1_field)} =  ${filters[0]} AND ${sql(config.l1_field)} =  ${filters[1]} AND ${sql(config.l1_field)} =  ${filters[2]} AND so.week_serial = ${weekSerial} AND so.customer_code = ${filters[3]}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND ${sql(config.l1_field)} =  ${filters[0]} AND ${sql(config.l2_field)} =  ${filters[1]} AND ${sql(config.l1_field)} =  ${filters[2]} AND so.week_serial = ${weekSerial} AND so.customer_code = ${filters[3]}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -157,7 +157,7 @@ const lvl_3_subtotal_getSoTagged_detail = async (config, program, filters, weekS
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND so.tagged_weight > 0 AND ${sql(config.l1_field)} =  ${filters[0]} AND ${sql(config.l1_field)} =  ${filters[1]} AND ${sql(config.l1_field)} =  ${filters[2]} AND so.week_serial = ${weekSerial} AND so.customer_code = ${filters[3]}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND so.tagged_weight > 0 AND ${sql(config.l1_field)} =  ${filters[0]} AND ${sql(config.l2_field)} =  ${filters[1]} AND ${sql(config.l1_field)} =  ${filters[2]} AND so.week_serial = ${weekSerial} AND so.customer_code = ${filters[3]}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -177,7 +177,7 @@ const lvl_3_subtotal_getSoByWkUntagged_detail = async (config, program, filters,
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND so.untagged_weight > 0 AND ${sql(config.l1_field)} =  ${filters[0]} AND ${sql(config.l1_field)} =  ${filters[1]} AND ${sql(config.l1_field)} =  ${filters[2]} AND so.week_serial = ${weekSerial} AND so.customer_code = ${filters[3]}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.program = ${program} AND ms.byproduct_type IS NULL AND so.untagged_weight > 0 AND ${sql(config.l1_field)} =  ${filters[0]} AND ${sql(config.l2_field)} =  ${filters[1]} AND ${sql(config.l1_field)} =  ${filters[2]} AND so.week_serial = ${weekSerial} AND so.customer_code = ${filters[3]}` //prettier-ignore
 
     return response
   } catch (error) {
