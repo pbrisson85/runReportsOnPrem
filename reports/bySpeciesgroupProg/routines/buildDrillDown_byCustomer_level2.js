@@ -14,7 +14,7 @@ const {
 const {
   lvl_1_subtotal_getSalesByFyYtd,
   lvl_0_total_getSalesByFyYtd,
-} = require('../../shared/queries/postgres/viewCustTrend_baseReport/byCustomer_level0/getSalesTrendByFyYtd')
+} = require('../../shared/queries/postgres/viewCustTrend_baseReport/byCustomer_level2/getSalesTrendByFyYtd')
 const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../shared/queries/postgres/getFiscalYearCols')
 const { lvl_1_subtotal_getSo, lvl_0_total_getSo } = require('../../shared/queries/postgres/viewCustTrend_baseReport/byCustomer_level2/getSo')
 const {
