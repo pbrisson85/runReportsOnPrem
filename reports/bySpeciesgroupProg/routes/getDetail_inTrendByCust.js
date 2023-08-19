@@ -11,6 +11,12 @@ router.post('/', async (req, res) => {
   const { program, option, filters, columnDataName, reportName, colType, periodStart, periodEnd, fyTrendCol, fyYtdTrendCol } = req.body
   let { year } = req.body
 
+  const config = {
+    l1_field: 'ms.species_group',
+    l2_field: 'ms.program',
+    program: null,
+  }
+
   console.log(`\nget detail data in trend by customer for ${reportName} route HIT...`)
 
   let response = null
