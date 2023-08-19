@@ -21,17 +21,17 @@ router.post('/', async (req, res) => {
 
   if (colType === 'salesInvoice') {
     // Transform all queries to have a start week, end week, and year
-    let startWeek = 1
-    let endWeek = 53
+    let startWeek = await getWeekForDate(periodStart)
+    let endWeek = await getWeekForDate(periodEnd)
     let priorYearData = false
 
     if (fyYtdTrendCol) {
-      startWeek = await getWeekForDate(periodStart)
-      endWeek = await getWeekForDate(periodEnd)
       priorYearData = true
       year = columnDataName.split('_')[0]
     }
     if (fyTrendCol) {
+      startWeek = 1
+      endWeek = 53
       priorYearData = true
       year = columnDataName.split('_')[0]
     }
