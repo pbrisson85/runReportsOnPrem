@@ -305,6 +305,7 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
   let mapSalesToRowTemplates = null
   let mapInvenToRowTemplates = null
   let rowTemplate_unflat = null
+  let level = null
   if (!config.l3_field) {
     // 2 LEVEL REPORT
     mapSalesToRowTemplates = mapSalesToRowTemplates_twoLevel
@@ -314,6 +315,8 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
       1: 'l1_label',
       2: 'l2_label',
     })
+
+    level = 2
   } else {
     // 3 LEVEL REPORT
     mapSalesToRowTemplates = mapSalesToRowTemplates_threeLevel
@@ -324,6 +327,8 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
       2: 'l2_label',
       3: 'l3_label',
     })
+
+    level = 3
   }
 
   // switch to include fy trend data
@@ -442,7 +447,7 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
   // clean out rows with zero activity
   Object.keys(mappedData).forEach(key => {
     // If the length = 3, then there is onlt the three labels and no other columns are populated
-    if (Object.keys(mappedData[key]).length === configLabels.length) {
+    if (Object.keys(mappedData[key]).length === level) {
       delete mappedData[key]
     }
   })
