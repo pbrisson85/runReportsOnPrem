@@ -80,8 +80,10 @@ const {
   lvl_0_total_getSoUntagged_byWk,
 } = require('../queries/postgres/baseReport/getSoByWeek')
 const { getRowsThirdLevelDetail, getRowsSecondLevelDetail, getRowsFirstLevelDetail } = require('../queries/postgres/baseReport/getRows')
-const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplatesThreeLevel')
-const mapInvenToRowTemplates = require('../models/mapInvenToRowTemplatesThreeLevel')
+const mapSalesToRowTemplates_threeLevel = require('../models/mapSalesToRowTemplatesThreeLevel')
+const mapInvenToRowTemplates_threeLevel = require('../models/mapInvenToRowTemplatesThreeLevel')
+const mapSalesToRowTemplates_twoLevel = require('../models/mapSalesToRowTemplatesTwoLevel')
+const mapInvenToRowTemplates_twoLevel = require('../models/mapInvenToRowTemplatesTwoLevel')
 const combineMappedRows = require('../models/combineMappedRows')
 const cleanLabelsForDisplay = require('../models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../models/unflattenByCompositKey')
@@ -310,7 +312,7 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
   const rowTemplate_unflat = unflattenByCompositKey(rowTemplate, {
     1: 'l1_label',
     2: 'l2_label',
-    // 3: 'l3_label',
+    3: 'l3_label',
   })
 
   console.log('rowTemplate_unflat', rowTemplate_unflat)
@@ -328,6 +330,19 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
         ...lvl_0_total_salesByFyYtd,
       ]
     : []
+
+  // Determine if 2 or 3 level report
+  let mapSalesToRowTemplates = null
+  let mapInvenToRowTemplates = null
+  if (!config.l3_field) {
+    // 2 LEVEL REPORT
+    mapSalesToRowTemplates = mapSalesToRowTemplates_twoLevel
+    mapInvenToRowTemplates = mapInvenToRowTemplates_twoLevel
+  } else {
+    // 3 LEVEL REPORT
+    mapSalesToRowTemplates = mapSalesToRowTemplates_threeLevel
+    mapInvenToRowTemplates = mapInvenToRowTemplates_threeLevel
+  }
 
   const mappedSales = mapSalesToRowTemplates(
     [
