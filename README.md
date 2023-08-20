@@ -2,17 +2,9 @@
 
 - Priorities:
 
-  ### Where did I leave off. I finished getting rid of all postgres queries for the two level report. However I didnt FINISH converting any of the postgres queries in shared/queries/postgres/viewItemTrend_baseReport to be able to accomodate the two level report by making the program = program to optional AND I need to change the data that is being queried to include the freeze, soak, brand, size, etc like I did in viewItemTrend_inTrendByCust. Remeber the queries in viewItemTrend_baseReport currently erroneously use the l1, l2, l3 fields when the fields should just be hardcoded. Once this is finished then test it. Once it is working then try to convert all of the two level report routines to be shared. Once that is done. I can start building more. In this scenerio I would be skipping combining the routes for now.
+  ### Making progress... get detail on the base report has an issue when in a three level report. converting this over to be used by 2 level and three level was the last thing I did and when testing again on the three level i am not getting any data from the query. the test was specifically on detail in so_by week. Once this is fixed and tested then convert the last routine in the two level report to use the shared version. At that point I can start creating new reports.
 
-  ## Looks like I can re-use the viewItemTrend_inTrendByCust reports (def for level 0 so far) by just addinging a flag whether it should be filtered by customer or not. SAME THING FOR THE ALREADY SHARED ROUTINES. I COULD GET RID OF SEPERATE GET ITEM TREND_BASE VS GET ITEM TREND_BY CUST. THEY ARE EXACTLY THE SAME EXCEPT WITH AN OPTIONAL CUSTOMER FILTER.
-
-  - Continue to refactor, Get to the point where there are only one set of postgres queries. Then get to the point where all routes and routines are refactored. THEN can build out the Joe B report by either adding a WHERE clause to every query or by making the tables dynamic and making an app that creates new tables that are pre-filtered. LIKELY will make a table of all the eligible items and then add a where clause to all queries.
-
-  - Error: when drilling down on bySpeciesGroupProg, level 2 by either customer or item the total is not tying. I saw this on USA COD
-  - Same thing with when I am getting detail on the customer drilldown.
-
-  - Get detail on sales YTD when the from and to date are changed from default does not work. It is pulling a different date range
-  - Refactor
+  - priority is to build out the Joe B report. current plan is to have a seperate APP that creates data to filter on (a list of items that he is responsible for) and to add a where clause to all queries that is optional to be WHERE IN this table.
 
   - Fix data: size on COD should be Mkt or Scrod but is listed as any
   - In freeze/Brand/Size customer drilldown on fresh subtotal. Then item drilldown on MADI00. The FG inven is on the total but not on the lines.
