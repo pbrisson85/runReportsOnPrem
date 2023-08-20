@@ -14,9 +14,8 @@ router.post('/', async (req, res) => {
   const config = {
     l1_field: 'ms.species_group',
     l2_field: 'ms.program',
-    program: null,
   }
-  program = config.program
+  program = null
 
   console.log(`\nget detail data in trend by customer for ${reportName} route HIT...`)
 

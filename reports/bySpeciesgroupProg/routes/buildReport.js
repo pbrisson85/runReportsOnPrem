@@ -16,9 +16,8 @@ router.post('/', async (req, res) => {
   const config = {
     l1_field: 'ms.species_group',
     l2_field: 'ms.program',
-    program: null,
   }
-  const program = config.program
+  const program = null
 
   // If no program, start, or end passed then default to the current fiscal year, first program alphabetically
   let defaultDate = false

@@ -20,9 +20,8 @@ router.post('/', async (req, res) => {
   const config = {
     l1_field: 'ms.species_group',
     l2_field: 'ms.program',
-    program: null,
   }
-  program = config.program
+  program = null
 
   console.log(`\nget drilldown data for ${reportName} route HIT...`)
 
