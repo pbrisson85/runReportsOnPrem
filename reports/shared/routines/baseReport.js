@@ -207,25 +207,28 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
 
   /* % SPECIES GROUP SALES */
   // look up species group based on program
-  const speciesGroupTotalSales = await getSpeciesGroupTotalSales(start, end, program)
-  const lvl_1_percent_speciesGroupSales = calcPercentSalesCol(
-    speciesGroupTotalSales[0],
-    lvl_1_subtotal_salesPeriodToDate,
-    'percentSpeciesGroupSales'
-  )
-  const lvl_2_percent_speciesGroupSales = calcPercentSalesCol(
-    speciesGroupTotalSales[0],
-    lvl_2_subtotal_salesPeriodToDate,
-    'percentSpeciesGroupSales'
-  )
-  const lvl_3_percent_speciesGroupSales = config.l3_field
-    ? calcPercentSalesCol(speciesGroupTotalSales[0], lvl_3_subtotal_salesPeriodToDate, 'percentSpeciesGroupSales')
-    : []
-  const lvl_0_percent_speciesGroupSales = calcPercentSalesCol(
-    speciesGroupTotalSales[0],
-    lvl_0_total_salesPeriodToDate,
-    'percentSpeciesGroupSales'
-  )
+  // GOING FOWARD MAKE THE SPECIES GROUP ITS OWN VARIABLE IN THE CONFIG SO THAT I CAN INCLUDE IT OR NOT BUT FOR NOW ONLY INCLUDE IF THERE IS A PROGRAM
+  let lvl_1_percent_speciesGroupSales = []
+  let lvl_2_percent_speciesGroupSales = []
+  let lvl_3_percent_speciesGroupSales = []
+  let lvl_0_percent_speciesGroupSales = []
+  if (program !== null) {
+    const speciesGroupTotalSales = await getSpeciesGroupTotalSales(start, end, program)
+    lvl_1_percent_speciesGroupSales = calcPercentSalesCol(
+      speciesGroupTotalSales[0],
+      lvl_1_subtotal_salesPeriodToDate,
+      'percentSpeciesGroupSales'
+    )
+    lvl_2_percent_speciesGroupSales = calcPercentSalesCol(
+      speciesGroupTotalSales[0],
+      lvl_2_subtotal_salesPeriodToDate,
+      'percentSpeciesGroupSales'
+    )
+    lvl_3_percent_speciesGroupSales = config.l3_field
+      ? calcPercentSalesCol(speciesGroupTotalSales[0], lvl_3_subtotal_salesPeriodToDate, 'percentSpeciesGroupSales')
+      : []
+    lvl_0_percent_speciesGroupSales = calcPercentSalesCol(speciesGroupTotalSales[0], lvl_0_total_salesPeriodToDate, 'percentSpeciesGroupSales')
+  }
 
   /* % REPORT TOTAL */
   const lvl_1_percent_reportTotal = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_1_subtotal_salesPeriodToDate, 'percentReportTotal')

@@ -2,6 +2,8 @@
 
 - Priorities:
 
+  #### look into calcing the % species group in baseReport because it was being done in the two level report but a different way. I left the file for reference.
+
   ### Making progress... get detail on the base report has an issue when in a three level report. converting this over to be used by 2 level and three level was the last thing I did and when testing again on the three level i am not getting any data from the query. the test was specifically on detail in so_by week. Once this is fixed and tested then convert the last routine in the two level report to use the shared version. At that point I can start creating new reports.
 
   - priority is to build out the Joe B report. current plan is to have a seperate APP that creates data to filter on (a list of items that he is responsible for) and to add a where clause to all queries that is optional to be WHERE IN this table.
