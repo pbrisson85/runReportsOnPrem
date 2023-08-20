@@ -313,6 +313,8 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
     // 3: 'l3_label',
   })
 
+  console.log('rowTemplate_unflat', rowTemplate_unflat)
+
   // switch to include fy trend data
   const fyTrendSales = showFyTrend
     ? [
