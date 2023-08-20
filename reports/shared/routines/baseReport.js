@@ -312,7 +312,7 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
   const rowTemplate_unflat = unflattenByCompositKey(rowTemplate, {
     1: 'l1_label',
     2: 'l2_label',
-    3: 'l3_label',
+    // 3: 'l3_label',
   })
 
   console.log('rowTemplate_unflat', rowTemplate_unflat)
