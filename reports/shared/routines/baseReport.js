@@ -300,22 +300,31 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
 
   rowTemplate.push(...totalsRow)
 
-  console.log('rowTemplate: ', rowTemplate)
-
   // map data into row template
-  const configLabels = Object.keys(config)
-  const unflatFuncConfig = {}
-  configLabels.map((label, i) => {
-    unflatFuncConfig[i + 1] = label
-  })
+  // Determine if 2 or 3 level report
+  let mapSalesToRowTemplates = null
+  let mapInvenToRowTemplates = null
+  let rowTemplate_unflat = null
+  if (!config.l3_field) {
+    // 2 LEVEL REPORT
+    mapSalesToRowTemplates = mapSalesToRowTemplates_twoLevel
+    mapInvenToRowTemplates = mapInvenToRowTemplates_twoLevel
 
-  const rowTemplate_unflat = unflattenByCompositKey(rowTemplate, {
-    1: 'l1_label',
-    2: 'l2_label',
-    // 3: 'l3_label',
-  })
+    rowTemplate_unflat = unflattenByCompositKey(rowTemplate, {
+      1: 'l1_label',
+      2: 'l2_label',
+    })
+  } else {
+    // 3 LEVEL REPORT
+    mapSalesToRowTemplates = mapSalesToRowTemplates_threeLevel
+    mapInvenToRowTemplates = mapInvenToRowTemplates_threeLevel
 
-  console.log('rowTemplate_unflat', rowTemplate_unflat)
+    rowTemplate_unflat = unflattenByCompositKey(rowTemplate, {
+      1: 'l1_label',
+      2: 'l2_label',
+      3: 'l3_label',
+    })
+  }
 
   // switch to include fy trend data
   const fyTrendSales = showFyTrend
@@ -330,19 +339,6 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
         ...lvl_0_total_salesByFyYtd,
       ]
     : []
-
-  // Determine if 2 or 3 level report
-  let mapSalesToRowTemplates = null
-  let mapInvenToRowTemplates = null
-  if (!config.l3_field) {
-    // 2 LEVEL REPORT
-    mapSalesToRowTemplates = mapSalesToRowTemplates_twoLevel
-    mapInvenToRowTemplates = mapInvenToRowTemplates_twoLevel
-  } else {
-    // 3 LEVEL REPORT
-    mapSalesToRowTemplates = mapSalesToRowTemplates_threeLevel
-    mapInvenToRowTemplates = mapInvenToRowTemplates_threeLevel
-  }
 
   const mappedSales = mapSalesToRowTemplates(
     [
