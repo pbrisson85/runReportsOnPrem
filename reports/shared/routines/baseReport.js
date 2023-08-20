@@ -305,11 +305,11 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
     unflatFuncConfig[i + 1] = label
   })
 
-  console.log('unflatFuncConfig: ', unflatFuncConfig)
-
-  const rowTemplate_unflat = unflattenByCompositKey(rowTemplate, unflatFuncConfig)
-
-  console.log('rowTemplate_unflat: ', rowTemplate_unflat)
+  const rowTemplate_unflat = unflattenByCompositKey(rowTemplate, {
+    1: 'l1_label',
+    2: 'l2_label',
+    3: 'l3_label',
+  })
 
   // switch to include fy trend data
   const fyTrendSales = showFyTrend
