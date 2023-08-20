@@ -13,9 +13,13 @@ const labelCols = require('../queries/hardcode/cols')
 router.post('/', async (req, res) => {
   console.log(`\nget get weekly sales species group, program for ${req.body.start} through ${req.body.end} route HIT...`)
 
+  // const config = {
+  //   l1_field: 'ms.species_group',
+  //   l2_field: 'ms.program',
+  // }
   const config = {
     l1_field: 'ms.species_group',
-    l2_field: 'ms.program',
+    l2_field: 'ms.fg_fresh_frozen',
   }
   const program = null
 
