@@ -98,85 +98,86 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
   /* TOTAL FG (FG) */
   const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(config, program)
   const lvl_2_subtotal_fgInven = await lvl_2_subtotal_getFgInven(config, program)
-  const lvl_3_subtotal_fgInven = await lvl_3_subtotal_getFgInven(config, program)
+  const lvl_3_subtotal_fgInven = config.l3_field ? await lvl_3_subtotal_getFgInven(config, program) : []
   const lvl_0_total_fgInven = await lvl_0_total_getFgInven(config, program)
   /* FG IN TRANSIT*/
   const lvl_1_subtotal_fgInTransit = await lvl_1_subtotal_getFgInTransit(config, program)
   const lvl_2_subtotal_fgInTransit = await lvl_2_subtotal_getFgInTransit(config, program)
-  const lvl_3_subtotal_fgInTransit = await lvl_3_subtotal_getFgInTransit(config, program)
+  const lvl_3_subtotal_fgInTransit = config.l3_field ? await lvl_3_subtotal_getFgInTransit(config, program) : []
   const lvl_0_total_fgInTransit = await lvl_0_total_getFgInTransit(config, program)
   /* FG ON HAND (LESS IN TRANSIT) */
   const lvl_1_subtotal_fgAtLoc = await lvl_1_subtotal_getFgAtLoc(config, program)
   const lvl_2_subtotal_fgAtLoc = await lvl_2_subtotal_getFgAtLoc(config, program)
-  const lvl_3_subtotal_fgAtLoc = await lvl_3_subtotal_getFgAtLoc(config, program)
+  const lvl_3_subtotal_fgAtLoc = config.l3_field ? await lvl_3_subtotal_getFgAtLoc(config, program) : []
   const lvl_0_total_fgAtLoc = await lvl_0_total_getFgAtLoc(config, program)
   /* FG ON HAND UNTAGGED */
   const lvl_1_subtotal_fgAtLoc_untagged = await lvl_1_subtotal_getFgAtLoc_untagged(config, program)
   const lvl_2_subtotal_fgAtLoc_untagged = await lvl_2_subtotal_getFgAtLoc_untagged(config, program)
-  const lvl_3_subtotal_fgAtLoc_untagged = await lvl_3_subtotal_getFgAtLoc_untagged(config, program)
+  const lvl_3_subtotal_fgAtLoc_untagged = config.l3_field ? await lvl_3_subtotal_getFgAtLoc_untagged(config, program) : []
   const lvl_0_total_fgAtLoc_untagged = await lvl_0_total_getFgAtLoc_untagged(config, program)
   /* FG ON HAND TAGGED */
   // const lvl_1_subtotal_fgAtLoc_tagged = await lvl_1_subtotal_getFgAtLoc_tagged(config, program)
   // const lvl_2_subtotal_fgAtLoc_tagged = await lvl_2_subtotal_getFgAtLoc_tagged(config, program)
-  // const lvl_3_subtotal_fgAtLoc_tagged = await lvl_3_subtotal_getFgAtLoc_tagged(config, program)
+  // const lvl_3_subtotal_fgAtLoc_tagged = config.l3_field ? await lvl_3_subtotal_getFgAtLoc_tagged(config, program) : []
   // const lvl_0_total_fgAtLoc_tagged = await lvl_0_total_getFgAtLoc_tagged(config, program)
 
   /* FG ON ORDER */
   const lvl_1_subtotal_fgPo = await lvl_1_subtotal_getFgPo(config, program)
   const lvl_2_subtotal_fgPo = await lvl_2_subtotal_getFgPo(config, program)
-  const lvl_3_subtotal_fgPo = await lvl_3_subtotal_getFgPo(config, program)
+  const lvl_3_subtotal_fgPo = config.l3_field ? await lvl_3_subtotal_getFgPo(config, program) : []
   const lvl_0_total_fgPo = await lvl_0_total_getFgPo(config, program)
 
   // ///////////////////////////////// SALES ORDERS
   /* ALL SO */
   const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(config, program)
   const lvl_2_subtotal_so = await lvl_2_subtotal_getSo(config, program)
-  const lvl_3_subtotal_so = await lvl_3_subtotal_getSo(config, program)
+  const lvl_3_subtotal_so = config.l3_field ? await lvl_3_subtotal_getSo(config, program) : []
   const lvl_0_total_so = await lvl_0_total_getSo(config, program)
 
   const lvl_1_subtotal_so_byWk = await lvl_1_subtotal_getSo_byWk(config, program)
   const lvl_2_subtotal_so_byWk = await lvl_2_subtotal_getSo_byWk(config, program)
-  const lvl_3_subtotal_so_byWk = await lvl_3_subtotal_getSo_byWk(config, program)
+  const lvl_3_subtotal_so_byWk = config.l3_field ? await lvl_3_subtotal_getSo_byWk(config, program) : []
   const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk(config, program)
   /* TAGGED SO */
   // const lvl_1_subtotal_soTagged = await lvl_1_subtotal_getSoTagged(config, program)
   // const lvl_2_subtotal_soTagged = await lvl_2_subtotal_getSoTagged(config, program)
-  // const lvl_3_subtotal_soTagged = await lvl_3_subtotal_getSoTagged(config, program)
+  // const lvl_3_subtotal_soTagged = config.l3_field ? await lvl_3_subtotal_getSoTagged(config, program) : []
   // const lvl_0_total_soTagged = await lvl_0_total_getSoTagged(config, program)
 
   // const lvl_1_subtotal_soTagged_byWk = await lvl_1_subtotal_getSoTagged_byWk(config, program)
   // const lvl_2_subtotal_soTagged_byWk = await lvl_2_subtotal_getSoTagged_byWk(config, program)
-  // const lvl_3_subtotal_soTagged_byWk = await lvl_3_subtotal_getSoTagged_byWk(config, program)
+  // const lvl_3_subtotal_soTagged_byWk = config.l3_field ? await lvl_3_subtotal_getSoTagged_byWk(config, program) : []
   // const lvl_0_total_soTagged_byWk = await lvl_0_total_getSoTagged_byWk(config, program)
   /* UNTAGGED SO */
   const lvl_1_subtotal_soUntagged = await lvl_1_subtotal_getSoUntagged(config, program)
   const lvl_2_subtotal_soUntagged = await lvl_2_subtotal_getSoUntagged(config, program)
-  const lvl_3_subtotal_soUntagged = await lvl_3_subtotal_getSoUntagged(config, program)
+  const lvl_3_subtotal_soUntagged = config.l3_field ? await lvl_3_subtotal_getSoUntagged(config, program) : []
   const lvl_0_total_soUntagged = await lvl_0_total_getSoUntagged(config, program)
 
   const lvl_1_subtotal_soUntagged_byWk = await lvl_1_subtotal_getSoUntagged_byWk(config, program)
   const lvl_2_subtotal_soUntagged_byWk = await lvl_2_subtotal_getSoUntagged_byWk(config, program)
-  const lvl_3_subtotal_soUntagged_byWk = await lvl_3_subtotal_getSoUntagged_byWk(config, program)
+  const lvl_3_subtotal_soUntagged_byWk = config.l3_field ? await lvl_3_subtotal_getSoUntagged_byWk(config, program) : []
   const lvl_0_total_soUntagged_byWk = await lvl_0_total_getSoUntagged_byWk(config, program)
 
   // ///////////////////////////////// SALES DATA
   const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, false)
   const lvl_2_subtotal_salesByFy = await lvl_2_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, false)
-  const lvl_3_subtotal_salesByFy = await lvl_3_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, false)
+  const lvl_3_subtotal_salesByFy = config.l3_field ? await lvl_3_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, false) : []
   const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, program, false)
 
   const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, true)
   const lvl_2_subtotal_salesByFyYtd = await lvl_2_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, true)
-  const lvl_3_subtotal_salesByFyYtd = await lvl_3_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, true)
+  const lvl_3_subtotal_salesByFyYtd = config.l3_field ? await lvl_3_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, true) : []
   const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, program, true)
 
   const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(config, start, end, program)
   const lvl_2_subtotal_salesByWk = await lvl_2_subtotal_getSalesByWk(config, start, end, program)
-  const lvl_3_subtotal_salesByWk = await lvl_3_subtotal_getSalesByWk(config, start, end, program)
+  const lvl_3_subtotal_salesByWk = config.l3_field ? await lvl_3_subtotal_getSalesByWk(config, start, end, program) : []
   const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(config, start, end, program)
+
   const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(config, start, end, program)
   const lvl_2_subtotal_salesPeriodToDate = await lvl_2_subtotal_getSalesPeriodToDate(config, start, end, program)
-  const lvl_3_subtotal_salesPeriodToDate = await lvl_3_subtotal_getSalesPeriodToDate(config, start, end, program)
+  const lvl_3_subtotal_salesPeriodToDate = config.l3_field ? await lvl_3_subtotal_getSalesPeriodToDate(config, start, end, program) : []
   const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(config, start, end, program)
 
   const companyTotalSales = await getCompanyTotalSales(start, end)
@@ -185,26 +186,25 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
   /* % COMPANY SALES */
   const lvl_1_percent_companySales = calcPercentSalesCol(companyTotalSales[0], lvl_1_subtotal_salesPeriodToDate, 'percentCompanySales')
   const lvl_2_percent_companySales = calcPercentSalesCol(companyTotalSales[0], lvl_2_subtotal_salesPeriodToDate, 'percentCompanySales')
-  const lvl_3_percent_companySales = calcPercentSalesCol(companyTotalSales[0], lvl_3_subtotal_salesPeriodToDate, 'percentCompanySales')
+  const lvl_3_percent_companySales = config.l3_field
+    ? calcPercentSalesCol(companyTotalSales[0], lvl_3_subtotal_salesPeriodToDate, 'percentCompanySales')
+    : []
   const lvl_0_percent_companySales = calcPercentSalesCol(companyTotalSales[0], lvl_0_total_salesPeriodToDate, 'percentCompanySales')
 
   /* % PROGRAM SALES */
-  const lvl_1_percent_programSales = calcPercentSalesCol(
-    lvl_0_total_salesPeriodToDate[0],
-    lvl_1_subtotal_salesPeriodToDate,
-    'percentProgramSales'
-  )
-  const lvl_2_percent_programSales = calcPercentSalesCol(
-    lvl_0_total_salesPeriodToDate[0],
-    lvl_2_subtotal_salesPeriodToDate,
-    'percentProgramSales'
-  )
-  const lvl_3_percent_programSales = calcPercentSalesCol(
-    lvl_0_total_salesPeriodToDate[0],
-    lvl_3_subtotal_salesPeriodToDate,
-    'percentProgramSales'
-  )
-  const lvl_0_percent_programSales = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentProgramSales')
+  let lvl_1_percent_programSales = []
+  let lvl_2_percent_programSales = []
+  let lvl_3_percent_programSales = []
+  let lvl_0_percent_programSales = []
+  if (program !== null) {
+    lvl_1_percent_programSales = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_1_subtotal_salesPeriodToDate, 'percentProgramSales')
+    lvl_2_percent_programSales = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_2_subtotal_salesPeriodToDate, 'percentProgramSales')
+    lvl_3_percent_programSales = config.l3_field
+      ? calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_3_subtotal_salesPeriodToDate, 'percentProgramSales')
+      : []
+    lvl_0_percent_programSales = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentProgramSales')
+  }
+
   /* % SPECIES GROUP SALES */
   // look up species group based on program
   const speciesGroupTotalSales = await getSpeciesGroupTotalSales(start, end, program)
@@ -218,43 +218,46 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
     lvl_2_subtotal_salesPeriodToDate,
     'percentSpeciesGroupSales'
   )
-  const lvl_3_percent_speciesGroupSales = calcPercentSalesCol(
-    speciesGroupTotalSales[0],
-    lvl_3_subtotal_salesPeriodToDate,
-    'percentSpeciesGroupSales'
-  )
+  const lvl_3_percent_speciesGroupSales = config.l3_field
+    ? calcPercentSalesCol(speciesGroupTotalSales[0], lvl_3_subtotal_salesPeriodToDate, 'percentSpeciesGroupSales')
+    : []
   const lvl_0_percent_speciesGroupSales = calcPercentSalesCol(
     speciesGroupTotalSales[0],
     lvl_0_total_salesPeriodToDate,
     'percentSpeciesGroupSales'
   )
+
   /* % REPORT TOTAL */
   const lvl_1_percent_reportTotal = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_1_subtotal_salesPeriodToDate, 'percentReportTotal')
   const lvl_2_percent_reportTotal = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_2_subtotal_salesPeriodToDate, 'percentReportTotal')
-  const lvl_3_percent_reportTotal = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_3_subtotal_salesPeriodToDate, 'percentReportTotal')
+  const lvl_3_percent_reportTotal = config.l3_field
+    ? calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_3_subtotal_salesPeriodToDate, 'percentReportTotal')
+    : []
   const lvl_0_percent_reportTotal = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentReportTotal')
 
   /* AVE WEEKLY SALES */
   const weeks = endWeek - startWeek + 1
   const lvl_1_aveWeeklySales = calcAveWeeklySales(lvl_1_subtotal_salesPeriodToDate, 'aveWeeklySales', weeks)
   const lvl_2_aveWeeklySales = calcAveWeeklySales(lvl_2_subtotal_salesPeriodToDate, 'aveWeeklySales', weeks)
-  const lvl_3_aveWeeklySales = calcAveWeeklySales(lvl_3_subtotal_salesPeriodToDate, 'aveWeeklySales', weeks)
+  const lvl_3_aveWeeklySales = config.l3_field ? calcAveWeeklySales(lvl_3_subtotal_salesPeriodToDate, 'aveWeeklySales', weeks) : []
   const lvl_0_aveWeeklySales = calcAveWeeklySales(lvl_0_total_salesPeriodToDate, 'aveWeeklySales', weeks)
 
   /* WEEKS INV ON HAND */
   const lvl_1_weeksInvOnHand = calcWeeksInvOnHand(lvl_1_subtotal_fgInven, lvl_1_aveWeeklySales, 'weeksInvenOnHand')
   const lvl_2_weeksInvOnHand = calcWeeksInvOnHand(lvl_2_subtotal_fgInven, lvl_2_aveWeeklySales, 'weeksInvenOnHand')
-  const lvl_3_weeksInvOnHand = calcWeeksInvOnHand(lvl_3_subtotal_fgInven, lvl_3_aveWeeklySales, 'weeksInvenOnHand')
+  const lvl_3_weeksInvOnHand = config.l3_field ? calcWeeksInvOnHand(lvl_3_subtotal_fgInven, lvl_3_aveWeeklySales, 'weeksInvenOnHand') : []
   const lvl_0_weeksInvOnHand = calcWeeksInvOnHand(lvl_0_total_fgInven, lvl_0_aveWeeklySales, 'weeksInvenOnHand')
 
   /* INVENTORY AVAILABLE */
   const lvl_1_invAvailable = calcInventoryAvailable(lvl_1_subtotal_fgInven, lvl_1_subtotal_fgPo, lvl_1_subtotal_so, 'invenAvailable')
   const lvl_2_invAvailable = calcInventoryAvailable(lvl_2_subtotal_fgInven, lvl_2_subtotal_fgPo, lvl_2_subtotal_so, 'invenAvailable')
-  const lvl_3_invAvailable = calcInventoryAvailable(lvl_3_subtotal_fgInven, lvl_3_subtotal_fgPo, lvl_3_subtotal_so, 'invenAvailable')
+  const lvl_3_invAvailable = config.l3_field
+    ? calcInventoryAvailable(lvl_3_subtotal_fgInven, lvl_3_subtotal_fgPo, lvl_3_subtotal_so, 'invenAvailable')
+    : []
   const lvl_0_invAvailable = calcInventoryAvailable(lvl_0_total_fgInven, lvl_0_total_fgPo, lvl_0_total_so, 'invenAvailable')
 
   ///////////////////////////////// ROWS
-  const rowsThirdLevelDetail = await getRowsThirdLevelDetail(config, start, end, program, showFyTrend)
+  const rowsThirdLevelDetail = config.l3_field ? await getRowsThirdLevelDetail(config, start, end, program, showFyTrend) : []
   const rowsSecondLevelDetail = await getRowsSecondLevelDetail(config, start, end, program, showFyTrend)
   const rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, program, showFyTrend)
 
@@ -264,8 +267,8 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
   const rowTemplate = [...rowsThirdLevelDetail, ...rowsSecondLevelDetail, ...rowsFirstLevelDetail]
     .sort((a, b) => {
       // if has includes total, put at end
-      if (a.l3_label.includes('TOTAL')) return 1
-      if (b.l3_label.includes('TOTAL')) return -1
+      if (a.l3_label?.includes('TOTAL')) return 1
+      if (b.l3_label?.includes('TOTAL')) return -1
 
       if (a.l3_label < b.l3_label) return -1
       if (a.l3_label > b.l3_label) return 1
@@ -293,11 +296,12 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
   rowTemplate.push(...totalsRow)
 
   // map data into row template
-  const rowTemplate_unflat = unflattenByCompositKey(rowTemplate, {
-    1: 'l1_label',
-    2: 'l2_label',
-    3: 'l3_label',
+  const configLabels = Object.keys(config)
+  const unflatFuncConfig = {}
+  configLabels.map((label, i) => {
+    unflatFuncConfig[i + 1] = label
   })
+  const rowTemplate_unflat = unflattenByCompositKey(rowTemplate, unflatFuncConfig)
 
   // switch to include fy trend data
   const fyTrendSales = showFyTrend
@@ -415,7 +419,7 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
   // clean out rows with zero activity
   Object.keys(mappedData).forEach(key => {
     // If the length = 3, then there is onlt the three labels and no other columns are populated
-    if (Object.keys(mappedData[key]).length === 3) {
+    if (Object.keys(mappedData[key]).length === configLabels.length) {
       delete mappedData[key]
     }
   })

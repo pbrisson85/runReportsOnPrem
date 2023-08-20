@@ -1,8 +1,9 @@
 const router = require('express').Router()
-const buildReport = require('../routines/buildReport')
+const buildReport = require('../../shared/routines/baseReport')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
 const getDefaults = require('../utils/getDefaults')
+const labelCols = require('../queries/hardcode/cols')
 
 // @route   POST /api/sales/byProgram
 // @desc
@@ -11,6 +12,13 @@ const getDefaults = require('../utils/getDefaults')
 // Generate full weekly report of ALL programs for FG Only (biggest picture)
 router.post('/', async (req, res) => {
   console.log(`\nget get weekly sales species group, program for ${req.body.start} through ${req.body.end} route HIT...`)
+
+  const config = {
+    l1_field: 'ms.species_group',
+    l2_field: 'ms.program',
+    program: null,
+  }
+  const program = config.program
 
   // If no program, start, or end passed then default to the current fiscal year, first program alphabetically
   let defaultDate = false
@@ -33,7 +41,7 @@ router.post('/', async (req, res) => {
   const startOfWeek = await getStartOfWeek(req.body.start)
   const periodStart = startOfWeek[0].formatted_date_start
 
-  const resp = await buildReport(periodStart, req.body.end, req.body.showFyTrend, startWeek, endWeek)
+  const resp = await buildReport(periodStart, req.body.end, program, req.body.showFyTrend, startWeek, endWeek, config, labelCols)
 
   // if default date then add to response
   if (defaultDate) {
