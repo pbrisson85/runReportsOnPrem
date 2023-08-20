@@ -29,6 +29,13 @@ const {
 } = require('../../queries/postgres/getDetail_inTrendByCust/getSoByWeek')
 
 const getDetail = async (level, config, program, filters, columnDataName) => {
+  console.log('getting detail in customer drilldown for sales ORDER')
+  console.log('level: ', level)
+  console.log('config: ', config)
+  console.log('program: ', program)
+  console.log('filters: ', filters)
+  console.log('columnDataName: ', columnDataName)
+
   let detail = null
 
   if (level === 1) {
