@@ -6,7 +6,7 @@ const sql = require('../../../../../../server')
 
 const lvl_1_subtotal_getSalesByWk = async (config, start, end, program, filters) => {
   try {
-    console.log(`level 1: query postgres to get FG sales data by week ...`)
+    console.log(`level 1: (getSalesTrend Lvl2) query postgres to get FG sales data by week ...`)
 
     const response = await sql
       `SELECT sales_line_items.week_serial AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
@@ -30,7 +30,7 @@ const lvl_1_subtotal_getSalesByWk = async (config, start, end, program, filters)
 
 const lvl_1_subtotal_getSalesPeriodToDate = async (config, start, end, program, filters) => {
   try {
-    console.log(`level 1: query postgres to get FG sales data period total ...`)
+    console.log(`level 1: (getSalesTrend Lvl2) query postgres to get FG sales data period total ...`)
 
     const response = await sql
       `SELECT 'SALES TOTAL' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
@@ -54,7 +54,7 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (config, start, end, program, 
 
 const lvl_0_total_getSalesByWk = async (config, start, end, program, filters) => {
   try {
-    console.log(`level 0: query postgres to get FG sales data by week ...`)
+    console.log(`level 0: (getSalesTrend Lvl2) query postgres to get FG sales data by week ...`)
 
     const response = await sql
       `SELECT sales_line_items.week_serial AS column, 'FG SALES' AS l1_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
@@ -78,7 +78,7 @@ const lvl_0_total_getSalesByWk = async (config, start, end, program, filters) =>
 
 const lvl_0_total_getSalesPeriodToDate = async (config, start, end, program, filters) => {
   try {
-    console.log(`level 0: query postgres to get FG sales data period total ...`)
+    console.log(`level 0: (getSalesTrend Lvl2) query postgres to get FG sales data period total ...`)
 
     const response = await sql
       `SELECT 'SALES TOTAL' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
