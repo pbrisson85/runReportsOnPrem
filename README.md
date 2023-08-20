@@ -2,6 +2,10 @@
 
 - Priorities:
 
+  ### Where did I leave off. I finished getting rid of all postgres queries for the two level report. However I didnt FINISH converting any of the postgres queries in shared/queries/postgres/viewItemTrend_baseReport to be able to accomodate the two level report by making the program = program to optional AND I need to change the data that is being queried to include the freeze, soak, brand, size, etc like I did in viewItemTrend_inTrendByCust. Remeber the queries in viewItemTrend_baseReport currently erroneously use the l1, l2, l3 fields when the fields should just be hardcoded. Once this is finished then test it. Once it is working then try to convert all of the two level report routines to be shared. Once that is done. I can start building more. In this scenerio I would be skipping combining the routes for now.
+
+  ## Looks like I can re-use the viewItemTrend_inTrendByCust reports (def for level 0 so far) by just addinging a flag whether it should be filtered by customer or not. SAME THING FOR THE ALREADY SHARED ROUTINES. I COULD GET RID OF SEPERATE GET ITEM TREND_BASE VS GET ITEM TREND_BY CUST. THEY ARE EXACTLY THE SAME EXCEPT WITH AN OPTIONAL CUSTOMER FILTER.
+
   - Continue to refactor, Get to the point where there are only one set of postgres queries. Then get to the point where all routes and routines are refactored. THEN can build out the Joe B report by either adding a WHERE clause to every query or by making the tables dynamic and making an app that creates new tables that are pre-filtered. LIKELY will make a table of all the eligible items and then add a where clause to all queries.
 
   - Error: when drilling down on bySpeciesGroupProg, level 2 by either customer or item the total is not tying. I saw this on USA COD
