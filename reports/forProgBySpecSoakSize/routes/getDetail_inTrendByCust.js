@@ -21,8 +21,15 @@ router.post('/', async (req, res) => {
 
   let response = null
 
+  // Determine level of report being shown: (NOTE THAT THIS COULD MORE EASILY BE DONE WITH A SPECIFIC FLAG INSTEAD OF TRYING TO PARSE THE FILTERS)
+  let level = null
+  if (filters[1] === 'SUBTOTAL' && filters[2] === 'SUBTOTAL') level = 1
+  if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') level = 2
+  if (filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL' && filters[1] !== 'TOTAL' && filters[2] !== 'TOTAL') level = 3
+  if (filters[1] === 'TOTAL' && filters[2] === 'TOTAL') level = 0
+
   if (colType === 'salesOrder') {
-    response = await getDetail_salesOrder(config, program, filters, columnDataName)
+    response = await getDetail_salesOrder(level, config, program, filters, columnDataName)
   }
 
   if (colType === 'salesInvoice') {
@@ -46,7 +53,7 @@ router.post('/', async (req, res) => {
       endWeek = columnDataName.split('-')[1].split('W')[1]
       year = columnDataName.split('-')[0]
     }
-    response = await getDetail_salesInvoice(config, program, filters, startWeek, endWeek, year)
+    response = await getDetail_salesInvoice(level, config, program, filters, startWeek, endWeek, year)
   }
 
   console.log(`get detail data in trend by customer for ${reportName} route COMPLETE. \n`)
