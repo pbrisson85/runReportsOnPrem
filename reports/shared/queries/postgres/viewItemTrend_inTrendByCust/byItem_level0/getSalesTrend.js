@@ -15,7 +15,7 @@ const lvl_1_subtotal_getSalesByWk = async (config, start, end, program, filters)
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} AND sales_line_items.customer_code = ${filters[3]}
+      WHERE sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${filters[3] ? sql`AND sales_line_items.customer_code = ${filters[3]}`: sql``}
       
       GROUP BY sales_line_items.week_serial, ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.brand, ms.size_name
       
@@ -41,7 +41,7 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (config, start, end, program, 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} AND sales_line_items.customer_code = ${filters[3]}
+      WHERE sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${filters[3] ? sql`AND sales_line_items.customer_code = ${filters[3]}`: sql``}
       
       GROUP BY ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.brand, ms.size_name` //prettier-ignore
 
@@ -67,7 +67,7 @@ const lvl_0_total_getSalesByWk = async (config, start, end, program, filters) =>
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} AND sales_line_items.customer_code = ${filters[3]}
+      WHERE sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${filters[3] ? sql`AND sales_line_items.customer_code = ${filters[3]}`: sql``}
       
       GROUP BY sales_line_items.week_serial 
       
@@ -93,7 +93,7 @@ const lvl_0_total_getSalesPeriodToDate = async (config, start, end, program, fil
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} AND sales_line_items.customer_code = ${filters[3]}` //prettier-ignore
+      WHERE sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${filters[3] ? sql`AND sales_line_items.customer_code = ${filters[3]}`: sql``}` //prettier-ignore
 
     return response
   } catch (error) {

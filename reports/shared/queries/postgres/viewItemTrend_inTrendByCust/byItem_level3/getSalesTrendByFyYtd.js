@@ -15,7 +15,7 @@ const lvl_1_subtotal_getSalesByFyYtd = async (config, start, end, program, filte
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]} AND sl.customer_code = ${filters[3]} ${showYtd ? sql`AND sl.week >= ${start} AND sl.week <= ${end}` : sql``} 
+      WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]} ${filters[3] ? sql`AND sl.customer_code = ${filters[3]}`: sql``} ${showYtd ? sql`AND sl.week >= ${start} AND sl.week <= ${end}` : sql``} 
       
       GROUP BY sl.fiscal_year, ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.brand, ms.size_name 
       
@@ -43,7 +43,7 @@ const lvl_0_total_getSalesByFyYtd = async (config, start, end, program, filters,
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
       
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]} AND sl.customer_code = ${filters[3]} ${showYtd ? sql`AND sl.week >= ${start} AND sl.week <= ${end}` : sql``} 
+      WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]} ${filters[3] ? sql`AND sl.customer_code = ${filters[3]}`: sql``} ${showYtd ? sql`AND sl.week >= ${start} AND sl.week <= ${end}` : sql``} 
       
       GROUP BY sl.fiscal_year 
       
