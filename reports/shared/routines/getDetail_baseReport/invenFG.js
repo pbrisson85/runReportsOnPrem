@@ -21,10 +21,10 @@ const {
   lvl_2_subtotal_getFgAtLoc_tagged_detail,
 } = require('../../queries/postgres/getDetail_baseReport/getFgInven')
 
-const getDetail = async (config, program, filters, columnDataName) => {
+const getDetail = async (level, config, program, filters, columnDataName) => {
   let detail = null
 
-  if (filters[1] === 'SUBTOTAL' && filters[2] === 'SUBTOTAL') {
+  if (level === 1) {
     // get level 1 subtotal where species = filters[0] and brand = filters[1] and size = filters[2]
 
     switch (columnDataName) {
@@ -46,7 +46,7 @@ const getDetail = async (config, program, filters, columnDataName) => {
     }
   }
 
-  if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') {
+  if (level === 2) {
     // get level 2 subtotal where species = filters[0] and brand = filters[1] and size = filters[2]
 
     switch (columnDataName) {
@@ -68,7 +68,7 @@ const getDetail = async (config, program, filters, columnDataName) => {
     }
   }
 
-  if (filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL' && filters[1] !== 'TOTAL' && filters[2] !== 'TOTAL') {
+  if (level === 3) {
     // get level 3 subtotal where species = filters[0] and brand = filters[1] and size = filters[2]
 
     switch (columnDataName) {
@@ -90,7 +90,7 @@ const getDetail = async (config, program, filters, columnDataName) => {
     }
   }
 
-  if (filters[1] === 'TOTAL' && filters[2] === 'TOTAL') {
+  if (level === 0) {
     // get level 0 total where species = filters[0] and brand = filters[1] and size = filters[2]
 
     switch (columnDataName) {
