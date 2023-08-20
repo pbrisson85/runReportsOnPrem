@@ -33,25 +33,21 @@ router.post('/', async (req, res) => {
   let response = null
 
   if (filters[1] === 'SUBTOTAL') {
-    console.log('hit level 1')
     // level 1 subtotal
     response = await buildDrillDown_byItem_level1(labelCols, config, program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
   }
 
   if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') {
-    console.log('hit level 2')
     // level 2 subtotal
     response = await buildDrillDown_byItem_level2(labelCols, config, program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
   }
 
   if (filters[1] !== 'TOTAL' && filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL') {
-    console.log('hit level 3')
     // level 3 subtotal
     response = await buildDrillDown_byItem_level3(labelCols, config, program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
   }
 
   if (filters[1] === 'TOTAL') {
-    console.log('hit level 0')
     // level 0 total
     response = await buildDrillDown_byItem_level0(labelCols, config, program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
   }

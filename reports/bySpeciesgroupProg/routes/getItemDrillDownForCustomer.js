@@ -1,9 +1,10 @@
 const router = require('express').Router()
-const buildDrillDown_byItem_level2 = require('../routines/getItemDrillDownForCustomer/buildDrillDown_byItem_level2')
-const buildDrillDown_byItem_level1 = require('../routines/getItemDrillDownForCustomer/buildDrillDown_byItem_level1')
-const buildDrillDown_byItem_level0 = require('../routines/getItemDrillDownForCustomer/buildDrillDown_byItem_level0')
+const buildDrillDown_byItem_level2 = require('../../shared/routines/viewItemTrend_inTrendByCust/level2')
+const buildDrillDown_byItem_level1 = require('../../shared/routines/viewItemTrend_inTrendByCust/level1')
+const buildDrillDown_byItem_level0 = require('../../shared/routines/viewItemTrend_inTrendByCust/level0')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
+const labelCols = require('../queries/hardcode/cols_byItem')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
 // @desc
@@ -13,8 +14,15 @@ const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate
 // Instead of entering the start and end dates, enter the start week, end week. Then the same variables can be used for prior years.
 
 router.post('/', async (req, res) => {
-  const { program, option, filters, columnDataName, reportName, colType, periodEnd, showFyTrend } = req.body
-  let { periodStart } = req.body
+  const { option, filters, columnDataName, reportName, colType, periodEnd, showFyTrend } = req.body
+  let { program, periodStart } = req.body
+
+  const config = {
+    l1_field: 'ms.species_group',
+    l2_field: 'ms.program',
+    program: null,
+  }
+  program = config.program
 
   console.log(`\nget drilldown data for ${reportName} route HIT...`)
 
@@ -29,17 +37,17 @@ router.post('/', async (req, res) => {
 
   if (filters[1] === 'SUBTOTAL') {
     // level 1 subtotal
-    response = await buildDrillDown_byItem_level1(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+    response = await buildDrillDown_byItem_level1(labelCols, config, program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
   }
 
   if (!filters[1].includes('TOTAL') && !filters[0].includes('TOTAL')) {
     // level 2 subtotal
-    response = await buildDrillDown_byItem_level2(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+    response = await buildDrillDown_byItem_level2(labelCols, config, program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
   }
 
   if (filters[1] === 'TOTAL') {
     // level 0 total
-    response = await buildDrillDown_byItem_level0(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+    response = await buildDrillDown_byItem_level0(labelCols, config, program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
   }
 
   console.log(`get drilldown data for ${reportName} route COMPLETE. \n`)

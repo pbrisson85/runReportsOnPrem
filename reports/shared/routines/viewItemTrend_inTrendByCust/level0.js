@@ -118,7 +118,6 @@ const buildDrillDown = async (labelCols, config, program, start, end, filters, s
   const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(config, start, end, program, filters)
   const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(config, start, end, program, filters)
   const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(config, start, end, program, filters)
-  const lvl_0_program_salesPeriodToDate = await lvl_0_program_getSalesPeriodToDate(config, start, end, program)
 
   const companyTotalSales = await getCompanyTotalSales(start, end)
 
@@ -128,16 +127,14 @@ const buildDrillDown = async (labelCols, config, program, start, end, filters, s
   const lvl_0_percent_companySales = calcPercentSalesCol(companyTotalSales[0], lvl_0_total_salesPeriodToDate, 'percentCompanySales')
 
   /* % PROGRAM SALES */
-  const lvl_1_percent_programSales = calcPercentSalesCol(
-    lvl_0_program_salesPeriodToDate[0],
-    lvl_1_subtotal_salesPeriodToDate,
-    'percentProgramSales'
-  )
-  const lvl_0_percent_programSales = calcPercentSalesCol(
-    lvl_0_program_salesPeriodToDate[0],
-    lvl_0_total_salesPeriodToDate,
-    'percentProgramSales'
-  )
+  let lvl_1_percent_programSales = []
+  let lvl_0_percent_programSales = []
+  if (program !== null) {
+    const lvl_0_program_salesPeriodToDate = await lvl_0_program_getSalesPeriodToDate(config, start, end, program)
+    lvl_1_percent_programSales = calcPercentSalesCol(lvl_0_program_salesPeriodToDate[0], lvl_1_subtotal_salesPeriodToDate, 'percentProgramSales')
+    lvl_0_percent_programSales = calcPercentSalesCol(lvl_0_program_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentProgramSales')
+  }
+
   /* % REPORT TOTAL */
   const lvl_1_percent_reportTotal = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_1_subtotal_salesPeriodToDate, 'percentReportTotal')
   const lvl_0_percent_reportTotal = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentReportTotal')
