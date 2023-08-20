@@ -11,13 +11,13 @@ const {
   lvl_0_total_getSalesByWk,
   lvl_1_subtotal_getSalesPeriodToDate,
   lvl_0_total_getSalesPeriodToDate,
-} = require('../../queries/postgres/viewItemTrend_inTrendByCust/byItem_level3/getSalesTrend')
+} = require('../../queries/postgres/viewItemTrend/byItem_level1/getSalesTrend')
 const { getCompanyTotalSales } = require('../../queries/postgres/getCompanyTotalSales')
 const { lvl_0_total_getSalesPeriodToDate: lvl_0_program_getSalesPeriodToDate } = require('../../queries/postgres/baseReport/getSalesTrend')
 const {
   lvl_1_subtotal_getSalesByFyYtd,
   lvl_0_total_getSalesByFyYtd,
-} = require('../../queries/postgres/viewItemTrend_inTrendByCust/byItem_level3/getSalesTrendByFyYtd')
+} = require('../../queries/postgres/viewItemTrend/byItem_level1/getSalesTrendByFyYtd')
 const {
   lvl_1_subtotal_getFgInven,
   lvl_0_total_getFgInven,
@@ -29,8 +29,8 @@ const {
   lvl_0_total_getFgAtLoc_untagged,
   lvl_1_subtotal_getFgAtLoc_tagged,
   lvl_0_total_getFgAtLoc_tagged,
-} = require('../../queries/postgres/viewItemTrend_inTrendByCust/byItem_level3/getFgInven')
-const { lvl_1_subtotal_getFgPo, lvl_0_total_getFgPo } = require('../../queries/postgres/viewItemTrend_inTrendByCust/byItem_level3/getFgOpenPo')
+} = require('../../queries/postgres/viewItemTrend/byItem_level1/getFgInven')
+const { lvl_1_subtotal_getFgPo, lvl_0_total_getFgPo } = require('../../queries/postgres/viewItemTrend/byItem_level1/getFgOpenPo')
 const {
   lvl_1_subtotal_getSo,
   lvl_0_total_getSo,
@@ -38,7 +38,7 @@ const {
   lvl_0_total_getSoTagged,
   lvl_1_subtotal_getSoUntagged,
   lvl_0_total_getSoUntagged,
-} = require('../../queries/postgres/viewItemTrend_inTrendByCust/byItem_level3/getSo')
+} = require('../../queries/postgres/viewItemTrend/byItem_level1/getSo')
 const {
   lvl_1_subtotal_getSo_byWk,
   lvl_0_total_getSo_byWk,
@@ -46,11 +46,9 @@ const {
   lvl_0_total_getSoTagged_byWk,
   lvl_1_subtotal_getSoUntagged_byWk,
   lvl_0_total_getSoUntagged_byWk,
-} = require('../../queries/postgres/viewItemTrend_inTrendByCust/byItem_level3/getSoByWeek')
-const { getRowsFirstLevelDetail } = require('../../queries/postgres/viewItemTrend_inTrendByCust/byItem_level3/getRows')
-const {
-  getRowsFirstLevelDetail: getRows_l1_showFyTrend,
-} = require('../../queries/postgres/viewItemTrend_inTrendByCust/byItem_level3/getRowsTrendByFy')
+} = require('../../queries/postgres/viewItemTrend/byItem_level1/getSoByWeek')
+const { getRowsFirstLevelDetail } = require('../../queries/postgres/viewItemTrend/byItem_level1/getRows')
+const { getRowsFirstLevelDetail: getRows_l1_showFyTrend } = require('../../queries/postgres/viewItemTrend/byItem_level1/getRowsTrendByFy')
 const mapSalesToRowTemplates = require('../../models/mapSalesToRowTemplatesOneLevel')
 const mapInvenToRowTemplates = require('../../models/mapInvenToRowTemplatesOneLevel')
 const combineMappedRows = require('../../models/combineMappedRows')
@@ -162,7 +160,7 @@ const buildDrillDown = async (labelCols, config, program, start, end, filters, s
     rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, program, filters)
   }
   const totalsRow = [{ totalRow: true, l1_label: `FG SALES`, l2_label: `TOTAL` }] // Need an l2_label of TOTAL for front end styling
-  const filterRow = [{ filterRow: true, l1_label: `PROGRAM: ${program}, FILTERS: ${filters[0]}, ${filters[1]}, ${filters[2]}` }] // shows at top of report
+  const filterRow = [{ filterRow: true, l1_label: `PROGRAM: ${program}, FILTERS: ${filters[0]}, ${filters[1]}` }] // shows at top of report
 
   // COMPILE FINAL ROW TEMPLATE
   const rowTemplate = [...rowsFirstLevelDetail, ...totalsRow]
@@ -244,8 +242,14 @@ const buildDrillDown = async (labelCols, config, program, start, end, filters, s
   let finalData = cleanLabelsForDisplay(flattenedMappedData, '')
     .sort((a, b) => {
       // if has includes total, put at end
-      if (a.l1_label < b.l1_label) return -1
-      if (a.l1_label > b.l1_label) return 1
+      if (a.l4_label < b.l4_label) return -1
+      if (a.l4_label > b.l4_label) return 1
+      return 0
+    })
+    .sort((a, b) => {
+      // if has includes total, put at end
+      if (a.l3_label < b.l3_label) return -1
+      if (a.l3_label > b.l3_label) return 1
       return 0
     })
     .sort((a, b) => {

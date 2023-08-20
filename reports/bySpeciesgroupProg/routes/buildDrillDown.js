@@ -1,13 +1,14 @@
 const router = require('express').Router()
-const buildDrillDown_byItem_level2 = require('../../shared/routines/viewItemTrend_inTrendByCust/level2')
-const buildDrillDown_byItem_level1 = require('../../shared/routines/viewItemTrend_inTrendByCust/level1')
-const buildDrillDown_byItem_level0 = require('../../shared/routines/viewItemTrend_inTrendByCust/level0')
+const buildDrillDown_byItem_level2 = require('../../shared/routines/viewItemTrend/level2')
+const buildDrillDown_byItem_level1 = require('../../shared/routines/viewItemTrend/level1')
+const buildDrillDown_byItem_level0 = require('../../shared/routines/viewItemTrend/level0')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
-const buildDrillDown_byCustomer_level2 = require('../routines/buildDrillDown_byCustomer_level2')
-const buildDrillDown_byCustomer_level1 = require('../routines/buildDrillDown_byCustomer_level1')
-const buildDrillDown_byCustomer_level0 = require('../routines/buildDrillDown_byCustomer_level0')
+const buildDrillDown_byCustomer_level2 = require('../../shared/routines/viewCustTrend_baseReport/level2')
+const buildDrillDown_byCustomer_level1 = require('../../shared/routines/viewCustTrend_baseReport/level1')
+const buildDrillDown_byCustomer_level0 = require('../../shared/routines/viewCustTrend_baseReport/level0')
 const labelCols_byItem = require('../queries/hardcode/cols_byItem')
+const labelCols_byCustomer = require('../queries/hardcode/cols_byCustomer')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
 // @desc
@@ -86,17 +87,47 @@ router.post('/', async (req, res) => {
 
     if (filters[1] === 'SUBTOTAL') {
       // level 1 subtotal
-      response = await buildDrillDown_byCustomer_level1(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+      response = await buildDrillDown_byCustomer_level1(
+        labelCols_byCustomer,
+        config,
+        program,
+        periodStart,
+        periodEnd,
+        filters,
+        showFyTrend,
+        startWeek,
+        endWeek
+      )
     }
 
     if (!filters[1].includes('TOTAL') && !filters[0].includes('TOTAL')) {
       // level 2 subtotal
-      response = await buildDrillDown_byCustomer_level2(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+      response = await buildDrillDown_byCustomer_level2(
+        labelCols_byCustomer,
+        config,
+        program,
+        periodStart,
+        periodEnd,
+        filters,
+        showFyTrend,
+        startWeek,
+        endWeek
+      )
     }
 
     if (filters[1] === 'TOTAL') {
       // level 0 total
-      response = await buildDrillDown_byCustomer_level0(program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+      response = await buildDrillDown_byCustomer_level0(
+        labelCols_byCustomer,
+        config,
+        program,
+        periodStart,
+        periodEnd,
+        filters,
+        showFyTrend,
+        startWeek,
+        endWeek
+      )
     }
   }
 
