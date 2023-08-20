@@ -13,9 +13,13 @@ router.post('/', async (req, res) => {
   const { option, filters, columnDataName, reportName, colType, periodStart, periodEnd, fyTrendCol, fyYtdTrendCol } = req.body
   let { program, year } = req.body
 
+  // const config = {
+  //   l1_field: 'ms.species_group',
+  //   l2_field: 'ms.program',
+  // }
   const config = {
     l1_field: 'ms.species_group',
-    l2_field: 'ms.program',
+    l2_field: 'ms.fg_fresh_frozen',
   }
   program = null
 
