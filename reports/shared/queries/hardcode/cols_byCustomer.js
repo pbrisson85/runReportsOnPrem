@@ -19,6 +19,8 @@ const cols = [
     rightClickMenu: [], // array of options for right click menu
     colType: 'label',
     drillDownSortable: true, // used to determine what cols are sortable IN DRILLDOWN MODE
+    optional: false, // flag to determine if the col is optional
+    showByDefault: true, // flag to determine if optional col is shown by default
   },
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
@@ -40,6 +42,8 @@ const cols = [
     rightClickMenu: [], // array of options for right click menu
     colType: 'label',
     drillDownSortable: true, // used to determine what cols are sortable IN DRILLDOWN MODE
+    optional: false, // flag to determine if the col is optional
+    showByDefault: true, // flag to determine if optional col is shown by default
   },
 ]
 
