@@ -23,6 +23,8 @@ router.post('/', async (req, res) => {
   }
   const program = null
 
+  console.log('req.body', req.body)
+
   // If no program, start, or end passed then default to the current fiscal year, first program alphabetically
   let defaultDate = false
   if (typeof typeof req.body.start === 'undefined' || typeof req.body.end === 'undefined') {
