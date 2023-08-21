@@ -7,7 +7,7 @@ const lvl_1_subtotal_getFgPo = async (config, program) => {
   try {
     console.log(`level 1: query postgres for FG open PO ...`)
 
-    const programOption = programFilter(program, sql)
+    const programOption = `${program ? sql` AND ms.program = ${program}` : sql``}`
 
     const response = await sql
          `SELECT 'FG ON ORDER' AS column, ${sql(config.l1_field)} AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.on_order_extended),0) AS cogs 
