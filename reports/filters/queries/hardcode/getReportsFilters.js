@@ -8,6 +8,13 @@ const getReportsFilters = () => {
       forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
     },
     {
+      label: 'species group / freeze',
+      dataName: 'speciesgroupFreeze',
+      defaults: [], // list of programs (datanames) that this is the default report
+      optional: ['all'], // list of programs (datanames) that allow this
+      forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
+    },
+    {
       label: 'freeze / brand / size',
       dataName: 'frzBrndSize',
       default: true, // if true, this is the default report for an unlisted program (one which does not appear in the defaults array)
