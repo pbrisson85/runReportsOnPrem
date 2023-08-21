@@ -4,6 +4,7 @@ const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartBy
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
 const getDefaults = require('../utils/getDefaults')
 const labelCols = require('../queries/hardcode/cols')
+const getReportConfig = require('../utils/getReportConfig')
 
 // @route   POST /api/sales/byProgram
 // @desc
@@ -49,29 +50,3 @@ router.post('/', async (req, res) => {
 })
 
 module.exports = router
-
-const getReportConfig = reportName => {
-  let config = null
-
-  switch (reportName) {
-    case 'speciesgroupProg':
-      config = {
-        l1_field: 'ms.species_group',
-        l2_field: 'ms.program',
-      }
-      break
-    case 'speciesgroupFreeze':
-      config = {
-        l1_field: 'ms.species_group',
-        l2_field: 'ms.fg_fresh_frozen',
-      }
-      break
-    default:
-      config = {
-        l1_field: 'ms.species_group',
-        l2_field: 'ms.program',
-      }
-  }
-
-  return config
-}

@@ -5,6 +5,7 @@ const buildDrillDown_byItem_level0 = require('../../shared/routines/viewItemTren
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
 const labelCols = require('../queries/hardcode/cols_byItem')
+const getReportConfig = require('../utils/getReportConfig')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
 // @desc
@@ -17,10 +18,7 @@ router.post('/', async (req, res) => {
   const { option, filters, columnDataName, reportName, colType, periodEnd, showFyTrend } = req.body
   let { program, periodStart } = req.body
 
-  const config = {
-    l1_field: 'ms.species_group',
-    l2_field: 'ms.program',
-  }
+  const config = getReportConfig(req.body.format)
   program = null
 
   console.log(`\nget drilldown data for ${reportName} route HIT...`)
