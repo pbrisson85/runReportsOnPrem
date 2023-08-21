@@ -4,11 +4,8 @@
 
   #### look into calcing the % species group in baseReport because it was being done in the two level report but a different way. I left the file for reference.
 
-  ### Making progress... get detail on the base report has an issue when in a three level report. converting this over to be used by 2 level and three level was the last thing I did and when testing again on the three level i am not getting any data from the query. the test was specifically on detail in so_by week. Once this is fixed and tested then convert the last routine in the two level report to use the shared version. At that point I can start creating new reports.
-
   - priority is to build out the Joe B report. current plan is to have a seperate APP that creates data to filter on (a list of items that he is responsible for) and to add a where clause to all queries that is optional to be WHERE IN this table.
 
-  - Fix data: size on COD should be Mkt or Scrod but is listed as any
   - In freeze/Brand/Size customer drilldown on fresh subtotal. Then item drilldown on MADI00. The FG inven is on the total but not on the lines.
   - Sales order detail net sales price is wrong on the walmart case items.
 
@@ -90,9 +87,5 @@ On Front End:
   - If name of vendor is changed then the trend by cust is not grouping correctly. Algo overwrites when name is changed.
   - scroll jumps when double clicking the heading to change trend data - Not bad after retesting.
   - In transit and on hand inventory item drilldown get detail not getting the correct data it is getting all inventory - cant recreate. I think I already fixed
-
-- Data Errors:
-  - Scal Domestic -> Fresh -> Light -> Chunk
-  - Scal Domestic -> Frozen -> Processed -> Pieces
 
 // Add cache to onPremBridge (second step is to run each possible report but shouldnt do this until all the logic is on the cloud. Also would not need the bridge if the logic was on the cloud. onPrem should just be the data base builder but write to the cloud database.)
