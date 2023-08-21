@@ -13,17 +13,8 @@ const labelCols = require('../queries/hardcode/cols')
 router.post('/', async (req, res) => {
   console.log(`\nget get weekly sales species group, program for ${req.body.start} through ${req.body.end} route HIT...`)
 
-  // const config = {
-  //   l1_field: 'ms.species_group',
-  //   l2_field: 'ms.program',
-  // }
-  const config = {
-    l1_field: 'ms.species_group',
-    l2_field: 'ms.fg_fresh_frozen',
-  }
+  const config = getReportConfig(req.body.format)
   const program = null
-
-  console.log('req.body', req.body)
 
   // If no program, start, or end passed then default to the current fiscal year, first program alphabetically
   let defaultDate = false
@@ -58,3 +49,29 @@ router.post('/', async (req, res) => {
 })
 
 module.exports = router
+
+const getReportConfig = reportName => {
+  let config = null
+
+  switch (reportName) {
+    case 'speciesgroupProg':
+      config = {
+        l1_field: 'ms.species_group',
+        l2_field: 'ms.program',
+      }
+      break
+    case 'speciesgroupFreeze':
+      config = {
+        l1_field: 'ms.species_group',
+        l2_field: 'ms.fg_fresh_frozen',
+      }
+      break
+    default:
+      config = {
+        l1_field: 'ms.species_group',
+        l2_field: 'ms.program',
+      }
+  }
+
+  return config
+}
