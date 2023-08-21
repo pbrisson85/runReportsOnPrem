@@ -1,5 +1,5 @@
 const queryFilters = {
-  programFilter: program => `${program ? sql`AND ms.program = ${program}` : sql``}`,
+  programFilter: (program, sql) => `${program ? sql`AND ms.program = ${program}` : sql``}`,
 }
 
 module.exports = queryFilters
