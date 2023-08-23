@@ -13,7 +13,7 @@ const lvl_1_subtotal_getSo_detail = async (config, program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL AND ${sql(config.l1_field)} = ${filters[0]}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND ${sql(config.l1_field)} = ${filters[0]}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -33,7 +33,7 @@ const lvl_1_subtotal_getSoTagged_detail = async (config, program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL AND so.tagged_weight > 0 AND ${sql(config.l1_field)} = ${filters[0]}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND so.tagged_weight > 0 AND ${sql(config.l1_field)} = ${filters[0]}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -53,7 +53,7 @@ const lvl_1_subtotal_getSoUntagged_detail = async (config, program, filters) => 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL AND so.untagged_weight > 0 AND ${sql(config.l1_field)} = ${filters[0]}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND so.untagged_weight > 0 AND ${sql(config.l1_field)} = ${filters[0]}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -75,7 +75,7 @@ const lvl_2_subtotal_getSo_detail = async (config, program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -95,7 +95,7 @@ const lvl_2_subtotal_getSoTagged_detail = async (config, program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL AND so.tagged_weight > 0 AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND so.tagged_weight > 0 AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -115,7 +115,7 @@ const lvl_2_subtotal_getSoUntagged_detail = async (config, program, filters) => 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 
           
-      FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL AND so.untagged_weight > 0 AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]}` //prettier-ignore
+      FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND so.untagged_weight > 0 AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -137,7 +137,7 @@ const lvl_3_subtotal_getSo_detail = async (config, program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -157,7 +157,7 @@ const lvl_3_subtotal_getSoTagged_detail = async (config, program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL AND so.tagged_weight > 0 AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND so.tagged_weight > 0 AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -177,7 +177,7 @@ const lvl_3_subtotal_getSoUntagged_detail = async (config, program, filters) => 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL AND so.untagged_weight > 0 AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]}` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND so.untagged_weight > 0 AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -199,7 +199,7 @@ const lvl_0_total_getSo_detail = async (config, program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL` //prettier-ignore
 
     return response
   } catch (error) {
@@ -219,7 +219,7 @@ const lvl_0_total_getSoTagged_detail = async (config, program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
       
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL AND so.tagged_weight > 0` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND so.tagged_weight > 0` //prettier-ignore
 
     return response
   } catch (error) {
@@ -239,7 +239,7 @@ const lvl_0_total_getSoUntagged_detail = async (config, program, filters) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL AND so.untagged_weight > 0` //prettier-ignore
+      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND so.untagged_weight > 0` //prettier-ignore
 
     return response
   } catch (error) {

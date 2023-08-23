@@ -15,7 +15,7 @@ const lvl_1_subtotal_getSales_detail = async (config, start, end, program, filte
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.week >= ${start} AND sl.week <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} AND ${sql(config.l1_field)} = ${filters[0]} AND sl.fiscal_year = ${year}` //prettier-ignore
+      WHERE sl.week >= ${start} AND sl.week <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ${sql(config.l1_field)} = ${filters[0]} AND sl.fiscal_year = ${year}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -39,7 +39,7 @@ const lvl_2_subtotal_getSales_detail = async (config, start, end, program, filte
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.week >= ${start} AND sl.week <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND sl.fiscal_year = ${year}` //prettier-ignore
+      WHERE sl.week >= ${start} AND sl.week <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND sl.fiscal_year = ${year}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -63,7 +63,7 @@ const lvl_3_subtotal_getSales_detail = async (config, start, end, program, filte
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.week >= ${start} AND sl.week <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]} AND sl.fiscal_year = ${year}` //prettier-ignore
+      WHERE sl.week >= ${start} AND sl.week <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ${sql(config.l1_field)} = ${filters[0]} AND ${sql(config.l2_field)} = ${filters[1]} AND ${sql(config.l3_field)} = ${filters[2]} AND sl.fiscal_year = ${year}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -87,7 +87,7 @@ const lvl_0_total_getSales_detail = async (config, start, end, program, filters,
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.week >= ${start} AND sl.week <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} AND sl.fiscal_year = ${year}` //prettier-ignore
+      WHERE sl.week >= ${start} AND sl.week <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND sl.fiscal_year = ${year}` //prettier-ignore
 
     return response
   } catch (error) {
