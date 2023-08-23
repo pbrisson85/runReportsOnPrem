@@ -12,7 +12,7 @@ const lvl_1_subtotal_getSo_byWk = async (config, program, filters) => {
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = so.item_num 
             
-        WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL AND ${sql(config.l1_field)} = ${filters[0]} 
+        WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND ${sql(config.l1_field)} = ${filters[0]} 
         
         GROUP BY so.week_serial, so.customer_code, so.customer_name 
         
@@ -38,7 +38,7 @@ const lvl_0_total_getSo_byWk = async (config, program, filters) => {
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = so.item_num 
               
-          WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL AND ${sql(config.l1_field)} = ${filters[0]} 
+          WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND ${sql(config.l1_field)} = ${filters[0]} 
           
           GROUP BY so.week_serial 
           
