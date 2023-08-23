@@ -39,7 +39,7 @@ const getDistinctPrograms = async (fy, config) => {
       dataName: 'all',
     }
 
-    const filter = [all, ...response.rows]
+    const filter = [all, ...response]
 
     return filter
   } catch (error) {
