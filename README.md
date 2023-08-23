@@ -2,21 +2,11 @@
 
 - Priorities:
 
-  ### Project for right now:
-
-  - create a table of item numbers that Joe B is responsible for
-  - Logic:
-  - SELECT DISTINCT(item_numbers) FROM PO.Receipts_table WHERE PO_Vendor IN (SELECT DISTINCT(PO_Vendor) FROM PO.Receipts_table WHERE PO_Buyer = JOE_B)
-
-  - write an optional where clause into every postgres query.
-  - Logic:
-  - ${ buyerCode ? `AND WHERE sl.item_num IN (SELECT item_num FROM Joe_B_Table)` : sql(``)}
+  ### On the front end their is a data object (config of sorts) that holds all of the columns that shuld not be shown while in customer drilldown mode (because they are inventory related). First off, this config data should live on the back end in a consilidated config file. Secondly, these should be filtered out of the optional columns filter option because they cannot be shown therefore they are not optional in that view.
 
   ### Should have a col for ave sales/week YTD (have this), last four weeks, last eight weeks, last 12 weeks type thing
 
   #### look into calcing the % species group in baseReport because it was being done in the two level report but a different way. I left the file for reference.
-
-  - priority is to build out the Joe B report. current plan is to have a seperate APP that creates data to filter on (a list of items that he is responsible for) and to add a where clause to all queries that is optional to be WHERE IN this table.
 
   - In freeze/Brand/Size customer drilldown on fresh subtotal. Then item drilldown on MADI00. The FG inven is on the total but not on the lines.
   - Sales order detail net sales price is wrong on the walmart case items.
@@ -29,14 +19,9 @@
   - Make report:
 
     - Species (subtotal)/Cut (subtotal)/Brand (subtotal)/Soak (subtotal)/Item /Description/ Size
-      - Once made will be a template for a four level report. CONSIDER using postgresJS and building the queries. Once made will then add a WHERE clause to SELECT only for Joe B items.
-
-  - Make report
-
-    - Inventory report that allows to enter user defined fields (so that bulk lot)
+      - Once made will be a template for a four level report.
 
   - Drilldown for skinless vs skin on
-  - Joe B report
 
   - Filter non domestic by species
   - Charts
