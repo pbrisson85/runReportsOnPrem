@@ -2,11 +2,9 @@ const sql = require('../../../../server')
 
 const getDistinctPrograms = async (fy, config) => {
   try {
-    const { Client } = require('pg')
-    const pgClient = new Client() // config from ENV
-    await pgClient.connect()
-
     console.log(`query postgres to get list of programs for filters ...`)
+
+    console.log('config.jbBuyerFilter', config.jbBuyerFilter)
 
     const response = await sql`SELECT DISTINCT(TRIM(ms.program)) AS label, (TRIM(ms.program)) AS "dataName" 
         FROM "salesReporting".sales_line_items 
@@ -31,8 +29,6 @@ const getDistinctPrograms = async (fy, config) => {
                 WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) ${
       config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``
     }`
-
-    await pgClient.end()
 
     const all = {
       label: 'ALL',
