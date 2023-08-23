@@ -15,7 +15,7 @@ const lvl_1_subtotal_getSalesByFyYtd = async (config, start, end, program, showY
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${showYtd ? sql`AND sales_line_items.week >= ${start} AND sales_line_items.week <= ${end}` : sql``}
+      WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} ${showYtd ? sql`AND sales_line_items.week >= ${start} AND sales_line_items.week <= ${end}` : sql``}
       
       GROUP BY sales_line_items.fiscal_year, ${sql(config.l1_field)} 
       
@@ -43,7 +43,7 @@ const lvl_2_subtotal_getSalesByFyYtd = async (config, start, end, program, showY
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${showYtd ? sql`AND sales_line_items.week >= ${start} AND sales_line_items.week <= ${end}` : sql``} 
+      WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} ${showYtd ? sql`AND sales_line_items.week >= ${start} AND sales_line_items.week <= ${end}` : sql``} 
       
       GROUP BY sales_line_items.fiscal_year, ${sql(config.l1_field)}, ${sql(config.l2_field)} 
       
@@ -71,7 +71,7 @@ const lvl_3_subtotal_getSalesByFyYtd = async (config, start, end, program, showY
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${showYtd ? sql`AND sales_line_items.week >= ${start} AND sales_line_items.week <= ${end}` : sql``} 
+      WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} ${showYtd ? sql`AND sales_line_items.week >= ${start} AND sales_line_items.week <= ${end}` : sql``} 
       
       GROUP BY sales_line_items.fiscal_year, ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)} 
       
@@ -99,7 +99,7 @@ const lvl_0_total_getSalesByFyYtd = async (config, start, end, program, showYtd)
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${showYtd ? sql`AND sales_line_items.week >= ${start} AND sales_line_items.week <= ${end}` : sql``} 
+      WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} ${showYtd ? sql`AND sales_line_items.week >= ${start} AND sales_line_items.week <= ${end}` : sql``} 
       
       GROUP BY sales_line_items.fiscal_year 
       

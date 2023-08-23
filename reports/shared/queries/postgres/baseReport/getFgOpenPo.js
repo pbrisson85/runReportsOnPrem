@@ -13,7 +13,7 @@ const lvl_1_subtotal_getFgPo = async (config, program) => {
         
          FROM "invenReporting".perpetual_inventory AS inv LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inv.item_number 
          
-         WHERE ms.item_type = ${'FG'} AND inv.on_order_lbs <> 0 AND inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) ${program ? sql` AND ms.program = ${program}` : sql``} 
+         WHERE ms.item_type = ${'FG'} AND inv.on_order_lbs <> 0 AND inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) ${program ? sql`AND ms.program = ${program}` : sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
          
          GROUP BY ${sql(config.l1_field)}` //prettier-ignore
 
@@ -37,7 +37,7 @@ const lvl_2_subtotal_getFgPo = async (config, program) => {
        
        FROM "invenReporting".perpetual_inventory AS inv LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inv.item_number 
        
-       WHERE ms.item_type = ${'FG'} AND inv.on_order_lbs <> 0 AND inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) ${program ? sql`AND ms.program = ${program}` : sql``} 
+       WHERE ms.item_type = ${'FG'} AND inv.on_order_lbs <> 0 AND inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) ${program ? sql`AND ms.program = ${program}` : sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
        
        GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}` //prettier-ignore
 
@@ -61,7 +61,7 @@ const lvl_3_subtotal_getFgPo = async (config, program) => {
        
        FROM "invenReporting".perpetual_inventory AS inv LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inv.item_number 
        
-       WHERE ms.item_type = ${'FG'} AND inv.on_order_lbs <> 0 AND inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) ${program ? sql`AND ms.program = ${program}`: sql``} 
+       WHERE ms.item_type = ${'FG'} AND inv.on_order_lbs <> 0 AND inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
        
        GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}` //prettier-ignore
 
@@ -83,7 +83,7 @@ const lvl_0_total_getFgPo = async (config, program) => {
          
          FROM "invenReporting".perpetual_inventory AS inv LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inv.item_number 
          
-         WHERE ms.item_type = ${'FG'} AND inv.on_order_lbs <> 0 AND inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) ${program ? sql`AND ms.program = ${program}`: sql``}` //prettier-ignore
+         WHERE ms.item_type = ${'FG'} AND inv.on_order_lbs <> 0 AND inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}` //prettier-ignore
 
     return response
   } catch (error) {

@@ -2,6 +2,18 @@
 
 - Priorities:
 
+  ### Project for right now:
+
+  - create a table of item numbers that Joe B is responsible for
+  - Logic:
+  - SELECT DISTINCT(item_numbers) FROM PO.Receipts_table WHERE PO_Vendor IN (SELECT DISTINCT(PO_Vendor) FROM PO.Receipts_table WHERE PO_Buyer = JOE_B)
+
+  - write an optional where clause into every postgres query.
+  - Logic:
+  - ${ buyerCode ? `AND WHERE sl.item_num IN (SELECT item_num FROM Joe_B_Table)` : sql(``)}
+
+  ### Should have a col for ave sales/week YTD (have this), last four weeks, last eight weeks, last 12 weeks type thing
+
   #### look into calcing the % species group in baseReport because it was being done in the two level report but a different way. I left the file for reference.
 
   - priority is to build out the Joe B report. current plan is to have a seperate APP that creates data to filter on (a list of items that he is responsible for) and to add a where clause to all queries that is optional to be WHERE IN this table.

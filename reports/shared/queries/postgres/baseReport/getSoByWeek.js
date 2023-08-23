@@ -11,7 +11,7 @@ const lvl_1_subtotal_getSo_byWk = async (config, program) => {
       
       FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
       
-      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL 
+      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL 
       
       GROUP BY sales_orders.week_serial, ${sql(config.l1_field)} 
       
@@ -33,7 +33,7 @@ const lvl_1_subtotal_getSoTagged_byWk = async (config, program) => {
       
       FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
       
-      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL AND sales_orders.tagged_weight > 0 
+      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND sales_orders.tagged_weight > 0 
       
       GROUP BY sales_orders.week_serial, ${sql(config.l1_field)} 
       
@@ -55,7 +55,7 @@ const lvl_1_subtotal_getSoUntagged_byWk = async (config, program) => {
       
       FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
       
-      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL AND sales_orders.untagged_weight > 0 
+      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND sales_orders.untagged_weight > 0 
       
       GROUP BY sales_orders.week_serial, ${sql(config.l1_field)} 
       
@@ -79,7 +79,7 @@ const lvl_2_subtotal_getSo_byWk = async (config, program) => {
       
       FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
       
-      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL 
+      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL 
       
       GROUP BY sales_orders.week_serial, ${sql(config.l1_field)}, ${sql(config.l2_field)} 
       
@@ -101,7 +101,7 @@ const lvl_2_subtotal_getSoTagged_byWk = async (config, program) => {
       
       FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
       
-      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL AND sales_orders.tagged_weight > 0 
+      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND sales_orders.tagged_weight > 0 
       
       GROUP BY sales_orders.week_serial, ${sql(config.l1_field)}, ${sql(config.l2_field)} 
       
@@ -123,7 +123,7 @@ const lvl_2_subtotal_getSoUntagged_byWk = async (config, program) => {
       
       FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
       
-      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL AND sales_orders.untagged_weight > 0 
+      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND sales_orders.untagged_weight > 0 
       
       GROUP BY sales_orders.week_serial, ${sql(config.l1_field)}, ${sql(config.l2_field)} 
       
@@ -147,7 +147,7 @@ const lvl_3_subtotal_getSo_byWk = async (config, program) => {
       
       FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
       
-      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL 
+      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL 
       
       GROUP BY sales_orders.week_serial, ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)} 
       
@@ -169,7 +169,7 @@ const lvl_3_subtotal_getSoTagged_byWk = async (config, program) => {
       
       FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
       
-      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL AND sales_orders.tagged_weight > 0 
+      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND sales_orders.tagged_weight > 0 
       
       GROUP BY sales_orders.week_serial, ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)} 
       
@@ -191,7 +191,7 @@ const lvl_3_subtotal_getSoUntagged_byWk = async (config, program) => {
       
       FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
       
-      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL AND sales_orders.untagged_weight > 0 
+      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND sales_orders.untagged_weight > 0 
       
       GROUP BY sales_orders.week_serial, ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)} 
       
@@ -215,7 +215,7 @@ const lvl_0_total_getSo_byWk = async (config, program) => {
       
       FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
       
-      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL 
+      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL 
       
       GROUP BY sales_orders.week_serial 
       
@@ -237,7 +237,7 @@ const lvl_0_total_getSoTagged_byWk = async (config, program) => {
       
       FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
       
-      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL AND sales_orders.tagged_weight > 0 
+      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND sales_orders.tagged_weight > 0 
       
       GROUP BY sales_orders.week_serial 
       
@@ -259,7 +259,7 @@ const lvl_0_total_getSoUntagged_byWk = async (config, program) => {
       
       FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
       
-      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} AND ms.byproduct_type IS NULL AND sales_orders.untagged_weight > 0 
+      WHERE ms.item_type = ${'FG'} AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND sales_orders.untagged_weight > 0 
       
       GROUP BY sales_orders.week_serial 
       
