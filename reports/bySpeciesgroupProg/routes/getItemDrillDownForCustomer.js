@@ -5,7 +5,7 @@ const buildDrillDown_byItem_level0 = require('../../shared/routines/viewItemTren
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
 const labelCols = require('../queries/hardcode/cols_byItem')
-const getReportConfig = require('../utils/getReportConfig')
+const getReportConfig = require('../../shared/utils/getReportConfig')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
 // @desc

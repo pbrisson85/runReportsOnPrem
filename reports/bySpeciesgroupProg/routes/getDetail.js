@@ -4,7 +4,7 @@ const getDetail_salesOrder = require('../../shared/routines/getDetail_baseReport
 const getDetail_salesInvoice = require('../../shared/routines/getDetail_baseReport/salesInvoice')
 const getDetail_purchaseOrder = require('../../shared/routines/getDetail_baseReport/purchaseOrder')
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
-const getReportConfig = require('../utils/getReportConfig')
+const getReportConfig = require('../../shared/utils/getReportConfig')
 
 // @route   POST /api/sales/detail/forProgBySpecBrndSize/
 // @desc

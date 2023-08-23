@@ -4,6 +4,7 @@ const getDetail_salesOrder = require('../../shared/routines/getDetail_baseReport
 const getDetail_salesInvoice = require('../../shared/routines/getDetail_baseReport/salesInvoice')
 const getDetail_purchaseOrder = require('../../shared/routines/getDetail_baseReport/purchaseOrder')
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
+const getReportConfig = require('../../shared/utils/getReportConfig')
 
 // @route   POST /api/sales/detail/forProgBySpecBrndSize/
 // @desc
@@ -13,11 +14,7 @@ router.post('/', async (req, res) => {
   const { program, option, filters, columnDataName, reportName, colType, periodStart, periodEnd, fyTrendCol, fyYtdTrendCol } = req.body
   let { year } = req.body
 
-  const config = {
-    l1_field: 'ms.fg_fresh_frozen',
-    l2_field: 'ms.fg_treatment',
-    l3_field: 'ms.size_name',
-  }
+  const config = getReportConfig(req.body)
 
   console.log(`\nget detail data base report for ${reportName} route HIT...`)
 
