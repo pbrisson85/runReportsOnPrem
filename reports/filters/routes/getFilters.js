@@ -13,7 +13,7 @@ const { getDateEndPerWeek } = require('../../shared/queries/postgres/getDateEndP
 router.get('/programs/:fy/:filter', async (req, res) => {
   console.log('\nget sales PROGRAMS filters lot route HIT...')
 
-  const programs = await getDistinctPrograms(req.params.fy, { config: { jbBuyerFilter: req.params.filter === 'jbBuyer' } })
+  const programs = await getDistinctPrograms(req.params.fy, { jbBuyerFilter: req.params.filter === 'jbBuyer' })
 
   programs.sort((a, b) => {
     if (a.label > b.label) return 1
