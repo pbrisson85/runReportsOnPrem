@@ -1,5 +1,4 @@
 const sql = require('../../../../../server')
-const { programFilter } = require('../../queryFilters/queryFilters')
 
 /* *********************************************** Level 1 *********************************************** */
 
