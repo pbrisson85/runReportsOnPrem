@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
   const { option, filters, columnDataName, reportName, colType, periodEnd, showFyTrend } = req.body
   let { program, periodStart } = req.body
 
-  const config = getReportConfig(req.body.format)
+  const config = getReportConfig(req.body)
   program = null
 
   console.log(`\nget drilldown data for ${reportName} route HIT...`)
