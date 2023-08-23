@@ -1,9 +1,9 @@
 const getReportConfig = reqBody => {
   let config = null
 
-  const { reportName, creds } = reqBody
+  const { format, creds } = reqBody
 
-  switch (reportName) {
+  switch (format) {
     case 'speciesgroupProg':
       config = {
         l1_field: 'ms.species_group',
