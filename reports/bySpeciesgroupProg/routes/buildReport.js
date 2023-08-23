@@ -14,6 +14,8 @@ const getReportConfig = require('../utils/getReportConfig')
 router.post('/', async (req, res) => {
   console.log(`\nget get weekly sales species group, program for ${req.body.start} through ${req.body.end} route HIT...`)
 
+  console.log('req.body', req.body)
+
   const config = getReportConfig(req.body.format)
   const program = null
 
