@@ -10,7 +10,7 @@ const buildDrillDown_byCustomer_level2 = require('../routines/viewCustTrend_base
 const buildDrillDown_byCustomer_level1 = require('../routines/viewCustTrend_baseReport/level1')
 const buildDrillDown_byCustomer_level0 = require('../routines/viewCustTrend_baseReport/level0')
 const labelCols_byItem = require('../queries/hardcode/cols_byItem')
-const labelCols_byCustomer = require('../../bySpeciesgroupProg/queries/hardcode/cols_byCustomer')
+const labelCols_byCustomer = require('../queries/hardcode/cols_byCustomer')
 const getReportConfig = require('../utils/getReportConfig')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
