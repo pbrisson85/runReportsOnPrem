@@ -17,6 +17,7 @@ const getCols = body => {
     case 'specSoakSize':
 
     default:
+      return speciesgroupProg
   }
 }
 
