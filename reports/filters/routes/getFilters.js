@@ -2,18 +2,24 @@ const router = require('express').Router()
 const getDistinctPrograms = require('../queries/postgres/getDistinctPrograms')
 const getViewFilters = require('../queries/hardcode/getViewFilters')
 const getDistinctFiscalYears = require('../../shared/queries/postgres/getDistinctFiscalYears')
-const getReportsFilters = require('../queries/hardcode/getReportsFilters')
+const getReportFormats = require('../queries/hardcode/getReportFormats')
 const { getDateEndPerWeek } = require('../../shared/queries/postgres/getDateEndPerWeek')
+const getReportConfig = require('../../shared/utils/getReportConfig')
 
 // @route   GET /api/sales/getFilters/programs
 // @desc
 // @access
 
 // Generate Filter Data
-router.get('/programs/:fy/:filter', async (req, res) => {
+router.get('/programs', async (req, res) => {
   console.log('\nget sales PROGRAMS filters lot route HIT...')
 
-  const programs = await getDistinctPrograms(req.params.fy, { jbBuyerFilter: req.params.filter === 'jbBuyer' })
+  console.log('(in get programs filter) req.body: ', req.body)
+
+  // get config for applicable filters
+  const config = getReportConfig(req.body) // <-- Left off here. Need to make the JB filter work. Then need to add a four level report to look at his items.
+
+  const programs = await getDistinctPrograms(req.body.fy, { jbBuyerFilter: req.body.filter === 'jbBuyer' })
 
   programs.sort((a, b) => {
     if (a.label > b.label) return 1
@@ -80,12 +86,22 @@ router.get('/periods/:fy', async (req, res) => {
 
 // Generate Filter Data
 router.get('/reports', async (req, res) => {
-  console.log('\nget reports filter route HIT...')
+  console.log('\nget report formats route HIT...')
 
-  const reports = getReportsFilters()
+  const reports = getReportFormats()
 
   res.send(reports)
-  console.log('get reports filter route COMPLETE. \n')
+  console.log('get report formats route COMPLETE. \n')
+})
+
+// Generate Filter Data
+router.get('/filters', async (req, res) => {
+  console.log('\nget report filters route HIT...')
+
+  const reports = getReportFormats()
+
+  res.send(reports)
+  console.log('get report filters route COMPLETE. \n')
 })
 
 module.exports = router

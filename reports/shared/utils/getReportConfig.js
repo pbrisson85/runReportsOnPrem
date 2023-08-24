@@ -1,14 +1,25 @@
 const getReportConfig = reqBody => {
-  let config = null
-
   const { format, creds } = reqBody
+
+  // auth filters:
+  let jbBuyerFilter = false
+
+  const hasAuthFilters = creds.filters.length > 0
+  if (hasAuthFilters) {
+    jbBuyerFilter = creds.filters.find(f => f.dataName === 'jbBuyer').mandatory
+  }
+
+  // define config object
+  let config = {
+    jbBuyerFilter,
+  }
 
   switch (format) {
     case 'speciesgroupProg':
       config = {
         l1_field: 'ms.species_group',
         l2_field: 'ms.program',
-        jbBuyerFilter: creds.filter === 'jbBuyer',
+        ...config,
       }
       break
 
@@ -16,7 +27,7 @@ const getReportConfig = reqBody => {
       config = {
         l1_field: 'ms.species_group',
         l2_field: 'ms.fg_fresh_frozen',
-        jbBuyerFilter: creds.filter === 'jbBuyer',
+        ...config,
       }
       break
 
@@ -25,7 +36,7 @@ const getReportConfig = reqBody => {
         l1_field: 'ms.fg_fresh_frozen',
         l2_field: 'ms.brand',
         l3_field: 'ms.size_name',
-        jbBuyerFilter: creds.filter === 'jbBuyer',
+        ...config,
       }
       break
 
@@ -34,7 +45,7 @@ const getReportConfig = reqBody => {
         l1_field: 'ms.fg_fresh_frozen',
         l2_field: 'ms.fg_treatment',
         l3_field: 'ms.size_name',
-        jbBuyerFilter: creds.filter === 'jbBuyer',
+        ...config,
       }
       break
 
@@ -43,7 +54,7 @@ const getReportConfig = reqBody => {
         l1_field: 'ms.species',
         l2_field: 'ms.brand',
         l3_field: 'ms.size_name',
-        jbBuyerFilter: creds.filter === 'jbBuyer',
+        ...config,
       }
       break
 
@@ -52,7 +63,7 @@ const getReportConfig = reqBody => {
         l1_field: 'ms.species',
         l2_field: 'ms.fg_treatment',
         l3_field: 'ms.size_name',
-        jbBuyerFilter: creds.filter === 'jbBuyer',
+        ...config,
       }
       break
 
@@ -60,7 +71,7 @@ const getReportConfig = reqBody => {
       config = {
         l1_field: 'ms.species_group',
         l2_field: 'ms.program',
-        jbBuyerFilter: creds.filter === 'jbBuyer',
+        ...config,
       }
   }
 

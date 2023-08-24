@@ -1,4 +1,4 @@
-const getReportsFilters = () => {
+const getReportFormats = () => {
   return [
     {
       label: 'species group / program',
@@ -47,4 +47,4 @@ const getReportsFilters = () => {
   ]
 }
 
-module.exports = getReportsFilters
+module.exports = getReportFormats
