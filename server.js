@@ -55,11 +55,6 @@ app.use(express.json())
 
 app.use('/api/sales/test', test)
 
-app.use((req, res, next) => {
-  console.log(`\n${req.method} ${req.url} route HIT...`)
-  next()
-})
-
 app.use('/api/sales/baseReport', baseReport)
 app.use('/api/sales/drillDown', viewTrend)
 app.use('/api/sales/drillDown/item', viewItemTrend_inTrendByCust) // drilldown level two
