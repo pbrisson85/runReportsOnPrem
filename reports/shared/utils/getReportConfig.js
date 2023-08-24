@@ -22,9 +22,16 @@ const getReportConfig = reqBody => {
 
   switch (format) {
     case 'speciesgroupProg':
+      // config = {
+      //   l1_field: 'ms.species_group',
+      //   l2_field: 'ms.program',
+      //   ...config,
+      // }
+
       config = {
         l1_field: 'ms.species_group',
-        l2_field: 'ms.program',
+        l2_field: 'ms.fish_skin',
+        l3_field: 'ms.brand',
         ...config,
       }
       break
