@@ -15,7 +15,7 @@ const getReportConfig = reqBody => {
 
   // define config object
   let config = {
-    program: program ?? null,
+    program: typeof program === 'undefined' ? null : program === 'all' ? null : program,
     jbBuyerFilter,
   }
 
