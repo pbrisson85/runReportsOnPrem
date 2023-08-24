@@ -11,7 +11,7 @@ const getReportConfig = require('../../shared/utils/getReportConfig')
 // @access
 
 // Generate Filter Data
-router.get('/programs', async (req, res) => {
+router.post('/programs', async (req, res) => {
   console.log('\nget sales PROGRAMS filters lot route HIT...')
 
   console.log('(in get programs filter) req.body.creds.filters: ', req.body.creds.filters)
