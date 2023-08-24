@@ -85,7 +85,7 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use('/api/sales/bySpeciesgroupProg', getSalesByProgram)
+app.use('/api/sales/baseReport', getSalesByProgram)
 app.use('/api/sales/drillDown/bySpeciesgroupProg', drillDownSalesByProgram)
 app.use('/api/sales/drillDown/item/bySpeciesgroupProg', getItemDrillDownForCustomerbySpeciesgroupProg) // drilldown level two
 app.use('/api/sales/detail/bySpeciesgroupProg', detailSalesByProgram)
