@@ -14,7 +14,7 @@ const getCols = body => {
       return speciesgroupBrandSkin
 
     case 'speciesgroupSkinBrand':
-      return speciesgroupBrandSkin
+      return speciesgroupSkinBrand
 
     case 'frzBrndSize':
       return frzBrndSize
