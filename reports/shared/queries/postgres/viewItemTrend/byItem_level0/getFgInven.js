@@ -136,6 +136,8 @@ const lvl_1_subtotal_getFgAtLoc_tagged = async (config, program, filters) => {
 // FG on hand (includes in transit)
 
 const lvl_0_total_getFgInven = async (config, program, filters) => {
+  console.log('(in lvl_0_total_getFgInven) config', config)
+
   try {
     console.log(`level 0: query postgres for FG on hand ...`)
 

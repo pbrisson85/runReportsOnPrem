@@ -1,6 +1,8 @@
 const getReportConfig = reqBody => {
   const { format, creds, dataFilters } = reqBody
 
+  console.log('dataFilters', dataFilters)
+
   // auth filters:
   let jbBuyerFilter = false
 
@@ -9,8 +11,6 @@ const getReportConfig = reqBody => {
     jbBuyerFilter = creds.filters.find(f => f.dataName === 'jbBuyer').mandatory
   } else {
     // check for front end option
-
-    console.log('dataFilters', dataFilters)
 
     if (dataFilters === 'jbBuyer') jbBuyerFilter = true
   }
