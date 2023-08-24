@@ -12,8 +12,8 @@ const getReportConfig = require('../utils/getReportConfig')
 
 // Generate full weekly report of ALL programs for FG Only (biggest picture)
 router.post('/', async (req, res) => {
-  const { format, showFyTrend } = req.body
-  let { start, end } = req.body
+  const { format } = req.body
+  let { start, end, showFyTrend } = req.body
 
   const config = getReportConfig(req.body)
 
