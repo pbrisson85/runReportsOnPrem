@@ -27,6 +27,8 @@ router.post('/', async (req, res) => {
   if (filters[0] !== 'SUBTOTAL' && filters[1] !== 'SUBTOTAL') level = 2
   if (filters[1] === 'TOTAL') level = 0
 
+  console.log('filters', filters)
+
   if (colType === 'invenFg') {
     response = await getDetail_invenFg(level, config, program, filters, columnDataName)
   }
