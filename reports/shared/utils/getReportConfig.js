@@ -19,6 +19,8 @@ const getReportConfig = reqBody => {
     jbBuyerFilter,
   }
 
+  console.log('config', config)
+
   switch (format) {
     case 'speciesgroupProg':
       config = {
