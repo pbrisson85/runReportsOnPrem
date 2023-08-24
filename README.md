@@ -2,6 +2,8 @@
 
 - Priorities:
 
+  ### Was in species brand skin then changed to species skin brand in program all and BLOW UP\*_!_!_!_!_!_!\*!
+
   ### On the front end their is a data object (config of sorts) that holds all of the columns that shuld not be shown while in customer drilldown mode (because they are inventory related). First off, this config data should live on the back end in a consilidated config file. Secondly, these should be filtered out of the optional columns filter option because they cannot be shown therefore they are not optional in that view.
 
   ### Should have a col for ave sales/week YTD (have this), last four weeks, last eight weeks, last 12 weeks type thing
