@@ -15,7 +15,7 @@ const getReportConfig = reqBody => {
 
   // define config object
   let config = {
-    program,
+    program: program ?? null,
     jbBuyerFilter,
   }
 
