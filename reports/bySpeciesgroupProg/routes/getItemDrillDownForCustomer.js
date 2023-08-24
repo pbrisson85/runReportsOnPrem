@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const buildDrillDown_byItem_level3 = require('../../shared/routines/viewItemTrend/level3')
 const buildDrillDown_byItem_level2 = require('../../shared/routines/viewItemTrend/level2')
 const buildDrillDown_byItem_level1 = require('../../shared/routines/viewItemTrend/level1')
 const buildDrillDown_byItem_level0 = require('../../shared/routines/viewItemTrend/level0')
@@ -19,7 +20,6 @@ router.post('/', async (req, res) => {
   let { program, periodStart } = req.body
 
   const config = getReportConfig(req.body)
-  program = null
 
   console.log(`\nget drilldown data for ${reportName} route HIT...`)
 
@@ -32,19 +32,80 @@ router.post('/', async (req, res) => {
 
   let response = null
 
-  if (filters[1] === 'SUBTOTAL') {
+  // Determine level of report being shown: (NOTE THAT THIS COULD MORE EASILY BE DONE WITH A SPECIFIC FLAG INSTEAD OF TRYING TO PARSE THE FILTERS)
+  let level = null
+
+  if (filters[2] === null) {
+    // two level report
+    if (filters[0] === 'SUBTOTAL' || filters[1] === 'SUBTOTAL') level = 1
+    if (filters[0] !== 'SUBTOTAL' && filters[1] !== 'SUBTOTAL') level = 2
+    if (filters[1] === 'TOTAL') level = 0
+  } else {
+    // three level report
+    if (filters[1] === 'SUBTOTAL' && filters[2] === 'SUBTOTAL') level = 1
+    if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') level = 2
+    if (filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL' && filters[1] !== 'TOTAL' && filters[2] !== 'TOTAL') level = 3
+    if (filters[1] === 'TOTAL' && filters[2] === 'TOTAL') level = 0
+  }
+
+  if (level === 1) {
     // level 1 subtotal
-    response = await buildDrillDown_byItem_level1(labelCols, config, program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+    response = await buildDrillDown_byItem_level1(
+      labelCols,
+      config,
+      config.program,
+      periodStart,
+      periodEnd,
+      filters,
+      showFyTrend,
+      startWeek,
+      endWeek
+    )
   }
 
-  if (!filters[1].includes('TOTAL') && !filters[0].includes('TOTAL')) {
+  if (level === 2) {
     // level 2 subtotal
-    response = await buildDrillDown_byItem_level2(labelCols, config, program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+    response = await buildDrillDown_byItem_level2(
+      labelCols,
+      config,
+      config.program,
+      periodStart,
+      periodEnd,
+      filters,
+      showFyTrend,
+      startWeek,
+      endWeek
+    )
   }
 
-  if (filters[1] === 'TOTAL') {
+  if (level === 3) {
+    // level 2 subtotal
+    response = await buildDrillDown_byItem_level3(
+      labelCols,
+      config,
+      config.program,
+      periodStart,
+      periodEnd,
+      filters,
+      showFyTrend,
+      startWeek,
+      endWeek
+    )
+  }
+
+  if (level === 0) {
     // level 0 total
-    response = await buildDrillDown_byItem_level0(labelCols, config, program, periodStart, periodEnd, filters, showFyTrend, startWeek, endWeek)
+    response = await buildDrillDown_byItem_level0(
+      labelCols,
+      config,
+      config.program,
+      periodStart,
+      periodEnd,
+      filters,
+      showFyTrend,
+      startWeek,
+      endWeek
+    )
   }
 
   console.log(`get drilldown data for ${reportName} route COMPLETE. \n`)

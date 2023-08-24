@@ -15,7 +15,6 @@ router.post('/', async (req, res) => {
   let { program, year } = req.body
 
   const config = getReportConfig(req.body)
-  program = null
 
   console.log(`\nget detail data base report for ${reportName} route HIT...`)
 
@@ -38,11 +37,11 @@ router.post('/', async (req, res) => {
   }
 
   if (colType === 'invenFg') {
-    response = await getDetail_invenFg(level, config, program, filters, columnDataName)
+    response = await getDetail_invenFg(level, config, config.program, filters, columnDataName)
   }
 
   if (colType === 'salesOrder') {
-    response = await getDetail_salesOrder(level, config, program, filters, columnDataName)
+    response = await getDetail_salesOrder(level, config, config.program, filters, columnDataName)
   }
 
   if (colType === 'salesInvoice') {
@@ -66,11 +65,11 @@ router.post('/', async (req, res) => {
       endWeek = columnDataName.split('-')[1].split('W')[1]
       year = columnDataName.split('-')[0]
     }
-    response = await getDetail_salesInvoice(level, config, program, filters, startWeek, endWeek, year)
+    response = await getDetail_salesInvoice(level, config, config.program, filters, startWeek, endWeek, year)
   }
 
   if (colType === 'purchaseOrder') {
-    response = await getDetail_purchaseOrder(level, config, program, filters)
+    response = await getDetail_purchaseOrder(level, config, config.program, filters)
   }
 
   console.log(`get detail data base report for ${reportName} route COMPLETE. \n`)

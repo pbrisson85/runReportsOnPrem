@@ -22,7 +22,6 @@ router.post('/', async (req, res) => {
   let { program, periodStart } = req.body
 
   const config = getReportConfig(req.body)
-  program = null
 
   console.log(`\nget drilldown data for ${reportName} route HIT...`)
 
@@ -57,7 +56,7 @@ router.post('/', async (req, res) => {
       response = await buildDrillDown_byItem_level1(
         labelCols_byItem,
         config,
-        program,
+        config.program,
         periodStart,
         periodEnd,
         filters,
@@ -72,7 +71,7 @@ router.post('/', async (req, res) => {
       response = await buildDrillDown_byItem_level2(
         labelCols_byItem,
         config,
-        program,
+        config.program,
         periodStart,
         periodEnd,
         filters,
@@ -87,7 +86,7 @@ router.post('/', async (req, res) => {
       response = await buildDrillDown_byItem_level3(
         labelCols_byItem,
         config,
-        program,
+        config.program,
         periodStart,
         periodEnd,
         filters,
@@ -102,7 +101,7 @@ router.post('/', async (req, res) => {
       response = await buildDrillDown_byItem_level0(
         labelCols_byItem,
         config,
-        program,
+        config.program,
         periodStart,
         periodEnd,
         filters,
@@ -120,7 +119,7 @@ router.post('/', async (req, res) => {
       response = await buildDrillDown_byCustomer_level1(
         labelCols_byCustomer,
         config,
-        program,
+        config.program,
         periodStart,
         periodEnd,
         filters,
@@ -135,7 +134,7 @@ router.post('/', async (req, res) => {
       response = await buildDrillDown_byCustomer_level2(
         labelCols_byCustomer,
         config,
-        program,
+        config.program,
         periodStart,
         periodEnd,
         filters,
@@ -150,7 +149,7 @@ router.post('/', async (req, res) => {
       response = await buildDrillDown_byCustomer_level3(
         labelCols_byCustomer,
         config,
-        program,
+        config.program,
         periodStart,
         periodEnd,
         filters,
@@ -165,7 +164,7 @@ router.post('/', async (req, res) => {
       response = await buildDrillDown_byCustomer_level0(
         labelCols_byCustomer,
         config,
-        program,
+        config.program,
         periodStart,
         periodEnd,
         filters,

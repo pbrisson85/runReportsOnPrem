@@ -82,30 +82,30 @@ app.use((req, res, next) => {
 })
 
 app.use('/api/sales/baseReport', getSalesByProgram)
-app.use('/api/sales/drillDown/bySpeciesgroupProg', drillDownSalesByProgram)
-app.use('/api/sales/drillDown/item/bySpeciesgroupProg', getItemDrillDownForCustomerbySpeciesgroupProg) // drilldown level two
-app.use('/api/sales/detail/bySpeciesgroupProg', detailSalesByProgram)
-app.use('/api/sales/drillDownDetail/customer/bySpeciesgroupProg', drillDownCustomerDetailSalesByProgram)
+app.use('/api/sales/drillDown', drillDownSalesByProgram)
+app.use('/api/sales/drillDown/item', getItemDrillDownForCustomerbySpeciesgroupProg) // drilldown level two
+app.use('/api/sales/detail', detailSalesByProgram)
+app.use('/api/sales/drillDownDetail/customer', drillDownCustomerDetailSalesByProgram)
 
-app.use('/api/sales/drillDown/forProgByFrzBrndSize', drillDownSalesFrzBrndSize)
-app.use('/api/sales/drillDown/item/forProgByFrzBrndSize', getItemDrillDownForCustomerforProgByFrzBrndSize) // drilldown level two
-app.use('/api/sales/detail/forProgByFrzBrndSize', detailSalesFrzBrndSize)
-app.use('/api/sales/drillDownDetail/customer/forProgByFrzBrndSize', drillDownCustomerDetailSalesFrzBrndSize)
+// app.use('/api/sales/drillDown/forProgByFrzBrndSize', drillDownSalesFrzBrndSize)
+// app.use('/api/sales/drillDown/item/forProgByFrzBrndSize', getItemDrillDownForCustomerforProgByFrzBrndSize) // drilldown level two
+// app.use('/api/sales/detail/forProgByFrzBrndSize', detailSalesFrzBrndSize)
+// app.use('/api/sales/drillDownDetail/customer/forProgByFrzBrndSize', drillDownCustomerDetailSalesFrzBrndSize)
 
-app.use('/api/sales/drillDown/forProgByFrzSoakSize', drillDownSalesFrzSoakSize)
-app.use('/api/sales/drillDown/item/forProgByFrzSoakSize', getItemDrillDownForCustomerforProgByFrzSoakSize) // drilldown level two
-app.use('/api/sales/detail/forProgByFrzSoakSize', detailSalesFrzSoakSize)
-app.use('/api/sales/drillDownDetail/customer/forProgByFrzSoakSize', drillDownCustomerDetailSalesFrzSoakSize)
+// app.use('/api/sales/drillDown/forProgByFrzSoakSize', drillDownSalesFrzSoakSize)
+// app.use('/api/sales/drillDown/item/forProgByFrzSoakSize', getItemDrillDownForCustomerforProgByFrzSoakSize) // drilldown level two
+// app.use('/api/sales/detail/forProgByFrzSoakSize', detailSalesFrzSoakSize)
+// app.use('/api/sales/drillDownDetail/customer/forProgByFrzSoakSize', drillDownCustomerDetailSalesFrzSoakSize)
 
-app.use('/api/sales/drillDown/forProgBySpecBrndSize', drillDownSalesSpecBrndSize)
-app.use('/api/sales/drillDown/item/forProgBySpecBrndSize', getItemDrillDownForCustomerforProgBySpecBrndSize) // drilldown level two
-app.use('/api/sales/detail/forProgBySpecBrndSize', detailSalesSpecBrndSize)
-app.use('/api/sales/drillDownDetail/customer/forProgBySpecBrndSize', drillDownCustomerDetailSalesSpecBrndSize)
+// app.use('/api/sales/drillDown/forProgBySpecBrndSize', drillDownSalesSpecBrndSize)
+// app.use('/api/sales/drillDown/item/forProgBySpecBrndSize', getItemDrillDownForCustomerforProgBySpecBrndSize) // drilldown level two
+// app.use('/api/sales/detail/forProgBySpecBrndSize', detailSalesSpecBrndSize)
+// app.use('/api/sales/drillDownDetail/customer/forProgBySpecBrndSize', drillDownCustomerDetailSalesSpecBrndSize)
 
-app.use('/api/sales/drillDown/forProgBySpecSoakSize', drillDownSalesSpecSoakSize)
-app.use('/api/sales/drillDown/item/forProgBySpecSoakSize', getItemDrillDownForCustomerforProgBySpecSoakSize) // drilldown level two
-app.use('/api/sales/detail/forProgBySpecSoakSize', detailSalesSpecSoakSize)
-app.use('/api/sales/drillDownDetail/customer/forProgBySpecSoakSize', drillDownCustomerDetailSalesSpecSoakSize)
+// app.use('/api/sales/drillDown/forProgBySpecSoakSize', drillDownSalesSpecSoakSize)
+// app.use('/api/sales/drillDown/item/forProgBySpecSoakSize', getItemDrillDownForCustomerforProgBySpecSoakSize) // drilldown level two
+// app.use('/api/sales/detail/forProgBySpecSoakSize', detailSalesSpecSoakSize)
+// app.use('/api/sales/drillDownDetail/customer/forProgBySpecSoakSize', drillDownCustomerDetailSalesSpecSoakSize)
 
 app.use('/api/sales/drillDownDetail/item', getDrillDownItemDetail)
 app.use('/api/sales/drillDown/customer', getCustomerDrillDownForItem)
