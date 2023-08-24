@@ -1,6 +1,8 @@
 const getCols = body => {
   const { format } = body
 
+  console.log('(in col selection) format: ', format)
+
   switch (format) {
     case 'speciesgroupProg':
       return speciesgroupProg
