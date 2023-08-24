@@ -1,12 +1,16 @@
 const getReportConfig = reqBody => {
-  const { format, creds } = reqBody
+  const { format, creds, dataFilters } = reqBody
 
   // auth filters:
   let jbBuyerFilter = false
 
-  const hasAuthFilters = creds.filters.length > 0
+  const hasAuthFilters = creds.filters?.length > 0
   if (hasAuthFilters) {
     jbBuyerFilter = creds.filters.find(f => f.dataName === 'jbBuyer').mandatory
+  } else {
+    // check for front end option
+    const dataFilter = dataFilters.find(f => f.dataName === 'jbBuyer')
+    if (dataFilter) jbBuyerFilter = true
   }
 
   // define config object
