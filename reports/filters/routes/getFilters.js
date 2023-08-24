@@ -19,6 +19,8 @@ router.post('/programs', async (req, res) => {
   // get config for applicable filters
   const config = getReportConfig(req.body) // <-- Left off here. Need to make the JB filter work. Then need to add a four level report to look at his items.
 
+  console.log('(in get programs filter) config: ', config)
+
   const programs = await getDistinctPrograms(req.body.fy, { jbBuyerFilter: req.body.filter === 'jbBuyer' })
 
   programs.sort((a, b) => {
