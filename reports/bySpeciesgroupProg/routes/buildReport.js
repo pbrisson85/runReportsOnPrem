@@ -3,7 +3,7 @@ const buildReport = require('../../shared/routines/baseReport')
 const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
 const getDefaults = require('../utils/getDefaults')
-const labelCols = require('../queries/hardcode/cols')
+const getCols = require('../queries/hardcode/cols')
 const getReportConfig = require('../../shared/utils/getReportConfig')
 
 // @route   POST /api/sales/byProgram
@@ -25,6 +25,8 @@ router.post('/', async (req, res) => {
     req.body.end = end
     defaultDate = true
   }
+
+  const labelCols = getCols(req.body)
 
   // If showFyTrend param not passed in body then default to false
   if (typeof typeof req.body.showFyTrend === 'undefined') {

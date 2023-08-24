@@ -1,8 +1,6 @@
 const getReportConfig = reqBody => {
   const { format, creds, dataFilters } = reqBody
 
-  console.log('dataFilters', dataFilters)
-
   // auth filters:
   let jbBuyerFilter = false
 
