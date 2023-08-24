@@ -91,25 +91,25 @@ app.use('/api/sales/drillDown/item/bySpeciesgroupProg', getItemDrillDownForCusto
 app.use('/api/sales/detail/bySpeciesgroupProg', detailSalesByProgram)
 app.use('/api/sales/drillDownDetail/customer/bySpeciesgroupProg', drillDownCustomerDetailSalesByProgram)
 
-app.use('/api/sales/forProgram/byFrzBrndSize', getSalesFrzBrndSize)
+// app.use('/api/sales/forProgram/byFrzBrndSize', getSalesFrzBrndSize)
 app.use('/api/sales/drillDown/forProgByFrzBrndSize', drillDownSalesFrzBrndSize)
 app.use('/api/sales/drillDown/item/forProgByFrzBrndSize', getItemDrillDownForCustomerforProgByFrzBrndSize) // drilldown level two
 app.use('/api/sales/detail/forProgByFrzBrndSize', detailSalesFrzBrndSize)
 app.use('/api/sales/drillDownDetail/customer/forProgByFrzBrndSize', drillDownCustomerDetailSalesFrzBrndSize)
 
-app.use('/api/sales/forProgram/byFrzSoakSize', getSalesFrzSoakSize)
+// app.use('/api/sales/forProgram/byFrzSoakSize', getSalesFrzSoakSize)
 app.use('/api/sales/drillDown/forProgByFrzSoakSize', drillDownSalesFrzSoakSize)
 app.use('/api/sales/drillDown/item/forProgByFrzSoakSize', getItemDrillDownForCustomerforProgByFrzSoakSize) // drilldown level two
 app.use('/api/sales/detail/forProgByFrzSoakSize', detailSalesFrzSoakSize)
 app.use('/api/sales/drillDownDetail/customer/forProgByFrzSoakSize', drillDownCustomerDetailSalesFrzSoakSize)
 
-app.use('/api/sales/forProgram/bySpecBrndSize', getSalesSpecBrndSize)
+// app.use('/api/sales/forProgram/bySpecBrndSize', getSalesSpecBrndSize)
 app.use('/api/sales/drillDown/forProgBySpecBrndSize', drillDownSalesSpecBrndSize)
 app.use('/api/sales/drillDown/item/forProgBySpecBrndSize', getItemDrillDownForCustomerforProgBySpecBrndSize) // drilldown level two
 app.use('/api/sales/detail/forProgBySpecBrndSize', detailSalesSpecBrndSize)
 app.use('/api/sales/drillDownDetail/customer/forProgBySpecBrndSize', drillDownCustomerDetailSalesSpecBrndSize)
 
-app.use('/api/sales/forProgram/bySpecSoakSize', getSalesSpecSoakSize)
+// app.use('/api/sales/forProgram/bySpecSoakSize', getSalesSpecSoakSize)
 app.use('/api/sales/drillDown/forProgBySpecSoakSize', drillDownSalesSpecSoakSize)
 app.use('/api/sales/drillDown/item/forProgBySpecSoakSize', getItemDrillDownForCustomerforProgBySpecSoakSize) // drilldown level two
 app.use('/api/sales/detail/forProgBySpecSoakSize', detailSalesSpecSoakSize)
