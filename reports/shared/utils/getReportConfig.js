@@ -20,16 +20,19 @@ const getReportConfig = reqBody => {
 
   switch (format) {
     case 'speciesgroupProg':
-      // config = {
-      //   l1_field: 'ms.species_group',
-      //   l2_field: 'ms.program',
-      //   ...config,
-      // }
-
       config = {
         l1_field: 'ms.species_group',
-        l2_field: 'ms.fish_skin',
-        l3_field: 'ms.brand',
+        l2_field: 'ms.program',
+        ...config,
+      }
+
+      break
+
+    case 'speciesgroupBrandSkin':
+      config = {
+        l1_field: 'ms.species_group',
+        l2_field: 'ms.brand',
+        l3_field: 'ms.fish_skin',
         ...config,
       }
       break
@@ -81,16 +84,9 @@ const getReportConfig = reqBody => {
     default:
       config = {
         l1_field: 'ms.species_group',
-        l2_field: 'ms.fish_skin',
-        l3_field: 'ms.brand',
+        l2_field: 'ms.program',
         ...config,
       }
-
-    // config = {
-    //   l1_field: 'ms.species_group',
-    //   l2_field: 'ms.program',
-    //   ...config,
-    // }
   }
 
   return config
