@@ -14,7 +14,7 @@ const getReportConfig = require('../../shared/utils/getReportConfig')
 router.get('/programs', async (req, res) => {
   console.log('\nget sales PROGRAMS filters lot route HIT...')
 
-  console.log('(in get programs filter) req.body: ', req.body)
+  console.log('(in get programs filter) req.body.creds.filters: ', req.body.creds.filters)
 
   // get config for applicable filters
   const config = getReportConfig(req.body) // <-- Left off here. Need to make the JB filter work. Then need to add a four level report to look at his items.
