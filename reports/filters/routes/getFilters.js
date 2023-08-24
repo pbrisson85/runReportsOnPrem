@@ -3,6 +3,7 @@ const getDistinctPrograms = require('../queries/postgres/getDistinctPrograms')
 const getViewFilters = require('../queries/hardcode/getViewFilters')
 const getDistinctFiscalYears = require('../../shared/queries/postgres/getDistinctFiscalYears')
 const getReportFormats = require('../queries/hardcode/getReportFormats')
+const getReportFilters = require('../queries/hardcode/getReportFilters')
 const { getDateEndPerWeek } = require('../../shared/queries/postgres/getDateEndPerWeek')
 const getReportConfig = require('../../shared/utils/getReportConfig')
 
@@ -95,7 +96,7 @@ router.get('/reports', async (req, res) => {
 router.get('/filters', async (req, res) => {
   console.log('\nget report filters route HIT...')
 
-  const reports = getReportFormats()
+  const reports = getReportFilters()
 
   res.send(reports)
   console.log('get report filters route COMPLETE. \n')
