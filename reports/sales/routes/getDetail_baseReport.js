@@ -1,10 +1,10 @@
 const router = require('express').Router()
-const getDetail_invenFg = require('../../shared/routines/getDetail_baseReport/invenFG')
-const getDetail_salesOrder = require('../../shared/routines/getDetail_baseReport/salesOrder')
-const getDetail_salesInvoice = require('../../shared/routines/getDetail_baseReport/salesInvoice')
-const getDetail_purchaseOrder = require('../../shared/routines/getDetail_baseReport/purchaseOrder')
-const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
-const getReportConfig = require('../../shared/utils/getReportConfig')
+const getDetail_invenFg = require('../routines/getDetail_baseReport/invenFG')
+const getDetail_salesOrder = require('../routines/getDetail_baseReport/salesOrder')
+const getDetail_salesInvoice = require('../routines/getDetail_baseReport/salesInvoice')
+const getDetail_purchaseOrder = require('../routines/getDetail_baseReport/purchaseOrder')
+const { getWeekForDate } = require('../queries/postgres/getWeekForDate')
+const getReportConfig = require('../utils/getReportConfig')
 
 // @route   POST /api/sales/detail/forProgBySpecBrndSize/
 // @desc

@@ -1,11 +1,11 @@
 const router = require('express').Router()
 const getDistinctPrograms = require('../queries/postgres/getDistinctPrograms')
 const getViewFilters = require('../queries/hardcode/getViewFilters')
-const getDistinctFiscalYears = require('../../shared/queries/postgres/getDistinctFiscalYears')
+const getDistinctFiscalYears = require('../../sales/queries/postgres/getDistinctFiscalYears')
 const getReportFormats = require('../queries/hardcode/getReportFormats')
 const getReportFilters = require('../queries/hardcode/getReportFilters')
-const { getDateEndPerWeek } = require('../../shared/queries/postgres/getDateEndPerWeek')
-const getReportConfig = require('../../shared/utils/getReportConfig')
+const { getDateEndPerWeek } = require('../../sales/queries/postgres/getDateEndPerWeek')
+const getReportConfig = require('../../sales/utils/getReportConfig')
 
 // @route   GET /api/sales/getFilters/programs
 // @desc

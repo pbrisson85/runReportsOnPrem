@@ -1,7 +1,6 @@
 const cols = [
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
-    reportName: 'forProgBySpecSoakSize', // report name (used in API calls to get detail data)
     displayName: 'ITEM', // show as column header
     dataName: 'l1_label', // key to pull data from
     filterName: 'l1_filter', // key to match up the column with the filter
@@ -24,7 +23,6 @@ const cols = [
   },
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
-    reportName: 'forProgBySpecSoakSize', // report name (used in API calls to get detail data)
     displayName: 'DESCRIPTION', // show as column header
     dataName: 'l2_label', // key to pull data from
     filterName: 'l2_filter', // key to match up the column with the filter
@@ -47,8 +45,7 @@ const cols = [
   },
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
-    reportName: 'forProgBySpecSoakSize', // report name (used in API calls to get detail data)
-    displayName: 'SPECIES', // show as column header
+    displayName: 'FREEZE', // show as column header
     dataName: 'l3_label', // key to pull data from
     filterName: 'l3_filter', // key to match up the column with the filter
     justifyData: 'start', // css justify content
@@ -70,7 +67,6 @@ const cols = [
   },
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
-    reportName: 'forProgBySpecSoakSize', // report name (used in API calls to get detail data)
     displayName: 'SOAK', // show as column header
     dataName: 'l4_label', // key to pull data from
     filterName: 'l4_filter', // key to match up the column with the filter
@@ -93,7 +89,6 @@ const cols = [
   },
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
-    reportName: 'forProgBySpecSoakSize', // report name (used in API calls to get detail data)
     displayName: 'BRAND', // show as column header
     dataName: 'l5_label', // key to pull data from
     filterName: 'l5_filter', // key to match up the column with the filter
@@ -116,7 +111,6 @@ const cols = [
   },
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
-    reportName: 'forProgBySpecSoakSize', // report name (used in API calls to get detail data)
     displayName: 'SIZE', // show as column header
     dataName: 'l6_label', // key to pull data from
     filterName: 'l6_filter', // key to match up the column with the filter

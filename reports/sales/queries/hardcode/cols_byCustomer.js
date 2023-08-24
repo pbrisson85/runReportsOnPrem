@@ -1,7 +1,6 @@
 const cols = [
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
-    reportName: 'forProgBySpecSoakSize', // report name (used in API calls to get detail data)
     displayName: 'CUSTOMER ID', // show as column header
     dataName: 'l1_label', // key to pull data from
     filterName: 'l1_filter', // key to match up the column with the filter
@@ -24,7 +23,6 @@ const cols = [
   },
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
-    reportName: 'forProgBySpecSoakSize', // report name (used in API calls to get detail data)
     displayName: 'NAME', // show as column header
     dataName: 'l2_label', // key to pull data from
     filterName: 'l2_filter', // key to match up the column with the filter

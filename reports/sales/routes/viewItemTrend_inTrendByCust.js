@@ -1,12 +1,12 @@
 const router = require('express').Router()
-const buildDrillDown_byItem_level3 = require('../../shared/routines/viewItemTrend/level3')
-const buildDrillDown_byItem_level2 = require('../../shared/routines/viewItemTrend/level2')
-const buildDrillDown_byItem_level1 = require('../../shared/routines/viewItemTrend/level1')
-const buildDrillDown_byItem_level0 = require('../../shared/routines/viewItemTrend/level0')
-const { getStartOfWeek } = require('../../shared/queries/postgres/getDateStartByWeek')
-const { getWeekForDate } = require('../../shared/queries/postgres/getWeekForDate')
+const buildDrillDown_byItem_level3 = require('../routines/viewItemTrend/level3')
+const buildDrillDown_byItem_level2 = require('../routines/viewItemTrend/level2')
+const buildDrillDown_byItem_level1 = require('../routines/viewItemTrend/level1')
+const buildDrillDown_byItem_level0 = require('../routines/viewItemTrend/level0')
+const { getStartOfWeek } = require('../queries/postgres/getDateStartByWeek')
+const { getWeekForDate } = require('../queries/postgres/getWeekForDate')
 const labelCols = require('../queries/hardcode/cols_byItem')
-const getReportConfig = require('../../shared/utils/getReportConfig')
+const getReportConfig = require('../utils/getReportConfig')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
 // @desc

@@ -16,36 +16,15 @@ module.exports = sql
 
 const test = require('./test')
 
-const getSalesByProgram = require('./reports/bySpeciesgroupProg/routes/buildReport')
-const drillDownSalesByProgram = require('./reports/bySpeciesgroupProg/routes/buildDrillDown')
-const getItemDrillDownForCustomerbySpeciesgroupProg = require('./reports/bySpeciesgroupProg/routes/getItemDrillDownForCustomer') // drilldown level two
-const detailSalesByProgram = require('./reports/bySpeciesgroupProg/routes/getDetail')
-const drillDownCustomerDetailSalesByProgram = require('./reports/bySpeciesgroupProg/routes/getDetail_inTrendByCust')
-
-const drillDownSalesFrzBrndSize = require('./reports/forProgByFrzBrndSize/routes/buildDrillDown')
-const getItemDrillDownForCustomerforProgByFrzBrndSize = require('./reports/forProgByFrzBrndSize/routes/getItemDrillDownForCustomer') // drilldown level two
-const detailSalesFrzBrndSize = require('./reports/forProgByFrzBrndSize/routes/getDetail')
-const drillDownCustomerDetailSalesFrzBrndSize = require('./reports/forProgByFrzBrndSize/routes/getDetail_inTrendByCust')
-
-const drillDownSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/buildDrillDown')
-const getItemDrillDownForCustomerforProgByFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/getItemDrillDownForCustomer') // drilldown level two
-const detailSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/getDetail')
-const drillDownCustomerDetailSalesFrzSoakSize = require('./reports/forProgByFrzSoakSize/routes/getDetail_inTrendByCust')
-
-const drillDownSalesSpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/buildDrillDown')
-const getItemDrillDownForCustomerforProgBySpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/getItemDrillDownForCustomer') // drilldown level two
-const detailSalesSpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/getDetail')
-const drillDownCustomerDetailSalesSpecBrndSize = require('./reports/forProgBySpecBrndSize/routes/getDetail_inTrendByCust')
-
-const drillDownSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/buildDrillDown')
-const getItemDrillDownForCustomerforProgBySpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/getItemDrillDownForCustomer') // drilldown level two
-const detailSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/getDetail')
-const drillDownCustomerDetailSalesSpecSoakSize = require('./reports/forProgBySpecSoakSize/routes/getDetail_inTrendByCust')
-
+const baseReport = require('./reports/sales/routes/baseReport')
+const viewTrend = require('./reports/sales/routes/viewTrend')
+const viewItemTrend_inTrendByCust = require('./reports/sales/routes/viewItemTrend_inTrendByCust')
+const getDetail_baseReport = require('./reports/sales/routes/getDetail_baseReport')
+const getDetail_inTrendByCust = require('./reports/sales/routes/getDetail_inTrendByCust')
+const getDetail_inTrendByItem = require('./reports/sales/routes/getDetail_inTrendByItem')
+const viewCustTrend_inTrendByItem = require('./reports/sales/routes/viewCustTrend_inTrendByItem')
 const glRevCogs = require('./reports/gl/routes/glRevCogs')
 const glOthp = require('./reports/gl/routes/glOthp')
-const getDrillDownItemDetail = require('./reports/shared/routes/getDetail_inTrendByItem')
-const getCustomerDrillDownForItem = require('./reports/shared/routes/viewCustTrend_inTrendByItem')
 
 /* Data */
 const generateSalesData = require('./generateSales/routes/generateSales')
@@ -81,34 +60,13 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use('/api/sales/baseReport', getSalesByProgram)
-app.use('/api/sales/drillDown', drillDownSalesByProgram)
-app.use('/api/sales/drillDown/item', getItemDrillDownForCustomerbySpeciesgroupProg) // drilldown level two
-app.use('/api/sales/detail', detailSalesByProgram)
-app.use('/api/sales/drillDownDetail/customer', drillDownCustomerDetailSalesByProgram)
-
-// app.use('/api/sales/drillDown/forProgByFrzBrndSize', drillDownSalesFrzBrndSize)
-// app.use('/api/sales/drillDown/item/forProgByFrzBrndSize', getItemDrillDownForCustomerforProgByFrzBrndSize) // drilldown level two
-// app.use('/api/sales/detail/forProgByFrzBrndSize', detailSalesFrzBrndSize)
-// app.use('/api/sales/drillDownDetail/customer/forProgByFrzBrndSize', drillDownCustomerDetailSalesFrzBrndSize)
-
-// app.use('/api/sales/drillDown/forProgByFrzSoakSize', drillDownSalesFrzSoakSize)
-// app.use('/api/sales/drillDown/item/forProgByFrzSoakSize', getItemDrillDownForCustomerforProgByFrzSoakSize) // drilldown level two
-// app.use('/api/sales/detail/forProgByFrzSoakSize', detailSalesFrzSoakSize)
-// app.use('/api/sales/drillDownDetail/customer/forProgByFrzSoakSize', drillDownCustomerDetailSalesFrzSoakSize)
-
-// app.use('/api/sales/drillDown/forProgBySpecBrndSize', drillDownSalesSpecBrndSize)
-// app.use('/api/sales/drillDown/item/forProgBySpecBrndSize', getItemDrillDownForCustomerforProgBySpecBrndSize) // drilldown level two
-// app.use('/api/sales/detail/forProgBySpecBrndSize', detailSalesSpecBrndSize)
-// app.use('/api/sales/drillDownDetail/customer/forProgBySpecBrndSize', drillDownCustomerDetailSalesSpecBrndSize)
-
-// app.use('/api/sales/drillDown/forProgBySpecSoakSize', drillDownSalesSpecSoakSize)
-// app.use('/api/sales/drillDown/item/forProgBySpecSoakSize', getItemDrillDownForCustomerforProgBySpecSoakSize) // drilldown level two
-// app.use('/api/sales/detail/forProgBySpecSoakSize', detailSalesSpecSoakSize)
-// app.use('/api/sales/drillDownDetail/customer/forProgBySpecSoakSize', drillDownCustomerDetailSalesSpecSoakSize)
-
-app.use('/api/sales/drillDownDetail/item', getDrillDownItemDetail)
-app.use('/api/sales/drillDown/customer', getCustomerDrillDownForItem)
+app.use('/api/sales/baseReport', baseReport)
+app.use('/api/sales/drillDown', viewTrend)
+app.use('/api/sales/drillDown/item', viewItemTrend_inTrendByCust) // drilldown level two
+app.use('/api/sales/detail', getDetail_baseReport)
+app.use('/api/sales/drillDownDetail/customer', getDetail_inTrendByCust)
+app.use('/api/sales/drillDownDetail/item', getDetail_inTrendByItem)
+app.use('/api/sales/drillDown/customer', viewCustTrend_inTrendByItem)
 
 app.use('/api/sales/generateSalesData', generateSalesData)
 app.use('/api/sales/generateInvAllocData', generateInvAllocFile)
