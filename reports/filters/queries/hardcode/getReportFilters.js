@@ -12,3 +12,5 @@ const reportFilters = () => {
     },
   ]
 }
+
+module.exports = reportFilters
