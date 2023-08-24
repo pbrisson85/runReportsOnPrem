@@ -76,9 +76,16 @@ const getReportConfig = reqBody => {
     default:
       config = {
         l1_field: 'ms.species_group',
-        l2_field: 'ms.program',
+        l2_field: 'ms.fish_skin',
+        l3_field: 'ms.brand',
         ...config,
       }
+
+    // config = {
+    //   l1_field: 'ms.species_group',
+    //   l2_field: 'ms.program',
+    //   ...config,
+    // }
   }
 
   return config
