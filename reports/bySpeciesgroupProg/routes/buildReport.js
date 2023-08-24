@@ -14,8 +14,9 @@ const getReportConfig = require('../../shared/utils/getReportConfig')
 router.post('/', async (req, res) => {
   console.log(`\nget get weekly sales species group, program for ${req.body.start} through ${req.body.end} route HIT...`)
 
+  console.log('req.body', req.body)
+
   const config = getReportConfig(req.body)
-  const program = null
 
   // If no program, start, or end passed then default to the current fiscal year, first program alphabetically
   let defaultDate = false
@@ -40,7 +41,7 @@ router.post('/', async (req, res) => {
   const startOfWeek = await getStartOfWeek(req.body.start)
   const periodStart = startOfWeek[0].formatted_date_start
 
-  const resp = await buildReport(periodStart, req.body.end, program, req.body.showFyTrend, startWeek, endWeek, config, labelCols)
+  const resp = await buildReport(periodStart, req.body.end, config.program, req.body.showFyTrend, startWeek, endWeek, config, labelCols)
 
   // if default date then add to response
   if (defaultDate) {

@@ -1,5 +1,5 @@
 const getReportConfig = reqBody => {
-  const { format, creds, dataFilters } = reqBody
+  const { format, creds, dataFilters, program } = reqBody
 
   // auth filters:
   let jbBuyerFilter = false
@@ -15,6 +15,7 @@ const getReportConfig = reqBody => {
 
   // define config object
   let config = {
+    program,
     jbBuyerFilter,
   }
 
