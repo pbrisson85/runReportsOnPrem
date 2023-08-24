@@ -21,9 +21,10 @@ router.post('/', async (req, res) => {
 
   // Determine level of report being shown: (NOTE THAT THIS COULD MORE EASILY BE DONE WITH A SPECIFIC FLAG INSTEAD OF TRYING TO PARSE THE FILTERS)
   let level = null
-  if (filters[0] === 'SUBTOTAL' || filters[1] === 'SUBTOTAL') level = 1
-  if (filters[0] !== 'SUBTOTAL' && filters[1] !== 'SUBTOTAL') level = 2
-  if (filters[1] === 'TOTAL') level = 0
+  if (filters[1] === 'SUBTOTAL' && filters[2] === 'SUBTOTAL') level = 1
+  if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') level = 2
+  if (filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL' && filters[1] !== 'TOTAL' && filters[2] !== 'TOTAL') level = 3
+  if (filters[1] === 'TOTAL' && filters[2] === 'TOTAL') level = 0
 
   if (colType === 'salesOrder') {
     response = await getDetail_salesOrder(level, config, program, filters, columnDataName)
