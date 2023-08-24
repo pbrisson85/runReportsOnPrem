@@ -147,7 +147,7 @@ router.post('/', async (req, res) => {
 
     if (level === 3) {
       // level 3 subtotal
-      response = await buildDrillDown_byCustomer_level2(
+      response = await buildDrillDown_byCustomer_level3(
         labelCols_byCustomer,
         config,
         program,
