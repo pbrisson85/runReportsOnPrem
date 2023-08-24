@@ -4,7 +4,7 @@ const getRowsThirdLevelDetail = async (config, start, end, program, showFyTrend)
   // Note showFyTrend is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
   try {
-    console.log(`query postgres to get row labels ...`)
+    console.log(`query postgres to get row labels (getRowsThirdLevelDetail) ...`)
 
     const response = await sql
         `SELECT ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, ${sql(config.l3_field)} AS l3_label 
@@ -46,7 +46,7 @@ const getRowsThirdLevelDetail = async (config, start, end, program, showFyTrend)
 
 const getRowsSecondLevelDetail = async (config, start, end, program, showFyTrend) => {
   try {
-    console.log(`query postgres to get row labels ...`)
+    console.log(`query postgres to get row labels (getRowsSecondLevelDetail) ...`)
 
     const response = await sql
         `SELECT ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``}
@@ -88,7 +88,7 @@ const getRowsSecondLevelDetail = async (config, start, end, program, showFyTrend
 
 const getRowsFirstLevelDetail = async (config, start, end, program, showFyTrend) => {
   try {
-    console.log(`query postgres to get row labels ...`)
+    console.log(`query postgres to get row labels (getRowsFirstLevelDetail) ...`)
 
     const response = await sql
         `SELECT ${sql(config.l1_field)} AS l1_label, 'SUBTOTAL' AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} 

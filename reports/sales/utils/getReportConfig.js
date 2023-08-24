@@ -9,7 +9,6 @@ const getReportConfig = reqBody => {
     jbBuyerFilter = creds.filters.find(f => f.dataName === 'jbBuyer').mandatory
   } else {
     // check for front end option
-
     if (dataFilters === 'jbBuyer') jbBuyerFilter = true
   }
 
@@ -18,8 +17,6 @@ const getReportConfig = reqBody => {
     program: typeof program === 'undefined' ? null : program === 'all' ? null : program,
     jbBuyerFilter,
   }
-
-  console.log('config', config)
 
   switch (format) {
     case 'speciesgroupProg':

@@ -5,7 +5,7 @@ const sql = require('../../../../../server')
 const lvl_1_subtotal_getFgPo = async (config, program) => {
   //${config.jbBuyer ? sql`AND inv.item_number IN SELECT(DISTINCT(perpetual_inventory.item_number FROM ))` : sql``}
   try {
-    console.log(`level 1: query postgres for FG open PO ...`)
+    console.log(`level 1: query postgres for FG open PO (lvl_1_subtotal_getFgPo) ...`)
 
     const response = await sql
          `SELECT 'FG ON ORDER' AS column, ${sql(config.l1_field)} AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
@@ -29,7 +29,7 @@ const lvl_1_subtotal_getFgPo = async (config, program) => {
 
 const lvl_2_subtotal_getFgPo = async (config, program) => {
   try {
-    console.log(`level 2: query postgres for FG open PO ...`)
+    console.log(`level 2: query postgres for FG open PO (lvl_2_subtotal_getFgPo) ...`)
 
     const response = await sql
        `SELECT 'FG ON ORDER' AS column, ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
@@ -53,7 +53,7 @@ const lvl_2_subtotal_getFgPo = async (config, program) => {
 
 const lvl_3_subtotal_getFgPo = async (config, program) => {
   try {
-    console.log(`level 3: query postgres for FG open PO ...`)
+    console.log(`level 3: query postgres for FG open PO (lvl_3_subtotal_getFgPo) ...`)
 
     const response = await sql
        `SELECT 'FG ON ORDER' AS column, ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, ${sql(config.l3_field)} AS l3_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
@@ -75,7 +75,7 @@ const lvl_3_subtotal_getFgPo = async (config, program) => {
 
 const lvl_0_total_getFgPo = async (config, program) => {
   try {
-    console.log(`level 0: query postgres for FG open PO ...`)
+    console.log(`level 0: query postgres for FG open PO (lvl_0_total_getFgPo) ...`)
 
     const response = await sql
          `SELECT 'FG ON ORDER' AS column, 'FG SALES' AS l1_label, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 

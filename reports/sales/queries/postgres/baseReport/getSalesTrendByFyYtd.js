@@ -6,7 +6,9 @@ const sql = require('../../../../../server')
 
 const lvl_1_subtotal_getSalesByFyYtd = async (config, start, end, program, showYtd) => {
   try {
-    console.log(`level 1: query postgres to get FG sales data by week for week ${start} through week ${end} ...`)
+    console.log(
+      `level 1: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_1_subtotal_getSalesByFyYtd) ...`
+    )
 
     const response = await sql
       `SELECT sales_line_items.fiscal_year ${showYtd ? sql`|| '_ytd' ` : sql``} AS column, ${sql(config.l1_field)} AS l1_label, \'SUBTOTAL\' AS l2_label, \'SUBTOTAL\' AS l3_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
@@ -34,7 +36,9 @@ const lvl_1_subtotal_getSalesByFyYtd = async (config, start, end, program, showY
 
 const lvl_2_subtotal_getSalesByFyYtd = async (config, start, end, program, showYtd) => {
   try {
-    console.log(`level 2: query postgres to get FG sales data by week for week ${start} through week ${end} ...`)
+    console.log(
+      `level 2: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_2_subtotal_getSalesByFyYtd) ...`
+    )
 
     const response = await sql
       `SELECT sales_line_items.fiscal_year ${showYtd ? sql`|| '_ytd' ` : sql``} AS column, ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, \'SUBTOTAL\' AS l3_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
@@ -62,7 +66,9 @@ const lvl_2_subtotal_getSalesByFyYtd = async (config, start, end, program, showY
 
 const lvl_3_subtotal_getSalesByFyYtd = async (config, start, end, program, showYtd) => {
   try {
-    console.log(`level 3: query postgres to get FG sales data by week for week ${start} through week ${end} ...`)
+    console.log(
+      `level 3: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_3_subtotal_getSalesByFyYtd) ...`
+    )
 
     const response = await sql
       `SELECT sales_line_items.fiscal_year ${showYtd ? sql`|| '_ytd' ` : sql``} AS column, ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, ${sql(config.l3_field)} AS l3_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
@@ -90,7 +96,7 @@ const lvl_3_subtotal_getSalesByFyYtd = async (config, start, end, program, showY
 
 const lvl_0_total_getSalesByFyYtd = async (config, start, end, program, showYtd) => {
   try {
-    console.log(`level 0: query postgres to get FG sales data by week for week ${start} through week ${end} ...`)
+    console.log(`level 0: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_0_total_getSalesByFyYtd) ...`)
 
     const response = await sql
       `SELECT sales_line_items.fiscal_year ${showYtd ? sql`|| '_ytd' ` : sql``} AS column, \'FG SALES\' AS l1_label, \'TOTAL\' AS l2_label, \'TOTAL\' AS l3_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
