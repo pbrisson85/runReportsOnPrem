@@ -12,8 +12,7 @@ const getReportConfig = reqBody => {
 
     console.log('dataFilters', dataFilters)
 
-    const dataFilter = dataFilters?.find(f => f.dataName === 'jbBuyer')
-    if (dataFilter) jbBuyerFilter = true
+    if (dataFilters === 'jbBuyer') jbBuyerFilter = true
   }
 
   // define config object
