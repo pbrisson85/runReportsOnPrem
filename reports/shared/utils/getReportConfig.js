@@ -9,7 +9,7 @@ const getReportConfig = reqBody => {
     jbBuyerFilter = creds.filters.find(f => f.dataName === 'jbBuyer').mandatory
   } else {
     // check for front end option
-    const dataFilter = dataFilters.find(f => f.dataName === 'jbBuyer')
+    const dataFilter = dataFilters?.find(f => f.dataName === 'jbBuyer')
     if (dataFilter) jbBuyerFilter = true
   }
 
