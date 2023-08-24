@@ -10,10 +10,10 @@ const { getWeekForDate } = require('../queries/postgres/getWeekForDate')
 router.post('/', async (req, res) => {
   // While in drilldown of an item, can drill down again to return the customeer trend for that item.
 
-  const { program, option, filters, columnDataName, reportName, colType, periodEnd, showFyTrend } = req.body
+  const { program, option, filters, columnDataName, colType, periodEnd, showFyTrend, format } = req.body
   let { periodStart } = req.body
 
-  console.log(`\nget level two drilldown on item route HIT...`)
+  console.log(`\nget level two drilldown on item for ${format} route HIT...`)
 
   // Note that start date is the END of the first week. Need the beginning of the same week to pull invoice dates that are after this:
   const startOfWeek = await getStartOfWeek(periodStart)
@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
 
   response = await buildDrilldown(filters[0], periodStart, periodEnd, program, filters, showFyTrend, startWeek, endWeek)
 
-  console.log(`get level two drilldown on item route COMPLETE. \n`)
+  console.log(`get level two drilldown on item for ${format}  route COMPLETE. \n`)
 
   res.send(response)
 })

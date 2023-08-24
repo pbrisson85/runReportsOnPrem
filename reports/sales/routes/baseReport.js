@@ -12,42 +12,45 @@ const getReportConfig = require('../utils/getReportConfig')
 
 // Generate full weekly report of ALL programs for FG Only (biggest picture)
 router.post('/', async (req, res) => {
-  console.log(`\nget get weekly sales species group, program for ${req.body.start} through ${req.body.end} route HIT...`)
+  const { format, showFyTrend } = req.body
+  let { start, end } = req.body
 
   const config = getReportConfig(req.body)
 
-  // If no program, start, or end passed then default to the current fiscal year, first program alphabetically
-  let defaultDate = false
-  if (typeof typeof req.body.start === 'undefined' || typeof req.body.end === 'undefined') {
-    const { start, end } = await getDefaults()
-    req.body.start = start
-    req.body.end = end
-    defaultDate = true
+  // If showFyTrend param not passed in body then default to false (COULD ADD THIS TO THE CONFIG FILE + add explanation, why would it be undefined)
+  if (typeof showFyTrend === 'undefined') {
+    showFyTrend = false
   }
 
-  const labelCols = getCols(req.body)
-
-  // If showFyTrend param not passed in body then default to false
-  if (typeof typeof req.body.showFyTrend === 'undefined') {
-    req.body.showFyTrend = false
+  // If start, or end passed then default (COULD ADD THIS TO THE CONFIG FILE + add explanation, why would it be undefined)
+  let defaultDateFlag = false
+  if (typeof typeof start === 'undefined' || typeof end === 'undefined') {
+    const { defaultStart, defaultEnd } = await getDefaults()
+    start = defaultStart
+    end = defaultEnd
+    defaultDateFlag = true
   }
 
-  const startWeek = await getWeekForDate(req.body.start) // temporarily until I change the data that is being passed by the front end to the week
-  const endWeek = await getWeekForDate(req.body.end) // temporarily until I change the data that is being passed by the front end to the week
-
-  // Note that start date is the END of the first week. Need the beginning of the same week to pull invoice dates that are after this:
-  const startOfWeek = await getStartOfWeek(req.body.start)
+  // Note that start date is the END of the first week. Need the beginning of the same week to pull invoice dates that are after this: (COULD ADD THIS TO THE CONFIG FILE + add explanation, why would it be undefined)
+  const startOfWeek = await getStartOfWeek(start)
   const periodStart = startOfWeek[0].formatted_date_start
 
-  const resp = await buildReport(periodStart, req.body.end, config.program, req.body.showFyTrend, startWeek, endWeek, config, labelCols)
+  const labelCols = getCols(req.body) // (COULD ADD THIS TO THE CONFIG FILE + add explanation, why would it be undefined)
+
+  console.log(`\nget get weekly sales species group, program for ${start} through ${end} for ${format} route HIT...`)
+
+  const startWeek = await getWeekForDate(start) // temporarily until I change the data that is being passed by the front end to the week
+  const endWeek = await getWeekForDate(end) // temporarily until I change the data that is being passed by the front end to the week
+
+  const response = await buildReport(periodStart, req.body.end, config.program, req.body.showFyTrend, startWeek, endWeek, config, labelCols)
 
   // if default date then add to response
-  if (defaultDate) {
-    resp.defaultDate = req.body.end
+  if (defaultDateFlag) {
+    response.defaultDate = end
   }
 
-  console.log(`get weekly sales species group, program for ${req.body.start} through ${req.body.end} route COMPLETE. \n`)
-  res.send(resp)
+  console.log(`get weekly sales species group, program for ${start} through ${end} for ${format} route COMPLETE. \n`)
+  res.send(response)
 })
 
 module.exports = router

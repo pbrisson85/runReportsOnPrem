@@ -18,12 +18,12 @@ const getReportConfig = require('../utils/getReportConfig')
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { option, filters, columnDataName, reportName, colType, periodEnd, showFyTrend } = req.body
+  const { option, filters, columnDataName, colType, periodEnd, showFyTrend, format } = req.body
   let { program, periodStart } = req.body
 
   const config = getReportConfig(req.body)
 
-  console.log(`\nget drilldown data for ${reportName} route HIT...`)
+  console.log(`\nget drilldown data for ${format} route HIT...`)
 
   const startWeek = await getWeekForDate(periodStart) // temporarily until I change the data that is being passed by the front end to the week
   const endWeek = await getWeekForDate(periodEnd) // temporarily until I change the data that is being passed by the front end to the week
@@ -175,7 +175,7 @@ router.post('/', async (req, res) => {
     }
   }
 
-  console.log(`get drilldown data for ${reportName} route COMPLETE. \n`)
+  console.log(`get drilldown data for ${format} route COMPLETE. \n`)
 
   res.send(response)
 })

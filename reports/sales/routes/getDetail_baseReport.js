@@ -11,12 +11,12 @@ const getReportConfig = require('../utils/getReportConfig')
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { option, filters, columnDataName, reportName, colType, periodStart, periodEnd, fyTrendCol, fyYtdTrendCol } = req.body
+  const { option, filters, columnDataName, colType, periodStart, periodEnd, fyTrendCol, fyYtdTrendCol, format } = req.body
   let { program, year } = req.body
 
   const config = getReportConfig(req.body)
 
-  console.log(`\nget detail data base report for ${reportName} route HIT...`)
+  console.log(`\nget detail data base report for ${format} route HIT...`)
 
   let response = null
 
@@ -72,7 +72,7 @@ router.post('/', async (req, res) => {
     response = await getDetail_purchaseOrder(level, config, config.program, filters)
   }
 
-  console.log(`get detail data base report for ${reportName} route COMPLETE. \n`)
+  console.log(`get detail data base report for ${format} route COMPLETE. \n`)
   res.send(response)
 })
 

@@ -12,7 +12,7 @@ const getDefaults = async () => {
   })
 
   const periods = await getDateEndPerWeek(fys[0].label)
-  const start = periods[0].displayname
+  const defaultStart = periods[0].displayname
 
   // By default set the end period to the previos week.
 
@@ -23,16 +23,16 @@ const getDefaults = async () => {
     return today <= periodEnd
   })
 
-  let end
+  let defaultEnd
   if (todayWeek === -1) {
-    end = periods[periods.length - 1].displayname
+    defaultEnd = periods[periods.length - 1].displayname
   } else if (todayWeek === 0) {
-    end = periods[0].displayname
+    defaultEnd = periods[0].displayname
   } else {
-    end = periods[todayWeek - 1].displayname
+    defaultEnd = periods[todayWeek - 1].displayname
   }
 
-  return { start, end }
+  return { defaultStart, defaultEnd }
 }
 
 module.exports = getDefaults
