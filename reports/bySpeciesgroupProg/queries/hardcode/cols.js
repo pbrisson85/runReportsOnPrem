@@ -135,7 +135,7 @@ const speciesgroupBrandSkin = [
     number: false, // flag to use formatTableDataNumber model
     decimals: 0, // if number is true, decimals will be used
     leftSticky: true, // css sticky
-    left: '300px', // css positioning for sticky sum of prior col widths
+    left: '350px', // css positioning for sticky sum of prior col widths
     hidden: false, // flag to hide column.
     view: null, // dataset to show for the column (extended_cost, weight, cost_per_lb)
     data: false,
@@ -203,7 +203,7 @@ const speciesgroupSkinBrand = [
     number: false, // flag to use formatTableDataNumber model
     decimals: 0, // if number is true, decimals will be used
     leftSticky: true, // css sticky
-    left: '300px', // css positioning for sticky sum of prior col widths
+    left: '350px', // css positioning for sticky sum of prior col widths
     hidden: false, // flag to hide column.
     view: null, // dataset to show for the column (extended_cost, weight, cost_per_lb)
     data: false,
