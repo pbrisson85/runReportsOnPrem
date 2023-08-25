@@ -40,7 +40,7 @@ const byItem_getFgInTransit_detail = async item => {
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = pi.item_number 
               
-          WHERE pi.on_hand_lbs <> 0 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.item_num = ${item}` //prettier-ignore
+          WHERE pi.on_hand_lbs <> 0 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type = ${'IN TRANSIT'} AND ms.item_num = ${item}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -63,7 +63,7 @@ const byItem_getFgAtLoc_detail = async item => {
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = pi.item_number 
               
-          WHERE pi.on_hand_lbs <> 0 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.item_num = ${item}` //prettier-ignore
+          WHERE pi.on_hand_lbs <> 0 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type <> ${'IN TRANSIT'} AND ms.item_num = ${item}` //prettier-ignore
 
     return response
   } catch (error) {
