@@ -110,13 +110,13 @@ router.post('/', async (req, res) => {
         endWeek
       )
     }
-  } else {
+  } else if (option === 'Trend By Customer') {
     // option is top customer weight, margin, or bottom customer weight.
     // Pull one set of data and filter/sum at the end based on the option.
 
     if (level === 1) {
       // level 1 subtotal
-      response = await buildDrillDown_byCustomer_level1(
+      response = await buildDrillDown_byCustomer_level3(
         labelCols_byCustomer,
         config,
         config.program,
@@ -125,13 +125,14 @@ router.post('/', async (req, res) => {
         filters,
         showFyTrend,
         startWeek,
-        endWeek
+        endWeek,
+        level
       )
     }
 
     if (level === 2) {
       // level 2 subtotal
-      response = await buildDrillDown_byCustomer_level2(
+      response = await buildDrillDown_byCustomer_level3(
         labelCols_byCustomer,
         config,
         config.program,
@@ -140,7 +141,8 @@ router.post('/', async (req, res) => {
         filters,
         showFyTrend,
         startWeek,
-        endWeek
+        endWeek,
+        level
       )
     }
 
@@ -155,13 +157,14 @@ router.post('/', async (req, res) => {
         filters,
         showFyTrend,
         startWeek,
-        endWeek
+        endWeek,
+        level
       )
     }
 
     if (level === 0) {
       // level 0 total
-      response = await buildDrillDown_byCustomer_level0(
+      response = await buildDrillDown_byCustomer_level3(
         labelCols_byCustomer,
         config,
         config.program,
@@ -170,7 +173,8 @@ router.post('/', async (req, res) => {
         filters,
         showFyTrend,
         startWeek,
-        endWeek
+        endWeek,
+        level
       )
     }
   }

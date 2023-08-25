@@ -32,25 +32,23 @@ const unflattenByCompositKey = require('../../models/unflattenByCompositKey')
 const calcPercentSalesCol = require('../../models/calcPercentSalesCol')
 const calcAveWeeklySales = require('../../models/calcAveWeeklySales')
 
-const buildDrillDown = async (labelCols, config, program, start, end, filters, showFyTrend, startWeek, endWeek) => {
-  console.log(program, '\n', start, '\n', end, '\n', filters)
-
+const buildDrillDown = async (labelCols, config, program, start, end, filters, showFyTrend, startWeek, endWeek, level) => {
   // ///////////////////////////////// SALES ORDERS
   /* ALL SO */
-  const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(config, program, filters)
-  const lvl_0_total_so = await lvl_0_total_getSo(config, program, filters)
-  const lvl_1_subtotal_so_byWk = await lvl_1_subtotal_getSo_byWk(config, program, filters)
-  const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk(config, program, filters)
+  const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(config, program, filters, level)
+  const lvl_0_total_so = await lvl_0_total_getSo(config, program, filters, level)
+  const lvl_1_subtotal_so_byWk = await lvl_1_subtotal_getSo_byWk(config, program, filters, level)
+  const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk(config, program, filters, level)
 
   // ///////////////////////////////// SALES DATA
-  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(config, start, end, program, filters)
-  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(config, start, end, program, filters)
-  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, filters)
-  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, program, filters)
-  const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(config, start, end, program, filters)
-  const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(config, start, end, program, filters)
-  const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(config, start, end, program, filters)
-  const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(config, start, end, program, filters)
+  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(config, start, end, program, filters, level)
+  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(config, start, end, program, filters, level)
+  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, filters, level)
+  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, program, filters, level)
+  const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(config, start, end, program, filters, level)
+  const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(config, start, end, program, filters, level)
+  const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(config, start, end, program, filters, level)
+  const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(config, start, end, program, filters, level)
 
   const companyTotalSales = await getCompanyTotalSales(start, end)
 
@@ -81,10 +79,10 @@ const buildDrillDown = async (labelCols, config, program, start, end, filters, s
   let rowsFirstLevelDetail
   if (showFyTrend) {
     // full fy trend requested. need rows for all data
-    rowsFirstLevelDetail = await getRows_l1_showFyTrend(config, start, end, program, filters)
+    rowsFirstLevelDetail = await getRows_l1_showFyTrend(config, start, end, program, filters, level)
   } else {
     // data request with start and end dates
-    rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, program, filters)
+    rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, program, filters, level)
   }
   const totalsRow = [{ totalRow: true, l1_label: `FG SALES`, l2_label: `TOTAL` }] // Need an l2_label of TOTAL for front end styling
   const filterRow = [{ filterRow: true, l1_label: `PROGRAM: ${program}, FILTERS: ${filters[0]}, ${filters[1]}, ${filters[2]}` }] // shows at top of report
@@ -143,8 +141,6 @@ const buildDrillDown = async (labelCols, config, program, start, end, filters, s
     })
     .sort((a, b) => {
       if (a.l2_label === null || b.l2_label === null) {
-        console.log('a: ', a)
-        console.log('b: ', b)
         return 1
       }
 
