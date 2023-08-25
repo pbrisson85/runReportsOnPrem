@@ -81,7 +81,7 @@ const byItem_getFgAtLoc_untagged_detail = async item => {
       await sql`SELECT all_inven.receipt_date, all_inven.location_date, all_inven.lot_text, all_inven.msc_cert_bool AS msc, all_inven.item, all_inven.description, all_inven.lot, all_inven.species, all_inven.brand, all_inven.size, all_inven.soak, all_inven.lbs - COALESCE(tagged_inven.lbs,0) AS lbs, all_inven.cost_lb, all_inven.cost_ext - COALESCE(tagged_inven.cost_ext,0) AS cost_ext, all_inven.location, all_inven.country, all_inven.fresh_frozen
           
           FROM (
-              SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, pi.location_code, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
+              SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool, pi.location_code, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
                   FROM "invenReporting".perpetual_inventory AS pi 
                   LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                       ON ms.item_num = pi.item_number 
