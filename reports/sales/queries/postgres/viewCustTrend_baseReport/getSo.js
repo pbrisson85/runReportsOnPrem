@@ -1,4 +1,4 @@
-const sql = require('../../../../../../server')
+const sql = require('../../../../../server')
 /* *********************************************** level 1 *********************************************** */
 
 const lvl_1_subtotal_getSo = async (config, program, filters, level) => {
