@@ -28,6 +28,8 @@ const lvl_1_subtotal_getSalesByFyYtd = async (config, start, end, program, filte
       
       ORDER BY sl.fiscal_year` //prettier-ignore
 
+    if (!showYtd) console.log('response', response)
+
     return response
   } catch (error) {
     console.error(error)
@@ -62,6 +64,8 @@ const lvl_0_total_getSalesByFyYtd = async (config, start, end, program, filters,
       GROUP BY sl.fiscal_year 
       
       ORDER BY sl.fiscal_year` //prettier-ignore
+
+    if (!showYtd) console.log('response', response)
 
     return response
   } catch (error) {
