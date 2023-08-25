@@ -175,6 +175,9 @@ const buildDrillDown = async (labelCols, config, program, start, end, filters, s
     ? [...lvl_1_subtotal_salesByFy, ...lvl_0_total_salesByFy, ...lvl_1_subtotal_salesByFyYtd, ...lvl_0_total_salesByFyYtd]
     : []
 
+  console.log('showFyTrend', showFyTrend)
+  console.log('fyTrendSales', fyTrendSales)
+
   const mappedSales = mapSalesToRowTemplates(
     [
       ...lvl_1_subtotal_salesByWk,
