@@ -1,4 +1,4 @@
-const sql = require('../../../../../../server')
+const sql = require('../../../../../server')
 const getRowsFirstLevelDetail = async (config, start, end, program, filters, level) => {
   try {
     console.log(`query postgres to get row labels ...`)

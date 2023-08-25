@@ -5,10 +5,7 @@ const buildDrillDown_byItem_level1 = require('../routines/viewItemTrend/level1')
 const buildDrillDown_byItem_level0 = require('../routines/viewItemTrend/level0')
 const { getStartOfWeek } = require('../queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../queries/postgres/getWeekForDate')
-const buildDrillDown_byCustomer_level3 = require('../routines/viewCustTrend_baseReport/level3')
-const buildDrillDown_byCustomer_level2 = require('../routines/viewCustTrend_baseReport/level2')
-const buildDrillDown_byCustomer_level1 = require('../routines/viewCustTrend_baseReport/level1')
-const buildDrillDown_byCustomer_level0 = require('../routines/viewCustTrend_baseReport/level0')
+const buildDrillDown_byCustomer_level3 = require('../routines/viewCustTrend_baseReport')
 const labelCols_byItem = require('../queries/hardcode/cols_byItem')
 const labelCols_byCustomer = require('../queries/hardcode/cols_byCustomer')
 const getReportConfig = require('../utils/getReportConfig')
@@ -114,69 +111,18 @@ router.post('/', async (req, res) => {
     // option is top customer weight, margin, or bottom customer weight.
     // Pull one set of data and filter/sum at the end based on the option.
 
-    if (level === 1) {
-      // level 1 subtotal
-      response = await buildDrillDown_byCustomer_level3(
-        labelCols_byCustomer,
-        config,
-        config.program,
-        periodStart,
-        periodEnd,
-        filters,
-        showFyTrend,
-        startWeek,
-        endWeek,
-        level
-      )
-    }
-
-    if (level === 2) {
-      // level 2 subtotal
-      response = await buildDrillDown_byCustomer_level3(
-        labelCols_byCustomer,
-        config,
-        config.program,
-        periodStart,
-        periodEnd,
-        filters,
-        showFyTrend,
-        startWeek,
-        endWeek,
-        level
-      )
-    }
-
-    if (level === 3) {
-      // level 3 subtotal
-      response = await buildDrillDown_byCustomer_level3(
-        labelCols_byCustomer,
-        config,
-        config.program,
-        periodStart,
-        periodEnd,
-        filters,
-        showFyTrend,
-        startWeek,
-        endWeek,
-        level
-      )
-    }
-
-    if (level === 0) {
-      // level 0 total
-      response = await buildDrillDown_byCustomer_level3(
-        labelCols_byCustomer,
-        config,
-        config.program,
-        periodStart,
-        periodEnd,
-        filters,
-        showFyTrend,
-        startWeek,
-        endWeek,
-        level
-      )
-    }
+    response = await buildDrillDown_byCustomer_level3(
+      labelCols_byCustomer,
+      config,
+      config.program,
+      periodStart,
+      periodEnd,
+      filters,
+      showFyTrend,
+      startWeek,
+      endWeek,
+      level
+    )
   }
 
   console.log(`get drilldown data for ${format} route COMPLETE. \n`)
