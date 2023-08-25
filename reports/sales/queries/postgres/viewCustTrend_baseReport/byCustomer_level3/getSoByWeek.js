@@ -1,7 +1,7 @@
 const sql = require('../../../../../../server')
 /* *********************************************** level 1 *********************************************** */
 
-const lvl_1_subtotal_getSo_byWk = async (config, program, filters) => {
+const lvl_1_subtotal_getSo_byWk = async (config, program, filters, level) => {
   try {
     console.log(`level 1: query postgres for FG Sales Orders By Week ...`)
 
@@ -27,7 +27,7 @@ const lvl_1_subtotal_getSo_byWk = async (config, program, filters) => {
 
 /* *********************************************** TOTAL *********************************************** */
 
-const lvl_0_total_getSo_byWk = async (config, program, filters) => {
+const lvl_0_total_getSo_byWk = async (config, program, filters, level) => {
   try {
     console.log(`level 0: query postgres for FG Sales Orders By Week ...`)
 
