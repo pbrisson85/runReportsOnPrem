@@ -35,6 +35,8 @@ const mapSalesToRowTemplates = (salesLines, rowTemplate) => {
 
     // For percent cols
     if (percentFormat) {
+      console.log('is percent format', soLine) //DEBUG ************
+
       revenue = parseFloat(new Decimal(sales_numerator).dividedBy(sales_denominator).toFixed(2))
       weight = parseFloat(new Decimal(lbs_numerator).dividedBy(lbs_denominator).toFixed(2))
       cogs = parseFloat(new Decimal(cogs_numerator).dividedBy(cogs_denominator).toFixed(2))
@@ -53,6 +55,8 @@ const mapSalesToRowTemplates = (salesLines, rowTemplate) => {
       netSalesPerLb = netSales
       grossMarginPerLb = grossMargin
     } else {
+      console.log('is not percent format', soLine) //DEBUG ************
+
       // For data cols
       revenue = parseFloat(sales.toFixed(2))
       weight = parseFloat(lbs.toFixed(2))
