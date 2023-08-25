@@ -32,7 +32,7 @@ const lvl_2_subtotal_getFgPo = async (config, program) => {
     console.log(`level 2: query postgres for FG open PO (lvl_2_subtotal_getFgPo) ...`)
 
     const response = await sql
-       `SELECT 'FG ON ORDER' AS column, ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
+       `SELECT 'FG ON ORDER' AS column, ${sql(config.l1_field)} AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
        
        FROM "invenReporting".perpetual_inventory AS inv LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inv.item_number 
        
@@ -56,7 +56,7 @@ const lvl_3_subtotal_getFgPo = async (config, program) => {
     console.log(`level 3: query postgres for FG open PO (lvl_3_subtotal_getFgPo) ...`)
 
     const response = await sql
-       `SELECT 'FG ON ORDER' AS column, ${sql(config.l1_field)} AS l1_label, ${sql(config.l2_field)} AS l2_label, ${sql(config.l3_field)} AS l3_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
+       `SELECT 'FG ON ORDER' AS column, ${sql(config.l1_field)} AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, ${sql(config.l3_field)} AS l3_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
        
        FROM "invenReporting".perpetual_inventory AS inv LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inv.item_number 
        
