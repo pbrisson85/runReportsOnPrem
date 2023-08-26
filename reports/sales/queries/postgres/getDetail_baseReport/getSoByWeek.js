@@ -1,6 +1,6 @@
 const sql = require('../../../../../server')
 
-const lvl_3_subtotal_getSoByWk_detail = async (config, program, filters, weekSerial, level) => {
+const getSoByWk_detail = async (config, program, filters, weekSerial, level) => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders By Week Detail ...`)
 
@@ -20,7 +20,7 @@ const lvl_3_subtotal_getSoByWk_detail = async (config, program, filters, weekSer
   }
 }
 
-const lvl_3_subtotal_getSoTagged_detail = async (config, program, filters, weekSerial, level) => {
+const getSoTagged_detail = async (config, program, filters, weekSerial, level) => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders ...`)
 
@@ -40,7 +40,7 @@ const lvl_3_subtotal_getSoTagged_detail = async (config, program, filters, weekS
   }
 }
 
-const lvl_3_subtotal_getSoByWkUntagged_detail = async (config, program, filters, weekSerial, level) => {
+const getSoByWkUntagged_detail = async (config, program, filters, weekSerial, level) => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders ...`)
 
@@ -60,6 +60,6 @@ const lvl_3_subtotal_getSoByWkUntagged_detail = async (config, program, filters,
   }
 }
 
-module.exports.lvl_3_subtotal_getSoByWk_detail = lvl_3_subtotal_getSoByWk_detail
-module.exports.lvl_3_subtotal_getSoTagged_detail = lvl_3_subtotal_getSoTagged_detail
-module.exports.lvl_3_subtotal_getSoByWkUntagged_detail = lvl_3_subtotal_getSoByWkUntagged_detail
+module.exports.getSoByWk_detail = getSoByWk_detail
+module.exports.getSoTagged_detail = getSoTagged_detail
+module.exports.getSoByWkUntagged_detail = getSoByWkUntagged_detail

@@ -1,7 +1,7 @@
 const sql = require('../../../../../server')
 
 // FG on hand (includes in transit)
-const lvl_3_subtotal_getFgInven_detail = async (config, program, filters, level) => {
+const getFgInven_detail = async (config, program, filters, level) => {
   try {
     console.log(`level 3 Detail: query postgres for FG on hand ...`)
 
@@ -25,7 +25,7 @@ const lvl_3_subtotal_getFgInven_detail = async (config, program, filters, level)
 
 // FG in transit
 
-const lvl_3_subtotal_getFgInTransit_detail = async (config, program, filters, level) => {
+const getFgInTransit_detail = async (config, program, filters, level) => {
   try {
     console.log(`level 3 Detail: query postgres for FG in transit ...`)
 
@@ -47,7 +47,7 @@ const lvl_3_subtotal_getFgInTransit_detail = async (config, program, filters, le
 
 // FG at location
 
-const lvl_3_subtotal_getFgAtLoc_detail = async (config, program, filters, level) => {
+const getFgAtLoc_detail = async (config, program, filters, level) => {
   try {
     console.log(`level 3 Detail: query postgres for FG at location ...`)
 
@@ -68,7 +68,7 @@ const lvl_3_subtotal_getFgAtLoc_detail = async (config, program, filters, level)
 }
 
 // Going to need to revisit this one
-const lvl_3_subtotal_getFgAtLoc_untagged_detail = async (config, program, filters, level) => {
+const getFgAtLoc_untagged_detail = async (config, program, filters, level) => {
   try {
     console.log(`level 3 Detail: query postgres for FG at location UNTAGGED ...`)
 
@@ -105,7 +105,7 @@ const lvl_3_subtotal_getFgAtLoc_untagged_detail = async (config, program, filter
   }
 }
 
-const lvl_3_subtotal_getFgAtLoc_tagged_detail = async (config, program, filters, level) => {
+const getFgAtLoc_tagged_detail = async (config, program, filters, level) => {
   try {
     console.log(`level 3 Detail: query postgres for FG at location TAGGED ...`)
 
@@ -129,8 +129,8 @@ const lvl_3_subtotal_getFgAtLoc_tagged_detail = async (config, program, filters,
   }
 }
 
-module.exports.lvl_3_subtotal_getFgInven_detail = lvl_3_subtotal_getFgInven_detail
-module.exports.lvl_3_subtotal_getFgInTransit_detail = lvl_3_subtotal_getFgInTransit_detail
-module.exports.lvl_3_subtotal_getFgAtLoc_detail = lvl_3_subtotal_getFgAtLoc_detail
-module.exports.lvl_3_subtotal_getFgAtLoc_untagged_detail = lvl_3_subtotal_getFgAtLoc_untagged_detail
-module.exports.lvl_3_subtotal_getFgAtLoc_tagged_detail = lvl_3_subtotal_getFgAtLoc_tagged_detail
+module.exports.getFgInven_detail = getFgInven_detail
+module.exports.getFgInTransit_detail = getFgInTransit_detail
+module.exports.getFgAtLoc_detail = getFgAtLoc_detail
+module.exports.getFgAtLoc_untagged_detail = getFgAtLoc_untagged_detail
+module.exports.getFgAtLoc_tagged_detail = getFgAtLoc_tagged_detail

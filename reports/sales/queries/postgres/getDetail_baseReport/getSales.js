@@ -2,7 +2,7 @@ const sql = require('../../../../../server')
 
 // FG Program col total for period
 
-const lvl_3_subtotal_getSales_detail = async (config, start, end, program, filters, year, level) => {
+const getSales_detail = async (config, start, end, program, filters, year, level) => {
   try {
     console.log(`level 3: query postgres to get FG sales data period total ...`)
 
@@ -22,4 +22,4 @@ const lvl_3_subtotal_getSales_detail = async (config, start, end, program, filte
   }
 }
 
-module.exports.lvl_3_subtotal_getSales_detail = lvl_3_subtotal_getSales_detail
+module.exports.getSales_detail = getSales_detail
