@@ -26,8 +26,6 @@ const calcPercentSalesCol = require('../models/calcPercentSalesCol')
 const calcAveWeeklySales = require('../models/calcAveWeeklySales')
 
 const buildDrillDown = async (item, start, end, program, filters, showFyTrend, startWeek, endWeek) => {
-  console.log(item, '\n', start, '\n', end)
-
   // ///////////////////////////////// SALES ORDERS
   /* ALL SO */
   const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(item)

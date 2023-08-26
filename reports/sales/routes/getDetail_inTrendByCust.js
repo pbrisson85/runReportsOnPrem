@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
   }
 
   if (colType === 'salesOrder') {
-    response = await getDetail_salesOrder(level, config, config.program, filters, columnDataName)
+    response = await getDetail_salesOrder(level, config, config.program, filters, columnDataName, level)
   }
 
   if (colType === 'salesInvoice') {
@@ -58,7 +58,7 @@ router.post('/', async (req, res) => {
       endWeek = columnDataName.split('-')[1].split('W')[1]
       year = columnDataName.split('-')[0]
     }
-    response = await getDetail_salesInvoice(level, config, config.program, filters, startWeek, endWeek, year)
+    response = await getDetail_salesInvoice(level, config, config.program, filters, startWeek, endWeek, year, level)
   }
 
   console.log(`get detail data in trend by customer for ${format} route COMPLETE. \n`)
