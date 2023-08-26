@@ -10,7 +10,7 @@ const {
   lvl_3_subtotal_getSoByWkUntagged_detail,
 } = require('../../queries/postgres/getDetail_baseReport/getSoByWeek')
 
-const getDetail = async (level, config, program, filters, columnDataName, level) => {
+const getDetail = async (level, config, program, filters, columnDataName) => {
   let detail = null
 
   switch (columnDataName) {

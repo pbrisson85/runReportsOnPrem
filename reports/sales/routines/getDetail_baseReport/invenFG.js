@@ -6,10 +6,8 @@ const {
   lvl_3_subtotal_getFgAtLoc_tagged_detail,
 } = require('../../queries/postgres/getDetail_baseReport/getFgInven')
 
-const getDetail = async (level, config, program, filters, columnDataName, level) => {
+const getDetail = async (level, config, program, filters, columnDataName) => {
   let detail = null
-
-  // get level 3 subtotal where species = filters[0] and brand = filters[1] and size = filters[2]
 
   switch (columnDataName) {
     case 'FG INVEN':
