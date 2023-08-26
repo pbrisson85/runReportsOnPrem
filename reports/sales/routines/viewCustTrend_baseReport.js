@@ -7,7 +7,7 @@ const {
   lvl_1_subtotal_getSalesPeriodToDate,
   lvl_0_total_getSalesPeriodToDate,
 } = require('../queries/postgres/viewCustTrend_baseReport/getSalesTrend')
-const { getCompanyTotalSales } = require('../queries/postgres/getCompanyTotalSales')
+const { getCompanyTotalSales } = require('../queries/postgres/kpi/getCompanyTotalSales')
 const { lvl_0_total_getSalesPeriodToDate: lvl_0_program_getSalesPeriodToDate } = require('../queries/postgres/baseReport/getSalesTrend')
 const { lvl_1_subtotal_getSalesByFy, lvl_0_total_getSalesByFy } = require('../queries/postgres/viewCustTrend_baseReport/getSalesTrendByFy')
 const {
