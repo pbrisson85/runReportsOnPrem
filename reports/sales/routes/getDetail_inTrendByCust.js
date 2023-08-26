@@ -1,13 +1,9 @@
 const router = require('express').Router()
 const { getWeekForDate } = require('../queries/postgres/getWeekForDate')
 const getReportConfig = require('../utils/getReportConfig')
-const { getSo_detail, getSoTagged_detail, getSoUntagged_detail } = require('../../queries/postgres/getDetail_inTrendByCust/getSo')
-const {
-  getSoByWk_detail,
-  getSoByWkTagged_detail,
-  getSoByWkUntagged_detail,
-} = require('../../queries/postgres/getDetail_inTrendByCust/getSoByWeek')
-const { getSales_detail } = require('../../queries/postgres/getDetail_inTrendByCust/getSales')
+const { getSo_detail, getSoTagged_detail, getSoUntagged_detail } = require('../queries/postgres/getDetail_inTrendByCust/getSo')
+const { getSoByWk_detail, getSoByWkTagged_detail, getSoByWkUntagged_detail } = require('../queries/postgres/getDetail_inTrendByCust/getSoByWeek')
+const { getSales_detail } = require('../queries/postgres/getDetail_inTrendByCust/getSales')
 
 // @route   POST /api/sales/detail/forProgBySpecBrndSize/
 // @desc
@@ -17,14 +13,12 @@ router.post('/', async (req, res) => {
   const { option, filters, columnDataName, colType, periodStart, periodEnd, fyTrendCol, fyYtdTrendCol, format } = req.body
   let { program, year } = req.body
 
-  const config = getReportConfig(req.body)
-
   console.log(`\nget detail data in trend by customer for ${format} route HIT...`)
 
+  const config = getReportConfig(req.body)
   let detail = null
-
-  // Determine level of report being shown: (NOTE THAT THIS COULD MORE EASILY BE DONE WITH A SPECIFIC FLAG INSTEAD OF TRYING TO PARSE THE FILTERS)
   let level = null
+
   if (filters[2] === null) {
     // two level report
     if (filters[0] === 'SUBTOTAL' || filters[1] === 'SUBTOTAL') level = 1
