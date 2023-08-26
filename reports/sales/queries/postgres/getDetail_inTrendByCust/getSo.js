@@ -1,6 +1,6 @@
 const sql = require('../../../../../server')
 
-const lvl_3_subtotal_getSo_detail = async (config, program, filters, level) => {
+const getSo_detail = async (config, program, filters, level) => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders ...`)
 
@@ -20,7 +20,7 @@ const lvl_3_subtotal_getSo_detail = async (config, program, filters, level) => {
   }
 }
 
-const lvl_3_subtotal_getSoTagged_detail = async (config, program, filters, level) => {
+const getSoTagged_detail = async (config, program, filters, level) => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders ...`)
 
@@ -40,7 +40,7 @@ const lvl_3_subtotal_getSoTagged_detail = async (config, program, filters, level
   }
 }
 
-const lvl_3_subtotal_getSoUntagged_detail = async (config, program, filters, level) => {
+const getSoUntagged_detail = async (config, program, filters, level) => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders ...`)
 
@@ -60,6 +60,6 @@ const lvl_3_subtotal_getSoUntagged_detail = async (config, program, filters, lev
   }
 }
 
-module.exports.lvl_3_subtotal_getSo_detail = lvl_3_subtotal_getSo_detail
-module.exports.lvl_3_subtotal_getSoTagged_detail = lvl_3_subtotal_getSoTagged_detail
-module.exports.lvl_3_subtotal_getSoUntagged_detail = lvl_3_subtotal_getSoUntagged_detail
+module.exports.getSo_detail = getSo_detail
+module.exports.getSoTagged_detail = getSoTagged_detail
+module.exports.getSoUntagged_detail = getSoUntagged_detail

@@ -1,8 +1,13 @@
 const router = require('express').Router()
-const getDetail_salesOrder = require('../routines/getDetail_inTrendByCust/salesOrder')
-const getDetail_salesInvoice = require('../routines/getDetail_inTrendByCust/salesInvoice')
 const { getWeekForDate } = require('../queries/postgres/getWeekForDate')
 const getReportConfig = require('../utils/getReportConfig')
+const { getSo_detail, getSoTagged_detail, getSoUntagged_detail } = require('../../queries/postgres/getDetail_inTrendByCust/getSo')
+const {
+  getSoByWk_detail,
+  getSoByWkTagged_detail,
+  getSoByWkUntagged_detail,
+} = require('../../queries/postgres/getDetail_inTrendByCust/getSoByWeek')
+const { getSales_detail } = require('../../queries/postgres/getDetail_inTrendByCust/getSales')
 
 // @route   POST /api/sales/detail/forProgBySpecBrndSize/
 // @desc
@@ -16,7 +21,7 @@ router.post('/', async (req, res) => {
 
   console.log(`\nget detail data in trend by customer for ${format} route HIT...`)
 
-  let response = null
+  let detail = null
 
   // Determine level of report being shown: (NOTE THAT THIS COULD MORE EASILY BE DONE WITH A SPECIFIC FLAG INSTEAD OF TRYING TO PARSE THE FILTERS)
   let level = null
@@ -34,7 +39,32 @@ router.post('/', async (req, res) => {
   }
 
   if (colType === 'salesOrder') {
-    response = await getDetail_salesOrder(level, config, config.program, filters, columnDataName)
+    switch (columnDataName) {
+      case 'FG OPEN ORDER':
+        detail = await getSo_detail(config, config.program, filters, level)
+        break
+      case 'FG OPEN ORDER TAGGED':
+        detail = await getSoTagged_detail(config, config.program, filters, level)
+        break
+      case 'FG OPEN ORDER UNTAGGED':
+        detail = await getSoUntagged_detail(config, config.program, filters, level)
+        break
+      default:
+        // Must be a trend column
+        // note colName is 2023-W15_so , 2023-W15_so_untg, 2023-W15_so_tg
+        const isSo = columnDataName.split('_').length === 2 && columnDataName.split('_')[1] === 'so'
+        const isSoUntg = columnDataName.split('_')[2] === 'untg'
+        const isSoTg = columnDataName.split('_')[2] === 'tg'
+        const weekSerial = columnDataName.split('_')[0]
+
+        // query trend for all sales orders
+        if (isSo) detail = await getSoByWk_detail(config, config.program, filters, weekSerial, level)
+        // query trend for untagged sales orders
+        if (isSoUntg) detail = await getSoByWkUntagged_detail(config, config.program, filters, weekSerial, level)
+        // query trend for tagged sales orders
+        if (isSoTg) detail = await getSoByWkTagged_detail(config, config.program, filters, weekSerial, level)
+        break
+    }
   }
 
   if (colType === 'salesInvoice') {
@@ -58,11 +88,12 @@ router.post('/', async (req, res) => {
       endWeek = columnDataName.split('-')[1].split('W')[1]
       year = columnDataName.split('-')[0]
     }
-    response = await getDetail_salesInvoice(level, config, config.program, filters, startWeek, endWeek, year)
+
+    detail = await getSales_detail(config, startWeek, endWeek, config.program, filters, year, level)
   }
 
   console.log(`get detail data in trend by customer for ${format} route COMPLETE. \n`)
-  res.send(response)
+  res.send(detail)
 })
 
 module.exports = router
