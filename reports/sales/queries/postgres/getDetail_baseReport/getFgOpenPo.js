@@ -22,7 +22,4 @@ const lvl_3_subtotal_getFgPo_detail = async (config, program, filters, level) =>
   }
 }
 
-module.exports.lvl_1_subtotal_getFgPo_detail = lvl_1_subtotal_getFgPo_detail
-module.exports.lvl_2_subtotal_getFgPo_detail = lvl_2_subtotal_getFgPo_detail
 module.exports.lvl_3_subtotal_getFgPo_detail = lvl_3_subtotal_getFgPo_detail
-module.exports.lvl_0_total_getFgPo_detail = lvl_0_total_getFgPo_detail
