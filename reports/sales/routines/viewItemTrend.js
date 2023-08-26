@@ -3,21 +3,18 @@ const {
   getDateEndPerWeekByRange_so,
   getDateEndPerWeekByRange_so_tg,
   getDateEndPerWeekByRange_so_untg,
-} = require('../../queries/postgres/getDateEndPerWeek')
-const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../queries/postgres/getFiscalYearCols')
-const { getLatestShipWk, getEarliestShipWk } = require('../../queries/postgres/getSoDates')
+} = require('../queries/postgres/getDateEndPerWeek')
+const { getFiscalYearCols, getFiscalYearYtdCols } = require('../queries/postgres/getFiscalYearCols')
+const { getLatestShipWk, getEarliestShipWk } = require('../queries/postgres/getSoDates')
 const {
   lvl_1_subtotal_getSalesByWk,
   lvl_0_total_getSalesByWk,
   lvl_1_subtotal_getSalesPeriodToDate,
   lvl_0_total_getSalesPeriodToDate,
-} = require('../../queries/postgres/viewItemTrend/byItem_level0/getSalesTrend')
+} = require('../queries/postgres/viewItemTrend/getSalesTrend')
 const { getCompanyTotalSales } = require('../../queries/postgres/getCompanyTotalSales')
-const { lvl_0_total_getSalesPeriodToDate: lvl_0_program_getSalesPeriodToDate } = require('../../queries/postgres/baseReport/getSalesTrend')
-const {
-  lvl_1_subtotal_getSalesByFyYtd,
-  lvl_0_total_getSalesByFyYtd,
-} = require('../../queries/postgres/viewItemTrend/byItem_level0/getSalesTrendByFyYtd')
+const { lvl_0_total_getSalesPeriodToDate: lvl_0_program_getSalesPeriodToDate } = require('../queries/postgres/baseReport/getSalesTrend')
+const { lvl_1_subtotal_getSalesByFyYtd, lvl_0_total_getSalesByFyYtd } = require('../queries/postgres/viewItemTrend/getSalesTrendByFyYtd')
 const {
   lvl_1_subtotal_getFgInven,
   lvl_0_total_getFgInven,
@@ -29,8 +26,8 @@ const {
   lvl_0_total_getFgAtLoc_untagged,
   lvl_1_subtotal_getFgAtLoc_tagged,
   lvl_0_total_getFgAtLoc_tagged,
-} = require('../../queries/postgres/viewItemTrend/byItem_level0/getFgInven')
-const { lvl_1_subtotal_getFgPo, lvl_0_total_getFgPo } = require('../../queries/postgres/viewItemTrend/byItem_level0/getFgOpenPo')
+} = require('../queries/postgres/viewItemTrend/getFgInven')
+const { lvl_1_subtotal_getFgPo, lvl_0_total_getFgPo } = require('../queries/postgres/viewItemTrend/getFgOpenPo')
 const {
   lvl_1_subtotal_getSo,
   lvl_0_total_getSo,
@@ -38,7 +35,7 @@ const {
   lvl_0_total_getSoTagged,
   lvl_1_subtotal_getSoUntagged,
   lvl_0_total_getSoUntagged,
-} = require('../../queries/postgres/viewItemTrend/byItem_level0/getSo')
+} = require('../queries/postgres/viewItemTrend/getSo')
 const {
   lvl_1_subtotal_getSo_byWk,
   lvl_0_total_getSo_byWk,
@@ -46,76 +43,74 @@ const {
   lvl_0_total_getSoTagged_byWk,
   lvl_1_subtotal_getSoUntagged_byWk,
   lvl_0_total_getSoUntagged_byWk,
-} = require('../../queries/postgres/viewItemTrend/byItem_level0/getSoByWeek')
-const { getRowsFirstLevelDetail } = require('../../queries/postgres/viewItemTrend/byItem_level0/getRows')
-const { getRowsFirstLevelDetail: getRows_l1_showFyTrend } = require('../../queries/postgres/viewItemTrend/byItem_level0/getRowsTrendByFy')
-const mapSalesToRowTemplates = require('../../models/mapSalesToRowTemplatesOneLevel')
-const mapInvenToRowTemplates = require('../../models/mapInvenToRowTemplatesOneLevel')
-const combineMappedRows = require('../../models/combineMappedRows')
-const cleanLabelsForDisplay = require('../../models/cleanLabelsForDisplay')
-const unflattenByCompositKey = require('../../models/unflattenByCompositKey')
-const calcPercentSalesCol = require('../../models/calcPercentSalesCol')
-const calcAveWeeklySales = require('../../models/calcAveWeeklySales')
-const calcWeeksInvOnHand = require('../../models/calcWeeksInvOnHand')
-const calcInventoryAvailable = require('../../models/calcInventoryAvailable')
+} = require('../queries/postgres/viewItemTrend/getSoByWeek')
+const { getRowsFirstLevelDetail } = require('../queries/postgres/viewItemTrend/getRows')
+const { getRowsFirstLevelDetail: getRows_l1_showFyTrend } = require('../queries/postgres/viewItemTrend/getRowsTrendByFy')
+const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplatesOneLevel')
+const mapInvenToRowTemplates = require('../models/mapInvenToRowTemplatesOneLevel')
+const combineMappedRows = require('../models/combineMappedRows')
+const cleanLabelsForDisplay = require('../models/cleanLabelsForDisplay')
+const unflattenByCompositKey = require('../models/unflattenByCompositKey')
+const calcPercentSalesCol = require('../models/calcPercentSalesCol')
+const calcAveWeeklySales = require('../models/calcAveWeeklySales')
+const calcWeeksInvOnHand = require('../models/calcWeeksInvOnHand')
+const calcInventoryAvailable = require('../models/calcInventoryAvailable')
 
-const buildDrillDown = async (labelCols, config, program, start, end, filters, showFyTrend, startWeek, endWeek) => {
-  console.log(program, '\n', start, '\n', end, '\n', filters)
-
+const buildDrillDown = async (labelCols, config, program, start, end, filters, showFyTrend, startWeek, endWeek, level) => {
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
-  const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(config, program, filters)
-  const lvl_0_total_fgInven = await lvl_0_total_getFgInven(config, program, filters)
+  const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(config, program, filters, level)
+  const lvl_0_total_fgInven = await lvl_0_total_getFgInven(config, program, filters, level)
   /* FG IN TRANSIT*/
-  const lvl_1_subtotal_fgInTransit = await lvl_1_subtotal_getFgInTransit(config, program, filters)
-  const lvl_0_total_fgInTransit = await lvl_0_total_getFgInTransit(config, program, filters)
+  const lvl_1_subtotal_fgInTransit = await lvl_1_subtotal_getFgInTransit(config, program, filters, level)
+  const lvl_0_total_fgInTransit = await lvl_0_total_getFgInTransit(config, program, filters, level)
   /* FG ON HAND (LESS IN TRANSIT) */
-  const lvl_1_subtotal_fgAtLoc = await lvl_1_subtotal_getFgAtLoc(config, program, filters)
-  const lvl_0_total_fgAtLoc = await lvl_0_total_getFgAtLoc(config, program, filters)
+  const lvl_1_subtotal_fgAtLoc = await lvl_1_subtotal_getFgAtLoc(config, program, filters, level)
+  const lvl_0_total_fgAtLoc = await lvl_0_total_getFgAtLoc(config, program, filters, level)
   /* FG ON HAND UNTAGGED */
-  const lvl_1_subtotal_fgAtLoc_untagged = await lvl_1_subtotal_getFgAtLoc_untagged(config, program, filters)
-  const lvl_0_total_fgAtLoc_untagged = await lvl_0_total_getFgAtLoc_untagged(config, program, filters)
+  const lvl_1_subtotal_fgAtLoc_untagged = await lvl_1_subtotal_getFgAtLoc_untagged(config, program, filters, level)
+  const lvl_0_total_fgAtLoc_untagged = await lvl_0_total_getFgAtLoc_untagged(config, program, filters, level)
   /* FG ON HAND TAGGED */
-  const lvl_1_subtotal_fgAtLoc_tagged = await lvl_1_subtotal_getFgAtLoc_tagged(config, program, filters)
-  const lvl_0_total_fgAtLoc_tagged = await lvl_0_total_getFgAtLoc_tagged(config, program, filters)
+  const lvl_1_subtotal_fgAtLoc_tagged = await lvl_1_subtotal_getFgAtLoc_tagged(config, program, filters, level)
+  const lvl_0_total_fgAtLoc_tagged = await lvl_0_total_getFgAtLoc_tagged(config, program, filters, level)
 
   /* FG ON ORDER */
-  const lvl_1_subtotal_fgPo = await lvl_1_subtotal_getFgPo(config, program, filters)
-  const lvl_0_total_fgPo = await lvl_0_total_getFgPo(config, program, filters)
+  const lvl_1_subtotal_fgPo = await lvl_1_subtotal_getFgPo(config, program, filters, level)
+  const lvl_0_total_fgPo = await lvl_0_total_getFgPo(config, program, filters, level)
 
   // ///////////////////////////////// SALES ORDERS
   /* ALL SO */
-  const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(config, program, filters)
-  const lvl_0_total_so = await lvl_0_total_getSo(config, program, filters)
+  const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(config, program, filters, level)
+  const lvl_0_total_so = await lvl_0_total_getSo(config, program, filters, level)
 
-  const lvl_1_subtotal_so_byWk = await lvl_1_subtotal_getSo_byWk(config, program, filters)
-  const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk(config, program, filters)
+  const lvl_1_subtotal_so_byWk = await lvl_1_subtotal_getSo_byWk(config, program, filters, level)
+  const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk(config, program, filters, level)
 
   /* TAGGED SO */
-  const lvl_1_subtotal_soTagged = await lvl_1_subtotal_getSoTagged(config, program, filters)
-  const lvl_0_total_soTagged = await lvl_0_total_getSoTagged(config, program, filters)
+  const lvl_1_subtotal_soTagged = await lvl_1_subtotal_getSoTagged(config, program, filters, level)
+  const lvl_0_total_soTagged = await lvl_0_total_getSoTagged(config, program, filters, level)
 
-  const lvl_1_subtotal_soTagged_byWk = await lvl_1_subtotal_getSoTagged_byWk(config, program, filters)
-  const lvl_0_total_soTagged_byWk = await lvl_0_total_getSoTagged_byWk(config, program, filters)
+  const lvl_1_subtotal_soTagged_byWk = await lvl_1_subtotal_getSoTagged_byWk(config, program, filters, level)
+  const lvl_0_total_soTagged_byWk = await lvl_0_total_getSoTagged_byWk(config, program, filters, level)
 
   /* UNTAGGED SO */
-  const lvl_1_subtotal_soUntagged = await lvl_1_subtotal_getSoUntagged(config, program, filters)
-  const lvl_0_total_soUntagged = await lvl_0_total_getSoUntagged(config, program, filters)
+  const lvl_1_subtotal_soUntagged = await lvl_1_subtotal_getSoUntagged(config, program, filters, level)
+  const lvl_0_total_soUntagged = await lvl_0_total_getSoUntagged(config, program, filters, level)
 
-  const lvl_1_subtotal_soUntagged_byWk = await lvl_1_subtotal_getSoUntagged_byWk(config, program, filters)
-  const lvl_0_total_soUntagged_byWk = await lvl_0_total_getSoUntagged_byWk(config, program, filters)
+  const lvl_1_subtotal_soUntagged_byWk = await lvl_1_subtotal_getSoUntagged_byWk(config, program, filters, level)
+  const lvl_0_total_soUntagged_byWk = await lvl_0_total_getSoUntagged_byWk(config, program, filters, level)
 
   // ///////////////////////////////// SALES DATA
-  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFyYtd(config, start, end, program, filters, false)
-  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFyYtd(config, start, end, program, filters, false)
+  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFyYtd(config, start, end, program, filters, false, level)
+  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFyYtd(config, start, end, program, filters, false, level)
 
-  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, filters, true)
-  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, program, filters, true)
+  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, filters, true, level)
+  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, program, filters, true, level)
 
-  const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(config, start, end, program, filters)
-  const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(config, start, end, program, filters)
-  const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(config, start, end, program, filters)
-  const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(config, start, end, program, filters)
+  const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(config, start, end, program, filters, level)
+  const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(config, start, end, program, filters, level)
+  const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(config, start, end, program, filters, level)
+  const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(config, start, end, program, filters, level)
 
   const companyTotalSales = await getCompanyTotalSales(start, end)
 
@@ -154,13 +149,13 @@ const buildDrillDown = async (labelCols, config, program, start, end, filters, s
   let rowsFirstLevelDetail
   if (showFyTrend) {
     // full fy trend requested. need rows for all data
-    rowsFirstLevelDetail = await getRows_l1_showFyTrend(config, start, end, program, filters)
+    rowsFirstLevelDetail = await getRows_l1_showFyTrend(config, start, end, program, filters, level)
   } else {
     // data request with start and end dates
-    rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, program, filters)
+    rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, program, filters, level)
   }
   const totalsRow = [{ totalRow: true, l1_label: `FG SALES`, l2_label: `TOTAL` }] // Need an l2_label of TOTAL for front end styling
-  const filterRow = [{ filterRow: true, l1_label: `PROGRAM: ${program}, FILTERS: ${filters[0]}, ${filters[1]}` }] // shows at top of report
+  const filterRow = [{ filterRow: true, l1_label: `PROGRAM: ${program}, FILTERS: ${filters[0]}, ${filters[1]}, ${filters[2]}` }] // shows at top of report
 
   // COMPILE FINAL ROW TEMPLATE
   const rowTemplate = [...rowsFirstLevelDetail, ...totalsRow]
@@ -242,20 +237,8 @@ const buildDrillDown = async (labelCols, config, program, start, end, filters, s
   let finalData = cleanLabelsForDisplay(flattenedMappedData, '')
     .sort((a, b) => {
       // if has includes total, put at end
-      if (a.l5_label < b.l5_label) return -1
-      if (a.l5_label > b.l5_label) return 1
-      return 0
-    })
-    .sort((a, b) => {
-      // if has includes total, put at end
-      if (a.l4_label < b.l4_label) return -1
-      if (a.l4_label > b.l4_label) return 1
-      return 0
-    })
-    .sort((a, b) => {
-      // if has includes total, put at end
-      if (a.l3_label < b.l3_label) return -1
-      if (a.l3_label > b.l3_label) return 1
+      if (a.l1_label < b.l1_label) return -1
+      if (a.l1_label > b.l1_label) return 1
       return 0
     })
     .sort((a, b) => {

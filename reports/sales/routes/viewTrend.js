@@ -1,11 +1,8 @@
 const router = require('express').Router()
-const buildDrillDown_byItem_level3 = require('../routines/viewItemTrend/level3')
-const buildDrillDown_byItem_level2 = require('../routines/viewItemTrend/level2')
-const buildDrillDown_byItem_level1 = require('../routines/viewItemTrend/level1')
-const buildDrillDown_byItem_level0 = require('../routines/viewItemTrend/level0')
+const viewItemTrend = require('../routines/viewItemTrend')
 const { getStartOfWeek } = require('../queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../queries/postgres/getWeekForDate')
-const buildDrillDown_byCustomer_level3 = require('../routines/viewCustTrend_baseReport')
+const viewCustTrend_baseReport = require('../routines/viewCustTrend_baseReport')
 const labelCols_byItem = require('../queries/hardcode/cols_byItem')
 const labelCols_byCustomer = require('../queries/hardcode/cols_byCustomer')
 const getReportConfig = require('../utils/getReportConfig')
@@ -48,70 +45,23 @@ router.post('/', async (req, res) => {
   }
 
   if (option === 'Trend By Item') {
-    if (level === 1) {
-      // level 1 subtotal
-      response = await buildDrillDown_byItem_level1(
-        labelCols_byItem,
-        config,
-        config.program,
-        periodStart,
-        periodEnd,
-        filters,
-        showFyTrend,
-        startWeek,
-        endWeek
-      )
-    }
-
-    if (level === 2) {
-      // level 2 subtotal
-      response = await buildDrillDown_byItem_level2(
-        labelCols_byItem,
-        config,
-        config.program,
-        periodStart,
-        periodEnd,
-        filters,
-        showFyTrend,
-        startWeek,
-        endWeek
-      )
-    }
-
-    if (level === 3) {
-      // level 3 subtotal
-      response = await buildDrillDown_byItem_level3(
-        labelCols_byItem,
-        config,
-        config.program,
-        periodStart,
-        periodEnd,
-        filters,
-        showFyTrend,
-        startWeek,
-        endWeek
-      )
-    }
-
-    if (level === 0) {
-      // level 0 total
-      response = await buildDrillDown_byItem_level0(
-        labelCols_byItem,
-        config,
-        config.program,
-        periodStart,
-        periodEnd,
-        filters,
-        showFyTrend,
-        startWeek,
-        endWeek
-      )
-    }
+    response = await viewItemTrend(
+      labelCols_byItem,
+      config,
+      config.program,
+      periodStart,
+      periodEnd,
+      filters,
+      showFyTrend,
+      startWeek,
+      endWeek,
+      level
+    )
   } else if (option === 'Trend By Customer') {
     // option is top customer weight, margin, or bottom customer weight.
     // Pull one set of data and filter/sum at the end based on the option.
 
-    response = await buildDrillDown_byCustomer_level3(
+    response = await viewCustTrend_baseReport(
       labelCols_byCustomer,
       config,
       config.program,

@@ -1,8 +1,5 @@
 const router = require('express').Router()
-const buildDrillDown_byItem_level3 = require('../routines/viewItemTrend/level3')
-const buildDrillDown_byItem_level2 = require('../routines/viewItemTrend/level2')
-const buildDrillDown_byItem_level1 = require('../routines/viewItemTrend/level1')
-const buildDrillDown_byItem_level0 = require('../routines/viewItemTrend/level0')
+const viewItemTrend = require('../routines/viewItemTrend')
 const { getStartOfWeek } = require('../queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../queries/postgres/getWeekForDate')
 const labelCols = require('../queries/hardcode/cols_byItem')
@@ -30,8 +27,6 @@ router.post('/', async (req, res) => {
   const startOfWeek = await getStartOfWeek(periodStart)
   periodStart = startOfWeek[0].formatted_date_start
 
-  let response = null
-
   // Determine level of report being shown: (NOTE THAT THIS COULD MORE EASILY BE DONE WITH A SPECIFIC FLAG INSTEAD OF TRYING TO PARSE THE FILTERS)
   let level = null
 
@@ -48,65 +43,18 @@ router.post('/', async (req, res) => {
     if (filters[1] === 'TOTAL' && filters[2] === 'TOTAL') level = 0
   }
 
-  if (level === 1) {
-    // level 1 subtotal
-    response = await buildDrillDown_byItem_level1(
-      labelCols,
-      config,
-      config.program,
-      periodStart,
-      periodEnd,
-      filters,
-      showFyTrend,
-      startWeek,
-      endWeek
-    )
-  }
-
-  if (level === 2) {
-    // level 2 subtotal
-    response = await buildDrillDown_byItem_level2(
-      labelCols,
-      config,
-      config.program,
-      periodStart,
-      periodEnd,
-      filters,
-      showFyTrend,
-      startWeek,
-      endWeek
-    )
-  }
-
-  if (level === 3) {
-    // level 2 subtotal
-    response = await buildDrillDown_byItem_level3(
-      labelCols,
-      config,
-      config.program,
-      periodStart,
-      periodEnd,
-      filters,
-      showFyTrend,
-      startWeek,
-      endWeek
-    )
-  }
-
-  if (level === 0) {
-    // level 0 total
-    response = await buildDrillDown_byItem_level0(
-      labelCols,
-      config,
-      config.program,
-      periodStart,
-      periodEnd,
-      filters,
-      showFyTrend,
-      startWeek,
-      endWeek
-    )
-  }
+  const response = await viewItemTrend(
+    labelCols,
+    config,
+    config.program,
+    periodStart,
+    periodEnd,
+    filters,
+    showFyTrend,
+    startWeek,
+    endWeek,
+    level
+  )
 
   console.log(`get drilldown data for ${format} route COMPLETE. \n`)
 
