@@ -112,8 +112,6 @@ router.post('/', async (req, res) => {
 
   console.log(`get detail data in trend by customer for ${format} route COMPLETE. \n`)
 
-  console.log('responding to front end with ', detail)
-
   res.send(detail)
 })
 

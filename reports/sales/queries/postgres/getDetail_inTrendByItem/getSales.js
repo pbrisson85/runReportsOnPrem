@@ -1,12 +1,10 @@
 const sql = require('../../../../../server')
 
-/* *********************************************** Level 1 Group *********************************************** */
-
-// FG Species Group col total for period
-
 const byItem_getSales_detail = async (start, end, filters, year) => {
   try {
-    console.log(`level 1: query postgres to get FG sales data period total ...`)
+    console.log(
+      `detail query postgres to get FG sales data period total for item ${item} startting week ${start} thru week ${end} for year: ${year}  ...`
+    )
 
     const response =
       await sql

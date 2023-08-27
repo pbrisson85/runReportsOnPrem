@@ -45,7 +45,6 @@ const {
   lvl_0_total_getSoUntagged_byWk,
 } = require('../queries/postgres/viewItemTrend/getSoByWeek')
 const { getRowsFirstLevelDetail } = require('../queries/postgres/viewItemTrend/getRows')
-const { getRowsFirstLevelDetail: getRows_l1_showFyTrend } = require('../queries/postgres/viewItemTrend/getRowsTrendByFy')
 const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplatesOneLevel')
 const mapInvenToRowTemplates = require('../models/mapInvenToRowTemplatesOneLevel')
 const combineMappedRows = require('../models/combineMappedRows')
@@ -146,14 +145,8 @@ const buildDrillDown = async (labelCols, config, program, start, end, filters, s
   const lvl_0_invAvailable = calcInventoryAvailable(lvl_0_total_fgInven, lvl_0_total_fgPo, lvl_0_total_so, 'invenAvailable')
 
   ///////////////////////////////// ROWS
-  let rowsFirstLevelDetail
-  if (showFyTrend) {
-    // full fy trend requested. need rows for all data
-    rowsFirstLevelDetail = await getRows_l1_showFyTrend(config, start, end, program, filters, level)
-  } else {
-    // data request with start and end dates
-    rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, program, filters, level)
-  }
+  const rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, program, filters, level, showFyTrend)
+
   const totalsRow = [{ totalRow: true, l1_label: `FG SALES`, l2_label: `TOTAL` }] // Need an l2_label of TOTAL for front end styling
   const filterRow = [{ filterRow: true, l1_label: `PROGRAM: ${program}, FILTERS: ${filters[0]}, ${filters[1]}, ${filters[2]}` }] // shows at top of report
 

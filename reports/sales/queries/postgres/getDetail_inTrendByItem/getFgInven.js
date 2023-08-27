@@ -1,11 +1,9 @@
 const sql = require('../../../../../server')
 
-/* *********************************************** Level 1 *********************************************** */
-
 // FG on hand (includes in transit)
 const byItem_getFgInven_detail = async item => {
   try {
-    console.log(`level 1 Detail: query postgres for FG on hand ...`)
+    console.log(`detail query postgres for FG on hand for item ${item} ...`)
 
     // Level 2 detail
 
@@ -30,7 +28,7 @@ const byItem_getFgInven_detail = async item => {
 
 const byItem_getFgInTransit_detail = async item => {
   try {
-    console.log(`level 1 Detail: query postgres for FG in transit ...`)
+    console.log(`detail query postgres for FG in transit for item ${item} ...`)
 
     const response =
       await sql
@@ -53,7 +51,7 @@ const byItem_getFgInTransit_detail = async item => {
 
 const byItem_getFgAtLoc_detail = async item => {
   try {
-    console.log(`level 1 Detail: query postgres for FG at location ...`)
+    console.log(`detail query postgres for FG at location for item ${item} ...`)
 
     const response =
       await sql
@@ -75,7 +73,7 @@ const byItem_getFgAtLoc_detail = async item => {
 // Going to need to revisit this one
 const byItem_getFgAtLoc_untagged_detail = async item => {
   try {
-    console.log(`level 1 Detail: query postgres for FG at location UNTAGGED ...`)
+    console.log(`detail query postgres for FG at location UNTAGGED for item ${item} ...`)
 
     const response =
       await sql`SELECT all_inven.receipt_date, all_inven.location_date, all_inven.lot_text, all_inven.msc_cert_bool AS msc, all_inven.item, all_inven.description, all_inven.lot, all_inven.species, all_inven.brand, all_inven.size, all_inven.soak, all_inven.lbs - COALESCE(tagged_inven.lbs,0) AS lbs, all_inven.cost_lb, all_inven.cost_ext - COALESCE(tagged_inven.cost_ext,0) AS cost_ext, all_inven.location, all_inven.country, all_inven.fresh_frozen
@@ -109,7 +107,7 @@ const byItem_getFgAtLoc_untagged_detail = async item => {
 
 const byItem_getFgAtLoc_tagged_detail = async item => {
   try {
-    console.log(`level 1 Detail: query postgres for FG at location TAGGED ...`)
+    console.log(`detail query postgres for FG at location TAGGED for item ${item} ...`)
 
     const response =
       await sql

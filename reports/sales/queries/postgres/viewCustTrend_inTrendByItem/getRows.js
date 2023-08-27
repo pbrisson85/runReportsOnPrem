@@ -1,6 +1,6 @@
 const sql = require('../../../../../server')
 
-const getRowsFirstLevelDetail = async (start, end, item) => {
+const getRowsFirstLevelDetail = async (start, end, item, showFyTrend) => {
   try {
     console.log(`query postgres to get row labels ...`)
 
@@ -10,7 +10,7 @@ const getRowsFirstLevelDetail = async (start, end, item) => {
       FROM "salesReporting".sales_line_items AS sl
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
-      WHERE sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_num = ${item} 
+      WHERE ${!showFyTrend ? sql`sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ` : sql``} ms.byproduct_type IS NULL AND ms.item_num = ${item} 
       
       GROUP BY sl.customer_code, sl.customer_name 
       

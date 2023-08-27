@@ -17,7 +17,6 @@ const { getFiscalYearCols, getFiscalYearYtdCols } = require('../queries/postgres
 const { lvl_1_subtotal_getSo, lvl_0_total_getSo } = require('../queries/postgres/viewCustTrend_inTrendByItem/getSo')
 const { lvl_1_subtotal_getSo_byWk, lvl_0_total_getSo_byWk } = require('../queries/postgres/viewCustTrend_inTrendByItem/getSoByWeek')
 const { getRowsFirstLevelDetail } = require('../queries/postgres/viewCustTrend_inTrendByItem/getRows')
-const { getRowsFirstLevelDetail: getRows_l1_showFyTrend } = require('../queries/postgres/viewCustTrend_inTrendByItem/getRowsTrendByFy')
 const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplatesOneLevel')
 const cleanLabelsForDisplay = require('../models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../models/unflattenByCompositKey')
@@ -64,14 +63,8 @@ const buildDrillDown = async (item, start, end, program, filters, showFyTrend, s
   const lvl_0_aveWeeklySales = calcAveWeeklySales(lvl_0_total_salesPeriodToDate, 'aveWeeklySales', weeks)
 
   ///////////////////////////////// ROWS
-  let rowsFirstLevelDetail
-  if (showFyTrend) {
-    // full fy trend requested. need rows for all data
-    rowsFirstLevelDetail = await getRows_l1_showFyTrend(start, end, item)
-  } else {
-    // data request with start and end dates
-    rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, item)
-  }
+  const rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, item, showFyTrend)
+
   const totalsRow = [{ totalRow: true, l1_label: `FG SALES`, l2_label: `TOTAL` }] // Need an l2_label of TOTAL for front end styling
   const filterRow = [{ filterRow: true, l1_label: `PROGRAM: ${program}, FILTERS: ${filters[0]}, ${filters[1]}, ${filters[2]}` }] // shows at top of report
 

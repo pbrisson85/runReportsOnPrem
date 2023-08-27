@@ -1,6 +1,6 @@
 const sql = require('../../../../../server')
 
-const getRowsFirstLevelDetail = async (config, start, end, program, filters, level) => {
+const getRowsFirstLevelDetail = async (config, start, end, program, filters, level, showFyTrend) => {
   try {
     console.log(`query postgres to get row labels ...`)
 
@@ -13,7 +13,7 @@ const getRowsFirstLevelDetail = async (config, start, end, program, filters, lev
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = sales_line_items.item_number 
               
-          WHERE sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  ${level > 0 ? sql`AND ${sql(config.l1_field)} = ${filters[0]}` : sql``} ${level > 1 ? sql`AND ${sql(config.l2_field)} = ${filters[1]}` : sql``} ${level > 2 ? sql`AND ${sql(config.l3_field)} = ${filters[2]}` : sql``} ${filters[3] ? sql`AND sales_line_items.customer_code = ${filters[3]}`: sql``} 
+          WHERE ${!showFyTrend ? sql`sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ` : sql``} ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  ${level > 0 ? sql`AND ${sql(config.l1_field)} = ${filters[0]}` : sql``} ${level > 1 ? sql`AND ${sql(config.l2_field)} = ${filters[1]}` : sql``} ${level > 2 ? sql`AND ${sql(config.l3_field)} = ${filters[2]}` : sql``} ${filters[3] ? sql`AND sales_line_items.customer_code = ${filters[3]}`: sql``} 
           
           GROUP BY ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.brand, ms.size_name 
         
