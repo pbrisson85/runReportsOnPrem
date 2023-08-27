@@ -6,7 +6,7 @@ const getRowsFirstLevelDetail = async (start, end, item, showFyTrend, level) => 
 
     const response =
       await sql
-      `SELECT sl.customer_code AS l1_label, sl.customer_name AS l2_label, ${level} AS dataLevel 
+      `SELECT sl.customer_code AS l1_label, sl.customer_name AS l2_label, ${level} AS datalevel 
       FROM "salesReporting".sales_line_items AS sl
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
@@ -14,7 +14,7 @@ const getRowsFirstLevelDetail = async (start, end, item, showFyTrend, level) => 
       
       GROUP BY sl.customer_code, sl.customer_name 
       
-    UNION SELECT so.customer_code AS l1_label, so.customer_name AS l2_label, ${level} AS dataLevel 
+    UNION SELECT so.customer_code AS l1_label, so.customer_name AS l2_label, ${level} AS datalevel 
       FROM "salesReporting".sales_orders AS so
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 

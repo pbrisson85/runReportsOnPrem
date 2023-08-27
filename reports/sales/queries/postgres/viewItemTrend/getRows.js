@@ -7,7 +7,7 @@ const getRowsFirstLevelDetail = async (config, start, end, program, filters, lev
     // NOTE THAT CURRENTLY OPEN POS ARE IN THE INVENTORY TABLE. BELOW WOULD NEED TO QUERY THE PO TABLE IF IT IS MOVED.
 
     const response = await sql
-        `SELECT ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, ${level} AS dataLevel 
+        `SELECT ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, ${level} AS datalevel 
         
           FROM "salesReporting".sales_line_items 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -17,7 +17,7 @@ const getRowsFirstLevelDetail = async (config, start, end, program, filters, lev
           
           GROUP BY ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.brand, ms.size_name 
         
-        UNION SELECT ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, ${level} AS dataLevel 
+        UNION SELECT ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, ${level} AS datalevel 
         
           FROM "salesReporting".sales_orders 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -27,7 +27,7 @@ const getRowsFirstLevelDetail = async (config, start, end, program, filters, lev
           
           GROUP BY ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.brand, ms.size_name
           
-        UNION SELECT ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, ${level} AS dataLevel 
+        UNION SELECT ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, ${level} AS datalevel 
         
           FROM "invenReporting".perpetual_inventory 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 

@@ -65,7 +65,7 @@ const buildDrillDown = async (item, start, end, program, filters, showFyTrend, s
   ///////////////////////////////// ROWS
   const rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, item, showFyTrend, level)
 
-  const totalsRow = [{ totalRow: true, l1_label: `FG SALES`, l2_label: `TOTAL`, dataLevel: level }] // Need an l2_label of TOTAL for front end styling
+  const totalsRow = [{ totalRow: true, l1_label: `FG SALES`, l2_label: `TOTAL`, datalevel: level }] // Need an l2_label of TOTAL for front end styling
   const filterRow = [{ filterRow: true, l1_label: `PROGRAM: ${program}, FILTERS: ${filters[0]}, ${filters[1]}, ${filters[2]}` }] // shows at top of report
 
   // COMPILE FINAL ROW TEMPLATE
