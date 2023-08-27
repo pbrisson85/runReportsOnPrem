@@ -7,7 +7,7 @@ const getRowsThirdLevelDetail = async (config, start, end, program, showFyTrend)
     console.log(`query postgres to get row labels (getRowsThirdLevelDetail) ...`)
 
     const response = await sql
-        `SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label 
+        `SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, '1' AS l4_label 
         
           FROM "salesReporting".sales_line_items 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
