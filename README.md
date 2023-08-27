@@ -2,9 +2,13 @@
 
 - Priorities:
 
-  ### Get rows (especially in item tredn as that is where i was looking when realizing this) will need to add a union query to the open PO table if it is moved (as planned) from the perpetual inventory table
+  ### Next step. put the level in the row data so that it can be passed back instead of parsing the labels. Do the same with anything else I am parsing. ONCE everything is done cleaning up then add the reports for by sales person and by customer vertical
 
-  ### Was in species brand skin then changed to species skin brand in program all and BLOW UP\*_!_!_!_!_!_!\*!
+  ### When drilling down on item trend I fixed the inventory col by getting rows for all inven items however this is wrong when drilling by item from the customer screen. This is because it shows rows for all items in that base report grouping, items that dont have anything to do with the customers sales or sales orders. The fix I think is either to not include the PO or inventory items BUT better choice would probably be to: if customer filter exists only select the inventory items that are in the customer sales items. On second thought maybe this is a good way to show it because you can see substitute items. OR maybe have it as an option. For simplicity i would say just keep it this way unless it seems to get in the way.
+
+  ### Data error: there are scallop FG items that have a blank fresh/frozen field
+
+  ### Get rows (especially in item tredn as that is where i was looking when realizing this) will need to add a union query to the open PO table if it is moved (as planned) from the perpetual inventory table
 
   ### On the front end their is a data object (config of sorts) that holds all of the columns that shuld not be shown while in customer drilldown mode (because they are inventory related). First off, this config data should live on the back end in a consilidated config file. Secondly, these should be filtered out of the optional columns filter option because they cannot be shown therefore they are not optional in that view.
 
