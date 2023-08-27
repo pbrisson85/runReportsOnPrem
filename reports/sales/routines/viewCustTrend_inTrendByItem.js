@@ -24,7 +24,7 @@ const labelCols = require('../queries/hardcode/cols_byCustomer')
 const calcPercentSalesCol = require('../models/calcPercentSalesCol')
 const calcAveWeeklySales = require('../models/calcAveWeeklySales')
 
-const buildDrillDown = async (item, start, end, program, filters, showFyTrend, startWeek, endWeek) => {
+const buildDrillDown = async (item, start, end, program, filters, showFyTrend, startWeek, endWeek, level) => {
   // ///////////////////////////////// SALES ORDERS
   /* ALL SO */
   const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(item)
@@ -63,9 +63,9 @@ const buildDrillDown = async (item, start, end, program, filters, showFyTrend, s
   const lvl_0_aveWeeklySales = calcAveWeeklySales(lvl_0_total_salesPeriodToDate, 'aveWeeklySales', weeks)
 
   ///////////////////////////////// ROWS
-  const rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, item, showFyTrend)
+  const rowsFirstLevelDetail = await getRowsFirstLevelDetail(start, end, item, showFyTrend, level)
 
-  const totalsRow = [{ totalRow: true, l1_label: `FG SALES`, l2_label: `TOTAL` }] // Need an l2_label of TOTAL for front end styling
+  const totalsRow = [{ totalRow: true, l1_label: `FG SALES`, l2_label: `TOTAL`, dataLevel: level }] // Need an l2_label of TOTAL for front end styling
   const filterRow = [{ filterRow: true, l1_label: `PROGRAM: ${program}, FILTERS: ${filters[0]}, ${filters[1]}, ${filters[2]}` }] // shows at top of report
 
   // COMPILE FINAL ROW TEMPLATE

@@ -266,7 +266,7 @@ const buildReport = async (start, end, program, showFyTrend, startWeek, endWeek,
   const rowsSecondLevelDetail = await getRowsSecondLevelDetail(config, start, end, program, showFyTrend)
   const rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, program, showFyTrend)
 
-  const totalsRow = [{ totalRow: true, l1_label: 'FG SALES', l2_label: 'TOTAL', l3_label: 'TOTAL' }]
+  const totalsRow = [{ totalRow: true, l1_label: 'FG SALES', l2_label: 'TOTAL', l3_label: 'TOTAL', dataLevel: 0 }]
 
   // COMPILE FINAL ROW TEMPLATE
   const rowTemplate = [...rowsThirdLevelDetail, ...rowsSecondLevelDetail, ...rowsFirstLevelDetail]
