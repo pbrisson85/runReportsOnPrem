@@ -18,7 +18,7 @@ const {
   byItem_getFgAtLoc_detail,
   byItem_getFgAtLoc_untagged_detail,
   byItem_getFgAtLoc_tagged_detail,
-} = require('../../queries/postgres/getDetail_inTrendByItem/getFgInven')
+} = require('../queries/postgres/getDetail_inTrendByItem/getFgInven')
 
 // @route   POST /api/sales/detail/forProgBySpecBrndSize/
 // @desc
