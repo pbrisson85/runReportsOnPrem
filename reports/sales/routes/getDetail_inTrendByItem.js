@@ -103,7 +103,7 @@ router.post('/', async (req, res) => {
       year = columnDataName.split('-')[0]
     }
 
-    detail = await byItem_getSales_detail(startWeek, endWeek, filters, year)
+    detail = await byItem_getSales_detail(startWeek, endWeek, filters[0], year)
   }
 
   if (colType === 'purchaseOrder') {
