@@ -13,7 +13,7 @@ const getReportConfig = require('../utils/getReportConfig')
 // Instead of entering the start and end dates, enter the start week, end week. Then the same variables can be used for prior years.
 
 router.post('/', async (req, res) => {
-  const { option, filters, columnDataName, colType, periodEnd, showFyTrend, format } = req.body
+  const { option, filters, columnDataName, colType, periodEnd, showFyTrend, format, queryLevel: level } = req.body
   let { program, periodStart } = req.body
 
   const config = getReportConfig(req.body)
@@ -26,22 +26,6 @@ router.post('/', async (req, res) => {
   // Note that start date is the END of the first week. Need the beginning of the same week to pull invoice dates that are after this:
   const startOfWeek = await getStartOfWeek(periodStart)
   periodStart = startOfWeek[0].formatted_date_start
-
-  // Determine level of report being shown: (NOTE THAT THIS COULD MORE EASILY BE DONE WITH A SPECIFIC FLAG INSTEAD OF TRYING TO PARSE THE FILTERS)
-  let level = null
-
-  if (filters[2] === null) {
-    // two level report
-    if (filters[0] === 'SUBTOTAL' || filters[1] === 'SUBTOTAL') level = 1
-    if (filters[0] !== 'SUBTOTAL' && filters[1] !== 'SUBTOTAL') level = 2
-    if (filters[1] === 'TOTAL') level = 0
-  } else {
-    // three level report
-    if (filters[1] === 'SUBTOTAL' && filters[2] === 'SUBTOTAL') level = 1
-    if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') level = 2
-    if (filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL' && filters[1] !== 'TOTAL' && filters[2] !== 'TOTAL') level = 3
-    if (filters[1] === 'TOTAL' && filters[2] === 'TOTAL') level = 0
-  }
 
   const response = await viewItemTrend(
     labelCols,

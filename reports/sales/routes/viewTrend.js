@@ -12,7 +12,7 @@ const getReportConfig = require('../utils/getReportConfig')
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { option, filters, columnDataName, colType, periodEnd, showFyTrend, format } = req.body
+  const { option, filters, columnDataName, colType, periodEnd, showFyTrend, format, queryLevel: level } = req.body
   let { program, periodStart } = req.body
 
   const config = getReportConfig(req.body)
@@ -27,22 +27,6 @@ router.post('/', async (req, res) => {
   periodStart = startOfWeek[0].formatted_date_start
 
   let response = null
-
-  // Determine level of report being shown: (NOTE THAT THIS COULD MORE EASILY BE DONE WITH A SPECIFIC FLAG INSTEAD OF TRYING TO PARSE THE FILTERS)
-  let level = null
-
-  if (filters[2] === null) {
-    // two level report
-    if (filters[0] === 'SUBTOTAL' || filters[1] === 'SUBTOTAL') level = 1
-    if (filters[0] !== 'SUBTOTAL' && filters[1] !== 'SUBTOTAL') level = 2
-    if (filters[1] === 'TOTAL') level = 0
-  } else {
-    // three level report
-    if (filters[1] === 'SUBTOTAL' && filters[2] === 'SUBTOTAL') level = 1
-    if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') level = 2
-    if (filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL' && filters[1] !== 'TOTAL' && filters[2] !== 'TOTAL') level = 3
-    if (filters[1] === 'TOTAL' && filters[2] === 'TOTAL') level = 0
-  }
 
   if (option === 'Trend By Item') {
     response = await viewItemTrend(
