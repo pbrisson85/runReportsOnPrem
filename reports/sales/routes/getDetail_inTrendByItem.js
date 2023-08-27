@@ -107,7 +107,7 @@ router.post('/', async (req, res) => {
   }
 
   if (colType === 'purchaseOrder') {
-    detail = byItem_getFgPo_detail(filters[0])
+    detail = await byItem_getFgPo_detail(filters[0])
   }
 
   console.log(`get detail data in trend by customer for ${format} route COMPLETE. \n`)
