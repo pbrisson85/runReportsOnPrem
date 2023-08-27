@@ -10,27 +10,13 @@ const { getSales_detail } = require('../queries/postgres/getDetail_inTrendByCust
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { option, filters, columnDataName, colType, periodStart, periodEnd, fyTrendCol, fyYtdTrendCol, format } = req.body
+  const { option, filters, columnDataName, colType, periodStart, periodEnd, fyTrendCol, fyYtdTrendCol, format, queryLevel: level } = req.body
   let { program, year } = req.body
 
   console.log(`\nget detail data in trend by customer for ${format} route HIT...`)
 
   const config = getReportConfig(req.body)
   let detail = null
-  let level = null
-
-  if (filters[2] === null) {
-    // two level report
-    if (filters[0] === 'SUBTOTAL' || filters[1] === 'SUBTOTAL') level = 1
-    if (filters[0] !== 'SUBTOTAL' && filters[1] !== 'SUBTOTAL') level = 2
-    if (filters[1] === 'TOTAL') level = 0
-  } else {
-    // three level report
-    if (filters[1] === 'SUBTOTAL' && filters[2] === 'SUBTOTAL') level = 1
-    if (filters[1] !== 'SUBTOTAL' && filters[2] === 'SUBTOTAL') level = 2
-    if (filters[1] !== 'SUBTOTAL' && filters[2] !== 'SUBTOTAL' && filters[1] !== 'TOTAL' && filters[2] !== 'TOTAL') level = 3
-    if (filters[1] === 'TOTAL' && filters[2] === 'TOTAL') level = 0
-  }
 
   if (colType === 'salesOrder') {
     switch (columnDataName) {
