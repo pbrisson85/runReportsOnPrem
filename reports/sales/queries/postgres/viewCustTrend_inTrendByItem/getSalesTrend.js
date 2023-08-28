@@ -4,7 +4,7 @@ const sql = require('../../../../../server')
 
 // FG Species Group totals by week
 
-const lvl_1_subtotal_getSalesByWk = async (start, end, item) => {
+const lvl_1_subtotal_getSalesByWk = async (start, end, config) => {
   try {
     console.log(`level 1: query postgres to get FG sales data by week ...`)
 
@@ -16,7 +16,10 @@ const lvl_1_subtotal_getSalesByWk = async (start, end, item) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
       
-      WHERE sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_num = ${item} 
+      WHERE 
+        sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
+        AND ms.byproduct_type IS NULL 
+        AND ms.item_num = ${config.item} 
       
       GROUP BY sl.week_serial, sl.customer_code, sl.customer_name
       
@@ -31,7 +34,7 @@ const lvl_1_subtotal_getSalesByWk = async (start, end, item) => {
 
 // FG Species Group col total for period
 
-const lvl_1_subtotal_getSalesPeriodToDate = async (start, end, item) => {
+const lvl_1_subtotal_getSalesPeriodToDate = async (start, end, config) => {
   try {
     console.log(`level 1: query postgres to get FG sales data period total ...`)
 
@@ -43,7 +46,10 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (start, end, item) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_num = ${item} 
+      WHERE 
+        sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
+        AND ms.byproduct_type IS NULL 
+        AND ms.item_num = ${config.item} 
       
       GROUP BY sl.customer_code, sl.customer_name` //prettier-ignore
 
@@ -58,7 +64,7 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (start, end, item) => {
 
 // All sales row totals by week for a program
 
-const lvl_0_total_getSalesByWk = async (start, end, item) => {
+const lvl_0_total_getSalesByWk = async (start, end, config) => {
   try {
     console.log(`level 0: query postgres to get FG sales data by week ...`)
 
@@ -70,7 +76,10 @@ const lvl_0_total_getSalesByWk = async (start, end, item) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_num = ${item} 
+      WHERE 
+        sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
+        AND ms.byproduct_type IS NULL 
+        AND ms.item_num = ${config.item} 
       
       GROUP BY sl.week_serial 
       
@@ -85,7 +94,7 @@ const lvl_0_total_getSalesByWk = async (start, end, item) => {
 
 // All sales col total for a program
 
-const lvl_0_total_getSalesPeriodToDate = async (start, end, item) => {
+const lvl_0_total_getSalesPeriodToDate = async (start, end, config) => {
   try {
     console.log(`level 0: query postgres to get FG sales data period total ...`)
 
@@ -97,7 +106,10 @@ const lvl_0_total_getSalesPeriodToDate = async (start, end, item) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_num = ${item}` //prettier-ignore
+      WHERE 
+        sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
+        AND ms.byproduct_type IS NULL 
+        AND ms.item_num = ${config.item}` //prettier-ignore
 
     return response
   } catch (error) {

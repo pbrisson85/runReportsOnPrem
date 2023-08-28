@@ -4,7 +4,7 @@ const sql = require('../../../../../server')
 
 // FG Species Group totals by week
 
-const lvl_1_subtotal_getSalesByFyYtd = async (start, end, item) => {
+const lvl_1_subtotal_getSalesByFyYtd = async (start, end, config) => {
   try {
     console.log(`level 1: query postgres to get FG sales data by week ...`)
 
@@ -16,7 +16,10 @@ const lvl_1_subtotal_getSalesByFyYtd = async (start, end, item) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
       
-      WHERE ms.byproduct_type IS NULL AND ms.item_num = ${item} AND sl.week >= ${start} AND sl.week <= ${end} 
+      WHERE 
+        ms.byproduct_type IS NULL 
+        AND ms.item_num = ${config.item} 
+        AND sl.week >= ${start} AND sl.week <= ${end} 
       
       GROUP BY sl.fiscal_year, sl.customer_code, sl.customer_name
       
@@ -33,7 +36,7 @@ const lvl_1_subtotal_getSalesByFyYtd = async (start, end, item) => {
 
 // All sales row totals by week for a program
 
-const lvl_0_total_getSalesByFyYtd = async (start, end, item) => {
+const lvl_0_total_getSalesByFyYtd = async (start, end, config) => {
   try {
     console.log(`level 0: query postgres to get FG sales data by week ...`)
 
@@ -45,7 +48,10 @@ const lvl_0_total_getSalesByFyYtd = async (start, end, item) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE ms.byproduct_type IS NULL AND ms.item_num = ${item} AND sl.week >= ${start} AND sl.week <= ${end} 
+      WHERE 
+        ms.byproduct_type IS NULL 
+        AND ms.item_num = ${config.item} 
+        AND sl.week >= ${start} AND sl.week <= ${end} 
       
       GROUP BY sl.fiscal_year 
       

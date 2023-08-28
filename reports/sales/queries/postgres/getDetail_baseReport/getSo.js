@@ -1,6 +1,6 @@
 const sql = require('../../../../../server')
 
-const getSo_detail = async (config, program, filters, level) => {
+const getSo_detail = async config => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders ...`)
 
@@ -11,7 +11,15 @@ const getSo_detail = async (config, program, filters, level) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL ${level > 0 ? sql`AND ${sql(config.l1_field)} = ${filters[0]}` : sql``} ${level > 1 ? sql`AND ${sql(config.l2_field)} = ${filters[1]}` : sql``} ${level > 2 ? sql`AND ${sql(config.l3_field)} = ${filters[2]}` : sql``}` //prettier-ignore
+      WHERE 
+        ms.item_type = ${'FG'} 
+        AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        AND ms.byproduct_type IS NULL 
+        ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
+        ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
+        ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -20,7 +28,7 @@ const getSo_detail = async (config, program, filters, level) => {
   }
 }
 
-const getSoTagged_detail = async (config, program, filters, level) => {
+const getSoTagged_detail = async config => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders ...`)
 
@@ -31,7 +39,16 @@ const getSoTagged_detail = async (config, program, filters, level) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND so.tagged_weight > 0 ${level > 0 ? sql`AND ${sql(config.l1_field)} = ${filters[0]}` : sql``} ${level > 1 ? sql`AND ${sql(config.l2_field)} = ${filters[1]}` : sql``} ${level > 2 ? sql`AND ${sql(config.l3_field)} = ${filters[2]}` : sql``}` //prettier-ignore
+      WHERE 
+        ms.item_type = ${'FG'} 
+        AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        AND ms.byproduct_type IS NULL 
+        AND so.tagged_weight > 0 
+        ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
+        ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
+        ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -40,7 +57,7 @@ const getSoTagged_detail = async (config, program, filters, level) => {
   }
 }
 
-const getSoUntagged_detail = async (config, program, filters, level) => {
+const getSoUntagged_detail = async config => {
   try {
     console.log(`level 3: query postgres for FG Sales Orders ...`)
 
@@ -51,7 +68,16 @@ const getSoUntagged_detail = async (config, program, filters, level) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
           
-      WHERE ms.item_type = ${'FG'} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} AND ms.byproduct_type IS NULL AND so.untagged_weight > 0 ${level > 0 ? sql`AND ${sql(config.l1_field)} = ${filters[0]}` : sql``} ${level > 1 ? sql`AND ${sql(config.l2_field)} = ${filters[1]}` : sql``} ${level > 2 ? sql`AND ${sql(config.l3_field)} = ${filters[2]}` : sql``}` //prettier-ignore
+      WHERE 
+        ms.item_type = ${'FG'} 
+        AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        AND ms.byproduct_type IS NULL 
+        AND so.untagged_weight > 0 
+        ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
+        ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
+        ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}` //prettier-ignore
 
     return response
   } catch (error) {

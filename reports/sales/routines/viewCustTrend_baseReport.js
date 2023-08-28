@@ -23,23 +23,23 @@ const unflattenByCompositKey = require('../models/unflattenByCompositKey')
 const calcPercentSalesCol = require('../models/calcPercentSalesCol')
 const calcAveWeeklySales = require('../models/calcAveWeeklySales')
 
-const buildDrillDown = async (labelCols, config, program, start, end, filters, showFyTrend, startWeek, endWeek, level) => {
+const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startWeek, endWeek) => {
   // ///////////////////////////////// SALES ORDERS
   /* ALL SO */
-  const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(config, program, filters, level)
-  const lvl_0_total_so = await lvl_0_total_getSo(config, program, filters, level)
-  const lvl_1_subtotal_so_byWk = await lvl_1_subtotal_getSo_byWk(config, program, filters, level)
-  const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk(config, program, filters, level)
+  const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(config)
+  const lvl_0_total_so = await lvl_0_total_getSo(config)
+  const lvl_1_subtotal_so_byWk = await lvl_1_subtotal_getSo_byWk(config)
+  const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk(config)
 
   // ///////////////////////////////// SALES DATA
-  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(config, start, end, program, filters, level)
-  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(config, start, end, program, filters, level)
-  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, program, filters, level)
-  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, program, filters, level)
-  const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(config, start, end, program, filters, level)
-  const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(config, start, end, program, filters, level)
-  const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(config, start, end, program, filters, level)
-  const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(config, start, end, program, filters, level)
+  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(config, start, end)
+  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(config, start, end)
+  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek)
+  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek)
+  const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(config, start, end)
+  const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(config, start, end)
+  const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(config, start, end)
+  const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(config, start, end)
 
   const companyTotalSales = await getCompanyTotalSales(start, end)
 
@@ -51,8 +51,8 @@ const buildDrillDown = async (labelCols, config, program, start, end, filters, s
   /* % PROGRAM SALES */
   let lvl_1_percent_programSales = []
   let lvl_0_percent_programSales = []
-  if (program !== null) {
-    const lvl_0_program_salesPeriodToDate = await lvl_0_program_getSalesPeriodToDate(config, start, end, program)
+  if (config.program !== null) {
+    const lvl_0_program_salesPeriodToDate = await lvl_0_program_getSalesPeriodToDate(config, start, end, config.program)
     lvl_1_percent_programSales = calcPercentSalesCol(lvl_0_program_salesPeriodToDate[0], lvl_1_subtotal_salesPeriodToDate, 'percentProgramSales')
     lvl_0_percent_programSales = calcPercentSalesCol(lvl_0_program_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentProgramSales')
   }
@@ -67,10 +67,12 @@ const buildDrillDown = async (labelCols, config, program, start, end, filters, s
   const lvl_0_aveWeeklySales = calcAveWeeklySales(lvl_0_total_salesPeriodToDate, 'aveWeeklySales', weeks)
 
   ///////////////////////////////// ROWS
-  const rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, program, filters, level, showFyTrend)
+  const rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, showFyTrend)
 
-  const totalsRow = [{ totalRow: true, l1_label: `FG SALES`, l2_label: `TOTAL`, datalevel: level }] // Need an l2_label of TOTAL for front end styling
-  const filterRow = [{ filterRow: true, l1_label: `PROGRAM: ${program}, FILTERS: ${filters[0]}, ${filters[1]}, ${filters[2]}` }] // shows at top of report
+  const totalsRow = [{ totalRow: true, l1_label: `FG SALES`, l2_label: `TOTAL`, datalevel: config.queryLevel }] // Need an l2_label of TOTAL for front end styling
+  const filterRow = [
+    { filterRow: true, l1_label: `PROGRAM: ${config.program}, FILTERS: ${config.l1_filter}, ${config.l2_filter}, ${config.l3_filter}` },
+  ] // shows at top of report
 
   // COMPILE FINAL ROW TEMPLATE
   const rowTemplate = [...rowsFirstLevelDetail, ...totalsRow]

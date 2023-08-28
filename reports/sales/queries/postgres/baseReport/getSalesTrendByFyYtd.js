@@ -4,7 +4,7 @@ const sql = require('../../../../../server')
 
 // FG Species Group totals by week
 
-const lvl_1_subtotal_getSalesByFyYtd = async (config, start, end, program, showYtd) => {
+const lvl_1_subtotal_getSalesByFyYtd = async (config, start, end, showYtd) => {
   try {
     console.log(
       `level 1: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_1_subtotal_getSalesByFyYtd) ...`
@@ -17,7 +17,12 @@ const lvl_1_subtotal_getSalesByFyYtd = async (config, start, end, program, showY
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} ${showYtd ? sql`AND sales_line_items.week >= ${start} AND sales_line_items.week <= ${end}` : sql``}
+      WHERE 
+        ms.byproduct_type IS NULL 
+        AND ms.item_type = ${'FG'} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${showYtd ? sql`AND sales_line_items.week >= ${start} AND sales_line_items.week <= ${end}` : sql``}
       
       GROUP BY sales_line_items.fiscal_year, ${sql(config.l1_field)} 
       
@@ -34,7 +39,7 @@ const lvl_1_subtotal_getSalesByFyYtd = async (config, start, end, program, showY
 
 // FG Program row totals by week
 
-const lvl_2_subtotal_getSalesByFyYtd = async (config, start, end, program, showYtd) => {
+const lvl_2_subtotal_getSalesByFyYtd = async (config, start, end, showYtd) => {
   try {
     console.log(
       `level 2: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_2_subtotal_getSalesByFyYtd) ...`
@@ -47,7 +52,12 @@ const lvl_2_subtotal_getSalesByFyYtd = async (config, start, end, program, showY
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} ${showYtd ? sql`AND sales_line_items.week >= ${start} AND sales_line_items.week <= ${end}` : sql``} 
+      WHERE 
+        ms.byproduct_type IS NULL 
+        AND ms.item_type = ${'FG'} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${showYtd ? sql`AND sales_line_items.week >= ${start} AND sales_line_items.week <= ${end}` : sql``} 
       
       GROUP BY sales_line_items.fiscal_year, ${sql(config.l1_field)}, ${sql(config.l2_field)} 
       
@@ -64,7 +74,7 @@ const lvl_2_subtotal_getSalesByFyYtd = async (config, start, end, program, showY
 
 // FG Program row totals by week
 
-const lvl_3_subtotal_getSalesByFyYtd = async (config, start, end, program, showYtd) => {
+const lvl_3_subtotal_getSalesByFyYtd = async (config, start, end, showYtd) => {
   try {
     console.log(
       `level 3: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_3_subtotal_getSalesByFyYtd) ...`
@@ -77,7 +87,12 @@ const lvl_3_subtotal_getSalesByFyYtd = async (config, start, end, program, showY
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} ${showYtd ? sql`AND sales_line_items.week >= ${start} AND sales_line_items.week <= ${end}` : sql``} 
+      WHERE 
+        ms.byproduct_type IS NULL 
+        AND ms.item_type = ${'FG'} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${showYtd ? sql`AND sales_line_items.week >= ${start} AND sales_line_items.week <= ${end}` : sql``} 
       
       GROUP BY sales_line_items.fiscal_year, ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)} 
       
@@ -94,7 +109,7 @@ const lvl_3_subtotal_getSalesByFyYtd = async (config, start, end, program, showY
 
 // All sales row totals by week for a program
 
-const lvl_0_total_getSalesByFyYtd = async (config, start, end, program, showYtd) => {
+const lvl_0_total_getSalesByFyYtd = async (config, start, end, showYtd) => {
   try {
     console.log(`level 0: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_0_total_getSalesByFyYtd) ...`)
 
@@ -105,7 +120,12 @@ const lvl_0_total_getSalesByFyYtd = async (config, start, end, program, showYtd)
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
           
-      WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} ${showYtd ? sql`AND sales_line_items.week >= ${start} AND sales_line_items.week <= ${end}` : sql``} 
+      WHERE 
+        ms.byproduct_type IS NULL 
+        AND ms.item_type = ${'FG'} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${showYtd ? sql`AND sales_line_items.week >= ${start} AND sales_line_items.week <= ${end}` : sql``} 
       
       GROUP BY sales_line_items.fiscal_year 
       

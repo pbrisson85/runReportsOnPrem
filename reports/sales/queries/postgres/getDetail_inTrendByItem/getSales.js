@@ -1,9 +1,9 @@
 const sql = require('../../../../../server')
 
-const byItem_getSales_detail = async (start, end, item, year) => {
+const byItem_getSales_detail = async (start, end, config, year) => {
   try {
     console.log(
-      `detail query postgres to get FG sales data period total for item ${item} startting week ${start} thru week ${end} for year: ${year}  ...`
+      `detail query postgres to get FG sales data period total for item ${config.item} startting week ${start} thru week ${end} for year: ${year}  ...`
     )
 
     const response =
@@ -14,7 +14,10 @@ const byItem_getSales_detail = async (start, end, item, year) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
           
-      WHERE sl.week >= ${start} AND sl.week <= ${end} AND ms.item_num = ${item} AND sl.fiscal_year = ${year}` //prettier-ignore
+      WHERE 
+        sl.week >= ${start} AND sl.week <= ${end} 
+        AND ms.item_num = ${config.item} 
+        AND sl.fiscal_year = ${year}` //prettier-ignore
 
     return response
   } catch (error) {

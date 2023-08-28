@@ -4,7 +4,7 @@ const sql = require('../../../../../server')
 
 // FG Species Group totals by week
 
-const lvl_1_subtotal_getSalesByWk = async (config, start, end, program) => {
+const lvl_1_subtotal_getSalesByWk = async (config, start, end) => {
   try {
     console.log(`level 1: query postgres to get FG sales data by week (lvl_1_subtotal_getSalesByWk) ...`)
 
@@ -13,7 +13,12 @@ const lvl_1_subtotal_getSalesByWk = async (config, start, end, program) => {
       
       FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number 
       
-      WHERE sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+      WHERE 
+        sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
+        AND ms.byproduct_type IS NULL 
+        AND ms.item_type = ${'FG'} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY sales_line_items.week_serial, ${sql(config.l1_field)} 
       
@@ -28,7 +33,7 @@ const lvl_1_subtotal_getSalesByWk = async (config, start, end, program) => {
 
 // FG Species Group col total for period
 
-const lvl_1_subtotal_getSalesPeriodToDate = async (config, start, end, program) => {
+const lvl_1_subtotal_getSalesPeriodToDate = async (config, start, end) => {
   try {
     console.log(`level 1: query postgres to get FG sales data period total (lvl_1_subtotal_getSalesPeriodToDate) ...`)
 
@@ -37,7 +42,12 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (config, start, end, program) 
       
       FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number 
       
-      WHERE sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+      WHERE 
+        sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
+        AND ms.byproduct_type IS NULL 
+        AND ms.item_type = ${'FG'} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY ${sql(config.l1_field)}` //prettier-ignore
 
@@ -52,7 +62,7 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (config, start, end, program) 
 
 // FG Program row totals by week
 
-const lvl_2_subtotal_getSalesByWk = async (config, start, end, program) => {
+const lvl_2_subtotal_getSalesByWk = async (config, start, end) => {
   try {
     console.log(`level 2: query postgres to get FG sales data by week (lvl_2_subtotal_getSalesByWk) ...`)
 
@@ -61,7 +71,12 @@ const lvl_2_subtotal_getSalesByWk = async (config, start, end, program) => {
       
       FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number 
       
-      WHERE sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+      WHERE 
+        sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
+        AND ms.byproduct_type IS NULL 
+        AND ms.item_type = ${'FG'} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY sales_line_items.week_serial, ${sql(config.l1_field)}, ${sql(config.l2_field)} 
       
@@ -76,7 +91,7 @@ const lvl_2_subtotal_getSalesByWk = async (config, start, end, program) => {
 
 // FG Program col total for period
 
-const lvl_2_subtotal_getSalesPeriodToDate = async (config, start, end, program) => {
+const lvl_2_subtotal_getSalesPeriodToDate = async (config, start, end) => {
   try {
     console.log(`level 2: query postgres to get FG sales data period total (lvl_2_subtotal_getSalesPeriodToDate) ...`)
 
@@ -85,7 +100,12 @@ const lvl_2_subtotal_getSalesPeriodToDate = async (config, start, end, program) 
       
       FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number 
       
-      WHERE sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+      WHERE 
+        sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
+        AND ms.byproduct_type IS NULL 
+        AND ms.item_type = ${'FG'} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
       
       GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}` //prettier-ignore
 
@@ -100,7 +120,7 @@ const lvl_2_subtotal_getSalesPeriodToDate = async (config, start, end, program) 
 
 // FG Program row totals by week
 
-const lvl_3_subtotal_getSalesByWk = async (config, start, end, program) => {
+const lvl_3_subtotal_getSalesByWk = async (config, start, end) => {
   try {
     console.log(`level 3: query postgres to get FG sales data by week (lvl_3_subtotal_getSalesByWk) ...`)
 
@@ -109,7 +129,12 @@ const lvl_3_subtotal_getSalesByWk = async (config, start, end, program) => {
       
       FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number 
       
-      WHERE sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+      WHERE 
+        sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
+        AND ms.byproduct_type IS NULL 
+        AND ms.item_type = ${'FG'} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY sales_line_items.week_serial, ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)} 
       
@@ -124,7 +149,7 @@ const lvl_3_subtotal_getSalesByWk = async (config, start, end, program) => {
 
 // FG Program col total for period
 
-const lvl_3_subtotal_getSalesPeriodToDate = async (config, start, end, program) => {
+const lvl_3_subtotal_getSalesPeriodToDate = async (config, start, end) => {
   try {
     console.log(`level 3: query postgres to get FG sales data period total (lvl_3_subtotal_getSalesPeriodToDate) ...`)
 
@@ -133,7 +158,12 @@ const lvl_3_subtotal_getSalesPeriodToDate = async (config, start, end, program) 
       
       FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number 
       
-      WHERE sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+      WHERE 
+        sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
+        AND ms.byproduct_type IS NULL 
+        AND ms.item_type = ${'FG'} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}` //prettier-ignore
 
@@ -148,7 +178,7 @@ const lvl_3_subtotal_getSalesPeriodToDate = async (config, start, end, program) 
 
 // All sales row totals by week for a program
 
-const lvl_0_total_getSalesByWk = async (config, start, end, program) => {
+const lvl_0_total_getSalesByWk = async (config, start, end) => {
   try {
     console.log(`level 0: query postgres to get FG sales data by week (lvl_0_total_getSalesByWk) ...`)
 
@@ -157,7 +187,12 @@ const lvl_0_total_getSalesByWk = async (config, start, end, program) => {
       
       FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number 
       
-      WHERE sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+      WHERE 
+        sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
+        AND ms.byproduct_type IS NULL 
+        AND ms.item_type = ${'FG'} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY sales_line_items.week_serial 
       
@@ -172,7 +207,7 @@ const lvl_0_total_getSalesByWk = async (config, start, end, program) => {
 
 // All sales col total for a program
 
-const lvl_0_total_getSalesPeriodToDate = async (config, start, end, program) => {
+const lvl_0_total_getSalesPeriodToDate = async (config, start, end) => {
   try {
     console.log(`level 0: query postgres to get FG sales data period total (lvl_0_total_getSalesPeriodToDate) ...`)
 
@@ -181,7 +216,12 @@ const lvl_0_total_getSalesPeriodToDate = async (config, start, end, program) => 
       
       FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number 
       
-      WHERE sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}` //prettier-ignore
+      WHERE 
+        sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
+        AND ms.byproduct_type IS NULL 
+        AND ms.item_type = ${'FG'} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}` //prettier-ignore
 
     return response
   } catch (error) {

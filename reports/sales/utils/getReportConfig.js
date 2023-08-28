@@ -1,24 +1,52 @@
 const getReportConfig = reqBody => {
-  const { format, creds, dataFilters, program } = reqBody
+  /*
+req.body:
+columnDataName,
+reqBody.reportFormat,
+colType: col.colType,
+fyTrendCol,
+fyYtdTrendCol,
+queryLevel: parseInt(row.datalevel),
+viewingCustomerDrilldown,
+viewingItemDrilldown,
+inDrilldown,
+periodStart,
+periodEnd,
+program,
+showFyTrend,
+year,
+reqBody.reportFormat,
+l1_filter: currentParams.l1_filter,
+l2_filter: currentParams.l2_filter,
+l3_filter: currentParams.l3_filter,
+customer: l1_filter,
+item: null,
+*/
 
   // auth filters:
   let jbBuyerFilter = false
 
-  const hasAuthFilters = creds.filters?.length > 0
+  const hasAuthFilters = reqBody.reportFormat.filters?.length > 0
   if (hasAuthFilters) {
-    jbBuyerFilter = creds.filters.find(f => f.dataName === 'jbBuyer').mandatory
+    jbBuyerFilter = reqBody.reportFormat.filters.find(f => f.dataName === 'jbBuyer').mandatory
   } else {
     // check for front end option
-    if (dataFilters === 'jbBuyer') jbBuyerFilter = true
+    if (reqBody.reportFormat === 'jbBuyer') jbBuyerFilter = true
   }
 
   // define config object
   let config = {
-    program: typeof program === 'undefined' ? null : program === 'all' ? null : program,
+    program: typeof reqBody.program === 'undefined' ? null : reqBody.program === 'all' ? null : reqBody.program,
+    l1_filter: reqBody.l1_filter ?? null,
+    l2_filter: reqBody.l2_filter ?? null,
+    l3_filter: reqBody.l3_filter ?? null,
+    customer: reqBody.customer ?? null,
+    item: reqBody.item ?? null,
+    queryLevel: reqBody.queryLevel ?? null,
     jbBuyerFilter,
   }
 
-  switch (format) {
+  switch (reqBody.reportFormat) {
     case 'speciesgroupProg':
       config = {
         l1_field: 'ms.species_group',

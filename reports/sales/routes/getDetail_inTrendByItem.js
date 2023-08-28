@@ -19,35 +19,37 @@ const {
   byItem_getFgAtLoc_untagged_detail,
   byItem_getFgAtLoc_tagged_detail,
 } = require('../queries/postgres/getDetail_inTrendByItem/getFgInven')
+const getReportConfig = require('../utils/getReportConfig')
 
 // @route   POST /api/sales/detail/forProgBySpecBrndSize/
 // @desc
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { program, option, filters, columnDataName, colType, periodStart, periodEnd, fyTrendCol, fyYtdTrendCol, format } = req.body
+  const { columnDataName, colType, periodStart, periodEnd, fyTrendCol, fyYtdTrendCol, reportFormat } = req.body
   let { year } = req.body
 
-  console.log(`\nget detail data in trend by customer for ${format} route HIT...`)
+  console.log(`\nget detail data in trend by customer for ${reportFormat} route HIT...`)
 
+  const config = getReportConfig(req.body)
   let detail = null
 
   if (colType === 'invenFg') {
     switch (columnDataName) {
       case 'FG INVEN':
-        detail = await byItem_getFgInven_detail(filters[0])
+        detail = await byItem_getFgInven_detail(config)
         break
       case 'FG IN TRANSIT':
-        detail = await byItem_getFgInTransit_detail(filters[0])
+        detail = await byItem_getFgInTransit_detail(config)
         break
       case 'FG ON HAND':
-        detail = await byItem_getFgAtLoc_detail(filters[0])
+        detail = await byItem_getFgAtLoc_detail(config)
         break
       case 'FG ON HAND UNTAGGED':
-        detail = await byItem_getFgAtLoc_untagged_detail(filters[0])
+        detail = await byItem_getFgAtLoc_untagged_detail(config)
         break
       case 'FG ON HAND TAGGED':
-        detail = await byItem_getFgAtLoc_tagged_detail(filters[0])
+        detail = await byItem_getFgAtLoc_tagged_detail(config)
         break
     }
   }
@@ -55,13 +57,13 @@ router.post('/', async (req, res) => {
   if (colType === 'salesOrder') {
     switch (columnDataName) {
       case 'FG OPEN ORDER':
-        detail = await byItem_getSo_detail(filters[0])
+        detail = await byItem_getSo_detail(config)
         break
       case 'FG OPEN ORDER TAGGED':
-        detail = await byItem_getSoTagged_detail(filters[0])
+        detail = await byItem_getSoTagged_detail(config)
         break
       case 'FG OPEN ORDER UNTAGGED':
-        detail = await byItem_getSoUntagged_detail(filters[0])
+        detail = await byItem_getSoUntagged_detail(config)
         break
       default:
         // Must be a trend column
@@ -72,11 +74,11 @@ router.post('/', async (req, res) => {
         const weekSerial = columnDataName.split('_')[0]
 
         // query trend for all sales orders
-        if (isSo) detail = await byItem_getSoByWk_detail(filters[0], weekSerial)
+        if (isSo) detail = await byItem_getSoByWk_detail(config, weekSerial)
         // query trend for untagged sales orders
-        if (isSoUntg) detail = await byItem_getSoByWkUntagged_detail(filters[0], weekSerial)
+        if (isSoUntg) detail = await byItem_getSoByWkUntagged_detail(config, weekSerial)
         // query trend for tagged sales orders
-        if (isSoTg) detail = await byItem_getSoByWkTagged_detail(filters[0], weekSerial)
+        if (isSoTg) detail = await byItem_getSoByWkTagged_detail(config, weekSerial)
         break
     }
   }
@@ -103,14 +105,14 @@ router.post('/', async (req, res) => {
       year = columnDataName.split('-')[0]
     }
 
-    detail = await byItem_getSales_detail(startWeek, endWeek, filters[0], year)
+    detail = await byItem_getSales_detail(startWeek, endWeek, config, year)
   }
 
   if (colType === 'purchaseOrder') {
-    detail = await byItem_getFgPo_detail(filters[0])
+    detail = await byItem_getFgPo_detail(config)
   }
 
-  console.log(`get detail data in trend by customer for ${format} route COMPLETE. \n`)
+  console.log(`get detail data in trend by customer for ${reportFormat} route COMPLETE. \n`)
 
   res.send(detail)
 })

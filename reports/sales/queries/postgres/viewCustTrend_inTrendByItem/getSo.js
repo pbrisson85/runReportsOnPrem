@@ -2,7 +2,7 @@ const sql = require('../../../../../server')
 
 /* *********************************************** level 1 *********************************************** */
 
-const lvl_1_subtotal_getSo = async item => {
+const lvl_1_subtotal_getSo = async config => {
   try {
     console.log(`level 1: query postgres for FG Sales Orders ...`)
 
@@ -13,7 +13,10 @@ const lvl_1_subtotal_getSo = async item => {
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = so.item_num 
             
-        WHERE ms.item_num = ${item} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.byproduct_type IS NULL 
+        WHERE 
+          ms.item_num = ${config.item} 
+          AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+          AND ms.byproduct_type IS NULL 
         
         GROUP BY so.customer_code, so.customer_name` //prettier-ignore
 
@@ -26,7 +29,7 @@ const lvl_1_subtotal_getSo = async item => {
 
 /* *********************************************** TOTAL *********************************************** */
 
-const lvl_0_total_getSo = async item => {
+const lvl_0_total_getSo = async config => {
   try {
     console.log(`level 0: query postgres for FG Sales Orders ...`)
 
@@ -37,7 +40,10 @@ const lvl_0_total_getSo = async item => {
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = so.item_num 
               
-          WHERE ms.item_num = ${item} AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) AND ms.byproduct_type IS NULL` //prettier-ignore
+          WHERE 
+            ms.item_num = ${config.item} 
+            AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+            AND ms.byproduct_type IS NULL` //prettier-ignore
 
     return response
   } catch (error) {

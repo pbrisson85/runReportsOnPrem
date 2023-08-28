@@ -10,10 +10,10 @@ const { getSales_detail } = require('../queries/postgres/getDetail_inTrendByCust
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { option, filters, columnDataName, colType, periodStart, periodEnd, fyTrendCol, fyYtdTrendCol, format, queryLevel: level } = req.body
-  let { program, year } = req.body
+  const { columnDataName, colType, periodStart, periodEnd, fyTrendCol, fyYtdTrendCol, reportFormat } = req.body
+  let { year } = req.body
 
-  console.log(`\nget detail data in trend by customer for ${format} route HIT...`)
+  console.log(`\nget detail data in trend by customer for ${reportFormat} route HIT...`)
 
   const config = getReportConfig(req.body)
   let detail = null
@@ -21,13 +21,13 @@ router.post('/', async (req, res) => {
   if (colType === 'salesOrder') {
     switch (columnDataName) {
       case 'FG OPEN ORDER':
-        detail = await getSo_detail(config, config.program, filters, level)
+        detail = await getSo_detail(config)
         break
       case 'FG OPEN ORDER TAGGED':
-        detail = await getSoTagged_detail(config, config.program, filters, level)
+        detail = await getSoTagged_detail(config)
         break
       case 'FG OPEN ORDER UNTAGGED':
-        detail = await getSoUntagged_detail(config, config.program, filters, level)
+        detail = await getSoUntagged_detail(config)
         break
       default:
         // Must be a trend column
@@ -38,11 +38,11 @@ router.post('/', async (req, res) => {
         const weekSerial = columnDataName.split('_')[0]
 
         // query trend for all sales orders
-        if (isSo) detail = await getSoByWk_detail(config, config.program, filters, weekSerial, level)
+        if (isSo) detail = await getSoByWk_detail(config, weekSerial)
         // query trend for untagged sales orders
-        if (isSoUntg) detail = await getSoByWkUntagged_detail(config, config.program, filters, weekSerial, level)
+        if (isSoUntg) detail = await getSoByWkUntagged_detail(config, weekSerial)
         // query trend for tagged sales orders
-        if (isSoTg) detail = await getSoByWkTagged_detail(config, config.program, filters, weekSerial, level)
+        if (isSoTg) detail = await getSoByWkTagged_detail(config, weekSerial)
         break
     }
   }
@@ -69,10 +69,10 @@ router.post('/', async (req, res) => {
       year = columnDataName.split('-')[0]
     }
 
-    detail = await getSales_detail(config, startWeek, endWeek, config.program, filters, year, level)
+    detail = await getSales_detail(config, startWeek, endWeek, year)
   }
 
-  console.log(`get detail data in trend by customer for ${format} route COMPLETE. \n`)
+  console.log(`get detail data in trend by customer for ${reportFormat} route COMPLETE. \n`)
   res.send(detail)
 })
 

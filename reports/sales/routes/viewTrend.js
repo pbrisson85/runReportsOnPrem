@@ -12,12 +12,12 @@ const getReportConfig = require('../utils/getReportConfig')
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { option, filters, columnDataName, colType, periodEnd, showFyTrend, format, queryLevel: level } = req.body
-  let { program, periodStart } = req.body
+  const { rightMenuSelection, periodEnd, showFyTrend, reportFormat } = req.body
+  let { periodStart } = req.body
 
   const config = getReportConfig(req.body)
 
-  console.log(`\nget drilldown data for ${format} route HIT...`)
+  console.log(`\nget drilldown data for ${reportFormat} route HIT...`)
 
   const startWeek = await getWeekForDate(periodStart) // temporarily until I change the data that is being passed by the front end to the week
   const endWeek = await getWeekForDate(periodEnd) // temporarily until I change the data that is being passed by the front end to the week
@@ -28,38 +28,13 @@ router.post('/', async (req, res) => {
 
   let response = null
 
-  if (option === 'Trend By Item') {
-    response = await viewItemTrend(
-      labelCols_byItem,
-      config,
-      config.program,
-      periodStart,
-      periodEnd,
-      filters,
-      showFyTrend,
-      startWeek,
-      endWeek,
-      level
-    )
-  } else if (option === 'Trend By Customer') {
-    // option is top customer weight, margin, or bottom customer weight.
-    // Pull one set of data and filter/sum at the end based on the option.
-
-    response = await viewCustTrend_baseReport(
-      labelCols_byCustomer,
-      config,
-      config.program,
-      periodStart,
-      periodEnd,
-      filters,
-      showFyTrend,
-      startWeek,
-      endWeek,
-      level
-    )
+  if (rightMenuSelection === 'Trend By Item') {
+    response = await viewItemTrend(labelCols_byItem, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek)
+  } else if (rightMenuSelection === 'Trend By Customer') {
+    response = await viewCustTrend_baseReport(labelCols_byCustomer, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek)
   }
 
-  console.log(`get drilldown data for ${format} route COMPLETE. \n`)
+  console.log(`get drilldown data for ${reportFormat} route COMPLETE. \n`)
 
   res.send(response)
 })

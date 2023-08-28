@@ -1,9 +1,9 @@
 const sql = require('../../../../../server')
 
 // FG on hand (includes in transit)
-const byItem_getFgInven_detail = async item => {
+const byItem_getFgInven_detail = async config => {
   try {
-    console.log(`detail query postgres for FG on hand for item ${item} ...`)
+    console.log(`detail query postgres for FG on hand for item ${config.item} ...`)
 
     // Level 2 detail
 
@@ -15,7 +15,10 @@ const byItem_getFgInven_detail = async item => {
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = pi.item_number 
               
-          WHERE pi.on_hand_lbs <> 0 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND ms.item_num = ${item}` //prettier-ignore
+          WHERE 
+            pi.on_hand_lbs <> 0 
+            AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+            AND ms.item_num = ${config.item}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -26,9 +29,9 @@ const byItem_getFgInven_detail = async item => {
 
 // FG in transit
 
-const byItem_getFgInTransit_detail = async item => {
+const byItem_getFgInTransit_detail = async config => {
   try {
-    console.log(`detail query postgres for FG in transit for item ${item} ...`)
+    console.log(`detail query postgres for FG in transit for item ${config.item} ...`)
 
     const response =
       await sql
@@ -38,7 +41,11 @@ const byItem_getFgInTransit_detail = async item => {
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = pi.item_number 
               
-          WHERE pi.on_hand_lbs <> 0 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type = ${'IN TRANSIT'} AND ms.item_num = ${item}` //prettier-ignore
+          WHERE 
+            pi.on_hand_lbs <> 0 
+            AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+            AND pi.location_type = ${'IN TRANSIT'} 
+            AND ms.item_num = ${config.item}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -49,9 +56,9 @@ const byItem_getFgInTransit_detail = async item => {
 
 // FG at location
 
-const byItem_getFgAtLoc_detail = async item => {
+const byItem_getFgAtLoc_detail = async config => {
   try {
-    console.log(`detail query postgres for FG at location for item ${item} ...`)
+    console.log(`detail query postgres for FG at location for item ${config.item} ...`)
 
     const response =
       await sql
@@ -61,7 +68,11 @@ const byItem_getFgAtLoc_detail = async item => {
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = pi.item_number 
               
-          WHERE pi.on_hand_lbs <> 0 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type <> ${'IN TRANSIT'} AND ms.item_num = ${item}` //prettier-ignore
+          WHERE 
+            pi.on_hand_lbs <> 0 
+            AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+            AND pi.location_type <> ${'IN TRANSIT'} 
+            AND ms.item_num = ${config.item}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -71,9 +82,9 @@ const byItem_getFgAtLoc_detail = async item => {
 }
 
 // Going to need to revisit this one
-const byItem_getFgAtLoc_untagged_detail = async item => {
+const byItem_getFgAtLoc_untagged_detail = async config => {
   try {
-    console.log(`detail query postgres for FG at location UNTAGGED for item ${item} ...`)
+    console.log(`detail query postgres for FG at location UNTAGGED for item ${config.item} ...`)
 
     const response =
       await sql`SELECT all_inven.receipt_date, all_inven.location_date, all_inven.lot_text, all_inven.msc_cert_bool AS msc, all_inven.item, all_inven.description, all_inven.lot, all_inven.species, all_inven.brand, all_inven.size, all_inven.soak, all_inven.lbs - COALESCE(tagged_inven.lbs,0) AS lbs, all_inven.cost_lb, all_inven.cost_ext - COALESCE(tagged_inven.cost_ext,0) AS cost_ext, all_inven.location, all_inven.country, all_inven.fresh_frozen
@@ -83,8 +94,11 @@ const byItem_getFgAtLoc_untagged_detail = async item => {
                   FROM "invenReporting".perpetual_inventory AS pi 
                   LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                       ON ms.item_num = pi.item_number 
-                  WHERE pi.on_hand_lbs <> 0 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 
-                  FROM "invenReporting".perpetual_inventory) AND pi.location_type <> ${'IN TRANSIT'} AND ms.item_num = ${item}) 
+                  WHERE 
+                    pi.on_hand_lbs <> 0 
+                    AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+                    AND pi.location_type <> ${'IN TRANSIT'} 
+                    AND ms.item_num = ${config.item}) 
                   AS all_inven
                    
           LEFT OUTER JOIN (
@@ -92,7 +106,9 @@ const byItem_getFgAtLoc_untagged_detail = async item => {
                   FROM "salesReporting".tagged_inventory AS ti 
                   LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                       ON ms.item_num = ti.item_num   
-                  WHERE ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.item_num = ${item}
+                  WHERE 
+                    ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
+                    AND ms.item_num = ${config.item}
                   GROUP BY ti.location, ti.item_num, ti.lot)   
               AS tagged_inven 
               
@@ -105,9 +121,9 @@ const byItem_getFgAtLoc_untagged_detail = async item => {
   }
 }
 
-const byItem_getFgAtLoc_tagged_detail = async item => {
+const byItem_getFgAtLoc_tagged_detail = async config => {
   try {
-    console.log(`detail query postgres for FG at location TAGGED for item ${item} ...`)
+    console.log(`detail query postgres for FG at location TAGGED for item ${config.item} ...`)
 
     const response =
       await sql
@@ -121,7 +137,9 @@ const byItem_getFgAtLoc_tagged_detail = async item => {
               LEFT OUTER JOIN "invenReporting".perpetual_inventory AS pi
                   ON pi.item_number = ti.item_num AND pi.lot = ti.lot AND pi.location_code = ti.location
           
-          WHERE ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) AND ms.item_num = ${item}` //prettier-ignore
+          WHERE 
+            ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
+            AND ms.item_num = ${config.item}` //prettier-ignore
 
     return response
   } catch (error) {

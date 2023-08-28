@@ -1,7 +1,7 @@
 const sql = require('../../../../../server')
 
 // FG on hand (includes in transit)
-const getFgInven_detail = async (config, program, filters, level) => {
+const getFgInven_detail = async config => {
   try {
     console.log(`level 3 Detail: query postgres for FG on hand ...`)
 
@@ -14,7 +14,16 @@ const getFgInven_detail = async (config, program, filters, level) => {
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = pi.item_number 
               
-          WHERE pi.on_hand_lbs <> 0 AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} ${level > 0 ? sql`AND ${sql(config.l1_field)} = ${filters[0]}` : sql``} ${level > 1 ? sql`AND ${sql(config.l2_field)} = ${filters[1]}` : sql``} ${level > 2 ? sql`AND ${sql(config.l3_field)} = ${filters[2]}` : sql``}` //prettier-ignore
+          WHERE 
+            pi.on_hand_lbs <> 0 
+            AND ms.byproduct_type IS NULL 
+            AND ms.item_type = ${'FG'} 
+            AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+            ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
+            ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
+            ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -25,7 +34,7 @@ const getFgInven_detail = async (config, program, filters, level) => {
 
 // FG in transit
 
-const getFgInTransit_detail = async (config, program, filters, level) => {
+const getFgInTransit_detail = async config => {
   try {
     console.log(`level 3 Detail: query postgres for FG in transit ...`)
 
@@ -36,7 +45,17 @@ const getFgInTransit_detail = async (config, program, filters, level) => {
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = pi.item_number 
               
-          WHERE pi.on_hand_lbs <> 0 AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type = ${'IN TRANSIT'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} ${level > 0 ? sql`AND ${sql(config.l1_field)} = ${filters[0]}` : sql``} ${level > 1 ? sql`AND ${sql(config.l2_field)} = ${filters[1]}` : sql``} ${level > 2 ? sql`AND ${sql(config.l3_field)} = ${filters[2]}` : sql``}` //prettier-ignore
+          WHERE 
+            pi.on_hand_lbs <> 0 
+            AND ms.byproduct_type IS NULL 
+            AND ms.item_type = ${'FG'} 
+            AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+            AND pi.location_type = ${'IN TRANSIT'} 
+            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+            ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
+            ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
+            ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -47,7 +66,7 @@ const getFgInTransit_detail = async (config, program, filters, level) => {
 
 // FG at location
 
-const getFgAtLoc_detail = async (config, program, filters, level) => {
+const getFgAtLoc_detail = async config => {
   try {
     console.log(`level 3 Detail: query postgres for FG at location ...`)
 
@@ -58,7 +77,17 @@ const getFgAtLoc_detail = async (config, program, filters, level) => {
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = pi.item_number 
           
-          WHERE pi.on_hand_lbs <> 0 AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type <> ${'IN TRANSIT'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} ${level > 0 ? sql`AND ${sql(config.l1_field)} = ${filters[0]}` : sql``} ${level > 1 ? sql`AND ${sql(config.l2_field)} = ${filters[1]}` : sql``} ${level > 2 ? sql`AND ${sql(config.l3_field)} = ${filters[2]}` : sql``}` //prettier-ignore
+          WHERE 
+            pi.on_hand_lbs <> 0 
+            AND ms.byproduct_type IS NULL 
+            AND ms.item_type = ${'FG'} 
+            AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+            AND pi.location_type <> ${'IN TRANSIT'} 
+            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+            ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
+            ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
+            ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -68,7 +97,7 @@ const getFgAtLoc_detail = async (config, program, filters, level) => {
 }
 
 // Going to need to revisit this one
-const getFgAtLoc_untagged_detail = async (config, program, filters, level) => {
+const getFgAtLoc_untagged_detail = async config => {
   try {
     console.log(`level 3 Detail: query postgres for FG at location UNTAGGED ...`)
 
@@ -82,7 +111,17 @@ const getFgAtLoc_untagged_detail = async (config, program, filters, level) => {
                   LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                       ON ms.item_num = pi.item_number 
                   
-              WHERE pi.on_hand_lbs <> 0 AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) AND pi.location_type <> ${'IN TRANSIT'} ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} ${level > 0 ? sql`AND ${sql(config.l1_field)} = ${filters[0]}` : sql``} ${level > 1 ? sql`AND ${sql(config.l2_field)} = ${filters[1]}` : sql``} ${level > 2 ? sql`AND ${sql(config.l3_field)} = ${filters[2]}` : sql``}) 
+              WHERE 
+                pi.on_hand_lbs <> 0 
+                AND ms.byproduct_type IS NULL 
+                AND ms.item_type = ${'FG'} 
+                AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+                AND pi.location_type <> ${'IN TRANSIT'} 
+                ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+                ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+                ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
+                ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
+                ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}) 
               AS all_inven
                    
           LEFT OUTER JOIN (
@@ -92,7 +131,16 @@ const getFgAtLoc_untagged_detail = async (config, program, filters, level) => {
                   LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                       ON ms.item_num = ti.item_num   
                   
-              WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} ${level > 0 ? sql`AND ${sql(config.l1_field)} = ${filters[0]}` : sql``} ${level > 1 ? sql`AND ${sql(config.l2_field)} = ${filters[1]}` : sql``} ${level > 2 ? sql`AND ${sql(config.l3_field)} = ${filters[2]}` : sql``}
+              WHERE 
+                ms.byproduct_type IS NULL 
+                AND ms.item_type = ${'FG'} 
+                AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
+                ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+                ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+                ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
+                ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
+                ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
+
               GROUP BY ti.location, ti.item_num, ti.lot) 
               AS tagged_inven 
               
@@ -105,7 +153,7 @@ const getFgAtLoc_untagged_detail = async (config, program, filters, level) => {
   }
 }
 
-const getFgAtLoc_tagged_detail = async (config, program, filters, level) => {
+const getFgAtLoc_tagged_detail = async config => {
   try {
     console.log(`level 3 Detail: query postgres for FG at location TAGGED ...`)
 
@@ -120,7 +168,15 @@ const getFgAtLoc_tagged_detail = async (config, program, filters, level) => {
               LEFT OUTER JOIN "invenReporting".perpetual_inventory AS pi
                   ON pi.item_number = ti.item_num AND pi.lot = ti.lot AND pi.location_code = ti.location
           
-          WHERE ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) ${program ? sql`AND ms.program = ${program}`: sql``} ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} ${level > 0 ? sql`AND ${sql(config.l1_field)} = ${filters[0]}` : sql``} ${level > 1 ? sql`AND ${sql(config.l2_field)} = ${filters[1]}` : sql``} ${level > 2 ? sql`AND ${sql(config.l3_field)} = ${filters[2]}` : sql``}` //prettier-ignore
+          WHERE 
+            ms.byproduct_type IS NULL 
+            AND ms.item_type = ${'FG'} 
+            AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
+            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+            ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
+            ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
+            ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}` //prettier-ignore
 
     return response
   } catch (error) {
