@@ -23,6 +23,8 @@ customer: l1_filter,
 item: null,
 */
 
+  console.log('reqBody', reqBody)
+
   // auth filters:
   let jbBuyerFilter = false
 
