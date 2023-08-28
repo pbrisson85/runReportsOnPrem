@@ -28,7 +28,7 @@ item: null,
   // auth filters:
   let jbBuyerFilter = false
 
-  const hasAuthFilters = reqBody.reportFormat.filters?.length > 0
+  const hasAuthFilters = reqBody.reportFormat?.filters?.length > 0
   if (hasAuthFilters) {
     jbBuyerFilter = reqBody.reportFormat.filters.find(f => f.dataName === 'jbBuyer').mandatory
   } else {
