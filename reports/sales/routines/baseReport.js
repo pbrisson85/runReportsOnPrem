@@ -198,7 +198,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   let lvl_2_percent_programSales = []
   let lvl_3_percent_programSales = []
   let lvl_0_percent_programSales = []
-  if (program !== null) {
+  if (config.program !== null) {
     lvl_1_percent_programSales = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_1_subtotal_salesPeriodToDate, 'percentProgramSales')
     lvl_2_percent_programSales = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_2_subtotal_salesPeriodToDate, 'percentProgramSales')
     lvl_3_percent_programSales = config.l3_field
@@ -214,7 +214,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   let lvl_2_percent_speciesGroupSales = []
   let lvl_3_percent_speciesGroupSales = []
   let lvl_0_percent_speciesGroupSales = []
-  if (program !== null) {
+  if (config.program !== null) {
     const speciesGroupTotalSales = await getSpeciesGroupTotalSales(start, end, config.program)
     lvl_1_percent_speciesGroupSales = calcPercentSalesCol(
       speciesGroupTotalSales[0],
