@@ -28,6 +28,8 @@ router.post('/', async (req, res) => {
 
   let response = null
 
+  console.log('rightMenuSelection: ', rightMenuSelection)
+
   if (rightMenuSelection === 'Trend By Item') {
     console.log('rightMenuSelection === Trend By Item')
     console.log('labelCols_byItem: ', labelCols_byItem)
