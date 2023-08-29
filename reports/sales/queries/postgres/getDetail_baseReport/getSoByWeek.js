@@ -15,6 +15,8 @@ const getSoByWk_detail = async (config, weekSerial) => {
         ms.item_type = ${'FG'} 
         AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
+        ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
@@ -44,6 +46,8 @@ const getSoTagged_detail = async (config, weekSerial) => {
         ms.item_type = ${'FG'} 
         AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
+        ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
         AND so.tagged_weight > 0 
@@ -74,6 +78,8 @@ const getSoByWkUntagged_detail = async (config, weekSerial) => {
         ms.item_type = ${'FG'} 
         AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
+        ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
         AND so.untagged_weight > 0 
