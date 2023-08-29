@@ -2,6 +2,7 @@ const router = require('express').Router()
 const buildDrilldown = require('../routines/viewCustTrend_inTrendByItem')
 const { getStartOfWeek } = require('../queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../queries/postgres/getWeekForDate')
+const getReportConfig = require('../utils/getReportConfig')
 
 // @route   POST /api/sales/detail/forProgBySpecBrndSize/
 // @desc
@@ -12,6 +13,8 @@ router.post('/', async (req, res) => {
 
   const { periodEnd, showFyTrend, reportFormat } = req.body
   let { periodStart } = req.body
+
+  const config = getReportConfig(req.body)
 
   console.log(`\nget level two drilldown on item for ${reportFormat} route HIT...`)
 
