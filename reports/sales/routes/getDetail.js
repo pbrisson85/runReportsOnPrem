@@ -7,11 +7,11 @@ const {
   getFgAtLoc_detail,
   getFgAtLoc_untagged_detail,
   getFgAtLoc_tagged_detail,
-} = require('../queries/postgres/getDetail_baseReport/getFgInven')
-const { getFgPo_detail } = require('../queries/postgres/getDetail_baseReport/getFgOpenPo')
-const { getSales_detail } = require('../queries/postgres/getDetail_baseReport/getSales')
-const { getSo_detail, getSoTagged_detail, getSoUntagged_detail } = require('../queries/postgres/getDetail_baseReport/getSo')
-const { getSoByWk_detail, getSoByWkTagged_detail, getSoByWkUntagged_detail } = require('../queries/postgres/getDetail_baseReport/getSoByWeek')
+} = require('../queries/postgres/getDetail/getFgInven')
+const { getFgPo_detail } = require('../queries/postgres/getDetail/getFgOpenPo')
+const { getSales_detail } = require('../queries/postgres/getDetail/getSales')
+const { getSo_detail, getSoTagged_detail, getSoUntagged_detail } = require('../queries/postgres/getDetail/getSo')
+const { getSoByWk_detail, getSoByWkTagged_detail, getSoByWkUntagged_detail } = require('../queries/postgres/getDetail/getSoByWeek')
 
 // @route   POST /api/sales/detail/forProgBySpecBrndSize/
 // @desc
@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
   const { columnDataName, colType, periodStart, periodEnd, fyTrendCol, fyYtdTrendCol, reportFormat } = req.body
   let { year } = req.body
 
-  console.log(`\nget detail data base report for ${reportFormat} route HIT...`)
+  console.log(`\nget detail data for ${reportFormat} route HIT...`)
 
   const config = getReportConfig(req.body)
   let detail = null
@@ -103,7 +103,7 @@ router.post('/', async (req, res) => {
     detail = await getFgPo_detail(config)
   }
 
-  console.log(`get detail data base report for ${reportFormat} route COMPLETE. \n`)
+  console.log(`get detail data for ${reportFormat} route COMPLETE. \n`)
   res.send(detail)
 })
 
