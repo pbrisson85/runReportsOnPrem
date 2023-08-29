@@ -2,6 +2,8 @@
 
 - Priorities:
 
+  ### After testing I dont like that trend drilldowns show all inventory for the category. I would like it to just show the items related to the customer. Therefore the queries for inventory and PO should have a if customer where item is in distinct pull all items for customer.
+
   ### Next step. put the level in the row data so that it can be passed back instead of parsing the labels. Do the same with anything else I am parsing. ONCE everything is done cleaning up then add the reports for by sales person and by customer vertical
 
   ### When drilling down on item trend I fixed the inventory col by getting rows for all inven items however this is wrong when drilling by item from the customer screen. This is because it shows rows for all items in that base report grouping, items that dont have anything to do with the customers sales or sales orders. The fix I think is either to not include the PO or inventory items BUT better choice would probably be to: if customer filter exists only select the inventory items that are in the customer sales items. On second thought maybe this is a good way to show it because you can see substitute items. OR maybe have it as an option. For simplicity i would say just keep it this way unless it seems to get in the way.
