@@ -31,15 +31,6 @@ router.post('/', async (req, res) => {
   console.log('rightMenuSelection: ', rightMenuSelection)
 
   if (rightMenuSelection === 'Trend By Item') {
-    console.log('rightMenuSelection === Trend By Item')
-    console.log('labelCols_byItem: ', labelCols_byItem)
-    console.log('config: ', config)
-    console.log('periodStart: ', periodStart)
-    console.log('periodEnd: ', periodEnd)
-    console.log('showFyTrend: ', showFyTrend)
-    console.log('startWeek: ', startWeek)
-    console.log('endWeek: ', endWeek)
-
     response = await viewItemTrend(labelCols_byItem, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek)
   } else if (rightMenuSelection === 'Trend By Customer') {
     response = await viewCustTrend_baseReport(labelCols_byCustomer, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek)

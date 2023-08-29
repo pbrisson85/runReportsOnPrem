@@ -13,8 +13,8 @@ const getReportConfig = require('../utils/getReportConfig')
 // Instead of entering the start and end dates, enter the start week, end week. Then the same variables can be used for prior years.
 
 router.post('/', async (req, res) => {
-  const { rightMenuSelection, filters, columnDataName, colType, periodEnd, showFyTrend, reportFormat, queryLevel: level } = req.body
-  let { program, periodStart } = req.body
+  const { periodEnd, showFyTrend, reportFormat } = req.body
+  let { periodStart } = req.body
 
   const config = getReportConfig(req.body)
 
@@ -27,18 +27,7 @@ router.post('/', async (req, res) => {
   const startOfWeek = await getStartOfWeek(periodStart)
   periodStart = startOfWeek[0].formatted_date_start
 
-  const response = await viewItemTrend(
-    labelCols,
-    config,
-    config.program,
-    periodStart,
-    periodEnd,
-    filters,
-    showFyTrend,
-    startWeek,
-    endWeek,
-    level
-  )
+  const response = await viewItemTrend(labelCols, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek)
 
   console.log(`get drilldown data for ${reportFormat} route COMPLETE. \n`)
 
