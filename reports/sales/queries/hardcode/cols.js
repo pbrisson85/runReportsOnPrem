@@ -1,5 +1,5 @@
 const getCols = body => {
-  const { format } = body
+  const { reportFormat } = body
 
   const template = {
     justifyData: 'start', // css justify content
@@ -15,7 +15,7 @@ const getCols = body => {
     showByDefault: true, // flag to determine if optional col is shown by default
   }
 
-  switch (format) {
+  switch (reportFormat) {
     case 'speciesgroupProg':
       return applyTemplate(template, speciesgroupProg)
 
