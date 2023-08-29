@@ -12,8 +12,10 @@ const getReportConfig = require('../utils/getReportConfig')
 
 // Generate full weekly report of ALL programs for FG Only (biggest picture)
 router.post('/', async (req, res) => {
-  const { format } = req.body
+  const { reportFormat } = req.body
   let { start, end, showFyTrend } = req.body
+
+  console.log('req.body', req.body)
 
   const config = getReportConfig(req.body)
 
@@ -37,7 +39,7 @@ router.post('/', async (req, res) => {
 
   const labelCols = getCols(req.body) // (COULD ADD THIS TO THE CONFIG FILE + add explanation, why would it be undefined)
 
-  console.log(`\nget get weekly sales species group, program for ${start} through ${end} for ${format} route HIT...`)
+  console.log(`\nget get weekly sales species group, program for ${start} through ${end} for ${reportFormat} route HIT...`)
 
   const startWeek = await getWeekForDate(start) // temporarily until I change the data that is being passed by the front end to the week
   const endWeek = await getWeekForDate(end) // temporarily until I change the data that is being passed by the front end to the week
@@ -49,7 +51,7 @@ router.post('/', async (req, res) => {
     response.defaultDate = end
   }
 
-  console.log(`get weekly sales species group, program for ${start} through ${end} for ${format} route COMPLETE. \n`)
+  console.log(`get weekly sales species group, program for ${start} through ${end} for ${reportFormat} route COMPLETE. \n`)
   res.send(response)
 })
 
