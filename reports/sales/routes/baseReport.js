@@ -15,8 +15,6 @@ router.post('/', async (req, res) => {
   const { reportFormat } = req.body
   let { start, end, showFyTrend } = req.body
 
-  console.log('req.body', req.body)
-
   const config = getReportConfig(req.body)
 
   // If showFyTrend param not passed in body then default to false (COULD ADD THIS TO THE CONFIG FILE + add explanation, why would it be undefined)
