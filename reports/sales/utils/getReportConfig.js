@@ -1,39 +1,16 @@
 const getReportConfig = reqBody => {
-  /*
-req.body:
-columnDataName,
-reqBody.reportFormat,
-colType: col.colType,
-fyTrendCol,
-fyYtdTrendCol,
-queryLevel: parseInt(row.datalevel),
-viewingCustomerDrilldown,
-viewingItemDrilldown,
-inDrilldown,
-periodStart,
-periodEnd,
-program,
-showFyTrend,
-year,
-reqBody.reportFormat,
-l1_filter: currentParams.l1_filter,
-l2_filter: currentParams.l2_filter,
-l3_filter: currentParams.l3_filter,
-customer: l1_filter,
-item: null,
-*/
-
   console.log('reqBody', reqBody)
+  console.log('reqBody.creds', reqBody.creds)
 
   // auth filters:
   let jbBuyerFilter = false
 
-  const hasAuthFilters = reqBody.reportFormat?.filters?.length > 0
+  const hasAuthFilters = reqBody.creds?.filters?.length > 0
   if (hasAuthFilters) {
-    jbBuyerFilter = reqBody.reportFormat.filters.find(f => f.dataName === 'jbBuyer').mandatory
+    jbBuyerFilter = reqBody.creds.filters.find(f => f.dataName === 'jbBuyer').mandatory
   } else {
     // check for front end option
-    if (reqBody.reportFormat === 'jbBuyer') jbBuyerFilter = true
+    if (reqBody.dataFilters === 'jbBuyer') jbBuyerFilter = true
   }
 
   // define config object
