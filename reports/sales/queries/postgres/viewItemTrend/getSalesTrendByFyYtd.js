@@ -5,6 +5,11 @@ const sql = require('../../../../../server')
 // FG Species Group totals by week
 
 const lvl_1_subtotal_getSalesByFyYtd = async (config, start, end, showYtd) => {
+  console.log('config', config)
+  console.log('start', start)
+  console.log('end', end)
+  console.log('showYtd', showYtd)
+
   try {
     console.log(`level 1: (getSalesTrendByFyYtd Lvl3) query postgres to get FG sales data by week ...`)
 
