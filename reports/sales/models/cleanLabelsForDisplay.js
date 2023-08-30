@@ -8,6 +8,45 @@ const cleanLabelsForDisplay = (flattenedMappedData, program) => {
   console.log('row 4', flattenedMappedData[keys[3]])
   console.log('row 5', flattenedMappedData[keys[4]])
 
+  /*
+  
+  level 0
+
+    l1_label: 'FG SALES',
+    l2_label: 'TOTAL',
+    l3_label: 'TOTAL',
+    l4_label: 'TOTAL',
+
+  level 1
+
+    l1_label: '',
+    l2_label: 'SUBTOTAL',
+    l3_label: 'SUBTOTAL',
+    l4_label: 'SUBTOTAL',
+
+  level 2
+
+    l1_label: '',
+    l2_label: '',
+    l3_label: 'SUBTOTAL',
+    l4_label: 'SUBTOTAL',
+
+  level 3
+
+    l1_label: '',
+    l2_label: '',
+    l3_label: '',
+    l4_label: 'SUBTOTAL',
+
+  level 4  
+  
+    l1_label: '',
+    l2_label: '',
+    l3_label: '',
+    l4_label: '',
+  
+  */
+
   const cacheData = _.cloneDeep(flattenedMappedData)
 
   let l1Value = ''
@@ -46,7 +85,7 @@ const cleanLabelsForDisplay = (flattenedMappedData, program) => {
     } // NEW **
 
     // If l2 grouping includes subtotal then update the labels
-    if (row.l2_label?.toUpperCase().includes('SUBTOTAL')) {
+    if (row.dataLevel === 1) {
       flattenedMappedData[idx].l1_label = `${row.l1_label} SUBTOTAL`
       flattenedMappedData[idx].l2_label = ''
       flattenedMappedData[idx].l3_label = ''
@@ -54,11 +93,7 @@ const cleanLabelsForDisplay = (flattenedMappedData, program) => {
     }
 
     // If l3 grouping includes subtotal then update the labels
-    if (
-      row.l3_label?.toUpperCase().includes('SUBTOTAL') &&
-      !row.l2_label?.toUpperCase().includes('SUBTOTAL') &&
-      !row.l4_label?.toUpperCase().includes('SUBTOTAL') // NEW **
-    ) {
+    if (row.dataLevel === 2) {
       flattenedMappedData[idx].l1_label = ''
       flattenedMappedData[idx].l2_label = `${row.l2_label} SUBTOTAL`
       flattenedMappedData[idx].l3_label = ''
@@ -66,11 +101,7 @@ const cleanLabelsForDisplay = (flattenedMappedData, program) => {
     }
 
     // If l4 grouping includes subtotal then update the labels
-    if (
-      row.l4_label?.toUpperCase().includes('SUBTOTAL') &&
-      !row.l2_label?.toUpperCase().includes('SUBTOTAL') &&
-      !row.l3_label?.toUpperCase().includes('SUBTOTAL')
-    ) {
+    if (row.dataLevel === 3) {
       flattenedMappedData[idx].l1_label = ''
       flattenedMappedData[idx].l2_label = ''
       flattenedMappedData[idx].l3_label = `${row.l3_label} SUBTOTAL`
