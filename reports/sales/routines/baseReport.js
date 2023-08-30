@@ -263,7 +263,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   let lvl_4_percent_speciesGroupSales = []
   let lvl_0_percent_speciesGroupSales = []
   if (config.program !== null) {
-    const speciesGroupTotalSales = await getSpeciesGroupTotalSales(start, end, config.program)
+    const speciesGroupTotalSales = await getSpeciesGroupTotalSales(start, end, config)
     lvl_1_percent_speciesGroupSales = calcPercentSalesCol(
       speciesGroupTotalSales[0],
       lvl_1_subtotal_salesPeriodToDate,
