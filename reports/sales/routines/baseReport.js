@@ -321,7 +321,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   const lvl_0_invAvailable = calcInventoryAvailable(lvl_0_total_fgInven, lvl_0_total_fgPo, lvl_0_total_so, 'invenAvailable')
 
   ///////////////////////////////// ROWS
-  const rowsFourthLevelDetail = config.l4_field ? await getRowsThirdLevelDetail(config, start, end, showFyTrend) : []
+  const rowsFourthLevelDetail = config.l4_field ? await getRowsFourthLevelDetail(config, start, end, showFyTrend) : []
   const rowsThirdLevelDetail = config.l3_field ? await getRowsThirdLevelDetail(config, start, end, showFyTrend) : []
   const rowsSecondLevelDetail = await getRowsSecondLevelDetail(config, start, end, showFyTrend)
   const rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, showFyTrend)
