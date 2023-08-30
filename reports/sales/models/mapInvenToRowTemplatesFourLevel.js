@@ -2,8 +2,6 @@ const Decimal = require('decimal.js')
 const _ = require('lodash')
 
 const mapInvenToRowTemplates = (invenLines, rowTemplate) => {
-  console.log('invenLines in four level mapInvenToRowTemplates', invenLines)
-
   const rowTemplateCache = _.cloneDeep(rowTemplate)
 
   let revenuePerLb = 0
@@ -57,6 +55,8 @@ const mapInvenToRowTemplates = (invenLines, rowTemplate) => {
       },
     }
   })
+
+  console.log('rowTemplateCache in four level mapInvenToRowTemplates', rowTemplateCache)
 
   return rowTemplateCache
 }
