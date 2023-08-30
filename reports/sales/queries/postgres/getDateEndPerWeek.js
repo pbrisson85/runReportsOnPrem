@@ -11,7 +11,9 @@ const getDateEndPerWeek = async fy => {
 
 const getDateEndPerWeekByRange = async (start, end, config) => {
   console.log(
-    `${config.user} - getDateEndPerWeekByRange, query postgres for accounting period ends by week serial for ${start} through ${end} ...`
+    `${config.user} - getDateEndPerWeekByRange, query postgres for accounting period ends by week serial for ${new Date(
+      start
+    ).toLocaleDateString()} through ${new Date(end).toLocaleDateString()} ...`
   )
 
   const periodsByWeek =
@@ -22,7 +24,9 @@ const getDateEndPerWeekByRange = async (start, end, config) => {
 
 const getDateEndPerWeekByRange_so = async (start, end, config) => {
   console.log(
-    `${config.user} - getDateEndPerWeekByRange_so, query postgres for accounting period ends by week serial for ${start} through ${end} ...`
+    `${config.user} - getDateEndPerWeekByRange_so, query postgres for accounting period ends by week serial for ${new Date(
+      start
+    ).toLocaleDateString()} through ${new Date(end).toLocaleDateString()} ...`
   )
 
   const periodsByWeek =
@@ -33,7 +37,9 @@ const getDateEndPerWeekByRange_so = async (start, end, config) => {
 
 const getDateEndPerWeekByRange_so_tg = async (start, end, config) => {
   console.log(
-    `${config.user} - getDateEndPerWeekByRange_so_tg, query postgres for accounting period ends by week serial for ${start} through ${end} ...`
+    `${config.user} - getDateEndPerWeekByRange_so_tg, query postgres for accounting period ends by week serial for ${new Date(
+      start
+    ).toLocaleDateString()} through ${new Date(end).toLocaleDateString()} ...`
   )
 
   const periodsByWeek =
@@ -44,7 +50,9 @@ const getDateEndPerWeekByRange_so_tg = async (start, end, config) => {
 
 const getDateEndPerWeekByRange_so_untg = async (start, end, config) => {
   console.log(
-    `${config.user} - getDateEndPerWeekByRange_so_untg, query postgres for accounting period ends by week serial for ${start} through ${end} ...`
+    `${config.user} - getDateEndPerWeekByRange_so_untg, query postgres for accounting period ends by week serial for ${new Date(
+      start
+    ).toLocaleDateString()} through ${new Date(end).toLocaleDateString()} ...`
   )
 
   const periodsByWeek =
