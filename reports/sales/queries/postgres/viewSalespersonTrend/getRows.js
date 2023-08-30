@@ -22,7 +22,7 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend) => {
           
           GROUP BY sl.outside_salesperson_code, sl.outside_salesperson_name 
           
-        UNION SELECT so.outside_salesperson_code AS l1_label, so.outside_salesperson_name AS l2_label, ${config.queryLevel} AS datalevel  
+        UNION SELECT so.out_sales_rep AS l1_label, so.out_sales_rep_name AS l2_label, ${config.queryLevel} AS datalevel  
           FROM "salesReporting".sales_orders AS so
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = so.item_num 
@@ -38,7 +38,7 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend) => {
             ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
             ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
           
-          GROUP BY so.outside_salesperson_code, so.outside_salesperson_name` //prettier-ignore
+          GROUP BY so.out_sales_rep, so.out_sales_rep_name` //prettier-ignore
 
     return response
   } catch (error) {
