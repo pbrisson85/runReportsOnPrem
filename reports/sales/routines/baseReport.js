@@ -558,7 +558,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   })
 
   const flattenedMappedData = Object.values(mappedData)
-  const finalData = cleanLabelsForDisplay(flattenedMappedData, config.program)
+  const finalData = cleanLabelsForDisplay(flattenedMappedData, config)
   const salesColsByWk = await getDateEndPerWeekByRange(start, end)
 
   // get data column names by fiscal year

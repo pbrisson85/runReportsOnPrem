@@ -85,9 +85,7 @@ const cleanLabelsForDisplay = (flattenedMappedData, program) => {
       flattenedMappedData[idx].l3_label = ''
     }
 
-    //
-
-    // If l2 grouping includes subtotal then update the labels
+    // always update the dataLevel 1 subtotal label
     if (row.datalevel === 1) {
       flattenedMappedData[idx].l1_label = `${row.l1_label} SUBTOTAL`
       flattenedMappedData[idx].l2_label = ''
@@ -95,16 +93,16 @@ const cleanLabelsForDisplay = (flattenedMappedData, program) => {
       flattenedMappedData[idx].l4_label = ''
     }
 
-    // If l3 grouping includes subtotal then update the labels
-    if (row.datalevel === 2) {
+    // If dataLevel 2 and there is a dataLevel 3 then update as a subtotal label
+    if (row.datalevel === 2 && config.l3_field) {
       flattenedMappedData[idx].l1_label = ''
       flattenedMappedData[idx].l2_label = `${row.l2_label} SUBTOTAL`
       flattenedMappedData[idx].l3_label = ''
       flattenedMappedData[idx].l4_label = ''
     }
 
-    // If l4 grouping includes subtotal then update the labels
-    if (row.datalevel === 3) {
+    // If dataLevel 3 and there is a dataLevel 4 then update as a subtotal label
+    if (row.datalevel === 3 && config.l4_field) {
       flattenedMappedData[idx].l1_label = ''
       flattenedMappedData[idx].l2_label = ''
       flattenedMappedData[idx].l3_label = `${row.l3_label} SUBTOTAL`
@@ -127,8 +125,8 @@ const cleanLabelsForDisplay = (flattenedMappedData, program) => {
     }
 
     // re-label total row with program filter
-    if (program && idx === cacheData.length - 1) {
-      flattenedMappedData[idx].l1_label = `${program} FG`
+    if (config.program && idx === cacheData.length - 1) {
+      flattenedMappedData[idx].l1_label = `${config.program} FG`
     }
   })
 
