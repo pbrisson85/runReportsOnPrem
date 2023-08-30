@@ -37,16 +37,16 @@ const getReportFormats = () => {
       forbiddenCols: [],
     },
     {
-      label: 'freeze / soak / size',
-      dataName: 'frzSoakSize',
+      label: 'freeze / brand / soak / size',
+      dataName: 'frzBrndSoakSize',
       default: false, // if true, this is the default report for an unlisted program (one which does not appear in the defaults array)
       defaults: [], // list of programs (datanames) that this is the default report
       optional: ['any'], // list of programs (datanames) that allow this, or use 'any' to allow all programs EXCEPT 'all'
       forbiddenCols: [],
     },
     {
-      label: 'freeze / brand / soak / size',
-      dataName: 'frzBrndSoakSize',
+      label: 'freeze / soak / size',
+      dataName: 'frzSoakSize',
       default: false, // if true, this is the default report for an unlisted program (one which does not appear in the defaults array)
       defaults: [], // list of programs (datanames) that this is the default report
       optional: ['any'], // list of programs (datanames) that allow this, or use 'any' to allow all programs EXCEPT 'all'
@@ -57,6 +57,14 @@ const getReportFormats = () => {
       dataName: 'specBrndSize',
       defaults: ['COD CHN', 'FLATFISH CHN', 'FLATFISH PER', 'HADDOCK CHN', 'PERCH CHN', 'POLLOCK CHN', 'SEAFOOD OTHER'],
       optional: ['any'],
+      forbiddenCols: [],
+    },
+    {
+      label: 'species / brand / soak / size',
+      dataName: 'specBrndSoakSize',
+      default: false, // if true, this is the default report for an unlisted program (one which does not appear in the defaults array)
+      defaults: [], // list of programs (datanames) that this is the default report
+      optional: ['any'], // list of programs (datanames) that allow this, or use 'any' to allow all programs EXCEPT 'all'
       forbiddenCols: [],
     },
     {

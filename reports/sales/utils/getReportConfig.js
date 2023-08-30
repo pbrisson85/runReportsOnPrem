@@ -99,6 +99,16 @@ const getReportConfig = reqBody => {
       }
       break
 
+    case 'specBrndSoakSize':
+      config = {
+        l1_field: 'ms.species',
+        l2_field: 'ms.brand',
+        l3_field: 'ms.fg_treatment',
+        l4_field: 'ms.size_name',
+        ...config,
+      }
+      break
+
     case 'specSoakSize':
       config = {
         l1_field: 'ms.species',
