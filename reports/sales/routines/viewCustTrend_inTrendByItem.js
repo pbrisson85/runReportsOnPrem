@@ -137,7 +137,7 @@ const buildDrillDown = async (config, start, end, showFyTrend, startWeek, endWee
     }) // no label in total row, first col
   finalData = [...filterRow, ...finalData]
 
-  const salesColsByWk = await getDateEndPerWeekByRange(start, end)
+  const salesColsByWk = await getDateEndPerWeekByRange(start, end, config)
 
   // get data column names by fiscal year
   let salesColsByFy = null
@@ -146,9 +146,9 @@ const buildDrillDown = async (config, start, end, showFyTrend, startWeek, endWee
   if (showFyTrend) salesColsByFyYtd = await getFiscalYearYtdCols()
 
   // get so by week cols
-  const start_so = await getEarliestShipWk()
-  const end_so = await getLatestShipWk()
-  const soCols = await getDateEndPerWeekByRange_so(start_so, end_so)
+  const start_so = await getEarliestShipWk(config)
+  const end_so = await getLatestShipWk(config)
+  const soCols = await getDateEndPerWeekByRange_so(start_so, end_so, config)
 
   // return
   return {

@@ -9,8 +9,10 @@ const getDateEndPerWeek = async fy => {
   return periodsByWeek
 }
 
-const getDateEndPerWeekByRange = async (start, end) => {
-  console.log(`getDateEndPerWeekByRange, query postgres for accounting period ends by week serial for ${start} through ${end} ...`)
+const getDateEndPerWeekByRange = async (start, end, config) => {
+  console.log(
+    `${config.user} - getDateEndPerWeekByRange, query postgres for accounting period ends by week serial for ${start} through ${end} ...`
+  )
 
   const periodsByWeek =
     await sql`SELECT period_by_week.week_serial AS dataName, period_by_week.date_end AS displayName FROM "accountingPeriods".period_by_week WHERE period_by_week.formatted_date_end >= ${start} AND period_by_week.formatted_date_end <= ${end} ORDER BY period_by_week.week ASC`
@@ -18,8 +20,10 @@ const getDateEndPerWeekByRange = async (start, end) => {
   return periodsByWeek
 }
 
-const getDateEndPerWeekByRange_so = async (start, end) => {
-  console.log(`getDateEndPerWeekByRange_so, query postgres for accounting period ends by week serial for ${start} through ${end} ...`)
+const getDateEndPerWeekByRange_so = async (start, end, config) => {
+  console.log(
+    `${config.user} - getDateEndPerWeekByRange_so, query postgres for accounting period ends by week serial for ${start} through ${end} ...`
+  )
 
   const periodsByWeek =
     await sql`SELECT period_by_week.week_serial || '_so' AS dataName, period_by_week.date_end AS displayName FROM "accountingPeriods".period_by_week WHERE period_by_week.formatted_date_end >= ${start} AND period_by_week.formatted_date_end <= ${end} ORDER BY period_by_week.formatted_date_end ASC`
@@ -27,8 +31,10 @@ const getDateEndPerWeekByRange_so = async (start, end) => {
   return periodsByWeek
 }
 
-const getDateEndPerWeekByRange_so_tg = async (start, end) => {
-  console.log(`getDateEndPerWeekByRange_so_tg, query postgres for accounting period ends by week serial for ${start} through ${end} ...`)
+const getDateEndPerWeekByRange_so_tg = async (start, end, config) => {
+  console.log(
+    `${config.user} - getDateEndPerWeekByRange_so_tg, query postgres for accounting period ends by week serial for ${start} through ${end} ...`
+  )
 
   const periodsByWeek =
     await sql`SELECT period_by_week.week_serial || '_so_tg' AS dataName, period_by_week.date_end AS displayName FROM "accountingPeriods".period_by_week WHERE period_by_week.formatted_date_end >= ${start} AND period_by_week.formatted_date_end <= ${end} ORDER BY period_by_week.formatted_date_end ASC`
@@ -36,8 +42,10 @@ const getDateEndPerWeekByRange_so_tg = async (start, end) => {
   return periodsByWeek
 }
 
-const getDateEndPerWeekByRange_so_untg = async (start, end) => {
-  console.log(`getDateEndPerWeekByRange_so_untg, query postgres for accounting period ends by week serial for ${start} through ${end} ...`)
+const getDateEndPerWeekByRange_so_untg = async (start, end, config) => {
+  console.log(
+    `${config.user} - getDateEndPerWeekByRange_so_untg, query postgres for accounting period ends by week serial for ${start} through ${end} ...`
+  )
 
   const periodsByWeek =
     await sql`SELECT period_by_week.week_serial || '_so_untg' AS dataName, period_by_week.date_end AS displayName FROM "accountingPeriods".period_by_week WHERE period_by_week.formatted_date_end >= ${start} AND period_by_week.formatted_date_end <= ${end} ORDER BY period_by_week.formatted_date_end ASC`

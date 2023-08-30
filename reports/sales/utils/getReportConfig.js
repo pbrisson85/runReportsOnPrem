@@ -1,7 +1,4 @@
 const getReportConfig = reqBody => {
-  console.log('reqBody', reqBody)
-  console.log('reqBody.creds', reqBody.creds)
-
   // auth filters:
   let jbBuyerFilter = false
 
@@ -126,6 +123,8 @@ const getReportConfig = reqBody => {
         ...config,
       }
   }
+
+  console.log('config', config)
 
   return config
 }
