@@ -1,6 +1,8 @@
 const _ = require('lodash')
 
 const cleanLabelsForDisplay = (flattenedMappedData, program) => {
+  console.log('flattenedMappedData', flattenedMappedData)
+
   const cacheData = _.cloneDeep(flattenedMappedData)
 
   let l1Value = ''
