@@ -15,6 +15,13 @@ const getReportFormats = () => {
       forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
     },
     {
+      label: 'species group / program / species',
+      dataName: 'speciesgroupProgSpec',
+      defaults: [], // list of programs (datanames) that this is the default report
+      optional: ['all'], // list of programs (datanames) that allow this
+      forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
+    },
+    {
       label: 'species group / brand / skin',
       dataName: 'speciesgroupBrandSkin',
       defaults: [], // list of programs (datanames) that this is the default report
