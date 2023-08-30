@@ -15,11 +15,9 @@ const joinSalesData = require('../models/joinSalesData')
 const unflattenInvoiceNum = require('../models/unFlattenInoviceNum')
 const unflattenReasCode = require('../models/unFlattenReasCode')
 const mapPostgresSalesLinesTable = require('../models/mapPostgresSalesLinesTable')
-const unflattenByCompositeKey = require('../models/unFlattenByCompositeKey')
+const unflattenByCompositeKey = require('../models/unflattenByCompositeKey')
 
 const generateSalesDataRoutine = async year => {
-  console.log('generate detail sales data...')
-
   // pull sales line items from seasoft for the fiscal year
 
   // Query Data

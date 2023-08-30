@@ -6,7 +6,7 @@ const getGenTblOthp = require('../queries/seasoft/getGenTblOthp')
 const getInvAllocFile = require('../queries/seasoft/getInvAllocFile')
 
 const formatPostgresDateForSeasoftQuery = require('../models/formatPostgresDateForSeasoftQuery')
-const unflattenByCompositKey = require('../models/unflattenByCompositKey')
+const unflattenByCompositeKey = require('../models/unflattenByCompositeKey')
 const joinInvAllocData = require('../models/joinInvAllocData')
 
 const generateSalesDataRoutine = async year => {
@@ -24,14 +24,14 @@ const generateSalesDataRoutine = async year => {
   const deletedOthp = await getDeletedOthp()
 
   // Model Data
-  const genTblOthp_unflat = unflattenByCompositKey(genTblOthp, { 1: 'OTHP_CODE' })
-  const deletedOthp_unflat = unflattenByCompositKey(deletedOthp, { 1: 'othp_code' })
+  const genTblOthp_unflat = unflattenByCompositeKey(genTblOthp, { 1: 'OTHP_CODE' })
+  const deletedOthp_unflat = unflattenByCompositeKey(deletedOthp, { 1: 'othp_code' })
 
   // Map Data
   const joinedData = joinInvAllocData(invAllocFile, genTblOthp_unflat, deletedOthp_unflat)
 
   // Model Data
-  const data_unflat = unflattenByCompositKey(joinedData, { 1: 'INVOICE_NUMBER', 2: 'INVOICE_LINE_NUMBER', 3: 'EXPENSE_CODE' })
+  const data_unflat = unflattenByCompositeKey(joinedData, { 1: 'INVOICE_NUMBER', 2: 'INVOICE_LINE_NUMBER', 3: 'EXPENSE_CODE' })
 
   // Note that there are multiple instances of invoice alloc file for each invoice-line-othp code. Need to sum on this field.
 

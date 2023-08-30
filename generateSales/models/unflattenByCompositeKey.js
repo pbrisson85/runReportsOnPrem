@@ -1,4 +1,4 @@
-const unflattenByCompositKey = (data, keys) => {
+const unflattenByCompositeKey = (data, keys) => {
   let unflat = {}
 
   const vals = Object.values(keys)
@@ -25,4 +25,4 @@ const unflattenByCompositKey = (data, keys) => {
   return unflat
 }
 
-module.exports = unflattenByCompositKey
+module.exports = unflattenByCompositeKey
