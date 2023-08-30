@@ -6,11 +6,7 @@ const joinSalesData = (
   invReasCodes_unflat,
   salespersonMaster_unflat
 ) => {
-  console.log('salespersonMaster_unflat', salespersonMaster_unflat)
-
   const joinedSalesData = salesLines.map((invoiceLine, idx) => {
-    if (idx === salesLines.length - 1) console.log('invoiceLine', invoiceLine)
-
     const dateArr = invoiceLine.ODBC_INVOICE_DATE.split('-')
     // result: [yyyy,m,d]
 
