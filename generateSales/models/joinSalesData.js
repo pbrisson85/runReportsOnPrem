@@ -26,7 +26,7 @@ const joinSalesData = (
       period: mappedPeriodsPerDay[invoiceDate],
       header: salesHeader_unflat[invoiceLine.ODBC_INVOICE_NUMBER],
       invReasCodes: invReasCode === null ? { TABLE_CODE: null, TABLE_DESC: null, TABLE_FLD01_ADJ_INV: null } : invReasCodes_unflat[invReasCode],
-      salesPerson: salespersonMaster_unflat[invoiceLine.OUTSIDE_SALESPERSON_CODE],
+      salesPerson: salespersonMaster_unflat[invoiceLine.OUTSIDE_SALESPERSON_CODE][0],
     }
   })
 

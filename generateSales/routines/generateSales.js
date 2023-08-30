@@ -38,7 +38,6 @@ const generateSalesDataRoutine = async year => {
   const invReasCodes_unflat = unflattenReasCode(invReasCodes)
   const salespersonMaster_unflat = unflattenByCompositeKey(salespersonMaster, {
     1: 'SALESPERSON_CODE',
-    2: 'NAME',
   })
   const mappedPeriodsPerDay = mapPeriodsPerDay(periodsByDay)
 
