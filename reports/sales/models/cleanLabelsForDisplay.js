@@ -88,7 +88,7 @@ const cleanLabelsForDisplay = (flattenedMappedData, program) => {
     //
 
     // If l2 grouping includes subtotal then update the labels
-    if (row.dataLevel === 1) {
+    if (row.datalevel === 1) {
       flattenedMappedData[idx].l1_label = `${row.l1_label} SUBTOTAL`
       flattenedMappedData[idx].l2_label = ''
       flattenedMappedData[idx].l3_label = ''
@@ -96,7 +96,7 @@ const cleanLabelsForDisplay = (flattenedMappedData, program) => {
     }
 
     // If l3 grouping includes subtotal then update the labels
-    if (row.dataLevel === 2) {
+    if (row.datalevel === 2) {
       flattenedMappedData[idx].l1_label = ''
       flattenedMappedData[idx].l2_label = `${row.l2_label} SUBTOTAL`
       flattenedMappedData[idx].l3_label = ''
@@ -104,7 +104,7 @@ const cleanLabelsForDisplay = (flattenedMappedData, program) => {
     }
 
     // If l4 grouping includes subtotal then update the labels
-    if (row.dataLevel === 3) {
+    if (row.datalevel === 3) {
       flattenedMappedData[idx].l1_label = ''
       flattenedMappedData[idx].l2_label = ''
       flattenedMappedData[idx].l3_label = `${row.l3_label} SUBTOTAL`
