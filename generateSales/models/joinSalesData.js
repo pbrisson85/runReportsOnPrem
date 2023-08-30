@@ -6,6 +6,8 @@ const joinSalesData = (
   invReasCodes_unflat,
   salespersonMaster_unflat
 ) => {
+  console.log('salespersonMaster_unflat', salespersonMaster_unflat)
+
   const joinedSalesData = salesLines.map(invoiceLine => {
     const dateArr = invoiceLine.ODBC_INVOICE_DATE.split('-')
     // result: [yyyy,m,d]
@@ -15,6 +17,9 @@ const joinSalesData = (
     })
 
     const invReasCode = salesHeader_unflat[invoiceLine.ODBC_INVOICE_NUMBER].REASON_CODE
+
+    console.log('invoiceLine.OUTSIDE_SALESPERSON_CODE', invoiceLine.OUTSIDE_SALESPERSON_CODE)
+    console.log('salespersonMaster_unflat[invoiceLine.OUTSIDE_SALESPERSON_CODE]', salespersonMaster_unflat[invoiceLine.OUTSIDE_SALESPERSON_CODE])
 
     return {
       ...invoiceLine,
