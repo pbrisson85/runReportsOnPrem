@@ -22,6 +22,9 @@ const getCols = body => {
     case 'speciesgroupFreeze':
       return applyTemplate(template, speciesgroupFreeze)
 
+    case 'speciesgroupProgFrz':
+      return applyTemplate(template, speciesgroupProgFrz)
+
     case 'speciesgroupBrandSkin':
       return applyTemplate(template, speciesgroupBrandSkin)
 
@@ -72,6 +75,35 @@ const speciesgroupProg = [
     filterName: 'l2_filter', // key to match up the column with the filter
     width: '175px', // css width
     left: '175px', // css positioning for sticky sum of prior col widths
+    borderRight: true, // border right on ladst frozen cell
+    rightClickMenu: [], // array of options for right click menu
+  },
+]
+
+const speciesgroupProgFrz = [
+  {
+    displayName: 'MAJOR CATEGORY', // show as column header
+    dataName: 'l1_label', // key to pull data from
+    filterName: 'l1_filter', // key to match up the column with the filter
+    width: '175px', // css width
+    left: '0px', // css positioning for sticky sum of prior col widths
+    rightClickMenu: [], // array of options for right click menu
+  },
+  {
+    displayName: 'PROGRAM', // show as column header
+    dataName: 'l2_label', // key to pull data from
+    filterName: 'l2_filter', // key to match up the column with the filter
+    width: '175px', // css width
+    left: '175px', // css positioning for sticky sum of prior col widths
+    borderRight: true, // border right on ladst frozen cell
+    rightClickMenu: [], // array of options for right click menu
+  },
+  {
+    displayName: 'FREEZE', // show as column header
+    dataName: 'l3_label', // key to pull data from
+    filterName: 'l3_filter', // key to match up the column with the filter
+    width: '175px', // css width
+    left: '350px', // css positioning for sticky sum of prior col widths
     borderRight: true, // border right on ladst frozen cell
     rightClickMenu: [], // array of options for right click menu
   },

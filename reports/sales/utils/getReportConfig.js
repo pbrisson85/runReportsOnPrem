@@ -34,6 +34,16 @@ const getReportConfig = reqBody => {
 
       break
 
+    case 'speciesgroupProgFrz':
+      config = {
+        l1_field: 'ms.species_group',
+        l2_field: 'ms.program',
+        l3_field: 'ms.fg_fresh_frozen',
+        ...config,
+      }
+
+      break
+
     case 'speciesgroupBrandSkin':
       config = {
         l1_field: 'ms.species_group',
