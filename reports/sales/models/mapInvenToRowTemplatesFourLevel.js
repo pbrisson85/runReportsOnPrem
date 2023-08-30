@@ -56,8 +56,6 @@ const mapInvenToRowTemplates = (invenLines, rowTemplate) => {
     }
   })
 
-  console.log('rowTemplateCache in four level mapInvenToRowTemplates', rowTemplateCache)
-
   return rowTemplateCache
 }
 

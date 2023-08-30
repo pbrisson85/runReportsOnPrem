@@ -386,7 +386,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
     })
 
     level = 2
-  } else if (!config.l3_field) {
+  } else if (!config.l4_field) {
     // 3 LEVEL REPORT
     mapSalesToRowTemplates = mapSalesToRowTemplates_threeLevel
     mapInvenToRowTemplates = mapInvenToRowTemplates_threeLevel
@@ -399,7 +399,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
 
     level = 3
   } else {
-    // 3 LEVEL REPORT
+    // 4 LEVEL REPORT
     mapSalesToRowTemplates = mapSalesToRowTemplates_fourLevel
     mapInvenToRowTemplates = mapInvenToRowTemplates_fourLevel
 
