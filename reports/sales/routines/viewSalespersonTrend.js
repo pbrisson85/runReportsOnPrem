@@ -1,9 +1,4 @@
-const {
-  getDateEndPerWeekByRange,
-  getDateEndPerWeekByRange_so,
-  getDateEndPerWeekByRange_so_tg,
-  getDateEndPerWeekByRange_so_untg,
-} = require('../queries/postgres/getDateEndPerWeek')
+const { getDateEndPerWeekByRange, getDateEndPerWeekByRange_so } = require('../queries/postgres/getDateEndPerWeek')
 const { getFiscalYearCols, getFiscalYearYtdCols } = require('../queries/postgres/getFiscalYearCols')
 const { getLatestShipWk, getEarliestShipWk } = require('../queries/postgres/getSoDates')
 const {
@@ -14,98 +9,30 @@ const {
 } = require('../queries/postgres/viewSalespersonTrend/getSalesTrend')
 const { getCompanyTotalSales } = require('../queries/postgres/kpi/getCompanyTotalSales')
 const { lvl_0_total_getSalesPeriodToDate: lvl_0_program_getSalesPeriodToDate } = require('../queries/postgres/baseReport/getSalesTrend')
+const { lvl_1_subtotal_getSalesByFy, lvl_0_total_getSalesByFy } = require('../queries/postgres/viewSalespersonTrend/getSalesTrendByFy')
 const { lvl_1_subtotal_getSalesByFyYtd, lvl_0_total_getSalesByFyYtd } = require('../queries/postgres/viewSalespersonTrend/getSalesTrendByFyYtd')
-const {
-  lvl_1_subtotal_getFgInven,
-  lvl_0_total_getFgInven,
-  lvl_1_subtotal_getFgInTransit,
-  lvl_0_total_getFgInTransit,
-  lvl_1_subtotal_getFgAtLoc,
-  lvl_0_total_getFgAtLoc,
-  lvl_1_subtotal_getFgAtLoc_untagged,
-  lvl_0_total_getFgAtLoc_untagged,
-  lvl_1_subtotal_getFgAtLoc_tagged,
-  lvl_0_total_getFgAtLoc_tagged,
-} = require('../queries/postgres/viewSalespersonTrend/getFgInven')
-const { lvl_1_subtotal_getFgPo, lvl_0_total_getFgPo } = require('../queries/postgres/viewSalespersonTrend/getFgOpenPo')
-const {
-  lvl_1_subtotal_getSo,
-  lvl_0_total_getSo,
-  lvl_1_subtotal_getSoTagged,
-  lvl_0_total_getSoTagged,
-  lvl_1_subtotal_getSoUntagged,
-  lvl_0_total_getSoUntagged,
-} = require('../queries/postgres/viewSalespersonTrend/getSo')
-const {
-  lvl_1_subtotal_getSo_byWk,
-  lvl_0_total_getSo_byWk,
-  lvl_1_subtotal_getSoTagged_byWk,
-  lvl_0_total_getSoTagged_byWk,
-  lvl_1_subtotal_getSoUntagged_byWk,
-  lvl_0_total_getSoUntagged_byWk,
-} = require('../queries/postgres/viewSalespersonTrend/getSoByWeek')
+const { lvl_1_subtotal_getSo, lvl_0_total_getSo } = require('../queries/postgres/viewSalespersonTrend/getSo')
+const { lvl_1_subtotal_getSo_byWk, lvl_0_total_getSo_byWk } = require('../queries/postgres/viewSalespersonTrend/getSoByWeek')
 const { getRowsFirstLevelDetail } = require('../queries/postgres/viewSalespersonTrend/getRows')
 const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplatesOneLevel')
-const mapInvenToRowTemplates = require('../models/mapInvenToRowTemplatesOneLevel')
-const combineMappedRows = require('../models/combineMappedRows')
 const cleanLabelsForDisplay = require('../models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../models/unflattenByCompositKey')
 const calcPercentSalesCol = require('../models/calcPercentSalesCol')
 const calcAveWeeklySales = require('../models/calcAveWeeklySales')
-const calcWeeksInvOnHand = require('../models/calcWeeksInvOnHand')
-const calcInventoryAvailable = require('../models/calcInventoryAvailable')
 
 const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startWeek, endWeek) => {
-  ///////////////////////////////// INVENTORY DATA
-  /* TOTAL FG (FG) */
-  const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(config)
-  const lvl_0_total_fgInven = await lvl_0_total_getFgInven(config)
-  /* FG IN TRANSIT*/
-  const lvl_1_subtotal_fgInTransit = await lvl_1_subtotal_getFgInTransit(config)
-  const lvl_0_total_fgInTransit = await lvl_0_total_getFgInTransit(config)
-  /* FG ON HAND (LESS IN TRANSIT) */
-  const lvl_1_subtotal_fgAtLoc = await lvl_1_subtotal_getFgAtLoc(config)
-  const lvl_0_total_fgAtLoc = await lvl_0_total_getFgAtLoc(config)
-  /* FG ON HAND UNTAGGED */
-  const lvl_1_subtotal_fgAtLoc_untagged = await lvl_1_subtotal_getFgAtLoc_untagged(config)
-  const lvl_0_total_fgAtLoc_untagged = await lvl_0_total_getFgAtLoc_untagged(config)
-  /* FG ON HAND TAGGED */
-  const lvl_1_subtotal_fgAtLoc_tagged = await lvl_1_subtotal_getFgAtLoc_tagged(config)
-  const lvl_0_total_fgAtLoc_tagged = await lvl_0_total_getFgAtLoc_tagged(config)
-
-  /* FG ON ORDER */
-  const lvl_1_subtotal_fgPo = await lvl_1_subtotal_getFgPo(config)
-  const lvl_0_total_fgPo = await lvl_0_total_getFgPo(config)
-
   // ///////////////////////////////// SALES ORDERS
   /* ALL SO */
   const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(config)
   const lvl_0_total_so = await lvl_0_total_getSo(config)
-
   const lvl_1_subtotal_so_byWk = await lvl_1_subtotal_getSo_byWk(config)
   const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk(config)
 
-  /* TAGGED SO */
-  const lvl_1_subtotal_soTagged = await lvl_1_subtotal_getSoTagged(config)
-  const lvl_0_total_soTagged = await lvl_0_total_getSoTagged(config)
-
-  const lvl_1_subtotal_soTagged_byWk = await lvl_1_subtotal_getSoTagged_byWk(config)
-  const lvl_0_total_soTagged_byWk = await lvl_0_total_getSoTagged_byWk(config)
-
-  /* UNTAGGED SO */
-  const lvl_1_subtotal_soUntagged = await lvl_1_subtotal_getSoUntagged(config)
-  const lvl_0_total_soUntagged = await lvl_0_total_getSoUntagged(config)
-
-  const lvl_1_subtotal_soUntagged_byWk = await lvl_1_subtotal_getSoUntagged_byWk(config)
-  const lvl_0_total_soUntagged_byWk = await lvl_0_total_getSoUntagged_byWk(config)
-
   // ///////////////////////////////// SALES DATA
-  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFyYtd(config, start, end, false)
-  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFyYtd(config, start, end, false)
-
-  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, true)
-  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, true)
-
+  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(config, start, end)
+  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(config, start, end)
+  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek)
+  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek)
   const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(config, start, end)
   const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(config, start, end)
   const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(config, start, end)
@@ -136,14 +63,6 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   const lvl_1_aveWeeklySales = calcAveWeeklySales(lvl_1_subtotal_salesPeriodToDate, 'aveWeeklySales', weeks)
   const lvl_0_aveWeeklySales = calcAveWeeklySales(lvl_0_total_salesPeriodToDate, 'aveWeeklySales', weeks)
 
-  /* WEEKS INV ON HAND */
-  const lvl_1_weeksInvOnHand = calcWeeksInvOnHand(lvl_1_subtotal_fgInven, lvl_1_aveWeeklySales, 'weeksInvenOnHand')
-  const lvl_0_weeksInvOnHand = calcWeeksInvOnHand(lvl_0_total_fgInven, lvl_0_aveWeeklySales, 'weeksInvenOnHand')
-
-  /* INVENTORY AVAILABLE */
-  const lvl_1_invAvailable = calcInventoryAvailable(lvl_1_subtotal_fgInven, lvl_1_subtotal_fgPo, lvl_1_subtotal_so, 'invenAvailable')
-  const lvl_0_invAvailable = calcInventoryAvailable(lvl_0_total_fgInven, lvl_0_total_fgPo, lvl_0_total_so, 'invenAvailable')
-
   ///////////////////////////////// ROWS
   const rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, showFyTrend)
 
@@ -168,7 +87,7 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
     ? [...lvl_1_subtotal_salesByFy, ...lvl_0_total_salesByFy, ...lvl_1_subtotal_salesByFyYtd, ...lvl_0_total_salesByFyYtd]
     : []
 
-  const mappedSales = mapSalesToRowTemplates(
+  const mappedData = mapSalesToRowTemplates(
     [
       ...lvl_1_subtotal_salesByWk,
       ...lvl_0_total_salesByWk,
@@ -176,16 +95,8 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
       ...lvl_0_total_salesPeriodToDate,
       ...lvl_1_subtotal_so,
       ...lvl_0_total_so,
-      ...lvl_1_subtotal_soTagged,
-      ...lvl_0_total_soTagged,
-      ...lvl_1_subtotal_soUntagged,
-      ...lvl_0_total_soUntagged,
       ...lvl_1_subtotal_so_byWk,
       ...lvl_0_total_so_byWk,
-      ...lvl_1_subtotal_soTagged_byWk,
-      ...lvl_0_total_soTagged_byWk,
-      ...lvl_1_subtotal_soUntagged_byWk,
-      ...lvl_0_total_soUntagged_byWk,
       ...fyTrendSales,
       ...lvl_1_percent_companySales,
       ...lvl_0_percent_companySales,
@@ -198,30 +109,6 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
     ],
     rowTemplate_unflat
   )
-
-  const mappedInven = mapInvenToRowTemplates(
-    [
-      ...lvl_1_subtotal_fgInven,
-      ...lvl_0_total_fgInven,
-      ...lvl_1_subtotal_fgInTransit,
-      ...lvl_0_total_fgInTransit,
-      ...lvl_1_subtotal_fgAtLoc,
-      ...lvl_0_total_fgAtLoc,
-      ...lvl_1_subtotal_fgAtLoc_untagged,
-      ...lvl_0_total_fgAtLoc_untagged,
-      ...lvl_1_subtotal_fgAtLoc_tagged,
-      ...lvl_0_total_fgAtLoc_tagged,
-      ...lvl_1_subtotal_fgPo,
-      ...lvl_0_total_fgPo,
-      ...lvl_1_weeksInvOnHand,
-      ...lvl_0_weeksInvOnHand,
-      ...lvl_1_invAvailable,
-      ...lvl_0_invAvailable,
-    ],
-    rowTemplate_unflat
-  )
-
-  const mappedData = combineMappedRows(mappedSales, mappedInven)
 
   // clean out rows with zero activity
   Object.keys(mappedData).forEach(key => {
@@ -240,6 +127,10 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
       return 0
     })
     .sort((a, b) => {
+      if (a.l2_label === null || b.l2_label === null) {
+        return 1
+      }
+
       // if has includes total, put at end
       if (a.l2_label.includes('TOTAL')) return 1
       if (b.l2_label.includes('TOTAL')) return -1
@@ -259,8 +150,6 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   const start_so = await getEarliestShipWk(config)
   const end_so = await getLatestShipWk(config)
   const soCols = await getDateEndPerWeekByRange_so(start_so, end_so, config)
-  const soCols_tg = await getDateEndPerWeekByRange_so_tg(start_so, end_so, config)
-  const soCols_untg = await getDateEndPerWeekByRange_so_untg(start_so, end_so, config)
 
   // return
   return {
@@ -270,8 +159,6 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
     salesColsByFyYtd: salesColsByFyYtd,
     labelCols: labelCols,
     soCols,
-    soCols_tg,
-    soCols_untg,
   }
 }
 
