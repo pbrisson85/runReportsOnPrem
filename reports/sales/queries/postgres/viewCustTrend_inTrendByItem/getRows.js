@@ -2,7 +2,7 @@ const sql = require('../../../../../server')
 
 const getRowsFirstLevelDetail = async (start, end, config, showFyTrend) => {
   try {
-    console.log(`query postgres to get row labels ...`)
+    console.log(`${config.user} - query postgres to get row labels ...`)
 
     const response =
       await sql

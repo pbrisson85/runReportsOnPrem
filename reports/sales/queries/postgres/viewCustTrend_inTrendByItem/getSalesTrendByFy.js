@@ -6,7 +6,7 @@ const sql = require('../../../../../server')
 
 const lvl_1_subtotal_getSalesByFy = async config => {
   try {
-    console.log(`level 1: query postgres to get FG sales data by week ...`)
+    console.log(`${config.user} - level 1: query postgres to get FG sales data by week ...`)
 
     const response =
       await sql
@@ -37,7 +37,7 @@ const lvl_1_subtotal_getSalesByFy = async config => {
 
 const lvl_0_total_getSalesByFy = async config => {
   try {
-    console.log(`level 0: query postgres to get FG sales data by week ...`)
+    console.log(`${config.user} - level 0: query postgres to get FG sales data by week ...`)
 
     const response =
       await sql

@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
 
   const config = getReportConfig(req.body)
 
-  console.log(`\nget drilldown data for ${reportFormat} route HIT...`)
+  console.log(`\n${config.user} - get drilldown data for ${reportFormat} route HIT...`)
 
   const startWeek = await getWeekForDate(periodStart) // temporarily until I change the data that is being passed by the front end to the week
   const endWeek = await getWeekForDate(periodEnd) // temporarily until I change the data that is being passed by the front end to the week
@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
 
   const response = await viewItemTrend(labelCols, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek)
 
-  console.log(`get drilldown data for ${reportFormat} route COMPLETE. \n`)
+  console.log(`${config.user} - get drilldown data for ${reportFormat} route COMPLETE. \n`)
 
   res.send(response)
 })

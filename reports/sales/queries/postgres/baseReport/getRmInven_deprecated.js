@@ -6,7 +6,7 @@ const sql = require('../../../../../server')
 
 const lvl_1_subtotal_getRmInven = async program => {
   try {
-    console.log(`level 1: query postgres for RM on hand ...`)
+    console.log(`${config.user} - level 1: query postgres for RM on hand ...`)
 
     const response =
       await sql
@@ -29,7 +29,7 @@ const lvl_1_subtotal_getRmInven = async program => {
 
 const lvl_1_subtotal_getRmInTransit = async program => {
   try {
-    console.log(`level 1: query postgres for RM in transit ...`)
+    console.log(`${config.user} - level 1: query postgres for RM in transit ...`)
 
     const response =
       await sql
@@ -52,7 +52,7 @@ const lvl_1_subtotal_getRmInTransit = async program => {
 
 const lvl_1_subtotal_getRmAtLoc = async program => {
   try {
-    console.log(`level 1: query postgres for RM at loc ...`)
+    console.log(`${config.user} - level 1: query postgres for RM at loc ...`)
 
     const response =
       await sql
@@ -77,7 +77,7 @@ const lvl_1_subtotal_getRmAtLoc = async program => {
 
 const lvl_2_subtotal_getRmInven = async program => {
   try {
-    console.log(`level 2: query postgres for RM on hand ...`)
+    console.log(`${config.user} - level 2: query postgres for RM on hand ...`)
 
     const response =
       await sql
@@ -100,7 +100,7 @@ const lvl_2_subtotal_getRmInven = async program => {
 
 const lvl_2_subtotal_getRmInTransit = async program => {
   try {
-    console.log(`level 2: query postgres for RM in transit ...`)
+    console.log(`${config.user} - level 2: query postgres for RM in transit ...`)
 
     const response =
       await sql
@@ -123,7 +123,7 @@ const lvl_2_subtotal_getRmInTransit = async program => {
 
 const lvl_2_subtotal_getRmAtLoc = async program => {
   try {
-    console.log(`level 2: query postgres for RM at location ...`)
+    console.log(`${config.user} - level 2: query postgres for RM at location ...`)
 
     const response =
       await sql
@@ -148,7 +148,7 @@ const lvl_2_subtotal_getRmAtLoc = async program => {
 
 const lvl_3_subtotal_getRmInven = async program => {
   try {
-    console.log(`level 3: query postgres for RM on hand ...`)
+    console.log(`${config.user} - level 3: query postgres for RM on hand ...`)
 
     const response =
       await sql
@@ -171,7 +171,7 @@ const lvl_3_subtotal_getRmInven = async program => {
 
 const lvl_3_subtotal_getRmInTransit = async program => {
   try {
-    console.log(`level 3: query postgres for RM in transit ...`)
+    console.log(`${config.user} - level 3: query postgres for RM in transit ...`)
 
     const response =
       await sql
@@ -194,7 +194,7 @@ const lvl_3_subtotal_getRmInTransit = async program => {
 
 const lvl_3_subtotal_getRmAtLoc = async program => {
   try {
-    console.log(`level 3: query postgres for RM at location ...`)
+    console.log(`${config.user} - level 3: query postgres for RM at location ...`)
 
     const response =
       await sql
@@ -219,7 +219,7 @@ const lvl_3_subtotal_getRmAtLoc = async program => {
 
 const lvl_0_total_getRmInven = async program => {
   try {
-    console.log(`level 0: query postgres for RM on hand ...`)
+    console.log(`${config.user} - level 0: query postgres for RM on hand ...`)
 
     const response =
       await sql
@@ -240,7 +240,7 @@ const lvl_0_total_getRmInven = async program => {
 
 const lvl_0_total_getRmInTransit = async program => {
   try {
-    console.log(`level 0: query postgres for RM in transit ...`)
+    console.log(`${config.user} - level 0: query postgres for RM in transit ...`)
 
     const response =
       await sql
@@ -261,7 +261,7 @@ const lvl_0_total_getRmInTransit = async program => {
 
 const lvl_0_total_getRmAtLoc = async program => {
   try {
-    console.log(`level 0: query postgres for RM at location ...`)
+    console.log(`${config.user} - level 0: query postgres for RM at location ...`)
 
     const response =
       await sql

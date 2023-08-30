@@ -4,7 +4,7 @@ const sql = require('../../../../../server')
 
 const lvl_1_subtotal_getFgPo = async config => {
   try {
-    console.log(`level 1: query postgres for FG open PO ...`)
+    console.log(`${config.user} - level 1: query postgres for FG open PO ...`)
 
     const response = await sql
          `SELECT 'FG ON ORDER' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.on_order_extended),0) AS cogs 
@@ -35,7 +35,7 @@ const lvl_1_subtotal_getFgPo = async config => {
 
 const lvl_0_total_getFgPo = async config => {
   try {
-    console.log(`level 0: query postgres for FG open PO ...`)
+    console.log(`${config.user} - level 0: query postgres for FG open PO ...`)
 
     const response = await sql
          `SELECT 'FG ON ORDER' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.on_order_extended),0) AS cogs 

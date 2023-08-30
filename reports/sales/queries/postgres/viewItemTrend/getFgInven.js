@@ -6,7 +6,7 @@ const sql = require('../../../../../server')
 
 const lvl_1_subtotal_getFgInven = async config => {
   try {
-    console.log(`level 1: query postgres for FG on hand ...`)
+    console.log(`${config.user} - level 1: query postgres for FG on hand ...`)
 
     // level 1 detail
 
@@ -39,7 +39,7 @@ const lvl_1_subtotal_getFgInven = async config => {
 
 const lvl_1_subtotal_getFgInTransit = async config => {
   try {
-    console.log(`level 1: query postgres for FG in transit ...`)
+    console.log(`${config.user} - level 1: query postgres for FG in transit ...`)
 
     const response = await sql
       `SELECT 'FG IN TRANSIT' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
@@ -71,7 +71,7 @@ const lvl_1_subtotal_getFgInTransit = async config => {
 
 const lvl_1_subtotal_getFgAtLoc = async config => {
   try {
-    console.log(`level 1: query postgres for FG at location ...`)
+    console.log(`${config.user} - level 1: query postgres for FG at location ...`)
 
     const response = await sql
       `SELECT 'FG ON HAND' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
@@ -101,7 +101,7 @@ const lvl_1_subtotal_getFgAtLoc = async config => {
 
 const lvl_1_subtotal_getFgAtLoc_untagged = async config => {
   try {
-    console.log(`level 1: query postgres for FG at location UNTAGGED ...`)
+    console.log(`${config.user} - level 1: query postgres for FG at location UNTAGGED ...`)
 
     const response = await sql
  `SELECT 'FG ON HAND UNTAGGED' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
@@ -146,7 +146,7 @@ GROUP BY ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.br
 
 const lvl_1_subtotal_getFgAtLoc_tagged = async config => {
   try {
-    console.log(`level 1: query postgres for FG at location TAGGED...`)
+    console.log(`${config.user} - level 1: query postgres for FG at location TAGGED...`)
 
     const response = await sql
       `SELECT 'FG ON HAND TAGGED' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
@@ -179,7 +179,7 @@ const lvl_1_subtotal_getFgAtLoc_tagged = async config => {
 
 const lvl_0_total_getFgInven = async config => {
   try {
-    console.log(`level 0: query postgres for FG on hand ...`)
+    console.log(`${config.user} - level 0: query postgres for FG on hand ...`)
 
     // level 0 detail (TOTAL)
 
@@ -211,7 +211,7 @@ const lvl_0_total_getFgInven = async config => {
 
 const lvl_0_total_getFgInTransit = async config => {
   try {
-    console.log(`level 0: query postgres for FG in transit ...`)
+    console.log(`${config.user} - level 0: query postgres for FG in transit ...`)
 
     const response = await sql
       `SELECT 'FG IN TRANSIT' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
@@ -242,7 +242,7 @@ const lvl_0_total_getFgInTransit = async config => {
 
 const lvl_0_total_getFgAtLoc = async config => {
   try {
-    console.log(`level 0: query postgres for FG at location ...`)
+    console.log(`${config.user} - level 0: query postgres for FG at location ...`)
 
     const response = await sql
       `SELECT 'FG ON HAND' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
@@ -271,7 +271,7 @@ const lvl_0_total_getFgAtLoc = async config => {
 
 const lvl_0_total_getFgAtLoc_untagged = async config => {
   try {
-    console.log(`level 0: query postgres for FG at location UNTAGGED ...`)
+    console.log(`${config.user} - level 0: query postgres for FG at location UNTAGGED ...`)
 
     const response = await sql
  `SELECT 'FG ON HAND UNTAGGED' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
@@ -318,7 +318,7 @@ const lvl_0_total_getFgAtLoc_untagged = async config => {
 
 const lvl_0_total_getFgAtLoc_tagged = async config => {
   try {
-    console.log(`level 0: query postgres for FG at location TAGGED ...`)
+    console.log(`${config.user} - level 0: query postgres for FG at location TAGGED ...`)
 
     const response = await sql
       `SELECT 'FG ON HAND TAGGED' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 

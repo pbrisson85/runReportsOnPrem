@@ -2,7 +2,7 @@ const sql = require('../../../../../server')
 
 const getRowsFirstLevelDetail = async (config, start, end, showFyTrend) => {
   try {
-    console.log(`query postgres to get row labels ...`)
+    console.log(`${config.user} - query postgres to get row labels ...`)
 
     // NOTE THAT CURRENTLY OPEN POS ARE IN THE INVENTORY TABLE. BELOW WOULD NEED TO QUERY THE PO TABLE IF IT IS MOVED.
 

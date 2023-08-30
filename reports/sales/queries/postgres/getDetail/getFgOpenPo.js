@@ -4,7 +4,7 @@ const sql = require('../../../../../server')
 
 const getFgPo_detail = async config => {
   try {
-    console.log(`level 3: query postgres for FG open PO ...`)
+    console.log(`${config.user} - level 3: query postgres for FG open PO ...`)
 
     const response = await sql
        `SELECT p.item_number, ms.description, p.location_code, p.location_country, ms.fg_fresh_frozen, ms.species, ms.fg_treatment, ms.brand, ms.size_name, p.po_vendor, p.po_number, p.eta_date, p.on_order_lbs, p.on_order_extended, COALESCE(p.on_order_extended/p.on_order_lbs,0) AS cost_lb

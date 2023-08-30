@@ -1,7 +1,7 @@
 const sql = require('../../../../../server')
 const getRowsFirstLevelDetail = async (config, start, end, showFyTrend) => {
   try {
-    console.log(`query postgres to get row labels ...`)
+    console.log(`${config.user} - query postgres to get row labels ...`)
 
     const response = await sql
         `SELECT sl.customer_code AS l1_label, sl.customer_name AS l2_label, ${config.queryLevel} AS datalevel 

@@ -4,7 +4,7 @@ const sql = require('../../../../../server')
 
 const lvl_1_subtotal_getSo_byWk = async config => {
   try {
-    console.log(`level 1: query postgres for FG Sales Orders By Week ...`)
+    console.log(`${config.user} - level 1: query postgres for FG Sales Orders By Week ...`)
 
     const response = await sql
          `SELECT sales_orders.week_serial || '_so' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(sales_orders.ext_weight),0) AS lbs, COALESCE(SUM(sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.ext_cost),0) AS cogs, COALESCE(SUM(sales_orders.ext_othp),0) AS othp 
@@ -36,7 +36,7 @@ const lvl_1_subtotal_getSo_byWk = async config => {
 
 const lvl_1_subtotal_getSoTagged_byWk = async config => {
   try {
-    console.log(`level 3: query postgres for FG Sales Orders By Week ...`)
+    console.log(`${config.user} - level 3: query postgres for FG Sales Orders By Week ...`)
 
     const response = await sql
            `SELECT sales_orders.week_serial || '_so_tg' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(sales_orders.tagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.tagged_weight * ave_tagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
@@ -69,7 +69,7 @@ const lvl_1_subtotal_getSoTagged_byWk = async config => {
 
 const lvl_1_subtotal_getSoUntagged_byWk = async config => {
   try {
-    console.log(`level 3: query postgres for FG Sales Orders By Week ...`)
+    console.log(`${config.user} - level 3: query postgres for FG Sales Orders By Week ...`)
 
     const response = await sql
       `SELECT sales_orders.week_serial || '_so_untg' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(sales_orders.untagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.untagged_weight * ave_untagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
@@ -104,7 +104,7 @@ const lvl_1_subtotal_getSoUntagged_byWk = async config => {
 
 const lvl_0_total_getSo_byWk = async config => {
   try {
-    console.log(`level 0: query postgres for FG Sales Orders By Week ...`)
+    console.log(`${config.user} - level 0: query postgres for FG Sales Orders By Week ...`)
 
     const response = await sql
            `SELECT sales_orders.week_serial || '_so' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(sales_orders.ext_weight),0) AS lbs, COALESCE(SUM(sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.ext_cost),0) AS cogs, COALESCE(SUM(sales_orders.ext_othp),0) AS othp 
@@ -136,7 +136,7 @@ const lvl_0_total_getSo_byWk = async config => {
 
 const lvl_0_total_getSoTagged_byWk = async config => {
   try {
-    console.log(`level 0: query postgres for FG Sales Orders By Week ...`)
+    console.log(`${config.user} - level 0: query postgres for FG Sales Orders By Week ...`)
 
     const response = await sql
       `SELECT sales_orders.week_serial || '_so_tg' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(sales_orders.tagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.tagged_weight * ave_tagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
@@ -169,7 +169,7 @@ const lvl_0_total_getSoTagged_byWk = async config => {
 
 const lvl_0_total_getSoUntagged_byWk = async config => {
   try {
-    console.log(`level 0: query postgres for FG Sales Orders By Week ...`)
+    console.log(`${config.user} - level 0: query postgres for FG Sales Orders By Week ...`)
 
     const response = await sql
       `SELECT sales_orders.week_serial || '_so_untg' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(sales_orders.untagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.untagged_weight * ave_untagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 

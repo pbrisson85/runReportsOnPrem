@@ -4,7 +4,7 @@ const sql = require('../../../../../server')
 
 const lvl_1_subtotal_getSo = async config => {
   try {
-    console.log(`level 1: query postgres for FG Sales Orders ...`)
+    console.log(`${config.user} - level 1: query postgres for FG Sales Orders ...`)
 
     const response = await sql
          `SELECT 'FG OPEN ORDER' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(sales_orders.ext_weight),0) AS lbs, COALESCE(SUM(sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.ext_cost),0) AS cogs, COALESCE(SUM(sales_orders.ext_othp),0) AS othp 
@@ -34,7 +34,7 @@ const lvl_1_subtotal_getSo = async config => {
 
 const lvl_1_subtotal_getSoTagged = async config => {
   try {
-    console.log(`level 3: query postgres for FG Sales Orders ...`)
+    console.log(`${config.user} - level 3: query postgres for FG Sales Orders ...`)
 
     const response = await sql
            `SELECT 'FG OPEN ORDER TAGGED' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(sales_orders.tagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.tagged_weight * ave_tagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
@@ -64,7 +64,7 @@ const lvl_1_subtotal_getSoTagged = async config => {
 
 const lvl_1_subtotal_getSoUntagged = async config => {
   try {
-    console.log(`level 3: query postgres for FG Sales Orders ...`)
+    console.log(`${config.user} - level 3: query postgres for FG Sales Orders ...`)
 
     const response = await sql
       `SELECT 'FG OPEN ORDER UNTAGGED' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(sales_orders.untagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.untagged_weight * ave_untagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
@@ -97,7 +97,7 @@ const lvl_1_subtotal_getSoUntagged = async config => {
 
 const lvl_0_total_getSo = async config => {
   try {
-    console.log(`level 0: query postgres for FG Sales Orders ...`)
+    console.log(`${config.user} - level 0: query postgres for FG Sales Orders ...`)
 
     const response = await sql
            `SELECT 'FG OPEN ORDER' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(sales_orders.ext_weight),0) AS lbs, COALESCE(SUM(sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.ext_cost),0) AS cogs, COALESCE(SUM(sales_orders.ext_othp),0) AS othp 
@@ -125,7 +125,7 @@ const lvl_0_total_getSo = async config => {
 
 const lvl_0_total_getSoTagged = async config => {
   try {
-    console.log(`level 0: query postgres for FG Sales Orders ...`)
+    console.log(`${config.user} - level 0: query postgres for FG Sales Orders ...`)
 
     const response = await sql
       `SELECT 'FG OPEN ORDER TAGGED' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(sales_orders.tagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.tagged_weight * ave_tagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
@@ -154,7 +154,7 @@ const lvl_0_total_getSoTagged = async config => {
 
 const lvl_0_total_getSoUntagged = async config => {
   try {
-    console.log(`level 0: query postgres for FG Sales Orders ...`)
+    console.log(`${config.user} - level 0: query postgres for FG Sales Orders ...`)
 
     const response = await sql
       `SELECT 'FG OPEN ORDER UNTAGGED' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(sales_orders.untagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.untagged_weight * ave_untagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 

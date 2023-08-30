@@ -3,7 +3,7 @@ const sql = require('../../../../../server')
 // FG on hand (includes in transit)
 const getFgInven_detail = async config => {
   try {
-    console.log(`level 3 Detail: query postgres for FG on hand ...`)
+    console.log(`${config.user} - level 3 Detail: query postgres for FG on hand ...`)
 
     // Level 2 detail
 
@@ -40,7 +40,7 @@ const getFgInven_detail = async config => {
 
 const getFgInTransit_detail = async config => {
   try {
-    console.log(`level 3 Detail: query postgres for FG in transit ...`)
+    console.log(`${config.user} - level 3 Detail: query postgres for FG in transit ...`)
 
     const response = await sql
           `SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
@@ -75,7 +75,7 @@ const getFgInTransit_detail = async config => {
 
 const getFgAtLoc_detail = async config => {
   try {
-    console.log(`level 3 Detail: query postgres for FG at location ...`)
+    console.log(`${config.user} - level 3 Detail: query postgres for FG at location ...`)
 
     const response = await sql
           `SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, pi.item_number AS item, pi.description, pi.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, pi.on_hand_lbs AS lbs, pi.cost_lb,  pi.cost_extended AS cost_ext, pi.location_name AS location, pi.location_country as country, ms.fg_fresh_frozen AS fresh_frozen 
@@ -109,7 +109,7 @@ const getFgAtLoc_detail = async config => {
 // Going to need to revisit this one
 const getFgAtLoc_untagged_detail = async config => {
   try {
-    console.log(`level 3 Detail: query postgres for FG at location UNTAGGED ...`)
+    console.log(`${config.user} - level 3 Detail: query postgres for FG at location UNTAGGED ...`)
 
     const response = await sql
           `SELECT all_inven.receipt_date, all_inven.location_date, all_inven.lot_text, all_inven.msc, all_inven.item, all_inven.description, all_inven.lot, all_inven.species, all_inven.brand, all_inven.size, all_inven.soak, all_inven.lbs - COALESCE(tagged_inven.lbs,0) AS lbs, all_inven.cost_lb, all_inven.cost_ext - COALESCE(tagged_inven.cost_ext,0) AS cost_ext, all_inven.location, all_inven.country, all_inven.fresh_frozen 
@@ -170,7 +170,7 @@ const getFgAtLoc_untagged_detail = async config => {
 
 const getFgAtLoc_tagged_detail = async config => {
   try {
-    console.log(`level 3 Detail: query postgres for FG at location TAGGED ...`)
+    console.log(`${config.user} - level 3 Detail: query postgres for FG at location TAGGED ...`)
 
     const response = await sql
           `SELECT pi.receipt_date, pi.location_date, pi.lot_text, pi.msc_cert_bool AS msc, ti.item_num AS item, ms.description, ti.lot, ms.species, ms.brand, ms.size_name AS size, ms.fg_treatment AS soak, ti.weight AS lbs, ti.cost AS cost_lb, ti.cost * ti.weight AS cost_ext, loc.seasoft_name AS location, loc.seasoft_country as country, ms.fg_fresh_frozen AS fresh_frozen 

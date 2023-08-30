@@ -5,7 +5,7 @@ const sql = require('../../../../../server')
 
 const lvl_1_subtotal_getSalesByFy = async (config, start, end) => {
   try {
-    console.log(`level 1: query postgres to get FG sales data by week ...`)
+    console.log(`${config.user} - level 1: query postgres to get FG sales data by week ...`)
 
     const response = await sql
       `SELECT sl.fiscal_year AS column, sl.customer_code AS l1_label, sl.customer_name AS l2_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
@@ -41,7 +41,7 @@ const lvl_1_subtotal_getSalesByFy = async (config, start, end) => {
 
 const lvl_0_total_getSalesByFy = async (config, start, end) => {
   try {
-    console.log(`level 0: query postgres to get FG sales data by week ...`)
+    console.log(`${config.user} - level 0: query postgres to get FG sales data by week ...`)
 
     const response = await sql
       `SELECT sl.fiscal_year AS column, 'FG SALES' AS l1_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 

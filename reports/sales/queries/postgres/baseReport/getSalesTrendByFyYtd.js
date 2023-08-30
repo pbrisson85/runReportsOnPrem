@@ -146,7 +146,9 @@ const lvl_4_subtotal_getSalesByFyYtd = async (config, start, end, showYtd) => {
 
 const lvl_0_total_getSalesByFyYtd = async (config, start, end, showYtd) => {
   try {
-    console.log(`level 0: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_0_total_getSalesByFyYtd) ...`)
+    console.log(
+      `${config.user} - level 0: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_0_total_getSalesByFyYtd) ...`
+    )
 
     const response = await sql
       `SELECT sales_line_items.fiscal_year ${showYtd ? sql`|| '_ytd' ` : sql``} AS column, 'FG SALES' AS l1_label, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 

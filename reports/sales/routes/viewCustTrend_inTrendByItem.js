@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
 
   const config = getReportConfig(req.body)
 
-  console.log(`\nget level two drilldown on item for ${reportFormat} route HIT...`)
+  console.log(`\n${config.user} - get level two drilldown on item for ${reportFormat} route HIT...`)
 
   // Note that start date is the END of the first week. Need the beginning of the same week to pull invoice dates that are after this:
   const startOfWeek = await getStartOfWeek(periodStart)
@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
 
   const response = await buildDrilldown(config, periodStart, periodEnd, showFyTrend, startWeek, endWeek)
 
-  console.log(`get level two drilldown on item for ${reportFormat}  route COMPLETE. \n`)
+  console.log(`${config.user} - get level two drilldown on item for ${reportFormat}  route COMPLETE. \n`)
 
   res.send(response)
 })

@@ -21,10 +21,10 @@ router.post('/', async (req, res) => {
   const { columnDataName, colType, periodStart, periodEnd, fyTrendCol, fyYtdTrendCol, reportFormat } = req.body
   let { year } = req.body
 
-  console.log(`\nget detail data for ${reportFormat} route HIT...`)
-
   const config = getReportConfig(req.body)
   let detail = null
+
+  console.log(`\n${config.user} - get detail data for ${reportFormat} route HIT...`)
 
   if (colType === 'invenFg') {
     switch (columnDataName) {
@@ -103,7 +103,7 @@ router.post('/', async (req, res) => {
     detail = await getFgPo_detail(config)
   }
 
-  console.log(`get detail data for ${reportFormat} route COMPLETE. \n`)
+  console.log(`${config.user} - get detail data for ${reportFormat} route COMPLETE. \n`)
   res.send(detail)
 })
 

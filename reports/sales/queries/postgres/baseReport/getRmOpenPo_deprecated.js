@@ -3,7 +3,7 @@ const sql = require('../../../../../server')
 
 const lvl_1_subtotal_getRmPo = async program => {
   try {
-    console.log(`level 1: query postgres for RM open PO ...`)
+    console.log(`${config.user} - level 1: query postgres for RM open PO ...`)
 
     const response =
       await sql`SELECT 'RM ON ORDER' AS column, ms.species AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label,  COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs,  COALESCE(SUM(perpetual_inventory.on_order_extended),0) AS cogs 
@@ -27,7 +27,7 @@ const lvl_1_subtotal_getRmPo = async program => {
 
 const lvl_2_subtotal_getRmPo = async program => {
   try {
-    console.log(`level 2: query postgres for RM open PO ...`)
+    console.log(`${config.user} - level 2: query postgres for RM open PO ...`)
 
     const response =
       await sql`SELECT 'RM ON ORDER' AS column, ms.species AS l1_label, ms.brand AS l2_label, 'SUBTOTAL' AS l3_label,  COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs,  COALESCE(SUM(perpetual_inventory.on_order_extended),0) AS cogs 
@@ -51,7 +51,7 @@ const lvl_2_subtotal_getRmPo = async program => {
 
 const lvl_3_subtotal_getRmPo = async program => {
   try {
-    console.log(`level 3: query postgres for RM open PO ...`)
+    console.log(`${config.user} - level 3: query postgres for RM open PO ...`)
 
     const response =
       await sql`SELECT 'RM ON ORDER' AS column, ms.species AS l1_label, ms.brand AS l2_label, ms.size_name AS l3_label,  COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs,  COALESCE(SUM(perpetual_inventory.on_order_extended),0) AS cogs 
@@ -73,7 +73,7 @@ const lvl_3_subtotal_getRmPo = async program => {
 
 const lvl_0_total_getRmPo = async program => {
   try {
-    console.log(`level 0: query postgres for RM open PO ...`)
+    console.log(`${config.user} - level 0: query postgres for RM open PO ...`)
 
     const response =
       await sql`SELECT 'RM ON ORDER' AS column, 'FG SALES' AS l1_label, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label,  COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs,  COALESCE(SUM(perpetual_inventory.on_order_extended),0) AS cogs 
