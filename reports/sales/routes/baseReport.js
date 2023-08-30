@@ -39,8 +39,8 @@ router.post('/', async (req, res) => {
 
   console.log(`\n${config.user} - get get weekly sales species group, program for ${start} through ${end} for ${reportFormat} route HIT...`)
 
-  const startWeek = await getWeekForDate(start) // temporarily until I change the data that is being passed by the front end to the week
-  const endWeek = await getWeekForDate(end) // temporarily until I change the data that is being passed by the front end to the week
+  const startWeek = await getWeekForDate(start, config) // temporarily until I change the data that is being passed by the front end to the week
+  const endWeek = await getWeekForDate(end, config) // temporarily until I change the data that is being passed by the front end to the week
 
   const response = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols)
 

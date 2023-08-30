@@ -19,8 +19,8 @@ router.post('/', async (req, res) => {
 
   console.log(`\n${config.user} - get drilldown data for ${reportFormat} route HIT...`)
 
-  const startWeek = await getWeekForDate(periodStart) // temporarily until I change the data that is being passed by the front end to the week
-  const endWeek = await getWeekForDate(periodEnd) // temporarily until I change the data that is being passed by the front end to the week
+  const startWeek = await getWeekForDate(periodStart, config) // temporarily until I change the data that is being passed by the front end to the week
+  const endWeek = await getWeekForDate(periodEnd, config) // temporarily until I change the data that is being passed by the front end to the week
 
   // Note that start date is the END of the first week. Need the beginning of the same week to pull invoice dates that are after this:
   const startOfWeek = await getStartOfWeek(periodStart)

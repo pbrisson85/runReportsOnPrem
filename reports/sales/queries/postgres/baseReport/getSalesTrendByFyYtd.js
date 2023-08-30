@@ -7,7 +7,7 @@ const sql = require('../../../../../server')
 const lvl_1_subtotal_getSalesByFyYtd = async (config, start, end, showYtd) => {
   try {
     console.log(
-      `level 1: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_1_subtotal_getSalesByFyYtd) ...`
+      `${config.user} - level 1: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_1_subtotal_getSalesByFyYtd) ...`
     )
 
     const response = await sql
@@ -42,7 +42,7 @@ const lvl_1_subtotal_getSalesByFyYtd = async (config, start, end, showYtd) => {
 const lvl_2_subtotal_getSalesByFyYtd = async (config, start, end, showYtd) => {
   try {
     console.log(
-      `level 2: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_2_subtotal_getSalesByFyYtd) ...`
+      `${config.user} - level 2: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_2_subtotal_getSalesByFyYtd) ...`
     )
 
     const response = await sql
@@ -77,7 +77,7 @@ const lvl_2_subtotal_getSalesByFyYtd = async (config, start, end, showYtd) => {
 const lvl_3_subtotal_getSalesByFyYtd = async (config, start, end, showYtd) => {
   try {
     console.log(
-      `level 3: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_3_subtotal_getSalesByFyYtd) ...`
+      `${config.user} - level 3: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_3_subtotal_getSalesByFyYtd) ...`
     )
 
     const response = await sql
@@ -112,7 +112,7 @@ const lvl_3_subtotal_getSalesByFyYtd = async (config, start, end, showYtd) => {
 const lvl_4_subtotal_getSalesByFyYtd = async (config, start, end, showYtd) => {
   try {
     console.log(
-      `level 4: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_4_subtotal_getSalesByFyYtd) ...`
+      `${config.user} - level 4: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_4_subtotal_getSalesByFyYtd) ...`
     )
 
     const response = await sql

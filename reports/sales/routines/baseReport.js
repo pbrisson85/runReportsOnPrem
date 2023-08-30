@@ -222,7 +222,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   const lvl_4_subtotal_salesPeriodToDate = config.l4_field ? await lvl_4_subtotal_getSalesPeriodToDate(config, start, end) : []
   const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(config, start, end)
 
-  const companyTotalSales = await getCompanyTotalSales(start, end)
+  const companyTotalSales = await getCompanyTotalSales(start, end, config)
 
   ///////////////////////////////// KPI DATA
   /* % COMPANY SALES */
