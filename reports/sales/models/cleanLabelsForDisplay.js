@@ -49,16 +49,17 @@ const cleanLabelsForDisplay = (flattenedMappedData, program) => {
 
   const cacheData = _.cloneDeep(flattenedMappedData)
 
+  // Need to track when the l1, l2, l3, l4 values change so that we can hide them except for the first occurance
   let l1Value = ''
   let l2Value = ''
-  let l3Value = '' // NEW **
+  let l3Value = ''
 
   cacheData.forEach((row, idx) => {
-    // given that original data is being mutated, adding the original "label" as the "filter" value so front end can provide it back to the backend when requesting detail
+    // Save the original label in a "filter" value so that the front end can pass back on API calls
     flattenedMappedData[idx].l1_filter = row.l1_label
     flattenedMappedData[idx].l2_filter = row.l2_label
     flattenedMappedData[idx].l3_filter = row.l3_label
-    flattenedMappedData[idx].l4_filter = row.l4_label // NEW **
+    flattenedMappedData[idx].l4_filter = row.l4_label
 
     // Set initial values
     if (idx === 0) {
@@ -82,14 +83,16 @@ const cleanLabelsForDisplay = (flattenedMappedData, program) => {
     // If l3 grouping does not change then don't show it
     if (row.l3_label === l3Value) {
       flattenedMappedData[idx].l3_label = ''
-    } // NEW **
+    }
+
+    //
 
     // If l2 grouping includes subtotal then update the labels
     if (row.dataLevel === 1) {
       flattenedMappedData[idx].l1_label = `${row.l1_label} SUBTOTAL`
       flattenedMappedData[idx].l2_label = ''
       flattenedMappedData[idx].l3_label = ''
-      flattenedMappedData[idx].l4_label = '' // NEW **
+      flattenedMappedData[idx].l4_label = ''
     }
 
     // If l3 grouping includes subtotal then update the labels
@@ -97,7 +100,7 @@ const cleanLabelsForDisplay = (flattenedMappedData, program) => {
       flattenedMappedData[idx].l1_label = ''
       flattenedMappedData[idx].l2_label = `${row.l2_label} SUBTOTAL`
       flattenedMappedData[idx].l3_label = ''
-      flattenedMappedData[idx].l4_label = '' // NEW **
+      flattenedMappedData[idx].l4_label = ''
     }
 
     // If l4 grouping includes subtotal then update the labels
@@ -106,7 +109,7 @@ const cleanLabelsForDisplay = (flattenedMappedData, program) => {
       flattenedMappedData[idx].l2_label = ''
       flattenedMappedData[idx].l3_label = `${row.l3_label} SUBTOTAL`
       flattenedMappedData[idx].l4_label = ''
-    } // NEW **
+    }
 
     // if l1 grouping does change, set new value
     if (row.l1_label !== l1Value) {
@@ -121,9 +124,9 @@ const cleanLabelsForDisplay = (flattenedMappedData, program) => {
     // if l3 grouping does change, set new value
     if (row.l3_label !== l3Value) {
       l3Value = row.l3_label
-    } // NEW **
+    }
 
-    // If filter, show in total row as l1 label
+    // re-label total row with program filter
     if (program && idx === cacheData.length - 1) {
       flattenedMappedData[idx].l1_label = `${program} FG`
     }
