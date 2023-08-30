@@ -68,7 +68,10 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
 
   const totalsRow = [{ totalRow: true, l1_label: `FG SALES`, l2_label: `TOTAL`, datalevel: config.queryLevel }] // Need an l2_label of TOTAL for front end styling
   const filterRow = [
-    { filterRow: true, l1_label: `PROGRAM: ${config.program}, FILTERS: ${config.l1_filter}, ${config.l2_filter}, ${config.l3_filter}` },
+    {
+      filterRow: true,
+      l1_label: `PROGRAM: ${config.program}, FILTERS: ${config.l1_filter}, ${config.l2_filter}, ${config.l3_filter}, CUSTOMER: ${config.customer}, ITEM: ${config.item}`,
+    },
   ] // shows at top of report
 
   // COMPILE FINAL ROW TEMPLATE
