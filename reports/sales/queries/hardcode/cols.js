@@ -95,7 +95,7 @@ const speciesgroupProgFrz = [
     filterName: 'l2_filter', // key to match up the column with the filter
     width: '175px', // css width
     left: '175px', // css positioning for sticky sum of prior col widths
-    borderRight: true, // border right on ladst frozen cell
+    borderRight: false, // border right on ladst frozen cell
     rightClickMenu: [], // array of options for right click menu
   },
   {
