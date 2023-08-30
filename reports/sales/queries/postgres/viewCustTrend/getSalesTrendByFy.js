@@ -18,6 +18,7 @@ const lvl_1_subtotal_getSalesByFy = async (config, start, end) => {
         ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
@@ -54,6 +55,7 @@ const lvl_0_total_getSalesByFy = async (config, start, end) => {
         ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 

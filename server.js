@@ -18,9 +18,7 @@ const test = require('./test')
 
 const baseReport = require('./reports/sales/routes/baseReport')
 const viewTrend = require('./reports/sales/routes/viewTrend')
-const viewItemTrend_inTrendByCust = require('./reports/sales/routes/viewItemTrend_inTrendByCust')
 const getDetail_baseReport = require('./reports/sales/routes/getDetail')
-const viewCustTrend_inTrendByItem = require('./reports/sales/routes/viewCustTrend_inTrendByItem')
 const glRevCogs = require('./reports/gl/routes/glRevCogs')
 const glOthp = require('./reports/gl/routes/glOthp')
 
@@ -55,8 +53,6 @@ app.use('/api/sales/test', test)
 
 app.use('/api/sales/baseReport', baseReport)
 app.use('/api/sales/drillDown', viewTrend)
-app.use('/api/sales/drillDown/item', viewItemTrend_inTrendByCust)
-app.use('/api/sales/drillDown/customer', viewCustTrend_inTrendByItem)
 app.use('/api/sales/detail', getDetail_baseReport)
 
 app.use('/api/sales/generateSalesData', generateSalesData)

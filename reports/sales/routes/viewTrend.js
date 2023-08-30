@@ -2,7 +2,7 @@ const router = require('express').Router()
 const viewItemTrend = require('../routines/viewItemTrend')
 const { getStartOfWeek } = require('../queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../queries/postgres/getWeekForDate')
-const viewCustTrend_baseReport = require('../routines/viewCustTrend_baseReport')
+const viewCustTrend = require('../routines/viewCustTrend')
 const labelCols_byItem = require('../queries/hardcode/cols_byItem')
 const labelCols_byCustomer = require('../queries/hardcode/cols_byCustomer')
 const getReportConfig = require('../utils/getReportConfig')
@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
   if (rightMenuSelection === 'Trend By Item') {
     response = await viewItemTrend(labelCols_byItem, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek)
   } else if (rightMenuSelection === 'Trend By Customer') {
-    response = await viewCustTrend_baseReport(labelCols_byCustomer, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek)
+    response = await viewCustTrend(labelCols_byCustomer, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek)
   }
 
   console.log(`${config.user} - get drilldown data for ${reportFormat} route COMPLETE. \n`)
