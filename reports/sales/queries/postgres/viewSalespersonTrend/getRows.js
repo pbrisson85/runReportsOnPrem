@@ -4,7 +4,7 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend) => {
     console.log(`${config.user} - query postgres to get row labels ...`)
 
     const response = await sql
-        `SELECT sl.customer_code AS l1_label, sl.customer_name AS l2_label, ${config.queryLevel} AS datalevel 
+        `SELECT sl.outside_salesperson_code AS l1_label, sl.outside_salesperson_name AS l2_label, ${config.queryLevel} AS datalevel 
           FROM "salesReporting".sales_line_items AS sl
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = sl.item_number 
@@ -20,9 +20,9 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend) => {
             ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
             ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
           
-          GROUP BY sl.customer_code, sl.customer_name 
+          GROUP BY sl.outside_salesperson_code, sl.outside_salesperson_name 
           
-        UNION SELECT so.customer_code AS l1_label, so.customer_name AS l2_label, ${config.queryLevel} AS datalevel  
+        UNION SELECT so.outside_salesperson_code AS l1_label, so.outside_salesperson_name AS l2_label, ${config.queryLevel} AS datalevel  
           FROM "salesReporting".sales_orders AS so
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = so.item_num 
@@ -38,7 +38,7 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend) => {
             ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
             ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
           
-          GROUP BY so.customer_code, so.customer_name` //prettier-ignore
+          GROUP BY so.outside_salesperson_code, so.outside_salesperson_name` //prettier-ignore
 
     return response
   } catch (error) {

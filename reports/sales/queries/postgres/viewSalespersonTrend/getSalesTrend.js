@@ -8,7 +8,7 @@ const lvl_1_subtotal_getSalesByWk = async (config, start, end) => {
     console.log(`${config.user} - level 1: query postgres to get FG sales data by week ...`)
 
     const response = await sql
-      `SELECT sl.week_serial AS column, sl.customer_code AS l1_label, sl.customer_name AS l2_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
+      `SELECT sl.week_serial AS column, sl.outside_salesperson_code AS l1_label, sl.outside_salesperson_name AS l2_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
       
       FROM "salesReporting".sales_line_items AS sl
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -26,7 +26,7 @@ const lvl_1_subtotal_getSalesByWk = async (config, start, end) => {
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``}
       
-      GROUP BY sl.week_serial, sl.customer_code, sl.customer_name
+      GROUP BY sl.week_serial, sl.outside_salesperson_code, sl.outside_salesperson_name
       
       ORDER BY sl.week_serial` //prettier-ignore
 
@@ -44,7 +44,7 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (config, start, end) => {
     console.log(`${config.user} - level 1: query postgres to get FG sales data period total ...`)
 
     const response = await sql
-      `SELECT 'SALES TOTAL' AS column, sl.customer_code AS l1_label, sl.customer_name AS l2_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
+      `SELECT 'SALES TOTAL' AS column, sl.outside_salesperson_code AS l1_label, sl.outside_salesperson_name AS l2_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
       
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -62,7 +62,7 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (config, start, end) => {
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
       
-      GROUP BY sl.customer_code, sl.customer_name` //prettier-ignore
+      GROUP BY sl.outside_salesperson_code, sl.outside_salesperson_name` //prettier-ignore
 
     return response
   } catch (error) {

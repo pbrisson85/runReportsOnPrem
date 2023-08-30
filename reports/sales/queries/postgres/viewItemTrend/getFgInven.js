@@ -13,7 +13,9 @@ const lvl_1_subtotal_getFgInven = async config => {
     const response = await sql
       `SELECT 'FG INVEN' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
-      FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
+      FROM "invenReporting".perpetual_inventory 
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+          ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE 
         ms.byproduct_type IS NULL 
