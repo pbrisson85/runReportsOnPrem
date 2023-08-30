@@ -8,7 +8,7 @@ const getSalespersonMaster = async () => {
 
     const queryString = `
         SELECT 
-            {fn RTRIM("'Salesperson Master".SALESPERSON_CODE)} AS SALESPERSON_CODE, {fn RTRIM("'Salesperson Master".NAME)} AS NAME 
+            {fn RTRIM("Salesperson Master".SALESPERSON_CODE)} AS SALESPERSON_CODE, {fn RTRIM("Salesperson Master".NAME)} AS NAME 
         
         FROM 'Salesperson Master' 
        ` //prettier-ignore
