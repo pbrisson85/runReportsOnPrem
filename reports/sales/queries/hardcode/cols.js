@@ -40,6 +40,9 @@ const getCols = body => {
     case 'specSoakSize':
       return applyTemplate(template, specSoakSize)
 
+    case 'frzBrndSoakSize':
+      return applyTemplate(template, frzBrndSoakSize)
+
     default:
       return applyTemplate(template, speciesgroupProg)
   }
@@ -174,6 +177,45 @@ const frzBrndSize = [
     filterName: 'l3_filter', // key to match up the column with the filter
     width: '100px', // css width
     left: '300px', // css positioning for sticky sum of prior col widths
+    borderRight: true, // border right on ladst frozen cell
+    rightClickMenu: [], // array of options for right click menu
+  },
+]
+
+const frzBrndSoakSize = [
+  {
+    displayName: 'FRESH/FROZEN', // show as column header
+    dataName: 'l1_label', // key to pull data from
+    filterName: 'l1_filter', // key to match up the column with the filter
+    width: '150px', // css width
+    left: '0px', // css positioning for sticky sum of prior col widths
+    borderRight: false, // border right on ladst frozen cell
+    rightClickMenu: [], // array of options for right click menu
+  },
+  {
+    displayName: 'BRAND', // show as column header
+    dataName: 'l2_label', // key to pull data from
+    filterName: 'l2_filter', // key to match up the column with the filter
+    width: '150px', // css width
+    left: '150px', // css positioning for sticky sum of prior col widths
+    borderRight: false, // border right on ladst frozen cell
+    rightClickMenu: [], // array of options for right click menu
+  },
+  {
+    displayName: 'SOAK', // show as column header
+    dataName: 'l3_label', // key to pull data from
+    filterName: 'l3_filter', // key to match up the column with the filter
+    width: '100px', // css width
+    left: '300px', // css positioning for sticky sum of prior col widths
+    borderRight: false, // border right on ladst frozen cell
+    rightClickMenu: [], // array of options for right click menu
+  },
+  {
+    displayName: 'SIZE', // show as column header
+    dataName: 'l4_label', // key to pull data from
+    filterName: 'l4_filter', // key to match up the column with the filter
+    width: '100px', // css width
+    left: '400px', // css positioning for sticky sum of prior col widths
     borderRight: true, // border right on ladst frozen cell
     rightClickMenu: [], // array of options for right click menu
   },

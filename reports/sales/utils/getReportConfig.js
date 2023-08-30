@@ -19,6 +19,7 @@ const getReportConfig = reqBody => {
     l1_filter: reqBody.l1_filter ?? null,
     l2_filter: reqBody.l2_filter ?? null,
     l3_filter: reqBody.l3_filter ?? null,
+    l4_filter: reqBody.l4_filter ?? null,
     customer: reqBody.customer ?? null,
     item: reqBody.item ?? null,
     queryLevel: reqBody.queryLevel ?? null,
@@ -66,6 +67,16 @@ const getReportConfig = reqBody => {
         l1_field: 'ms.fg_fresh_frozen',
         l2_field: 'ms.brand',
         l3_field: 'ms.size_name',
+        ...config,
+      }
+      break
+
+    case 'frzBrndSoakSize':
+      config = {
+        l1_field: 'ms.fg_fresh_frozen',
+        l2_field: 'ms.brand',
+        l3_field: 'ms.soak',
+        l4_field: 'ms.size_name',
         ...config,
       }
       break
