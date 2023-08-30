@@ -2,7 +2,7 @@ const sql = require('../../../../../server')
 
 const getCompanyTotalSales = async (start, end) => {
   try {
-    console.log(`${config.user} - level 0: query postgres to get FG sales data period total ...`)
+    console.log(`level 0: query postgres to get FG sales data period total ...`)
 
     const response =
       await sql
