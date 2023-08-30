@@ -75,7 +75,7 @@ const getReportConfig = reqBody => {
       config = {
         l1_field: 'ms.fg_fresh_frozen',
         l2_field: 'ms.brand',
-        l3_field: 'ms.soak',
+        l3_field: 'ms.fg_treatment',
         l4_field: 'ms.size_name',
         ...config,
       }

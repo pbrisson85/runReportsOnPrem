@@ -1,6 +1,6 @@
 const _ = require('lodash')
 
-const cleanLabelsForDisplay = (flattenedMappedData, filter) => {
+const cleanLabelsForDisplay = (flattenedMappedData, program) => {
   const cacheData = _.cloneDeep(flattenedMappedData)
 
   let l1Value = ''
@@ -86,8 +86,8 @@ const cleanLabelsForDisplay = (flattenedMappedData, filter) => {
     } // NEW **
 
     // If filter, show in total row as l1 label
-    if (filter && idx === cacheData.length - 1) {
-      flattenedMappedData[idx].l1_label = `${filter} FG`
+    if (program && idx === cacheData.length - 1) {
+      flattenedMappedData[idx].l1_label = `${program} FG`
     }
   })
 
