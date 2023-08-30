@@ -2,7 +2,11 @@ const _ = require('lodash')
 
 const cleanLabelsForDisplay = (flattenedMappedData, program) => {
   const keys = Object.keys(flattenedMappedData)
-  console.log(flattenedMappedData[keys[0]])
+  console.log('row 1', flattenedMappedData[keys[0]])
+  console.log('row 2', flattenedMappedData[keys[1]])
+  console.log('row 3', flattenedMappedData[keys[2]])
+  console.log('row 4', flattenedMappedData[keys[3]])
+  console.log('row 5', flattenedMappedData[keys[4]])
 
   const cacheData = _.cloneDeep(flattenedMappedData)
 
