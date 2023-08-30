@@ -37,6 +37,9 @@ const getCols = body => {
     case 'specBrndSize':
       return applyTemplate(template, specBrndSize)
 
+    case 'specBrndSoakSize':
+      return applyTemplate(template, specBrndSoakSize)
+
     case 'specSoakSize':
       return applyTemplate(template, specSoakSize)
 
