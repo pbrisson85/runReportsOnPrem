@@ -51,6 +51,7 @@ const mapPostgresSalesLinesTable = joinedSalesData => {
       gl_dist: invoiceLine.GL_DIST,
       inside_salesperson_code: invoiceLine.INSIDE_SALESPERSON_CODE,
       outside_salesperson_code: invoiceLine.OUTSIDE_SALESPERSON_CODE,
+      outside_salesperson_name: invoiceLine.salesPerson.NAME,
       week_serial: invoiceLine.period.week_serial,
       period_serial: invoiceLine.period.period_serial,
       week: invoiceLine.period.week,
@@ -76,16 +77,16 @@ const mapPostgresSalesLinesTable = joinedSalesData => {
       cogs_ext_gl: calc_gl_cogs, // Changed from calc_gl_cogs to cogs_ext_gl
       othp_ext: invoiceLine.NET_PRICE_EXTENSION - invoiceLine.PRODUCT_ONLY_EXTENSION, // Changed from calc_gl_othp to othp_ext
       calc_gm_rept_weight: calc_gm_reprt_weight,
-      gross_sales_lb: invoiceLine.BILLING_WEIGHT === 0 ? 0 : invoiceLine.NET_PRICE_EXTENSION / invoiceLine.BILLING_WEIGHT, // NEW ***
-      net_sales_lb: invoiceLine.BILLING_WEIGHT === 0 ? 0 : invoiceLine.PRODUCT_ONLY_EXTENSION / invoiceLine.BILLING_WEIGHT, // NEW ***
-      gross_margin_ext: invoiceLine.PRODUCT_ONLY_EXTENSION - calc_gl_cogs, // NEW ***
-      gross_margin_lb: invoiceLine.BILLING_WEIGHT === 0 ? 0 : (invoiceLine.PRODUCT_ONLY_EXTENSION - calc_gl_cogs) / invoiceLine.BILLING_WEIGHT, // NEW ***
-      cost_lb: invoiceLine.BILLING_WEIGHT === 0 ? 0 : calc_gl_cogs / invoiceLine.BILLING_WEIGHT, // NEW ***
+      gross_sales_lb: invoiceLine.BILLING_WEIGHT === 0 ? 0 : invoiceLine.NET_PRICE_EXTENSION / invoiceLine.BILLING_WEIGHT,
+      net_sales_lb: invoiceLine.BILLING_WEIGHT === 0 ? 0 : invoiceLine.PRODUCT_ONLY_EXTENSION / invoiceLine.BILLING_WEIGHT,
+      gross_margin_ext: invoiceLine.PRODUCT_ONLY_EXTENSION - calc_gl_cogs,
+      gross_margin_lb: invoiceLine.BILLING_WEIGHT === 0 ? 0 : (invoiceLine.PRODUCT_ONLY_EXTENSION - calc_gl_cogs) / invoiceLine.BILLING_WEIGHT,
+      cost_lb: invoiceLine.BILLING_WEIGHT === 0 ? 0 : calc_gl_cogs / invoiceLine.BILLING_WEIGHT,
       othp_lb:
         invoiceLine.BILLING_WEIGHT === 0
           ? 0
-          : (invoiceLine.NET_PRICE_EXTENSION - invoiceLine.PRODUCT_ONLY_EXTENSION) / invoiceLine.BILLING_WEIGHT, // NEW ***
-      location: invoiceLine.LOCATION, // NEW ***
+          : (invoiceLine.NET_PRICE_EXTENSION - invoiceLine.PRODUCT_ONLY_EXTENSION) / invoiceLine.BILLING_WEIGHT,
+      location: invoiceLine.LOCATION,
 
       // so.rebate_lb,
       // so.discount_lb,

@@ -1,10 +1,12 @@
 const router = require('express').Router()
-const viewItemTrend = require('../routines/viewItemTrend')
 const { getStartOfWeek } = require('../queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../queries/postgres/getWeekForDate')
 const viewCustTrend = require('../routines/viewCustTrend')
+const viewItemTrend = require('../routines/viewItemTrend')
+const viewSalesPersonTrend = require('../routines/viewSalespersonTrend')
 const labelCols_byItem = require('../queries/hardcode/cols_byItem')
 const labelCols_byCustomer = require('../queries/hardcode/cols_byCustomer')
+const labelCols_bySalesperson = require('../queries/hardcode/cols_bySalesperson')
 const getReportConfig = require('../utils/getReportConfig')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
@@ -34,6 +36,8 @@ router.post('/', async (req, res) => {
     response = await viewItemTrend(labelCols_byItem, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek)
   } else if (rightMenuSelection === 'Trend By Customer') {
     response = await viewCustTrend(labelCols_byCustomer, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek)
+  } else if (rightMenuSelection === 'Trend By Salesperson') {
+    response = await viewSalesPersonTrend(labelCols_bySalesperson, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek)
   }
 
   console.log(`${config.user} - get drilldown data for ${reportFormat} route COMPLETE. \n`)

@@ -1,4 +1,11 @@
-const joinSalesData = (salesHeader_unflat, salesLines, invenSupplemental_unflat, mappedPeriodsPerDay, invReasCodes_unflat) => {
+const joinSalesData = (
+  salesHeader_unflat,
+  salesLines,
+  invenSupplemental_unflat,
+  mappedPeriodsPerDay,
+  invReasCodes_unflat,
+  salespersonMaster_unflat
+) => {
   const joinedSalesData = salesLines.map(invoiceLine => {
     const dateArr = invoiceLine.ODBC_INVOICE_DATE.split('-')
     // result: [yyyy,m,d]
@@ -15,6 +22,7 @@ const joinSalesData = (salesHeader_unflat, salesLines, invenSupplemental_unflat,
       period: mappedPeriodsPerDay[invoiceDate],
       header: salesHeader_unflat[invoiceLine.ODBC_INVOICE_NUMBER],
       invReasCodes: invReasCode === null ? { TABLE_CODE: null, TABLE_DESC: null, TABLE_FLD01_ADJ_INV: null } : invReasCodes_unflat[invReasCode],
+      salesPerson: salespersonMaster_unflat[invoiceLine.OUTSIDE_SALESPERSON_CODE],
     }
   })
 
