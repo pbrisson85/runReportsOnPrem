@@ -1,6 +1,6 @@
 const _ = require('lodash')
 
-const cleanLabelsForDisplay = (flattenedMappedData, program) => {
+const cleanLabelsForDisplay = (flattenedMappedData, config) => {
   const keys = Object.keys(flattenedMappedData)
   console.log('row 1', flattenedMappedData[keys[0]])
   console.log('row 2', flattenedMappedData[keys[1]])
