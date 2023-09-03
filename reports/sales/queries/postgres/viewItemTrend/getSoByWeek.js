@@ -27,7 +27,7 @@ const lvl_1_subtotal_getSo_byWk = async (config, trendQuery) => {
          
         WHERE 
           ms.item_type = ${'FG'} 
-          AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+          AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
           ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
           ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           AND ms.byproduct_type IS NULL  
@@ -81,7 +81,7 @@ const lvl_1_subtotal_getSoTagged_byWk = async (config, trendQuery) => {
            
           WHERE 
             ms.item_type = ${'FG'} 
-            AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+            AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
             AND ms.byproduct_type IS NULL 
@@ -136,7 +136,7 @@ const lvl_1_subtotal_getSoUntagged_byWk = async (config, trendQuery) => {
       
       WHERE 
         ms.item_type = ${'FG'} 
-        AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+        AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
@@ -187,7 +187,7 @@ const lvl_0_total_getSo_byWk = async config => {
            
            WHERE 
             ms.item_type = ${'FG'} 
-            AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+            AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
             AND ms.byproduct_type IS NULL  
@@ -227,7 +227,7 @@ const lvl_0_total_getSoTagged_byWk = async config => {
       
       WHERE 
         ms.item_type = ${'FG'} 
-        AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+        AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
@@ -268,7 +268,7 @@ const lvl_0_total_getSoUntagged_byWk = async config => {
       
       WHERE 
         ms.item_type = ${'FG'} 
-        AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+        AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
