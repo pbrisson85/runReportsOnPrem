@@ -116,23 +116,23 @@ const lvl_1_subtotal_getFgAtLoc_untagged = async config => {
  `SELECT 'FG ON HAND UNTAGGED' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
  
  FROM (
-        SELECT pi.cost_extended, pi.ms.item_number, pi.lot, pi.on_hand_lbs, pi.location_code 
+        SELECT pi.cost_extended, pi.item_number, pi.lot, pi.on_hand_lbs, pi.location_code 
         FROM "invenReporting".perpetual_inventory AS pi 
         WHERE 
           pi .version = (SELECT MAX(subpi.version) - 1 FROM "invenReporting".perpetual_inventory AS subpi) 
           AND pi.location_type <> ${'IN TRANSIT'}) 
         AS inven_t 
 LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-  ON ms.item_num = inven_t.ms.item_number 
+  ON ms.item_num = inven_t.item_number 
 
 LEFT OUTER JOIN (
-        SELECT ti.lot, ti.location, ti.ms.item_num, COALESCE(SUM(ti.weight),0) AS weight, COALESCE(SUM(ti.cost * ti.weight),0) AS ext_cost 
+        SELECT ti.lot, ti.location, ti.item_num, COALESCE(SUM(ti.weight),0) AS weight, COALESCE(SUM(ti.cost * ti.weight),0) AS ext_cost 
         FROM "salesReporting".tagged_inventory AS ti 
         WHERE 
           ti.version = (SELECT MAX(subti.version) - 1 FROM "salesReporting".tagged_inventory 
         AS subti) 
-        GROUP BY ti.lot, ti.location, ti.ms.item_num) AS tagged_t 
-  ON tagged_t.ms.item_num = inven_t.ms.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code 
+        GROUP BY ti.lot, ti.location, ti.item_num) AS tagged_t 
+  ON tagged_t.ms.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code 
   
 WHERE 
   ms.byproduct_type IS NULL 
@@ -286,7 +286,7 @@ const lvl_0_total_getFgAtLoc_untagged = async config => {
  `SELECT 'FG ON HAND UNTAGGED' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
  
  FROM (
-    SELECT pi.cost_extended, pi.ms.item_number, pi.lot, pi.on_hand_lbs, pi.location_code 
+    SELECT pi.cost_extended, pi.item_number, pi.lot, pi.on_hand_lbs, pi.location_code 
       FROM "invenReporting".perpetual_inventory AS pi 
  
       WHERE 
@@ -295,17 +295,17 @@ const lvl_0_total_getFgAtLoc_untagged = async config => {
      AS inven_t 
   
   LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-    ON ms.item_num = inven_t.ms.item_number 
+    ON ms.item_num = inven_t.item_number 
 
   LEFT OUTER JOIN (
-      SELECT ti.lot, ti.location, ti.ms.item_num, COALESCE(SUM(ti.weight),0) AS weight, COALESCE(SUM(ti.cost * ti.weight),0) AS ext_cost 
+      SELECT ti.lot, ti.location, ti.item_num, COALESCE(SUM(ti.weight),0) AS weight, COALESCE(SUM(ti.cost * ti.weight),0) AS ext_cost 
         FROM "salesReporting".tagged_inventory AS ti 
         WHERE 
           ti.version = (SELECT MAX(subti.version) - 1 FROM "salesReporting".tagged_inventory 
         AS subti) 
-        GROUP BY ti.lot, ti.location, ti.ms.item_num) 
+        GROUP BY ti.lot, ti.location, ti.item_num) 
       AS tagged_t 
-    ON tagged_t.ms.item_num = inven_t.ms.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code 
+    ON tagged_t.ms.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code 
  
  WHERE 
   ms.byproduct_type IS NULL 
