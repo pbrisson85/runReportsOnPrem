@@ -6,7 +6,7 @@ const getViewTrendConfig = rightMenuSelection => {
 
   switch (rightMenuSelection) {
     case 'Trend By Item':
-      const select = {
+      const trendQuery = {
         l1_label: 'ms.item_num',
         l2_label: 'ms.description',
         l3_label: 'ms.fg_fresh_frozen',
