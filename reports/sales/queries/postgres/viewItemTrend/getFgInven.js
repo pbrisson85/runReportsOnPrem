@@ -8,7 +8,7 @@ const selectBuilder = trendQuery => {
   let select = ''
 
   trendQuery.fields.forEach((field, index) => {
-    select += `${sql`${field}`} AS l${index + 1}_label, `
+    select += sql`${sql`${field}`} AS l${index + 1}_label, `
   })
 
   return select
