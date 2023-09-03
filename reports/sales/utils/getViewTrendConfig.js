@@ -9,12 +9,12 @@ const getViewTrendConfig = rightMenuSelection => {
       trendQuery = {
         fields: ['ms.item_num', 'ms.description', 'ms.fg_fresh_frozen', 'ms.fg_treatment', 'ms.brand', 'ms.size_name'],
         test: [
-          sql`ms.item_num AS l1_label, `,
-          sql`ms.description AS l1_label, `,
-          sql`ms.fg_fresh_frozen AS l1_label, `,
-          sql`ms.fg_treatment AS l1_label, `,
-          sql`ms.brand AS l1_label, `,
-          sql`ms.size_name AS l1_label, `,
+          sql`ms.item_num AS l1_label`,
+          sql`ms.description AS l1_label`,
+          sql`ms.fg_fresh_frozen AS l1_label`,
+          sql`ms.fg_treatment AS l1_label`,
+          sql`ms.brand AS l1_label`,
+          sql`ms.size_name AS l1_label`,
         ],
       }
 

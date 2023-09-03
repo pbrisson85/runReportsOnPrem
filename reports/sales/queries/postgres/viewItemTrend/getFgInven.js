@@ -26,7 +26,7 @@ const lvl_1_subtotal_getFgInven = async (config, trendQuery) => {
     // const select = `${sql`ms.item_num`} AS l1_label, ${sql`ms.description`} AS l2_label, ${sql`ms.fg_fresh_frozen`} AS l3_label, ${sql`ms.fg_treatment`} AS l4_label, ${sql`ms.brand`} AS l5_label, ${sql`ms.size_name`} AS l6_label`
 
     const response = await sql  
-      `SELECT 'FG INVEN' AS column, ${trendQuery.test}, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
+      `SELECT 'FG INVEN' AS column, ${sql(trendQuery.test)}, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
