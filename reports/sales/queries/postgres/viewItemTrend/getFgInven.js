@@ -10,12 +10,18 @@ const lvl_1_subtotal_getFgInven = async (config, trendQuery) => {
 
     const testTrendQuery = {
       select: [
-        `ms.item_num ${sql`AS l1_label`}`,
-        `ms.description ${sql`AS l2_label`}`,
-        `ms.fg_fresh_frozen ${sql`AS l3_label`}`,
-        `ms.fg_treatment ${sql`AS l4_label`}`,
-        `ms.brand ${sql`AS l5_label`}`,
-        `ms.size_name ${sql`AS l6_label`}`,
+        `ms.item_num`,
+        `${sql` AS l1_label`}`,
+        `ms.description `,
+        `${sql` AS l2_label`}`,
+        `ms.fg_fresh_frozen `,
+        `${sql` AS l3_label`}`,
+        `ms.fg_treatment `,
+        `${sql` AS l4_label`}`,
+        `ms.brand `,
+        `${sql` AS l5_label`}`,
+        `ms.size_name `,
+        `${sql` AS l6_label`}`,
       ],
     }
 
