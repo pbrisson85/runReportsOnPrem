@@ -2,11 +2,9 @@
 const sql = require('../../../server')
 
 const getViewTrendConfig = rightMenuSelection => {
-  let trendQuery = null
-
   switch (rightMenuSelection) {
     case 'Trend By Item':
-      const trendQuery = {
+      return {
         l1_label: 'ms.item_num',
         l2_label: 'ms.description',
         l3_label: 'ms.fg_fresh_frozen',
@@ -15,29 +13,36 @@ const getViewTrendConfig = rightMenuSelection => {
         l6_label: 'ms.size_name',
       }
 
-      break
-
     case 'Trend By Customer':
-      trendQuery = {
-        fields: 'species_group',
+      return {
+        l1_label: 'ms.item_num',
+        l2_label: 'ms.description',
+        l3_label: 'ms.fg_fresh_frozen',
+        l4_label: 'ms.fg_treatment',
+        l5_label: 'ms.brand',
+        l6_label: 'ms.size_name',
       }
-      d
-      break
 
     case 'Trend By Salesperson':
-      trendQuery = {
-        fields: 'species_group',
+      return {
+        l1_label: 'ms.item_num',
+        l2_label: 'ms.description',
+        l3_label: 'ms.fg_fresh_frozen',
+        l4_label: 'ms.fg_treatment',
+        l5_label: 'ms.brand',
+        l6_label: 'ms.size_name',
       }
-
-      break
 
     default:
-      trendQuery = {
-        fields: 'species_group',
+      return {
+        l1_label: 'ms.item_num',
+        l2_label: 'ms.description',
+        l3_label: 'ms.fg_fresh_frozen',
+        l4_label: 'ms.fg_treatment',
+        l5_label: 'ms.brand',
+        l6_label: 'ms.size_name',
       }
   }
-
-  return trendQuery
 }
 
 module.exports = getViewTrendConfig
