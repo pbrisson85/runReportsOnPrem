@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
   } else if (rightMenuSelection === 'Trend By Customer') {
     response = await viewItemTrend(labelCols_byCustomer, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek, trendQuery)
   } else if (rightMenuSelection === 'Trend By Salesperson') {
-    response = await viewSalesPersonTrend(labelCols_bySalesperson, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek)
+    response = await viewItemTrend(labelCols_bySalesperson, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek, trendQuery)
   }
 
   console.log(`${config.user} - get drilldown data for ${reportFormat} route COMPLETE. \n`)
