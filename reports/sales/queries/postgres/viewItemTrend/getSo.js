@@ -16,14 +16,14 @@ const lvl_1_subtotal_getSo = async (config, trendQuery) => {
           ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
           ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
           ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``} 
-          COALESCE(SUM(sales_orders.ext_weight),0) AS lbs, 
-          COALESCE(SUM(sales_orders.ext_sales),0) AS sales, 
-          COALESCE(SUM(sales_orders.ext_cost),0) AS cogs, 
-          COALESCE(SUM(sales_orders.ext_othp),0) AS othp 
+          COALESCE(SUM(so.ext_weight),0) AS lbs, 
+          COALESCE(SUM(so.ext_sales),0) AS sales, 
+          COALESCE(SUM(so.ext_cost),0) AS cogs, 
+          COALESCE(SUM(so.ext_othp),0) AS othp 
          
-         FROM "salesReporting".sales_orders 
+         FROM "salesReporting".sales_orders AS so
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-            ON ms.item_num = sales_orders.item_num 
+            ON ms.item_num = so.item_num 
          
          WHERE 
           ms.item_type = ${'FG'} 
@@ -35,7 +35,7 @@ const lvl_1_subtotal_getSo = async (config, trendQuery) => {
           ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
           ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
           ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-          ${config.customer ? sql`AND sales_orders.customer_code = ${config.customer}`: sql``} 
+          ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
          
          GROUP BY 
           ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
@@ -68,26 +68,26 @@ const lvl_1_subtotal_getSoTagged = async (config, trendQuery) => {
             ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
             ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
             ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``} 
-            COALESCE(SUM(sales_orders.tagged_weight),0) AS lbs, 
-            COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, 
-            COALESCE(SUM(sales_orders.tagged_weight * ave_tagged_cost),0) AS cogs, 
-            COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
+            COALESCE(SUM(so.tagged_weight),0) AS lbs, 
+            COALESCE(SUM(so.tagged_weight / so.ext_weight * so.ext_sales),0) AS sales, 
+            COALESCE(SUM(so.tagged_weight * ave_tagged_cost),0) AS cogs, 
+            COALESCE(SUM(so.tagged_weight / so.ext_weight * so.ext_othp),0) AS othp 
            
-           FROM "salesReporting".sales_orders 
+           FROM "salesReporting".sales_orders AS so
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-              ON ms.item_num = sales_orders.item_num 
+              ON ms.item_num = so.item_num 
            
            WHERE 
             ms.item_type = ${'FG'} 
             AND sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-            AND ms.byproduct_type IS NULL AND sales_orders.tagged_weight > 0  
+            AND ms.byproduct_type IS NULL AND so.tagged_weight > 0  
             ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
             ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
             ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
             ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-            ${config.customer ? sql`AND sales_orders.customer_code = ${config.customer}`: sql``} 
+            ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
            
            GROUP BY 
             ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
@@ -120,14 +120,14 @@ const lvl_1_subtotal_getSoUntagged = async (config, trendQuery) => {
         ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
         ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
         ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``} 
-        COALESCE(SUM(sales_orders.untagged_weight),0) AS lbs, 
-        COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, 
-        COALESCE(SUM(sales_orders.untagged_weight * ave_untagged_cost),0) AS cogs, 
-        COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
+        COALESCE(SUM(so.untagged_weight),0) AS lbs, 
+        COALESCE(SUM(so.untagged_weight / so.ext_weight * so.ext_sales),0) AS sales, 
+        COALESCE(SUM(so.untagged_weight * ave_untagged_cost),0) AS cogs, 
+        COALESCE(SUM(so.untagged_weight / so.ext_weight * so.ext_othp),0) AS othp 
       
-      FROM "salesReporting".sales_orders 
+      FROM "salesReporting".sales_orders AS so
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-          ON ms.item_num = sales_orders.item_num 
+          ON ms.item_num = so.item_num 
       
       WHERE 
         ms.item_type = ${'FG'} 
@@ -135,12 +135,12 @@ const lvl_1_subtotal_getSoUntagged = async (config, trendQuery) => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
-        AND sales_orders.untagged_weight > 0  
+        AND so.untagged_weight > 0  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-        ${config.customer ? sql`AND sales_orders.customer_code = ${config.customer}`: sql``} 
+        ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
       
       GROUP BY 
         ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
@@ -166,9 +166,17 @@ const lvl_0_total_getSo = async config => {
     console.log(`${config.user} - level 0: query postgres for FG Sales Orders ...`)
 
     const response = await sql
-           `SELECT 'FG OPEN ORDER' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(sales_orders.ext_weight),0) AS lbs, COALESCE(SUM(sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.ext_cost),0) AS cogs, COALESCE(SUM(sales_orders.ext_othp),0) AS othp 
+           `SELECT 
+            'FG OPEN ORDER' AS column, 
+            'FG SALES' AS l1_label, 
+            COALESCE(SUM(so.ext_weight),0) AS lbs, 
+            COALESCE(SUM(so.ext_sales),0) AS sales, 
+            COALESCE(SUM(so.ext_cost),0) AS cogs, 
+            COALESCE(SUM(so.ext_othp),0) AS othp 
            
-           FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
+           FROM "salesReporting".sales_orders AS so 
+            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+              ON ms.item_num = so.item_num 
            
            WHERE 
             ms.item_type = ${'FG'} 
@@ -180,7 +188,7 @@ const lvl_0_total_getSo = async config => {
             ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
             ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
             ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-            ${config.customer ? sql`AND sales_orders.customer_code = ${config.customer}`: sql``}` //prettier-ignore
+            ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -194,9 +202,17 @@ const lvl_0_total_getSoTagged = async config => {
     console.log(`${config.user} - level 0: query postgres for FG Sales Orders ...`)
 
     const response = await sql
-      `SELECT 'FG OPEN ORDER TAGGED' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(sales_orders.tagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.tagged_weight * ave_tagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
+      `SELECT 
+        'FG OPEN ORDER TAGGED' AS column, 
+        'FG SALES' AS l1_label, 
+        COALESCE(SUM(so.tagged_weight),0) AS lbs, 
+        COALESCE(SUM(so.tagged_weight / so.ext_weight * so.ext_sales),0) AS sales, 
+        COALESCE(SUM(so.tagged_weight * ave_tagged_cost),0) AS cogs, 
+        COALESCE(SUM(so.tagged_weight / so.ext_weight * so.ext_othp),0) AS othp 
       
-      FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
+      FROM "salesReporting".sales_orders AS so 
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+          ON ms.item_num = so.item_num 
       
       WHERE 
         ms.item_type = ${'FG'} 
@@ -204,12 +220,12 @@ const lvl_0_total_getSoTagged = async config => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
-        AND sales_orders.tagged_weight > 0  
+        AND so.tagged_weight > 0  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-        ${config.customer ? sql`AND sales_orders.customer_code = ${config.customer}`: sql``}` //prettier-ignore
+        ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -223,9 +239,17 @@ const lvl_0_total_getSoUntagged = async config => {
     console.log(`${config.user} - level 0: query postgres for FG Sales Orders ...`)
 
     const response = await sql
-      `SELECT 'FG OPEN ORDER UNTAGGED' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(sales_orders.untagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.untagged_weight * ave_untagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
+      `SELECT 
+        'FG OPEN ORDER UNTAGGED' AS column, 
+        'FG SALES' AS l1_label, 
+        COALESCE(SUM(so.untagged_weight),0) AS lbs, 
+        COALESCE(SUM(so.untagged_weight / so.ext_weight * so.ext_sales),0) AS sales, 
+        COALESCE(SUM(so.untagged_weight * ave_untagged_cost),0) AS cogs, 
+        COALESCE(SUM(so.untagged_weight / so.ext_weight * so.ext_othp),0) AS othp 
       
-      FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
+      FROM "salesReporting".sales_orders AS so 
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+          ON ms.item_num = so.item_num 
       
       WHERE 
         ms.item_type = ${'FG'} 
@@ -233,12 +257,12 @@ const lvl_0_total_getSoUntagged = async config => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
-        AND sales_orders.untagged_weight > 0  
+        AND so.untagged_weight > 0  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-        ${config.customer ? sql`AND sales_orders.customer_code = ${config.customer}`: sql``}` //prettier-ignore
+        ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``}` //prettier-ignore
 
     return response
   } catch (error) {
