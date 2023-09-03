@@ -1,6 +1,8 @@
 // Going to put all select fields and group by fields in here to combine all the trend report queries into one set
 
 const getViewTrendConfig = rightMenuSelection => {
+  let trendQuery = null
+
   switch (rightMenuSelection) {
     case 'Trend By Item':
       trendQuery = {
@@ -37,7 +39,7 @@ const getViewTrendConfig = rightMenuSelection => {
       }
   }
 
-  return config
+  return trendQuery
 }
 
 module.exports = getViewTrendConfig
