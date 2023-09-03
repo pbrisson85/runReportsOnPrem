@@ -8,7 +8,9 @@ const getViewTrendConfig = rightMenuSelection => {
     case 'Trend By Item':
       trendQuery = {
         fields: ['ms.item_num', 'ms.description', 'ms.fg_fresh_frozen', 'ms.fg_treatment', 'ms.brand', 'ms.size_name'],
-        select: `${sql`ms.item_num`} AS l1_label, ${sql`ms.description`} AS l2_label, ${sql`ms.fg_fresh_frozen`} AS l3_label, ${sql`ms.fg_treatment`} AS l4_label, ${sql`ms.brand`} AS l5_label, ${sql`ms.size_name`} AS l6_label`,
+        select: `${sql(`ms.item_num`)} AS l1_label, ${sql(`ms.description`)} AS l2_label, ${sql(`ms.fg_fresh_frozen`)} AS l3_label, ${sql(
+          `ms.fg_treatment`
+        )} AS l4_label, ${sql(`ms.brand`)} AS l5_label, ${sql(`ms.size_name`)} AS l6_label`,
       }
 
       break
