@@ -4,12 +4,24 @@ const sql = require('../../../../../server')
 
 // FG Species Group totals by week
 
-const lvl_1_subtotal_getSalesByFyYtd = async (config, start, end, showYtd) => {
+const lvl_1_subtotal_getSalesByFyYtd = async (config, start, end, showYtd, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: (getSalesTrendByFyYtd Lvl3) query postgres to get FG sales data by week ...`)
 
     const response = await sql
-      `SELECT sl.fiscal_year ${showYtd ? sql`|| '_ytd' ` : sql``} AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
+      `SELECT 
+        sl.fiscal_year ${showYtd ? sql`|| '_ytd' ` : sql``} AS column, 
+        ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)} AS l1_label,`: sql``} 
+        ${trendQuery.l2_label ? sql`${sql(trendQuery.l2_label)} AS l2_label,`: sql``} 
+        ${trendQuery.l3_label ? sql`${sql(trendQuery.l3_label)} AS l3_label,`: sql``} 
+        ${trendQuery.l4_label ? sql`${sql(trendQuery.l4_label)} AS l4_label,`: sql``} 
+        ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
+        ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
+        ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``} 
+        COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, 
+        COALESCE(SUM(sl.gross_sales_ext),0) AS sales, 
+        COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, 
+        COALESCE(SUM(sl.othp_ext),0) AS othp 
       
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -27,7 +39,15 @@ const lvl_1_subtotal_getSalesByFyYtd = async (config, start, end, showYtd) => {
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
         ${showYtd ? sql`AND sl.week >= ${start} AND sl.week <= ${end}` : sql``} 
       
-      GROUP BY sl.fiscal_year, ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.brand, ms.size_name 
+      GROUP BY 
+        sl.fiscal_year, 
+        ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
+        ${trendQuery.l2_label ? sql`, ${sql(trendQuery.l2_label)}`: sql``} 
+        ${trendQuery.l3_label ? sql`, ${sql(trendQuery.l3_label)}`: sql``} 
+        ${trendQuery.l4_label ? sql`, ${sql(trendQuery.l4_label)}`: sql``} 
+        ${trendQuery.l5_label ? sql`, ${sql(trendQuery.l5_label)}`: sql``} 
+        ${trendQuery.l6_label ? sql`, ${sql(trendQuery.l6_label)}`: sql``} 
+        ${trendQuery.l7_label ? sql`, ${sql(trendQuery.l7_label)}`: sql``}  
       
       ORDER BY sl.fiscal_year` //prettier-ignore
 

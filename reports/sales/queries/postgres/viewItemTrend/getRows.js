@@ -1,19 +1,27 @@
 const sql = require('../../../../../server')
 
-const getRowsFirstLevelDetail = async (config, start, end, showFyTrend) => {
+const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQuery) => {
   try {
     console.log(`${config.user} - query postgres to get row labels ...`)
 
     // NOTE THAT CURRENTLY OPEN POS ARE IN THE INVENTORY TABLE. BELOW WOULD NEED TO QUERY THE PO TABLE IF IT IS MOVED.
 
     const response = await sql
-        `SELECT ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, ${config.queryLevel} AS datalevel 
+      `SELECT 
+          ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)} AS l1_label,`: sql``} 
+          ${trendQuery.l2_label ? sql`${sql(trendQuery.l2_label)} AS l2_label,`: sql``} 
+          ${trendQuery.l3_label ? sql`${sql(trendQuery.l3_label)} AS l3_label,`: sql``} 
+          ${trendQuery.l4_label ? sql`${sql(trendQuery.l4_label)} AS l4_label,`: sql``} 
+          ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
+          ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
+          ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``} 
+          ${config.queryLevel} AS datalevel 
         
-          FROM "salesReporting".sales_line_items 
+        FROM "salesReporting".sales_line_items 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = sales_line_items.item_number 
               
-          WHERE 
+        WHERE 
             ${!showFyTrend ? sql`sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ` : sql``} 
             ms.byproduct_type IS NULL 
             AND ms.item_type = ${'FG'} 
@@ -25,15 +33,30 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend) => {
             ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
             ${config.customer ? sql`AND sales_line_items.customer_code = ${config.customer}`: sql``} 
           
-          GROUP BY ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.brand, ms.size_name 
+        GROUP BY 
+          ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
+          ${trendQuery.l2_label ? sql`, ${sql(trendQuery.l2_label)}`: sql``} 
+          ${trendQuery.l3_label ? sql`, ${sql(trendQuery.l3_label)}`: sql``} 
+          ${trendQuery.l4_label ? sql`, ${sql(trendQuery.l4_label)}`: sql``} 
+          ${trendQuery.l5_label ? sql`, ${sql(trendQuery.l5_label)}`: sql``} 
+          ${trendQuery.l6_label ? sql`, ${sql(trendQuery.l6_label)}`: sql``} 
+          ${trendQuery.l7_label ? sql`, ${sql(trendQuery.l7_label)}`: sql``} 
         
-        UNION SELECT ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, ${config.queryLevel} AS datalevel 
+        UNION SELECT 
+          ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)} AS l1_label,`: sql``} 
+          ${trendQuery.l2_label ? sql`${sql(trendQuery.l2_label)} AS l2_label,`: sql``} 
+          ${trendQuery.l3_label ? sql`${sql(trendQuery.l3_label)} AS l3_label,`: sql``} 
+          ${trendQuery.l4_label ? sql`${sql(trendQuery.l4_label)} AS l4_label,`: sql``} 
+          ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
+          ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
+          ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``} 
+          ${config.queryLevel} AS datalevel 
         
-          FROM "salesReporting".sales_orders 
+        FROM "salesReporting".sales_orders 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = sales_orders.item_num 
               
-          WHERE 
+        WHERE 
             ms.byproduct_type IS NULL 
             AND ms.item_type = ${'FG'} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -45,15 +68,30 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend) => {
             ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
             ${config.customer ? sql`AND sales_orders.customer_code = ${config.customer}`: sql``} 
           
-          GROUP BY ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.brand, ms.size_name
+        GROUP BY 
+          ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
+          ${trendQuery.l2_label ? sql`, ${sql(trendQuery.l2_label)}`: sql``} 
+          ${trendQuery.l3_label ? sql`, ${sql(trendQuery.l3_label)}`: sql``} 
+          ${trendQuery.l4_label ? sql`, ${sql(trendQuery.l4_label)}`: sql``} 
+          ${trendQuery.l5_label ? sql`, ${sql(trendQuery.l5_label)}`: sql``} 
+          ${trendQuery.l6_label ? sql`, ${sql(trendQuery.l6_label)}`: sql``} 
+          ${trendQuery.l7_label ? sql`, ${sql(trendQuery.l7_label)}`: sql``}
           
-        UNION SELECT ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, ${config.queryLevel} AS datalevel 
+        UNION SELECT 
+          ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)} AS l1_label,`: sql``} 
+          ${trendQuery.l2_label ? sql`${sql(trendQuery.l2_label)} AS l2_label,`: sql``} 
+          ${trendQuery.l3_label ? sql`${sql(trendQuery.l3_label)} AS l3_label,`: sql``} 
+          ${trendQuery.l4_label ? sql`${sql(trendQuery.l4_label)} AS l4_label,`: sql``} 
+          ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
+          ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
+          ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``} 
+          ${config.queryLevel} AS datalevel 
         
-          FROM "invenReporting".perpetual_inventory 
+        FROM "invenReporting".perpetual_inventory 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = perpetual_inventory.item_number 
               
-          WHERE 
+        WHERE 
             ms.byproduct_type IS NULL 
             AND ms.item_type = ${'FG'} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -64,7 +102,14 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend) => {
             ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
             ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``}  
           
-          GROUP BY ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.brand, ms.size_name
+        GROUP BY 
+          ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
+          ${trendQuery.l2_label ? sql`, ${sql(trendQuery.l2_label)}`: sql``} 
+          ${trendQuery.l3_label ? sql`, ${sql(trendQuery.l3_label)}`: sql``} 
+          ${trendQuery.l4_label ? sql`, ${sql(trendQuery.l4_label)}`: sql``} 
+          ${trendQuery.l5_label ? sql`, ${sql(trendQuery.l5_label)}`: sql``} 
+          ${trendQuery.l6_label ? sql`, ${sql(trendQuery.l6_label)}`: sql``} 
+          ${trendQuery.l7_label ? sql`, ${sql(trendQuery.l7_label)}`: sql``}
         
         ` //prettier-ignore
 

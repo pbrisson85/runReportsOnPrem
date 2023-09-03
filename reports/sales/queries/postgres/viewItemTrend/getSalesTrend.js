@@ -4,14 +4,28 @@ const sql = require('../../../../../server')
 
 // FG Species Group totals by week
 
-const lvl_1_subtotal_getSalesByWk = async (config, start, end) => {
+const lvl_1_subtotal_getSalesByWk = async (config, start, end, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: (getSalesTrend Lvl3) query postgres to get FG sales data by week ...`)
 
     const response = await sql
-      `SELECT sales_line_items.week_serial AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
+      `SELECT 
+        sales_line_items.week_serial AS column, 
+        ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)} AS l1_label,`: sql``} 
+        ${trendQuery.l2_label ? sql`${sql(trendQuery.l2_label)} AS l2_label,`: sql``} 
+        ${trendQuery.l3_label ? sql`${sql(trendQuery.l3_label)} AS l3_label,`: sql``} 
+        ${trendQuery.l4_label ? sql`${sql(trendQuery.l4_label)} AS l4_label,`: sql``} 
+        ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
+        ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
+        ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``}
+        COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, 
+        COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, 
+        COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, 
+        COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
       
-      FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number 
+      FROM "salesReporting".sales_line_items 
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+          ON ms.item_num = sales_line_items.item_number 
       
       WHERE 
         sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
@@ -25,7 +39,15 @@ const lvl_1_subtotal_getSalesByWk = async (config, start, end) => {
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
         ${config.customer ? sql`AND sales_line_items.customer_code = ${config.customer}`: sql``} 
       
-      GROUP BY sales_line_items.week_serial, ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.brand, ms.size_name 
+      GROUP BY 
+        sales_line_items.week_serial, 
+        ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
+        ${trendQuery.l2_label ? sql`, ${sql(trendQuery.l2_label)}`: sql``} 
+        ${trendQuery.l3_label ? sql`, ${sql(trendQuery.l3_label)}`: sql``} 
+        ${trendQuery.l4_label ? sql`, ${sql(trendQuery.l4_label)}`: sql``} 
+        ${trendQuery.l5_label ? sql`, ${sql(trendQuery.l5_label)}`: sql``} 
+        ${trendQuery.l6_label ? sql`, ${sql(trendQuery.l6_label)}`: sql``} 
+        ${trendQuery.l7_label ? sql`, ${sql(trendQuery.l7_label)}`: sql``} 
       
       ORDER BY sales_line_items.week_serial` //prettier-ignore
 
@@ -38,14 +60,28 @@ const lvl_1_subtotal_getSalesByWk = async (config, start, end) => {
 
 // FG Species Group col total for period
 
-const lvl_1_subtotal_getSalesPeriodToDate = async (config, start, end) => {
+const lvl_1_subtotal_getSalesPeriodToDate = async (config, start, end, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: (getSalesTrend Lvl3) query postgres to get FG sales data period total ...`)
 
     const response = await sql
-      `SELECT 'SALES TOTAL' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
+      `SELECT 
+        'SALES TOTAL' AS column, 
+        ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)} AS l1_label,`: sql``} 
+        ${trendQuery.l2_label ? sql`${sql(trendQuery.l2_label)} AS l2_label,`: sql``} 
+        ${trendQuery.l3_label ? sql`${sql(trendQuery.l3_label)} AS l3_label,`: sql``} 
+        ${trendQuery.l4_label ? sql`${sql(trendQuery.l4_label)} AS l4_label,`: sql``} 
+        ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
+        ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
+        ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``}
+        COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, 
+        COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, 
+        COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, 
+        COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
       
-      FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number 
+      FROM "salesReporting".sales_line_items 
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+          ON ms.item_num = sales_line_items.item_number 
       
       WHERE 
         sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
@@ -59,7 +95,15 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (config, start, end) => {
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
         ${config.customer ? sql`AND sales_line_items.customer_code = ${config.customer}`: sql``} 
       
-      GROUP BY ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.brand, ms.size_name` //prettier-ignore
+      GROUP BY 
+        ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
+        ${trendQuery.l2_label ? sql`, ${sql(trendQuery.l2_label)}`: sql``} 
+        ${trendQuery.l3_label ? sql`, ${sql(trendQuery.l3_label)}`: sql``} 
+        ${trendQuery.l4_label ? sql`, ${sql(trendQuery.l4_label)}`: sql``} 
+        ${trendQuery.l5_label ? sql`, ${sql(trendQuery.l5_label)}`: sql``} 
+        ${trendQuery.l6_label ? sql`, ${sql(trendQuery.l6_label)}`: sql``} 
+        ${trendQuery.l7_label ? sql`, ${sql(trendQuery.l7_label)}`: sql``}
+      ` //prettier-ignore
 
     return response
   } catch (error) {

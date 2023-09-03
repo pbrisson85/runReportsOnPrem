@@ -2,14 +2,28 @@ const sql = require('../../../../../server')
 
 /* *********************************************** level 1 *********************************************** */
 
-const lvl_1_subtotal_getSo = async config => {
+const lvl_1_subtotal_getSo = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG Sales Orders ...`)
 
     const response = await sql
-         `SELECT 'FG OPEN ORDER' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(sales_orders.ext_weight),0) AS lbs, COALESCE(SUM(sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.ext_cost),0) AS cogs, COALESCE(SUM(sales_orders.ext_othp),0) AS othp 
+         `SELECT 
+          'FG OPEN ORDER' AS column, 
+          ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)} AS l1_label,`: sql``} 
+          ${trendQuery.l2_label ? sql`${sql(trendQuery.l2_label)} AS l2_label,`: sql``} 
+          ${trendQuery.l3_label ? sql`${sql(trendQuery.l3_label)} AS l3_label,`: sql``} 
+          ${trendQuery.l4_label ? sql`${sql(trendQuery.l4_label)} AS l4_label,`: sql``} 
+          ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
+          ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
+          ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``} 
+          COALESCE(SUM(sales_orders.ext_weight),0) AS lbs, 
+          COALESCE(SUM(sales_orders.ext_sales),0) AS sales, 
+          COALESCE(SUM(sales_orders.ext_cost),0) AS cogs, 
+          COALESCE(SUM(sales_orders.ext_othp),0) AS othp 
          
-         FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
+         FROM "salesReporting".sales_orders 
+          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = sales_orders.item_num 
          
          WHERE 
           ms.item_type = ${'FG'} 
@@ -23,7 +37,15 @@ const lvl_1_subtotal_getSo = async config => {
           ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
           ${config.customer ? sql`AND sales_orders.customer_code = ${config.customer}`: sql``} 
          
-         GROUP BY ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.brand, ms.size_name` //prettier-ignore
+         GROUP BY 
+          ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
+          ${trendQuery.l2_label ? sql`, ${sql(trendQuery.l2_label)}`: sql``} 
+          ${trendQuery.l3_label ? sql`, ${sql(trendQuery.l3_label)}`: sql``} 
+          ${trendQuery.l4_label ? sql`, ${sql(trendQuery.l4_label)}`: sql``} 
+          ${trendQuery.l5_label ? sql`, ${sql(trendQuery.l5_label)}`: sql``} 
+          ${trendQuery.l6_label ? sql`, ${sql(trendQuery.l6_label)}`: sql``} 
+          ${trendQuery.l7_label ? sql`, ${sql(trendQuery.l7_label)}`: sql``}   
+         ` //prettier-ignore
 
     return response
   } catch (error) {
@@ -32,14 +54,28 @@ const lvl_1_subtotal_getSo = async config => {
   }
 }
 
-const lvl_1_subtotal_getSoTagged = async config => {
+const lvl_1_subtotal_getSoTagged = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 3: query postgres for FG Sales Orders ...`)
 
     const response = await sql
-           `SELECT 'FG OPEN ORDER TAGGED' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(sales_orders.tagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.tagged_weight * ave_tagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
+           `SELECT 
+            'FG OPEN ORDER TAGGED' AS column, 
+            ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)} AS l1_label,`: sql``} 
+            ${trendQuery.l2_label ? sql`${sql(trendQuery.l2_label)} AS l2_label,`: sql``} 
+            ${trendQuery.l3_label ? sql`${sql(trendQuery.l3_label)} AS l3_label,`: sql``} 
+            ${trendQuery.l4_label ? sql`${sql(trendQuery.l4_label)} AS l4_label,`: sql``} 
+            ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
+            ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
+            ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``} 
+            COALESCE(SUM(sales_orders.tagged_weight),0) AS lbs, 
+            COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, 
+            COALESCE(SUM(sales_orders.tagged_weight * ave_tagged_cost),0) AS cogs, 
+            COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
            
-           FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
+           FROM "salesReporting".sales_orders 
+            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+              ON ms.item_num = sales_orders.item_num 
            
            WHERE 
             ms.item_type = ${'FG'} 
@@ -53,7 +89,15 @@ const lvl_1_subtotal_getSoTagged = async config => {
             ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
             ${config.customer ? sql`AND sales_orders.customer_code = ${config.customer}`: sql``} 
            
-           GROUP BY ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.brand, ms.size_name` //prettier-ignore
+           GROUP BY 
+            ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
+            ${trendQuery.l2_label ? sql`, ${sql(trendQuery.l2_label)}`: sql``} 
+            ${trendQuery.l3_label ? sql`, ${sql(trendQuery.l3_label)}`: sql``} 
+            ${trendQuery.l4_label ? sql`, ${sql(trendQuery.l4_label)}`: sql``} 
+            ${trendQuery.l5_label ? sql`, ${sql(trendQuery.l5_label)}`: sql``} 
+            ${trendQuery.l6_label ? sql`, ${sql(trendQuery.l6_label)}`: sql``} 
+            ${trendQuery.l7_label ? sql`, ${sql(trendQuery.l7_label)}`: sql``}   
+           ` //prettier-ignore
 
     return response
   } catch (error) {
@@ -62,14 +106,28 @@ const lvl_1_subtotal_getSoTagged = async config => {
   }
 }
 
-const lvl_1_subtotal_getSoUntagged = async config => {
+const lvl_1_subtotal_getSoUntagged = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 3: query postgres for FG Sales Orders ...`)
 
     const response = await sql
-      `SELECT 'FG OPEN ORDER UNTAGGED' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(sales_orders.untagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.untagged_weight * ave_untagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
+      `SELECT 
+        'FG OPEN ORDER UNTAGGED' AS column, 
+        ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)} AS l1_label,`: sql``} 
+        ${trendQuery.l2_label ? sql`${sql(trendQuery.l2_label)} AS l2_label,`: sql``} 
+        ${trendQuery.l3_label ? sql`${sql(trendQuery.l3_label)} AS l3_label,`: sql``} 
+        ${trendQuery.l4_label ? sql`${sql(trendQuery.l4_label)} AS l4_label,`: sql``} 
+        ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
+        ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
+        ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``} 
+        COALESCE(SUM(sales_orders.untagged_weight),0) AS lbs, 
+        COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, 
+        COALESCE(SUM(sales_orders.untagged_weight * ave_untagged_cost),0) AS cogs, 
+        COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
       
-      FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
+      FROM "salesReporting".sales_orders 
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+          ON ms.item_num = sales_orders.item_num 
       
       WHERE 
         ms.item_type = ${'FG'} 
@@ -84,7 +142,15 @@ const lvl_1_subtotal_getSoUntagged = async config => {
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
         ${config.customer ? sql`AND sales_orders.customer_code = ${config.customer}`: sql``} 
       
-      GROUP BY ms.item_num, ms.description, ms.fg_fresh_frozen, ms.fg_treatment, ms.brand, ms.size_name` //prettier-ignore
+      GROUP BY 
+        ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
+        ${trendQuery.l2_label ? sql`, ${sql(trendQuery.l2_label)}`: sql``} 
+        ${trendQuery.l3_label ? sql`, ${sql(trendQuery.l3_label)}`: sql``} 
+        ${trendQuery.l4_label ? sql`, ${sql(trendQuery.l4_label)}`: sql``} 
+        ${trendQuery.l5_label ? sql`, ${sql(trendQuery.l5_label)}`: sql``} 
+        ${trendQuery.l6_label ? sql`, ${sql(trendQuery.l6_label)}`: sql``} 
+        ${trendQuery.l7_label ? sql`, ${sql(trendQuery.l7_label)}`: sql``}   
+      ` //prettier-ignore
 
     return response
   } catch (error) {

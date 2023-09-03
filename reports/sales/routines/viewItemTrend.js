@@ -74,41 +74,42 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   const lvl_0_total_fgAtLoc_tagged = await lvl_0_total_getFgAtLoc_tagged(config)
 
   /* FG ON ORDER */
-  const lvl_1_subtotal_fgPo = await lvl_1_subtotal_getFgPo(config)
+  const lvl_1_subtotal_fgPo = await lvl_1_subtotal_getFgPo(config, trendQuery)
   const lvl_0_total_fgPo = await lvl_0_total_getFgPo(config)
 
   // ///////////////////////////////// SALES ORDERS
   /* ALL SO */
-  const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(config)
+  const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(config, trendQuery)
   const lvl_0_total_so = await lvl_0_total_getSo(config)
 
-  const lvl_1_subtotal_so_byWk = await lvl_1_subtotal_getSo_byWk(config)
+  const lvl_1_subtotal_so_byWk = await lvl_1_subtotal_getSo_byWk(config, trendQuery)
   const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk(config)
 
   /* TAGGED SO */
-  const lvl_1_subtotal_soTagged = await lvl_1_subtotal_getSoTagged(config)
+  const lvl_1_subtotal_soTagged = await lvl_1_subtotal_getSoTagged(config, trendQuery)
   const lvl_0_total_soTagged = await lvl_0_total_getSoTagged(config)
 
-  const lvl_1_subtotal_soTagged_byWk = await lvl_1_subtotal_getSoTagged_byWk(config)
+  const lvl_1_subtotal_soTagged_byWk = await lvl_1_subtotal_getSoTagged_byWk(config, trendQuery)
   const lvl_0_total_soTagged_byWk = await lvl_0_total_getSoTagged_byWk(config)
 
   /* UNTAGGED SO */
-  const lvl_1_subtotal_soUntagged = await lvl_1_subtotal_getSoUntagged(config)
+  const lvl_1_subtotal_soUntagged = await lvl_1_subtotal_getSoUntagged(config, trendQuery)
   const lvl_0_total_soUntagged = await lvl_0_total_getSoUntagged(config)
 
-  const lvl_1_subtotal_soUntagged_byWk = await lvl_1_subtotal_getSoUntagged_byWk(config)
+  const lvl_1_subtotal_soUntagged_byWk = await lvl_1_subtotal_getSoUntagged_byWk(config, trendQuery)
   const lvl_0_total_soUntagged_byWk = await lvl_0_total_getSoUntagged_byWk(config)
 
   // ///////////////////////////////// SALES DATA
-  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFyYtd(config, start, end, false)
+  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFyYtd(config, start, end, false, trendQuery)
   const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFyYtd(config, start, end, false)
 
-  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, true)
+  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, true, trendQuery)
   const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, true)
 
-  const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(config, start, end)
+  const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(config, start, end, trendQuery)
   const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(config, start, end)
-  const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(config, start, end)
+
+  const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(config, start, end, trendQuery)
   const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(config, start, end)
 
   const companyTotalSales = await getCompanyTotalSales(start, end, config)
@@ -145,7 +146,7 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   const lvl_0_invAvailable = calcInventoryAvailable(lvl_0_total_fgInven, lvl_0_total_fgPo, lvl_0_total_so, 'invenAvailable')
 
   ///////////////////////////////// ROWS
-  const rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, showFyTrend)
+  const rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, showFyTrend, trendQuery)
 
   const totalsRow = [{ totalRow: true, l1_label: `FG SALES`, l2_label: `TOTAL`, datalevel: config.queryLevel }] // Need an l2_label of TOTAL for front end styling
   const filterRow = [
