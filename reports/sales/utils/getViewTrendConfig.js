@@ -1,46 +1,57 @@
-// Going to put all select fields and group by fields in here to combine all the trend report queries into one set
-const sql = require('../../../server')
-
 const getViewTrendConfig = rightMenuSelection => {
   switch (rightMenuSelection) {
     case 'Trend By Item':
       return {
-        l1_label: 'ms.item_num',
-        l2_label: 'ms.description',
-        l3_label: 'ms.fg_fresh_frozen',
-        l4_label: 'ms.fg_treatment',
-        l5_label: 'ms.brand',
-        l6_label: 'ms.size_name',
+        sl: {
+          l1_label: 'ms.item_num',
+          l2_label: 'ms.description',
+          l3_label: 'ms.fg_fresh_frozen',
+          l4_label: 'ms.fg_treatment',
+          l5_label: 'ms.brand',
+          l6_label: 'ms.size_name',
+        },
+        so: {
+          l1_label: 'ms.item_num',
+          l2_label: 'ms.description',
+          l3_label: 'ms.fg_fresh_frozen',
+          l4_label: 'ms.fg_treatment',
+          l5_label: 'ms.brand',
+          l6_label: 'ms.size_name',
+        },
+        inv: {
+          l1_label: 'ms.item_num',
+          l2_label: 'ms.description',
+          l3_label: 'ms.fg_fresh_frozen',
+          l4_label: 'ms.fg_treatment',
+          l5_label: 'ms.brand',
+          l6_label: 'ms.size_name',
+        },
       }
 
     case 'Trend By Customer':
       return {
-        l1_label: 'ms.item_num',
-        l2_label: 'ms.description',
-        l3_label: 'ms.fg_fresh_frozen',
-        l4_label: 'ms.fg_treatment',
-        l5_label: 'ms.brand',
-        l6_label: 'ms.size_name',
+        sl: {
+          l1_label: 'sl.customer_code',
+          l2_label: 'sl.customer_name',
+        },
+        so: {
+          l1_label: 'so.customer_code',
+          l2_label: 'so.customer_name',
+        },
+        inv: {},
       }
 
     case 'Trend By Salesperson':
       return {
-        l1_label: 'ms.item_num',
-        l2_label: 'ms.description',
-        l3_label: 'ms.fg_fresh_frozen',
-        l4_label: 'ms.fg_treatment',
-        l5_label: 'ms.brand',
-        l6_label: 'ms.size_name',
-      }
-
-    default:
-      return {
-        l1_label: 'ms.item_num',
-        l2_label: 'ms.description',
-        l3_label: 'ms.fg_fresh_frozen',
-        l4_label: 'ms.fg_treatment',
-        l5_label: 'ms.brand',
-        l6_label: 'ms.size_name',
+        sl: {
+          l1_label: 'sl.outside_salesperson_code',
+          l2_label: 'sl.outside_salesperson_name',
+        },
+        so: {
+          l1_label: 'so.out_sales_rep',
+          l2_label: 'so.out_sales_rep_name',
+        },
+        inv: {},
       }
   }
 }

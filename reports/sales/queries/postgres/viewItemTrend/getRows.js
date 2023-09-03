@@ -8,13 +8,13 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
 
     const response = await sql
       `SELECT 
-          ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)} AS l1_label,`: sql``} 
-          ${trendQuery.l2_label ? sql`${sql(trendQuery.l2_label)} AS l2_label,`: sql``} 
-          ${trendQuery.l3_label ? sql`${sql(trendQuery.l3_label)} AS l3_label,`: sql``} 
-          ${trendQuery.l4_label ? sql`${sql(trendQuery.l4_label)} AS l4_label,`: sql``} 
-          ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
-          ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
-          ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``} 
+          ${trendQuery.sl.l1_label ? sql`${sql(trendQuery.sl.l1_label)} AS l1_label,`: sql``} 
+          ${trendQuery.sl.l2_label ? sql`${sql(trendQuery.sl.l2_label)} AS l2_label,`: sql``} 
+          ${trendQuery.sl.l3_label ? sql`${sql(trendQuery.sl.l3_label)} AS l3_label,`: sql``} 
+          ${trendQuery.sl.l4_label ? sql`${sql(trendQuery.sl.l4_label)} AS l4_label,`: sql``} 
+          ${trendQuery.sl.l5_label ? sql`${sql(trendQuery.sl.l5_label)} AS l5_label,`: sql``} 
+          ${trendQuery.sl.l6_label ? sql`${sql(trendQuery.sl.l6_label)} AS l6_label,`: sql``} 
+          ${trendQuery.sl.l7_label ? sql`${sql(trendQuery.sl.l7_label)} AS l7_label,`: sql``} 
           ${config.queryLevel} AS datalevel 
         
         FROM "salesReporting".sales_line_items AS sl
@@ -34,22 +34,22 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
             ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
           
         GROUP BY 
-          ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
-          ${trendQuery.l2_label ? sql`, ${sql(trendQuery.l2_label)}`: sql``} 
-          ${trendQuery.l3_label ? sql`, ${sql(trendQuery.l3_label)}`: sql``} 
-          ${trendQuery.l4_label ? sql`, ${sql(trendQuery.l4_label)}`: sql``} 
-          ${trendQuery.l5_label ? sql`, ${sql(trendQuery.l5_label)}`: sql``} 
-          ${trendQuery.l6_label ? sql`, ${sql(trendQuery.l6_label)}`: sql``} 
-          ${trendQuery.l7_label ? sql`, ${sql(trendQuery.l7_label)}`: sql``} 
+          ${trendQuery.sl.l1_label ? sql`${sql(trendQuery.sl.l1_label)}`: sql``} 
+          ${trendQuery.sl.l2_label ? sql`, ${sql(trendQuery.sl.l2_label)}`: sql``} 
+          ${trendQuery.sl.l3_label ? sql`, ${sql(trendQuery.sl.l3_label)}`: sql``} 
+          ${trendQuery.sl.l4_label ? sql`, ${sql(trendQuery.sl.l4_label)}`: sql``} 
+          ${trendQuery.sl.l5_label ? sql`, ${sql(trendQuery.sl.l5_label)}`: sql``} 
+          ${trendQuery.sl.l6_label ? sql`, ${sql(trendQuery.sl.l6_label)}`: sql``} 
+          ${trendQuery.sl.l7_label ? sql`, ${sql(trendQuery.sl.l7_label)}`: sql``} 
         
         UNION SELECT 
-          ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)} AS l1_label,`: sql``} 
-          ${trendQuery.l2_label ? sql`${sql(trendQuery.l2_label)} AS l2_label,`: sql``} 
-          ${trendQuery.l3_label ? sql`${sql(trendQuery.l3_label)} AS l3_label,`: sql``} 
-          ${trendQuery.l4_label ? sql`${sql(trendQuery.l4_label)} AS l4_label,`: sql``} 
-          ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
-          ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
-          ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``} 
+          ${trendQuery.so.l1_label ? sql`${sql(trendQuery.so.l1_label)} AS l1_label,`: sql``} 
+          ${trendQuery.so.l2_label ? sql`${sql(trendQuery.so.l2_label)} AS l2_label,`: sql``} 
+          ${trendQuery.so.l3_label ? sql`${sql(trendQuery.so.l3_label)} AS l3_label,`: sql``} 
+          ${trendQuery.so.l4_label ? sql`${sql(trendQuery.so.l4_label)} AS l4_label,`: sql``} 
+          ${trendQuery.so.l5_label ? sql`${sql(trendQuery.so.l5_label)} AS l5_label,`: sql``} 
+          ${trendQuery.so.l6_label ? sql`${sql(trendQuery.so.l6_label)} AS l6_label,`: sql``} 
+          ${trendQuery.so.l7_label ? sql`${sql(trendQuery.so.l7_label)} AS l7_label,`: sql``} 
           ${config.queryLevel} AS datalevel 
         
         FROM "salesReporting".sales_orders AS so
@@ -69,22 +69,22 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
             ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
           
         GROUP BY 
-          ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
-          ${trendQuery.l2_label ? sql`, ${sql(trendQuery.l2_label)}`: sql``} 
-          ${trendQuery.l3_label ? sql`, ${sql(trendQuery.l3_label)}`: sql``} 
-          ${trendQuery.l4_label ? sql`, ${sql(trendQuery.l4_label)}`: sql``} 
-          ${trendQuery.l5_label ? sql`, ${sql(trendQuery.l5_label)}`: sql``} 
-          ${trendQuery.l6_label ? sql`, ${sql(trendQuery.l6_label)}`: sql``} 
-          ${trendQuery.l7_label ? sql`, ${sql(trendQuery.l7_label)}`: sql``}
+          ${trendQuery.so.l1_label ? sql`${sql(trendQuery.so.l1_label)}`: sql``} 
+          ${trendQuery.so.l2_label ? sql`, ${sql(trendQuery.so.l2_label)}`: sql``} 
+          ${trendQuery.so.l3_label ? sql`, ${sql(trendQuery.so.l3_label)}`: sql``} 
+          ${trendQuery.so.l4_label ? sql`, ${sql(trendQuery.so.l4_label)}`: sql``} 
+          ${trendQuery.so.l5_label ? sql`, ${sql(trendQuery.so.l5_label)}`: sql``} 
+          ${trendQuery.so.l6_label ? sql`, ${sql(trendQuery.so.l6_label)}`: sql``} 
+          ${trendQuery.so.l7_label ? sql`, ${sql(trendQuery.so.l7_label)}`: sql``}
           
         UNION SELECT 
-          ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)} AS l1_label,`: sql``} 
-          ${trendQuery.l2_label ? sql`${sql(trendQuery.l2_label)} AS l2_label,`: sql``} 
-          ${trendQuery.l3_label ? sql`${sql(trendQuery.l3_label)} AS l3_label,`: sql``} 
-          ${trendQuery.l4_label ? sql`${sql(trendQuery.l4_label)} AS l4_label,`: sql``} 
-          ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
-          ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
-          ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``} 
+          ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)} AS l1_label,`: sql``} 
+          ${trendQuery.inv.l2_label ? sql`${sql(trendQuery.inv.l2_label)} AS l2_label,`: sql``} 
+          ${trendQuery.inv.l3_label ? sql`${sql(trendQuery.inv.l3_label)} AS l3_label,`: sql``} 
+          ${trendQuery.inv.l4_label ? sql`${sql(trendQuery.inv.l4_label)} AS l4_label,`: sql``} 
+          ${trendQuery.inv.l5_label ? sql`${sql(trendQuery.inv.l5_label)} AS l5_label,`: sql``} 
+          ${trendQuery.inv.l6_label ? sql`${sql(trendQuery.inv.l6_label)} AS l6_label,`: sql``} 
+          ${trendQuery.inv.l7_label ? sql`${sql(trendQuery.inv.l7_label)} AS l7_label,`: sql``} 
           ${config.queryLevel} AS datalevel 
         
         FROM "invenReporting".perpetual_inventory 
@@ -103,13 +103,13 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
             ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``}  
           
         GROUP BY 
-          ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
-          ${trendQuery.l2_label ? sql`, ${sql(trendQuery.l2_label)}`: sql``} 
-          ${trendQuery.l3_label ? sql`, ${sql(trendQuery.l3_label)}`: sql``} 
-          ${trendQuery.l4_label ? sql`, ${sql(trendQuery.l4_label)}`: sql``} 
-          ${trendQuery.l5_label ? sql`, ${sql(trendQuery.l5_label)}`: sql``} 
-          ${trendQuery.l6_label ? sql`, ${sql(trendQuery.l6_label)}`: sql``} 
-          ${trendQuery.l7_label ? sql`, ${sql(trendQuery.l7_label)}`: sql``}
+          ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)}`: sql``} 
+          ${trendQuery.inv.l2_label ? sql`, ${sql(trendQuery.inv.l2_label)}`: sql``} 
+          ${trendQuery.inv.l3_label ? sql`, ${sql(trendQuery.inv.l3_label)}`: sql``} 
+          ${trendQuery.inv.l4_label ? sql`, ${sql(trendQuery.inv.l4_label)}`: sql``} 
+          ${trendQuery.inv.l5_label ? sql`, ${sql(trendQuery.inv.l5_label)}`: sql``} 
+          ${trendQuery.inv.l6_label ? sql`, ${sql(trendQuery.inv.l6_label)}`: sql``} 
+          ${trendQuery.inv.l7_label ? sql`, ${sql(trendQuery.inv.l7_label)}`: sql``}
         
         ` //prettier-ignore
 

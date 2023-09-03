@@ -11,13 +11,13 @@ const lvl_1_subtotal_getFgInven = async (config, trendQuery) => {
     const response = await sql  
       `SELECT 
       'FG INVEN' AS column, 
-      ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)} AS l1_label,`: sql``} 
-      ${trendQuery.l2_label ? sql`${sql(trendQuery.l2_label)} AS l2_label,`: sql``} 
-      ${trendQuery.l3_label ? sql`${sql(trendQuery.l3_label)} AS l3_label,`: sql``} 
-      ${trendQuery.l4_label ? sql`${sql(trendQuery.l4_label)} AS l4_label,`: sql``} 
-      ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
-      ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
-      ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``} 
+      ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)} AS l1_label,`: sql``} 
+      ${trendQuery.inv.l2_label ? sql`${sql(trendQuery.inv.l2_label)} AS l2_label,`: sql``} 
+      ${trendQuery.inv.l3_label ? sql`${sql(trendQuery.inv.l3_label)} AS l3_label,`: sql``} 
+      ${trendQuery.inv.l4_label ? sql`${sql(trendQuery.inv.l4_label)} AS l4_label,`: sql``} 
+      ${trendQuery.inv.l5_label ? sql`${sql(trendQuery.inv.l5_label)} AS l5_label,`: sql``} 
+      ${trendQuery.inv.l6_label ? sql`${sql(trendQuery.inv.l6_label)} AS l6_label,`: sql``} 
+      ${trendQuery.inv.l7_label ? sql`${sql(trendQuery.inv.l7_label)} AS l7_label,`: sql``} 
       COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, 
       COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
@@ -37,13 +37,13 @@ const lvl_1_subtotal_getFgInven = async (config, trendQuery) => {
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
       
       GROUP BY 
-      ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
-      ${trendQuery.l2_label ? sql`, ${sql(trendQuery.l2_label)}`: sql``} 
-      ${trendQuery.l3_label ? sql`, ${sql(trendQuery.l3_label)}`: sql``} 
-      ${trendQuery.l4_label ? sql`, ${sql(trendQuery.l4_label)}`: sql``} 
-      ${trendQuery.l5_label ? sql`, ${sql(trendQuery.l5_label)}`: sql``} 
-      ${trendQuery.l6_label ? sql`, ${sql(trendQuery.l6_label)}`: sql``} 
-      ${trendQuery.l7_label ? sql`, ${sql(trendQuery.l7_label)}`: sql``} 
+      ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)}`: sql``} 
+      ${trendQuery.inv.l2_label ? sql`, ${sql(trendQuery.inv.l2_label)}`: sql``} 
+      ${trendQuery.inv.l3_label ? sql`, ${sql(trendQuery.inv.l3_label)}`: sql``} 
+      ${trendQuery.inv.l4_label ? sql`, ${sql(trendQuery.inv.l4_label)}`: sql``} 
+      ${trendQuery.inv.l5_label ? sql`, ${sql(trendQuery.inv.l5_label)}`: sql``} 
+      ${trendQuery.inv.l6_label ? sql`, ${sql(trendQuery.inv.l6_label)}`: sql``} 
+      ${trendQuery.inv.l7_label ? sql`, ${sql(trendQuery.inv.l7_label)}`: sql``} 
       ` //prettier-ignore
 
     return response
@@ -61,13 +61,13 @@ const lvl_1_subtotal_getFgInTransit = async (config, trendQuery) => {
 
     const response = await sql
       `SELECT 
-        'FG IN TRANSIT' AS column,${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)} AS l1_label,`: sql``} 
-        ${trendQuery.l2_label ? sql`${sql(trendQuery.l2_label)} AS l2_label,`: sql``} 
-        ${trendQuery.l3_label ? sql`${sql(trendQuery.l3_label)} AS l3_label,`: sql``} 
-        ${trendQuery.l4_label ? sql`${sql(trendQuery.l4_label)} AS l4_label,`: sql``} 
-        ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
-        ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
-        ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``} 
+        'FG IN TRANSIT' AS column,${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)} AS l1_label,`: sql``} 
+        ${trendQuery.inv.l2_label ? sql`${sql(trendQuery.inv.l2_label)} AS l2_label,`: sql``} 
+        ${trendQuery.inv.l3_label ? sql`${sql(trendQuery.inv.l3_label)} AS l3_label,`: sql``} 
+        ${trendQuery.inv.l4_label ? sql`${sql(trendQuery.inv.l4_label)} AS l4_label,`: sql``} 
+        ${trendQuery.inv.l5_label ? sql`${sql(trendQuery.inv.l5_label)} AS l5_label,`: sql``} 
+        ${trendQuery.inv.l6_label ? sql`${sql(trendQuery.inv.l6_label)} AS l6_label,`: sql``} 
+        ${trendQuery.inv.l7_label ? sql`${sql(trendQuery.inv.l7_label)} AS l7_label,`: sql``} 
         COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, 
         COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
@@ -86,13 +86,13 @@ const lvl_1_subtotal_getFgInTransit = async (config, trendQuery) => {
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
       
       GROUP BY 
-        ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
-        ${trendQuery.l2_label ? sql`, ${sql(trendQuery.l2_label)}`: sql``} 
-        ${trendQuery.l3_label ? sql`, ${sql(trendQuery.l3_label)}`: sql``} 
-        ${trendQuery.l4_label ? sql`, ${sql(trendQuery.l4_label)}`: sql``} 
-        ${trendQuery.l5_label ? sql`, ${sql(trendQuery.l5_label)}`: sql``} 
-        ${trendQuery.l6_label ? sql`, ${sql(trendQuery.l6_label)}`: sql``} 
-        ${trendQuery.l7_label ? sql`, ${sql(trendQuery.l7_label)}`: sql``} 
+        ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)}`: sql``} 
+        ${trendQuery.inv.l2_label ? sql`, ${sql(trendQuery.inv.l2_label)}`: sql``} 
+        ${trendQuery.inv.l3_label ? sql`, ${sql(trendQuery.inv.l3_label)}`: sql``} 
+        ${trendQuery.inv.l4_label ? sql`, ${sql(trendQuery.inv.l4_label)}`: sql``} 
+        ${trendQuery.inv.l5_label ? sql`, ${sql(trendQuery.inv.l5_label)}`: sql``} 
+        ${trendQuery.inv.l6_label ? sql`, ${sql(trendQuery.inv.l6_label)}`: sql``} 
+        ${trendQuery.inv.l7_label ? sql`, ${sql(trendQuery.inv.l7_label)}`: sql``} 
         ` //prettier-ignore
 
     return response
@@ -110,13 +110,13 @@ const lvl_1_subtotal_getFgAtLoc = async (config, trendQuery) => {
 
     const response = await sql
       `SELECT 'FG ON HAND' AS column, 
-      ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)} AS l1_label,`: sql``} 
-      ${trendQuery.l2_label ? sql`${sql(trendQuery.l2_label)} AS l2_label,`: sql``} 
-      ${trendQuery.l3_label ? sql`${sql(trendQuery.l3_label)} AS l3_label,`: sql``} 
-      ${trendQuery.l4_label ? sql`${sql(trendQuery.l4_label)} AS l4_label,`: sql``} 
-      ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
-      ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
-      ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``} 
+      ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)} AS l1_label,`: sql``} 
+      ${trendQuery.inv.l2_label ? sql`${sql(trendQuery.inv.l2_label)} AS l2_label,`: sql``} 
+      ${trendQuery.inv.l3_label ? sql`${sql(trendQuery.inv.l3_label)} AS l3_label,`: sql``} 
+      ${trendQuery.inv.l4_label ? sql`${sql(trendQuery.inv.l4_label)} AS l4_label,`: sql``} 
+      ${trendQuery.inv.l5_label ? sql`${sql(trendQuery.inv.l5_label)} AS l5_label,`: sql``} 
+      ${trendQuery.inv.l6_label ? sql`${sql(trendQuery.inv.l6_label)} AS l6_label,`: sql``} 
+      ${trendQuery.inv.l7_label ? sql`${sql(trendQuery.inv.l7_label)} AS l7_label,`: sql``} 
       COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, 
       COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
@@ -135,13 +135,13 @@ const lvl_1_subtotal_getFgAtLoc = async (config, trendQuery) => {
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
       
       GROUP BY 
-        ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
-        ${trendQuery.l2_label ? sql`, ${sql(trendQuery.l2_label)}`: sql``} 
-        ${trendQuery.l3_label ? sql`, ${sql(trendQuery.l3_label)}`: sql``} 
-        ${trendQuery.l4_label ? sql`, ${sql(trendQuery.l4_label)}`: sql``} 
-        ${trendQuery.l5_label ? sql`, ${sql(trendQuery.l5_label)}`: sql``} 
-        ${trendQuery.l6_label ? sql`, ${sql(trendQuery.l6_label)}`: sql``} 
-        ${trendQuery.l7_label ? sql`, ${sql(trendQuery.l7_label)}`: sql``} 
+        ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)}`: sql``} 
+        ${trendQuery.inv.l2_label ? sql`, ${sql(trendQuery.inv.l2_label)}`: sql``} 
+        ${trendQuery.inv.l3_label ? sql`, ${sql(trendQuery.inv.l3_label)}`: sql``} 
+        ${trendQuery.inv.l4_label ? sql`, ${sql(trendQuery.inv.l4_label)}`: sql``} 
+        ${trendQuery.inv.l5_label ? sql`, ${sql(trendQuery.inv.l5_label)}`: sql``} 
+        ${trendQuery.inv.l6_label ? sql`, ${sql(trendQuery.inv.l6_label)}`: sql``} 
+        ${trendQuery.inv.l7_label ? sql`, ${sql(trendQuery.inv.l7_label)}`: sql``} 
         ` //prettier-ignore
 
     return response
@@ -158,13 +158,13 @@ const lvl_1_subtotal_getFgAtLoc_untagged = async (config, trendQuery) => {
     const response = await sql
 `SELECT 
       'FG ON HAND UNTAGGED' AS column, 
-      ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)} AS l1_label,`: sql``} 
-      ${trendQuery.l2_label ? sql`${sql(trendQuery.l2_label)} AS l2_label,`: sql``} 
-      ${trendQuery.l3_label ? sql`${sql(trendQuery.l3_label)} AS l3_label,`: sql``} 
-      ${trendQuery.l4_label ? sql`${sql(trendQuery.l4_label)} AS l4_label,`: sql``} 
-      ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
-      ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
-      ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``} 
+      ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)} AS l1_label,`: sql``} 
+      ${trendQuery.inv.l2_label ? sql`${sql(trendQuery.inv.l2_label)} AS l2_label,`: sql``} 
+      ${trendQuery.inv.l3_label ? sql`${sql(trendQuery.inv.l3_label)} AS l3_label,`: sql``} 
+      ${trendQuery.inv.l4_label ? sql`${sql(trendQuery.inv.l4_label)} AS l4_label,`: sql``} 
+      ${trendQuery.inv.l5_label ? sql`${sql(trendQuery.inv.l5_label)} AS l5_label,`: sql``} 
+      ${trendQuery.inv.l6_label ? sql`${sql(trendQuery.inv.l6_label)} AS l6_label,`: sql``} 
+      ${trendQuery.inv.l7_label ? sql`${sql(trendQuery.inv.l7_label)} AS l7_label,`: sql``} 
       COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs, 
       COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
  
@@ -198,13 +198,13 @@ WHERE
   ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
 
 GROUP BY 
-  ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
-  ${trendQuery.l2_label ? sql`, ${sql(trendQuery.l2_label)}`: sql``} 
-  ${trendQuery.l3_label ? sql`, ${sql(trendQuery.l3_label)}`: sql``} 
-  ${trendQuery.l4_label ? sql`, ${sql(trendQuery.l4_label)}`: sql``} 
-  ${trendQuery.l5_label ? sql`, ${sql(trendQuery.l5_label)}`: sql``} 
-  ${trendQuery.l6_label ? sql`, ${sql(trendQuery.l6_label)}`: sql``} 
-  ${trendQuery.l7_label ? sql`, ${sql(trendQuery.l7_label)}`: sql``} 
+  ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)}`: sql``} 
+  ${trendQuery.inv.l2_label ? sql`, ${sql(trendQuery.inv.l2_label)}`: sql``} 
+  ${trendQuery.inv.l3_label ? sql`, ${sql(trendQuery.inv.l3_label)}`: sql``} 
+  ${trendQuery.inv.l4_label ? sql`, ${sql(trendQuery.inv.l4_label)}`: sql``} 
+  ${trendQuery.inv.l5_label ? sql`, ${sql(trendQuery.inv.l5_label)}`: sql``} 
+  ${trendQuery.inv.l6_label ? sql`, ${sql(trendQuery.inv.l6_label)}`: sql``} 
+  ${trendQuery.inv.l7_label ? sql`, ${sql(trendQuery.inv.l7_label)}`: sql``} 
   ` //prettier-ignore
 
     return response
@@ -221,13 +221,13 @@ const lvl_1_subtotal_getFgAtLoc_tagged = async (config, trendQuery) => {
     const response = await sql
       `SELECT 
         'FG ON HAND TAGGED' AS column, 
-        ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)} AS l1_label,`: sql``} 
-        ${trendQuery.l2_label ? sql`${sql(trendQuery.l2_label)} AS l2_label,`: sql``} 
-        ${trendQuery.l3_label ? sql`${sql(trendQuery.l3_label)} AS l3_label,`: sql``} 
-        ${trendQuery.l4_label ? sql`${sql(trendQuery.l4_label)} AS l4_label,`: sql``} 
-        ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
-        ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
-        ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``} 
+        ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)} AS l1_label,`: sql``} 
+        ${trendQuery.inv.l2_label ? sql`${sql(trendQuery.inv.l2_label)} AS l2_label,`: sql``} 
+        ${trendQuery.inv.l3_label ? sql`${sql(trendQuery.inv.l3_label)} AS l3_label,`: sql``} 
+        ${trendQuery.inv.l4_label ? sql`${sql(trendQuery.inv.l4_label)} AS l4_label,`: sql``} 
+        ${trendQuery.inv.l5_label ? sql`${sql(trendQuery.inv.l5_label)} AS l5_label,`: sql``} 
+        ${trendQuery.inv.l6_label ? sql`${sql(trendQuery.inv.l6_label)} AS l6_label,`: sql``} 
+        ${trendQuery.inv.l7_label ? sql`${sql(trendQuery.inv.l7_label)} AS l7_label,`: sql``} 
         COALESCE(SUM(tagged_inventory.weight),0) AS lbs, 
         COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
       
@@ -245,13 +245,13 @@ const lvl_1_subtotal_getFgAtLoc_tagged = async (config, trendQuery) => {
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
       
       GROUP BY 
-        ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
-        ${trendQuery.l2_label ? sql`, ${sql(trendQuery.l2_label)}`: sql``} 
-        ${trendQuery.l3_label ? sql`, ${sql(trendQuery.l3_label)}`: sql``} 
-        ${trendQuery.l4_label ? sql`, ${sql(trendQuery.l4_label)}`: sql``} 
-        ${trendQuery.l5_label ? sql`, ${sql(trendQuery.l5_label)}`: sql``} 
-        ${trendQuery.l6_label ? sql`, ${sql(trendQuery.l6_label)}`: sql``} 
-        ${trendQuery.l7_label ? sql`, ${sql(trendQuery.l7_label)}`: sql``} 
+        ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)}`: sql``} 
+        ${trendQuery.inv.l2_label ? sql`, ${sql(trendQuery.inv.l2_label)}`: sql``} 
+        ${trendQuery.inv.l3_label ? sql`, ${sql(trendQuery.inv.l3_label)}`: sql``} 
+        ${trendQuery.inv.l4_label ? sql`, ${sql(trendQuery.inv.l4_label)}`: sql``} 
+        ${trendQuery.inv.l5_label ? sql`, ${sql(trendQuery.inv.l5_label)}`: sql``} 
+        ${trendQuery.inv.l6_label ? sql`, ${sql(trendQuery.inv.l6_label)}`: sql``} 
+        ${trendQuery.inv.l7_label ? sql`, ${sql(trendQuery.inv.l7_label)}`: sql``} 
         ` //prettier-ignore
 
     return response

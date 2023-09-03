@@ -11,13 +11,13 @@ const lvl_1_subtotal_getSalesByWk = async (config, start, end, trendQuery) => {
     const response = await sql
       `SELECT 
         sl.week_serial AS column, 
-        ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)} AS l1_label,`: sql``} 
-        ${trendQuery.l2_label ? sql`${sql(trendQuery.l2_label)} AS l2_label,`: sql``} 
-        ${trendQuery.l3_label ? sql`${sql(trendQuery.l3_label)} AS l3_label,`: sql``} 
-        ${trendQuery.l4_label ? sql`${sql(trendQuery.l4_label)} AS l4_label,`: sql``} 
-        ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
-        ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
-        ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``}
+        ${trendQuery.sl.l1_label ? sql`${sql(trendQuery.sl.l1_label)} AS l1_label,`: sql``} 
+        ${trendQuery.sl.l2_label ? sql`${sql(trendQuery.sl.l2_label)} AS l2_label,`: sql``} 
+        ${trendQuery.sl.l3_label ? sql`${sql(trendQuery.sl.l3_label)} AS l3_label,`: sql``} 
+        ${trendQuery.sl.l4_label ? sql`${sql(trendQuery.sl.l4_label)} AS l4_label,`: sql``} 
+        ${trendQuery.sl.l5_label ? sql`${sql(trendQuery.sl.l5_label)} AS l5_label,`: sql``} 
+        ${trendQuery.sl.l6_label ? sql`${sql(trendQuery.sl.l6_label)} AS l6_label,`: sql``} 
+        ${trendQuery.sl.l7_label ? sql`${sql(trendQuery.sl.l7_label)} AS l7_label,`: sql``}
         COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, 
         COALESCE(SUM(sl.gross_sales_ext),0) AS sales, 
         COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, 
@@ -41,13 +41,13 @@ const lvl_1_subtotal_getSalesByWk = async (config, start, end, trendQuery) => {
       
       GROUP BY 
         sl.week_serial, 
-        ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
-        ${trendQuery.l2_label ? sql`, ${sql(trendQuery.l2_label)}`: sql``} 
-        ${trendQuery.l3_label ? sql`, ${sql(trendQuery.l3_label)}`: sql``} 
-        ${trendQuery.l4_label ? sql`, ${sql(trendQuery.l4_label)}`: sql``} 
-        ${trendQuery.l5_label ? sql`, ${sql(trendQuery.l5_label)}`: sql``} 
-        ${trendQuery.l6_label ? sql`, ${sql(trendQuery.l6_label)}`: sql``} 
-        ${trendQuery.l7_label ? sql`, ${sql(trendQuery.l7_label)}`: sql``} 
+        ${trendQuery.sl.l1_label ? sql`${sql(trendQuery.sl.l1_label)}`: sql``} 
+        ${trendQuery.sl.l2_label ? sql`, ${sql(trendQuery.sl.l2_label)}`: sql``} 
+        ${trendQuery.sl.l3_label ? sql`, ${sql(trendQuery.sl.l3_label)}`: sql``} 
+        ${trendQuery.sl.l4_label ? sql`, ${sql(trendQuery.sl.l4_label)}`: sql``} 
+        ${trendQuery.sl.l5_label ? sql`, ${sql(trendQuery.sl.l5_label)}`: sql``} 
+        ${trendQuery.sl.l6_label ? sql`, ${sql(trendQuery.sl.l6_label)}`: sql``} 
+        ${trendQuery.sl.l7_label ? sql`, ${sql(trendQuery.sl.l7_label)}`: sql``} 
       
       ORDER BY sl.week_serial` //prettier-ignore
 
@@ -67,13 +67,13 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (config, start, end, trendQuer
     const response = await sql
       `SELECT 
         'SALES TOTAL' AS column, 
-        ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)} AS l1_label,`: sql``} 
-        ${trendQuery.l2_label ? sql`${sql(trendQuery.l2_label)} AS l2_label,`: sql``} 
-        ${trendQuery.l3_label ? sql`${sql(trendQuery.l3_label)} AS l3_label,`: sql``} 
-        ${trendQuery.l4_label ? sql`${sql(trendQuery.l4_label)} AS l4_label,`: sql``} 
-        ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
-        ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
-        ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``}
+        ${trendQuery.sl.l1_label ? sql`${sql(trendQuery.sl.l1_label)} AS l1_label,`: sql``} 
+        ${trendQuery.sl.l2_label ? sql`${sql(trendQuery.sl.l2_label)} AS l2_label,`: sql``} 
+        ${trendQuery.sl.l3_label ? sql`${sql(trendQuery.sl.l3_label)} AS l3_label,`: sql``} 
+        ${trendQuery.sl.l4_label ? sql`${sql(trendQuery.sl.l4_label)} AS l4_label,`: sql``} 
+        ${trendQuery.sl.l5_label ? sql`${sql(trendQuery.sl.l5_label)} AS l5_label,`: sql``} 
+        ${trendQuery.sl.l6_label ? sql`${sql(trendQuery.sl.l6_label)} AS l6_label,`: sql``} 
+        ${trendQuery.sl.l7_label ? sql`${sql(trendQuery.sl.l7_label)} AS l7_label,`: sql``}
         COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, 
         COALESCE(SUM(sl.gross_sales_ext),0) AS sales, 
         COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, 
@@ -96,13 +96,13 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (config, start, end, trendQuer
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
       
       GROUP BY 
-        ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
-        ${trendQuery.l2_label ? sql`, ${sql(trendQuery.l2_label)}`: sql``} 
-        ${trendQuery.l3_label ? sql`, ${sql(trendQuery.l3_label)}`: sql``} 
-        ${trendQuery.l4_label ? sql`, ${sql(trendQuery.l4_label)}`: sql``} 
-        ${trendQuery.l5_label ? sql`, ${sql(trendQuery.l5_label)}`: sql``} 
-        ${trendQuery.l6_label ? sql`, ${sql(trendQuery.l6_label)}`: sql``} 
-        ${trendQuery.l7_label ? sql`, ${sql(trendQuery.l7_label)}`: sql``}
+        ${trendQuery.sl.l1_label ? sql`${sql(trendQuery.sl.l1_label)}`: sql``} 
+        ${trendQuery.sl.l2_label ? sql`, ${sql(trendQuery.sl.l2_label)}`: sql``} 
+        ${trendQuery.sl.l3_label ? sql`, ${sql(trendQuery.sl.l3_label)}`: sql``} 
+        ${trendQuery.sl.l4_label ? sql`, ${sql(trendQuery.sl.l4_label)}`: sql``} 
+        ${trendQuery.sl.l5_label ? sql`, ${sql(trendQuery.sl.l5_label)}`: sql``} 
+        ${trendQuery.sl.l6_label ? sql`, ${sql(trendQuery.sl.l6_label)}`: sql``} 
+        ${trendQuery.sl.l7_label ? sql`, ${sql(trendQuery.sl.l7_label)}`: sql``}
       ` //prettier-ignore
 
     return response

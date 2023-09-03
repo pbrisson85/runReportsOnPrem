@@ -9,17 +9,19 @@ const lvl_1_subtotal_getFgPo = async (config, trendQuery) => {
     const response = await sql
         `SELECT 
           'FG ON ORDER' AS column, 
-          ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)} AS l1_label,`: sql``} 
-          ${trendQuery.l2_label ? sql`${sql(trendQuery.l2_label)} AS l2_label,`: sql``} 
-          ${trendQuery.l3_label ? sql`${sql(trendQuery.l3_label)} AS l3_label,`: sql``} 
-          ${trendQuery.l4_label ? sql`${sql(trendQuery.l4_label)} AS l4_label,`: sql``} 
-          ${trendQuery.l5_label ? sql`${sql(trendQuery.l5_label)} AS l5_label,`: sql``} 
-          ${trendQuery.l6_label ? sql`${sql(trendQuery.l6_label)} AS l6_label,`: sql``} 
-          ${trendQuery.l7_label ? sql`${sql(trendQuery.l7_label)} AS l7_label,`: sql``} 
+          ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)} AS l1_label,`: sql``} 
+          ${trendQuery.inv.l2_label ? sql`${sql(trendQuery.inv.l2_label)} AS l2_label,`: sql``} 
+          ${trendQuery.inv.l3_label ? sql`${sql(trendQuery.inv.l3_label)} AS l3_label,`: sql``} 
+          ${trendQuery.inv.l4_label ? sql`${sql(trendQuery.inv.l4_label)} AS l4_label,`: sql``} 
+          ${trendQuery.inv.l5_label ? sql`${sql(trendQuery.inv.l5_label)} AS l5_label,`: sql``} 
+          ${trendQuery.inv.l6_label ? sql`${sql(trendQuery.inv.l6_label)} AS l6_label,`: sql``} 
+          ${trendQuery.inv.l7_label ? sql`${sql(trendQuery.inv.l7_label)} AS l7_label,`: sql``} 
           COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs, 
           COALESCE(SUM(perpetual_inventory.on_order_extended),0) AS cogs 
          
-        FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
+        FROM "invenReporting".perpetual_inventory 
+          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = perpetual_inventory.item_number 
          
         WHERE 
           ms.item_type = ${'FG'} 
@@ -33,13 +35,13 @@ const lvl_1_subtotal_getFgPo = async (config, trendQuery) => {
           ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
          
         GROUP BY 
-          ${trendQuery.l1_label ? sql`${sql(trendQuery.l1_label)}`: sql``} 
-          ${trendQuery.l2_label ? sql`, ${sql(trendQuery.l2_label)}`: sql``} 
-          ${trendQuery.l3_label ? sql`, ${sql(trendQuery.l3_label)}`: sql``} 
-          ${trendQuery.l4_label ? sql`, ${sql(trendQuery.l4_label)}`: sql``} 
-          ${trendQuery.l5_label ? sql`, ${sql(trendQuery.l5_label)}`: sql``} 
-          ${trendQuery.l6_label ? sql`, ${sql(trendQuery.l6_label)}`: sql``} 
-          ${trendQuery.l7_label ? sql`, ${sql(trendQuery.l7_label)}`: sql``} 
+          ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)}`: sql``} 
+          ${trendQuery.inv.l2_label ? sql`, ${sql(trendQuery.inv.l2_label)}`: sql``} 
+          ${trendQuery.inv.l3_label ? sql`, ${sql(trendQuery.inv.l3_label)}`: sql``} 
+          ${trendQuery.inv.l4_label ? sql`, ${sql(trendQuery.inv.l4_label)}`: sql``} 
+          ${trendQuery.inv.l5_label ? sql`, ${sql(trendQuery.inv.l5_label)}`: sql``} 
+          ${trendQuery.inv.l6_label ? sql`, ${sql(trendQuery.inv.l6_label)}`: sql``} 
+          ${trendQuery.inv.l7_label ? sql`, ${sql(trendQuery.inv.l7_label)}`: sql``} 
           ` //prettier-ignore
 
     return response
@@ -56,9 +58,15 @@ const lvl_0_total_getFgPo = async config => {
     console.log(`${config.user} - level 0: query postgres for FG open PO ...`)
 
     const response = await sql
-         `SELECT 'FG ON ORDER' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.on_order_extended),0) AS cogs 
+         `SELECT 
+          'FG ON ORDER' AS column, 
+          'FG SALES' AS l1_label, 
+          COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs, 
+          COALESCE(SUM(perpetual_inventory.on_order_extended),0) AS cogs 
          
-         FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
+         FROM "invenReporting".perpetual_inventory 
+          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = perpetual_inventory.item_number 
          
          WHERE 
           ms.item_type = ${'FG'} 
