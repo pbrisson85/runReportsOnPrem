@@ -8,6 +8,7 @@ const labelCols_byItem = require('../queries/hardcode/cols_byItem')
 const labelCols_byCustomer = require('../queries/hardcode/cols_byCustomer')
 const labelCols_bySalesperson = require('../queries/hardcode/cols_bySalesperson')
 const getReportConfig = require('../utils/getReportConfig')
+const getViewTrendConfig = require('../utils/getViewTrendConfig')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
 // @desc
@@ -32,8 +33,10 @@ router.post('/', async (req, res) => {
 
   console.log('rightMenuSelection: ', rightMenuSelection)
 
+  const trendQuery = getViewTrendConfig(rightMenuSelection)
+
   if (rightMenuSelection === 'Trend By Item') {
-    response = await viewItemTrend(labelCols_byItem, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek)
+    response = await viewItemTrend(labelCols_byItem, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek, trendQuery)
   } else if (rightMenuSelection === 'Trend By Customer') {
     response = await viewCustTrend(labelCols_byCustomer, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek)
   } else if (rightMenuSelection === 'Trend By Salesperson') {

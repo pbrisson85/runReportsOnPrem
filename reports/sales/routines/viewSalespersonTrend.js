@@ -9,7 +9,6 @@ const {
 } = require('../queries/postgres/viewSalespersonTrend/getSalesTrend')
 const { getCompanyTotalSales } = require('../queries/postgres/kpi/getCompanyTotalSales')
 const { lvl_0_total_getSalesPeriodToDate: lvl_0_program_getSalesPeriodToDate } = require('../queries/postgres/baseReport/getSalesTrend')
-const { lvl_1_subtotal_getSalesByFy, lvl_0_total_getSalesByFy } = require('../queries/postgres/viewSalespersonTrend/getSalesTrendByFy')
 const { lvl_1_subtotal_getSalesByFyYtd, lvl_0_total_getSalesByFyYtd } = require('../queries/postgres/viewSalespersonTrend/getSalesTrendByFyYtd')
 const { lvl_1_subtotal_getSo, lvl_0_total_getSo } = require('../queries/postgres/viewSalespersonTrend/getSo')
 const { lvl_1_subtotal_getSo_byWk, lvl_0_total_getSo_byWk } = require('../queries/postgres/viewSalespersonTrend/getSoByWeek')
@@ -29,12 +28,15 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk(config)
 
   // ///////////////////////////////// SALES DATA
-  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFy(config, start, end)
-  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFy(config, start, end)
-  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek)
-  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek)
+  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFyYtd(config, start, end, false)
+  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFyYtd(config, start, end, false)
+
+  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, true)
+  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, true)
+
   const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(config, start, end)
   const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(config, start, end)
+
   const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(config, start, end)
   const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(config, start, end)
 
