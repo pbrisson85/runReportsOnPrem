@@ -132,7 +132,7 @@ LEFT OUTER JOIN (
           ti.version = (SELECT MAX(subti.version) - 1 FROM "salesReporting".tagged_inventory 
         AS subti) 
         GROUP BY ti.lot, ti.location, ti.item_num) AS tagged_t 
-  ON tagged_t.ms.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code 
+  ON tagged_t.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code 
   
 WHERE 
   ms.byproduct_type IS NULL 
@@ -160,7 +160,7 @@ const lvl_1_subtotal_getFgAtLoc_tagged = async config => {
     const response = await sql
       `SELECT 'FG ON HAND TAGGED' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
       
-      FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.ms.item_num 
+      FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.item_num 
       
       WHERE 
         ms.byproduct_type IS NULL 
@@ -305,7 +305,7 @@ const lvl_0_total_getFgAtLoc_untagged = async config => {
         AS subti) 
         GROUP BY ti.lot, ti.location, ti.item_num) 
       AS tagged_t 
-    ON tagged_t.ms.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code 
+    ON tagged_t.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code 
  
  WHERE 
   ms.byproduct_type IS NULL 
@@ -332,7 +332,7 @@ const lvl_0_total_getFgAtLoc_tagged = async config => {
     const response = await sql
       `SELECT 'FG ON HAND TAGGED' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
       
-      FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.ms.item_num 
+      FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.item_num 
       
       WHERE 
         ms.byproduct_type IS NULL 
