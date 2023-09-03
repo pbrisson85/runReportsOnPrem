@@ -11,7 +11,7 @@ const selectBuilder = trendQuery =>
     console.log('acc', acc)
 
     return acc + `${sql`${curr}`} AS l${idx + 1}_label, `
-  }, `${sql`${trendQuery.fields[0]}`} AS l${idx + 1}_label, `)
+  }, `${sql`${trendQuery.fields[0]}`} AS l1_label, `)
 
 const lvl_1_subtotal_getFgInven = async (config, trendQuery) => {
   try {
