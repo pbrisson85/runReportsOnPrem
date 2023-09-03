@@ -18,7 +18,7 @@ const lvl_1_subtotal_getFgInven = async config => {
     }
 
     const response = await sql  
-      `SELECT 'FG INVEN' AS column, ${select.l1_label ? sql`${sql(select.l1_label)} AS l1_label`: sql``}, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
+      `SELECT 'FG INVEN' AS column, ${select.l1_label ? sql`${sql(select.l1_label)} AS l1_label`: sql``}, ${select.l2_label ? sql`${sql(select.l2_label)} AS l2_label`: sql``}, ${select.l3_label ? sql`${sql(select.l3_label)} AS l3_label`: sql``}, ${select.l4_label ? sql`${sql(select.l4_label)} AS l4_label`: sql``}, ${select.l5_label ? sql`${sql(select.l5_label)} AS l5_label`: sql``}, ${select.l6_label ? sql`${sql(select.l6_label)} AS l6_label`: sql``}, ${select.l7_label ? sql`${sql(select.l7_label)} AS l7_label`: sql``}, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
