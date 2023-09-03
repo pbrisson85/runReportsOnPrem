@@ -9,8 +9,9 @@ const selectBuilder = trendQuery => {
 
   trendQuery.fields.forEach((field, index) => {
     select += `${sql`${field}`} AS l${index + 1}_label, `
-    return select
   })
+
+  return select
 }
 
 const lvl_1_subtotal_getFgInven = async (config, trendQuery) => {
