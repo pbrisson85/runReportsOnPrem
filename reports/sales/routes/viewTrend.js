@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
   if (rightMenuSelection === 'Trend By Item') {
     response = await viewItemTrend(labelCols_byItem, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek, trendQuery)
   } else if (rightMenuSelection === 'Trend By Customer') {
-    response = await viewCustTrend(labelCols_byCustomer, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek)
+    response = await viewItemTrend(labelCols_byCustomer, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek, trendQuery)
   } else if (rightMenuSelection === 'Trend By Salesperson') {
     response = await viewSalesPersonTrend(labelCols_bySalesperson, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek)
   }
