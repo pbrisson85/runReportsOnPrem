@@ -26,7 +26,7 @@ const lvl_1_subtotal_getFgInven = async (config, trendQuery) => {
     // const select = `${sql`ms.item_num`} AS l1_label, ${sql`ms.description`} AS l2_label, ${sql`ms.fg_fresh_frozen`} AS l3_label, ${sql`ms.fg_treatment`} AS l4_label, ${sql`ms.brand`} AS l5_label, ${sql`ms.size_name`} AS l6_label`
 
     const response = await sql  
-      `SELECT 'FG INVEN' AS column, ${trendQuery.select}, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
+      `SELECT 'FG INVEN' AS column, ${sql(trendQuery.select)}, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -59,7 +59,7 @@ const lvl_1_subtotal_getFgInTransit = async (config, trendQuery) => {
     console.log(`${config.user} - level 1: query postgres for FG in transit ...`)
 
     const response = await sql
-      `SELECT 'FG IN TRANSIT' AS column, ${trendQuery.select}, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
+      `SELECT 'FG IN TRANSIT' AS column, ${sql(trendQuery.select)}, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
@@ -91,7 +91,7 @@ const lvl_1_subtotal_getFgAtLoc = async (config, trendQuery) => {
     console.log(`${config.user} - level 1: query postgres for FG at location ...`)
 
     const response = await sql
-      `SELECT 'FG ON HAND' AS column, ${trendQuery.select}, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
+      `SELECT 'FG ON HAND' AS column, ${sql(trendQuery.select)}, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
@@ -121,7 +121,7 @@ const lvl_1_subtotal_getFgAtLoc_untagged = async (config, trendQuery) => {
     console.log(`${config.user} - level 1: query postgres for FG at location UNTAGGED ...`)
 
     const response = await sql
- `SELECT 'FG ON HAND UNTAGGED' AS column, ${trendQuery.select}, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
+ `SELECT 'FG ON HAND UNTAGGED' AS column, ${sql(trendQuery.select)}, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
  
  FROM (
         SELECT pi.cost_extended, pi.item_number, pi.lot, pi.on_hand_lbs, pi.location_code 
@@ -166,7 +166,7 @@ const lvl_1_subtotal_getFgAtLoc_tagged = async (config, trendQuery) => {
     console.log(`${config.user} - level 1: query postgres for FG at location TAGGED...`)
 
     const response = await sql
-      `SELECT 'FG ON HAND TAGGED' AS column, ${trendQuery.select}, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
+      `SELECT 'FG ON HAND TAGGED' AS column, ${sql(trendQuery.select)}, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
       
       FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.item_num 
       
