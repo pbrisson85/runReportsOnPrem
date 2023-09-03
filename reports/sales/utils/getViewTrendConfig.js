@@ -1,5 +1,5 @@
 // Going to put all select fields and group by fields in here to combine all the trend report queries into one set
-const sql = require('../../../../server')
+const sql = require('../../../server')
 
 const getViewTrendConfig = rightMenuSelection => {
   let trendQuery = null
