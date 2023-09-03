@@ -6,7 +6,9 @@ const sql = require('../../../../../server')
 
 const selectBuilder = trendQuery =>
   trendQuery.fields.reduce((acc, curr, idx) => {
-    if (idx === 0) console.log('acc', acc)
+    console.log('idx', idx)
+    console.log('curr', curr)
+    console.log('acc', acc)
 
     return acc + `${sql`${curr}`} AS l${idx + 1}_label, `
   })
@@ -16,7 +18,7 @@ const lvl_1_subtotal_getFgInven = async (config, trendQuery) => {
     console.log(`${config.user} - level 1: query postgres for FG on hand ...`)
 
     const select = selectBuilder(trendQuery)
-    console.log('select', select)
+    console.log('select completed" ', select)
 
     // level 1 detail
     // const select = `${sql`ms.item_num`} AS l1_label, ${sql`ms.description`} AS l2_label, ${sql`ms.fg_fresh_frozen`} AS l3_label, ${sql`ms.fg_treatment`} AS l4_label, ${sql`ms.brand`} AS l5_label, ${sql`ms.size_name`} AS l6_label`
