@@ -55,22 +55,22 @@ const calcAveWeeklySales = require('../models/calcAveWeeklySales')
 const calcWeeksInvOnHand = require('../models/calcWeeksInvOnHand')
 const calcInventoryAvailable = require('../models/calcInventoryAvailable')
 
-const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startWeek, endWeek, trendQuery) => {
+const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startWeek, endWeek) => {
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
-  const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(config, trendQuery)
+  const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(config)
   const lvl_0_total_fgInven = await lvl_0_total_getFgInven(config)
   /* FG IN TRANSIT*/
-  const lvl_1_subtotal_fgInTransit = await lvl_1_subtotal_getFgInTransit(config, trendQuery)
+  const lvl_1_subtotal_fgInTransit = await lvl_1_subtotal_getFgInTransit(config)
   const lvl_0_total_fgInTransit = await lvl_0_total_getFgInTransit(config)
   /* FG ON HAND (LESS IN TRANSIT) */
-  const lvl_1_subtotal_fgAtLoc = await lvl_1_subtotal_getFgAtLoc(config, trendQuery)
+  const lvl_1_subtotal_fgAtLoc = await lvl_1_subtotal_getFgAtLoc(config)
   const lvl_0_total_fgAtLoc = await lvl_0_total_getFgAtLoc(config)
   /* FG ON HAND UNTAGGED */
-  const lvl_1_subtotal_fgAtLoc_untagged = await lvl_1_subtotal_getFgAtLoc_untagged(config, trendQuery)
+  const lvl_1_subtotal_fgAtLoc_untagged = await lvl_1_subtotal_getFgAtLoc_untagged(config)
   const lvl_0_total_fgAtLoc_untagged = await lvl_0_total_getFgAtLoc_untagged(config)
   /* FG ON HAND TAGGED */
-  const lvl_1_subtotal_fgAtLoc_tagged = await lvl_1_subtotal_getFgAtLoc_tagged(config, trendQuery)
+  const lvl_1_subtotal_fgAtLoc_tagged = await lvl_1_subtotal_getFgAtLoc_tagged(config)
   const lvl_0_total_fgAtLoc_tagged = await lvl_0_total_getFgAtLoc_tagged(config)
 
   /* FG ON ORDER */

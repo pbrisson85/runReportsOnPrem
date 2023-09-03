@@ -4,28 +4,21 @@ const sql = require('../../../../../server')
 
 // FG on hand (includes in transit)
 
-const selectBuilder = trendQuery => {
-  let select = ''
-
-  trendQuery.fields.forEach((field, index) => {
-    select += sql`${sql`${field}`} AS l${index + 1}_label, `
-  })
-
-  return select
-}
-
-const lvl_1_subtotal_getFgInven = async (config, trendQuery) => {
+const lvl_1_subtotal_getFgInven = async config => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG on hand ...`)
 
-    // const select = selectBuilder(trendQuery)
-    // console.log('select completed ', select)
-
-    // level 1 detail
-    // const select = `${sql`ms.item_num`} AS l1_label, ${sql`ms.description`} AS l2_label, ${sql`ms.fg_fresh_frozen`} AS l3_label, ${sql`ms.fg_treatment`} AS l4_label, ${sql`ms.brand`} AS l5_label, ${sql`ms.size_name`} AS l6_label`
+    const select = {
+      l1_label: 'item_num',
+      l2_label: 'description',
+      l3_label: 'fg_fresh_frozen',
+      l4_label: 'fg_treatment',
+      l5_label: 'brand',
+      l6_label: 'size_name',
+    }
 
     const response = await sql  
-      `SELECT 'FG INVEN' AS column, ${sql(trendQuery.select)}, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
+      `SELECT 'FG INVEN' AS column, ${select.l1_label ? sql`${sql(select.l1_label)} AS l1_label`: sql``}, description AS l2_label, fg_fresh_frozen AS l3_label, fg_treatment AS l4_label, brand AS l5_label, size_name AS l6_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -42,7 +35,7 @@ const lvl_1_subtotal_getFgInven = async (config, trendQuery) => {
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
       
-      GROUP BY ${sql(trendQuery.fields)}` //prettier-ignore
+      GROUP BY item_num, description, fg_fresh_frozen, fg_treatment, brand, size_name` //prettier-ignore
 
     return response
   } catch (error) {
@@ -53,12 +46,12 @@ const lvl_1_subtotal_getFgInven = async (config, trendQuery) => {
 
 // FG in transit
 
-const lvl_1_subtotal_getFgInTransit = async (config, trendQuery) => {
+const lvl_1_subtotal_getFgInTransit = async config => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG in transit ...`)
 
     const response = await sql
-      `SELECT 'FG IN TRANSIT' AS column, ${trendQuery.select}, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
+      `SELECT 'FG IN TRANSIT' AS column, item_num AS l1_label, description AS l2_label, fg_fresh_frozen AS l3_label, fg_treatment AS l4_label, brand AS l5_label, size_name AS l6_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
@@ -74,7 +67,7 @@ const lvl_1_subtotal_getFgInTransit = async (config, trendQuery) => {
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
       
-      GROUP BY ${trendQuery.fields}` //prettier-ignore
+      GROUP BY item_num, description, fg_fresh_frozen, fg_treatment, brand, size_name` //prettier-ignore
 
     return response
   } catch (error) {
@@ -85,12 +78,12 @@ const lvl_1_subtotal_getFgInTransit = async (config, trendQuery) => {
 
 // FG at location
 
-const lvl_1_subtotal_getFgAtLoc = async (config, trendQuery) => {
+const lvl_1_subtotal_getFgAtLoc = async config => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG at location ...`)
 
     const response = await sql
-      `SELECT 'FG ON HAND' AS column, ${trendQuery.select}, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
+      `SELECT 'FG ON HAND' AS column, item_num AS l1_label, description AS l2_label, fg_fresh_frozen AS l3_label, fg_treatment AS l4_label, brand AS l5_label, size_name AS l6_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
@@ -106,7 +99,7 @@ const lvl_1_subtotal_getFgAtLoc = async (config, trendQuery) => {
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
       
-      GROUP BY ${trendQuery.fields}` //prettier-ignore
+      GROUP BY item_num, description, fg_fresh_frozen, fg_treatment, brand, size_name` //prettier-ignore
 
     return response
   } catch (error) {
@@ -115,12 +108,12 @@ const lvl_1_subtotal_getFgAtLoc = async (config, trendQuery) => {
   }
 }
 
-const lvl_1_subtotal_getFgAtLoc_untagged = async (config, trendQuery) => {
+const lvl_1_subtotal_getFgAtLoc_untagged = async config => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG at location UNTAGGED ...`)
 
     const response = await sql
- `SELECT 'FG ON HAND UNTAGGED' AS column, ${trendQuery.select}, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
+ `SELECT 'FG ON HAND UNTAGGED' AS column, item_num AS l1_label, description AS l2_label, fg_fresh_frozen AS l3_label, fg_treatment AS l4_label, brand AS l5_label, size_name AS l6_label, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
  
  FROM (
         SELECT pi.cost_extended, pi.item_number, pi.lot, pi.on_hand_lbs, pi.location_code 
@@ -151,7 +144,7 @@ WHERE
   ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
   ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
 
-GROUP BY ${trendQuery.fields}` //prettier-ignore
+GROUP BY item_num, description, fg_fresh_frozen, fg_treatment, brand, size_name` //prettier-ignore
 
     return response
   } catch (error) {
@@ -160,12 +153,12 @@ GROUP BY ${trendQuery.fields}` //prettier-ignore
   }
 }
 
-const lvl_1_subtotal_getFgAtLoc_tagged = async (config, trendQuery) => {
+const lvl_1_subtotal_getFgAtLoc_tagged = async config => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG at location TAGGED...`)
 
     const response = await sql
-      `SELECT 'FG ON HAND TAGGED' AS column, ${trendQuery.select}, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
+      `SELECT 'FG ON HAND TAGGED' AS column, item_num AS l1_label, description AS l2_label, fg_fresh_frozen AS l3_label, fg_treatment AS l4_label, brand AS l5_label, size_name AS l6_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
       
       FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.item_num 
       
@@ -180,7 +173,7 @@ const lvl_1_subtotal_getFgAtLoc_tagged = async (config, trendQuery) => {
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
       
-      GROUP BY ${trendQuery.fields}` //prettier-ignore
+      GROUP BY item_num, description, fg_fresh_frozen, fg_treatment, brand, size_name` //prettier-ignore
 
     return response
   } catch (error) {
