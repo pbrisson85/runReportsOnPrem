@@ -6,7 +6,9 @@ const sql = require('../../../../../server')
 
 const selectBuilder = trendQuery =>
   trendQuery.fields.reduce((acc, curr, idx) => {
-    return acc + `${sql(curr)} AS l${idx + 1}_label, `
+    if (idx === 0) console.log('acc', acc)
+
+    return acc + `${sql`${curr}`} AS l${idx + 1}_label, `
   })
 
 const lvl_1_subtotal_getFgInven = async (config, trendQuery) => {
