@@ -6,16 +6,13 @@ const getViewTrendConfig = rightMenuSelection => {
 
   switch (rightMenuSelection) {
     case 'Trend By Item':
-      trendQuery = {
-        fields: ['item_num', 'description', 'fg_fresh_frozen', 'fg_treatment', 'brand', 'size_name'],
-        select: [
-          'item_num l1_label',
-          'description l2_label',
-          'fg_fresh_frozen l3_label',
-          'fg_treatment l4_label',
-          'brand l5_label',
-          'size_name l6_label',
-        ],
+      const select = {
+        l1_label: 'ms.item_num',
+        l2_label: 'ms.description',
+        l3_label: 'ms.fg_fresh_frozen',
+        l4_label: 'ms.fg_treatment',
+        l5_label: 'ms.brand',
+        l6_label: 'ms.size_name',
       }
 
       break
