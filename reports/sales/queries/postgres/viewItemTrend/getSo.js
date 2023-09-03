@@ -28,14 +28,16 @@ const lvl_1_subtotal_getSo = async (config, trendQuery) => {
          WHERE 
           ms.item_type = ${'FG'} 
           AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-          ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+          ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+          ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
+          ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
+          ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``}  
           ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           AND ms.byproduct_type IS NULL  
           ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
           ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
           ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
           ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-          ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
          
          GROUP BY 
           ${trendQuery.so.l1_label ? sql`${sql(trendQuery.so.l1_label)}`: sql``} 
@@ -80,14 +82,16 @@ const lvl_1_subtotal_getSoTagged = async (config, trendQuery) => {
            WHERE 
             ms.item_type = ${'FG'} 
             AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+            ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
+            ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
+            ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``}  
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
             AND ms.byproduct_type IS NULL AND so.tagged_weight > 0  
             ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
             ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
             ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
             ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-            ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
            
            GROUP BY 
             ${trendQuery.so.l1_label ? sql`${sql(trendQuery.so.l1_label)}`: sql``} 
@@ -132,7 +136,10 @@ const lvl_1_subtotal_getSoUntagged = async (config, trendQuery) => {
       WHERE 
         ms.item_type = ${'FG'} 
         AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
+        ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
+        ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
         AND so.untagged_weight > 0  
@@ -140,7 +147,6 @@ const lvl_1_subtotal_getSoUntagged = async (config, trendQuery) => {
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-        ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
       
       GROUP BY 
         ${trendQuery.so.l1_label ? sql`${sql(trendQuery.so.l1_label)}`: sql``} 
@@ -181,14 +187,17 @@ const lvl_0_total_getSo = async config => {
            WHERE 
             ms.item_type = ${'FG'} 
             AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+            ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
+            ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
+            ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``}  
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
             AND ms.byproduct_type IS NULL  
             ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
             ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
             ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
             ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-            ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``}` //prettier-ignore
+            ` //prettier-ignore
 
     return response
   } catch (error) {
@@ -217,7 +226,10 @@ const lvl_0_total_getSoTagged = async config => {
       WHERE 
         ms.item_type = ${'FG'} 
         AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
+        ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
+        ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
         AND so.tagged_weight > 0  
@@ -225,7 +237,7 @@ const lvl_0_total_getSoTagged = async config => {
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-        ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``}` //prettier-ignore
+        ` //prettier-ignore
 
     return response
   } catch (error) {
@@ -254,7 +266,10 @@ const lvl_0_total_getSoUntagged = async config => {
       WHERE 
         ms.item_type = ${'FG'} 
         AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
+        ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
+        ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
         AND so.untagged_weight > 0  
@@ -262,7 +277,7 @@ const lvl_0_total_getSoUntagged = async config => {
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-        ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``}` //prettier-ignore
+        ` //prettier-ignore
 
     return response
   } catch (error) {

@@ -19,6 +19,7 @@ const getReportConfig = reqBody => {
     l4_filter: reqBody.l4_filter ?? null,
     customer: reqBody.customer ?? null,
     item: reqBody.item ?? null,
+    salesPerson: reqBody.salesPerson ?? null,
     queryLevel: reqBody.queryLevel ?? null,
     jbBuyerFilter,
     user: reqBody.user ?? null,

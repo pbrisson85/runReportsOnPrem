@@ -30,13 +30,15 @@ const lvl_1_subtotal_getSalesByFyYtd = async (config, start, end, showYtd, trend
       WHERE 
         ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
+        ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
+        ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-        ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
         ${showYtd ? sql`AND sl.week >= ${start} AND sl.week <= ${end}` : sql``} 
       
       GROUP BY 
@@ -82,13 +84,15 @@ const lvl_0_total_getSalesByFyYtd = async (config, start, end, showYtd) => {
       WHERE 
         ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
+        ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``}   
+        ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-        ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
         ${showYtd ? sql`AND sl.week >= ${start} AND sl.week <= ${end}` : sql``} 
       
       GROUP BY sl.fiscal_year 

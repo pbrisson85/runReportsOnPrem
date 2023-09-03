@@ -29,22 +29,21 @@ router.post('/', async (req, res) => {
   const startOfWeek = await getStartOfWeek(periodStart)
   periodStart = startOfWeek[0].formatted_date_start
 
-  let response = null
-
   console.log('rightMenuSelection: ', rightMenuSelection)
 
+  let response = null
+  let cols = null
   const trendQuery = getViewTrendConfig(rightMenuSelection)
 
   if (rightMenuSelection === 'Trend By Item') {
-    response = await viewItemTrend(labelCols_byItem, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek, trendQuery)
+    cols = labelCols_byItem
   } else if (rightMenuSelection === 'Trend By Customer') {
-    response = await viewItemTrend(labelCols_byCustomer, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek, trendQuery)
+    cols = labelCols_byCustomer
   } else if (rightMenuSelection === 'Trend By Salesperson') {
-    response = await viewItemTrend(labelCols_bySalesperson, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek, trendQuery)
+    cols = labelCols_bySalesperson
   }
-
+  response = await viewItemTrend(cols, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek, trendQuery)
   console.log(`${config.user} - get drilldown data for ${reportFormat} route COMPLETE. \n`)
-
   res.send(response)
 })
 

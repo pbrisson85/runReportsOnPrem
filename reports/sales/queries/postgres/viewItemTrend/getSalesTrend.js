@@ -31,13 +31,15 @@ const lvl_1_subtotal_getSalesByWk = async (config, start, end, trendQuery) => {
         sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
         AND ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
+        ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
+        ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-        ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
       
       GROUP BY 
         sl.week_serial, 
@@ -87,13 +89,15 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (config, start, end, trendQuer
         sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
         AND ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
+        ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
+        ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-        ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
       
       GROUP BY 
         ${trendQuery.sl.l1_label ? sql`${sql(trendQuery.sl.l1_label)}`: sql``} 
@@ -137,13 +141,15 @@ const lvl_0_total_getSalesByWk = async (config, start, end) => {
         sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
         AND ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
+        ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
+        ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-        ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
       
       GROUP BY sl.week_serial 
       
@@ -179,13 +185,16 @@ const lvl_0_total_getSalesPeriodToDate = async (config, start, end) => {
         sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
         AND ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
+        ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
+        ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-        ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``}` //prettier-ignore
+        ` //prettier-ignore
 
     return response
   } catch (error) {

@@ -25,13 +25,15 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
             ${!showFyTrend ? sql`sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ` : sql``} 
             ms.byproduct_type IS NULL 
             AND ms.item_type = ${'FG'} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+            ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}
+            ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``}  
+            ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
             ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
             ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
             ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
-            ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-            ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
+            ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``}  
           
         GROUP BY 
           ${trendQuery.sl.l1_label ? sql`${sql(trendQuery.sl.l1_label)}`: sql``} 
@@ -59,14 +61,16 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
         WHERE 
             ms.byproduct_type IS NULL 
             AND ms.item_type = ${'FG'} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+            ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
+            ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``}
+            ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
             AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)  
             ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
             ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
             ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
-            ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-            ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
+            ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``}  
           
         GROUP BY 
           ${trendQuery.so.l1_label ? sql`${sql(trendQuery.so.l1_label)}`: sql``} 
@@ -96,7 +100,8 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
         WHERE 
             ms.byproduct_type IS NULL 
             AND ms.item_type = ${'FG'} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+            ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
             AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 

@@ -31,7 +31,8 @@ const lvl_1_subtotal_getFgInven = async (config, trendQuery) => {
         ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
@@ -83,7 +84,8 @@ const lvl_1_subtotal_getFgInTransit = async (config, trendQuery) => {
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         AND perpetual_inventory.location_type = ${'IN TRANSIT'} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
@@ -134,7 +136,8 @@ const lvl_1_subtotal_getFgAtLoc = async (config, trendQuery) => {
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         AND perpetual_inventory.location_type <> ${'IN TRANSIT'} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
@@ -199,7 +202,8 @@ LEFT OUTER JOIN (
 WHERE 
   ms.byproduct_type IS NULL 
   AND ms.item_type = ${'FG'} 
-  ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+  ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+  ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
   ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
   ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
   ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
@@ -248,7 +252,8 @@ const lvl_1_subtotal_getFgAtLoc_tagged = async (config, trendQuery) => {
         ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
@@ -291,7 +296,8 @@ const lvl_0_total_getFgInven = async config => {
         ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
@@ -321,7 +327,8 @@ const lvl_0_total_getFgInTransit = async config => {
         ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND perpetual_inventory.location_type = ${'IN TRANSIT'}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
@@ -352,7 +359,8 @@ const lvl_0_total_getFgAtLoc = async config => {
         ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND perpetual_inventory.location_type <> ${'IN TRANSIT'} 
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
@@ -400,7 +408,8 @@ const lvl_0_total_getFgAtLoc_untagged = async config => {
  WHERE 
   ms.byproduct_type IS NULL 
   AND ms.item_type = ${'FG'} 
-  ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+  ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+  ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
   ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
   ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
   ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
@@ -428,7 +437,8 @@ const lvl_0_total_getFgAtLoc_tagged = async config => {
         ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
