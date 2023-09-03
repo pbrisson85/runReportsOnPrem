@@ -58,8 +58,6 @@ const lvl_1_subtotal_getFgInTransit = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG in transit ...`)
 
-    const select = selectBuilder(trendQuery)
-
     const response = await sql
       `SELECT 'FG IN TRANSIT' AS column, ${trendQuery.test}, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
@@ -92,8 +90,6 @@ const lvl_1_subtotal_getFgAtLoc = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG at location ...`)
 
-    const select = selectBuilder(trendQuery)
-
     const response = await sql
       `SELECT 'FG ON HAND' AS column, ${trendQuery.test}, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
@@ -123,8 +119,6 @@ const lvl_1_subtotal_getFgAtLoc = async (config, trendQuery) => {
 const lvl_1_subtotal_getFgAtLoc_untagged = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG at location UNTAGGED ...`)
-
-    const select = selectBuilder(trendQuery)
 
     const response = await sql
  `SELECT 'FG ON HAND UNTAGGED' AS column, ${select} COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
@@ -170,8 +164,6 @@ GROUP BY ${trendQuery.fields}` //prettier-ignore
 const lvl_1_subtotal_getFgAtLoc_tagged = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG at location TAGGED...`)
-
-    const select = selectBuilder(trendQuery)
 
     const response = await sql
       `SELECT 'FG ON HAND TAGGED' AS column, ${trendQuery.test}, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
