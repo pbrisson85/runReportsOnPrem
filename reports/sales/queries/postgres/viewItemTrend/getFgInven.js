@@ -4,7 +4,7 @@ const sql = require('../../../../../server')
 
 // FG on hand (includes in transit)
 
-const selectBuilder = trendQuery =>
+const selectBuilder = async trendQuery =>
   trendQuery.fields.reduce((acc, curr, idx) => {
     console.log('idx', idx)
     console.log('curr', curr)
@@ -17,7 +17,7 @@ const lvl_1_subtotal_getFgInven = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG on hand ...`)
 
-    const select = selectBuilder(trendQuery)
+    const select = await selectBuilder(trendQuery)
     console.log('select completed ', select)
 
     // level 1 detail
