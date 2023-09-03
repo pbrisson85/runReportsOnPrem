@@ -78,7 +78,7 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
           ${trendQuery.so.l7_label ? sql`, ${sql(trendQuery.so.l7_label)}`: sql``}
           
         ${trendQuery.inv.l1_label ? sql`
-        
+
         UNION SELECT 
           ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)} AS l1_label,`: sql``} 
           ${trendQuery.inv.l2_label ? sql`${sql(trendQuery.inv.l2_label)} AS l2_label,`: sql``} 
@@ -87,7 +87,6 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
           ${trendQuery.inv.l5_label ? sql`${sql(trendQuery.inv.l5_label)} AS l5_label,`: sql``} 
           ${trendQuery.inv.l6_label ? sql`${sql(trendQuery.inv.l6_label)} AS l6_label,`: sql``} 
           ${trendQuery.inv.l7_label ? sql`${sql(trendQuery.inv.l7_label)} AS l7_label,`: sql``}
-          ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)} AS l1_label,`: sql``} 
           ${config.queryLevel} AS datalevel 
         
         FROM "invenReporting".perpetual_inventory 
