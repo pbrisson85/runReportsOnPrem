@@ -7,29 +7,29 @@ const getViewTrendConfig = rightMenuSelection => {
   switch (rightMenuSelection) {
     case 'Trend By Item':
       trendQuery = {
-        fields: ['ms.item_num', 'ms.description', 'ms.fg_fresh_frozen', 'ms.fg_treatment', 'ms.brand', 'ms.size_name'],
-        select: `ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label`,
+        fields: ['item_num', 'description', 'fg_fresh_frozen', 'fg_treatment', 'brand', 'size_name'],
+        select: `item_num AS l1_label, description AS l2_label, fg_fresh_frozen AS l3_label, fg_treatment AS l4_label, brand AS l5_label, size_name AS l6_label`,
       }
 
       break
 
     case 'Trend By Customer':
       trendQuery = {
-        fields: 'ms.species_group',
+        fields: 'species_group',
       }
       d
       break
 
     case 'Trend By Salesperson':
       trendQuery = {
-        fields: 'ms.species_group',
+        fields: 'species_group',
       }
 
       break
 
     default:
       trendQuery = {
-        fields: 'ms.species_group',
+        fields: 'species_group',
       }
   }
 
