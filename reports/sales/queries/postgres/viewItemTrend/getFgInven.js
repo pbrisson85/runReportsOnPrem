@@ -18,14 +18,14 @@ const lvl_1_subtotal_getFgInven = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG on hand ...`)
 
-    const select = selectBuilder(trendQuery)
+    // const select = selectBuilder(trendQuery)
     // console.log('select completed ', select)
 
     // level 1 detail
     // const select = `${sql`ms.item_num`} AS l1_label, ${sql`ms.description`} AS l2_label, ${sql`ms.fg_fresh_frozen`} AS l3_label, ${sql`ms.fg_treatment`} AS l4_label, ${sql`ms.brand`} AS l5_label, ${sql`ms.size_name`} AS l6_label`
 
     const response = await sql  
-      `SELECT 'FG INVEN' AS column, ${sql(select)}, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
+      `SELECT 'FG INVEN' AS column, ${sql(trendQuery.select)}, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -42,7 +42,7 @@ const lvl_1_subtotal_getFgInven = async (config, trendQuery) => {
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
       
-      GROUP BY ${trendQuery.fields}` //prettier-ignore
+      GROUP BY ${sql(trendQuery.fields)}` //prettier-ignore
 
     return response
   } catch (error) {
