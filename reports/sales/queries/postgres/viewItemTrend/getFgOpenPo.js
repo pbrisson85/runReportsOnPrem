@@ -6,6 +6,8 @@ const lvl_1_subtotal_getFgPo = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG open PO ...`)
 
+    if (!trendQuery.inv.l1_label) return []
+
     const response = await sql
         `SELECT 
           'FG ON ORDER' AS column, 

@@ -8,6 +8,8 @@ const lvl_1_subtotal_getFgInven = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG on hand ...`)
 
+    if (!trendQuery.inv.l1_label) return []
+
     const response = await sql  
       `SELECT 
       'FG INVEN' AS column, 
@@ -59,6 +61,8 @@ const lvl_1_subtotal_getFgInTransit = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG in transit ...`)
 
+    if (!trendQuery.inv.l1_label) return []
+
     const response = await sql
       `SELECT 
         'FG IN TRANSIT' AS column,
@@ -109,6 +113,8 @@ const lvl_1_subtotal_getFgAtLoc = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG at location ...`)
 
+    if (!trendQuery.inv.l1_label) return []
+
     const response = await sql
       `SELECT 'FG ON HAND' AS column, 
       ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)} AS l1_label,`: sql``} 
@@ -155,6 +161,8 @@ const lvl_1_subtotal_getFgAtLoc = async (config, trendQuery) => {
 const lvl_1_subtotal_getFgAtLoc_untagged = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG at location UNTAGGED ...`)
+
+    if (!trendQuery.inv.l1_label) return []
 
     const response = await sql
 `SELECT 
@@ -218,6 +226,8 @@ GROUP BY
 const lvl_1_subtotal_getFgAtLoc_tagged = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG at location TAGGED...`)
+
+    if (!trendQuery.inv.l1_label) return []
 
     const response = await sql
       `SELECT 
