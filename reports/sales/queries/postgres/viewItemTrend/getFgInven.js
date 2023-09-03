@@ -22,14 +22,14 @@ const lvl_1_subtotal_getFgInven = async config => {
       
       FROM "invenReporting".perpetual_inventory 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-          ON ms.ms.item_num = perpetual_inventory.ms.item_number 
+          ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE 
         ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.ms.item_num IN (SELECT jb.ms.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
@@ -53,7 +53,7 @@ const lvl_1_subtotal_getFgInTransit = async config => {
     const response = await sql
       `SELECT 'FG IN TRANSIT' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
-      FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.ms.item_num = perpetual_inventory.ms.item_number 
+      FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE 
         ms.byproduct_type IS NULL 
@@ -61,7 +61,7 @@ const lvl_1_subtotal_getFgInTransit = async config => {
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         AND perpetual_inventory.location_type = ${'IN TRANSIT'} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.ms.item_num IN (SELECT jb.ms.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
@@ -85,7 +85,7 @@ const lvl_1_subtotal_getFgAtLoc = async config => {
     const response = await sql
       `SELECT 'FG ON HAND' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
-      FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.ms.item_num = perpetual_inventory.ms.item_number 
+      FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE 
         ms.byproduct_type IS NULL 
@@ -93,7 +93,7 @@ const lvl_1_subtotal_getFgAtLoc = async config => {
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         AND perpetual_inventory.location_type <> ${'IN TRANSIT'} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.ms.item_num IN (SELECT jb.ms.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
@@ -123,7 +123,7 @@ const lvl_1_subtotal_getFgAtLoc_untagged = async config => {
           AND pi.location_type <> ${'IN TRANSIT'}) 
         AS inven_t 
 LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-  ON ms.ms.item_num = inven_t.ms.item_number 
+  ON ms.item_num = inven_t.ms.item_number 
 
 LEFT OUTER JOIN (
         SELECT ti.lot, ti.location, ti.ms.item_num, COALESCE(SUM(ti.weight),0) AS weight, COALESCE(SUM(ti.cost * ti.weight),0) AS ext_cost 
@@ -138,7 +138,7 @@ WHERE
   ms.byproduct_type IS NULL 
   AND ms.item_type = ${'FG'} 
   ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-  ${config.jbBuyerFilter ? sql`AND ms.ms.item_num IN (SELECT jb.ms.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
+  ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
   ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
   ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
   ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
@@ -160,14 +160,14 @@ const lvl_1_subtotal_getFgAtLoc_tagged = async config => {
     const response = await sql
       `SELECT 'FG ON HAND TAGGED' AS column, ms.item_num AS l1_label, ms.description AS l2_label, ms.fg_fresh_frozen AS l3_label, ms.fg_treatment AS l4_label, ms.brand AS l5_label, ms.size_name AS l6_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
       
-      FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.ms.item_num = tagged_inventory.ms.item_num 
+      FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.ms.item_num 
       
       WHERE 
         ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.ms.item_num IN (SELECT jb.ms.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
@@ -195,14 +195,14 @@ const lvl_0_total_getFgInven = async config => {
     const response = await sql
       `SELECT 'FG INVEN' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
-      FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.ms.item_num = perpetual_inventory.ms.item_number 
+      FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE 
         ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.ms.item_num IN (SELECT jb.ms.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
@@ -225,14 +225,14 @@ const lvl_0_total_getFgInTransit = async config => {
     const response = await sql
       `SELECT 'FG IN TRANSIT' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
-      FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.ms.item_num = perpetual_inventory.ms.item_number 
+      FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE 
         ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.ms.item_num IN (SELECT jb.ms.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND perpetual_inventory.location_type = ${'IN TRANSIT'}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
@@ -256,14 +256,14 @@ const lvl_0_total_getFgAtLoc = async config => {
     const response = await sql
       `SELECT 'FG ON HAND' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
-      FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.ms.item_num = perpetual_inventory.ms.item_number 
+      FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE 
         ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.ms.item_num IN (SELECT jb.ms.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND perpetual_inventory.location_type <> ${'IN TRANSIT'} 
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
@@ -295,7 +295,7 @@ const lvl_0_total_getFgAtLoc_untagged = async config => {
      AS inven_t 
   
   LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-    ON ms.ms.item_num = inven_t.ms.item_number 
+    ON ms.item_num = inven_t.ms.item_number 
 
   LEFT OUTER JOIN (
       SELECT ti.lot, ti.location, ti.ms.item_num, COALESCE(SUM(ti.weight),0) AS weight, COALESCE(SUM(ti.cost * ti.weight),0) AS ext_cost 
@@ -311,7 +311,7 @@ const lvl_0_total_getFgAtLoc_untagged = async config => {
   ms.byproduct_type IS NULL 
   AND ms.item_type = ${'FG'} 
   ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-  ${config.jbBuyerFilter ? sql`AND ms.ms.item_num IN (SELECT jb.ms.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
+  ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
   ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
   ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
   ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
@@ -332,14 +332,14 @@ const lvl_0_total_getFgAtLoc_tagged = async config => {
     const response = await sql
       `SELECT 'FG ON HAND TAGGED' AS column, 'FG SALES' AS l1_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
       
-      FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.ms.item_num = tagged_inventory.ms.item_num 
+      FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.ms.item_num 
       
       WHERE 
         ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.ms.item_num IN (SELECT jb.ms.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
+        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
