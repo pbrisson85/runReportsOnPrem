@@ -8,10 +8,21 @@ const lvl_1_subtotal_getFgInven = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG on hand ...`)
 
+    const testTrendQuery = {
+      select: [
+        `ms.item_num ${sql`AS l1_label`}`,
+        `ms.description ${sql`AS l2_label`}`,
+        `ms.fg_fresh_frozen ${sql`AS l3_label`}`,
+        `ms.fg_treatment ${sql`AS l4_label`}`,
+        `ms.brand ${sql`AS l5_label`}`,
+        `ms.size_name ${sql`AS l6_label`}`,
+      ],
+    }
+
     // level 1 detail
 
     const response = await sql
-      `SELECT 'FG INVEN' AS column, ${sql(trendQuery.select)}, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
+      `SELECT 'FG INVEN' AS column, ${sql(testTrendQuery.select)}, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
