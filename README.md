@@ -2,6 +2,8 @@
 
 - Priorities:
 
+  ### When drilling by customer on fresh scallops total, the totals line is fugged (not sticky)
+
   ### After testing I dont like that trend drilldowns show all inventory for the category. I would like it to just show the items related to the customer. Therefore the queries for inventory and PO should have a if customer where item is in distinct pull all items for customer.
 
   ### Next step. put the level in the row data so that it can be passed back instead of parsing the labels. Do the same with anything else I am parsing. ONCE everything is done cleaning up then add the reports for by sales person and by customer vertical
