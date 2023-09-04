@@ -1,7 +1,8 @@
-const unflattenByCompositKey = (data, keys) => {
+const unflattenByCompositKey = (data, config) => {
   let unflat = {}
 
-  const vals = Object.values(keys)
+  // create list of keys from config passed in
+  const vals = Object.values(config)
 
   data.forEach(row => {
     // build key
@@ -19,6 +20,9 @@ const unflattenByCompositKey = (data, keys) => {
       unflat[key] = { ...row }
     } else {
       console.log('hit duplicate key in unflattenByCompositKey OVERWRITTING: ', key)
+      console.log('row: ', row)
+      console.log('unflat[key]: ', unflat[key])
+
       unflat[key] = { ...row } // OVER WRITTING
     }
   })
