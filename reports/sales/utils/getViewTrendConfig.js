@@ -45,11 +45,11 @@ const getViewTrendConfig = rightMenuSelection => {
       return {
         sl: {
           l1_label: 'sl.outside_salesperson_code',
-          l2_label: 'UPPER(sl.outside_salesperson_name)',
+          l2_label: 'sl.outside_salesperson_name',
         },
         so: {
           l1_label: 'so.out_sales_rep',
-          l2_label: 'UPPER(so.out_sales_rep_name)',
+          l2_label: 'so.out_sales_rep_name',
         },
         inv: {},
       }
