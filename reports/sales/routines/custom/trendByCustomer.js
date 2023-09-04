@@ -6,6 +6,10 @@ const addCustomerName = async data => {
   // Pull list of customer names from customer master
 
   const withNames = data.map(row => {
+    // Dont add name if total row
+    if (row.totalRow) return row
+
+    // Add name
     return {
       ...row,
       l2_label: 'test',
