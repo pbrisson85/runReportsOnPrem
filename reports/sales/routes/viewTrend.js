@@ -7,6 +7,7 @@ const labelCols_byCustomer = require('../queries/hardcode/cols_byCustomer')
 const labelCols_bySalesperson = require('../queries/hardcode/cols_bySalesperson')
 const getReportConfig = require('../utils/getReportConfig')
 const getViewTrendConfig = require('../utils/getViewTrendConfig')
+const addCustomerName = require('../routines/custom/trendByCustomer')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
 // @desc
@@ -40,7 +41,18 @@ router.post('/', async (req, res) => {
   } else if (rightMenuSelection === 'Trend By Salesperson') {
     cols = labelCols_bySalesperson
   }
+
   response = await viewTrend(cols, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek, trendQuery)
+
+  // CUSTOM ROUTINES FOR SPECIFIC REPORTS
+  if (rightMenuSelection === 'Trend By Item') {
+    // no custom actions
+  } else if (rightMenuSelection === 'Trend By Customer') {
+    response = await addCustomerName(response)
+  } else if (rightMenuSelection === 'Trend By Salesperson') {
+    // no custom actions
+  }
+
   console.log(`${config.user} - get drilldown data for ${reportFormat} route COMPLETE. \n`)
   res.send(response)
 })
