@@ -15,4 +15,4 @@ const addCustomerName = async data => {
   return withNames
 }
 
-module.addCustomerName = addCustomerName
+module.exports = addCustomerName
