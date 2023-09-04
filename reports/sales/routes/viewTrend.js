@@ -48,7 +48,11 @@ router.post('/', async (req, res) => {
   if (rightMenuSelection === 'Trend By Item') {
     // no custom actions
   } else if (rightMenuSelection === 'Trend By Customer') {
-    response = await addCustomerName(response)
+    const data = await addCustomerName(response.data)
+    response = {
+      ...response,
+      data,
+    }
   } else if (rightMenuSelection === 'Trend By Salesperson') {
     // no custom actions
   }
