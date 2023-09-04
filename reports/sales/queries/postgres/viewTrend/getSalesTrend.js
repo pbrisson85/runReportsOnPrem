@@ -128,6 +128,7 @@ const lvl_0_total_getSalesByWk = async (config, start, end) => {
       `SELECT 
         sl.week_serial AS column, 
         'FG SALES' AS l1_label, 
+'TOTAL' AS l2_label,  
         COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, 
         COALESCE(SUM(sl.gross_sales_ext),0) AS sales, 
         COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, 
@@ -172,6 +173,7 @@ const lvl_0_total_getSalesPeriodToDate = async (config, start, end) => {
       `SELECT 
         'SALES TOTAL' AS column, 
         'FG SALES' AS l1_label, 
+        'TOTAL' AS l2_label,  
         COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, 
         COALESCE(SUM(sl.gross_sales_ext),0) AS sales, 
         COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, 

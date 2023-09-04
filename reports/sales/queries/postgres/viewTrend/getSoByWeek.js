@@ -182,6 +182,7 @@ const lvl_0_total_getSo_byWk = async config => {
            `SELECT 
             so.week_serial || '_so' AS column, 
             'FG SALES' AS l1_label, 
+'TOTAL' AS l2_label,  
             COALESCE(SUM(so.ext_weight),0) AS lbs, 
             COALESCE(SUM(so.ext_sales),0) AS sales, 
             COALESCE(SUM(so.ext_cost),0) AS cogs, 
@@ -224,6 +225,7 @@ const lvl_0_total_getSoTagged_byWk = async config => {
       `SELECT 
         so.week_serial || '_so_tg' AS column, 
         'FG SALES' AS l1_label, 
+'TOTAL' AS l2_label,  
         COALESCE(SUM(so.tagged_weight),0) AS lbs, 
         COALESCE(SUM(so.tagged_weight / so.ext_weight * so.ext_sales),0) AS sales, 
         COALESCE(SUM(so.tagged_weight * ave_tagged_cost),0) AS cogs, 
@@ -267,6 +269,7 @@ const lvl_0_total_getSoUntagged_byWk = async config => {
       `SELECT 
         so.week_serial || '_so_untg' AS column, 
         'FG SALES' AS l1_label, 
+'TOTAL' AS l2_label,  
         COALESCE(SUM(so.untagged_weight),0) AS lbs, 
         COALESCE(SUM(so.untagged_weight / so.ext_weight * so.ext_sales),0) AS sales, 
         COALESCE(SUM(so.untagged_weight * ave_untagged_cost),0) AS cogs, 
