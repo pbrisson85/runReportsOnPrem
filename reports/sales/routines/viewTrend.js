@@ -234,7 +234,7 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   })
 
   const flattenedMappedData = Object.values(mappedData)
-  let finalData = cleanLabelsForDisplay(flattenedMappedData, '')
+  let finalData = flattenedMappedData
     .sort((a, b) => {
       // if has includes total, put at end
       if (a.l1_label < b.l1_label) return -1
