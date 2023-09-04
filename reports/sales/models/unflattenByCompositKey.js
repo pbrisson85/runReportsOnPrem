@@ -1,4 +1,4 @@
-const requestEmailNotification = require('../../requests/requestEmail')
+const requestEmailNotification = require('../../../requests/requestEmail')
 
 const unflattenByCompositKey = (data, config) => {
   let unflat = {}
