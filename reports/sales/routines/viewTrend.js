@@ -45,8 +45,8 @@ const {
   lvl_0_total_getSoUntagged_byWk,
 } = require('../queries/postgres/viewTrend/getSoByWeek')
 const { getRowsFirstLevelDetail } = require('../queries/postgres/viewTrend/getRows')
-const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplatesTwoLevel')
-const mapInvenToRowTemplates = require('../models/mapInvenToRowTemplatesTwoLevel')
+const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplatesOneLevel')
+const mapInvenToRowTemplates = require('../models/mapInvenToRowTemplatesOneLevel')
 const combineMappedRows = require('../models/combineMappedRows')
 const cleanLabelsForDisplay = require('../models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../models/unflattenByCompositKey')
@@ -162,7 +162,6 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   // map data into row template
   const rowTemplate_unflat = unflattenByCompositKey(rowTemplate, {
     1: 'l1_label',
-    2: 'l2_label',
   })
 
   // switch to include fy trend data
@@ -234,7 +233,7 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   })
 
   const flattenedMappedData = Object.values(mappedData)
-  let finalData = flattenedMappedData
+  let finalData = cleanLabelsForDisplay(flattenedMappedData, '')
     .sort((a, b) => {
       // if has includes total, put at end
       if (a.l1_label < b.l1_label) return -1
