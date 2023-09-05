@@ -5,7 +5,7 @@ const unflattenByCompositKey = require('../../models/unflattenByCompositKey')
 
 const addCustomerName = async data => {
   // Pull customer name from sales and orders using mode (most frequently used name)
-  const customerName = sql`
+  const customerName = await sql`
    SELECT sl.customer_code, mode() WITHIN GROUP (ORDER BY sl.customer_name) AS customer_name
      FROM "salesReporting".sales_line_items AS sl
        GROUP BY sl.customer_code
@@ -15,7 +15,7 @@ const addCustomerName = async data => {
        GROUP BY so.customer_code
  `
 
-  console.log('customerName[0]: ', customerName[0])
+  console.log('customerName: ', customerName)
 
   // unflatten
   const customerNameUnflattened = unflattenByCompositKey(customerName, 'customer_code')
@@ -32,7 +32,7 @@ const addCustomerName = async data => {
     // Add name
     return {
       ...row,
-      l2_label: customerNameUnflattened[row.l1_label].customer_name,
+      l2_label: customerNameUnflattened[row.l1_label]?.customer_name,
     }
   })
 
