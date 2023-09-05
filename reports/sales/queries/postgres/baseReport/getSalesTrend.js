@@ -11,7 +11,9 @@ const lvl_1_subtotal_getSalesByWk = async (config, start, end) => {
     const response = await sql
       `SELECT sales_line_items.week_serial AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
       
-      FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number 
+      FROM "salesReporting".sales_line_items 
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+          ON ms.item_num = sales_line_items.item_number 
       
       WHERE 
         sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
@@ -40,7 +42,9 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (config, start, end) => {
     const response = await sql
       `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
       
-      FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number 
+      FROM "salesReporting".sales_line_items 
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+          ON ms.item_num = sales_line_items.item_number 
       
       WHERE 
         sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
@@ -69,7 +73,9 @@ const lvl_2_subtotal_getSalesByWk = async (config, start, end) => {
     const response = await sql
       `SELECT sales_line_items.week_serial AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
       
-      FROM "salesReporting".sales_line_items LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_line_items.item_number 
+      FROM "salesReporting".sales_line_items 
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+          ON ms.item_num = sales_line_items.item_number 
       
       WHERE 
         sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 

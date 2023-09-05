@@ -2,15 +2,29 @@
 
 - Priorities:
 
-  ### When drilling by customer on fresh scallops total, the totals line is fugged (not sticky)
+  ## Add default views by user (jb to default to speciesgroup/skin/brand when viewing all programs). Joe M and Joe B to default to have ave weekly sales, weeks avail views
 
-  ### After testing I dont like that trend drilldowns show all inventory for the category. I would like it to just show the items related to the customer. Therefore the queries for inventory and PO should have a if customer where item is in distinct pull all items for customer.
+  ## add ETD col to PO's
 
-  ### Next step. put the level in the row data so that it can be passed back instead of parsing the labels. Do the same with anything else I am parsing. ONCE everything is done cleaning up then add the reports for by sales person and by customer vertical
+  ## add salesperson to the detail for sales order and sales invoice
 
-  ### When drilling down on item trend I fixed the inventory col by getting rows for all inven items however this is wrong when drilling by item from the customer screen. This is because it shows rows for all items in that base report grouping, items that dont have anything to do with the customers sales or sales orders. The fix I think is either to not include the PO or inventory items BUT better choice would probably be to: if customer filter exists only select the inventory items that are in the customer sales items. On second thought maybe this is a good way to show it because you can see substitute items. OR maybe have it as an option. For simplicity i would say just keep it this way unless it seems to get in the way.
+  ## change the inventory master data to have the new size format
 
-  ### Data error: there are scallop FG items that have a blank fresh/frozen field
+  ## Need to get the inventory and PO cols correct. If drilling by customer or salesperson I only want the inventory applicable to that filter to show.
+
+  - Have a WHERE IN SELECT item by customer and/or alesperson for the items in rows and the totals rows for inven and FG
+
+  ## Need to finish the custom sales by customer routine to grab the actual customer name.
+
+  ## Need to write the routine that pulls sales by customer line
+
+  ## Need to add caching
+
+  ## Want to be able to drill down on the totals row of a trend for both a trend or detail
+
+  ## BUG: When drilling by customer on fresh scallops total, the totals line is fugged (not sticky)
+
+  ## Change menu to be a slide out because Joe B resolution does not accomodate
 
   ### Get rows (especially in item tredn as that is where i was looking when realizing this) will need to add a union query to the open PO table if it is moved (as planned) from the perpetual inventory table
 
