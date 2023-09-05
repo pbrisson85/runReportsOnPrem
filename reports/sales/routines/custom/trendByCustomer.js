@@ -18,7 +18,7 @@ const addCustomerName = async data => {
   console.log('customerName: ', customerName)
 
   // unflatten
-  const customerNameUnflattened = unflattenByCompositKey(customerName, 'customer_code')
+  const customerNameUnflattened = unflattenByCompositKey(customerName, { 1: 'customer_code' })
 
   const withNames = data.map((row, idx) => {
     if (idx === 0) console.log('row: ', row)
