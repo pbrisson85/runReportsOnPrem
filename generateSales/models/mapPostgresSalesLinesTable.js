@@ -43,7 +43,7 @@ const mapPostgresSalesLinesTable = joinedSalesData => {
       if (country === 'USA') {
         state = invoiceLine.shipToFile.STATE
       } else {
-        state = null
+        state = 'OUTSIDE USA'
       }
     } else if (invoiceLine.orderInfo !== null) {
       // Use order info
