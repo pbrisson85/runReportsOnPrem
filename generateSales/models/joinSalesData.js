@@ -4,7 +4,9 @@ const joinSalesData = (
   invenSupplemental_unflat,
   mappedPeriodsPerDay,
   invReasCodes_unflat,
-  salespersonMaster_unflat
+  salespersonMaster_unflat,
+  shipToFile_unflat,
+  customerMaster_unflat
 ) => {
   const joinedSalesData = salesLines.map((invoiceLine, idx) => {
     const dateArr = invoiceLine.ODBC_INVOICE_DATE.split('-')
@@ -15,6 +17,8 @@ const joinSalesData = (
     })
 
     const invReasCode = salesHeader_unflat[invoiceLine.ODBC_INVOICE_NUMBER].REASON_CODE
+    const cust_code = salesHeader_unflat[invoiceLine.ODBC_INVOICE_NUMBER].CUSTOMER_CODE
+    const shipto_code = salesHeader_unflat[invoiceLine.ODBC_INVOICE_NUMBER].SHIPTO_CODE
 
     return {
       ...invoiceLine,
@@ -23,6 +27,8 @@ const joinSalesData = (
       header: salesHeader_unflat[invoiceLine.ODBC_INVOICE_NUMBER],
       invReasCodes: invReasCode === null ? { TABLE_CODE: null, TABLE_DESC: null, TABLE_FLD01_ADJ_INV: null } : invReasCodes_unflat[invReasCode],
       salesPerson: salespersonMaster_unflat[invoiceLine.OUTSIDE_SALESPERSON_CODE][0],
+      shipToFile: shipToFile_unflat[`${cust_code}-${shipto_code}`][0],
+      customerMaster: customerMaster_unflat[cust_code][0],
     }
   })
 

@@ -7,6 +7,8 @@ const getInvoiceLineItems = require('../queries/seasoft/getInvoiceLineItems')
 const getGenTblReas = require('../queries/seasoft/getGenTblReas')
 const getInvoiceHeader = require('../queries/seasoft/getInvoiceHeader')
 const getSalespersonMaster = require('../queries/seasoft/getSalespersonMaster')
+const getShipToFile = require('../queries/seasoft/getShipToFile')
+const getCustomerMaster = require('../queries/seasoft/getCustomerMaster')
 
 const formatPostgresDateForSeasoftQuery = require('../models/formatPostgresDateForSeasoftQuery')
 const unflattenItemNum = require('../models/unFlattenItemNum')
@@ -31,6 +33,8 @@ const generateSalesDataRoutine = async year => {
   const periodsByDay = await getPeriodsByDay(parseInt(year))
   const invReasCodes = await getGenTblReas()
   const salespersonMaster = await getSalespersonMaster()
+  const shipToFile = await getShipToFile()
+  const customerMaster = await getCustomerMaster()
 
   // Model Data
   const salesHeader_unflat = unflattenInvoiceNum(salesHeader)
@@ -40,6 +44,13 @@ const generateSalesDataRoutine = async year => {
     1: 'SALESPERSON_CODE',
   })
   const mappedPeriodsPerDay = mapPeriodsPerDay(periodsByDay)
+  const shipToFile_unflat = unflattenByCompositeKey(shipToFile, {
+    1: 'CUSTOMER_CODE',
+    2: 'SHIPTO_CODE',
+  })
+  const customerMaster_unflat = unflattenByCompositeKey(customerMaster, {
+    1: 'CUSTOMER_CODE',
+  })
 
   // Map Data
   const joinedData = joinSalesData(
@@ -48,7 +59,9 @@ const generateSalesDataRoutine = async year => {
     invenSupplemental_unflat,
     mappedPeriodsPerDay,
     invReasCodes_unflat,
-    salespersonMaster_unflat
+    salespersonMaster_unflat,
+    shipToFile_unflat,
+    customerMaster_unflat
   )
   const mappedData = mapPostgresSalesLinesTable(joinedData)
 

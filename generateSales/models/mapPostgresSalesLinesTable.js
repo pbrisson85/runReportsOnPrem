@@ -1,5 +1,5 @@
 const mapPostgresSalesLinesTable = joinedSalesData => {
-  const mappedData = joinedSalesData.map(invoiceLine => {
+  const mappedData = joinedSalesData.map((invoiceLine, idx) => {
     let calc_gl_cogs = 0
 
     if (typeof invoiceLine.invenSupplemental === 'undefined') {
@@ -31,6 +31,11 @@ const mapPostgresSalesLinesTable = joinedSalesData => {
       : invoiceLine.invReasCodes.TABLE_FLD01_ADJ_INV === 'Y'
       ? invoiceLine.BILLING_WEIGHT
       : 0
+
+    if (idx < 10) {
+      console.log('invoiceLine.shipToFile', invoiceLine.shipToFile) // DEBUG ***************
+      console.log('invoiceLine.customerMaster', invoiceLine.customerMaster) // DEBUG ***************
+    }
 
     return {
       item_number: invoiceLine.ITEM_NUMBER,

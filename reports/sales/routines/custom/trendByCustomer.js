@@ -15,19 +15,12 @@ const addCustomerName = async data => {
        GROUP BY so.customer_code
  `
 
-  console.log('customerName: ', customerName)
-
   // unflatten
   const customerNameUnflattened = unflattenByCompositKey(customerName, { 1: 'customer_code' })
 
   const withNames = data.map((row, idx) => {
-    if (idx === 0) console.log('row: ', row)
-    if (idx === 0) console.log('customerNameUnflattened[row.l1_label]: ', customerNameUnflattened[row.l1_label])
-
     // Dont add name if total row
     if (row.totalRow) return row
-
-    // Add name to row
 
     // Add name
     return {
