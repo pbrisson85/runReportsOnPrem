@@ -56,8 +56,11 @@ const mapPostgresSalesLinesTable = joinedSalesData => {
       country = invoiceLine.customerMaster.COUNTRY_CODE
       if (country === 'USA') {
         state = invoiceLine.customerMaster.STATE
+        if (state === '') {
+          state = 'NONE'
+        }
       } else {
-        state = null
+        state = 'OUTSIDE USA'
       }
     }
 
