@@ -28,9 +28,7 @@ const joinSalesData = (
       invReasCodes: invReasCode === null ? { TABLE_CODE: null, TABLE_DESC: null, TABLE_FLD01_ADJ_INV: null } : invReasCodes_unflat[invReasCode],
       salesPerson: salespersonMaster_unflat[invoiceLine.OUTSIDE_SALESPERSON_CODE][0],
       shipToFile:
-        typeof shipToFile_unflat[`${cust_code}-${shipto_code}`] === 'undefined'
-          ? [0] ?? null
-          : shipToFile_unflat[`${cust_code}-${shipto_code}`][0],
+        typeof shipToFile_unflat[`${cust_code}-${shipto_code}`] === 'undefined' ? null : shipToFile_unflat[`${cust_code}-${shipto_code}`][0],
       customerMaster: customerMaster_unflat[cust_code][0],
     }
   })
