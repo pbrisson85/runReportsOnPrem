@@ -11,10 +11,10 @@ const upsertSalesData = async salesData => {
       promises.push(
         pgClient.query(
           `INSERT INTO "salesReporting".sales_line_items 
-            (item_number, item_description, qty_shipped, pricing_unit, stock_qty_shipped, stock_unit_of_measure, list_price, gross_sales_ext, net_sales_price, net_sales_ext, sales_ledger_cost_ext, invoice_number, line_number, billing_weight, gl_dist, inside_salesperson_code, outside_salesperson_code, week_serial, period_serial, week, period, fiscal_year, formatted_invoice_date, original_order_invoice, order_number, ship_date, gl_posting_date, customer_code, customer_name, shipto_code, truck_route, customer_order_number, ship_method, reason_code, customer_terms_code, ship_via_code, reas_description, reas_adj_inv, cogs_ext_gl, othp_ext, calc_gm_rept_weight,  gross_sales_lb, net_sales_lb, gross_margin_ext, gross_margin_lb, cost_lb, othp_lb, location, outside_salesperson_name)
+            (item_number, item_description, qty_shipped, pricing_unit, stock_qty_shipped, stock_unit_of_measure, list_price, gross_sales_ext, net_sales_price, net_sales_ext, sales_ledger_cost_ext, invoice_number, line_number, billing_weight, gl_dist, inside_salesperson_code, outside_salesperson_code, week_serial, period_serial, week, period, fiscal_year, formatted_invoice_date, original_order_invoice, order_number, ship_date, gl_posting_date, customer_code, customer_name, shipto_code, truck_route, customer_order_number, ship_method, reason_code, customer_terms_code, ship_via_code, reas_description, reas_adj_inv, cogs_ext_gl, othp_ext, calc_gm_rept_weight,  gross_sales_lb, net_sales_lb, gross_margin_ext, gross_margin_lb, cost_lb, othp_lb, location, outside_salesperson_name, state, country, address_source)
             
           VALUES 
-            ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $40, $41, $42, $43, $44, $45, $46, $47, $48, $49) 
+            ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $40, $41, $42, $43, $44, $45, $46, $47, $48, $49, $50, $51, $52) 
             
             ON CONFLICT (invoice_number, line_number) 
             
@@ -68,6 +68,9 @@ const upsertSalesData = async salesData => {
               othp_lb = $47, 
               location = $48,
               outside_salesperson_name = $49
+              state = $50,
+              country = $51,
+              address_source = $52
               `,
           [
             soLine.item_number,
@@ -119,6 +122,9 @@ const upsertSalesData = async salesData => {
             soLine.othp_lb,
             soLine.location,
             soLine.outside_salesperson_name,
+            soLine.state,
+            soLine.country,
+            soLine.address_source,
           ]
         )
       )

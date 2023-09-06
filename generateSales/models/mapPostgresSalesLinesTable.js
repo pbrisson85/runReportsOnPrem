@@ -32,9 +32,28 @@ const mapPostgresSalesLinesTable = joinedSalesData => {
       ? invoiceLine.BILLING_WEIGHT
       : 0
 
-    if (idx < 10) {
-      console.log('invoiceLine.shipToFile', invoiceLine.shipToFile) // DEBUG ***************
-      console.log('invoiceLine.customerMaster', invoiceLine.customerMaster) // DEBUG ***************
+    // State and country should first be obtained from the the ship to. If there is no ship to then use the customer master file.
+    let state = null
+    let country = null
+    let address_source = null
+    if (typeof invoiceLine.shipToFile === null) {
+      // Use customer master file
+      address_source = 'customer_master'
+      country = invoiceLine.customerMaster.COUNTRY_CODE
+      if (country === 'USA') {
+        state = invoiceLine.customerMaster.STATE
+      } else {
+        state = null
+      }
+    } else {
+      // Use ship to file
+      address_source = 'ship_to_file'
+      country = invoiceLine.shipToFile.COUNTRY_CODE
+      if (country === 'USA') {
+        state = invoiceLine.shipToFile.STATE
+      } else {
+        state = null
+      }
     }
 
     return {
@@ -92,11 +111,9 @@ const mapPostgresSalesLinesTable = joinedSalesData => {
           ? 0
           : (invoiceLine.NET_PRICE_EXTENSION - invoiceLine.PRODUCT_ONLY_EXTENSION) / invoiceLine.BILLING_WEIGHT,
       location: invoiceLine.LOCATION,
-
-      // so.rebate_lb,
-      // so.discount_lb,
-      // so.freight_lb,
-      // so.commission_lb,
+      state,
+      country,
+      address_source,
     }
   })
 
