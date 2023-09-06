@@ -67,7 +67,7 @@ const upsertSalesData = async salesData => {
               cost_lb = $46, 
               othp_lb = $47, 
               location = $48,
-              outside_salesperson_name = $49
+              outside_salesperson_name = $49,
               state = $50,
               country = $51,
               address_source = $52
