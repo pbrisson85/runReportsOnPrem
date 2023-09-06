@@ -22,6 +22,9 @@ const joinSalesData = (
     const shipto_code = salesHeader_unflat[invoiceLine.ODBC_INVOICE_NUMBER].SHIPTO_CODE
     const soNum = salesHeader_unflat[invoiceLine.ODBC_INVOICE_NUMBER].DOCUMENT_NUMBER
 
+    console.log('soNum', soNum)
+    console.log('orderInfo_unflat[soNum]', orderInfo_unflat[soNum])
+
     return {
       ...invoiceLine,
       invenSupplemental: invenSupplemental_unflat[invoiceLine.ITEM_NUMBER],
