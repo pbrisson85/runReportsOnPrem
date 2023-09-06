@@ -12,7 +12,7 @@ const getShipToFile = async () => {
       {fn RTRIM("Ship-to File".CUSTOMER_CODE)} AS CUSTOMER_CODE, 
       {fn RTRIM("Ship-to File".SHIPTO_CODE)} AS SHIPTO_CODE, 
       {fn RTRIM("Ship-to File".STATE)} AS STATE, 
-      {fn RTRIM("Ship-to File".COUNTRY)} AS COUNTRY 
+      {fn RTRIM("Ship-to File".COUNTRY_CODE)} AS COUNTRY_CODE 
     FROM 'Ship-to File' 
     ` //prettier-ignore
 
