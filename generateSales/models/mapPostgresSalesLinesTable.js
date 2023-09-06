@@ -36,7 +36,7 @@ const mapPostgresSalesLinesTable = joinedSalesData => {
     let state = null
     let country = null
     let address_source = null
-    if (typeof invoiceLine.shipToFile === null) {
+    if (invoiceLine.shipToFile === null) {
       // Use customer master file
       address_source = 'customer_master'
       country = invoiceLine.customerMaster.COUNTRY_CODE
