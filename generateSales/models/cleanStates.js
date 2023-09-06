@@ -1,15 +1,10 @@
 // Filters the order ship to state field for valid states
 
 const cleanStates = (states, orderInfo) => {
-  console.log('states', states)
-
   const statesArr = states.map(state => state.code)
+  console.log('statesArr', statesArr)
 
-  const validStates = orderInfo.map((order, idx) => {
-    if (idx < 20) {
-      console.log('order', order)
-    }
-
+  const validStates = orderInfo.filter((order, idx) => {
     return statesArr.includes(order.SHIPTO_STATE)
   })
 
