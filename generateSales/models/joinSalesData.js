@@ -6,7 +6,8 @@ const joinSalesData = (
   invReasCodes_unflat,
   salespersonMaster_unflat,
   shipToFile_unflat,
-  customerMaster_unflat
+  customerMaster_unflat,
+  orderInfo_unflat
 ) => {
   const joinedSalesData = salesLines.map((invoiceLine, idx) => {
     const dateArr = invoiceLine.ODBC_INVOICE_DATE.split('-')
@@ -19,6 +20,7 @@ const joinSalesData = (
     const invReasCode = salesHeader_unflat[invoiceLine.ODBC_INVOICE_NUMBER].REASON_CODE
     const cust_code = salesHeader_unflat[invoiceLine.ODBC_INVOICE_NUMBER].CUSTOMER_CODE
     const shipto_code = salesHeader_unflat[invoiceLine.ODBC_INVOICE_NUMBER].SHIPTO_CODE
+    const soNum = salesHeader_unflat[invoiceLine.ODBC_INVOICE_NUMBER].DOCUMENT_NUMBER
 
     return {
       ...invoiceLine,
@@ -30,6 +32,7 @@ const joinSalesData = (
       shipToFile:
         typeof shipToFile_unflat[`${cust_code}-${shipto_code}`] === 'undefined' ? null : shipToFile_unflat[`${cust_code}-${shipto_code}`][0],
       customerMaster: customerMaster_unflat[cust_code][0],
+      orderInfo: typeof orderInfo_unflat[soNum] === 'undefined' ? null : orderInfo_unflat[soNum][0],
     }
   })
 

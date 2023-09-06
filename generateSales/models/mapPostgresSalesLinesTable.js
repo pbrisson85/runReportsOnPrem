@@ -32,25 +32,30 @@ const mapPostgresSalesLinesTable = joinedSalesData => {
       ? invoiceLine.BILLING_WEIGHT
       : 0
 
-    // State and country should first be obtained from the the ship to. If there is no ship to then use the customer master file.
+    // State and country should first be obtained from the the ship to. If there is no ship to then use the validated ship to field from the order and then use customer master file as a fall back.
     let state = null
     let country = null
     let address_source = null
-    if (invoiceLine.shipToFile === null) {
-      // Use customer master file
-      address_source = 'customer_master'
-      country = invoiceLine.customerMaster.COUNTRY_CODE
-      if (country === 'USA') {
-        state = invoiceLine.customerMaster.STATE
-      } else {
-        state = null
-      }
-    } else {
+    if (invoiceLine.shipToFile !== null) {
       // Use ship to file
       address_source = 'ship_to_file'
       country = invoiceLine.shipToFile.COUNTRY_CODE
       if (country === 'USA') {
         state = invoiceLine.shipToFile.STATE
+      } else {
+        state = null
+      }
+    } else if (invoiceLine.orderInfo !== null) {
+      // Use order info
+      address_source = 'order_info'
+      country = 'USA' // orderInfo has been filtered to only include valid US states
+      state = invoiceLine.orderInfo.SHIPTO_STATE
+    } else {
+      // Use customer master file
+      address_source = 'customer_master'
+      country = invoiceLine.customerMaster.COUNTRY_CODE
+      if (country === 'USA') {
+        state = invoiceLine.customerMaster.STATE
       } else {
         state = null
       }
