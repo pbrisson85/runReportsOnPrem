@@ -20,6 +20,10 @@ const joinSalesData = (
     const cust_code = salesHeader_unflat[invoiceLine.ODBC_INVOICE_NUMBER].CUSTOMER_CODE
     const shipto_code = salesHeader_unflat[invoiceLine.ODBC_INVOICE_NUMBER].SHIPTO_CODE
 
+    console.log('cust_code', cust_code)
+    console.log('shipto_code', shipto_code)
+    console.log('shipToFile_unflat[`${cust_code}-${shipto_code}`][0]', shipToFile_unflat[`${cust_code}-${shipto_code}`][0])
+
     return {
       ...invoiceLine,
       invenSupplemental: invenSupplemental_unflat[invoiceLine.ITEM_NUMBER],
@@ -27,7 +31,7 @@ const joinSalesData = (
       header: salesHeader_unflat[invoiceLine.ODBC_INVOICE_NUMBER],
       invReasCodes: invReasCode === null ? { TABLE_CODE: null, TABLE_DESC: null, TABLE_FLD01_ADJ_INV: null } : invReasCodes_unflat[invReasCode],
       salesPerson: salespersonMaster_unflat[invoiceLine.OUTSIDE_SALESPERSON_CODE][0],
-      shipToFile: shipToFile_unflat[`${cust_code}-${shipto_code}`][0],
+      shipToFile: shipToFile_unflat[`${cust_code}-${shipto_code}`][0] ?? null,
       customerMaster: customerMaster_unflat[cust_code][0],
     }
   })
