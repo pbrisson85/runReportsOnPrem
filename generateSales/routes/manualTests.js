@@ -9,9 +9,9 @@ const router = require('express').Router()
 router.get('/', async (req, res) => {
   console.log(`\nroute hit for running manual generate sales data tests...`)
 
-  await runShipToTests()
+  const errors = await runShipToTests()
 
-  res.send(`route complete for running manual generate sales data tests...`)
+  res.send(JSON.stringify(errors))
   console.log(`route complete for running manual generate sales data tests... \n`)
 })
 

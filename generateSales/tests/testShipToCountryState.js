@@ -4,6 +4,8 @@ const sql = require('../../server')
 const requestEmailNotification = require('../../requests/requestEmail')
 
 const runShipToTests = async () => {
+  let errors = []
+
   // state should never be blank wih a USA ship to
   const blankState = await sql`
     SELECT sl.customer_code, sl.customer_name, sl.shipto_code, sl.address_source
@@ -12,10 +14,10 @@ const runShipToTests = async () => {
     GROUP BY sl.customer_code, sl.customer_name, sl.shipto_code, sl.address_source
     `
 
-  console.log('blankState: ', blankState)
-
   if (blankState.length) {
-    await requestEmailNotification(`Data testing exception: BLANK STATE found in salesReporting.sales_line_items: ${JSON.stringify(blankState)}`)
+    let err = `Data testing exception: BLANK STATE found in salesReporting.sales_line_items: ${JSON.stringify(blankState)}`
+    errors.push(err)
+    await requestEmailNotification(err)
   }
 
   // country should never be blank
@@ -26,12 +28,10 @@ const runShipToTests = async () => {
     GROUP BY sl.customer_code, sl.customer_name, sl.shipto_code, sl.address_source
     `
 
-  console.log('blankCountry: ', blankCountry)
-
   if (blankCountry.length) {
-    await requestEmailNotification(
-      `Data testing exception: BLANK COUNTRY found in salesReporting.sales_line_items: ${JSON.stringify(blankCountry)}`
-    )
+    let err = `Data testing exception: BLANK COUNTRY found in salesReporting.sales_line_items: ${JSON.stringify(blankCountry)}`
+    errors.push(err)
+    await requestEmailNotification(err)
   }
 
   // state should always read 'OUTSIDE USA' with a non USA ship to
@@ -42,14 +42,12 @@ const runShipToTests = async () => {
     GROUP BY sl.customer_code, sl.customer_name, sl.shipto_code, sl.address_source
     `
 
-  console.log('outSideUsaState: ', outSideUsaState)
-
   if (outSideUsaState.length) {
-    await requestEmailNotification(
-      `Data testing exception: missing 'OUTSIDE USA' in state field for foreign country code found in salesReporting.sales_line_items: ${JSON.stringify(
-        outSideUsaState
-      )}`
-    )
+    let err = `Data testing exception: missing 'OUTSIDE USA' in state field for foreign country code found in salesReporting.sales_line_items: ${JSON.stringify(
+      outSideUsaState
+    )}`
+    errors.push(err)
+    await requestEmailNotification(err)
   }
 
   // state should never say 'OUTSIDE USA' with a USA ship to
@@ -60,15 +58,19 @@ const runShipToTests = async () => {
     GROUP BY sl.customer_code, sl.customer_name, sl.shipto_code, sl.address_source
     `
 
-  console.log('outSideUsaCountry: ', outSideUsaCountry)
-
   if (outSideUsaCountry.length) {
-    await requestEmailNotification(
-      `Data testing exception: 'OUTSIDE USA' in state field for 'USA' country code found in salesReporting.sales_line_items: ${JSON.stringify(
-        outSideUsaCountry
-      )}`
-    )
+    let err = `Data testing exception: 'OUTSIDE USA' in state field for 'USA' country code found in salesReporting.sales_line_items: ${JSON.stringify(
+      outSideUsaCountry
+    )}`
+    errors.push(err)
+    await requestEmailNotification(err)
   }
+
+  if (!errors.length) {
+    errors.push('No errors found in ship to country state tests')
+  }
+
+  return errors
 }
 
 module.exports = runShipToTests
