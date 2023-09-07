@@ -6,10 +6,10 @@ const requestEmailNotification = require('../../requests/requestEmail')
 const runShipToTests = async () => {
   // state should never be blank wih a USA ship to
   const blankState = await sql`
-    SELECT customer_code, customer_name, shipto_code, address_source
-    FROM "salesReporting".sales_line_items
-    WHERE (state = '' OR sales_line_items.state = 'NULL') AND country = 'USA'
-    GROUP BY customer_code, customer_name, shipto_code, address_source
+    SELECT sl.customer_code, sl.customer_name, sl.shipto_code, sl.address_source
+    FROM "salesReporting".sales_line_items AS sl
+    WHERE (sl.state = '' OR sl.state = 'NULL') AND sl.country = 'USA'
+    GROUP BY sl.customer_code, sl.ustomer_name, sl.shipto_code, sl.address_source
     `
 
   console.log('blankState: ', blankState)
@@ -22,10 +22,10 @@ const runShipToTests = async () => {
 
   // country should never be blank
   const blankCountry = await sql`
-    SELECT customer_code, customer_name, shipto_code, address_source
-    FROM "salesReporting".sales_line_items
-    WHERE country = '' OR country IS NULL
-    GROUP BY customer_code, customer_name, shipto_code, address_source
+    SELECT sl.customer_code, sl.customer_name, sl.shipto_code, sl.address_source
+    FROM "salesReporting".sales_line_items AS sl
+    WHERE sl.country = '' OR sl.country IS NULL
+    GROUP BY sl.customer_code, sl.customer_name, sl.shipto_code, sl.address_source
     `
 
   console.log('blankCountry: ', blankCountry)
@@ -38,10 +38,10 @@ const runShipToTests = async () => {
 
   // state should always read 'OUTSIDE USA' with a non USA ship to
   const outSideUsaState = await sql`
-    SELECT customer_code, customer_name, shipto_code, address_source
-    FROM "salesReporting".sales_line_items
-    WHERE state <> 'OUTSIDE USA' AND country <> 'USA'
-    GROUP BY customer_code, customer_name, shipto_code, address_source
+    SELECT sl.customer_code, sl.customer_name, sl.shipto_code, sl.address_source
+    FROM "salesReporting".sales_line_items AS sl
+    WHERE sl.state <> 'OUTSIDE USA' AND sl.country <> 'USA'
+    GROUP BY sl.customer_code, sl.customer_name, sl.shipto_code, sl.address_source
     `
 
   console.log('outSideUsaState: ', outSideUsaState)
@@ -54,10 +54,10 @@ const runShipToTests = async () => {
 
   // state should never say 'OUTSIDE USA' with a USA ship to
   const outSideUsaCountry = await sql`
-    SELECT customer_code, customer_name, shipto_code, address_source
-    FROM "salesReporting".sales_line_items
-    WHERE state = 'OUTSIDE USA' AND country = 'USA'
-    GROUP BY customer_code, customer_name, shipto_code, address_source
+    SELECT sl.customer_code, sl.customer_name, sl.shipto_code, sl.address_source
+    FROM "salesReporting".sales_line_items AS sl
+    WHERE sl.state = 'OUTSIDE USA' AND sl.country = 'USA'
+    GROUP BY sl.customer_code, sl.customer_name, sl.shipto_code, sl.address_source
     `
 
   console.log('outSideUsaCountry: ', outSideUsaCountry)
