@@ -9,7 +9,7 @@ const runShipToTests = async () => {
     SELECT sl.customer_code, sl.customer_name, sl.shipto_code, sl.address_source
     FROM "salesReporting".sales_line_items AS sl
     WHERE (sl.state = '' OR sl.state = 'NULL') AND sl.country = 'USA'
-    GROUP BY sl.customer_code, sl.ustomer_name, sl.shipto_code, sl.address_source
+    GROUP BY sl.customer_code, sl.customer_name, sl.shipto_code, sl.address_source
     `
 
   console.log('blankState: ', blankState)
