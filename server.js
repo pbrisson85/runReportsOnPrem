@@ -14,13 +14,12 @@ module.exports = sql
 // initialize routes
 /* Reports */
 
-const test = require('./test')
-
 const baseReport = require('./reports/sales/routes/baseReport')
 const viewTrend = require('./reports/sales/routes/viewTrend')
 const getDetail_baseReport = require('./reports/sales/routes/getDetail')
 const glRevCogs = require('./reports/gl/routes/glRevCogs')
 const glOthp = require('./reports/gl/routes/glOthp')
+const runTests = require('./generateSales/routes/manualTests')
 
 /* Data */
 const generateSalesData = require('./generateSales/routes/generateSales')
@@ -49,8 +48,7 @@ process.on('unhandledRejection', ex => {
 app.use(helmet())
 app.use(express.json())
 
-app.use('/api/sales/test', test)
-
+app.use('/api/sales/runTests', runTests)
 app.use('/api/sales/baseReport', baseReport)
 app.use('/api/sales/drillDown', viewTrend)
 app.use('/api/sales/detail', getDetail_baseReport)

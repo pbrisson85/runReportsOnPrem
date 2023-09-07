@@ -2,6 +2,8 @@
 
 - Priorities:
 
+  ### Need a master file of all country codes to validate the ship to country against in generateSales
+
   ## Add default views by user (jb to default to speciesgroup/skin/brand when viewing all programs). Joe M and Joe B to default to have ave weekly sales, weeks avail views
 
   ## add ETD col to PO's
