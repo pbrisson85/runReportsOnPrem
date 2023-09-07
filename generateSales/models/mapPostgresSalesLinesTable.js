@@ -43,10 +43,6 @@ const mapPostgresSalesLinesTable = joinedSalesData => {
       if (country === 'USA') {
         state = invoiceLine.shipToFile.STATE
       } else {
-        if (invoiceLine.header.DOCUMENT_NUMBER === '324308') {
-          console.log('hit order 324308 and state should read OUSIDE USA')
-        }
-
         state = 'OUTSIDE USA'
       }
     } else if (invoiceLine.orderInfo !== null) {
