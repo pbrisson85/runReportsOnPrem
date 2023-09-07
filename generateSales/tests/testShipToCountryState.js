@@ -15,9 +15,7 @@ const runShipToTests = async () => {
   console.log('blankState: ', blankState)
 
   if (blankState.length) {
-    await requestEmailNotification(
-      `Data testing exception: Blank states found in salesReporting.sales_line_items: ${JSON.stringify(blankState)}`
-    )
+    await requestEmailNotification(`Data testing exception: BLANK STATE found in salesReporting.sales_line_items: ${JSON.stringify(blankState)}`)
   }
 
   // country should never be blank
@@ -32,7 +30,7 @@ const runShipToTests = async () => {
 
   if (blankCountry.length) {
     await requestEmailNotification(
-      `Data testing exception: Blank states found in salesReporting.sales_line_items: ${JSON.stringify(blankCountry)}`
+      `Data testing exception: BLANK COUNTRY found in salesReporting.sales_line_items: ${JSON.stringify(blankCountry)}`
     )
   }
 
@@ -48,7 +46,9 @@ const runShipToTests = async () => {
 
   if (outSideUsaState.length) {
     await requestEmailNotification(
-      `Data testing exception: Blank states found in salesReporting.sales_line_items: ${JSON.stringify(outSideUsaState)}`
+      `Data testing exception: missing 'OUTSIDE USA' in state field for foreign country code found in salesReporting.sales_line_items: ${JSON.stringify(
+        outSideUsaState
+      )}`
     )
   }
 
@@ -64,7 +64,9 @@ const runShipToTests = async () => {
 
   if (outSideUsaCountry.length) {
     await requestEmailNotification(
-      `Data testing exception: Blank states found in salesReporting.sales_line_items: ${JSON.stringify(outSideUsaCountry)}`
+      `Data testing exception: 'OUTSIDE USA' in state field for 'USA' country code found in salesReporting.sales_line_items: ${JSON.stringify(
+        outSideUsaCountry
+      )}`
     )
   }
 }
