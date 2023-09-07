@@ -7,7 +7,7 @@ const router = require('express').Router()
 
 // Generate sales data
 router.get('/', async (req, res) => {
-  console.log(`\route hit for running manual generate sales data tests...`)
+  console.log(`\nroute hit for running manual generate sales data tests...`)
 
   await runShipToTests()
 

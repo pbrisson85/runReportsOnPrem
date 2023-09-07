@@ -12,6 +12,8 @@ const runShipToTests = async () => {
     GROUP BY customer_code, customer_name, shipto_code, address_source
     `
 
+  console.log('blankState: ', blankState)
+
   if (blankState.length) {
     await requestEmailNotification(
       `Data testing exception: Blank states found in salesReporting.sales_line_items: ${JSON.stringify(blankState)}`
@@ -25,6 +27,8 @@ const runShipToTests = async () => {
     WHERE country = ''
     GROUP BY customer_code, customer_name, shipto_code, address_source
     `
+
+  console.log('blankCountry: ', blankCountry)
 
   if (blankCountry.length) {
     await requestEmailNotification(
@@ -40,6 +44,8 @@ const runShipToTests = async () => {
     GROUP BY customer_code, customer_name, shipto_code, address_source
     `
 
+  console.log('outSideUsaState: ', outSideUsaState)
+
   if (outSideUsaState.length) {
     await requestEmailNotification(
       `Data testing exception: Blank states found in salesReporting.sales_line_items: ${JSON.stringify(outSideUsaState)}`
@@ -53,6 +59,8 @@ const runShipToTests = async () => {
     WHERE state = 'OUTSIDE USA' AND country = 'USA'
     GROUP BY customer_code, customer_name, shipto_code, address_source
     `
+
+  console.log('outSideUsaCountry: ', outSideUsaCountry)
 
   if (outSideUsaCountry.length) {
     await requestEmailNotification(
