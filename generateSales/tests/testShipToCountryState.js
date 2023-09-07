@@ -70,6 +70,9 @@ const runShipToTests = async () => {
 
   if (!errors.length) {
     errors.push('No errors found in ship to country state tests')
+    console.log('No errors found in ship to country state tests')
+  } else {
+    console.log('errors found in ship to country state tests')
   }
 
   return errors
