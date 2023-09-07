@@ -8,7 +8,7 @@ const runShipToTests = async () => {
   const blankState = await sql`
     SELECT sl.customer_code, sl.customer_name, sl.shipto_code, sl.address_source
     FROM "salesReporting".sales_line_items AS sl
-    WHERE (sl.state = '' OR sl.state = 'NULL' OR sl.state IS NULL) AND sl.country = 'USA'
+    WHERE (sl.state = '' OR sl.state IS NULL) AND sl.country = 'USA'
     GROUP BY sl.customer_code, sl.customer_name, sl.shipto_code, sl.address_source
     `
 
