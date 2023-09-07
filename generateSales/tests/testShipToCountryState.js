@@ -4,6 +4,8 @@ const sql = require('../../server')
 const requestEmailNotification = require('../../requests/requestEmail')
 
 const runShipToTests = async () => {
+  console.log('running ship to country state tests...')
+
   let errors = []
 
   // state should never be blank wih a USA ship to
