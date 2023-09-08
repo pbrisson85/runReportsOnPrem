@@ -18,10 +18,10 @@ const getSoByWk_detail = async (config, weekSerial) => {
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
         ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
-        ${config.country ? sql`AND so.domestic = ${config.country}`: sql``} 
-        ${config.state ? sql`AND so.north_america = ${config.state}`: sql``} 
-        ${config.export ? sql`AND so.country = ${config.export}`: sql``} 
-        ${config.northAmerica ? sql`AND so.state = ${config.northAmerica}`: sql``} 
+        ${config.country ? sql`AND so.country = ${config.country}`: sql``} 
+        ${config.state ? sql`AND so.state = ${config.state}`: sql``} 
+        ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
+        ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
@@ -55,10 +55,10 @@ const getSoTagged_detail = async (config, weekSerial) => {
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
         ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
-        ${config.country ? sql`AND so.domestic = ${config.country}`: sql``} 
-        ${config.state ? sql`AND so.north_america = ${config.state}`: sql``} 
-        ${config.export ? sql`AND so.country = ${config.export}`: sql``} 
-        ${config.northAmerica ? sql`AND so.state = ${config.northAmerica}`: sql``} 
+        ${config.country ? sql`AND so.country = ${config.country}`: sql``} 
+        ${config.state ? sql`AND so.state = ${config.state}`: sql``} 
+        ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
+        ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
         AND so.tagged_weight > 0 
@@ -93,10 +93,10 @@ const getSoByWkUntagged_detail = async (config, weekSerial) => {
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
         ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
-        ${config.country ? sql`AND so.domestic = ${config.country}`: sql``} 
-        ${config.state ? sql`AND so.north_america = ${config.state}`: sql``} 
-        ${config.export ? sql`AND so.country = ${config.export}`: sql``} 
-        ${config.northAmerica ? sql`AND so.state = ${config.northAmerica}`: sql``} 
+        ${config.country ? sql`AND so.country = ${config.country}`: sql``} 
+        ${config.state ? sql`AND so.state = ${config.state}`: sql``} 
+        ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
+        ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
         AND so.untagged_weight > 0 
