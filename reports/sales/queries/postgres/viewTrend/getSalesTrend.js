@@ -35,6 +35,10 @@ const lvl_1_subtotal_getSalesByWk = async (config, start, end, trendQuery) => {
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
         ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
+        ${config.country ? sql`AND sl.domestic = ${config.country}`: sql``} 
+        ${config.state ? sql`AND sl.north_america = ${config.state}`: sql``} 
+        ${config.export ? sql`AND sl.country = ${config.export}`: sql``} 
+        ${config.northAmerica ? sql`AND sl.state = ${config.northAmerica}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
@@ -93,6 +97,10 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (config, start, end, trendQuer
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
         ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
+        ${config.country ? sql`AND sl.domestic = ${config.country}`: sql``} 
+        ${config.state ? sql`AND sl.north_america = ${config.state}`: sql``} 
+        ${config.export ? sql`AND sl.country = ${config.export}`: sql``} 
+        ${config.northAmerica ? sql`AND sl.state = ${config.northAmerica}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
@@ -146,6 +154,10 @@ const lvl_0_total_getSalesByWk = async (config, start, end) => {
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
         ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
+        ${config.country ? sql`AND sl.domestic = ${config.country}`: sql``} 
+        ${config.state ? sql`AND sl.north_america = ${config.state}`: sql``} 
+        ${config.export ? sql`AND sl.country = ${config.export}`: sql``} 
+        ${config.northAmerica ? sql`AND sl.state = ${config.northAmerica}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
@@ -191,6 +203,10 @@ const lvl_0_total_getSalesPeriodToDate = async (config, start, end) => {
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
         ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
+        ${config.country ? sql`AND sl.domestic = ${config.country}`: sql``} 
+        ${config.state ? sql`AND sl.north_america = ${config.state}`: sql``} 
+        ${config.export ? sql`AND sl.country = ${config.export}`: sql``} 
+        ${config.northAmerica ? sql`AND sl.state = ${config.northAmerica}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
