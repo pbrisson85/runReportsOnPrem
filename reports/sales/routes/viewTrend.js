@@ -5,6 +5,11 @@ const viewTrend = require('../routines/viewTrend')
 const labelCols_byItem = require('../queries/hardcode/cols_byItem')
 const labelCols_byCustomer = require('../queries/hardcode/cols_byCustomer')
 const labelCols_bySalesperson = require('../queries/hardcode/cols_bySalesperson')
+const labelCols_byUsVsExport = require('../queries/hardcode/cols_byUsVsExport')
+const labelCols_byNorthAmericaVsForeign = require('../queries/hardcode/cols_byNorthAmericaVsForeign')
+const labelCols_byCountry = require('../queries/hardcode/cols_byCountry')
+const labelCols_byState = require('../queries/hardcode/cols_byState')
+
 const getReportConfig = require('../utils/getReportConfig')
 const getViewTrendConfig = require('../utils/getViewTrendConfig')
 const addCustomerName = require('../routines/custom/trendByCustomer')
@@ -34,27 +39,39 @@ router.post('/', async (req, res) => {
   let cols = null
   const trendQuery = getViewTrendConfig(rightMenuSelection)
 
-  if (rightMenuSelection === 'Trend By Item') {
-    cols = labelCols_byItem
-  } else if (rightMenuSelection === 'Trend By Customer') {
-    cols = labelCols_byCustomer
-  } else if (rightMenuSelection === 'Trend By Salesperson') {
-    cols = labelCols_bySalesperson
+  switch (rightMenuSelection) {
+    case 'Trend By Item':
+      cols = labelCols_byItem
+      break
+    case 'Trend By Customer':
+      cols = labelCols_byCustomer
+      break
+    case 'Trend By Salesperson':
+      cols = labelCols_bySalesperson
+      break
+    case 'Trend By USA vs Export':
+      cols = labelCols_byUsVsExport
+      break
+    case 'Trend By North America vs Foreign':
+      cols = labelCols_byNorthAmericaVsForeign
+      break
+    case 'Trend By Country':
+      cols = labelCols_byCountry
+      break
+    case 'Trend By State':
+      cols = labelCols_byState
+      break
   }
 
   response = await viewTrend(cols, config, periodStart, periodEnd, showFyTrend, startWeek, endWeek, trendQuery)
 
   // CUSTOM ROUTINES FOR SPECIFIC REPORTS
-  if (rightMenuSelection === 'Trend By Item') {
-    // no custom actions
-  } else if (rightMenuSelection === 'Trend By Customer') {
+  if (rightMenuSelection === 'Trend By Customer') {
     const data = await addCustomerName(response.data)
     response = {
       ...response,
       data,
     }
-  } else if (rightMenuSelection === 'Trend By Salesperson') {
-    // no custom actions
   }
 
   console.log(`${config.user} - get drilldown data for ${reportFormat} route COMPLETE. \n`)

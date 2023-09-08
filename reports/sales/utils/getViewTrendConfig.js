@@ -53,6 +53,50 @@ const getViewTrendConfig = rightMenuSelection => {
         },
         inv: {},
       }
+
+    case 'Trend By USA vs Export':
+      return {
+        sl: {
+          l1_label: 'sl.domestic',
+        },
+        so: {
+          l1_label: 'so.domestic',
+        },
+        inv: {},
+      }
+
+    case 'Trend By North America vs Foreign':
+      return {
+        sl: {
+          l1_label: 'sl.north_america',
+        },
+        so: {
+          l1_label: 'so.north_america',
+        },
+        inv: {},
+      }
+
+    case 'Trend By Country':
+      return {
+        sl: {
+          l1_label: 'sl.country',
+        },
+        so: {
+          l1_label: 'so.country',
+        },
+        inv: {},
+      }
+
+    case 'Trend By State':
+      return {
+        sl: {
+          l1_label: 'sl.state',
+        },
+        so: {
+          l1_label: 'so.state',
+        },
+        inv: {},
+      }
   }
 }
 
