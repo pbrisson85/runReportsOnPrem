@@ -2,7 +2,7 @@ const sql = require('../../../../../server')
 
 /* *********************************************** level 1 *********************************************** */
 
-const lvl_1_subtotal_getSo_byWk = async (config, trendQuery) => {
+const l1_getSo_byWk = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG Sales Orders By Week ...`)
 
@@ -62,7 +62,7 @@ const lvl_1_subtotal_getSo_byWk = async (config, trendQuery) => {
   }
 }
 
-const lvl_1_subtotal_getSoTagged_byWk = async (config, trendQuery) => {
+const l1_getSoTagged_byWk = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 3: query postgres for FG Sales Orders By Week ...`)
 
@@ -123,7 +123,7 @@ const lvl_1_subtotal_getSoTagged_byWk = async (config, trendQuery) => {
   }
 }
 
-const lvl_1_subtotal_getSoUntagged_byWk = async (config, trendQuery) => {
+const l1_getSoUntagged_byWk = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 3: query postgres for FG Sales Orders By Week ...`)
 
@@ -186,7 +186,7 @@ const lvl_1_subtotal_getSoUntagged_byWk = async (config, trendQuery) => {
 
 /* *********************************************** TOTAL *********************************************** */
 
-const lvl_0_total_getSo_byWk = async config => {
+const l0_getSo_byWk = async config => {
   try {
     console.log(`${config.user} - level 0: query postgres for FG Sales Orders By Week ...`)
 
@@ -233,7 +233,7 @@ const lvl_0_total_getSo_byWk = async config => {
   }
 }
 
-const lvl_0_total_getSoTagged_byWk = async config => {
+const l0_getSoTagged_byWk = async config => {
   try {
     console.log(`${config.user} - level 0: query postgres for FG Sales Orders By Week ...`)
 
@@ -281,7 +281,7 @@ const lvl_0_total_getSoTagged_byWk = async config => {
   }
 }
 
-const lvl_0_total_getSoUntagged_byWk = async config => {
+const l0_getSoUntagged_byWk = async config => {
   try {
     console.log(`${config.user} - level 0: query postgres for FG Sales Orders By Week ...`)
 
@@ -329,9 +329,9 @@ const lvl_0_total_getSoUntagged_byWk = async config => {
   }
 }
 
-module.exports.lvl_1_subtotal_getSo_byWk = lvl_1_subtotal_getSo_byWk
-module.exports.lvl_0_total_getSo_byWk = lvl_0_total_getSo_byWk
-module.exports.lvl_0_total_getSoTagged_byWk = lvl_0_total_getSoTagged_byWk
-module.exports.lvl_0_total_getSoUntagged_byWk = lvl_0_total_getSoUntagged_byWk
-module.exports.lvl_1_subtotal_getSoTagged_byWk = lvl_1_subtotal_getSoTagged_byWk
-module.exports.lvl_1_subtotal_getSoUntagged_byWk = lvl_1_subtotal_getSoUntagged_byWk
+module.exports.l1_getSo_byWk = l1_getSo_byWk
+module.exports.l0_getSo_byWk = l0_getSo_byWk
+module.exports.l0_getSoTagged_byWk = l0_getSoTagged_byWk
+module.exports.l0_getSoUntagged_byWk = l0_getSoUntagged_byWk
+module.exports.l1_getSoTagged_byWk = l1_getSoTagged_byWk
+module.exports.l1_getSoUntagged_byWk = l1_getSoUntagged_byWk

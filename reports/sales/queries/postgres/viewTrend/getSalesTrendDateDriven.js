@@ -4,7 +4,7 @@ const sql = require('../../../../../server')
 
 // FG Species Group totals by week
 
-const lvl_1_subtotal_getSalesByWk = async (config, start, end, trendQuery) => {
+const l1_getSalesByWk = async (config, start, end, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: (getSalesTrend Lvl3) query postgres to get FG sales data by week ...`)
 
@@ -66,7 +66,7 @@ const lvl_1_subtotal_getSalesByWk = async (config, start, end, trendQuery) => {
 
 // FG Species Group col total for period
 
-const lvl_1_subtotal_getSalesPeriodToDate = async (config, start, end, trendQuery) => {
+const l1_getSalesPeriodToDate = async (config, start, end, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: (getSalesTrend Lvl3) query postgres to get FG sales data period total ...`)
 
@@ -128,7 +128,7 @@ const lvl_1_subtotal_getSalesPeriodToDate = async (config, start, end, trendQuer
 
 // All sales row totals by week for a program
 
-const lvl_0_total_getSalesByWk = async (config, start, end) => {
+const l0_getSalesByWk = async (config, start, end) => {
   try {
     console.log(`${config.user} - level 0: (getSalesTrend Lvl3) query postgres to get FG sales data by week ...`)
 
@@ -177,7 +177,7 @@ const lvl_0_total_getSalesByWk = async (config, start, end) => {
 
 // All sales col total for a program
 
-const lvl_0_total_getSalesPeriodToDate = async (config, start, end) => {
+const l0_getSalesPeriodToDate = async (config, start, end) => {
   try {
     console.log(`${config.user} - level 0: (getSalesTrend Lvl3) query postgres to get FG sales data period total ...`)
 
@@ -221,7 +221,7 @@ const lvl_0_total_getSalesPeriodToDate = async (config, start, end) => {
   }
 }
 
-module.exports.lvl_0_total_getSalesByWk = lvl_0_total_getSalesByWk
-module.exports.lvl_0_total_getSalesPeriodToDate = lvl_0_total_getSalesPeriodToDate
-module.exports.lvl_1_subtotal_getSalesByWk = lvl_1_subtotal_getSalesByWk
-module.exports.lvl_1_subtotal_getSalesPeriodToDate = lvl_1_subtotal_getSalesPeriodToDate
+module.exports.l0_getSalesByWk = l0_getSalesByWk
+module.exports.l0_getSalesPeriodToDate = l0_getSalesPeriodToDate
+module.exports.l1_getSalesByWk = l1_getSalesByWk
+module.exports.l1_getSalesPeriodToDate = l1_getSalesPeriodToDate

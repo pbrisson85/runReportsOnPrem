@@ -2,7 +2,7 @@ const sql = require('../../../../../server')
 
 /* *********************************************** level 1 *********************************************** */
 
-const lvl_1_subtotal_getSo = async (config, trendQuery) => {
+const l1_getSo = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG Sales Orders ...`)
 
@@ -60,7 +60,7 @@ const lvl_1_subtotal_getSo = async (config, trendQuery) => {
   }
 }
 
-const lvl_1_subtotal_getSoTagged = async (config, trendQuery) => {
+const l1_getSoTagged = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 3: query postgres for FG Sales Orders ...`)
 
@@ -118,7 +118,7 @@ const lvl_1_subtotal_getSoTagged = async (config, trendQuery) => {
   }
 }
 
-const lvl_1_subtotal_getSoUntagged = async (config, trendQuery) => {
+const l1_getSoUntagged = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 3: query postgres for FG Sales Orders ...`)
 
@@ -179,7 +179,7 @@ const lvl_1_subtotal_getSoUntagged = async (config, trendQuery) => {
 
 /* *********************************************** TOTAL *********************************************** */
 
-const lvl_0_total_getSo = async config => {
+const l0_getSo = async config => {
   try {
     console.log(`${config.user} - level 0: query postgres for FG Sales Orders ...`)
 
@@ -223,7 +223,7 @@ const lvl_0_total_getSo = async config => {
   }
 }
 
-const lvl_0_total_getSoTagged = async config => {
+const l0_getSoTagged = async config => {
   try {
     console.log(`${config.user} - level 0: query postgres for FG Sales Orders ...`)
 
@@ -268,7 +268,7 @@ const lvl_0_total_getSoTagged = async config => {
   }
 }
 
-const lvl_0_total_getSoUntagged = async config => {
+const l0_getSoUntagged = async config => {
   try {
     console.log(`${config.user} - level 0: query postgres for FG Sales Orders ...`)
 
@@ -313,9 +313,9 @@ const lvl_0_total_getSoUntagged = async config => {
   }
 }
 
-module.exports.lvl_1_subtotal_getSo = lvl_1_subtotal_getSo
-module.exports.lvl_0_total_getSo = lvl_0_total_getSo
-module.exports.lvl_0_total_getSoTagged = lvl_0_total_getSoTagged
-module.exports.lvl_0_total_getSoUntagged = lvl_0_total_getSoUntagged
-module.exports.lvl_1_subtotal_getSoTagged = lvl_1_subtotal_getSoTagged
-module.exports.lvl_1_subtotal_getSoUntagged = lvl_1_subtotal_getSoUntagged
+module.exports.l1_getSo = l1_getSo
+module.exports.l0_getSo = l0_getSo
+module.exports.l0_getSoTagged = l0_getSoTagged
+module.exports.l0_getSoUntagged = l0_getSoUntagged
+module.exports.l1_getSoTagged = l1_getSoTagged
+module.exports.l1_getSoUntagged = l1_getSoUntagged

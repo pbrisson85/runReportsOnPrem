@@ -2,22 +2,22 @@ const sql = require('../../../../../server')
 
 /* *********************************************** Level 1 Group *********************************************** */
 
-// FG Species Group totals by week
+// FG Species Group col total for period
 
-const l1_getSalesByFyYtd = async (config, start, end, showYtd, trendQuery) => {
+const l1_getSalesWkDriven = async (config, startWk, endWk, trendQuery) => {
   try {
-    console.log(`${config.user} - level 1: (getSalesTrendByFyYtd Lvl3) query postgres to get FG sales data by week ...`)
+    console.log(`${config.user} - level 1: (l1_getSalesWkDriven) query postgres to get FG sales data period total ...`)
 
     const response = await sql
       `SELECT 
-        sl.fiscal_year ${showYtd ? sql`|| '_ytd' ` : sql``} AS column, 
+        'SALES TOTAL' AS column, 
         ${trendQuery.sl.l1_label ? sql`${sql(trendQuery.sl.l1_label)} AS l1_label,`: sql``} 
         ${trendQuery.sl.l2_label ? sql`${sql(trendQuery.sl.l2_label)} AS l2_label,`: sql``} 
         ${trendQuery.sl.l3_label ? sql`${sql(trendQuery.sl.l3_label)} AS l3_label,`: sql``} 
         ${trendQuery.sl.l4_label ? sql`${sql(trendQuery.sl.l4_label)} AS l4_label,`: sql``} 
         ${trendQuery.sl.l5_label ? sql`${sql(trendQuery.sl.l5_label)} AS l5_label,`: sql``} 
         ${trendQuery.sl.l6_label ? sql`${sql(trendQuery.sl.l6_label)} AS l6_label,`: sql``} 
-        ${trendQuery.sl.l7_label ? sql`${sql(trendQuery.sl.l7_label)} AS l7_label,`: sql``} 
+        ${trendQuery.sl.l7_label ? sql`${sql(trendQuery.sl.l7_label)} AS l7_label,`: sql``}
         COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, 
         COALESCE(SUM(sl.gross_sales_ext),0) AS sales, 
         COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, 
@@ -26,9 +26,10 @@ const l1_getSalesByFyYtd = async (config, start, end, showYtd, trendQuery) => {
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
-          
+      
       WHERE 
-        ms.byproduct_type IS NULL 
+        sl.week >= ${startWk} AND sl.week <= ${endWk} 
+        AND ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
@@ -43,19 +44,16 @@ const l1_getSalesByFyYtd = async (config, start, end, showYtd, trendQuery) => {
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-        ${showYtd ? sql`AND sl.week >= ${start} AND sl.week <= ${end}` : sql``} 
       
       GROUP BY 
-        sl.fiscal_year, 
         ${trendQuery.sl.l1_label ? sql`${sql(trendQuery.sl.l1_label)}`: sql``} 
         ${trendQuery.sl.l2_label ? sql`, ${sql(trendQuery.sl.l2_label)}`: sql``} 
         ${trendQuery.sl.l3_label ? sql`, ${sql(trendQuery.sl.l3_label)}`: sql``} 
         ${trendQuery.sl.l4_label ? sql`, ${sql(trendQuery.sl.l4_label)}`: sql``} 
         ${trendQuery.sl.l5_label ? sql`, ${sql(trendQuery.sl.l5_label)}`: sql``} 
         ${trendQuery.sl.l6_label ? sql`, ${sql(trendQuery.sl.l6_label)}`: sql``} 
-        ${trendQuery.sl.l7_label ? sql`, ${sql(trendQuery.sl.l7_label)}`: sql``}  
-      
-      ORDER BY sl.fiscal_year` //prettier-ignore
+        ${trendQuery.sl.l7_label ? sql`, ${sql(trendQuery.sl.l7_label)}`: sql``}
+      ` //prettier-ignore
 
     return response
   } catch (error) {
@@ -66,17 +64,17 @@ const l1_getSalesByFyYtd = async (config, start, end, showYtd, trendQuery) => {
 
 /* *********************************************** Totals *********************************************** */
 
-// All sales row totals by week for a program
+// All sales col total for a program
 
-const l0_getSalesByFyYtd = async (config, start, end, showYtd) => {
+const l0_getSalesWkDriven = async (config, startWk, endWk) => {
   try {
-    console.log(`${config.user} - level 0: (getSalesTrendByFyYtd Lvl3) query postgres to get FG sales data by week ...`)
+    console.log(`${config.user} - level 0: (l0_getSalesWkDriven) query postgres to get FG sales data period total ...`)
 
     const response = await sql
       `SELECT 
-        sl.fiscal_year ${showYtd ? sql`|| '_ytd' ` : sql``} AS column, 
+        'SALES TOTAL' AS column, 
         'FG SALES' AS l1_label, 
-'TOTAL' AS l2_label,  
+        'TOTAL' AS l2_label,  
         COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, 
         COALESCE(SUM(sl.gross_sales_ext),0) AS sales, 
         COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, 
@@ -87,11 +85,12 @@ const l0_getSalesByFyYtd = async (config, start, end, showYtd) => {
           ON ms.item_num = sl.item_number 
       
       WHERE 
-        ms.byproduct_type IS NULL 
+        sl.week >= ${startWk} AND sl.week <= ${endWk} 
+        AND ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
-        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
-        ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``}   
+        ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
+        ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
         ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
         ${config.country ? sql`AND sl.country = ${config.country}`: sql``} 
         ${config.state ? sql`AND sl.state = ${config.state}`: sql``} 
@@ -102,11 +101,7 @@ const l0_getSalesByFyYtd = async (config, start, end, showYtd) => {
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-        ${showYtd ? sql`AND sl.week >= ${start} AND sl.week <= ${end}` : sql``} 
-      
-      GROUP BY sl.fiscal_year 
-      
-      ORDER BY sl.fiscal_year` //prettier-ignore
+        ` //prettier-ignore
 
     return response
   } catch (error) {
@@ -115,5 +110,5 @@ const l0_getSalesByFyYtd = async (config, start, end, showYtd) => {
   }
 }
 
-module.exports.l0_getSalesByFyYtd = l0_getSalesByFyYtd
-module.exports.l1_getSalesByFyYtd = l1_getSalesByFyYtd
+module.exports.l0_getSalesWkDriven = l0_getSalesWkDriven
+module.exports.l1_getSalesWkDriven = l1_getSalesWkDriven

@@ -1,7 +1,7 @@
 const sql = require('../../../../../server')
 /* *********************************************** Level 1 *********************************************** */
 
-const lvl_1_subtotal_getRmPo = async program => {
+const l1_getRmPo = async program => {
   try {
     console.log(`${config.user} - level 1: query postgres for RM open PO ...`)
 
@@ -25,7 +25,7 @@ const lvl_1_subtotal_getRmPo = async program => {
 
 // RM open PO grouped by program (includes in transit)
 
-const lvl_2_subtotal_getRmPo = async program => {
+const l2_getRmPo = async program => {
   try {
     console.log(`${config.user} - level 2: query postgres for RM open PO ...`)
 
@@ -49,7 +49,7 @@ const lvl_2_subtotal_getRmPo = async program => {
 
 // RM open PO grouped by program (includes in transit)
 
-const lvl_3_subtotal_getRmPo = async program => {
+const l3_getRmPo = async program => {
   try {
     console.log(`${config.user} - level 3: query postgres for RM open PO ...`)
 
@@ -71,7 +71,7 @@ const lvl_3_subtotal_getRmPo = async program => {
 
 /* *********************************************** TOTAL *********************************************** */
 
-const lvl_0_total_getRmPo = async program => {
+const l0_getRmPo = async program => {
   try {
     console.log(`${config.user} - level 0: query postgres for RM open PO ...`)
 
@@ -89,7 +89,7 @@ const lvl_0_total_getRmPo = async program => {
   }
 }
 
-module.exports.lvl_1_subtotal_getRmPo = lvl_1_subtotal_getRmPo
-module.exports.lvl_2_subtotal_getRmPo = lvl_2_subtotal_getRmPo
-module.exports.lvl_3_subtotal_getRmPo = lvl_3_subtotal_getRmPo
-module.exports.lvl_0_total_getRmPo = lvl_0_total_getRmPo
+module.exports.l1_getRmPo = l1_getRmPo
+module.exports.l2_getRmPo = l2_getRmPo
+module.exports.l3_getRmPo = l3_getRmPo
+module.exports.l0_getRmPo = l0_getRmPo

@@ -7,42 +7,36 @@ const {
 const { getFiscalYearCols, getFiscalYearYtdCols } = require('../queries/postgres/getFiscalYearCols')
 const { getLatestShipWk, getEarliestShipWk } = require('../queries/postgres/getSoDates')
 const {
-  lvl_1_subtotal_getSalesByWk,
-  lvl_0_total_getSalesByWk,
-  lvl_1_subtotal_getSalesPeriodToDate,
-  lvl_0_total_getSalesPeriodToDate,
-} = require('../queries/postgres/viewTrend/getSalesTrend')
+  l1_getSalesByWk,
+  l0_getSalesByWk,
+  l1_getSalesPeriodToDate,
+  l0_getSalesPeriodToDate,
+} = require('../queries/postgres/viewTrend/getSalesTrendDateDriven')
+const { l1_getSalesWkDriven, l0_getSalesWkDriven } = require('../queries/postgres/viewTrend/getSalesTrendWkDriven')
 const { getCompanyTotalSales } = require('../queries/postgres/kpi/getCompanyTotalSales')
-const { lvl_0_total_getSalesPeriodToDate: lvl_0_program_getSalesPeriodToDate } = require('../queries/postgres/baseReport/getSalesTrend')
-const { lvl_1_subtotal_getSalesByFyYtd, lvl_0_total_getSalesByFyYtd } = require('../queries/postgres/viewTrend/getSalesTrendByFyYtd')
+const { l0_getSalesPeriodToDate: l0_program_getSalesPeriodToDate } = require('../queries/postgres/baseReport/getSalesTrendDateDriven')
+const { l1_getSalesByFyYtd, l0_getSalesByFyYtd } = require('../queries/postgres/viewTrend/getSalesTrendByFyYtd')
 const {
-  lvl_1_subtotal_getFgInven,
-  lvl_0_total_getFgInven,
-  lvl_1_subtotal_getFgInTransit,
-  lvl_0_total_getFgInTransit,
-  lvl_1_subtotal_getFgAtLoc,
-  lvl_0_total_getFgAtLoc,
-  lvl_1_subtotal_getFgAtLoc_untagged,
-  lvl_0_total_getFgAtLoc_untagged,
-  lvl_1_subtotal_getFgAtLoc_tagged,
-  lvl_0_total_getFgAtLoc_tagged,
+  l1_getFgInven,
+  l0_getFgInven,
+  l1_getFgInTransit,
+  l0_getFgInTransit,
+  l1_getFgAtLoc,
+  l0_getFgAtLoc,
+  l1_getFgAtLoc_untagged,
+  l0_getFgAtLoc_untagged,
+  l1_getFgAtLoc_tagged,
+  l0_getFgAtLoc_tagged,
 } = require('../queries/postgres/viewTrend/getFgInven')
-const { lvl_1_subtotal_getFgPo, lvl_0_total_getFgPo } = require('../queries/postgres/viewTrend/getFgOpenPo')
+const { l1_getFgPo, l0_getFgPo } = require('../queries/postgres/viewTrend/getFgOpenPo')
+const { l1_getSo, l0_getSo, l1_getSoTagged, l0_getSoTagged, l1_getSoUntagged, l0_getSoUntagged } = require('../queries/postgres/viewTrend/getSo')
 const {
-  lvl_1_subtotal_getSo,
-  lvl_0_total_getSo,
-  lvl_1_subtotal_getSoTagged,
-  lvl_0_total_getSoTagged,
-  lvl_1_subtotal_getSoUntagged,
-  lvl_0_total_getSoUntagged,
-} = require('../queries/postgres/viewTrend/getSo')
-const {
-  lvl_1_subtotal_getSo_byWk,
-  lvl_0_total_getSo_byWk,
-  lvl_1_subtotal_getSoTagged_byWk,
-  lvl_0_total_getSoTagged_byWk,
-  lvl_1_subtotal_getSoUntagged_byWk,
-  lvl_0_total_getSoUntagged_byWk,
+  l1_getSo_byWk,
+  l0_getSo_byWk,
+  l1_getSoTagged_byWk,
+  l0_getSoTagged_byWk,
+  l1_getSoUntagged_byWk,
+  l0_getSoUntagged_byWk,
 } = require('../queries/postgres/viewTrend/getSoByWeek')
 const { getRowsFirstLevelDetail } = require('../queries/postgres/viewTrend/getRows')
 const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplatesOneLevel')
@@ -58,92 +52,116 @@ const calcInventoryAvailable = require('../models/calcInventoryAvailable')
 const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startWeek, endWeek, trendQuery) => {
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
-  const lvl_1_subtotal_fgInven = await lvl_1_subtotal_getFgInven(config, trendQuery)
-  const lvl_0_total_fgInven = await lvl_0_total_getFgInven(config, trendQuery)
+  const l1_fgInven = await l1_getFgInven(config, trendQuery)
+  const l0_fgInven = await l0_getFgInven(config, trendQuery)
   /* FG IN TRANSIT*/
-  const lvl_1_subtotal_fgInTransit = await lvl_1_subtotal_getFgInTransit(config, trendQuery)
-  const lvl_0_total_fgInTransit = await lvl_0_total_getFgInTransit(config)
+  const l1_fgInTransit = await l1_getFgInTransit(config, trendQuery)
+  const l0_fgInTransit = await l0_getFgInTransit(config)
   /* FG ON HAND (LESS IN TRANSIT) */
-  const lvl_1_subtotal_fgAtLoc = await lvl_1_subtotal_getFgAtLoc(config, trendQuery)
-  const lvl_0_total_fgAtLoc = await lvl_0_total_getFgAtLoc(config)
+  const l1_fgAtLoc = await l1_getFgAtLoc(config, trendQuery)
+  const l0_fgAtLoc = await l0_getFgAtLoc(config)
   /* FG ON HAND UNTAGGED */
-  const lvl_1_subtotal_fgAtLoc_untagged = await lvl_1_subtotal_getFgAtLoc_untagged(config, trendQuery)
-  const lvl_0_total_fgAtLoc_untagged = await lvl_0_total_getFgAtLoc_untagged(config)
+  const l1_fgAtLoc_untagged = await l1_getFgAtLoc_untagged(config, trendQuery)
+  const l0_fgAtLoc_untagged = await l0_getFgAtLoc_untagged(config)
   /* FG ON HAND TAGGED */
-  const lvl_1_subtotal_fgAtLoc_tagged = await lvl_1_subtotal_getFgAtLoc_tagged(config, trendQuery)
-  const lvl_0_total_fgAtLoc_tagged = await lvl_0_total_getFgAtLoc_tagged(config)
+  const l1_fgAtLoc_tagged = await l1_getFgAtLoc_tagged(config, trendQuery)
+  const l0_fgAtLoc_tagged = await l0_getFgAtLoc_tagged(config)
 
   /* FG ON ORDER */
-  const lvl_1_subtotal_fgPo = await lvl_1_subtotal_getFgPo(config, trendQuery)
-  const lvl_0_total_fgPo = await lvl_0_total_getFgPo(config)
+  const l1_fgPo = await l1_getFgPo(config, trendQuery)
+  const l0_fgPo = await l0_getFgPo(config)
 
   // ///////////////////////////////// SALES ORDERS
   /* ALL SO */
-  const lvl_1_subtotal_so = await lvl_1_subtotal_getSo(config, trendQuery)
-  const lvl_0_total_so = await lvl_0_total_getSo(config)
+  const l1_so = await l1_getSo(config, trendQuery)
+  const l0_so = await l0_getSo(config)
 
-  const lvl_1_subtotal_so_byWk = await lvl_1_subtotal_getSo_byWk(config, trendQuery)
-  const lvl_0_total_so_byWk = await lvl_0_total_getSo_byWk(config)
+  const l1_so_byWk = await l1_getSo_byWk(config, trendQuery)
+  const l0_so_byWk = await l0_getSo_byWk(config)
 
   /* TAGGED SO */
-  const lvl_1_subtotal_soTagged = await lvl_1_subtotal_getSoTagged(config, trendQuery)
-  const lvl_0_total_soTagged = await lvl_0_total_getSoTagged(config)
+  const l1_soTagged = await l1_getSoTagged(config, trendQuery)
+  const l0_soTagged = await l0_getSoTagged(config)
 
-  const lvl_1_subtotal_soTagged_byWk = await lvl_1_subtotal_getSoTagged_byWk(config, trendQuery)
-  const lvl_0_total_soTagged_byWk = await lvl_0_total_getSoTagged_byWk(config)
+  const l1_soTagged_byWk = await l1_getSoTagged_byWk(config, trendQuery)
+  const l0_soTagged_byWk = await l0_getSoTagged_byWk(config)
 
   /* UNTAGGED SO */
-  const lvl_1_subtotal_soUntagged = await lvl_1_subtotal_getSoUntagged(config, trendQuery)
-  const lvl_0_total_soUntagged = await lvl_0_total_getSoUntagged(config)
+  const l1_soUntagged = await l1_getSoUntagged(config, trendQuery)
+  const l0_soUntagged = await l0_getSoUntagged(config)
 
-  const lvl_1_subtotal_soUntagged_byWk = await lvl_1_subtotal_getSoUntagged_byWk(config, trendQuery)
-  const lvl_0_total_soUntagged_byWk = await lvl_0_total_getSoUntagged_byWk(config)
+  const l1_soUntagged_byWk = await l1_getSoUntagged_byWk(config, trendQuery)
+  const l0_soUntagged_byWk = await l0_getSoUntagged_byWk(config)
 
   // ///////////////////////////////// SALES DATA
-  const lvl_1_subtotal_salesByFy = await lvl_1_subtotal_getSalesByFyYtd(config, start, end, false, trendQuery)
-  const lvl_0_total_salesByFy = await lvl_0_total_getSalesByFyYtd(config, start, end, false)
+  const l1_salesByFy = await l1_getSalesByFyYtd(config, start, end, false, trendQuery)
+  const l0_salesByFy = await l0_getSalesByFyYtd(config, start, end, false)
 
-  const lvl_1_subtotal_salesByFyYtd = await lvl_1_subtotal_getSalesByFyYtd(config, startWeek, endWeek, true, trendQuery)
-  const lvl_0_total_salesByFyYtd = await lvl_0_total_getSalesByFyYtd(config, startWeek, endWeek, true)
+  const l1_salesByFyYtd = await l1_getSalesByFyYtd(config, startWeek, endWeek, true, trendQuery)
+  const l0_salesByFyYtd = await l0_getSalesByFyYtd(config, startWeek, endWeek, true)
 
-  const lvl_1_subtotal_salesByWk = await lvl_1_subtotal_getSalesByWk(config, start, end, trendQuery)
-  const lvl_0_total_salesByWk = await lvl_0_total_getSalesByWk(config, start, end)
+  const l1_salesByWk = await l1_getSalesByWk(config, start, end, trendQuery)
+  const l0_salesByWk = await l0_getSalesByWk(config, start, end)
 
-  const lvl_1_subtotal_salesPeriodToDate = await lvl_1_subtotal_getSalesPeriodToDate(config, start, end, trendQuery)
-  const lvl_0_total_salesPeriodToDate = await lvl_0_total_getSalesPeriodToDate(config, start, end)
+  const l1_salesPeriodToDate = await l1_getSalesPeriodToDate(config, start, end, trendQuery)
+  const l0_salesPeriodToDate = await l0_getSalesPeriodToDate(config, start, end)
+
+  const l1_trailingTwoWeek = endWeek < 2 ? [] : await l1_getSalesWkDriven(config, endWeek - 1, endWeek, trendQuery)
+  const l0_trailingTwoWeek = endWeek < 2 ? [] : await l0_getSalesWkDriven(config, endWeek - 1, endWeek)
+
+  const l1_trailingFourWeek = endWeek < 4 ? [] : await l1_getSalesWkDriven(config, endWeek - 3, endWeek, trendQuery)
+  const l0_trailingFourWeek = endWeek < 4 ? [] : await l0_getSalesWkDriven(config, endWeek - 3, endWeek)
+
+  const l1_trailingEightWeek = endWeek < 8 ? [] : await l1_getSalesWkDriven(config, endWeek - 7, endWeek, trendQuery)
+  const l0_trailingEightWeek = endWeek < 8 ? [] : await l0_getSalesWkDriven(config, endWeek - 7, endWeek)
+
+  const l1_trailingTwleveWeek = endWeek < 12 ? [] : await l1_getSalesWkDriven(config, endWeek - 11, endWeek, trendQuery)
+  const l0_trailingTwelveWeek = endWeek < 12 ? [] : await l0_getSalesWkDriven(config, endWeek - 11, endWeek)
 
   const companyTotalSales = await getCompanyTotalSales(start, end, config)
 
   ///////////////////////////////// KPI DATA
   /* % COMPANY SALES */
-  const lvl_1_percent_companySales = calcPercentSalesCol(companyTotalSales[0], lvl_1_subtotal_salesPeriodToDate, 'percentCompanySales')
-  const lvl_0_percent_companySales = calcPercentSalesCol(companyTotalSales[0], lvl_0_total_salesPeriodToDate, 'percentCompanySales')
+  const l1_percent_companySales = calcPercentSalesCol(companyTotalSales[0], l1_salesPeriodToDate, 'percentCompanySales')
+  const l0_percent_companySales = calcPercentSalesCol(companyTotalSales[0], l0_salesPeriodToDate, 'percentCompanySales')
 
   /* % PROGRAM SALES */
-  let lvl_1_percent_programSales = []
-  let lvl_0_percent_programSales = []
+  let l1_percent_programSales = []
+  let l0_percent_programSales = []
   if (config.program !== null) {
-    const lvl_0_program_salesPeriodToDate = await lvl_0_program_getSalesPeriodToDate(config, start, end, config.program)
-    lvl_1_percent_programSales = calcPercentSalesCol(lvl_0_program_salesPeriodToDate[0], lvl_1_subtotal_salesPeriodToDate, 'percentProgramSales')
-    lvl_0_percent_programSales = calcPercentSalesCol(lvl_0_program_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentProgramSales')
+    const l0_program_salesPeriodToDate = await l0_program_getSalesPeriodToDate(config, start, end, config.program)
+    l1_percent_programSales = calcPercentSalesCol(l0_program_salesPeriodToDate[0], l1_salesPeriodToDate, 'percentProgramSales')
+    l0_percent_programSales = calcPercentSalesCol(l0_program_salesPeriodToDate[0], l0_salesPeriodToDate, 'percentProgramSales')
   }
 
   /* % REPORT TOTAL */
-  const lvl_1_percent_reportTotal = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_1_subtotal_salesPeriodToDate, 'percentReportTotal')
-  const lvl_0_percent_reportTotal = calcPercentSalesCol(lvl_0_total_salesPeriodToDate[0], lvl_0_total_salesPeriodToDate, 'percentReportTotal')
+  const l1_percent_reportTotal = calcPercentSalesCol(l0_salesPeriodToDate[0], l1_salesPeriodToDate, 'percentReportTotal')
+  const l0_percent_reportTotal = calcPercentSalesCol(l0_salesPeriodToDate[0], l0_salesPeriodToDate, 'percentReportTotal')
 
   /* AVE WEEKLY SALES */
   const weeks = endWeek - startWeek + 1
-  const lvl_1_aveWeeklySales = calcAveWeeklySales(lvl_1_subtotal_salesPeriodToDate, 'aveWeeklySales', weeks)
-  const lvl_0_aveWeeklySales = calcAveWeeklySales(lvl_0_total_salesPeriodToDate, 'aveWeeklySales', weeks)
+  const l1_aveWeeklySales = calcAveWeeklySales(l1_salesPeriodToDate, 'aveWeeklySales', weeks)
+  const l0_aveWeeklySales = calcAveWeeklySales(l0_salesPeriodToDate, 'aveWeeklySales', weeks)
+
+  const l1_twoWkAveSales = calcAveWeeklySales(l1_trailingTwoWeek, 'twoWkAveSales', 2)
+  const l0_twoWkAveSales = calcAveWeeklySales(l0_trailingTwoWeek, 'twoWkAveSales', 2)
+
+  const l1_fourWkAveSales = calcAveWeeklySales(l1_trailingFourWeek, 'fourWkAveSales', 4)
+  const l0_fourWkAveSales = calcAveWeeklySales(l0_trailingFourWeek, 'fourWkAveSales', 4)
+
+  const l1_eightWkAveSales = calcAveWeeklySales(l1_trailingEightWeek, 'eightWkAveSales', 8)
+  const l0_eightWkAveSales = calcAveWeeklySales(l0_trailingEightWeek, 'eightWkAveSales', 8)
+
+  const l1_twelveWkAveSales = calcAveWeeklySales(l1_trailingTwelveWeek, 'twelveWkAveSales', 12)
+  const l0_twelveWkAveSales = calcAveWeeklySales(l0_trailingTwelveWeek, 'twelveWkAveSales', 12)
 
   /* WEEKS INV ON HAND */
-  const lvl_1_weeksInvOnHand = calcWeeksInvOnHand(lvl_1_subtotal_fgInven, lvl_1_aveWeeklySales, 'weeksInvenOnHand')
-  const lvl_0_weeksInvOnHand = calcWeeksInvOnHand(lvl_0_total_fgInven, lvl_0_aveWeeklySales, 'weeksInvenOnHand')
+  const l1_weeksInvOnHand = calcWeeksInvOnHand(l1_fgInven, l1_aveWeeklySales, 'weeksInvenOnHand')
+  const l0_weeksInvOnHand = calcWeeksInvOnHand(l0_fgInven, l0_aveWeeklySales, 'weeksInvenOnHand')
 
   /* INVENTORY AVAILABLE */
-  const lvl_1_invAvailable = calcInventoryAvailable(lvl_1_subtotal_fgInven, lvl_1_subtotal_fgPo, lvl_1_subtotal_so, 'invenAvailable')
-  const lvl_0_invAvailable = calcInventoryAvailable(lvl_0_total_fgInven, lvl_0_total_fgPo, lvl_0_total_so, 'invenAvailable')
+  const l1_invAvailable = calcInventoryAvailable(l1_fgInven, l1_fgPo, l1_so, 'invenAvailable')
+  const l0_invAvailable = calcInventoryAvailable(l0_fgInven, l0_fgPo, l0_so, 'invenAvailable')
 
   ///////////////////////////////// ROWS
   const rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, showFyTrend, trendQuery)
@@ -165,59 +183,65 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   })
 
   // switch to include fy trend data
-  const fyTrendSales = showFyTrend
-    ? [...lvl_1_subtotal_salesByFy, ...lvl_0_total_salesByFy, ...lvl_1_subtotal_salesByFyYtd, ...lvl_0_total_salesByFyYtd]
-    : []
+  const fyTrendSales = showFyTrend ? [...l1_salesByFy, ...l0_salesByFy, ...l1_salesByFyYtd, ...l0_salesByFyYtd] : []
 
   const mappedSales = mapSalesToRowTemplates(
     [
-      ...lvl_1_subtotal_salesByWk,
-      ...lvl_0_total_salesByWk,
-      ...lvl_1_subtotal_salesPeriodToDate,
-      ...lvl_0_total_salesPeriodToDate,
-      ...lvl_1_subtotal_so,
-      ...lvl_0_total_so,
-      ...lvl_1_subtotal_soTagged,
-      ...lvl_0_total_soTagged,
-      ...lvl_1_subtotal_soUntagged,
-      ...lvl_0_total_soUntagged,
-      ...lvl_1_subtotal_so_byWk,
-      ...lvl_0_total_so_byWk,
-      ...lvl_1_subtotal_soTagged_byWk,
-      ...lvl_0_total_soTagged_byWk,
-      ...lvl_1_subtotal_soUntagged_byWk,
-      ...lvl_0_total_soUntagged_byWk,
+      ...l1_salesByWk,
+      ...l0_salesByWk,
+      ...l1_salesPeriodToDate,
+      ...l0_salesPeriodToDate,
+      ...l1_so,
+      ...l0_so,
+      ...l1_soTagged,
+      ...l0_soTagged,
+      ...l1_soUntagged,
+      ...l0_soUntagged,
+      ...l1_so_byWk,
+      ...l0_so_byWk,
+      ...l1_soTagged_byWk,
+      ...l0_soTagged_byWk,
+      ...l1_soUntagged_byWk,
+      ...l0_soUntagged_byWk,
       ...fyTrendSales,
-      ...lvl_1_percent_companySales,
-      ...lvl_0_percent_companySales,
-      ...lvl_1_percent_programSales,
-      ...lvl_0_percent_programSales,
-      ...lvl_1_percent_reportTotal,
-      ...lvl_0_percent_reportTotal,
-      ...lvl_1_aveWeeklySales,
-      ...lvl_0_aveWeeklySales,
+      ...l1_percent_companySales,
+      ...l0_percent_companySales,
+      ...l1_percent_programSales,
+      ...l0_percent_programSales,
+      ...l1_percent_reportTotal,
+      ...l0_percent_reportTotal,
+      ...l1_aveWeeklySales,
+      ...l0_aveWeeklySales,
+      ...l1_twoWkAveSales,
+      ...l0_twoWkAveSales,
+      ...l1_fourWkAveSales,
+      ...l0_fourWkAveSales,
+      ...l1_eightWkAveSales,
+      ...l0_eightWkAveSales,
+      ...l1_twelveWkAveSales,
+      ...l0_twelveWkAveSales,
     ],
     rowTemplate_unflat
   )
 
   const mappedInven = mapInvenToRowTemplates(
     [
-      ...lvl_1_subtotal_fgInven,
-      ...lvl_0_total_fgInven,
-      ...lvl_1_subtotal_fgInTransit,
-      ...lvl_0_total_fgInTransit,
-      ...lvl_1_subtotal_fgAtLoc,
-      ...lvl_0_total_fgAtLoc,
-      ...lvl_1_subtotal_fgAtLoc_untagged,
-      ...lvl_0_total_fgAtLoc_untagged,
-      ...lvl_1_subtotal_fgAtLoc_tagged,
-      ...lvl_0_total_fgAtLoc_tagged,
-      ...lvl_1_subtotal_fgPo,
-      ...lvl_0_total_fgPo,
-      ...lvl_1_weeksInvOnHand,
-      ...lvl_0_weeksInvOnHand,
-      ...lvl_1_invAvailable,
-      ...lvl_0_invAvailable,
+      ...l1_fgInven,
+      ...l0_fgInven,
+      ...l1_fgInTransit,
+      ...l0_fgInTransit,
+      ...l1_fgAtLoc,
+      ...l0_fgAtLoc,
+      ...l1_fgAtLoc_untagged,
+      ...l0_fgAtLoc_untagged,
+      ...l1_fgAtLoc_tagged,
+      ...l0_fgAtLoc_tagged,
+      ...l1_fgPo,
+      ...l0_fgPo,
+      ...l1_weeksInvOnHand,
+      ...l0_weeksInvOnHand,
+      ...l1_invAvailable,
+      ...l0_invAvailable,
     ],
     rowTemplate_unflat
   )

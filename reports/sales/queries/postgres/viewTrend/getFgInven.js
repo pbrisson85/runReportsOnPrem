@@ -4,7 +4,7 @@ const sql = require('../../../../../server')
 
 // FG on hand (includes in transit)
 
-const lvl_1_subtotal_getFgInven = async (config, trendQuery) => {
+const l1_getFgInven = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG on hand ...`)
 
@@ -38,30 +38,7 @@ const lvl_1_subtotal_getFgInven = async (config, trendQuery) => {
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``}
-        ${config.hasSalesFilters ? sql`AND pi.item_number IN (
-          SELECT so.item_num AS item
-          FROM "salesReporting".sales_orders AS so
-          WHERE 
-          so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-          ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``}
-          ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
-          ${config.country ? sql`AND so.country = ${config.country}`: sql``} 
-          ${config.state ? sql`AND so.state = ${config.state}`: sql``} 
-          ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
-          ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``}
-
-          UNION SELECT sl.item_number AS item
-          FROM "salesReporting".sales_lines AS sl
-          WHERE sl.item_number IS NOT NULL
-          ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
-          ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
-          ${config.country ? sql`AND sl.country = ${config.country}`: sql``} 
-          ${config.state ? sql`AND sl.state = ${config.state}`: sql``} 
-          ${config.export ? sql`AND sl.domestic = ${config.export}`: sql``} 
-          ${config.northAmerica ? sql`AND sl.north_america = ${config.northAmerica}`: sql``} 
-        )` : sql``}
         
-      
       GROUP BY 
       ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)}`: sql``} 
       ${trendQuery.inv.l2_label ? sql`, ${sql(trendQuery.inv.l2_label)}`: sql``} 
@@ -81,7 +58,7 @@ const lvl_1_subtotal_getFgInven = async (config, trendQuery) => {
 
 // FG in transit
 
-const lvl_1_subtotal_getFgInTransit = async (config, trendQuery) => {
+const l1_getFgInTransit = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG in transit ...`)
 
@@ -114,29 +91,7 @@ const lvl_1_subtotal_getFgInTransit = async (config, trendQuery) => {
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``}
-        ${config.hasSalesFilters ? sql`AND pi.item_number IN (
-          SELECT so.item_num AS item
-          FROM "salesReporting".sales_orders AS so
-          WHERE 
-          so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-          ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``}
-          ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
-          ${config.country ? sql`AND so.country = ${config.country}`: sql``} 
-          ${config.state ? sql`AND so.state = ${config.state}`: sql``} 
-          ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
-          ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``}
-
-          UNION SELECT sl.item_number AS item
-          FROM "salesReporting".sales_lines AS sl
-          WHERE sl.item_number IS NOT NULL
-          ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
-          ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
-          ${config.country ? sql`AND sl.country = ${config.country}`: sql``} 
-          ${config.state ? sql`AND sl.state = ${config.state}`: sql``} 
-          ${config.export ? sql`AND sl.domestic = ${config.export}`: sql``} 
-          ${config.northAmerica ? sql`AND sl.north_america = ${config.northAmerica}`: sql``} 
-        )` : sql``} 
-      
+         
       GROUP BY 
         ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)}`: sql``} 
         ${trendQuery.inv.l2_label ? sql`, ${sql(trendQuery.inv.l2_label)}`: sql``} 
@@ -156,7 +111,7 @@ const lvl_1_subtotal_getFgInTransit = async (config, trendQuery) => {
 
 // FG at location
 
-const lvl_1_subtotal_getFgAtLoc = async (config, trendQuery) => {
+const l1_getFgAtLoc = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG at location ...`)
 
@@ -187,29 +142,7 @@ const lvl_1_subtotal_getFgAtLoc = async (config, trendQuery) => {
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
-        ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``}
-        ${config.hasSalesFilters ? sql`AND pi.item_number IN (
-          SELECT so.item_num AS item
-          FROM "salesReporting".sales_orders AS so
-          WHERE 
-          so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-          ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``}
-          ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
-          ${config.country ? sql`AND so.country = ${config.country}`: sql``} 
-          ${config.state ? sql`AND so.state = ${config.state}`: sql``} 
-          ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
-          ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``}
-
-          UNION SELECT sl.item_number AS item
-          FROM "salesReporting".sales_lines AS sl
-          WHERE sl.item_number IS NOT NULL
-          ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
-          ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
-          ${config.country ? sql`AND sl.country = ${config.country}`: sql``} 
-          ${config.state ? sql`AND sl.state = ${config.state}`: sql``} 
-          ${config.export ? sql`AND sl.domestic = ${config.export}`: sql``} 
-          ${config.northAmerica ? sql`AND sl.north_america = ${config.northAmerica}`: sql``} 
-        )` : sql``} 
+        ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``}   
       
       GROUP BY 
         ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)}`: sql``} 
@@ -228,7 +161,7 @@ const lvl_1_subtotal_getFgAtLoc = async (config, trendQuery) => {
   }
 }
 
-const lvl_1_subtotal_getFgAtLoc_untagged = async (config, trendQuery) => {
+const l1_getFgAtLoc_untagged = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG at location UNTAGGED ...`)
 
@@ -316,7 +249,7 @@ GROUP BY
   }
 }
 
-const lvl_1_subtotal_getFgAtLoc_tagged = async (config, trendQuery) => {
+const l1_getFgAtLoc_tagged = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG at location TAGGED...`)
 
@@ -348,28 +281,6 @@ const lvl_1_subtotal_getFgAtLoc_tagged = async (config, trendQuery) => {
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``}
-        ${config.hasSalesFilters ? sql`AND pi.item_number IN (
-          SELECT so.item_num AS item
-          FROM "salesReporting".sales_orders AS so
-          WHERE 
-          so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-          ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``}
-          ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
-          ${config.country ? sql`AND so.country = ${config.country}`: sql``} 
-          ${config.state ? sql`AND so.state = ${config.state}`: sql``} 
-          ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
-          ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``}
-
-          UNION SELECT sl.item_number AS item
-          FROM "salesReporting".sales_lines AS sl
-          WHERE sl.item_number IS NOT NULL
-          ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
-          ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
-          ${config.country ? sql`AND sl.country = ${config.country}`: sql``} 
-          ${config.state ? sql`AND sl.state = ${config.state}`: sql``} 
-          ${config.export ? sql`AND sl.domestic = ${config.export}`: sql``} 
-          ${config.northAmerica ? sql`AND sl.north_america = ${config.northAmerica}`: sql``} 
-        )` : sql``} 
       
       GROUP BY 
         ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)}`: sql``} 
@@ -392,7 +303,7 @@ const lvl_1_subtotal_getFgAtLoc_tagged = async (config, trendQuery) => {
 
 // FG on hand (includes in transit)
 
-const lvl_0_total_getFgInven = async config => {
+const l0_getFgInven = async config => {
   try {
     console.log(`${config.user} - level 0: query postgres for FG on hand ...`)
 
@@ -415,28 +326,7 @@ const lvl_0_total_getFgInven = async config => {
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``}
-        ${config.hasSalesFilters ? sql`AND pi.item_number IN (
-          SELECT so.item_num AS item
-          FROM "salesReporting".sales_orders AS so
-          WHERE 
-          so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-          ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``}
-          ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
-          ${config.country ? sql`AND so.country = ${config.country}`: sql``} 
-          ${config.state ? sql`AND so.state = ${config.state}`: sql``} 
-          ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
-          ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``}
-
-          UNION SELECT sl.item_number AS item
-          FROM "salesReporting".sales_lines AS sl
-          WHERE sl.item_number IS NOT NULL
-          ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
-          ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
-          ${config.country ? sql`AND sl.country = ${config.country}`: sql``} 
-          ${config.state ? sql`AND sl.state = ${config.state}`: sql``} 
-          ${config.export ? sql`AND sl.domestic = ${config.export}`: sql``} 
-          ${config.northAmerica ? sql`AND sl.north_america = ${config.northAmerica}`: sql``} 
-        )` : sql``}
+        
         ` //prettier-ignore
 
     return response
@@ -448,7 +338,7 @@ const lvl_0_total_getFgInven = async config => {
 
 // FG in transit
 
-const lvl_0_total_getFgInTransit = async config => {
+const l0_getFgInTransit = async config => {
   try {
     console.log(`${config.user} - level 0: query postgres for FG in transit ...`)
 
@@ -470,28 +360,7 @@ const lvl_0_total_getFgInTransit = async config => {
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``}
-        ${config.hasSalesFilters ? sql`AND pi.item_number IN (
-          SELECT so.item_num AS item
-          FROM "salesReporting".sales_orders AS so
-          WHERE 
-          so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-          ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``}
-          ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
-          ${config.country ? sql`AND so.country = ${config.country}`: sql``} 
-          ${config.state ? sql`AND so.state = ${config.state}`: sql``} 
-          ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
-          ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``}
-
-          UNION SELECT sl.item_number AS item
-          FROM "salesReporting".sales_lines AS sl
-          WHERE sl.item_number IS NOT NULL
-          ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
-          ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
-          ${config.country ? sql`AND sl.country = ${config.country}`: sql``} 
-          ${config.state ? sql`AND sl.state = ${config.state}`: sql``} 
-          ${config.export ? sql`AND sl.domestic = ${config.export}`: sql``} 
-          ${config.northAmerica ? sql`AND sl.north_america = ${config.northAmerica}`: sql``} 
-        )` : sql``}
+        
         ` //prettier-ignore
 
     return response
@@ -503,7 +372,7 @@ const lvl_0_total_getFgInTransit = async config => {
 
 // FG at location
 
-const lvl_0_total_getFgAtLoc = async config => {
+const l0_getFgAtLoc = async config => {
   try {
     console.log(`${config.user} - level 0: query postgres for FG at location ...`)
 
@@ -525,28 +394,7 @@ const lvl_0_total_getFgAtLoc = async config => {
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``}
-        ${config.hasSalesFilters ? sql`AND pi.item_number IN (
-          SELECT so.item_num AS item
-          FROM "salesReporting".sales_orders AS so
-          WHERE 
-          so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-          ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``}
-          ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
-          ${config.country ? sql`AND so.country = ${config.country}`: sql``} 
-          ${config.state ? sql`AND so.state = ${config.state}`: sql``} 
-          ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
-          ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``}
-
-          UNION SELECT sl.item_number AS item
-          FROM "salesReporting".sales_lines AS sl
-          WHERE sl.item_number IS NOT NULL
-          ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
-          ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
-          ${config.country ? sql`AND sl.country = ${config.country}`: sql``} 
-          ${config.state ? sql`AND sl.state = ${config.state}`: sql``} 
-          ${config.export ? sql`AND sl.domestic = ${config.export}`: sql``} 
-          ${config.northAmerica ? sql`AND sl.north_america = ${config.northAmerica}`: sql``} 
-        )` : sql``}
+        
         ` //prettier-ignore
 
     return response
@@ -556,7 +404,7 @@ const lvl_0_total_getFgAtLoc = async config => {
   }
 }
 
-const lvl_0_total_getFgAtLoc_untagged = async config => {
+const l0_getFgAtLoc_untagged = async config => {
   try {
     console.log(`${config.user} - level 0: query postgres for FG at location UNTAGGED ...`)
 
@@ -627,7 +475,7 @@ const lvl_0_total_getFgAtLoc_untagged = async config => {
   }
 }
 
-const lvl_0_total_getFgAtLoc_tagged = async config => {
+const l0_getFgAtLoc_tagged = async config => {
   try {
     console.log(`${config.user} - level 0: query postgres for FG at location TAGGED ...`)
 
@@ -648,28 +496,7 @@ const lvl_0_total_getFgAtLoc_tagged = async config => {
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``}
-        ${config.hasSalesFilters ? sql`AND pi.item_number IN (
-          SELECT so.item_num AS item
-          FROM "salesReporting".sales_orders AS so
-          WHERE 
-          so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-          ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``}
-          ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
-          ${config.country ? sql`AND so.country = ${config.country}`: sql``} 
-          ${config.state ? sql`AND so.state = ${config.state}`: sql``} 
-          ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
-          ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``}
-
-          UNION SELECT sl.item_number AS item
-          FROM "salesReporting".sales_lines AS sl
-          WHERE sl.item_number IS NOT NULL
-          ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
-          ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
-          ${config.country ? sql`AND sl.country = ${config.country}`: sql``} 
-          ${config.state ? sql`AND sl.state = ${config.state}`: sql``} 
-          ${config.export ? sql`AND sl.domestic = ${config.export}`: sql``} 
-          ${config.northAmerica ? sql`AND sl.north_america = ${config.northAmerica}`: sql``} 
-        )` : sql``}
+        
         ` //prettier-ignore
 
     return response
@@ -679,13 +506,13 @@ const lvl_0_total_getFgAtLoc_tagged = async config => {
   }
 }
 
-module.exports.lvl_1_subtotal_getFgInven = lvl_1_subtotal_getFgInven
-module.exports.lvl_1_subtotal_getFgInTransit = lvl_1_subtotal_getFgInTransit
-module.exports.lvl_1_subtotal_getFgAtLoc = lvl_1_subtotal_getFgAtLoc
-module.exports.lvl_0_total_getFgInven = lvl_0_total_getFgInven
-module.exports.lvl_0_total_getFgInTransit = lvl_0_total_getFgInTransit
-module.exports.lvl_0_total_getFgAtLoc = lvl_0_total_getFgAtLoc
-module.exports.lvl_0_total_getFgAtLoc_untagged = lvl_0_total_getFgAtLoc_untagged
-module.exports.lvl_0_total_getFgAtLoc_tagged = lvl_0_total_getFgAtLoc_tagged
-module.exports.lvl_1_subtotal_getFgAtLoc_untagged = lvl_1_subtotal_getFgAtLoc_untagged
-module.exports.lvl_1_subtotal_getFgAtLoc_tagged = lvl_1_subtotal_getFgAtLoc_tagged
+module.exports.l1_getFgInven = l1_getFgInven
+module.exports.l1_getFgInTransit = l1_getFgInTransit
+module.exports.l1_getFgAtLoc = l1_getFgAtLoc
+module.exports.l0_getFgInven = l0_getFgInven
+module.exports.l0_getFgInTransit = l0_getFgInTransit
+module.exports.l0_getFgAtLoc = l0_getFgAtLoc
+module.exports.l0_getFgAtLoc_untagged = l0_getFgAtLoc_untagged
+module.exports.l0_getFgAtLoc_tagged = l0_getFgAtLoc_tagged
+module.exports.l1_getFgAtLoc_untagged = l1_getFgAtLoc_untagged
+module.exports.l1_getFgAtLoc_tagged = l1_getFgAtLoc_tagged

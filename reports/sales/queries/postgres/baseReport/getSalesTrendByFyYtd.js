@@ -4,10 +4,10 @@ const sql = require('../../../../../server')
 
 // FG Species Group totals by week
 
-const lvl_1_subtotal_getSalesByFyYtd = async (config, start, end, showYtd) => {
+const l1_getSalesByFyYtd = async (config, start, end, showYtd) => {
   try {
     console.log(
-      `${config.user} - level 1: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_1_subtotal_getSalesByFyYtd) ...`
+      `${config.user} - level 1: query postgres to get FG sales data by week for week ${start} through week ${end} (l1_getSalesByFyYtd) ...`
     )
 
     const response = await sql
@@ -39,10 +39,10 @@ const lvl_1_subtotal_getSalesByFyYtd = async (config, start, end, showYtd) => {
 
 // FG Program row totals by week
 
-const lvl_2_subtotal_getSalesByFyYtd = async (config, start, end, showYtd) => {
+const l2_getSalesByFyYtd = async (config, start, end, showYtd) => {
   try {
     console.log(
-      `${config.user} - level 2: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_2_subtotal_getSalesByFyYtd) ...`
+      `${config.user} - level 2: query postgres to get FG sales data by week for week ${start} through week ${end} (l2_getSalesByFyYtd) ...`
     )
 
     const response = await sql
@@ -74,10 +74,10 @@ const lvl_2_subtotal_getSalesByFyYtd = async (config, start, end, showYtd) => {
 
 // FG Program row totals by week
 
-const lvl_3_subtotal_getSalesByFyYtd = async (config, start, end, showYtd) => {
+const l3_getSalesByFyYtd = async (config, start, end, showYtd) => {
   try {
     console.log(
-      `${config.user} - level 3: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_3_subtotal_getSalesByFyYtd) ...`
+      `${config.user} - level 3: query postgres to get FG sales data by week for week ${start} through week ${end} (l3_getSalesByFyYtd) ...`
     )
 
     const response = await sql
@@ -109,10 +109,10 @@ const lvl_3_subtotal_getSalesByFyYtd = async (config, start, end, showYtd) => {
 
 // FG Program row totals by week
 
-const lvl_4_subtotal_getSalesByFyYtd = async (config, start, end, showYtd) => {
+const l4_getSalesByFyYtd = async (config, start, end, showYtd) => {
   try {
     console.log(
-      `${config.user} - level 4: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_4_subtotal_getSalesByFyYtd) ...`
+      `${config.user} - level 4: query postgres to get FG sales data by week for week ${start} through week ${end} (l4_getSalesByFyYtd) ...`
     )
 
     const response = await sql
@@ -144,10 +144,10 @@ const lvl_4_subtotal_getSalesByFyYtd = async (config, start, end, showYtd) => {
 
 // All sales row totals by week for a program
 
-const lvl_0_total_getSalesByFyYtd = async (config, start, end, showYtd) => {
+const l0_getSalesByFyYtd = async (config, start, end, showYtd) => {
   try {
     console.log(
-      `${config.user} - level 0: query postgres to get FG sales data by week for week ${start} through week ${end} (lvl_0_total_getSalesByFyYtd) ...`
+      `${config.user} - level 0: query postgres to get FG sales data by week for week ${start} through week ${end} (l0_getSalesByFyYtd) ...`
     )
 
     const response = await sql
@@ -175,8 +175,8 @@ const lvl_0_total_getSalesByFyYtd = async (config, start, end, showYtd) => {
   }
 }
 
-module.exports.lvl_0_total_getSalesByFyYtd = lvl_0_total_getSalesByFyYtd
-module.exports.lvl_2_subtotal_getSalesByFyYtd = lvl_2_subtotal_getSalesByFyYtd
-module.exports.lvl_1_subtotal_getSalesByFyYtd = lvl_1_subtotal_getSalesByFyYtd
-module.exports.lvl_3_subtotal_getSalesByFyYtd = lvl_3_subtotal_getSalesByFyYtd
-module.exports.lvl_4_subtotal_getSalesByFyYtd = lvl_4_subtotal_getSalesByFyYtd
+module.exports.l0_getSalesByFyYtd = l0_getSalesByFyYtd
+module.exports.l2_getSalesByFyYtd = l2_getSalesByFyYtd
+module.exports.l1_getSalesByFyYtd = l1_getSalesByFyYtd
+module.exports.l3_getSalesByFyYtd = l3_getSalesByFyYtd
+module.exports.l4_getSalesByFyYtd = l4_getSalesByFyYtd

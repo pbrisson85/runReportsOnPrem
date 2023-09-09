@@ -4,7 +4,7 @@ const sql = require('../../../../../server')
 
 // RM on hand grouped by species (includes in transit)
 
-const lvl_1_subtotal_getRmInven = async program => {
+const l1_getRmInven = async program => {
   try {
     console.log(`${config.user} - level 1: query postgres for RM on hand ...`)
 
@@ -27,7 +27,7 @@ const lvl_1_subtotal_getRmInven = async program => {
 
 // RM in transit grouped by species (INCLUDES OUT OF COUNTRY!!!!!)
 
-const lvl_1_subtotal_getRmInTransit = async program => {
+const l1_getRmInTransit = async program => {
   try {
     console.log(`${config.user} - level 1: query postgres for RM in transit ...`)
 
@@ -50,7 +50,7 @@ const lvl_1_subtotal_getRmInTransit = async program => {
 
 // RM at location grouped by species (EXCLUDES OUT OF COUNTRY!!!!!)
 
-const lvl_1_subtotal_getRmAtLoc = async program => {
+const l1_getRmAtLoc = async program => {
   try {
     console.log(`${config.user} - level 1: query postgres for RM at loc ...`)
 
@@ -75,7 +75,7 @@ const lvl_1_subtotal_getRmAtLoc = async program => {
 
 // RM on hand grouped by program
 
-const lvl_2_subtotal_getRmInven = async program => {
+const l2_getRmInven = async program => {
   try {
     console.log(`${config.user} - level 2: query postgres for RM on hand ...`)
 
@@ -98,7 +98,7 @@ const lvl_2_subtotal_getRmInven = async program => {
 
 // RM in transit grouped by program (INCLUDES OUT OF COUNTRY!!!!!)
 
-const lvl_2_subtotal_getRmInTransit = async program => {
+const l2_getRmInTransit = async program => {
   try {
     console.log(`${config.user} - level 2: query postgres for RM in transit ...`)
 
@@ -121,7 +121,7 @@ const lvl_2_subtotal_getRmInTransit = async program => {
 
 // RM at location grouped by program (EXCLUDES OUT OF COUNTRY!!!!!)
 
-const lvl_2_subtotal_getRmAtLoc = async program => {
+const l2_getRmAtLoc = async program => {
   try {
     console.log(`${config.user} - level 2: query postgres for RM at location ...`)
 
@@ -146,7 +146,7 @@ const lvl_2_subtotal_getRmAtLoc = async program => {
 
 // RM on hand grouped by program
 
-const lvl_3_subtotal_getRmInven = async program => {
+const l3_getRmInven = async program => {
   try {
     console.log(`${config.user} - level 3: query postgres for RM on hand ...`)
 
@@ -169,7 +169,7 @@ const lvl_3_subtotal_getRmInven = async program => {
 
 // RM in transit grouped by program (INCLUDES OUT OF COUNTRY!!!!!)
 
-const lvl_3_subtotal_getRmInTransit = async program => {
+const l3_getRmInTransit = async program => {
   try {
     console.log(`${config.user} - level 3: query postgres for RM in transit ...`)
 
@@ -192,7 +192,7 @@ const lvl_3_subtotal_getRmInTransit = async program => {
 
 // RM at location grouped by program (EXCLUDES OUT OF COUNTRY!!!!!)
 
-const lvl_3_subtotal_getRmAtLoc = async program => {
+const l3_getRmAtLoc = async program => {
   try {
     console.log(`${config.user} - level 3: query postgres for RM at location ...`)
 
@@ -217,7 +217,7 @@ const lvl_3_subtotal_getRmAtLoc = async program => {
 
 // RM on hand grouped by species (includes in transit)
 
-const lvl_0_total_getRmInven = async program => {
+const l0_getRmInven = async program => {
   try {
     console.log(`${config.user} - level 0: query postgres for RM on hand ...`)
 
@@ -238,7 +238,7 @@ const lvl_0_total_getRmInven = async program => {
 
 // RM in transit grouped by species (INCLUDES OUT OF COUNTRY!!!!!)
 
-const lvl_0_total_getRmInTransit = async program => {
+const l0_getRmInTransit = async program => {
   try {
     console.log(`${config.user} - level 0: query postgres for RM in transit ...`)
 
@@ -259,7 +259,7 @@ const lvl_0_total_getRmInTransit = async program => {
 
 // RM at location grouped by species (EXCLUDES OUT OF COUNTRY!!!!!)
 
-const lvl_0_total_getRmAtLoc = async program => {
+const l0_getRmAtLoc = async program => {
   try {
     console.log(`${config.user} - level 0: query postgres for RM at location ...`)
 
@@ -278,15 +278,15 @@ const lvl_0_total_getRmAtLoc = async program => {
   }
 }
 
-module.exports.lvl_3_subtotal_getRmInven = lvl_3_subtotal_getRmInven
-module.exports.lvl_3_subtotal_getRmInTransit = lvl_3_subtotal_getRmInTransit
-module.exports.lvl_3_subtotal_getRmAtLoc = lvl_3_subtotal_getRmAtLoc
-module.exports.lvl_2_subtotal_getRmInven = lvl_2_subtotal_getRmInven
-module.exports.lvl_2_subtotal_getRmInTransit = lvl_2_subtotal_getRmInTransit
-module.exports.lvl_2_subtotal_getRmAtLoc = lvl_2_subtotal_getRmAtLoc
-module.exports.lvl_1_subtotal_getRmInven = lvl_1_subtotal_getRmInven
-module.exports.lvl_1_subtotal_getRmInTransit = lvl_1_subtotal_getRmInTransit
-module.exports.lvl_1_subtotal_getRmAtLoc = lvl_1_subtotal_getRmAtLoc
-module.exports.lvl_0_total_getRmInven = lvl_0_total_getRmInven
-module.exports.lvl_0_total_getRmInTransit = lvl_0_total_getRmInTransit
-module.exports.lvl_0_total_getRmAtLoc = lvl_0_total_getRmAtLoc
+module.exports.l3_getRmInven = l3_getRmInven
+module.exports.l3_getRmInTransit = l3_getRmInTransit
+module.exports.l3_getRmAtLoc = l3_getRmAtLoc
+module.exports.l2_getRmInven = l2_getRmInven
+module.exports.l2_getRmInTransit = l2_getRmInTransit
+module.exports.l2_getRmAtLoc = l2_getRmAtLoc
+module.exports.l1_getRmInven = l1_getRmInven
+module.exports.l1_getRmInTransit = l1_getRmInTransit
+module.exports.l1_getRmAtLoc = l1_getRmAtLoc
+module.exports.l0_getRmInven = l0_getRmInven
+module.exports.l0_getRmInTransit = l0_getRmInTransit
+module.exports.l0_getRmAtLoc = l0_getRmAtLoc

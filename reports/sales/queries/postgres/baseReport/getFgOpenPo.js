@@ -2,10 +2,10 @@ const sql = require('../../../../../server')
 
 /* *********************************************** Level 1 *********************************************** */
 
-const lvl_1_subtotal_getFgPo = async config => {
+const l1_getFgPo = async config => {
   //${config.jbBuyer ? sql`AND inv.item_number IN SELECT(DISTINCT(perpetual_inventory.item_number FROM ))` : sql``}
   try {
-    console.log(`${config.user} - level 1: query postgres for FG open PO (lvl_1_subtotal_getFgPo) ...`)
+    console.log(`${config.user} - level 1: query postgres for FG open PO (l1_getFgPo) ...`)
 
     const response = await sql
          `SELECT 'FG ON ORDER' AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
@@ -32,9 +32,9 @@ const lvl_1_subtotal_getFgPo = async config => {
 
 // FG open PO grouped by program (includes in transit)
 
-const lvl_2_subtotal_getFgPo = async config => {
+const l2_getFgPo = async config => {
   try {
-    console.log(`${config.user} - level 2: query postgres for FG open PO (lvl_2_subtotal_getFgPo) ...`)
+    console.log(`${config.user} - level 2: query postgres for FG open PO (l2_getFgPo) ...`)
 
     const response = await sql
        `SELECT 'FG ON ORDER' AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
@@ -61,9 +61,9 @@ const lvl_2_subtotal_getFgPo = async config => {
 
 // FG open PO grouped by program (includes in transit)
 
-const lvl_3_subtotal_getFgPo = async config => {
+const l3_getFgPo = async config => {
   try {
-    console.log(`${config.user} - level 3: query postgres for FG open PO (lvl_3_subtotal_getFgPo) ...`)
+    console.log(`${config.user} - level 3: query postgres for FG open PO (l3_getFgPo) ...`)
 
     const response = await sql
        `SELECT 'FG ON ORDER' AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
@@ -90,9 +90,9 @@ const lvl_3_subtotal_getFgPo = async config => {
 
 // FG open PO grouped by program (includes in transit)
 
-const lvl_4_subtotal_getFgPo = async config => {
+const l4_getFgPo = async config => {
   try {
-    console.log(`${config.user} - level 4: query postgres for FG open PO (lvl_4_subtotal_getFgPo) ...`)
+    console.log(`${config.user} - level 4: query postgres for FG open PO (l4_getFgPo) ...`)
 
     const response = await sql
        `SELECT 'FG ON ORDER' AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
@@ -117,9 +117,9 @@ const lvl_4_subtotal_getFgPo = async config => {
 
 /* *********************************************** TOTAL *********************************************** */
 
-const lvl_0_total_getFgPo = async config => {
+const l0_getFgPo = async config => {
   try {
-    console.log(`${config.user} - level 0: query postgres for FG open PO (lvl_0_total_getFgPo) ...`)
+    console.log(`${config.user} - level 0: query postgres for FG open PO (l0_getFgPo) ...`)
 
     const response = await sql
          `SELECT 'FG ON ORDER' AS column, 'FG SALES' AS l1_label, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
@@ -140,8 +140,8 @@ const lvl_0_total_getFgPo = async config => {
   }
 }
 
-module.exports.lvl_1_subtotal_getFgPo = lvl_1_subtotal_getFgPo
-module.exports.lvl_2_subtotal_getFgPo = lvl_2_subtotal_getFgPo
-module.exports.lvl_3_subtotal_getFgPo = lvl_3_subtotal_getFgPo
-module.exports.lvl_4_subtotal_getFgPo = lvl_4_subtotal_getFgPo
-module.exports.lvl_0_total_getFgPo = lvl_0_total_getFgPo
+module.exports.l1_getFgPo = l1_getFgPo
+module.exports.l2_getFgPo = l2_getFgPo
+module.exports.l3_getFgPo = l3_getFgPo
+module.exports.l4_getFgPo = l4_getFgPo
+module.exports.l0_getFgPo = l0_getFgPo
