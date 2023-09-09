@@ -36,7 +36,6 @@ const getDefaults = async () => {
   } else {
     // in all anticipated cases we want the previous week from today
     // change logic: if today is saturday, sunday, monday, tuesday then return two weeks ago. Otherwise return last week
-    console.log('today.getDay()', today.getDay())
 
     if ((today.getDay() === 6 || today.getDay() === 0 || today.getDay() === 1 || today.getDay() === 2) && todayWeek > 1) {
       defaultEnd = periods[todayWeek - 2].displayname
