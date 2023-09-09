@@ -63,5 +63,5 @@ app.use('/api/sales/gl/othp', glOthp)
 runCronOnStartup()
 
 // start express server
-const PORT = process.env.runPurchases_PORT || 5037
-app.listen(PORT, () => console.log(`runPurchasesOnPrem running on port ${PORT} \n`))
+const PORT = process.env.runSales_PORT || 5037
+app.listen(PORT, () => console.log(`runSalesOnPrem running on port ${PORT} \n`))
