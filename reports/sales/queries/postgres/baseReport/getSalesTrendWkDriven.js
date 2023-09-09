@@ -5,6 +5,8 @@ const sql = require('../../../../../server')
 // FG Species Group col total for period
 
 const l1_getSalesWkDriven = async (config, startWk, endWk) => {
+  console.log('hit the l1_getSalesWkDriven function', config, startWk, endWk)
+
   try {
     console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getSalesWkDriven) ...`)
 
