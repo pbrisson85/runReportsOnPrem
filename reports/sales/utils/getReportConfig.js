@@ -11,6 +11,9 @@ const getReportConfig = reqBody => {
   }
 
   // define config object
+  /* Add all sales invoice or sales order table query filters to this boolean. This controls item filters in Inv and PO */
+  const hasSalesFilters = reqBody.salesPerson || reqBody.customer || reqBody.country || reqBody.state || reqBody.export || reqBody.northAmerica
+
   let config = {
     program: typeof reqBody.program === 'undefined' ? null : reqBody.program === 'all' ? null : reqBody.program,
     l1_filter: reqBody.l1_filter ?? null,
@@ -24,6 +27,7 @@ const getReportConfig = reqBody => {
     state: reqBody.state ?? null,
     export: reqBody.export ?? null,
     northAmerica: reqBody.northAmerica ?? null,
+    hasSalesFilters,
     queryLevel: reqBody.queryLevel ?? null,
     jbBuyerFilter,
     user: reqBody.user ?? null,
