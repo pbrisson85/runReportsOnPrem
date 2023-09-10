@@ -11,7 +11,8 @@ const getDefaults = async () => {
     return 0
   })
 
-  const periods = await getDateEndPerWeek(fys[0].label)
+  const defaultYear = fys[0].label
+  const periods = await getDateEndPerWeek(defaultYear)
   const defaultStart = periods[0].displayname
 
   // By default set the end period to the previos week.
@@ -44,7 +45,7 @@ const getDefaults = async () => {
     }
   }
 
-  return { defaultStart, defaultEnd }
+  return { defaultStart, defaultEnd, defaultYear }
 }
 
 module.exports = getDefaults

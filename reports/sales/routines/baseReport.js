@@ -116,7 +116,7 @@ const calcAveWeeklySales = require('../models/calcAveWeeklySales')
 const calcWeeksInvOnHand = require('../models/calcWeeksInvOnHand')
 const calcInventoryAvailable = require('../models/calcInventoryAvailable')
 
-const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, labelCols) => {
+const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, labelCols, year) => {
   // The routine and all of the queries can be the same for all reports. Going to buikd out this rpeort and then change the config manually to test.
 
   ///////////////////////////////// INVENTORY DATA
@@ -225,29 +225,29 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
 
   const companyTotalSales = await getCompanyTotalSales(start, end, config)
 
-  const l1_trailingTwoWeek = endWeek < 2 ? [] : await l1_getSalesWkDriven(config, endWeek - 1, endWeek)
-  const l2_trailingTwoWeek = endWeek < 2 ? [] : await l2_getSalesWkDriven(config, endWeek - 1, endWeek)
-  const l3_trailingTwoWeek = endWeek < 2 ? [] : config.l3_field ? await l3_getSalesWkDriven(config, endWeek - 1, endWeek) : []
-  const l4_trailingTwoWeek = endWeek < 2 ? [] : config.l4_field ? await l4_getSalesWkDriven(config, endWeek - 1, endWeek) : []
-  const l0_trailingTwoWeek = endWeek < 2 ? [] : await l0_getSalesWkDriven(config, endWeek - 1, endWeek)
+  const l1_trailingTwoWeek = endWeek < 2 ? [] : await l1_getSalesWkDriven(config, endWeek - 1, endWeek, year)
+  const l2_trailingTwoWeek = endWeek < 2 ? [] : await l2_getSalesWkDriven(config, endWeek - 1, endWeek, year)
+  const l3_trailingTwoWeek = endWeek < 2 ? [] : config.l3_field ? await l3_getSalesWkDriven(config, endWeek - 1, endWeek, year) : []
+  const l4_trailingTwoWeek = endWeek < 2 ? [] : config.l4_field ? await l4_getSalesWkDriven(config, endWeek - 1, endWeek, year) : []
+  const l0_trailingTwoWeek = endWeek < 2 ? [] : await l0_getSalesWkDriven(config, endWeek - 1, endWeek, year)
 
-  const l1_trailingFourWeek = endWeek < 4 ? [] : await l1_getSalesWkDriven(config, endWeek - 3, endWeek)
-  const l2_trailingFourWeek = endWeek < 4 ? [] : await l2_getSalesWkDriven(config, endWeek - 3, endWeek)
-  const l3_trailingFourWeek = endWeek < 4 ? [] : config.l3_field ? await l3_getSalesWkDriven(config, endWeek - 3, endWeek) : []
-  const l4_trailingFourWeek = endWeek < 4 ? [] : config.l4_field ? await l4_getSalesWkDriven(config, endWeek - 3, endWeek) : []
-  const l0_trailingFourWeek = endWeek < 4 ? [] : await l0_getSalesWkDriven(config, endWeek - 3, endWeek)
+  const l1_trailingFourWeek = endWeek < 4 ? [] : await l1_getSalesWkDriven(config, endWeek - 3, endWeek, year)
+  const l2_trailingFourWeek = endWeek < 4 ? [] : await l2_getSalesWkDriven(config, endWeek - 3, endWeek, year)
+  const l3_trailingFourWeek = endWeek < 4 ? [] : config.l3_field ? await l3_getSalesWkDriven(config, endWeek - 3, endWeek, year) : []
+  const l4_trailingFourWeek = endWeek < 4 ? [] : config.l4_field ? await l4_getSalesWkDriven(config, endWeek - 3, endWeek, year) : []
+  const l0_trailingFourWeek = endWeek < 4 ? [] : await l0_getSalesWkDriven(config, endWeek - 3, endWeek, year)
 
-  const l1_trailingEightWeek = endWeek < 8 ? [] : await l1_getSalesWkDriven(config, endWeek - 7, endWeek)
-  const l2_trailingEightWeek = endWeek < 8 ? [] : await l2_getSalesWkDriven(config, endWeek - 7, endWeek)
-  const l3_trailingEightWeek = endWeek < 8 ? [] : config.l3_field ? await l3_getSalesWkDriven(config, endWeek - 7, endWeek) : []
-  const l4_trailingEightWeek = endWeek < 8 ? [] : config.l4_field ? await l4_getSalesWkDriven(config, endWeek - 7, endWeek) : []
-  const l0_trailingEightWeek = endWeek < 8 ? [] : await l0_getSalesWkDriven(config, endWeek - 7, endWeek)
+  const l1_trailingEightWeek = endWeek < 8 ? [] : await l1_getSalesWkDriven(config, endWeek - 7, endWeek, year)
+  const l2_trailingEightWeek = endWeek < 8 ? [] : await l2_getSalesWkDriven(config, endWeek - 7, endWeek, year)
+  const l3_trailingEightWeek = endWeek < 8 ? [] : config.l3_field ? await l3_getSalesWkDriven(config, endWeek - 7, endWeek, year) : []
+  const l4_trailingEightWeek = endWeek < 8 ? [] : config.l4_field ? await l4_getSalesWkDriven(config, endWeek - 7, endWeek, year) : []
+  const l0_trailingEightWeek = endWeek < 8 ? [] : await l0_getSalesWkDriven(config, endWeek - 7, endWeek, year)
 
-  const l1_trailingTwelveWeek = endWeek < 12 ? [] : await l1_getSalesWkDriven(config, endWeek - 11, endWeek)
-  const l2_trailingTwelveWeek = endWeek < 12 ? [] : await l2_getSalesWkDriven(config, endWeek - 11, endWeek)
-  const l3_trailingTwelveWeek = endWeek < 12 ? [] : config.l3_field ? await l3_getSalesWkDriven(config, endWeek - 11, endWeek) : []
-  const l4_trailingTwelveWeek = endWeek < 12 ? [] : config.l4_field ? await l4_getSalesWkDriven(config, endWeek - 11, endWeek) : []
-  const l0_trailingTwelveWeek = endWeek < 12 ? [] : await l0_getSalesWkDriven(config, endWeek - 11, endWeek)
+  const l1_trailingTwelveWeek = endWeek < 12 ? [] : await l1_getSalesWkDriven(config, endWeek - 11, endWeek, year)
+  const l2_trailingTwelveWeek = endWeek < 12 ? [] : await l2_getSalesWkDriven(config, endWeek - 11, endWeek, year)
+  const l3_trailingTwelveWeek = endWeek < 12 ? [] : config.l3_field ? await l3_getSalesWkDriven(config, endWeek - 11, endWeek, year) : []
+  const l4_trailingTwelveWeek = endWeek < 12 ? [] : config.l4_field ? await l4_getSalesWkDriven(config, endWeek - 11, endWeek, year) : []
+  const l0_trailingTwelveWeek = endWeek < 12 ? [] : await l0_getSalesWkDriven(config, endWeek - 11, endWeek, year)
 
   ///////////////////////////////// KPI DATA
   /* % COMPANY SALES */

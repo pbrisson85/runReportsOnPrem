@@ -4,7 +4,9 @@ const sql = require('../../../../../server')
 
 // FG Species Group col total for period
 
-const l1_getSalesWkDriven = async (config, startWk, endWk) => {
+// SINCE I AM NOT USING A YEAR AS A FILTER I AM GETTING ALLLLLLLLLLL YEARS FUCKING MOMO
+
+const l1_getSalesWkDriven = async (config, startWk, endWk, year) => {
   console.log('hit the l1_getSalesWkDriven function', config, startWk, endWk)
 
   try {
@@ -18,7 +20,8 @@ const l1_getSalesWkDriven = async (config, startWk, endWk) => {
           ON ms.item_num = sales_line_items.item_number 
       
       WHERE 
-        sales_line_items.week >= ${startWk} AND sales_line_items.week <= ${endWk} 
+        sales_line_items.week >= ${startWk} AND sales_line_items.week <= ${endWk}
+        AND sl.fiscal_year = ${year} 
         AND ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -39,7 +42,7 @@ const l1_getSalesWkDriven = async (config, startWk, endWk) => {
 
 // FG Program col total for period
 
-const l2_getSalesWkDriven = async (config, startWk, endWk) => {
+const l2_getSalesWkDriven = async (config, startWk, endWk, year) => {
   try {
     console.log(`${config.user} - level 2: query postgres to get FG sales data period total (l2_getSalesWkDriven) ...`)
 
@@ -50,6 +53,7 @@ const l2_getSalesWkDriven = async (config, startWk, endWk) => {
       
       WHERE 
         sales_line_items.week >= ${startWk} AND sales_line_items.week <= ${endWk} 
+        AND sl.fiscal_year = ${year} 
         AND ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -68,7 +72,7 @@ const l2_getSalesWkDriven = async (config, startWk, endWk) => {
 
 // FG Program col total for period
 
-const l3_getSalesWkDriven = async (config, startWk, endWk) => {
+const l3_getSalesWkDriven = async (config, startWk, endWk, year) => {
   try {
     console.log(`${config.user} - level 3: query postgres to get FG sales data period total (l3_getSalesWkDriven) ...`)
 
@@ -79,6 +83,7 @@ const l3_getSalesWkDriven = async (config, startWk, endWk) => {
       
       WHERE 
         sales_line_items.week >= ${startWk} AND sales_line_items.week <= ${endWk} 
+        AND sl.fiscal_year = ${year} 
         AND ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -97,7 +102,7 @@ const l3_getSalesWkDriven = async (config, startWk, endWk) => {
 
 // FG Program col total for period
 
-const l4_getSalesWkDriven = async (config, startWk, endWk) => {
+const l4_getSalesWkDriven = async (config, startWk, endWk, year) => {
   try {
     console.log(`${config.user} - level 4: query postgres to get FG sales data period total (l4_getSalesWkDriven) ...`)
 
@@ -108,6 +113,7 @@ const l4_getSalesWkDriven = async (config, startWk, endWk) => {
       
       WHERE 
         sales_line_items.week >= ${startWk} AND sales_line_items.week <= ${endWk} 
+        AND sl.fiscal_year = ${year} 
         AND ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -126,7 +132,7 @@ const l4_getSalesWkDriven = async (config, startWk, endWk) => {
 
 // All sales col total for a program
 
-const l0_getSalesWkDriven = async (config, startWk, endWk) => {
+const l0_getSalesWkDriven = async (config, startWk, endWk, year) => {
   try {
     console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getSalesWkDriven) ...`)
 
@@ -137,6 +143,7 @@ const l0_getSalesWkDriven = async (config, startWk, endWk) => {
       
       WHERE 
         sales_line_items.week >= ${startWk} AND sales_line_items.week <= ${endWk} 
+        AND sl.fiscal_year = ${year} 
         AND ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 

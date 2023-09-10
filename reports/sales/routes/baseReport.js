@@ -13,7 +13,7 @@ const getReportConfig = require('../utils/getReportConfig')
 // Generate full weekly report of ALL programs for FG Only (biggest picture)
 router.post('/', async (req, res) => {
   const { reportFormat } = req.body
-  let { start, end, showFyTrend } = req.body
+  let { start, end, showFyTrend, year } = req.body
 
   const config = getReportConfig(req.body)
 
@@ -25,9 +25,10 @@ router.post('/', async (req, res) => {
   // If start, or end passed then default (COULD ADD THIS TO THE CONFIG FILE + add explanation, why would it be undefined)
   let defaultDateFlag = false
   if (typeof typeof start === 'undefined' || typeof end === 'undefined') {
-    const { defaultStart, defaultEnd } = await getDefaults()
+    const { defaultStart, defaultEnd, defaultYear } = await getDefaults()
     start = defaultStart
     end = defaultEnd
+    year = defaultYear
     defaultDateFlag = true
   }
 
@@ -42,7 +43,7 @@ router.post('/', async (req, res) => {
   const startWeek = await getWeekForDate(start, config) // temporarily until I change the data that is being passed by the front end to the week
   const endWeek = await getWeekForDate(end, config) // temporarily until I change the data that is being passed by the front end to the week
 
-  const response = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols)
+  const response = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year)
 
   // if default date then add to response
   if (defaultDateFlag) {

@@ -4,7 +4,7 @@ const sql = require('../../../../../server')
 
 // FG Species Group col total for period
 
-const l1_getSalesWkDriven = async (config, startWk, endWk, trendQuery) => {
+const l1_getSalesWkDriven = async (config, startWk, endWk, trendQuery, year) => {
   try {
     console.log(`${config.user} - level 1: (l1_getSalesWkDriven) query postgres to get FG sales data period total ...`)
 
@@ -29,6 +29,7 @@ const l1_getSalesWkDriven = async (config, startWk, endWk, trendQuery) => {
       
       WHERE 
         sl.week >= ${startWk} AND sl.week <= ${endWk} 
+        AND sl.fiscal_year = ${year} 
         AND ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
@@ -86,6 +87,7 @@ const l0_getSalesWkDriven = async (config, startWk, endWk) => {
       
       WHERE 
         sl.week >= ${startWk} AND sl.week <= ${endWk} 
+        AND sl.fiscal_year = ${year} 
         AND ms.byproduct_type IS NULL 
         AND ms.item_type = ${'FG'} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
