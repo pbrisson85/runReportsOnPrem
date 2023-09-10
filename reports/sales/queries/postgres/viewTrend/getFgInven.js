@@ -417,10 +417,10 @@ const l0_getFgAtLoc_untagged = async (config, trendQuery) => {
  
  FROM (
     SELECT pi.cost_extended, pi.item_number, pi.lot, pi.on_hand_lbs, pi.location_code 
-      FROM "invenReporting".perpetual_inventory AS pi AS pi 
+      FROM "invenReporting".perpetual_inventory AS pi 
  
       WHERE 
-       pi .version = (SELECT MAX(subpi.version) - 1 FROM "invenReporting".perpetual_inventory AS pi AS subpi) 
+       pi .version = (SELECT MAX(subpi.version) - 1 FROM "invenReporting".perpetual_inventory AS subpi) 
        AND pi.location_type <> ${'IN TRANSIT'}) 
      AS inven_t 
   
