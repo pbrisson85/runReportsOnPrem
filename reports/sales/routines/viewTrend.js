@@ -115,7 +115,7 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   const l1_trailingEightWeek = endWeek < 8 ? [] : await l1_getSalesWkDriven(config, endWeek - 7, endWeek, trendQuery, year)
   const l0_trailingEightWeek = endWeek < 8 ? [] : await l0_getSalesWkDriven(config, endWeek - 7, endWeek, year)
 
-  const l1_trailingTwleveWeek = endWeek < 12 ? [] : await l1_getSalesWkDriven(config, endWeek - 11, endWeek, trendQuery, year)
+  const l1_trailingTwelveWeek = endWeek < 12 ? [] : await l1_getSalesWkDriven(config, endWeek - 11, endWeek, trendQuery, year)
   const l0_trailingTwelveWeek = endWeek < 12 ? [] : await l0_getSalesWkDriven(config, endWeek - 11, endWeek, year)
 
   const companyTotalSales = await getCompanyTotalSales(start, end, config)
