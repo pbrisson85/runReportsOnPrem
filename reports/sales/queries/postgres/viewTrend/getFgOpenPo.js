@@ -60,13 +60,13 @@ const l0_getFgPo = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 0: query postgres for FG open PO ...`)
 
-    if (!trendQuery.inv.l1_label) return []
+    if (!trendQuery.inv.l1_label) return [{ l2_label: 'TOTAL' }]
 
     const response = await sql
          `SELECT 
           'FG ON ORDER' AS column, 
           'FG SALES' AS l1_label, 
-'TOTAL' AS l2_label,  
+          'TOTAL' AS l2_label,  
           COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs, 
           COALESCE(SUM(perpetual_inventory.on_order_extended),0) AS cogs 
          
