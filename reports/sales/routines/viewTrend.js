@@ -272,6 +272,8 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
     }) // no label in total row, first col
   finalData = [...filterRow, ...finalData]
 
+  console.log(finalData)
+
   const salesColsByWk = await getDateEndPerWeekByRange(start, end, config)
 
   // get data column names by fiscal year
