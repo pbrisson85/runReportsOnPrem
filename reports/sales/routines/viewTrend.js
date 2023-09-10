@@ -56,20 +56,20 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   const l0_fgInven = await l0_getFgInven(config, trendQuery)
   /* FG IN TRANSIT*/
   const l1_fgInTransit = await l1_getFgInTransit(config, trendQuery)
-  const l0_fgInTransit = await l0_getFgInTransit(config)
+  const l0_fgInTransit = await l0_getFgInTransit(config, trendQuery)
   /* FG ON HAND (LESS IN TRANSIT) */
   const l1_fgAtLoc = await l1_getFgAtLoc(config, trendQuery)
-  const l0_fgAtLoc = await l0_getFgAtLoc(config)
+  const l0_fgAtLoc = await l0_getFgAtLoc(config, trendQuery)
   /* FG ON HAND UNTAGGED */
   const l1_fgAtLoc_untagged = await l1_getFgAtLoc_untagged(config, trendQuery)
-  const l0_fgAtLoc_untagged = await l0_getFgAtLoc_untagged(config)
+  const l0_fgAtLoc_untagged = await l0_getFgAtLoc_untagged(config, trendQuery)
   /* FG ON HAND TAGGED */
   const l1_fgAtLoc_tagged = await l1_getFgAtLoc_tagged(config, trendQuery)
-  const l0_fgAtLoc_tagged = await l0_getFgAtLoc_tagged(config)
+  const l0_fgAtLoc_tagged = await l0_getFgAtLoc_tagged(config, trendQuery)
 
   /* FG ON ORDER */
   const l1_fgPo = await l1_getFgPo(config, trendQuery)
-  const l0_fgPo = await l0_getFgPo(config)
+  const l0_fgPo = await l0_getFgPo(config, trendQuery)
 
   // ///////////////////////////////// SALES ORDERS
   /* ALL SO */

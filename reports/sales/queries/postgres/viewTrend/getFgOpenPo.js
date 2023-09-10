@@ -56,9 +56,11 @@ const l1_getFgPo = async (config, trendQuery) => {
 
 /* *********************************************** TOTAL *********************************************** */
 
-const l0_getFgPo = async config => {
+const l0_getFgPo = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 0: query postgres for FG open PO ...`)
+
+    if (!trendQuery.inv.l1_label) return []
 
     const response = await sql
          `SELECT 
