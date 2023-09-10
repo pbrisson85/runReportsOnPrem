@@ -67,7 +67,7 @@ const l1_getSalesWkDriven = async (config, startWk, endWk, trendQuery, year) => 
 
 // All sales col total for a program
 
-const l0_getSalesWkDriven = async (config, startWk, endWk) => {
+const l0_getSalesWkDriven = async (config, startWk, endWk, year) => {
   try {
     console.log(`${config.user} - level 0: (l0_getSalesWkDriven) query postgres to get FG sales data period total ...`)
 
