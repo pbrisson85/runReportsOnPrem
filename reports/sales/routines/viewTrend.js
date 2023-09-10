@@ -157,15 +157,11 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
 
   /* WEEKS INV ON HAND */
   const l1_weeksInvOnHand = !l1_fgInven.length ? [] : calcWeeksInvOnHand(l1_fgInven, l1_aveWeeklySales, 'weeksInvenOnHand')
-  const l0_weeksInvOnHand = !l0_fgInven.length
-    ? [{ l1_label: `FG SALES`, l2_label: `TOTAL` }]
-    : calcWeeksInvOnHand(l0_fgInven, l0_aveWeeklySales, 'weeksInvenOnHand')
+  const l0_weeksInvOnHand = !l0_fgInven.length ? [] : calcWeeksInvOnHand(l0_fgInven, l0_aveWeeklySales, 'weeksInvenOnHand')
 
   /* INVENTORY AVAILABLE */
   const l1_invAvailable = !l1_fgInven.length ? [] : calcInventoryAvailable(l1_fgInven, l1_fgPo, l1_so, 'invenAvailable')
-  const l0_invAvailable = !l0_fgInven.length
-    ? [{ l1_label: `FG SALES`, l2_label: `TOTAL` }]
-    : calcInventoryAvailable(l0_fgInven, l0_fgPo, l0_so, 'invenAvailable')
+  const l0_invAvailable = !l0_fgInven.length ? [] : calcInventoryAvailable(l0_fgInven, l0_fgPo, l0_so, 'invenAvailable')
 
   ///////////////////////////////// ROWS
   const rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, showFyTrend, trendQuery)
@@ -263,8 +259,13 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   const flattenedMappedData = Object.values(mappedData)
   let finalData = cleanLabelsForDisplay(flattenedMappedData, '')
     .sort((a, b) => {
-      console.log('a', a)
-      console.log('b', b)
+      if (!a.length || !b.length) {
+        console.log('no length: a, b:', a, b)
+      }
+
+      if (typeof a.l2_label === 'undefined' || typeof b.l2_label === 'undefined') {
+        console.log('no l2_label: a, b:', a, b)
+      }
 
       // if has includes total, put at end
       if (a.l1_label < b.l1_label) return -1
