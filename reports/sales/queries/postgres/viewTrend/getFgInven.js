@@ -343,8 +343,6 @@ const l0_getFgInTransit = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 0: query postgres for FG in transit ...`)
 
-    if (!trendQuery.inv.l1_label) return [{ l2_label: 'TOTAL' }]
-
     const response = await sql
       `SELECT 'FG IN TRANSIT' AS column, 'FG SALES' AS l1_label, 
 'TOTAL' AS l2_label,  COALESCE(SUM(pi.on_hand_lbs),0) AS lbs, COALESCE(SUM(pi.cost_extended),0) AS cogs 
