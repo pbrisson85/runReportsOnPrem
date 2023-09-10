@@ -7,8 +7,6 @@ const sql = require('../../../../../server')
 // SINCE I AM NOT USING A YEAR AS A FILTER I AM GETTING ALLLLLLLLLLL YEARS FUCKING MOMO
 
 const l1_getSalesWkDriven = async (config, startWk, endWk, year) => {
-  console.log('hit the l1_getSalesWkDriven function', config, startWk, endWk)
-
   try {
     console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getSalesWkDriven) ...`)
 
@@ -28,8 +26,6 @@ const l1_getSalesWkDriven = async (config, startWk, endWk, year) => {
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY ${sql(config.l1_field)}` //prettier-ignore
-
-    console.log('response', response)
 
     return response
   } catch (error) {
