@@ -156,12 +156,12 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   const l0_twelveWkAveSales = calcAveWeeklySales(l0_trailingTwelveWeek, 'twelveWkAveSales', 12)
 
   /* WEEKS INV ON HAND */
-  const l1_weeksInvOnHand = calcWeeksInvOnHand(l1_fgInven, l1_aveWeeklySales, 'weeksInvenOnHand')
-  const l0_weeksInvOnHand = calcWeeksInvOnHand(l0_fgInven, l0_aveWeeklySales, 'weeksInvenOnHand')
+  const l1_weeksInvOnHand = !l1_fgInven.length ? [] : calcWeeksInvOnHand(l1_fgInven, l1_aveWeeklySales, 'weeksInvenOnHand')
+  const l0_weeksInvOnHand = !l0_fgInven.length ? [] : calcWeeksInvOnHand(l0_fgInven, l0_aveWeeklySales, 'weeksInvenOnHand')
 
   /* INVENTORY AVAILABLE */
-  const l1_invAvailable = calcInventoryAvailable(l1_fgInven, l1_fgPo, l1_so, 'invenAvailable')
-  const l0_invAvailable = calcInventoryAvailable(l0_fgInven, l0_fgPo, l0_so, 'invenAvailable')
+  const l1_invAvailable = !l1_fgInven.length ? [] : calcInventoryAvailable(l1_fgInven, l1_fgPo, l1_so, 'invenAvailable')
+  const l0_invAvailable = !l0_fgInven.length ? [] : calcInventoryAvailable(l0_fgInven, l0_fgPo, l0_so, 'invenAvailable')
 
   ///////////////////////////////// ROWS
   const rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, showFyTrend, trendQuery)
