@@ -45,7 +45,9 @@ const l2_getSalesWkDriven = async (config, startWk, endWk, year) => {
     const response = await sql
       `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
       
-      FROM "salesReporting".sales_line_items AS slLEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sl.item_number 
+      FROM "salesReporting".sales_line_items AS sl
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+          ON ms.item_num = sl.item_number 
       
       WHERE 
         sl.week >= ${startWk} AND sl.week <= ${endWk} 
@@ -75,7 +77,9 @@ const l3_getSalesWkDriven = async (config, startWk, endWk, year) => {
     const response = await sql
       `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
       
-      FROM "salesReporting".sales_line_items AS slLEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sl.item_number 
+      FROM "salesReporting".sales_line_items AS sl
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+          ON ms.item_num = sl.item_number 
       
       WHERE 
         sl.week >= ${startWk} AND sl.week <= ${endWk} 
@@ -105,7 +109,9 @@ const l4_getSalesWkDriven = async (config, startWk, endWk, year) => {
     const response = await sql
       `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
       
-      FROM "salesReporting".sales_line_items AS slLEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sl.item_number 
+      FROM "salesReporting".sales_line_items AS sl
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+          ON ms.item_num = sl.item_number 
       
       WHERE 
         sl.week >= ${startWk} AND sl.week <= ${endWk} 
@@ -135,7 +141,9 @@ const l0_getSalesWkDriven = async (config, startWk, endWk, year) => {
     const response = await sql
       `SELECT 'SALES TOTAL' AS column, 'FG SALES' AS l1_label, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
       
-      FROM "salesReporting".sales_line_items AS slLEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sl.item_number 
+      FROM "salesReporting".sales_line_items AS sl
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+          ON ms.item_num = sl.item_number 
       
       WHERE 
         sl.week >= ${startWk} AND sl.week <= ${endWk} 
