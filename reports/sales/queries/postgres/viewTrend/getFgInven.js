@@ -308,7 +308,6 @@ const l0_getFgInven = async (config, trendQuery) => {
     console.log(`${config.user} - level 0: query postgres for FG on hand ...`)
 
     // level 0 detail (TOTAL)
-    if (!trendQuery.inv.l1_label) return [{ l2_label: 'TOTAL' }]
 
     const response = await sql
       `SELECT 'FG INVEN' AS column, 'FG SALES' AS l1_label, 
@@ -379,8 +378,6 @@ const l0_getFgAtLoc = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 0: query postgres for FG at location ...`)
 
-    if (!trendQuery.inv.l1_label) return [{ l2_label: 'TOTAL' }]
-
     const response = await sql
       `SELECT 'FG ON HAND' AS column, 'FG SALES' AS l1_label, 
 'TOTAL' AS l2_label,  COALESCE(SUM(pi.on_hand_lbs),0) AS lbs, COALESCE(SUM(pi.cost_extended),0) AS cogs 
@@ -412,8 +409,6 @@ const l0_getFgAtLoc = async (config, trendQuery) => {
 const l0_getFgAtLoc_untagged = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 0: query postgres for FG at location UNTAGGED ...`)
-
-    if (!trendQuery.inv.l1_label) return [{ l2_label: 'TOTAL' }]
 
     const response = await sql
  `SELECT 'FG ON HAND UNTAGGED' AS column, 'FG SALES' AS l1_label, 
@@ -485,8 +480,6 @@ const l0_getFgAtLoc_untagged = async (config, trendQuery) => {
 const l0_getFgAtLoc_tagged = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 0: query postgres for FG at location TAGGED ...`)
-
-    if (!trendQuery.inv.l1_label) return [{ l2_label: 'TOTAL' }]
 
     const response = await sql
       `SELECT 'FG ON HAND TAGGED' AS column, 'FG SALES' AS l1_label, 

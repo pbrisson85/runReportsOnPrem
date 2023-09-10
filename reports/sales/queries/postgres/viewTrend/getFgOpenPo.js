@@ -60,8 +60,6 @@ const l0_getFgPo = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 0: query postgres for FG open PO ...`)
 
-    if (!trendQuery.inv.l1_label) return [{ column: 'FG ON ORDER', l1_label: 'FG SALES', l2_label: 'TOTAL' }]
-
     const response = await sql
          `SELECT 
           'FG ON ORDER' AS column, 

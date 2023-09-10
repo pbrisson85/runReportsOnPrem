@@ -13,12 +13,12 @@ const mapInvenToRowTemplates = (invenLines, rowTemplate) => {
   // Note only cost and lbs for inven data.
 
   invenLines.forEach((invenLine, idx) => {
-    const revenue = parseFloat(invenLine.cogs?.toFixed(2))
-    const weight = parseFloat(invenLine.lbs?.toFixed(2))
-    const cogs = parseFloat(invenLine.cogs?.toFixed(2))
-    const othp = parseFloat(invenLine.cogs?.toFixed(2))
-    const netSales = parseFloat(invenLine.cogs?.toFixed(2))
-    const grossMargin = parseFloat(invenLine.cogs?.toFixed(2))
+    const revenue = parseFloat(invenLine.cogs.toFixed(2))
+    const weight = parseFloat(invenLine.lbs.toFixed(2))
+    const cogs = parseFloat(invenLine.cogs.toFixed(2))
+    const othp = parseFloat(invenLine.cogs.toFixed(2))
+    const netSales = parseFloat(invenLine.cogs.toFixed(2))
+    const grossMargin = parseFloat(invenLine.cogs.toFixed(2))
 
     if (invenLine.suppressCalcPerLb) {
       // Dont calc per lb for kpi ratio
