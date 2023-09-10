@@ -259,12 +259,20 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   const flattenedMappedData = Object.values(mappedData)
   let finalData = cleanLabelsForDisplay(flattenedMappedData, '')
     .sort((a, b) => {
-      if (!a.length || !b.length) {
-        console.log('no length: a, b:', a, b)
+      if (!a.length) {
+        console.log('no length: a:', a)
       }
 
-      if (typeof a.l2_label === 'undefined' || typeof b.l2_label === 'undefined') {
-        console.log('no l2_label: a, b:', a, b)
+      if (!b.length) {
+        console.log('no length: b:', b)
+      }
+
+      if (typeof a.l2_label === 'undefined') {
+        console.log('no l2_label: a:', a)
+      }
+
+      if (typeof b.l2_label === 'undefined') {
+        console.log('no l2_label: b:', b)
       }
 
       // if has includes total, put at end
