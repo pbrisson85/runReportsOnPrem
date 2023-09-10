@@ -182,9 +182,9 @@ const l1_getFgAtLoc_untagged = async (config, trendQuery) => {
  
 FROM (
         SELECT pi.cost_extended, pi.item_number, pi.lot, pi.on_hand_lbs, pi.location_code 
-        FROM "invenReporting".perpetual_inventory AS pi AS pi 
+        FROM "invenReporting".perpetual_inventory AS pi
         WHERE 
-          pi .version = (SELECT MAX(subpi.version) - 1 FROM "invenReporting".perpetual_inventory AS pi AS subpi) 
+          pi .version = (SELECT MAX(subpi.version) - 1 FROM "invenReporting".perpetual_inventory AS subpi) 
           AND pi.location_type <> ${'IN TRANSIT'}) 
         AS inven_t 
 LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -209,28 +209,7 @@ WHERE
   ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
   ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
   ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``}
-  ${config.hasSalesFilters ? sql`AND pi.item_number IN (
-    SELECT so.item_num AS item
-    FROM "salesReporting".sales_orders AS so
-    WHERE 
-    so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-    ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``}
-    ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
-    ${config.country ? sql`AND so.country = ${config.country}`: sql``} 
-    ${config.state ? sql`AND so.state = ${config.state}`: sql``} 
-    ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
-    ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``}
-
-    UNION SELECT sl.item_number AS item
-    FROM "salesReporting".sales_lines AS sl
-    WHERE sl.item_number IS NOT NULL
-    ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
-    ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
-    ${config.country ? sql`AND sl.country = ${config.country}`: sql``} 
-    ${config.state ? sql`AND sl.state = ${config.state}`: sql``} 
-    ${config.export ? sql`AND sl.domestic = ${config.export}`: sql``} 
-    ${config.northAmerica ? sql`AND sl.north_america = ${config.northAmerica}`: sql``} 
-  )` : sql``} 
+  
 
 GROUP BY 
   ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)}`: sql``} 
@@ -445,28 +424,7 @@ const l0_getFgAtLoc_untagged = async (config, trendQuery) => {
   ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
   ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
   ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``}
-  ${config.hasSalesFilters ? sql`AND pi.item_number IN (
-    SELECT so.item_num AS item
-    FROM "salesReporting".sales_orders AS so
-    WHERE 
-    so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-    ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``}
-    ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
-    ${config.country ? sql`AND so.country = ${config.country}`: sql``} 
-    ${config.state ? sql`AND so.state = ${config.state}`: sql``} 
-    ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
-    ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``}
-
-    UNION SELECT sl.item_number AS item
-    FROM "salesReporting".sales_lines AS sl
-    WHERE sl.item_number IS NOT NULL
-    ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
-    ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
-    ${config.country ? sql`AND sl.country = ${config.country}`: sql``} 
-    ${config.state ? sql`AND sl.state = ${config.state}`: sql``} 
-    ${config.export ? sql`AND sl.domestic = ${config.export}`: sql``} 
-    ${config.northAmerica ? sql`AND sl.north_america = ${config.northAmerica}`: sql``} 
-  )` : sql``}
+  
   ` //prettier-ignore
 
     return response
