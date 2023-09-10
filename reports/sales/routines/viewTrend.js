@@ -266,13 +266,11 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
     })
     .sort((a, b) => {
       // if has includes total, put at end
-      if (a.l2_label?.includes('TOTAL')) return 1
-      if (b.l2_label?.includes('TOTAL')) return -1
+      if (a.l2_filter?.includes('TOTAL')) return 1
+      if (b.l2_filter?.includes('TOTAL')) return -1
       return 0
     }) // no label in total row, first col
   finalData = [...filterRow, ...finalData]
-
-  console.log(finalData)
 
   const salesColsByWk = await getDateEndPerWeekByRange(start, end, config)
 
