@@ -172,10 +172,10 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
       filterRow: true,
       l1_label: `${`
                   ${config.program ? `prog: ${config.program}, ` : ``}
-                  ${config.l1_filter ? `${config.l1_field}: ${config.l1_filter}, ` : ``}
-                  ${config.l2_filter ? `${config.l2_field}: ${config.l2_filter}, ` : ``}
-                  ${config.l3_filter ? `${config.l3_field}: ${config.l3_filter}, ` : ``}
-                  ${config.l4_filter ? `${config.l4_field}: ${config.l4_filter}, ` : ``}
+                  ${config.l1_filter ? `${config.l1_name}: ${config.l1_filter}, ` : ``}
+                  ${config.l2_filter ? `${config.l2_name}: ${config.l2_filter}, ` : ``}
+                  ${config.l3_filter ? `${config.l3_name}: ${config.l3_filter}, ` : ``}
+                  ${config.l4_filter ? `${config.l4_name}: ${config.l4_filter}, ` : ``}
                   ${config.customer ? `cust: ${config.customer}, ` : ``}
                   ${config.item ? `item: ${config.item}, ` : ``}
                   ${config.salesPerson ? `salesperson: ${config.salesPerson}, ` : ``}

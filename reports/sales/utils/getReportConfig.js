@@ -38,6 +38,8 @@ const getReportConfig = reqBody => {
       config = {
         l1_field: 'ms.species_group',
         l2_field: 'ms.program',
+        l1_name: 'species group', // Used for filter labels on front end
+        l2_name: 'program',
         ...config,
       }
 
@@ -48,6 +50,9 @@ const getReportConfig = reqBody => {
         l1_field: 'ms.species_group',
         l2_field: 'ms.program',
         l3_field: 'ms.fg_fresh_frozen',
+        l1_name: 'species group', // Used for filter labels on front end
+        l2_name: 'program',
+        l3_name: 'fresh/frozen',
         ...config,
       }
 
@@ -58,6 +63,9 @@ const getReportConfig = reqBody => {
         l1_field: 'ms.species_group',
         l2_field: 'ms.program',
         l3_field: 'ms.species',
+        l1_name: 'species group', // Used for filter labels on front end
+        l2_name: 'program',
+        l3_name: 'species',
         ...config,
       }
 
@@ -68,6 +76,9 @@ const getReportConfig = reqBody => {
         l1_field: 'ms.species_group',
         l2_field: 'ms.brand',
         l3_field: 'ms.fish_skin',
+        l1_name: 'species group', // Used for filter labels on front end
+        l2_name: 'brand',
+        l3_name: 'skin',
         ...config,
       }
       break
@@ -77,6 +88,9 @@ const getReportConfig = reqBody => {
         l1_field: 'ms.species_group',
         l2_field: 'ms.fish_skin',
         l3_field: 'ms.brand',
+        l1_name: 'species group', // Used for filter labels on front end
+        l2_name: 'skin',
+        l3_name: 'brand',
         ...config,
       }
       break
@@ -85,6 +99,8 @@ const getReportConfig = reqBody => {
       config = {
         l1_field: 'ms.species_group',
         l2_field: 'ms.fg_fresh_frozen',
+        l1_name: 'species group', // Used for filter labels on front end
+        l2_name: 'fresh/frozen',
         ...config,
       }
       break
@@ -94,6 +110,9 @@ const getReportConfig = reqBody => {
         l1_field: 'ms.fg_fresh_frozen',
         l2_field: 'ms.brand',
         l3_field: 'ms.size_name',
+        l1_name: 'fresh/frozen', // Used for filter labels on front end
+        l2_name: 'brand',
+        l3_name: 'size',
         ...config,
       }
       break
@@ -104,6 +123,10 @@ const getReportConfig = reqBody => {
         l2_field: 'ms.brand',
         l3_field: 'ms.fg_treatment',
         l4_field: 'ms.size_name',
+        l1_name: 'fresh/frozen', // Used for filter labels on front end
+        l2_name: 'brand',
+        l3_name: 'soak',
+        l4_name: 'size',
         ...config,
       }
       break
@@ -113,6 +136,9 @@ const getReportConfig = reqBody => {
         l1_field: 'ms.fg_fresh_frozen',
         l2_field: 'ms.fg_treatment',
         l3_field: 'ms.size_name',
+        l1_name: 'fresh/frozen', // Used for filter labels on front end
+        l2_name: 'soak',
+        l3_name: 'size',
         ...config,
       }
       break
@@ -122,6 +148,9 @@ const getReportConfig = reqBody => {
         l1_field: 'ms.species',
         l2_field: 'ms.brand',
         l3_field: 'ms.size_name',
+        l1_name: 'species', // Used for filter labels on front end
+        l2_name: 'brand',
+        l3_name: 'size',
         ...config,
       }
       break
@@ -132,6 +161,10 @@ const getReportConfig = reqBody => {
         l2_field: 'ms.brand',
         l3_field: 'ms.fg_treatment',
         l4_field: 'ms.size_name',
+        l1_name: 'species', // Used for filter labels on front end
+        l2_name: 'brand',
+        l3_name: 'soak',
+        l4_name: 'size',
         ...config,
       }
       break
@@ -141,6 +174,9 @@ const getReportConfig = reqBody => {
         l1_field: 'ms.species',
         l2_field: 'ms.fg_treatment',
         l3_field: 'ms.size_name',
+        l1_name: 'species', // Used for filter labels on front end
+        l2_name: 'soak',
+        l3_name: 'size',
         ...config,
       }
       break
@@ -149,6 +185,8 @@ const getReportConfig = reqBody => {
       config = {
         l1_field: 'ms.species_group',
         l2_field: 'ms.program',
+        l1_name: 'species group', // Used for filter labels on front end
+        l2_name: 'program',
         ...config,
       }
   }
