@@ -170,7 +170,19 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   const filterRow = [
     {
       filterRow: true,
-      l1_label: `prog: ${config.program}, item attr: ${config.l1_filter}, ${config.l2_filter}, ${config.l3_filter}, cust: ${config.customer}, item: ${config.item}, salesperson: ${config.salesPerson}, country: ${config.country}, state: ${config.state}, usa vs export: ${config.export}, north america vs foreign: ${config.northAmerica}`,
+      l1_label: `${`
+                  ${config.program && `prog: ${config.program}, `}
+                  ${config.l1_filter && `item attr: ${config.l1_filter}, `}
+                  ${config.l2_filter && `item attr: ${config.l2_filter}, `}
+                  ${config.l3_filter && `item attr: ${config.l3_filter}, `}
+                  ${config.customer && `cust: ${config.customer}, `}
+                  ${config.item && `item: ${config.item}, `}
+                  ${config.salesPerson && `salesperson: ${config.salesPerson}, `}
+                  ${config.country && `country: ${config.country}, `}
+                  ${config.state && `state: ${config.state}, `}
+                  ${config.export && `usa vs export: ${config.export}, `}
+                  ${config.northAmerica && `north america vs foreign: ${config.northAmerica}, `}
+                 `}`,
     },
   ] // shows at top of report
 
