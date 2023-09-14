@@ -630,7 +630,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
 
       if (level === 3) {
         if (row.l3_filter === 'SUBTOTAL' && interval === 1) {
-          interval++
+          interval = 0
           return false
         }
       }
