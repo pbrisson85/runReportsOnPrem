@@ -629,9 +629,14 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
       // If cleaning level 2, you want to check level 3 (up one level) for the interval between subtotals. If the interval is 1, then you want to delete the subtotal row
 
       if (level === 3) {
+        // Need to change to reset interval to 0 every time you hit a subtotal row then follow with if interval was one when you hit then return false Need to also reset if l2_filter is subtotal *************
+
         if (row.l3_filter === 'SUBTOTAL' && interval === 1) {
           interval = 0
           return false
+        } else if (row.l3_filter === 'SUBTOTAL' || row.l2_filter === 'SUBTOTAL') {
+          interval = 0
+          return true
         }
       }
 
