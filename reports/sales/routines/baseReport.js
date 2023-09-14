@@ -615,6 +615,35 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
     console.log('idx', idx)
   })
 
+  const cleanSubtotalRows = (data, level) => {
+    let interval = 0
+
+    const cleanedData = data.filter((row, idx) => {
+      if (idx === 0) {
+        interval = 0
+        interval++
+        return true
+      }
+
+      // for a three level report. You want to clean each level level other than the first and last
+      // If cleaning level 2, you want to check level 3 (up one level) for the interval between subtotals. If the interval is 1, then you want to delete the subtotal row
+
+      if (level === 3) {
+        if (row.l3_filter === 'SUBTOTAL' && interval === 1) {
+          interval++
+          return false
+        }
+      }
+
+      interval++
+      return true
+    })
+
+    return cleanedData
+  }
+
+  const cleanedData = cleanSubtotalRows(finalData, level)
+
   // get data column names by fiscal year
   let salesColsByFy = null
   let salesColsByFyYtd = null
@@ -630,7 +659,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
 
   // return
   return {
-    data: finalData,
+    data: cleanedData,
     salesColsByWk: salesColsByWk,
     salesColsByFy: salesColsByFy,
     salesColsByFyYtd: salesColsByFyYtd,
