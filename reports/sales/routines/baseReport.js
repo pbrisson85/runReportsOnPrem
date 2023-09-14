@@ -606,7 +606,10 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
 
   const eachRow = Object.keys(mappedData)
   eachRow.forEach((row, idx) => {
-    console.log('row', row)
+    console.log('row', mappedData[row].l1_filter)
+    console.log('row', mappedData[row].l2_filter)
+    console.log('row', mappedData[row].l3_filter)
+    console.log('row', mappedData[row].l4_filter)
     console.log('idx', idx)
   })
 
