@@ -608,12 +608,11 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
 
   // Clean out subtotal rows that only have one row of data to sum (dont need a sum of one row it is just duplicating the row)
   finalData.forEach((row, idx) => {
-    if (idx < 4) {
-      console.log('l1_filter', row.l1_filter)
-      console.log('l2_filter', row.l2_filter)
-      console.log('l3_filter', row.l3_filter)
-      console.log('l4_filter', row.l4_filter)
-    }
+    console.log('l1_filter', row.l1_filter)
+    console.log('l2_filter', row.l2_filter)
+    console.log('l3_filter', row.l3_filter)
+    console.log('l4_filter', row.l4_filter)
+    console.log('idx', idx)
   })
 
   // get data column names by fiscal year
