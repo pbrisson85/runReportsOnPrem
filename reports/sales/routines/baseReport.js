@@ -602,20 +602,14 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
     }
   })
 
-  // Clean out subtotal rows that only have one row of data to sum (dont need a sum of one row it is just duplicating the row)
-  console.log('mappedData', mappedData)
-  const eachRow = Object.keys(mappedData)
-  eachRow.forEach((row, idx) => {
-    console.log('row', mappedData[row].l1_filter)
-    console.log('row', mappedData[row].l2_filter)
-    console.log('row', mappedData[row].l3_filter)
-    console.log('row', mappedData[row].l4_filter)
-    console.log('idx', idx)
-  })
-
   const flattenedMappedData = Object.values(mappedData)
   const finalData = cleanLabelsForDisplay(flattenedMappedData, config)
   const salesColsByWk = await getDateEndPerWeekByRange(start, end, config)
+
+  // Clean out subtotal rows that only have one row of data to sum (dont need a sum of one row it is just duplicating the row)
+  finalData.forEach((row, idx) => {
+    if (idx < 4) console.log(row)
+  })
 
   // get data column names by fiscal year
   let salesColsByFy = null
