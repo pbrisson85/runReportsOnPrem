@@ -77,10 +77,10 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
       l3Value = row.l3_label
     }
 
-    // re-label total row with program filter
-    if (config.program && idx === cacheData.length - 1) {
-      flattenedMappedData[idx].l1_label = `${config.program} FG`
-    }
+    // // re-label total row with program filter
+    // if (config.program && idx === cacheData.length - 1) {
+    //   flattenedMappedData[idx].l1_label = `${config.program} FG`
+    // }
   })
 
   return flattenedMappedData

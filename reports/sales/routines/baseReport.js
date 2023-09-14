@@ -596,11 +596,14 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
 
   // clean out rows with zero activity
   Object.keys(mappedData).forEach(key => {
-    // If the length = 3, then there is onlt the three labels and no other columns are populated
+    // If the length = level, then there is only the labels and no other columns are populated on that row
     if (Object.keys(mappedData[key]).length === level) {
       delete mappedData[key]
     }
   })
+
+  // Clean out subtotal rows that only have one row of data to sum (dont need a sum of one row it is just duplicating the row)
+  console.log('mappedData', mappedData)
 
   const flattenedMappedData = Object.values(mappedData)
   const finalData = cleanLabelsForDisplay(flattenedMappedData, config)
