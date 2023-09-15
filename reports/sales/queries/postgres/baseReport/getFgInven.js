@@ -16,9 +16,9 @@ const l1_getFgInven = async config => {
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -45,9 +45,9 @@ const l1_getFgInTransit = async config => {
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         AND perpetual_inventory.location_type = ${'IN TRANSIT'} 
@@ -75,9 +75,9 @@ const l1_getFgAtLoc = async config => {
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         AND perpetual_inventory.location_type <> ${'IN TRANSIT'} 
@@ -123,9 +123,9 @@ const l1_getFgAtLoc_untagged = async config => {
     ON tagged_t.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code 
     
     WHERE 
-      ms.byproduct_type IS NULL 
-      ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-      ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+      (ms.byproduct_type IS NULL 
+      ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+      ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
       AND ms.item_type = ${'FG'} 
       ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
       ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -149,9 +149,9 @@ const l1_getFgAtLoc_tagged = async config => {
       FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.item_num 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -181,9 +181,9 @@ const l2_getFgInven = async config => {
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -210,9 +210,9 @@ const l2_getFgInTransit = async config => {
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         AND perpetual_inventory.location_type = ${'IN TRANSIT'} 
@@ -240,9 +240,9 @@ const l2_getFgAtLoc = async config => {
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         AND perpetual_inventory.location_type <> ${'IN TRANSIT'} 
@@ -291,9 +291,9 @@ const l2_getFgAtLoc_untagged = async config => {
       ON tagged_t.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code 
   
   WHERE 
-    ms.byproduct_type IS NULL 
-    ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-    ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+    (ms.byproduct_type IS NULL 
+    ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+    ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
     AND ms.item_type = ${'FG'} 
     ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
     ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -317,9 +317,9 @@ const l2_getFgAtLoc_tagged = async config => {
       FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.item_num 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -347,9 +347,9 @@ const l3_getFgInven = async config => {
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -374,9 +374,9 @@ const l3_getFgInTransit = async config => {
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         AND perpetual_inventory.location_type = ${'IN TRANSIT'} 
@@ -402,9 +402,9 @@ const l3_getFgAtLoc = async config => {
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         AND perpetual_inventory.location_type <> ${'IN TRANSIT'} 
@@ -449,9 +449,9 @@ const l3_getFgAtLoc_untagged = async config => {
     ON tagged_t.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
@@ -475,9 +475,9 @@ const l3_getFgAtLoc_tagged = async config => {
       FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.item_num 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -505,9 +505,9 @@ const l4_getFgInven = async config => {
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -532,9 +532,9 @@ const l4_getFgInTransit = async config => {
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         AND perpetual_inventory.location_type = ${'IN TRANSIT'} 
@@ -560,9 +560,9 @@ const l4_getFgAtLoc = async config => {
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``}) 
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         AND perpetual_inventory.location_type <> ${'IN TRANSIT'} 
@@ -607,9 +607,9 @@ const l4_getFgAtLoc_untagged = async config => {
     ON tagged_t.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
@@ -633,9 +633,9 @@ const l4_getFgAtLoc_tagged = async config => {
       FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.item_num 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -666,9 +666,9 @@ const l0_getFgInven = async config => {
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -693,9 +693,9 @@ const l0_getFgInTransit = async config => {
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``}) 
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -721,9 +721,9 @@ const l0_getFgAtLoc = async config => {
       FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``}) 
         AND ms.item_type = ${'FG'} 
         AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -762,9 +762,9 @@ const l0_getFgAtLoc_untagged = async config => {
         GROUP BY ti.lot, ti.location, ti.item_num) AS tagged_t 
     ON tagged_t.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code 
   WHERE 
-    ms.byproduct_type IS NULL 
-    ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-    ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+    (ms.byproduct_type IS NULL 
+    ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+    ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
     AND ms.item_type = ${'FG'} 
     ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
     ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}` //prettier-ignore
@@ -786,9 +786,9 @@ const l0_getFgAtLoc_tagged = async config => {
     FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.item_num 
     
     WHERE 
-      ms.byproduct_type IS NULL 
-      ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-      ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+      (ms.byproduct_type IS NULL 
+      ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+      ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``}) 
       AND ms.item_type = ${'FG'} 
       AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
       ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 

@@ -18,9 +18,9 @@ const l1_getSalesByFyYtd = async (config, start, end, showYtd) => {
           ON ms.item_num = sales_line_items.item_number 
           
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -55,9 +55,9 @@ const l2_getSalesByFyYtd = async (config, start, end, showYtd) => {
           ON ms.item_num = sales_line_items.item_number 
           
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -92,9 +92,9 @@ const l3_getSalesByFyYtd = async (config, start, end, showYtd) => {
           ON ms.item_num = sales_line_items.item_number 
           
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -129,9 +129,9 @@ const l4_getSalesByFyYtd = async (config, start, end, showYtd) => {
           ON ms.item_num = sales_line_items.item_number 
           
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -166,9 +166,9 @@ const l0_getSalesByFyYtd = async (config, start, end, showYtd) => {
           ON ms.item_num = sales_line_items.item_number 
           
       WHERE 
-        ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
+        (ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
         AND ms.item_type = ${'FG'} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
