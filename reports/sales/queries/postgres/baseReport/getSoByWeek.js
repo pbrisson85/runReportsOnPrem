@@ -17,6 +17,8 @@ const l1_getSo_byWk = async config => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
+        ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
       
       GROUP BY sales_orders.week_serial, ${sql(config.l1_field)} 
       
@@ -44,6 +46,8 @@ const l1_getSoTagged_byWk = async config => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
+        ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
         AND sales_orders.tagged_weight > 0 
       
       GROUP BY sales_orders.week_serial, ${sql(config.l1_field)} 
@@ -72,6 +76,8 @@ const l1_getSoUntagged_byWk = async config => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
+        ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
         AND sales_orders.untagged_weight > 0 
       
       GROUP BY sales_orders.week_serial, ${sql(config.l1_field)} 
@@ -102,6 +108,8 @@ const l2_getSo_byWk = async config => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
+        ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
       
       GROUP BY sales_orders.week_serial, ${sql(config.l1_field)}, ${sql(config.l2_field)} 
       
@@ -129,6 +137,8 @@ const l2_getSoTagged_byWk = async config => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
+        ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
         AND sales_orders.tagged_weight > 0 
       
       GROUP BY sales_orders.week_serial, ${sql(config.l1_field)}, ${sql(config.l2_field)} 
@@ -157,6 +167,8 @@ const l2_getSoUntagged_byWk = async config => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
+        ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
         AND sales_orders.untagged_weight > 0 
       
       GROUP BY sales_orders.week_serial, ${sql(config.l1_field)}, ${sql(config.l2_field)} 
@@ -187,6 +199,8 @@ const l3_getSo_byWk = async config => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
+        ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
       
       GROUP BY sales_orders.week_serial, ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)} 
       
@@ -214,6 +228,8 @@ const l3_getSoTagged_byWk = async config => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
+        ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
         AND sales_orders.tagged_weight > 0 
       
       GROUP BY sales_orders.week_serial, ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)} 
@@ -242,6 +258,8 @@ const l3_getSoUntagged_byWk = async config => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
+        ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
         AND sales_orders.untagged_weight > 0 
       
       GROUP BY sales_orders.week_serial, ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)} 
@@ -272,6 +290,8 @@ const l4_getSo_byWk = async config => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
+        ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
       
       GROUP BY sales_orders.week_serial, ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)} 
       
@@ -299,6 +319,8 @@ const l4_getSoTagged_byWk = async config => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
+        ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
         AND sales_orders.tagged_weight > 0 
       
       GROUP BY sales_orders.week_serial, ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)}
@@ -327,6 +349,8 @@ const l4_getSoUntagged_byWk = async config => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
+        ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
         AND sales_orders.untagged_weight > 0 
       
       GROUP BY sales_orders.week_serial, ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)} 
@@ -357,6 +381,8 @@ const l0_getSo_byWk = async config => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
+        ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
       
       GROUP BY sales_orders.week_serial 
       
@@ -384,6 +410,8 @@ const l0_getSoTagged_byWk = async config => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
+        ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
         AND sales_orders.tagged_weight > 0 
       
       GROUP BY sales_orders.week_serial 
@@ -412,6 +440,8 @@ const l0_getSoUntagged_byWk = async config => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND ms.byproduct_type IS NULL 
+        ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
+        ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
         AND sales_orders.untagged_weight > 0 
       
       GROUP BY sales_orders.week_serial 

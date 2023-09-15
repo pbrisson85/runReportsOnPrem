@@ -31,7 +31,8 @@ const getReportConfig = reqBody => {
     queryLevel: reqBody.queryLevel ?? null,
     jbBuyerFilter,
     user: reqBody.user ?? null,
-    showByProduct: reqBody.showByProduct ?? null,
+    showByProduct: reqBody.showByProduct ?? true, // test
+    showSeconds: reqBody.showSeconds ?? true, // test
   }
 
   switch (reqBody.reportFormat) {

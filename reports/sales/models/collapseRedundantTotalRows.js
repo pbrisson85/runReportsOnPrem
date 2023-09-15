@@ -1,21 +1,20 @@
 // Remove subtotals if there is only one row to subtotal
 const collapseRedundantTotalRows = (data, level) => {
-  let l4collapsed = null
-  let l3collapsed = null
-  let l2collapsed = null
+  let collapsed = null
+
   switch (level) {
     case 4:
-      l4collapsed = collapseL4(data)
-      l3collapsed = collapseL3(l4collapsed)
-      l2collapsed = collapseL2(l3collapsed)
-      return l2collapsed
+      collapsed = collapseL4(data)
+      collapsed = collapseL3(collapsed)
+      collapsed = collapseL2(collapsed)
+      return collapsed
     case 3:
-      l3collapsed = collapseL3(data)
-      l2collapsed = collapseL2(l3collapsed)
-      return l2collapsed
+      collapsed = collapseL3(data)
+      collapsed = collapseL2(collapsed)
+      return collapsed
     case 2:
-      l2collapsed = collapseL2(data)
-      return l2collapsed
+      collapsed = collapseL2(data)
+      return collapsed
 
     default:
       return data
