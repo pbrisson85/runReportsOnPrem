@@ -32,10 +32,10 @@ const collapseL4 = data => {
       return true
     }
 
-    if (l4_filter === 'SUBTOTAL' && interval === 1) {
+    if (row.l4_filter === 'SUBTOTAL' && interval === 1) {
       interval = 0
       return false
-    } else if (l4_filter === 'SUBTOTAL' || l3_filter === 'SUBTOTAL') {
+    } else if (row.l4_filter === 'SUBTOTAL' || row.l3_filter === 'SUBTOTAL') {
       interval = 0
       return true
     }
