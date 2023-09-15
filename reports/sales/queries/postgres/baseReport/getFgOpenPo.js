@@ -14,8 +14,8 @@ const l1_getFgPo = async config => {
          
          WHERE 
           ms.byproduct_type IS NULL 
-          ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
-          ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
+          ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+          ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
           AND ms.item_type = ${'FG'} 
           AND inv.on_order_lbs <> 0 
           AND inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) 
@@ -46,8 +46,8 @@ const l2_getFgPo = async config => {
        
        WHERE 
         ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
+        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
         AND ms.item_type = ${'FG'} 
         AND inv.on_order_lbs <> 0 
         AND inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) 
@@ -78,8 +78,8 @@ const l3_getFgPo = async config => {
        
        WHERE 
         ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
+        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
         AND ms.item_type = ${'FG'} 
         AND inv.on_order_lbs <> 0 
         AND inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) 
@@ -110,8 +110,8 @@ const l4_getFgPo = async config => {
        
        WHERE 
         ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
-        ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
+        ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+        ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
         AND ms.item_type = ${'FG'} 
         AND inv.on_order_lbs <> 0 
         AND inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) 
@@ -140,8 +140,8 @@ const l0_getFgPo = async config => {
          
          WHERE 
           ms.byproduct_type IS NULL 
-          ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
-          ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
+          ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+          ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
           AND ms.item_type = ${'FG'} 
           AND inv.on_order_lbs <> 0 
           AND inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) 

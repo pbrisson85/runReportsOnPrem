@@ -16,8 +16,8 @@ const getRowsFourthLevelDetail = async (config, start, end, showFyTrend) => {
           WHERE 
             ${!showFyTrend ? sql`sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ` : sql``} 
             ms.byproduct_type IS NULL 
-            ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
-            ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
+            ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+            ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
             AND ms.item_type = ${'FG'} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -32,8 +32,8 @@ const getRowsFourthLevelDetail = async (config, start, end, showFyTrend) => {
         
           WHERE 
             ms.byproduct_type IS NULL 
-            ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
-            ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
+            ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+            ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
             AND ms.item_type = ${'FG'} 
             AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -49,8 +49,8 @@ const getRowsFourthLevelDetail = async (config, start, end, showFyTrend) => {
         
           WHERE 
             ms.byproduct_type IS NULL 
-            ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
-            ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
+            ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+            ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
             AND ms.item_type = ${'FG'} 
             AND sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -82,8 +82,8 @@ const getRowsThirdLevelDetail = async (config, start, end, showFyTrend) => {
           WHERE 
             ${!showFyTrend ? sql`sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ` : sql``} 
             ms.byproduct_type IS NULL 
-            ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
-            ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
+            ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+            ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
             AND ms.item_type = ${'FG'} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -98,8 +98,8 @@ const getRowsThirdLevelDetail = async (config, start, end, showFyTrend) => {
         
           WHERE 
             ms.byproduct_type IS NULL 
-            ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
-            ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
+            ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+            ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
             AND ms.item_type = ${'FG'} 
             AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -115,8 +115,8 @@ const getRowsThirdLevelDetail = async (config, start, end, showFyTrend) => {
         
           WHERE 
             ms.byproduct_type IS NULL 
-            ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
-            ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
+            ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+            ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
             AND ms.item_type = ${'FG'} 
             AND sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -145,8 +145,8 @@ const getRowsSecondLevelDetail = async (config, start, end, showFyTrend) => {
           WHERE 
             ${!showFyTrend ? sql`sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ` : sql``} 
             ms.byproduct_type IS NULL 
-            ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
-            ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
+            ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+            ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
             AND ms.item_type = ${'FG'} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -161,8 +161,8 @@ const getRowsSecondLevelDetail = async (config, start, end, showFyTrend) => {
         
           WHERE 
             ms.byproduct_type IS NULL 
-            ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
-            ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
+            ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+            ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
             AND ms.item_type = ${'FG'} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -178,8 +178,8 @@ const getRowsSecondLevelDetail = async (config, start, end, showFyTrend) => {
         
           WHERE 
             ms.byproduct_type IS NULL 
-            ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
-            ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
+            ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+            ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
             AND ms.item_type = ${'FG'} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -208,8 +208,8 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend) => {
           WHERE 
             ${!showFyTrend ? sql`sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ` : sql``} 
             ms.byproduct_type IS NULL 
-            ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
-            ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
+            ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+            ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
             AND ms.item_type = ${'FG'} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -224,8 +224,8 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend) => {
           
           WHERE 
             ms.byproduct_type IS NULL 
-            ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
-            ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
+            ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+            ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
             AND ms.item_type = ${'FG'} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -241,8 +241,8 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend) => {
           
           WHERE 
             ms.byproduct_type IS NULL 
-            ${config.showByProduct ? sql`AND ms.byproduct_type = BY PRODUCT`: sql``} 
-            ${config.showSeconds ? sql`AND ms.byproduct_type = SECONDS`: sql``} 
+            ${config.showByProduct ? sql`AND ms.byproduct_type = 'BY PRODUCT'`: sql``} 
+            ${config.showSeconds ? sql`AND ms.byproduct_type = 'SECONDS'`: sql``} 
             AND ms.item_type = ${'FG'} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
