@@ -115,6 +115,7 @@ const getSpeciesGroupTotalSales = require('../queries/postgres/getSpeciesGroupTo
 const calcAveWeeklySales = require('../models/calcAveWeeklySales')
 const calcWeeksInvOnHand = require('../models/calcWeeksInvOnHand')
 const calcInventoryAvailable = require('../models/calcInventoryAvailable')
+const collapseRedundantTotalRows = require('../models/collapseRedundantTotalRows')
 
 const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, labelCols, year) => {
   // The routine and all of the queries can be the same for all reports. Going to buikd out this rpeort and then change the config manually to test.
@@ -605,54 +606,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   const flattenedMappedData = Object.values(mappedData)
   const finalData = cleanLabelsForDisplay(flattenedMappedData, config)
   const salesColsByWk = await getDateEndPerWeekByRange(start, end, config)
-
-  // Clean out subtotal rows that only have one row of data to sum (dont need a sum of one row it is just duplicating the row)
-  finalData.forEach((row, idx) => {
-    console.log('l1_filter', row.l1_filter)
-    console.log('l2_filter', row.l2_filter)
-    console.log('l3_filter', row.l3_filter)
-    console.log('l4_filter', row.l4_filter)
-    console.log('idx', idx)
-  })
-
-  const cleanSubtotalRows = (data, level) => {
-    let interval = 0
-
-    const cleanedData = data.filter((row, idx) => {
-      if (idx === 0) {
-        interval = 0
-        interval++
-        return true
-      }
-
-      switch (level) {
-        case 3:
-          if (row.l3_filter === 'SUBTOTAL' && interval === 1) {
-            interval = 0
-            return false
-          } else if (row.l3_filter === 'SUBTOTAL' || row.l2_filter === 'SUBTOTAL') {
-            interval = 0
-            return true
-          }
-
-        case 4:
-          if (row.l4_filter === 'SUBTOTAL' && interval === 1) {
-            interval = 0
-            return false
-          } else if (row.l4_filter === 'SUBTOTAL' || row.l3_filter === 'SUBTOTAL') {
-            interval = 0
-            return true
-          }
-      }
-
-      interval++
-      return true
-    })
-
-    return cleanedData
-  }
-
-  const cleanedData = cleanSubtotalRows(finalData, level)
+  const collapsedData = collapseRedundantTotalRows(finalData, level)
 
   // get data column names by fiscal year
   let salesColsByFy = null
@@ -669,7 +623,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
 
   // return
   return {
-    data: cleanedData,
+    data: collapsedData,
     salesColsByWk: salesColsByWk,
     salesColsByFy: salesColsByFy,
     salesColsByFyYtd: salesColsByFyYtd,
