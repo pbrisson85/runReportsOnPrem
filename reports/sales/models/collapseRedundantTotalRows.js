@@ -14,7 +14,7 @@ const collapseRedundantTotalRows = (data, level) => {
       l2collapsed = collapseL2(l3collapsed)
       return l2collapsed
     case 2:
-      l2collapsed = collapseL2(l3collapsed)
+      l2collapsed = collapseL2(data)
       return l2collapsed
 
     default:
