@@ -694,7 +694,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
       delete mappedData[key]
     }
 
-    if (Object.keys(mappedData[key]).includes('totalRow') && Object.keys(mappedData[key]).length === level + 3) {
+    if (config.itemType === 'SECONDS') {
       console.log('Object.keys(mappedData[key]).length', Object.keys(mappedData[key]).length)
       console.log('level', level)
       console.log('mappedData[key]', mappedData[key])
