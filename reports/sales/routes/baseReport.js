@@ -43,7 +43,7 @@ router.post('/', async (req, res) => {
   const startWeek = await getWeekForDate(start, config) // temporarily until I change the data that is being passed by the front end to the week
   const endWeek = await getWeekForDate(end, config) // temporarily until I change the data that is being passed by the front end to the week
 
-  const response = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year)
+  const response = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
 
   // if default date then add to response
   if (defaultDateFlag) {

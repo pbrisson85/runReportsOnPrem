@@ -117,145 +117,201 @@ const calcWeeksInvOnHand = require('../models/calcWeeksInvOnHand')
 const calcInventoryAvailable = require('../models/calcInventoryAvailable')
 const collapseRedundantTotalRows = require('../models/collapseRedundantTotalRows')
 
-const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, labelCols, year) => {
+const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, labelCols, year, totalOnly) => {
   // The routine and all of the queries can be the same for all reports. Going to buikd out this rpeort and then change the config manually to test.
 
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
-  const l1_fgInven = await l1_getFgInven(config)
-  const l2_fgInven = await l2_getFgInven(config)
-  const l3_fgInven = config.l3_field ? await l3_getFgInven(config) : []
-  const l4_fgInven = config.l4_field ? await l4_getFgInven(config) : []
+  const l1_fgInven = totalOnly ? [] : await l1_getFgInven(config)
+  const l2_fgInven = totalOnly ? [] : await l2_getFgInven(config)
+  const l3_fgInven = totalOnly ? [] : config.l3_field ? await l3_getFgInven(config) : []
+  const l4_fgInven = totalOnly ? [] : config.l4_field ? await l4_getFgInven(config) : []
   const l0_fgInven = await l0_getFgInven(config)
   /* FG IN TRANSIT*/
-  const l1_fgInTransit = await l1_getFgInTransit(config)
-  const l2_fgInTransit = await l2_getFgInTransit(config)
-  const l3_fgInTransit = config.l3_field ? await l3_getFgInTransit(config) : []
-  const l4_fgInTransit = config.l4_field ? await l4_getFgInTransit(config) : []
+  const l1_fgInTransit = totalOnly ? [] : await l1_getFgInTransit(config)
+  const l2_fgInTransit = totalOnly ? [] : await l2_getFgInTransit(config)
+  const l3_fgInTransit = totalOnly ? [] : config.l3_field ? await l3_getFgInTransit(config) : []
+  const l4_fgInTransit = totalOnly ? [] : config.l4_field ? await l4_getFgInTransit(config) : []
   const l0_fgInTransit = await l0_getFgInTransit(config)
   /* FG ON HAND (LESS IN TRANSIT) */
-  const l1_fgAtLoc = await l1_getFgAtLoc(config)
-  const l2_fgAtLoc = await l2_getFgAtLoc(config)
-  const l3_fgAtLoc = config.l3_field ? await l3_getFgAtLoc(config) : []
-  const l4_fgAtLoc = config.l4_field ? await l4_getFgAtLoc(config) : []
+  const l1_fgAtLoc = totalOnly ? [] : await l1_getFgAtLoc(config)
+  const l2_fgAtLoc = totalOnly ? [] : await l2_getFgAtLoc(config)
+  const l3_fgAtLoc = totalOnly ? [] : config.l3_field ? await l3_getFgAtLoc(config) : []
+  const l4_fgAtLoc = totalOnly ? [] : config.l4_field ? await l4_getFgAtLoc(config) : []
   const l0_fgAtLoc = await l0_getFgAtLoc(config)
   /* FG ON HAND UNTAGGED */
-  const l1_fgAtLoc_untagged = await l1_getFgAtLoc_untagged(config)
-  const l2_fgAtLoc_untagged = await l2_getFgAtLoc_untagged(config)
-  const l3_fgAtLoc_untagged = config.l3_field ? await l3_getFgAtLoc_untagged(config) : []
-  const l4_fgAtLoc_untagged = config.l4_field ? await l4_getFgAtLoc_untagged(config) : []
+  const l1_fgAtLoc_untagged = totalOnly ? [] : await l1_getFgAtLoc_untagged(config)
+  const l2_fgAtLoc_untagged = totalOnly ? [] : await l2_getFgAtLoc_untagged(config)
+  const l3_fgAtLoc_untagged = totalOnly ? [] : config.l3_field ? await l3_getFgAtLoc_untagged(config) : []
+  const l4_fgAtLoc_untagged = totalOnly ? [] : config.l4_field ? await l4_getFgAtLoc_untagged(config) : []
   const l0_fgAtLoc_untagged = await l0_getFgAtLoc_untagged(config)
   /* FG ON HAND TAGGED */
-  // const l1_fgAtLoc_tagged = await l1_getFgAtLoc_tagged(config)
-  // const l2_fgAtLoc_tagged = await l2_getFgAtLoc_tagged(config)
-  // const l3_fgAtLoc_tagged = config.l3_field ? await l3_getFgAtLoc_tagged(config) : []
-  // const l4_fgAtLoc_tagged = config.l4_field ? await l4_getFgAtLoc_tagged(config) : []
+  // const l1_fgAtLoc_tagged = totalOnly ? [] : await l1_getFgAtLoc_tagged(config)
+  // const l2_fgAtLoc_tagged = totalOnly ? [] : await l2_getFgAtLoc_tagged(config)
+  // const l3_fgAtLoc_tagged = totalOnly ? [] : config.l3_field ? await l3_getFgAtLoc_tagged(config) : []
+  // const l4_fgAtLoc_tagged = totalOnly ? [] : config.l4_field ? await l4_getFgAtLoc_tagged(config) : []
   // const l0_fgAtLoc_tagged = await l0_getFgAtLoc_tagged(config)
 
   /* FG ON ORDER */
-  const l1_fgPo = await l1_getFgPo(config)
-  const l2_fgPo = await l2_getFgPo(config)
-  const l3_fgPo = config.l3_field ? await l3_getFgPo(config) : []
-  const l4_fgPo = config.l4_field ? await l4_getFgPo(config) : []
+  const l1_fgPo = totalOnly ? [] : await l1_getFgPo(config)
+  const l2_fgPo = totalOnly ? [] : await l2_getFgPo(config)
+  const l3_fgPo = totalOnly ? [] : config.l3_field ? await l3_getFgPo(config) : []
+  const l4_fgPo = totalOnly ? [] : config.l4_field ? await l4_getFgPo(config) : []
   const l0_fgPo = await l0_getFgPo(config)
 
   // ///////////////////////////////// SALES ORDERS
   /* ALL SO */
-  const l1_so = await l1_getSo(config)
-  const l2_so = await l2_getSo(config)
-  const l3_so = config.l3_field ? await l3_getSo(config) : []
-  const l4_so = config.l4_field ? await l4_getSo(config) : []
+  const l1_so = totalOnly ? [] : await l1_getSo(config)
+  const l2_so = totalOnly ? [] : await l2_getSo(config)
+  const l3_so = totalOnly ? [] : config.l3_field ? await l3_getSo(config) : []
+  const l4_so = totalOnly ? [] : config.l4_field ? await l4_getSo(config) : []
   const l0_so = await l0_getSo(config)
 
-  const l1_so_byWk = await l1_getSo_byWk(config)
-  const l2_so_byWk = await l2_getSo_byWk(config)
-  const l3_so_byWk = config.l3_field ? await l3_getSo_byWk(config) : []
-  const l4_so_byWk = config.l4_field ? await l4_getSo_byWk(config) : []
+  const l1_so_byWk = totalOnly ? [] : await l1_getSo_byWk(config)
+  const l2_so_byWk = totalOnly ? [] : await l2_getSo_byWk(config)
+  const l3_so_byWk = totalOnly ? [] : config.l3_field ? await l3_getSo_byWk(config) : []
+  const l4_so_byWk = totalOnly ? [] : config.l4_field ? await l4_getSo_byWk(config) : []
   const l0_so_byWk = await l0_getSo_byWk(config)
 
   /* TAGGED SO */
-  // const l1_soTagged = await l1_getSoTagged(config)
-  // const l2_soTagged = await l2_getSoTagged(config)
-  // const l3_soTagged = config.l3_field ? await l3_getSoTagged(config) : []
-  // const l4_soTagged = config.l4_field ? await l4_getSoTagged(config) : []
+  // const l1_soTagged = totalOnly ? [] : await l1_getSoTagged(config)
+  // const l2_soTagged = totalOnly ? [] : await l2_getSoTagged(config)
+  // const l3_soTagged = totalOnly ? [] : config.l3_field ? await l3_getSoTagged(config) : []
+  // const l4_soTagged = totalOnly ? [] : config.l4_field ? await l4_getSoTagged(config) : []
   // const l0_soTagged = await l0_getSoTagged(config)
 
-  // const l1_soTagged_byWk = await l1_getSoTagged_byWk(config)
-  // const l2_soTagged_byWk = await l2_getSoTagged_byWk(config)
-  // const l3_soTagged_byWk = config.l3_field ? await l3_getSoTagged_byWk(config) : []
-  // const l4_soTagged_byWk = config.l4_field ? await l4_getSoTagged_byWk(config) : []
+  // const l1_soTagged_byWk = totalOnly ? [] : await l1_getSoTagged_byWk(config)
+  // const l2_soTagged_byWk = totalOnly ? [] : await l2_getSoTagged_byWk(config)
+  // const l3_soTagged_byWk = totalOnly ? [] : config.l3_field ? await l3_getSoTagged_byWk(config) : []
+  // const l4_soTagged_byWk = totalOnly ? [] : config.l4_field ? await l4_getSoTagged_byWk(config) : []
   // const l0_soTagged_byWk = await l0_getSoTagged_byWk(config)
 
   /* UNTAGGED SO */
-  const l1_soUntagged = await l1_getSoUntagged(config)
-  const l2_soUntagged = await l2_getSoUntagged(config)
-  const l3_soUntagged = config.l3_field ? await l3_getSoUntagged(config) : []
-  const l4_soUntagged = config.l4_field ? await l4_getSoUntagged(config) : []
+  const l1_soUntagged = totalOnly ? [] : await l1_getSoUntagged(config)
+  const l2_soUntagged = totalOnly ? [] : await l2_getSoUntagged(config)
+  const l3_soUntagged = totalOnly ? [] : config.l3_field ? await l3_getSoUntagged(config) : []
+  const l4_soUntagged = totalOnly ? [] : config.l4_field ? await l4_getSoUntagged(config) : []
   const l0_soUntagged = await l0_getSoUntagged(config)
 
-  const l1_soUntagged_byWk = await l1_getSoUntagged_byWk(config)
-  const l2_soUntagged_byWk = await l2_getSoUntagged_byWk(config)
-  const l3_soUntagged_byWk = config.l3_field ? await l3_getSoUntagged_byWk(config) : []
-  const l4_soUntagged_byWk = config.l4_field ? await l4_getSoUntagged_byWk(config) : []
+  const l1_soUntagged_byWk = totalOnly ? [] : await l1_getSoUntagged_byWk(config)
+  const l2_soUntagged_byWk = totalOnly ? [] : await l2_getSoUntagged_byWk(config)
+  const l3_soUntagged_byWk = totalOnly ? [] : config.l3_field ? await l3_getSoUntagged_byWk(config) : []
+  const l4_soUntagged_byWk = totalOnly ? [] : config.l4_field ? await l4_getSoUntagged_byWk(config) : []
   const l0_soUntagged_byWk = await l0_getSoUntagged_byWk(config)
 
   // ///////////////////////////////// SALES DATA
-  const l1_salesByFy = await l1_getSalesByFyYtd(config, startWeek, endWeek, false)
-  const l2_salesByFy = await l2_getSalesByFyYtd(config, startWeek, endWeek, false)
-  const l3_salesByFy = config.l3_field ? await l3_getSalesByFyYtd(config, startWeek, endWeek, false) : []
-  const l4_salesByFy = config.l4_field ? await l4_getSalesByFyYtd(config, startWeek, endWeek, false) : []
+  const l1_salesByFy = totalOnly ? [] : await l1_getSalesByFyYtd(config, startWeek, endWeek, false)
+  const l2_salesByFy = totalOnly ? [] : await l2_getSalesByFyYtd(config, startWeek, endWeek, false)
+  const l3_salesByFy = totalOnly ? [] : config.l3_field ? await l3_getSalesByFyYtd(config, startWeek, endWeek, false) : []
+  const l4_salesByFy = totalOnly ? [] : config.l4_field ? await l4_getSalesByFyYtd(config, startWeek, endWeek, false) : []
   const l0_salesByFy = await l0_getSalesByFyYtd(config, startWeek, endWeek, false)
 
-  const l1_salesByFyYtd = await l1_getSalesByFyYtd(config, startWeek, endWeek, true)
-  const l2_salesByFyYtd = await l2_getSalesByFyYtd(config, startWeek, endWeek, true)
-  const l3_salesByFyYtd = config.l3_field ? await l3_getSalesByFyYtd(config, startWeek, endWeek, true) : []
-  const l4_salesByFyYtd = config.l4_field ? await l4_getSalesByFyYtd(config, startWeek, endWeek, true) : []
+  const l1_salesByFyYtd = totalOnly ? [] : await l1_getSalesByFyYtd(config, startWeek, endWeek, true)
+  const l2_salesByFyYtd = totalOnly ? [] : await l2_getSalesByFyYtd(config, startWeek, endWeek, true)
+  const l3_salesByFyYtd = totalOnly ? [] : config.l3_field ? await l3_getSalesByFyYtd(config, startWeek, endWeek, true) : []
+  const l4_salesByFyYtd = totalOnly ? [] : config.l4_field ? await l4_getSalesByFyYtd(config, startWeek, endWeek, true) : []
   const l0_salesByFyYtd = await l0_getSalesByFyYtd(config, startWeek, endWeek, true)
 
-  const l1_salesByWk = await l1_getSalesByWk(config, start, end)
-  const l2_salesByWk = await l2_getSalesByWk(config, start, end)
-  const l3_salesByWk = config.l3_field ? await l3_getSalesByWk(config, start, end) : []
-  const l4_salesByWk = config.l4_field ? await l4_getSalesByWk(config, start, end) : []
+  const l1_salesByWk = totalOnly ? [] : await l1_getSalesByWk(config, start, end)
+  const l2_salesByWk = totalOnly ? [] : await l2_getSalesByWk(config, start, end)
+  const l3_salesByWk = totalOnly ? [] : config.l3_field ? await l3_getSalesByWk(config, start, end) : []
+  const l4_salesByWk = totalOnly ? [] : config.l4_field ? await l4_getSalesByWk(config, start, end) : []
   const l0_salesByWk = await l0_getSalesByWk(config, start, end)
 
-  const l1_salesPeriodToDate = await l1_getSalesPeriodToDate(config, start, end)
-  const l2_salesPeriodToDate = await l2_getSalesPeriodToDate(config, start, end)
-  const l3_salesPeriodToDate = config.l3_field ? await l3_getSalesPeriodToDate(config, start, end) : []
-  const l4_salesPeriodToDate = config.l4_field ? await l4_getSalesPeriodToDate(config, start, end) : []
+  const l1_salesPeriodToDate = totalOnly ? [] : await l1_getSalesPeriodToDate(config, start, end)
+  const l2_salesPeriodToDate = totalOnly ? [] : await l2_getSalesPeriodToDate(config, start, end)
+  const l3_salesPeriodToDate = totalOnly ? [] : config.l3_field ? await l3_getSalesPeriodToDate(config, start, end) : []
+  const l4_salesPeriodToDate = totalOnly ? [] : config.l4_field ? await l4_getSalesPeriodToDate(config, start, end) : []
   const l0_salesPeriodToDate = await l0_getSalesPeriodToDate(config, start, end)
 
   const companyTotalSales = await getCompanyTotalSales(start, end, config)
 
-  const l1_trailingTwoWeek = endWeek < 2 ? [] : await l1_getSalesWkDriven(config, endWeek - 1, endWeek, year)
-  const l2_trailingTwoWeek = endWeek < 2 ? [] : await l2_getSalesWkDriven(config, endWeek - 1, endWeek, year)
-  const l3_trailingTwoWeek = endWeek < 2 ? [] : config.l3_field ? await l3_getSalesWkDriven(config, endWeek - 1, endWeek, year) : []
-  const l4_trailingTwoWeek = endWeek < 2 ? [] : config.l4_field ? await l4_getSalesWkDriven(config, endWeek - 1, endWeek, year) : []
+  const l1_trailingTwoWeek = totalOnly ? [] : endWeek < 2 ? [] : await l1_getSalesWkDriven(config, endWeek - 1, endWeek, year)
+  const l2_trailingTwoWeek = totalOnly ? [] : endWeek < 2 ? [] : await l2_getSalesWkDriven(config, endWeek - 1, endWeek, year)
+  const l3_trailingTwoWeek = totalOnly
+    ? []
+    : endWeek < 2
+    ? []
+    : config.l3_field
+    ? await l3_getSalesWkDriven(config, endWeek - 1, endWeek, year)
+    : []
+  const l4_trailingTwoWeek = totalOnly
+    ? []
+    : endWeek < 2
+    ? []
+    : config.l4_field
+    ? await l4_getSalesWkDriven(config, endWeek - 1, endWeek, year)
+    : []
   const l0_trailingTwoWeek = endWeek < 2 ? [] : await l0_getSalesWkDriven(config, endWeek - 1, endWeek, year)
 
-  const l1_trailingFourWeek = endWeek < 4 ? [] : await l1_getSalesWkDriven(config, endWeek - 3, endWeek, year)
-  const l2_trailingFourWeek = endWeek < 4 ? [] : await l2_getSalesWkDriven(config, endWeek - 3, endWeek, year)
-  const l3_trailingFourWeek = endWeek < 4 ? [] : config.l3_field ? await l3_getSalesWkDriven(config, endWeek - 3, endWeek, year) : []
-  const l4_trailingFourWeek = endWeek < 4 ? [] : config.l4_field ? await l4_getSalesWkDriven(config, endWeek - 3, endWeek, year) : []
+  const l1_trailingFourWeek = totalOnly ? [] : endWeek < 4 ? [] : await l1_getSalesWkDriven(config, endWeek - 3, endWeek, year)
+  const l2_trailingFourWeek = totalOnly ? [] : endWeek < 4 ? [] : await l2_getSalesWkDriven(config, endWeek - 3, endWeek, year)
+  const l3_trailingFourWeek = totalOnly
+    ? []
+    : endWeek < 4
+    ? []
+    : config.l3_field
+    ? await l3_getSalesWkDriven(config, endWeek - 3, endWeek, year)
+    : []
+  const l4_trailingFourWeek = totalOnly
+    ? []
+    : endWeek < 4
+    ? []
+    : config.l4_field
+    ? await l4_getSalesWkDriven(config, endWeek - 3, endWeek, year)
+    : []
   const l0_trailingFourWeek = endWeek < 4 ? [] : await l0_getSalesWkDriven(config, endWeek - 3, endWeek, year)
 
-  const l1_trailingEightWeek = endWeek < 8 ? [] : await l1_getSalesWkDriven(config, endWeek - 7, endWeek, year)
-  const l2_trailingEightWeek = endWeek < 8 ? [] : await l2_getSalesWkDriven(config, endWeek - 7, endWeek, year)
-  const l3_trailingEightWeek = endWeek < 8 ? [] : config.l3_field ? await l3_getSalesWkDriven(config, endWeek - 7, endWeek, year) : []
-  const l4_trailingEightWeek = endWeek < 8 ? [] : config.l4_field ? await l4_getSalesWkDriven(config, endWeek - 7, endWeek, year) : []
+  const l1_trailingEightWeek = totalOnly ? [] : endWeek < 8 ? [] : await l1_getSalesWkDriven(config, endWeek - 7, endWeek, year)
+  const l2_trailingEightWeek = totalOnly ? [] : endWeek < 8 ? [] : await l2_getSalesWkDriven(config, endWeek - 7, endWeek, year)
+  const l3_trailingEightWeek = totalOnly
+    ? []
+    : endWeek < 8
+    ? []
+    : config.l3_field
+    ? await l3_getSalesWkDriven(config, endWeek - 7, endWeek, year)
+    : []
+  const l4_trailingEightWeek = totalOnly
+    ? []
+    : endWeek < 8
+    ? []
+    : config.l4_field
+    ? await l4_getSalesWkDriven(config, endWeek - 7, endWeek, year)
+    : []
   const l0_trailingEightWeek = endWeek < 8 ? [] : await l0_getSalesWkDriven(config, endWeek - 7, endWeek, year)
 
-  const l1_trailingTwelveWeek = endWeek < 12 ? [] : await l1_getSalesWkDriven(config, endWeek - 11, endWeek, year)
-  const l2_trailingTwelveWeek = endWeek < 12 ? [] : await l2_getSalesWkDriven(config, endWeek - 11, endWeek, year)
-  const l3_trailingTwelveWeek = endWeek < 12 ? [] : config.l3_field ? await l3_getSalesWkDriven(config, endWeek - 11, endWeek, year) : []
-  const l4_trailingTwelveWeek = endWeek < 12 ? [] : config.l4_field ? await l4_getSalesWkDriven(config, endWeek - 11, endWeek, year) : []
+  const l1_trailingTwelveWeek = totalOnly ? [] : endWeek < 12 ? [] : await l1_getSalesWkDriven(config, endWeek - 11, endWeek, year)
+  const l2_trailingTwelveWeek = totalOnly ? [] : endWeek < 12 ? [] : await l2_getSalesWkDriven(config, endWeek - 11, endWeek, year)
+  const l3_trailingTwelveWeek = totalOnly
+    ? []
+    : endWeek < 12
+    ? []
+    : config.l3_field
+    ? await l3_getSalesWkDriven(config, endWeek - 11, endWeek, year)
+    : []
+  const l4_trailingTwelveWeek = totalOnly
+    ? []
+    : endWeek < 12
+    ? []
+    : config.l4_field
+    ? await l4_getSalesWkDriven(config, endWeek - 11, endWeek, year)
+    : []
   const l0_trailingTwelveWeek = endWeek < 12 ? [] : await l0_getSalesWkDriven(config, endWeek - 11, endWeek, year)
 
   ///////////////////////////////// KPI DATA
   /* % COMPANY SALES */
-  const l1_percent_companySales = calcPercentSalesCol(companyTotalSales[0], l1_salesPeriodToDate, 'percentCompanySales')
-  const l2_percent_companySales = calcPercentSalesCol(companyTotalSales[0], l2_salesPeriodToDate, 'percentCompanySales')
-  const l3_percent_companySales = config.l3_field ? calcPercentSalesCol(companyTotalSales[0], l3_salesPeriodToDate, 'percentCompanySales') : []
-  const l4_percent_companySales = config.l4_field ? calcPercentSalesCol(companyTotalSales[0], l4_salesPeriodToDate, 'percentCompanySales') : []
+  const l1_percent_companySales = totalOnly ? [] : calcPercentSalesCol(companyTotalSales[0], l1_salesPeriodToDate, 'percentCompanySales')
+  const l2_percent_companySales = totalOnly ? [] : calcPercentSalesCol(companyTotalSales[0], l2_salesPeriodToDate, 'percentCompanySales')
+  const l3_percent_companySales = totalOnly
+    ? []
+    : config.l3_field
+    ? calcPercentSalesCol(companyTotalSales[0], l3_salesPeriodToDate, 'percentCompanySales')
+    : []
+  const l4_percent_companySales = totalOnly
+    ? []
+    : config.l4_field
+    ? calcPercentSalesCol(companyTotalSales[0], l4_salesPeriodToDate, 'percentCompanySales')
+    : []
   const l0_percent_companySales = calcPercentSalesCol(companyTotalSales[0], l0_salesPeriodToDate, 'percentCompanySales')
 
   /* % PROGRAM SALES */
@@ -265,10 +321,18 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   let l4_percent_programSales = []
   let l0_percent_programSales = []
   if (config.program !== null) {
-    l1_percent_programSales = calcPercentSalesCol(l0_salesPeriodToDate[0], l1_salesPeriodToDate, 'percentProgramSales')
-    l2_percent_programSales = calcPercentSalesCol(l0_salesPeriodToDate[0], l2_salesPeriodToDate, 'percentProgramSales')
-    l3_percent_programSales = config.l3_field ? calcPercentSalesCol(l0_salesPeriodToDate[0], l3_salesPeriodToDate, 'percentProgramSales') : []
-    l4_percent_programSales = config.l4_field ? calcPercentSalesCol(l0_salesPeriodToDate[0], l4_salesPeriodToDate, 'percentProgramSales') : []
+    l1_percent_programSales = totalOnly ? [] : calcPercentSalesCol(l0_salesPeriodToDate[0], l1_salesPeriodToDate, 'percentProgramSales')
+    l2_percent_programSales = totalOnly ? [] : calcPercentSalesCol(l0_salesPeriodToDate[0], l2_salesPeriodToDate, 'percentProgramSales')
+    l3_percent_programSales = totalOnly
+      ? []
+      : config.l3_field
+      ? calcPercentSalesCol(l0_salesPeriodToDate[0], l3_salesPeriodToDate, 'percentProgramSales')
+      : []
+    l4_percent_programSales = totalOnly
+      ? []
+      : config.l4_field
+      ? calcPercentSalesCol(l0_salesPeriodToDate[0], l4_salesPeriodToDate, 'percentProgramSales')
+      : []
     l0_percent_programSales = calcPercentSalesCol(l0_salesPeriodToDate[0], l0_salesPeriodToDate, 'percentProgramSales')
   }
 
@@ -282,75 +346,91 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   let l0_percent_speciesGroupSales = []
   if (config.program !== null) {
     const speciesGroupTotalSales = await getSpeciesGroupTotalSales(start, end, config)
-    l1_percent_speciesGroupSales = calcPercentSalesCol(speciesGroupTotalSales[0], l1_salesPeriodToDate, 'percentSpeciesGroupSales')
-    l2_percent_speciesGroupSales = calcPercentSalesCol(speciesGroupTotalSales[0], l2_salesPeriodToDate, 'percentSpeciesGroupSales')
-    l3_percent_speciesGroupSales = config.l3_field
+    l1_percent_speciesGroupSales = totalOnly
+      ? []
+      : calcPercentSalesCol(speciesGroupTotalSales[0], l1_salesPeriodToDate, 'percentSpeciesGroupSales')
+    l2_percent_speciesGroupSales = totalOnly
+      ? []
+      : calcPercentSalesCol(speciesGroupTotalSales[0], l2_salesPeriodToDate, 'percentSpeciesGroupSales')
+    l3_percent_speciesGroupSales = totalOnly
+      ? []
+      : config.l3_field
       ? calcPercentSalesCol(speciesGroupTotalSales[0], l3_salesPeriodToDate, 'percentSpeciesGroupSales')
       : []
-    l4_percent_speciesGroupSales = config.l4_field
+    l4_percent_speciesGroupSales = totalOnly
+      ? []
+      : config.l4_field
       ? calcPercentSalesCol(speciesGroupTotalSales[0], l4_salesPeriodToDate, 'percentSpeciesGroupSales')
       : []
     l0_percent_speciesGroupSales = calcPercentSalesCol(speciesGroupTotalSales[0], l0_salesPeriodToDate, 'percentSpeciesGroupSales')
   }
 
   /* % REPORT TOTAL */
-  const l1_percent_reportTotal = calcPercentSalesCol(l0_salesPeriodToDate[0], l1_salesPeriodToDate, 'percentReportTotal')
-  const l2_percent_reportTotal = calcPercentSalesCol(l0_salesPeriodToDate[0], l2_salesPeriodToDate, 'percentReportTotal')
-  const l3_percent_reportTotal = config.l3_field ? calcPercentSalesCol(l0_salesPeriodToDate[0], l3_salesPeriodToDate, 'percentReportTotal') : []
-  const l4_percent_reportTotal = config.l4_field ? calcPercentSalesCol(l0_salesPeriodToDate[0], l4_salesPeriodToDate, 'percentReportTotal') : []
+  const l1_percent_reportTotal = totalOnly ? [] : calcPercentSalesCol(l0_salesPeriodToDate[0], l1_salesPeriodToDate, 'percentReportTotal')
+  const l2_percent_reportTotal = totalOnly ? [] : calcPercentSalesCol(l0_salesPeriodToDate[0], l2_salesPeriodToDate, 'percentReportTotal')
+  const l3_percent_reportTotal = totalOnly
+    ? []
+    : config.l3_field
+    ? calcPercentSalesCol(l0_salesPeriodToDate[0], l3_salesPeriodToDate, 'percentReportTotal')
+    : []
+  const l4_percent_reportTotal = totalOnly
+    ? []
+    : config.l4_field
+    ? calcPercentSalesCol(l0_salesPeriodToDate[0], l4_salesPeriodToDate, 'percentReportTotal')
+    : []
   const l0_percent_reportTotal = calcPercentSalesCol(l0_salesPeriodToDate[0], l0_salesPeriodToDate, 'percentReportTotal')
 
   /* AVE WEEKLY SALES */
   const weeks = endWeek - startWeek + 1
-  const l1_aveWeeklySales = calcAveWeeklySales(l1_salesPeriodToDate, 'aveWeeklySales', weeks)
-  const l2_aveWeeklySales = calcAveWeeklySales(l2_salesPeriodToDate, 'aveWeeklySales', weeks)
-  const l3_aveWeeklySales = config.l3_field ? calcAveWeeklySales(l3_salesPeriodToDate, 'aveWeeklySales', weeks) : []
-  const l4_aveWeeklySales = config.l4_field ? calcAveWeeklySales(l4_salesPeriodToDate, 'aveWeeklySales', weeks) : []
+  const l1_aveWeeklySales = totalOnly ? [] : calcAveWeeklySales(l1_salesPeriodToDate, 'aveWeeklySales', weeks)
+  const l2_aveWeeklySales = totalOnly ? [] : calcAveWeeklySales(l2_salesPeriodToDate, 'aveWeeklySales', weeks)
+  const l3_aveWeeklySales = totalOnly ? [] : config.l3_field ? calcAveWeeklySales(l3_salesPeriodToDate, 'aveWeeklySales', weeks) : []
+  const l4_aveWeeklySales = totalOnly ? [] : config.l4_field ? calcAveWeeklySales(l4_salesPeriodToDate, 'aveWeeklySales', weeks) : []
   const l0_aveWeeklySales = calcAveWeeklySales(l0_salesPeriodToDate, 'aveWeeklySales', weeks)
 
-  const l1_twoWkAveSales = calcAveWeeklySales(l1_trailingTwoWeek, 'twoWkAveSales', 2)
-  const l2_twoWkAveSales = calcAveWeeklySales(l2_trailingTwoWeek, 'twoWkAveSales', 2)
-  const l3_twoWkAveSales = config.l3_field ? calcAveWeeklySales(l3_trailingTwoWeek, 'twoWkAveSales', 2) : []
-  const l4_twoWkAveSales = config.l4_field ? calcAveWeeklySales(l4_trailingTwoWeek, 'twoWkAveSales', 2) : []
+  const l1_twoWkAveSales = totalOnly ? [] : calcAveWeeklySales(l1_trailingTwoWeek, 'twoWkAveSales', 2)
+  const l2_twoWkAveSales = totalOnly ? [] : calcAveWeeklySales(l2_trailingTwoWeek, 'twoWkAveSales', 2)
+  const l3_twoWkAveSales = totalOnly ? [] : config.l3_field ? calcAveWeeklySales(l3_trailingTwoWeek, 'twoWkAveSales', 2) : []
+  const l4_twoWkAveSales = totalOnly ? [] : config.l4_field ? calcAveWeeklySales(l4_trailingTwoWeek, 'twoWkAveSales', 2) : []
   const l0_twoWkAveSales = calcAveWeeklySales(l0_trailingTwoWeek, 'twoWkAveSales', 2)
 
-  const l1_fourWkAveSales = calcAveWeeklySales(l1_trailingFourWeek, 'fourWkAveSales', 4)
-  const l2_fourWkAveSales = calcAveWeeklySales(l2_trailingFourWeek, 'fourWkAveSales', 4)
-  const l3_fourWkAveSales = config.l3_field ? calcAveWeeklySales(l3_trailingFourWeek, 'fourWkAveSales', 4) : []
-  const l4_fourWkAveSales = config.l4_field ? calcAveWeeklySales(l4_trailingFourWeek, 'fourWkAveSales', 4) : []
+  const l1_fourWkAveSales = totalOnly ? [] : calcAveWeeklySales(l1_trailingFourWeek, 'fourWkAveSales', 4)
+  const l2_fourWkAveSales = totalOnly ? [] : calcAveWeeklySales(l2_trailingFourWeek, 'fourWkAveSales', 4)
+  const l3_fourWkAveSales = totalOnly ? [] : config.l3_field ? calcAveWeeklySales(l3_trailingFourWeek, 'fourWkAveSales', 4) : []
+  const l4_fourWkAveSales = totalOnly ? [] : config.l4_field ? calcAveWeeklySales(l4_trailingFourWeek, 'fourWkAveSales', 4) : []
   const l0_fourWkAveSales = calcAveWeeklySales(l0_trailingFourWeek, 'fourWkAveSales', 4)
 
-  const l1_eightWkAveSales = calcAveWeeklySales(l1_trailingEightWeek, 'eightWkAveSales', 8)
-  const l2_eightWkAveSales = calcAveWeeklySales(l2_trailingEightWeek, 'eightWkAveSales', 8)
-  const l3_eightWkAveSales = config.l3_field ? calcAveWeeklySales(l3_trailingEightWeek, 'eightWkAveSales', 8) : []
-  const l4_eightWkAveSales = config.l4_field ? calcAveWeeklySales(l4_trailingEightWeek, 'eightWkAveSales', 8) : []
+  const l1_eightWkAveSales = totalOnly ? [] : calcAveWeeklySales(l1_trailingEightWeek, 'eightWkAveSales', 8)
+  const l2_eightWkAveSales = totalOnly ? [] : calcAveWeeklySales(l2_trailingEightWeek, 'eightWkAveSales', 8)
+  const l3_eightWkAveSales = totalOnly ? [] : config.l3_field ? calcAveWeeklySales(l3_trailingEightWeek, 'eightWkAveSales', 8) : []
+  const l4_eightWkAveSales = totalOnly ? [] : config.l4_field ? calcAveWeeklySales(l4_trailingEightWeek, 'eightWkAveSales', 8) : []
   const l0_eightWkAveSales = calcAveWeeklySales(l0_trailingEightWeek, 'eightWkAveSales', 8)
 
-  const l1_twelveWkAveSales = calcAveWeeklySales(l1_trailingTwelveWeek, 'twelveWkAveSales', 12)
-  const l2_twelveWkAveSales = calcAveWeeklySales(l2_trailingTwelveWeek, 'twelveWkAveSales', 12)
-  const l3_twelveWkAveSales = config.l3_field ? calcAveWeeklySales(l3_trailingTwelveWeek, 'twelveWkAveSales', 12) : []
-  const l4_twelveWkAveSales = config.l4_field ? calcAveWeeklySales(l4_trailingTwelveWeek, 'twelveWkAveSales', 12) : []
+  const l1_twelveWkAveSales = totalOnly ? [] : calcAveWeeklySales(l1_trailingTwelveWeek, 'twelveWkAveSales', 12)
+  const l2_twelveWkAveSales = totalOnly ? [] : calcAveWeeklySales(l2_trailingTwelveWeek, 'twelveWkAveSales', 12)
+  const l3_twelveWkAveSales = totalOnly ? [] : config.l3_field ? calcAveWeeklySales(l3_trailingTwelveWeek, 'twelveWkAveSales', 12) : []
+  const l4_twelveWkAveSales = totalOnly ? [] : config.l4_field ? calcAveWeeklySales(l4_trailingTwelveWeek, 'twelveWkAveSales', 12) : []
   const l0_twelveWkAveSales = calcAveWeeklySales(l0_trailingTwelveWeek, 'twelveWkAveSales', 12)
 
   /* WEEKS INV ON HAND */
-  const l1_weeksInvOnHand = calcWeeksInvOnHand(l1_fgInven, l1_aveWeeklySales, 'weeksInvenOnHand')
-  const l2_weeksInvOnHand = calcWeeksInvOnHand(l2_fgInven, l2_aveWeeklySales, 'weeksInvenOnHand')
-  const l3_weeksInvOnHand = config.l3_field ? calcWeeksInvOnHand(l3_fgInven, l3_aveWeeklySales, 'weeksInvenOnHand') : []
-  const l4_weeksInvOnHand = config.l4_field ? calcWeeksInvOnHand(l4_fgInven, l4_aveWeeklySales, 'weeksInvenOnHand') : []
+  const l1_weeksInvOnHand = totalOnly ? [] : calcWeeksInvOnHand(l1_fgInven, l1_aveWeeklySales, 'weeksInvenOnHand')
+  const l2_weeksInvOnHand = totalOnly ? [] : calcWeeksInvOnHand(l2_fgInven, l2_aveWeeklySales, 'weeksInvenOnHand')
+  const l3_weeksInvOnHand = totalOnly ? [] : config.l3_field ? calcWeeksInvOnHand(l3_fgInven, l3_aveWeeklySales, 'weeksInvenOnHand') : []
+  const l4_weeksInvOnHand = totalOnly ? [] : config.l4_field ? calcWeeksInvOnHand(l4_fgInven, l4_aveWeeklySales, 'weeksInvenOnHand') : []
   const l0_weeksInvOnHand = calcWeeksInvOnHand(l0_fgInven, l0_aveWeeklySales, 'weeksInvenOnHand')
 
   /* INVENTORY AVAILABLE */
-  const l1_invAvailable = calcInventoryAvailable(l1_fgInven, l1_fgPo, l1_so, 'invenAvailable')
-  const l2_invAvailable = calcInventoryAvailable(l2_fgInven, l2_fgPo, l2_so, 'invenAvailable')
-  const l3_invAvailable = config.l3_field ? calcInventoryAvailable(l3_fgInven, l3_fgPo, l3_so, 'invenAvailable') : []
-  const l4_invAvailable = config.l4_field ? calcInventoryAvailable(l4_fgInven, l4_fgPo, l4_so, 'invenAvailable') : []
+  const l1_invAvailable = totalOnly ? [] : calcInventoryAvailable(l1_fgInven, l1_fgPo, l1_so, 'invenAvailable')
+  const l2_invAvailable = totalOnly ? [] : calcInventoryAvailable(l2_fgInven, l2_fgPo, l2_so, 'invenAvailable')
+  const l3_invAvailable = totalOnly ? [] : config.l3_field ? calcInventoryAvailable(l3_fgInven, l3_fgPo, l3_so, 'invenAvailable') : []
+  const l4_invAvailable = totalOnly ? [] : config.l4_field ? calcInventoryAvailable(l4_fgInven, l4_fgPo, l4_so, 'invenAvailable') : []
   const l0_invAvailable = calcInventoryAvailable(l0_fgInven, l0_fgPo, l0_so, 'invenAvailable')
 
   ///////////////////////////////// ROWS
-  const rowsFourthLevelDetail = config.l4_field ? await getRowsFourthLevelDetail(config, start, end, showFyTrend) : []
-  const rowsThirdLevelDetail = config.l3_field ? await getRowsThirdLevelDetail(config, start, end, showFyTrend) : []
-  const rowsSecondLevelDetail = await getRowsSecondLevelDetail(config, start, end, showFyTrend)
-  const rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, showFyTrend)
+  const rowsFourthLevelDetail = totalOnly ? [] : config.l4_field ? await getRowsFourthLevelDetail(config, start, end, showFyTrend) : []
+  const rowsThirdLevelDetail = totalOnly ? [] : config.l3_field ? await getRowsThirdLevelDetail(config, start, end, showFyTrend) : []
+  const rowsSecondLevelDetail = totalOnly ? [] : await getRowsSecondLevelDetail(config, start, end, showFyTrend)
+  const rowsFirstLevelDetail = totalOnly ? [] : await getRowsFirstLevelDetail(config, start, end, showFyTrend)
 
   const totalsRow = [
     { totalRow: true, l1_label: 'FG SALES', l2_label: 'TOTAL', l3_label: 'TOTAL', l4_label: 'TOTAL', datalevel: 0, itemtype: config.itemType },
@@ -387,8 +467,8 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
     })
     .sort((a, b) => {
       // if has includes total, put at end
-      if (a.l1_label.includes('TOTAL')) return 1
-      if (b.l1_label.includes('TOTAL')) return -1
+      if (a.l1_label?.includes('TOTAL')) return 1
+      if (b.l1_label?.includes('TOTAL')) return -1
 
       if (a.l1_label < b.l1_label) return -1
       if (a.l1_label > b.l1_label) return 1
@@ -601,8 +681,6 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   Object.keys(mappedData).forEach(key => {
     // If the length = level, then there is only the labels and no other columns are populated on that row
     if (Object.keys(mappedData[key]).length === level) {
-      console.log('deleting row', mappedData[key])
-
       delete mappedData[key]
     }
   })
