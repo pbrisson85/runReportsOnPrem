@@ -63,7 +63,7 @@ const l0_getFgPo = async (config, trendQuery) => {
     const response = await sql
          `SELECT 
           'FG ON ORDER' AS column, 
-          'FG SALES' AS l1_label, 
+          '${sql(config.itemType)} SALES' AS l1_label, 
           'TOTAL' AS l2_label,  
           COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs, 
           COALESCE(SUM(perpetual_inventory.on_order_extended),0) AS cogs 
