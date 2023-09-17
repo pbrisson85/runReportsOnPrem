@@ -9,6 +9,8 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
   let l3Value = ''
 
   cacheData.forEach((row, idx) => {
+    if (row.l3_label === 'SALTED') console.log('row', row)
+
     // Save the original label in a "filter" value so that the front end can pass back on API calls
     flattenedMappedData[idx].l1_filter = row.l1_label
     flattenedMappedData[idx].l2_filter = row.l2_label
@@ -25,21 +27,25 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
 
     // If l1 grouping does not change then don't show it
     if (row.l1_label === l1Value) {
+      if (row.l3_label === 'SALTED') console.log('row.l1_label === l1Value', row.l1_label, l1Value)
       flattenedMappedData[idx].l1_label = ''
     }
 
     // If l2 grouping does not change then don't show it
     if (row.l2_label === l2Value) {
+      if (row.l3_label === 'SALTED') console.log('row.l2_label === l2Value', row.l2_label, l2Value)
       flattenedMappedData[idx].l2_label = ''
     }
 
     // If l3 grouping does not change then don't show it
     if (row.l3_label === l3Value) {
+      if (row.l3_label === 'SALTED') console.log('row.l3_label === l3Value', row.l3_label, l3Value)
       flattenedMappedData[idx].l3_label = ''
     }
 
     // always update the dataLevel 1 subtotal label
     if (row.datalevel === 1) {
+      if (row.l3_label === 'SALTED') console.log('row.datalevel === 1', row.datalevel)
       flattenedMappedData[idx].l1_label = `${row.l1_label} SUBTOTAL`
       flattenedMappedData[idx].l2_label = ''
       flattenedMappedData[idx].l3_label = ''
@@ -48,6 +54,7 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
 
     // If dataLevel 2 and there is a dataLevel 3 then update as a subtotal label
     if (row.datalevel === 2 && config.l3_field) {
+      if (row.l3_label === 'SALTED') console.log('row.datalevel === 2 && config.l3_field', row.datalevel, config.l3_field)
       flattenedMappedData[idx].l1_label = ''
       flattenedMappedData[idx].l2_label = `${row.l2_label} SUBTOTAL`
       flattenedMappedData[idx].l3_label = ''
@@ -56,6 +63,7 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
 
     // If dataLevel 3 and there is a dataLevel 4 then update as a subtotal label
     if (row.datalevel === 3 && config.l4_field) {
+      if (row.l3_label === 'SALTED') console.log('row.datalevel === 3 && config.l4_field', row.datalevel, config.l4_field)
       flattenedMappedData[idx].l1_label = ''
       flattenedMappedData[idx].l2_label = ''
       flattenedMappedData[idx].l3_label = `${row.l3_label} SUBTOTAL`
@@ -64,16 +72,19 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
 
     // if l1 grouping does change, set new value
     if (row.l1_label !== l1Value) {
+      if (row.l3_label === 'SALTED') console.log('row.l1_label !== l1Value', row.l1_label, l1Value)
       l1Value = row.l1_label
     }
 
     // if l2 grouping does change, set new value
     if (row.l2_label !== l2Value) {
+      if (row.l3_label === 'SALTED') console.log('row.l2_label !== l2Value', row.l2_label, l2Value)
       l2Value = row.l2_label
     }
 
     // if l3 grouping does change, set new value
     if (row.l3_label !== l3Value) {
+      if (row.l3_label === 'SALTED') console.log('row.l3_label !== l3Value', row.l3_label, l3Value)
       l3Value = row.l3_label
     }
 
