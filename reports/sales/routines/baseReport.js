@@ -698,8 +698,6 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
       console.log('Object.keys(mappedData[key]).length', Object.keys(mappedData[key]).length)
       console.log('level', level)
       console.log('mappedData[key]', mappedData[key])
-
-      delete mappedData[key]
     }
   })
 
