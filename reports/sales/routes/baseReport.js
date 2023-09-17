@@ -50,17 +50,20 @@ router.post('/', async (req, res) => {
   if (config.showSeconds) {
     config.itemType = 'SECONDS'
     const seconds = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
-    console.log('seconds', seconds)
+    seconds.data[0].totalRow = false
+    console.log('seconds', seconds.data)
   }
 
   // get by product row
   if (config.showByProduct) {
     config.itemType = 'BY PRODUCT'
     const byProduct = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
-    console.log('byProduct', byProduct)
+    byProduct.data[0].totalRow = false
+    console.log('byProduct', byProduct.data)
   }
 
   // union seconds and by product to response data, add total row, remove total row flags for front end css
+  response.data = [...response.data, ...seconds.data, ...byProduct.data]
 
   // if default date then add to response
   if (defaultDateFlag) {
