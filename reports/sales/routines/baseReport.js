@@ -608,7 +608,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   const flattenedMappedData = Object.values(mappedData)
   const finalData = cleanLabelsForDisplay(flattenedMappedData, config)
   const salesColsByWk = await getDateEndPerWeekByRange(start, end, config)
-  const collapsedData = collapseRedundantTotalRows(finalData, level)
+  //const collapsedData = collapseRedundantTotalRows(finalData, level)
 
   // get data column names by fiscal year
   let salesColsByFy = null
@@ -625,7 +625,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
 
   // return
   return {
-    data: collapsedData,
+    data: finalData,
     salesColsByWk: salesColsByWk,
     salesColsByFy: salesColsByFy,
     salesColsByFyYtd: salesColsByFyYtd,
