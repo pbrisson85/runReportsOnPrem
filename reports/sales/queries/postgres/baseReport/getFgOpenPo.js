@@ -13,10 +13,7 @@ const l1_getFgPo = async config => {
          FROM "invenReporting".perpetual_inventory AS inv LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inv.item_number 
          
          WHERE 
-          (ms.byproduct_type IS NULL 
-          ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-          ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
-          AND ms.item_type = ${'FG'} 
+          ms.item_type = ${config.itemType} 
           AND inv.on_order_lbs <> 0 
           AND inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) 
           ${config.program ? sql`AND ms.program = ${config.program}` : sql``} 
@@ -45,10 +42,7 @@ const l2_getFgPo = async config => {
        FROM "invenReporting".perpetual_inventory AS inv LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inv.item_number 
        
        WHERE 
-        (ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
-        AND ms.item_type = ${'FG'} 
+        ms.item_type = ${config.itemType} 
         AND inv.on_order_lbs <> 0 
         AND inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}` : sql``} 
@@ -77,10 +71,7 @@ const l3_getFgPo = async config => {
        FROM "invenReporting".perpetual_inventory AS inv LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inv.item_number 
        
        WHERE 
-        (ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
-        AND ms.item_type = ${'FG'} 
+        ms.item_type = ${config.itemType} 
         AND inv.on_order_lbs <> 0 
         AND inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -109,10 +100,7 @@ const l4_getFgPo = async config => {
        FROM "invenReporting".perpetual_inventory AS inv LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inv.item_number 
        
        WHERE 
-        (ms.byproduct_type IS NULL 
-        ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-        ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
-        AND ms.item_type = ${'FG'} 
+        ms.item_type = ${config.itemType} 
         AND inv.on_order_lbs <> 0 
         AND inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -139,10 +127,7 @@ const l0_getFgPo = async config => {
          FROM "invenReporting".perpetual_inventory AS inv LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inv.item_number 
          
          WHERE 
-          (ms.byproduct_type IS NULL 
-          ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-          ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
-          AND ms.item_type = ${'FG'} 
+          ms.item_type = ${config.itemType} 
           AND inv.on_order_lbs <> 0 
           AND inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) 
           ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 

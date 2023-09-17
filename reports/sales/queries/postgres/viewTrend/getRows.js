@@ -15,16 +15,15 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
           ${trendQuery.sl.l5_label ? sql`${sql(trendQuery.sl.l5_label)} AS l5_label,`: sql``} 
           ${trendQuery.sl.l6_label ? sql`${sql(trendQuery.sl.l6_label)} AS l6_label,`: sql``} 
           ${trendQuery.sl.l7_label ? sql`${sql(trendQuery.sl.l7_label)} AS l7_label,`: sql``} 
-          ${config.queryLevel} AS datalevel 
+          ${config.queryLevel} AS datalevel, ${sql(config.itemType)} AS itemtype  
         
         FROM "salesReporting".sales_line_items AS sl
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = sl.item_number 
               
         WHERE 
-            ${!showFyTrend ? sql`sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} AND ` : sql``} 
-            ms.byproduct_type IS NULL 
-            AND ms.item_type = ${'FG'} 
+            ms.item_type = ${config.itemType} 
+            ${!showFyTrend ? sql`AND sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} ` : sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}
             ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``}  
@@ -56,15 +55,14 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
           ${trendQuery.so.l5_label ? sql`${sql(trendQuery.so.l5_label)} AS l5_label,`: sql``} 
           ${trendQuery.so.l6_label ? sql`${sql(trendQuery.so.l6_label)} AS l6_label,`: sql``} 
           ${trendQuery.so.l7_label ? sql`${sql(trendQuery.so.l7_label)} AS l7_label,`: sql``} 
-          ${config.queryLevel} AS datalevel 
+          ${config.queryLevel} AS datalevel, ${sql(config.itemType)} AS itemtype  
         
         FROM "salesReporting".sales_orders AS so
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = so.item_num 
               
         WHERE 
-            ms.byproduct_type IS NULL 
-            AND ms.item_type = ${'FG'} 
+            ms.item_type = ${config.itemType} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
             ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``}
@@ -99,15 +97,14 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
           ${trendQuery.inv.l5_label ? sql`${sql(trendQuery.inv.l5_label)} AS l5_label,`: sql``} 
           ${trendQuery.inv.l6_label ? sql`${sql(trendQuery.inv.l6_label)} AS l6_label,`: sql``} 
           ${trendQuery.inv.l7_label ? sql`${sql(trendQuery.inv.l7_label)} AS l7_label,`: sql``}
-          ${config.queryLevel} AS datalevel 
+          ${config.queryLevel} AS datalevel, ${sql(config.itemType)} AS itemtype  
         
         FROM "invenReporting".perpetual_inventory 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = perpetual_inventory.item_number 
               
         WHERE 
-            ms.byproduct_type IS NULL 
-            AND ms.item_type = ${'FG'} 
+            ms.item_type = ${config.itemType} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 

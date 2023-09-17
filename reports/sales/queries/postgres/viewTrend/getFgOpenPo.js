@@ -26,7 +26,7 @@ const l1_getFgPo = async (config, trendQuery) => {
             ON ms.item_num = perpetual_inventory.item_number 
          
         WHERE 
-          ms.item_type = ${'FG'} 
+          ms.item_type = ${config.itemType} 
           AND perpetual_inventory.on_order_lbs <> 0 
           AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) 
           ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
@@ -73,7 +73,7 @@ const l0_getFgPo = async (config, trendQuery) => {
             ON ms.item_num = perpetual_inventory.item_number 
          
          WHERE 
-          ms.item_type = ${'FG'} 
+          ms.item_type = ${config.itemType} 
           AND perpetual_inventory.on_order_lbs <> 0 
           AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) 
           ${config.program ? sql`AND ms.program = ${config.program}`: sql``}

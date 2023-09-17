@@ -16,8 +16,7 @@ const getFgInven_detail = async config => {
               
           WHERE 
             pi.on_hand_lbs <> 0 
-            AND ms.byproduct_type IS NULL 
-            AND ms.item_type = ${'FG'} 
+            AND ms.item_type = ${config.itemType} 
             AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
@@ -51,8 +50,7 @@ const getFgInTransit_detail = async config => {
               
           WHERE 
             pi.on_hand_lbs <> 0 
-            AND ms.byproduct_type IS NULL 
-            AND ms.item_type = ${'FG'} 
+            AND ms.item_type = ${config.itemType} 
             AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             AND pi.location_type = ${'IN TRANSIT'} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -86,8 +84,7 @@ const getFgAtLoc_detail = async config => {
           
           WHERE 
             pi.on_hand_lbs <> 0 
-            AND ms.byproduct_type IS NULL 
-            AND ms.item_type = ${'FG'} 
+            AND ms.item_type = ${config.itemType} 
             AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             AND pi.location_type <> ${'IN TRANSIT'} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -123,8 +120,7 @@ const getFgAtLoc_untagged_detail = async config => {
                   
               WHERE 
                 pi.on_hand_lbs <> 0 
-                AND ms.byproduct_type IS NULL 
-                AND ms.item_type = ${'FG'} 
+                AND ms.item_type = ${config.itemType} 
                 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
                 AND pi.location_type <> ${'IN TRANSIT'} 
                 ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
@@ -145,8 +141,7 @@ const getFgAtLoc_untagged_detail = async config => {
                       ON ms.item_num = ti.item_num   
                   
               WHERE 
-                ms.byproduct_type IS NULL 
-                AND ms.item_type = ${'FG'} 
+                ms.item_type = ${config.itemType} 
                 AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
                 ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
                 ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
@@ -184,8 +179,7 @@ const getFgAtLoc_tagged_detail = async config => {
                   ON pi.item_number = ti.item_num AND pi.lot = ti.lot AND pi.location_code = ti.location
           
           WHERE 
-            ms.byproduct_type IS NULL 
-            AND ms.item_type = ${'FG'} 
+            ms.item_type = ${config.itemType} 
             AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 

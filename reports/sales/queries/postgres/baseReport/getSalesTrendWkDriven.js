@@ -20,10 +20,7 @@ const l1_getSalesWkDriven = async (config, startWk, endWk, year) => {
       WHERE 
         sl.week >= ${startWk} AND sl.week <= ${endWk}
         AND sl.fiscal_year = ${year} 
-        AND (ms.byproduct_type IS NULL 
-          ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-          ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
-        AND ms.item_type = ${'FG'} 
+        AND ms.item_type = ${config.itemType} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
@@ -54,10 +51,7 @@ const l2_getSalesWkDriven = async (config, startWk, endWk, year) => {
       WHERE 
         sl.week >= ${startWk} AND sl.week <= ${endWk} 
         AND sl.fiscal_year = ${year} 
-        AND (ms.byproduct_type IS NULL 
-          ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-          ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
-        AND ms.item_type = ${'FG'} 
+        AND ms.item_type = ${config.itemType} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
       
@@ -88,10 +82,7 @@ const l3_getSalesWkDriven = async (config, startWk, endWk, year) => {
       WHERE 
         sl.week >= ${startWk} AND sl.week <= ${endWk} 
         AND sl.fiscal_year = ${year} 
-        AND (ms.byproduct_type IS NULL 
-          ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-          ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
-        AND ms.item_type = ${'FG'} 
+        AND ms.item_type = ${config.itemType} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
@@ -122,10 +113,7 @@ const l4_getSalesWkDriven = async (config, startWk, endWk, year) => {
       WHERE 
         sl.week >= ${startWk} AND sl.week <= ${endWk} 
         AND sl.fiscal_year = ${year} 
-        AND (ms.byproduct_type IS NULL 
-          ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-          ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
-        AND ms.item_type = ${'FG'} 
+        AND ms.item_type = ${config.itemType} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
@@ -156,10 +144,7 @@ const l0_getSalesWkDriven = async (config, startWk, endWk, year) => {
       WHERE 
         sl.week >= ${startWk} AND sl.week <= ${endWk} 
         AND sl.fiscal_year = ${year} 
-        AND (ms.byproduct_type IS NULL 
-          ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-          ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
-        AND ms.item_type = ${'FG'} 
+        AND ms.item_type = ${config.itemType} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}` //prettier-ignore
 

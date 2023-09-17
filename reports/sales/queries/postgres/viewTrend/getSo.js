@@ -26,7 +26,7 @@ const l1_getSo = async (config, trendQuery) => {
             ON ms.item_num = so.item_num 
          
          WHERE 
-          ms.item_type = ${'FG'} 
+          ms.item_type = ${config.itemType} 
           AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
           ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
           ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
@@ -37,7 +37,6 @@ const l1_getSo = async (config, trendQuery) => {
           ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
           ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``} 
           ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-          AND ms.byproduct_type IS NULL  
           ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
           ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
           ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
@@ -84,7 +83,7 @@ const l1_getSoTagged = async (config, trendQuery) => {
               ON ms.item_num = so.item_num 
            
            WHERE 
-            ms.item_type = ${'FG'} 
+            ms.item_type = ${config.itemType} 
             AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
@@ -95,7 +94,7 @@ const l1_getSoTagged = async (config, trendQuery) => {
             ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
             ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-            AND ms.byproduct_type IS NULL AND so.tagged_weight > 0  
+            AND so.tagged_weight > 0  
             ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
             ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
             ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
@@ -142,7 +141,7 @@ const l1_getSoUntagged = async (config, trendQuery) => {
           ON ms.item_num = so.item_num 
       
       WHERE 
-        ms.item_type = ${'FG'} 
+        ms.item_type = ${config.itemType} 
         AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
@@ -153,7 +152,6 @@ const l1_getSoUntagged = async (config, trendQuery) => {
         ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
         ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-        AND ms.byproduct_type IS NULL 
         AND so.untagged_weight > 0  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
@@ -198,7 +196,7 @@ const l0_getSo = async config => {
               ON ms.item_num = so.item_num 
            
            WHERE 
-            ms.item_type = ${'FG'} 
+            ms.item_type = ${config.itemType} 
             AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
@@ -209,7 +207,6 @@ const l0_getSo = async config => {
             ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
             ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``}  
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-            AND ms.byproduct_type IS NULL  
             ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
             ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
             ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
@@ -242,7 +239,7 @@ const l0_getSoTagged = async config => {
           ON ms.item_num = so.item_num 
       
       WHERE 
-        ms.item_type = ${'FG'} 
+        ms.item_type = ${config.itemType} 
         AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
@@ -253,7 +250,6 @@ const l0_getSoTagged = async config => {
         ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
         ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-        AND ms.byproduct_type IS NULL 
         AND so.tagged_weight > 0  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
@@ -287,7 +283,7 @@ const l0_getSoUntagged = async config => {
           ON ms.item_num = so.item_num 
       
       WHERE 
-        ms.item_type = ${'FG'} 
+        ms.item_type = ${config.itemType} 
         AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
@@ -298,7 +294,6 @@ const l0_getSoUntagged = async config => {
         ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
         ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-        AND ms.byproduct_type IS NULL 
         AND so.untagged_weight > 0  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 

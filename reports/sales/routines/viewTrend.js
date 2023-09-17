@@ -166,7 +166,7 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   ///////////////////////////////// ROWS
   const rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, showFyTrend, trendQuery)
 
-  const totalsRow = [{ totalRow: true, l1_label: `FG SALES`, l2_label: `TOTAL`, datalevel: config.queryLevel }] // Need an l2_label of TOTAL for front end styling
+  const totalsRow = [{ totalRow: true, l1_label: `FG SALES`, l2_label: `TOTAL`, datalevel: config.queryLevel, itemtype: config.itemType }] // Need an l2_label of TOTAL for front end styling
   const filterRow = [
     {
       filterRow: true,

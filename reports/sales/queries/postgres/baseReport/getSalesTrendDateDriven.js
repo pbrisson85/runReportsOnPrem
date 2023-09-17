@@ -17,10 +17,7 @@ const l1_getSalesByWk = async (config, start, end) => {
       
       WHERE 
         sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
-        AND (ms.byproduct_type IS NULL 
-          ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-          ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
-        AND ms.item_type = ${'FG'} 
+        AND ms.item_type = ${config.itemType} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
@@ -50,10 +47,7 @@ const l1_getSalesPeriodToDate = async (config, start, end) => {
       
       WHERE 
         sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
-        AND (ms.byproduct_type IS NULL 
-          ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-          ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
-        AND ms.item_type = ${'FG'} 
+        AND ms.item_type = ${config.itemType} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
@@ -83,10 +77,7 @@ const l2_getSalesByWk = async (config, start, end) => {
       
       WHERE 
         sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
-        AND (ms.byproduct_type IS NULL 
-          ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-          ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
-        AND ms.item_type = ${'FG'} 
+        AND ms.item_type = ${config.itemType} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
@@ -114,10 +105,7 @@ const l2_getSalesPeriodToDate = async (config, start, end) => {
       
       WHERE 
         sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
-        AND (ms.byproduct_type IS NULL 
-          ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-          ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
-        AND ms.item_type = ${'FG'} 
+        AND ms.item_type = ${config.itemType} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
       
@@ -145,10 +133,7 @@ const l3_getSalesByWk = async (config, start, end) => {
       
       WHERE 
         sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
-        AND (ms.byproduct_type IS NULL 
-          ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-          ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
-        AND ms.item_type = ${'FG'} 
+        AND ms.item_type = ${config.itemType} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
@@ -176,10 +161,7 @@ const l3_getSalesPeriodToDate = async (config, start, end) => {
       
       WHERE 
         sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
-        AND (ms.byproduct_type IS NULL 
-          ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-          ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
-        AND ms.item_type = ${'FG'} 
+        AND ms.item_type = ${config.itemType} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
@@ -207,10 +189,7 @@ const l4_getSalesByWk = async (config, start, end) => {
       
       WHERE 
         sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
-        AND (ms.byproduct_type IS NULL 
-          ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-          ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
-        AND ms.item_type = ${'FG'} 
+        AND ms.item_type = ${config.itemType} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
@@ -238,10 +217,7 @@ const l4_getSalesPeriodToDate = async (config, start, end) => {
       
       WHERE 
         sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
-        AND (ms.byproduct_type IS NULL 
-          ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-          ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
-        AND ms.item_type = ${'FG'} 
+        AND ms.item_type = ${config.itemType} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
@@ -269,10 +245,7 @@ const l0_getSalesByWk = async (config, start, end) => {
       
       WHERE 
         sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
-        AND (ms.byproduct_type IS NULL 
-          ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-          ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
-        AND ms.item_type = ${'FG'} 
+        AND ms.item_type = ${config.itemType} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
@@ -300,10 +273,7 @@ const l0_getSalesPeriodToDate = async (config, start, end) => {
       
       WHERE 
         sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
-        AND (ms.byproduct_type IS NULL 
-          ${config.showByProduct ? sql`OR ms.byproduct_type = 'BY PRODUCT'`: sql``} 
-          ${config.showSeconds ? sql`OR ms.byproduct_type = 'SECONDS'`: sql``})
-        AND ms.item_type = ${'FG'} 
+        AND ms.item_type = ${config.itemType} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}` //prettier-ignore
 

@@ -14,7 +14,7 @@ const getFgPo_detail = async config => {
           ON ms.item_num = p.item_number 
           
       WHERE 
-        ms.item_type = ${'FG'} 
+        ms.item_type = ${config.itemType} 
         AND p.on_order_lbs <> 0 
         AND p.version = (SELECT MAX(p2.version) - 1 FROM "invenReporting".perpetual_inventory AS p2) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 

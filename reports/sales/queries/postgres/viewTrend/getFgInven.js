@@ -28,8 +28,7 @@ const l1_getFgInven = async (config, trendQuery) => {
           ON ms.item_num = pi.item_number 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        AND ms.item_type = ${'FG'} 
+        ms.item_type = ${config.itemType} 
         AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
@@ -80,8 +79,7 @@ const l1_getFgInTransit = async (config, trendQuery) => {
       FROM "invenReporting".perpetual_inventory AS pi LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = pi.item_number 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        AND ms.item_type = ${'FG'} 
+        ms.item_type = ${config.itemType} 
         AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         AND pi.location_type = ${'IN TRANSIT'} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
@@ -132,8 +130,7 @@ const l1_getFgAtLoc = async (config, trendQuery) => {
       FROM "invenReporting".perpetual_inventory AS pi LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = pi.item_number 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        AND ms.item_type = ${'FG'} 
+        ms.item_type = ${config.itemType} 
         AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         AND pi.location_type <> ${'IN TRANSIT'} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
@@ -200,8 +197,7 @@ LEFT OUTER JOIN (
   ON tagged_t.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code 
   
 WHERE 
-  ms.byproduct_type IS NULL 
-  AND ms.item_type = ${'FG'} 
+  ms.item_type = ${config.itemType} 
   ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
   ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
   ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
@@ -250,8 +246,7 @@ const l1_getFgAtLoc_tagged = async (config, trendQuery) => {
       FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.item_num 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        AND ms.item_type = ${'FG'} 
+        ms.item_type = ${config.itemType} 
         AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
@@ -296,8 +291,7 @@ const l0_getFgInven = async (config, trendQuery) => {
           ON ms.item_num = pi.item_number 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        AND ms.item_type = ${'FG'} 
+        ms.item_type = ${config.itemType} 
         AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
@@ -329,8 +323,7 @@ const l0_getFgInTransit = async (config, trendQuery) => {
       FROM "invenReporting".perpetual_inventory AS pi LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = pi.item_number 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        AND ms.item_type = ${'FG'} 
+        ms.item_type = ${config.itemType} 
         AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
@@ -363,8 +356,7 @@ const l0_getFgAtLoc = async (config, trendQuery) => {
       FROM "invenReporting".perpetual_inventory AS pi LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = pi.item_number 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        AND ms.item_type = ${'FG'} 
+        ms.item_type = ${config.itemType} 
         AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
@@ -415,8 +407,7 @@ const l0_getFgAtLoc_untagged = async (config, trendQuery) => {
     ON tagged_t.item_num = inven_t.item_number AND tagged_t.lot = inven_t.lot AND tagged_t.location = inven_t.location_code 
  
  WHERE 
-  ms.byproduct_type IS NULL 
-  AND ms.item_type = ${'FG'} 
+  ms.item_type = ${config.itemType} 
   ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
   ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
   ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
@@ -445,8 +436,7 @@ const l0_getFgAtLoc_tagged = async (config, trendQuery) => {
       FROM "salesReporting".tagged_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = tagged_inventory.item_num 
       
       WHERE 
-        ms.byproduct_type IS NULL 
-        AND ms.item_type = ${'FG'} 
+        ms.item_type = ${config.itemType} 
         AND tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  

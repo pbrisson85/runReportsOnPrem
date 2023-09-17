@@ -31,9 +31,12 @@ const getReportConfig = reqBody => {
     queryLevel: reqBody.queryLevel ?? null,
     jbBuyerFilter,
     user: reqBody.user ?? null,
-    showByProduct: reqBody.showByProduct ?? null, // test
-    showSeconds: reqBody.showSeconds ?? null, // test
+    showByProduct: reqBody.showByProduct ?? true, // test
+    showSeconds: reqBody.showSeconds ?? true, // test
+    itemType: reqBody.itemType ?? 'BY PRODUCT', // test
   }
+
+  // going to update the inven supplemental to put seconds and by product in item type then going to run this logic multiple times with different item types in sequence and then append the reports. and then add a final total row. the showByProduct, showSeconds flags will determine if the process should be run again with the different item types. Will also need to store the itme type in the data so that it can be passed in the request on right click.
 
   switch (reqBody.reportFormat) {
     case 'speciesgroupProg':
