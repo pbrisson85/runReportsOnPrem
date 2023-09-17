@@ -53,7 +53,7 @@ router.post('/', async (req, res) => {
     seconds = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
 
     seconds.data[0].totalRow = false
-    byProduct.data[0].secondsRow = true
+    seconds.data[0].secondsRow = true
   }
 
   // get by product row
