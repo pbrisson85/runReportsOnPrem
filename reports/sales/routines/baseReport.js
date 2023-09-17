@@ -685,22 +685,6 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
 
   const mappedData = combineMappedRows(mappedSales, mappedInven)
 
-  // clean out rows with zero activity
-  Object.keys(mappedData).forEach(key => {
-    // If the length = level, then there is only the labels and no other columns are populated on that row
-    // + 2 for the datalevel and itemtype that are in all rows
-    if (Object.keys(mappedData[key]).length === level + 2) {
-      console.log('deleting: ', mappedData[key])
-      delete mappedData[key]
-    }
-
-    if (config.itemType === 'SECONDS') {
-      console.log('Object.keys(mappedData[key]).length', Object.keys(mappedData[key]).length)
-      console.log('level', level)
-      console.log('mappedData[key]', mappedData[key])
-    }
-  })
-
   const flattenedMappedData = Object.values(mappedData)
   const finalData = cleanLabelsForDisplay(flattenedMappedData, config)
   const salesColsByWk = await getDateEndPerWeekByRange(start, end, config)
