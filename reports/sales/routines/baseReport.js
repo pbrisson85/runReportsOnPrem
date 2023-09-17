@@ -433,7 +433,15 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   const rowsFirstLevelDetail = totalOnly ? [] : await getRowsFirstLevelDetail(config, start, end, showFyTrend)
 
   const totalsRow = [
-    { totalRow: true, l1_label: 'FG SALES', l2_label: 'TOTAL', l3_label: 'TOTAL', l4_label: 'TOTAL', datalevel: 0, itemtype: config.itemType },
+    {
+      totalRow: true,
+      l1_label: `${config.itemType} SALES`,
+      l2_label: 'TOTAL',
+      l3_label: 'TOTAL',
+      l4_label: 'TOTAL',
+      datalevel: 0,
+      itemtype: config.itemType,
+    },
   ]
 
   // COMPILE FINAL ROW TEMPLATE
