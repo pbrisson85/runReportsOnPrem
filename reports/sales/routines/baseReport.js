@@ -694,6 +694,12 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
 
       delete mappedData[key]
     }
+
+    if (Object.keys(mappedData[key]).includes('totalRow') && Object.keys(mappedData[key]).length === level + 3) {
+      console.log('deleting: ', mappedData[key])
+
+      delete mappedData[key]
+    }
   })
 
   const flattenedMappedData = Object.values(mappedData)
