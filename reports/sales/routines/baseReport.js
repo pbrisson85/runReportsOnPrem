@@ -688,10 +688,8 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   // clean out rows with zero activity
   Object.keys(mappedData).forEach(key => {
     // If the length = level, then there is only the labels and no other columns are populated on that row
-
-    console.log('Object.keys(mappedData[key])', Object.keys(mappedData[key]))
-
-    if (Object.keys(mappedData[key]).length === level) {
+    // + 2 for the datalevel and itemtype that are in all rows
+    if (Object.keys(mappedData[key]).length === level + 2) {
       console.log('deleting: ', mappedData[key])
 
       delete mappedData[key]
