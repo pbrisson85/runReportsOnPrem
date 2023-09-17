@@ -35,7 +35,6 @@ const getReportConfig = reqBody => {
     user: reqBody.user ?? null,
     showByProduct: reqBody.showByProduct ?? true, // test
     showSeconds: reqBody.showSeconds ?? true, // test
-    // itemType: reqBody.itemType?.replace(/['"]+/g, '') ?? 'FG', // test
     itemType: reqBody.itemType ?? 'SECONDS', // test
   }
 

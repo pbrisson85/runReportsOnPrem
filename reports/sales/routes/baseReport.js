@@ -43,7 +43,24 @@ router.post('/', async (req, res) => {
   const startWeek = await getWeekForDate(start, config) // temporarily until I change the data that is being passed by the front end to the week
   const endWeek = await getWeekForDate(end, config) // temporarily until I change the data that is being passed by the front end to the week
 
-  const response = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+  const response = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year)
+
+  /* CUSTOMIZE RESPONSE */
+  // get seconds row
+  if (config.showSeconds) {
+    config.itemType = 'SECONDS'
+    const seconds = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+    console.log('seconds', seconds)
+  }
+
+  // get by product row
+  if (config.showByProduct) {
+    config.itemType = 'BY PRODUCT'
+    const byProduct = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+    console.log('byProduct', byProduct)
+  }
+
+  // union seconds and by product to response data, add total row, remove total row flags for front end css
 
   // if default date then add to response
   if (defaultDateFlag) {
