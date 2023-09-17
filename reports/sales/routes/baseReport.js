@@ -47,17 +47,19 @@ router.post('/', async (req, res) => {
 
   /* CUSTOMIZE RESPONSE */
   // get seconds row
+  let seconds = []
   if (config.showSeconds) {
     config.itemType = 'SECONDS'
-    const seconds = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+    seconds = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
     seconds.data[0].totalRow = false
     console.log('seconds', seconds.data)
   }
 
   // get by product row
+  let byProduct = []
   if (config.showByProduct) {
     config.itemType = 'BY PRODUCT'
-    const byProduct = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+    byProduct = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
     byProduct.data[0].totalRow = false
     console.log('byProduct', byProduct.data)
   }
