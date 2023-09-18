@@ -122,7 +122,7 @@ const l0_getFgPo = async config => {
     console.log(`${config.user} - level 0: query postgres for FG open PO (l0_getFgPo) ...`)
 
     const response = await sql
-         `SELECT 'FG ON ORDER' AS column, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
+         `SELECT 'FG ON ORDER' AS column${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,"SALES" AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
          
          FROM "invenReporting".perpetual_inventory AS inv LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inv.item_number 
          

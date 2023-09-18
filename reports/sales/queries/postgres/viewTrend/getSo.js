@@ -183,8 +183,8 @@ const l0_getSo = async config => {
 
     const response = await sql
            `SELECT 
-            'FG OPEN ORDER' AS column, 
-            REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label, 
+            'FG OPEN ORDER' AS column
+            ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,"SALES" AS l1_label`}, 
             'TOTAL' AS l2_label,  
             COALESCE(SUM(so.ext_weight),0) AS lbs, 
             COALESCE(SUM(so.ext_sales),0) AS sales, 
@@ -226,9 +226,9 @@ const l0_getSoTagged = async config => {
 
     const response = await sql
       `SELECT 
-        'FG OPEN ORDER TAGGED' AS column, 
-        REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label, 
-'TOTAL' AS l2_label,  
+        'FG OPEN ORDER TAGGED' AS column
+        ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,"SALES" AS l1_label`}, 
+        'TOTAL' AS l2_label,  
         COALESCE(SUM(so.tagged_weight),0) AS lbs, 
         COALESCE(SUM(so.tagged_weight / so.ext_weight * so.ext_sales),0) AS sales, 
         COALESCE(SUM(so.tagged_weight * ave_tagged_cost),0) AS cogs, 
@@ -270,8 +270,8 @@ const l0_getSoUntagged = async config => {
 
     const response = await sql
       `SELECT 
-        'FG OPEN ORDER UNTAGGED' AS column, 
-        REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label, 
+        'FG OPEN ORDER UNTAGGED' AS column
+        ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,"SALES" AS l1_label`}, 
         'TOTAL' AS l2_label,  
         COALESCE(SUM(so.untagged_weight),0) AS lbs, 
         COALESCE(SUM(so.untagged_weight / so.ext_weight * so.ext_sales),0) AS sales, 
