@@ -5,7 +5,6 @@ const { getWeekForDate } = require('../queries/postgres/getWeekForDate')
 const getDefaults = require('../utils/getReportDefaults')
 const getCols = require('../queries/hardcode/cols')
 const getReportConfig = require('../utils/getReportConfig')
-const addRows = require('../models/addRows')
 
 // @route   POST /api/sales/byProgram
 // @desc
@@ -58,11 +57,20 @@ router.post('/', async (req, res) => {
   byProduct.data[0].totalRow = false
   byProduct.data[0].byProdRow = true
 
-  // add all totals rows together
-  const companyTotal = addRows(response.data, seconds.data[0], byProduct.data[0])
+  // get RM row
+  config.itemType = 'RM'
+  const rm = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+  rm.data[0].totalRow = false
+  rm.data[0].rmRow = true
+
+  // get All row
+  config.itemType = null
+  const allSales = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+  allSales.data[0].totalRow = false
+  allSales.data[0].allSales = true
 
   // union seconds and by product to response data, add total row, remove total row flags for front end css
-  response.data = [...response.data, ...seconds.data, ...byProduct.data, ...companyTotal]
+  response.data = [...response.data, ...seconds.data, ...byProduct.data, ...rm.data, ...allSales.data]
 
   // if default date then add to response
   if (defaultDateFlag) {

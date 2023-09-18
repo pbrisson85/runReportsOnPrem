@@ -15,14 +15,14 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
           ${trendQuery.sl.l5_label ? sql`${sql(trendQuery.sl.l5_label)} AS l5_label,`: sql``} 
           ${trendQuery.sl.l6_label ? sql`${sql(trendQuery.sl.l6_label)} AS l6_label,`: sql``} 
           ${trendQuery.sl.l7_label ? sql`${sql(trendQuery.sl.l7_label)} AS l7_label,`: sql``} 
-          ${config.queryLevel} AS datalevel, REPLACE('${sql(config.itemType)}','"','') AS itemtype  
+          ${config.queryLevel} AS datalevel ${config.itemType ? `, REPLACE('${sql(config.itemType)}','"','') AS itemtype` : sql``} 
         
         FROM "salesReporting".sales_line_items AS sl
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = sl.item_number 
               
         WHERE 
-            ms.item_type = ${config.itemType} 
+            ${config.itemType ? sql`ms.item_type = ${config.itemType}`: sql`ms.item_type IS NOT NULL`} 
             ${!showFyTrend ? sql`AND sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} ` : sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}
@@ -55,14 +55,15 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
           ${trendQuery.so.l5_label ? sql`${sql(trendQuery.so.l5_label)} AS l5_label,`: sql``} 
           ${trendQuery.so.l6_label ? sql`${sql(trendQuery.so.l6_label)} AS l6_label,`: sql``} 
           ${trendQuery.so.l7_label ? sql`${sql(trendQuery.so.l7_label)} AS l7_label,`: sql``} 
-          ${config.queryLevel} AS datalevel, REPLACE('${sql(config.itemType)}','"','') AS itemtype  
+          ${config.queryLevel} AS datalevel ${config.itemType ? `, REPLACE('${sql(config.itemType)}','"','') AS itemtype` : sql``} 
         
         FROM "salesReporting".sales_orders AS so
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = so.item_num 
               
         WHERE 
-            ms.item_type = ${config.itemType} 
+            so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)  
+            ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
             ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``}
@@ -72,7 +73,6 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
             ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
             ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-            AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)  
             ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
             ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
             ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
@@ -97,18 +97,18 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
           ${trendQuery.inv.l5_label ? sql`${sql(trendQuery.inv.l5_label)} AS l5_label,`: sql``} 
           ${trendQuery.inv.l6_label ? sql`${sql(trendQuery.inv.l6_label)} AS l6_label,`: sql``} 
           ${trendQuery.inv.l7_label ? sql`${sql(trendQuery.inv.l7_label)} AS l7_label,`: sql``}
-          ${config.queryLevel} AS datalevel, REPLACE('${sql(config.itemType)}','"','') AS itemtype  
+          ${config.queryLevel} AS datalevel ${config.itemType ? `, REPLACE('${sql(config.itemType)}','"','') AS itemtype` : sql``} 
         
         FROM "invenReporting".perpetual_inventory 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = perpetual_inventory.item_number 
               
         WHERE 
-            ms.item_type = ${config.itemType} 
+            perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+            ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-            AND perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
             ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
             ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}

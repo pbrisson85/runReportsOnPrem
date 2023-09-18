@@ -26,8 +26,8 @@ const l1_getSo_byWk = async (config, trendQuery) => {
             ON ms.item_num = so.item_num 
          
         WHERE 
-          ms.item_type = ${config.itemType} 
-          AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+          so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+          ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
           ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
           ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
           ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
@@ -85,8 +85,9 @@ const l1_getSoTagged_byWk = async (config, trendQuery) => {
               ON ms.item_num = so.item_num 
            
           WHERE 
-            ms.item_type = ${config.itemType} 
-            AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+            so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+            AND so.tagged_weight > 0  
+            ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
             ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
@@ -96,7 +97,6 @@ const l1_getSoTagged_byWk = async (config, trendQuery) => {
             ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
             ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``}  
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-            AND so.tagged_weight > 0  
             ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
             ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
             ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
@@ -145,8 +145,9 @@ const l1_getSoUntagged_byWk = async (config, trendQuery) => {
           ON ms.item_num = so.item_num 
       
       WHERE 
-        ms.item_type = ${config.itemType} 
-        AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+        so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+        AND so.untagged_weight > 0  
+        ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
@@ -156,7 +157,6 @@ const l1_getSoUntagged_byWk = async (config, trendQuery) => {
         ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
         ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-        AND so.untagged_weight > 0  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
@@ -191,7 +191,7 @@ const l0_getSo_byWk = async config => {
            `SELECT 
             so.week_serial || '_so' AS column, 
             REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label, 
-'TOTAL' AS l2_label,  
+            'TOTAL' AS l2_label,  
             COALESCE(SUM(so.ext_weight),0) AS lbs, 
             COALESCE(SUM(so.ext_sales),0) AS sales, 
             COALESCE(SUM(so.ext_cost),0) AS cogs, 
@@ -202,8 +202,8 @@ const l0_getSo_byWk = async config => {
               ON ms.item_num = so.item_num 
            
            WHERE 
-            ms.item_type = ${config.itemType} 
-            AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+            so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+            ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
             ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
@@ -237,7 +237,7 @@ const l0_getSoTagged_byWk = async config => {
       `SELECT 
         so.week_serial || '_so_tg' AS column, 
         REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label, 
-'TOTAL' AS l2_label,  
+        'TOTAL' AS l2_label,  
         COALESCE(SUM(so.tagged_weight),0) AS lbs, 
         COALESCE(SUM(so.tagged_weight / so.ext_weight * so.ext_sales),0) AS sales, 
         COALESCE(SUM(so.tagged_weight * ave_tagged_cost),0) AS cogs, 
@@ -248,8 +248,9 @@ const l0_getSoTagged_byWk = async config => {
           ON ms.item_num = so.item_num 
       
       WHERE 
-        ms.item_type = ${config.itemType} 
-        AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+        so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+        AND so.tagged_weight > 0  
+        ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
@@ -259,7 +260,6 @@ const l0_getSoTagged_byWk = async config => {
         ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
         ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-        AND so.tagged_weight > 0  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
@@ -284,7 +284,7 @@ const l0_getSoUntagged_byWk = async config => {
       `SELECT 
         so.week_serial || '_so_untg' AS column, 
         REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label, 
-'TOTAL' AS l2_label,  
+        'TOTAL' AS l2_label,  
         COALESCE(SUM(so.untagged_weight),0) AS lbs, 
         COALESCE(SUM(so.untagged_weight / so.ext_weight * so.ext_sales),0) AS sales, 
         COALESCE(SUM(so.untagged_weight * ave_untagged_cost),0) AS cogs, 
@@ -295,8 +295,9 @@ const l0_getSoUntagged_byWk = async config => {
           ON ms.item_num = so.item_num 
       
       WHERE 
-        ms.item_type = ${config.itemType} 
-        AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+        so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+        AND so.untagged_weight > 0  
+        ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
@@ -306,7 +307,6 @@ const l0_getSoUntagged_byWk = async config => {
         ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
         ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-        AND so.untagged_weight > 0  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}

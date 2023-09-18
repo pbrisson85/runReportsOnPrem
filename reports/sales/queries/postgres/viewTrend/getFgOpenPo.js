@@ -26,9 +26,9 @@ const l1_getFgPo = async (config, trendQuery) => {
             ON ms.item_num = perpetual_inventory.item_number 
          
         WHERE 
-          ms.item_type = ${config.itemType} 
-          AND perpetual_inventory.on_order_lbs <> 0 
+          perpetual_inventory.on_order_lbs <> 0 
           AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) 
+          ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
           ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
           ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
           ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
@@ -73,9 +73,9 @@ const l0_getFgPo = async (config, trendQuery) => {
             ON ms.item_num = perpetual_inventory.item_number 
          
          WHERE 
-          ms.item_type = ${config.itemType} 
-          AND perpetual_inventory.on_order_lbs <> 0 
+          perpetual_inventory.on_order_lbs <> 0 
           AND perpetual_inventory.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) 
+          ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
           ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
           ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
           ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  

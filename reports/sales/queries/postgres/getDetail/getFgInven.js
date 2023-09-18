@@ -16,8 +16,8 @@ const getFgInven_detail = async config => {
               
           WHERE 
             pi.on_hand_lbs <> 0 
-            AND ms.item_type = ${config.itemType} 
             AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+            ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -50,9 +50,9 @@ const getFgInTransit_detail = async config => {
               
           WHERE 
             pi.on_hand_lbs <> 0 
-            AND ms.item_type = ${config.itemType} 
             AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             AND pi.location_type = ${'IN TRANSIT'} 
+            ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -84,9 +84,9 @@ const getFgAtLoc_detail = async config => {
           
           WHERE 
             pi.on_hand_lbs <> 0 
-            AND ms.item_type = ${config.itemType} 
             AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             AND pi.location_type <> ${'IN TRANSIT'} 
+            ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -120,9 +120,9 @@ const getFgAtLoc_untagged_detail = async config => {
                   
               WHERE 
                 pi.on_hand_lbs <> 0 
-                AND ms.item_type = ${config.itemType} 
                 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
                 AND pi.location_type <> ${'IN TRANSIT'} 
+                ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
                 ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
                 ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
                 ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -141,8 +141,8 @@ const getFgAtLoc_untagged_detail = async config => {
                       ON ms.item_num = ti.item_num   
                   
               WHERE 
-                ms.item_type = ${config.itemType} 
-                AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
+                ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
+                ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
                 ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
                 ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
                 ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -179,8 +179,8 @@ const getFgAtLoc_tagged_detail = async config => {
                   ON pi.item_number = ti.item_num AND pi.lot = ti.lot AND pi.location_code = ti.location
           
           WHERE 
-            ms.item_type = ${config.itemType} 
-            AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
+            ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
+            ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 

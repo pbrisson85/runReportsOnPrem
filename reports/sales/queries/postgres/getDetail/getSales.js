@@ -15,7 +15,8 @@ const getSales_detail = async (config, start, end, year) => {
           
       WHERE 
         sl.week >= ${start} AND sl.week <= ${end} 
-        AND ms.item_type = ${config.itemType} 
+        AND sl.fiscal_year = ${year} 
+        ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
@@ -29,7 +30,7 @@ const getSales_detail = async (config, start, end, year) => {
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-        AND sl.fiscal_year = ${year}` //prettier-ignore
+        ` //prettier-ignore
 
     return response
   } catch (error) {

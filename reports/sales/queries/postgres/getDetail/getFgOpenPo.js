@@ -14,9 +14,9 @@ const getFgPo_detail = async config => {
           ON ms.item_num = p.item_number 
           
       WHERE 
-        ms.item_type = ${config.itemType} 
-        AND p.on_order_lbs <> 0 
+        p.on_order_lbs <> 0 
         AND p.version = (SELECT MAX(p2.version) - 1 FROM "invenReporting".perpetual_inventory AS p2) 
+        ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 

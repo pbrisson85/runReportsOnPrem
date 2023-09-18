@@ -18,7 +18,7 @@ const l1_getSalesByFyYtd = async (config, start, end, showYtd) => {
           ON ms.item_num = sales_line_items.item_number 
           
       WHERE 
-        ms.item_type = ${config.itemType} 
+        ${config.itemType ? sql`ms.item_type = ${config.itemType}`: sql`ms.item_type IS NOT NULL`} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${showYtd ? sql`AND sales_line_items.week >= ${start} AND sales_line_items.week <= ${end}` : sql``}
@@ -52,7 +52,7 @@ const l2_getSalesByFyYtd = async (config, start, end, showYtd) => {
           ON ms.item_num = sales_line_items.item_number 
           
       WHERE 
-        ms.item_type = ${config.itemType} 
+      ${config.itemType ? sql`ms.item_type = ${config.itemType}`: sql`ms.item_type IS NOT NULL`} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${showYtd ? sql`AND sales_line_items.week >= ${start} AND sales_line_items.week <= ${end}` : sql``} 
@@ -86,7 +86,7 @@ const l3_getSalesByFyYtd = async (config, start, end, showYtd) => {
           ON ms.item_num = sales_line_items.item_number 
           
       WHERE 
-        ms.item_type = ${config.itemType} 
+        ${config.itemType ? sql`ms.item_type = ${config.itemType}`: sql`ms.item_type IS NOT NULL`} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${showYtd ? sql`AND sales_line_items.week >= ${start} AND sales_line_items.week <= ${end}` : sql``} 
@@ -120,7 +120,7 @@ const l4_getSalesByFyYtd = async (config, start, end, showYtd) => {
           ON ms.item_num = sales_line_items.item_number 
           
       WHERE 
-        ms.item_type = ${config.itemType} 
+        ${config.itemType ? sql`ms.item_type = ${config.itemType}`: sql`ms.item_type IS NOT NULL`} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${showYtd ? sql`AND sales_line_items.week >= ${start} AND sales_line_items.week <= ${end}` : sql``} 
@@ -154,7 +154,7 @@ const l0_getSalesByFyYtd = async (config, start, end, showYtd) => {
           ON ms.item_num = sales_line_items.item_number 
           
       WHERE 
-        ms.item_type = ${config.itemType} 
+        ${config.itemType ? sql`ms.item_type = ${config.itemType}`: sql`ms.item_type IS NOT NULL`} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${showYtd ? sql`AND sales_line_items.week >= ${start} AND sales_line_items.week <= ${end}` : sql``} 

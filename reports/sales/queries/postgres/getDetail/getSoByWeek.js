@@ -12,8 +12,9 @@ const getSoByWk_detail = async (config, weekSerial) => {
           ON ms.item_num = so.item_num 
           
       WHERE 
-        ms.item_type = ${config.itemType} 
-        AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+        so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+        AND so.week_serial = ${weekSerial} 
+        ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
@@ -27,7 +28,7 @@ const getSoByWk_detail = async (config, weekSerial) => {
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-        AND so.week_serial = ${weekSerial}` //prettier-ignore
+        ` //prettier-ignore
 
     return response
   } catch (error) {
@@ -48,8 +49,10 @@ const getSoTagged_detail = async (config, weekSerial) => {
           ON ms.item_num = so.item_num 
           
       WHERE 
-        ms.item_type = ${config.itemType} 
-        AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+        so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
+        AND so.tagged_weight > 0  
+        AND so.week_serial = ${weekSerial}
+        ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
@@ -59,12 +62,12 @@ const getSoTagged_detail = async (config, weekSerial) => {
         ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
         ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-        AND so.tagged_weight > 0 
+        
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-        AND so.week_serial = ${weekSerial}` //prettier-ignore
+       ` //prettier-ignore
 
     return response
   } catch (error) {
@@ -85,8 +88,10 @@ const getSoByWkUntagged_detail = async (config, weekSerial) => {
           ON ms.item_num = so.item_num 
           
       WHERE 
-        ms.item_type = ${config.itemType} 
-        AND so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+        so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+        AND so.untagged_weight > 0 
+        AND so.week_serial = ${weekSerial}
+        ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
@@ -96,12 +101,11 @@ const getSoByWkUntagged_detail = async (config, weekSerial) => {
         ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
         ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-        AND so.untagged_weight > 0 
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-        AND so.week_serial = ${weekSerial}` //prettier-ignore
+        ` //prettier-ignore
 
     return response
   } catch (error) {
