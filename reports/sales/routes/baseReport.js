@@ -49,25 +49,25 @@ router.post('/', async (req, res) => {
   config.itemType = 'SECONDS'
   const seconds = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
   seconds.data[0].totalRow = false
-  seconds.data[0].secondsRow = true
+  seconds.data[0].nonFgRow = true
 
   // get by product row
   config.itemType = 'BY PRODUCT'
   const byProduct = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
   byProduct.data[0].totalRow = false
-  byProduct.data[0].byProdRow = true
+  byProduct.data[0].nonFgRow = true
 
   // get RM row
   config.itemType = 'RM'
   const rm = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
   rm.data[0].totalRow = false
-  rm.data[0].rmRow = true
+  rm.data[0].nonFgRow = true
 
   // get All row
   config.itemType = null
   const allSales = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
   allSales.data[0].totalRow = false
-  allSales.data[0].allSales = true
+  allSales.data[0].nonFgRow = true
 
   // union seconds and by product to response data, add total row, remove total row flags for front end css
   response.data = [...response.data, ...seconds.data, ...byProduct.data, ...rm.data, ...allSales.data]
