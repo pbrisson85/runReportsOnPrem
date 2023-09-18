@@ -64,13 +64,13 @@ router.post('/', async (req, res) => {
   rm.data[0].nonFgRow = true
 
   // get All row
-  config.itemType = null
-  const allSales = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
-  allSales.data[0].totalRow = false
-  allSales.data[0].nonFgRow = true
+  config.itemType = 'NON-SEAFOOD'
+  const nonSeafoodSales = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+  nonSeafoodSales.data[0].totalRow = false
+  nonSeafoodSales.data[0].nonFgRow = true
 
   // union seconds and by product to response data, add total row, remove total row flags for front end css
-  response.data = [...response.data, ...seconds.data, ...byProduct.data, ...rm.data, ...allSales.data]
+  response.data = [...response.data, ...seconds.data, ...byProduct.data, ...rm.data, ...nonSeafoodSales.data]
 
   // if default date then add to response
   if (defaultDateFlag) {
