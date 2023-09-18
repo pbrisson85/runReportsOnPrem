@@ -10,6 +10,11 @@ const reportFilters = () => {
       dataName: 'jbBuyer',
       default: false,
     },
+    {
+      label: 'Hide By Product and Seconds',
+      dataName: 'hideNonFg',
+      default: true,
+    },
   ]
 }
 

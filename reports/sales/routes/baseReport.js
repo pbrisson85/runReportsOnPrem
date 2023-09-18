@@ -5,6 +5,7 @@ const { getWeekForDate } = require('../queries/postgres/getWeekForDate')
 const getDefaults = require('../utils/getReportDefaults')
 const getCols = require('../queries/hardcode/cols')
 const getReportConfig = require('../utils/getReportConfig')
+const addRows = require('../models/addRows')
 
 // @route   POST /api/sales/byProgram
 // @desc
@@ -35,7 +36,6 @@ router.post('/', async (req, res) => {
   // Note that start date is the END of the first week. Need the beginning of the same week to pull invoice dates that are after this: (COULD ADD THIS TO THE CONFIG FILE + add explanation, why would it be undefined)
   const startOfWeek = await getStartOfWeek(start)
   const periodStart = startOfWeek[0].formatted_date_start
-
   const labelCols = getCols(req.body) // (COULD ADD THIS TO THE CONFIG FILE + add explanation, why would it be undefined)
 
   console.log(`\n${config.user} - get get weekly sales species group, program for ${start} through ${end} for ${reportFormat} route HIT...`)
@@ -47,27 +47,22 @@ router.post('/', async (req, res) => {
 
   /* CUSTOMIZE RESPONSE */
   // get seconds row
-  let seconds = []
-  if (config.showSeconds) {
-    config.itemType = 'SECONDS'
-    seconds = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
-
-    seconds.data[0].totalRow = false
-    seconds.data[0].secondsRow = true
-  }
+  config.itemType = 'SECONDS'
+  const seconds = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+  seconds.data[0].totalRow = false
+  seconds.data[0].secondsRow = true
 
   // get by product row
-  let byProduct = []
-  if (config.showByProduct) {
-    config.itemType = 'BY PRODUCT'
-    byProduct = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+  config.itemType = 'BY PRODUCT'
+  const byProduct = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+  byProduct.data[0].totalRow = false
+  byProduct.data[0].byProdRow = true
 
-    byProduct.data[0].totalRow = false
-    byProduct.data[0].byProdRow = true
-  }
+  // add all totals rows together
+  const companyTotal = addRows(response.data, seconds.data[0], byProduct.data[0])
 
   // union seconds and by product to response data, add total row, remove total row flags for front end css
-  response.data = [...response.data, ...seconds.data, ...byProduct.data]
+  response.data = [...response.data, ...seconds.data, ...byProduct.data, ...companyTotal]
 
   // if default date then add to response
   if (defaultDateFlag) {
