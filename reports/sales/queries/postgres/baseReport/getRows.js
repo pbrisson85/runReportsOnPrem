@@ -7,7 +7,7 @@ const getRowsFourthLevelDetail = async (config, start, end, showFyTrend) => {
     console.log(`${config.user} - query postgres to get row labels (getRowsFourthLevelDetail) ...`)
 
     const response = await sql
-        `SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, 4 AS datalevel ${config.itemType ? `, REPLACE('${sql(config.itemType)}','"','') AS itemtype` : sql``}
+        `SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, 4 AS datalevel ${config.itemType ? sql`, REPLACE('${sql(config.itemType)}','"','') AS itemtype` : sql``}
         
           FROM "salesReporting".sales_line_items 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -118,7 +118,7 @@ const getRowsSecondLevelDetail = async (config, start, end, showFyTrend) => {
     console.log(`${config.user} - query postgres to get row labels (getRowsSecondLevelDetail) ...`)
 
     const response = await sql
-        `SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``}, 2 AS datalevel ${config.itemType ? `, REPLACE('${sql(config.itemType)}','"','') AS itemtype` : sql``}
+        `SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``}, 2 AS datalevel ${config.itemType ? sql`, REPLACE('${sql(config.itemType)}','"','') AS itemtype` : sql``}
         
           FROM "salesReporting".sales_line_items 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
