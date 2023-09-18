@@ -5,3 +5,5 @@ const addRows = (data, seconds, byProduct) => {
 
   return []
 }
+
+module.exports = addRows
