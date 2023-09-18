@@ -190,7 +190,7 @@ const l0_getSo_byWk = async config => {
     const response = await sql
            `SELECT 
             so.week_serial || '_so' AS column
-            ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,"SALES" AS l1_label`}, 
+            ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 
             'TOTAL' AS l2_label,  
             COALESCE(SUM(so.ext_weight),0) AS lbs, 
             COALESCE(SUM(so.ext_sales),0) AS sales, 
@@ -236,7 +236,7 @@ const l0_getSoTagged_byWk = async config => {
     const response = await sql
       `SELECT 
         so.week_serial || '_so_tg' AS column
-        ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,"SALES" AS l1_label`}, 
+        ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 
         'TOTAL' AS l2_label,  
         COALESCE(SUM(so.tagged_weight),0) AS lbs, 
         COALESCE(SUM(so.tagged_weight / so.ext_weight * so.ext_sales),0) AS sales, 
@@ -283,7 +283,7 @@ const l0_getSoUntagged_byWk = async config => {
     const response = await sql
       `SELECT 
         so.week_serial || '_so_untg' AS column
-        ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,"SALES" AS l1_label`}, 
+        ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 
         'TOTAL' AS l2_label,  
         COALESCE(SUM(so.untagged_weight),0) AS lbs, 
         COALESCE(SUM(so.untagged_weight / so.ext_weight * so.ext_sales),0) AS sales, 

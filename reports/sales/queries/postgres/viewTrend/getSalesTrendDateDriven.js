@@ -133,7 +133,7 @@ const l0_getSalesByWk = async (config, start, end) => {
     const response = await sql
       `SELECT 
         sl.week_serial AS column
-        ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,"SALES" AS l1_label`}, 
+        ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 
         'TOTAL' AS l2_label,  
         COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, 
         COALESCE(SUM(sl.gross_sales_ext),0) AS sales, 
@@ -181,7 +181,7 @@ const l0_getSalesPeriodToDate = async (config, start, end) => {
     const response = await sql
       `SELECT 
         'SALES TOTAL' AS column
-        ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,"SALES" AS l1_label`}, 
+        ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 
         'TOTAL' AS l2_label,  
         COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, 
         COALESCE(SUM(sl.gross_sales_ext),0) AS sales, 
