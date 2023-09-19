@@ -4,6 +4,7 @@ const getViewFilters = require('../queries/hardcode/getViewFilters')
 const getDistinctFiscalYears = require('../../sales/queries/postgres/getDistinctFiscalYears')
 const getReportFormats = require('../queries/hardcode/getReportFormats')
 const getReportFilters = require('../queries/hardcode/getReportFilters')
+const getDataFilters = require('../queries/hardcode/getDataFilters')
 const { getDateEndPerWeek } = require('../../sales/queries/postgres/getDateEndPerWeek')
 const getReportConfig = require('../../sales/utils/getReportConfig')
 
@@ -93,7 +94,17 @@ router.get('/reports', async (req, res) => {
 })
 
 // Generate Filter Data
-router.get('/filters', async (req, res) => {
+router.get('/dataFilters', async (req, res) => {
+  console.log('\nget data filters route HIT...')
+
+  const reports = getDataFilters()
+
+  res.send(reports)
+  console.log('get data filters route COMPLETE. \n')
+})
+
+// Generate Filter Data
+router.get('/viewFilters', async (req, res) => {
   console.log('\nget report filters route HIT...')
 
   const reports = getReportFilters()

@@ -13,7 +13,6 @@ module.exports = sql
 
 // initialize routes
 /* Reports */
-
 const baseReport = require('./reports/sales/routes/baseReport')
 const viewTrend = require('./reports/sales/routes/viewTrend')
 const getDetail_baseReport = require('./reports/sales/routes/getDetail')
