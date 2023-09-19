@@ -1,6 +1,4 @@
 const getReportConfig = reqBody => {
-  console.log('reqBody', reqBody)
-
   // auth filters:
   let jbBuyerFilter = false
 
@@ -192,15 +190,11 @@ const getReportConfig = reqBody => {
       config = {
         l1_field: 'ms.species_group',
         l2_field: 'ms.program',
-        l3_field: 'ms.species',
         l1_name: 'species group', // Used for filter labels on front end
         l2_name: 'program',
-        l3_name: 'species',
         ...config,
       }
   }
-
-  console.log('config', config)
 
   return config
 }
