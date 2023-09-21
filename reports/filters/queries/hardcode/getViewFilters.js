@@ -6,12 +6,12 @@ const getViewFilters = () => {
       additionalData: { decimals: 0 },
       cols: ['label', 'salesInvoice', 'salesOrder', 'invenFg', 'invenRm', 'purchaseOrder', 'salesKpi', 'invenKpi'], // list of colTypes that should be displayed in this view
     },
-    // {
-    //   label: 'REVENUE $',
-    //   dataName: 'revenue',
-    //   additionalData: { decimals: 0 },
-    //   cols: ['label',  'salesInvoice', 'salesOrder', 'salesKpi'], // No inven, only sales data
-    // },
+    {
+      label: 'REVENUE $',
+      dataName: 'revenue',
+      additionalData: { decimals: 0 },
+      cols: ['label', 'salesInvoice', 'salesOrder', 'salesKpi'], // No inven, only sales data
+    },
     // {
     //   label: 'OTHP $',
     //   dataName: 'othp',
