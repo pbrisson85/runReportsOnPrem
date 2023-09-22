@@ -12,8 +12,10 @@ const getReportConfig = require('../utils/getReportConfig')
 
 // Generate full weekly report of ALL programs for FG Only (biggest picture)
 router.post('/', async (req, res) => {
+  console.log('req.body', req.body)
+
   const { reportFormat } = req.body
-  let { start, end, showFyTrend, year } = req.body
+  let { start, end, showFyTrend, year, showNonFg } = req.body
 
   const config = getReportConfig(req.body)
 
@@ -45,38 +47,42 @@ router.post('/', async (req, res) => {
   const response = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year)
 
   /* CUSTOMIZE RESPONSE */
-  // get seconds row
-  config.itemType = 'SECONDS'
-  const seconds = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
-  seconds.data[0].totalRow = false
-  seconds.data[0].nonFgRow = true
 
-  // get by product row
-  config.itemType = 'BY PRODUCT'
-  const byProduct = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
-  byProduct.data[0].totalRow = false
-  byProduct.data[0].nonFgRow = true
+  /* INCLUDE NON FG */
+  if (showNonFg) {
+    // get seconds row
+    config.itemType = 'SECONDS'
+    const seconds = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+    seconds.data[0].totalRow = false
+    seconds.data[0].nonFgRow = true
 
-  // get RM row
-  config.itemType = 'RM'
-  const rm = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
-  rm.data[0].totalRow = false
-  rm.data[0].nonFgRow = true
+    // get by product row
+    config.itemType = 'BY PRODUCT'
+    const byProduct = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+    byProduct.data[0].totalRow = false
+    byProduct.data[0].nonFgRow = true
 
-  // get Non Seafood row
-  config.itemType = 'NON-SEAFOOD'
-  const nonSeafoodSales = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
-  nonSeafoodSales.data[0].totalRow = false
-  nonSeafoodSales.data[0].nonFgRow = true
+    // get RM row
+    config.itemType = 'RM'
+    const rm = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+    rm.data[0].totalRow = false
+    rm.data[0].nonFgRow = true
 
-  // get ice row
-  config.itemType = 'ICE'
-  const ice = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
-  ice.data[0].totalRow = false
-  ice.data[0].nonFgRow = true
+    // get Non Seafood row
+    config.itemType = 'NON-SEAFOOD'
+    const nonSeafoodSales = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+    nonSeafoodSales.data[0].totalRow = false
+    nonSeafoodSales.data[0].nonFgRow = true
 
-  // union seconds and by product to response data, add total row, remove total row flags for front end css
-  response.data = [...response.data, ...seconds.data, ...byProduct.data, ...rm.data, ...nonSeafoodSales.data, ...ice.data]
+    // get ice row
+    config.itemType = 'ICE'
+    const ice = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+    ice.data[0].totalRow = false
+    ice.data[0].nonFgRow = true
+
+    // union seconds and by product to response data, add total row, remove total row flags for front end css
+    response.data = [...response.data, ...seconds.data, ...byProduct.data, ...rm.data, ...nonSeafoodSales.data, ...ice.data]
+  }
 
   // if default date then add to response
   if (defaultDateFlag) {

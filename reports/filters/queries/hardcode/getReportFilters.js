@@ -3,8 +3,13 @@
 const reportFilters = () => {
   return [
     {
-      label: 'Show Non Fg Totals',
+      label: 'Show Non-Fg Totals',
       dataName: 'showNonFgTotals',
+      default: false,
+    },
+    {
+      label: 'Show FY Trend',
+      dataName: 'showFyTrend',
       default: false,
     },
   ]
