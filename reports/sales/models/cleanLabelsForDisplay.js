@@ -44,11 +44,11 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
     if (row.datalevel === 1) {
       if (shift) {
         flattenedMappedData[idx].l1_label = ''
-        flattenedMappedData[idx].l2_label = `${row.l1_label} SUBTOTAL`
+        flattenedMappedData[idx].l2_label = `${row.l1_label}`
         flattenedMappedData[idx].l3_label = ''
         flattenedMappedData[idx].l4_label = ''
       } else {
-        flattenedMappedData[idx].l1_label = `${row.l1_label} SUBTOTAL`
+        flattenedMappedData[idx].l1_label = `${row.l1_label} ST`
         flattenedMappedData[idx].l2_label = ''
         flattenedMappedData[idx].l3_label = ''
         flattenedMappedData[idx].l4_label = ''
@@ -60,11 +60,11 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
       if (shift) {
         flattenedMappedData[idx].l1_label = ''
         flattenedMappedData[idx].l2_label = ''
-        flattenedMappedData[idx].l3_label = `${row.l2_label} SUBTOTAL`
+        flattenedMappedData[idx].l3_label = `${row.l2_label}`
         flattenedMappedData[idx].l4_label = ''
       } else {
         flattenedMappedData[idx].l1_label = ''
-        flattenedMappedData[idx].l2_label = `${row.l2_label} SUBTOTAL`
+        flattenedMappedData[idx].l2_label = `${row.l2_label} ST`
         flattenedMappedData[idx].l3_label = ''
         flattenedMappedData[idx].l4_label = ''
       }
@@ -76,11 +76,11 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
         flattenedMappedData[idx].l1_label = ''
         flattenedMappedData[idx].l2_label = ''
         flattenedMappedData[idx].l3_label = ''
-        flattenedMappedData[idx].l4_label = `${row.l3_label} SUBTOTAL`
+        flattenedMappedData[idx].l4_label = `${row.l3_label}`
       } else {
         flattenedMappedData[idx].l1_label = ''
         flattenedMappedData[idx].l2_label = ''
-        flattenedMappedData[idx].l3_label = `${row.l3_label} SUBTOTAL`
+        flattenedMappedData[idx].l3_label = `${row.l3_label} ST`
         flattenedMappedData[idx].l4_label = ''
       }
     }
