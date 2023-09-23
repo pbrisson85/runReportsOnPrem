@@ -1,7 +1,7 @@
 const _ = require('lodash')
 
 const cleanLabelsForDisplay = (flattenedMappedData, config) => {
-  const shift = true
+  const shift = false
 
   const cacheData = _.cloneDeep(flattenedMappedData)
 
