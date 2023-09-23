@@ -47,11 +47,15 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
         flattenedMappedData[idx].l2_label = `${row.l1_label}`
         flattenedMappedData[idx].l3_label = ''
         flattenedMappedData[idx].l4_label = ''
+
+        flattenedMappedData[idx].l2_total = true // front end css flag
       } else {
         flattenedMappedData[idx].l1_label = `${row.l1_label} ST`
         flattenedMappedData[idx].l2_label = ''
         flattenedMappedData[idx].l3_label = ''
         flattenedMappedData[idx].l4_label = ''
+
+        flattenedMappedData[idx].l1_total = true // front end css flag
       }
     }
 
@@ -62,11 +66,15 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
         flattenedMappedData[idx].l2_label = ''
         flattenedMappedData[idx].l3_label = `${row.l2_label}`
         flattenedMappedData[idx].l4_label = ''
+
+        flattenedMappedData[idx].l3_total = true // front end css flag
       } else {
         flattenedMappedData[idx].l1_label = ''
         flattenedMappedData[idx].l2_label = `${row.l2_label} ST`
         flattenedMappedData[idx].l3_label = ''
         flattenedMappedData[idx].l4_label = ''
+
+        flattenedMappedData[idx].l2_total = true // front end css flag
       }
     }
 
@@ -77,11 +85,15 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
         flattenedMappedData[idx].l2_label = ''
         flattenedMappedData[idx].l3_label = ''
         flattenedMappedData[idx].l4_label = `${row.l3_label}`
+
+        flattenedMappedData[idx].l4_total = true // front end css flag
       } else {
         flattenedMappedData[idx].l1_label = ''
         flattenedMappedData[idx].l2_label = ''
         flattenedMappedData[idx].l3_label = `${row.l3_label} ST`
         flattenedMappedData[idx].l4_label = ''
+
+        flattenedMappedData[idx].l3_total = true // front end css flag
       }
     }
 
