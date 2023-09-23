@@ -47,6 +47,12 @@ process.on('unhandledRejection', ex => {
 app.use(helmet())
 app.use(express.json())
 
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`)
+  console.log(`${req.body}`)
+  next()
+})
+
 app.use('/api/sales/runTests', runTests)
 app.use('/api/sales/baseReport', baseReport)
 app.use('/api/sales/drillDown', viewTrend)
