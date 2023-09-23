@@ -1,6 +1,8 @@
 const _ = require('lodash')
 
 const cleanLabelsForDisplay = (flattenedMappedData, config) => {
+  const shift = true
+
   const cacheData = _.cloneDeep(flattenedMappedData)
 
   // Need to track when the l1, l2, l3, l4 values change so that we can hide them except for the first occurance
@@ -40,26 +42,47 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
 
     // always update the dataLevel 1 subtotal label
     if (row.datalevel === 1) {
-      flattenedMappedData[idx].l1_label = `${row.l1_label} SUBTOTAL`
-      flattenedMappedData[idx].l2_label = ''
-      flattenedMappedData[idx].l3_label = ''
-      flattenedMappedData[idx].l4_label = ''
+      if (shift) {
+        flattenedMappedData[idx].l1_label = ''
+        flattenedMappedData[idx].l2_label = `${row.l1_label} SUBTOTAL`
+        flattenedMappedData[idx].l3_label = ''
+        flattenedMappedData[idx].l4_label = ''
+      } else {
+        flattenedMappedData[idx].l1_label = `${row.l1_label} SUBTOTAL`
+        flattenedMappedData[idx].l2_label = ''
+        flattenedMappedData[idx].l3_label = ''
+        flattenedMappedData[idx].l4_label = ''
+      }
     }
 
     // If dataLevel 2 and there is a dataLevel 3 then update as a subtotal label
     if (row.datalevel === 2 && config.l3_field) {
-      flattenedMappedData[idx].l1_label = ''
-      flattenedMappedData[idx].l2_label = `${row.l2_label} SUBTOTAL`
-      flattenedMappedData[idx].l3_label = ''
-      flattenedMappedData[idx].l4_label = ''
+      if (shift) {
+        flattenedMappedData[idx].l1_label = ''
+        flattenedMappedData[idx].l2_label = ''
+        flattenedMappedData[idx].l3_label = `${row.l2_label} SUBTOTAL`
+        flattenedMappedData[idx].l4_label = ''
+      } else {
+        flattenedMappedData[idx].l1_label = ''
+        flattenedMappedData[idx].l2_label = `${row.l2_label} SUBTOTAL`
+        flattenedMappedData[idx].l3_label = ''
+        flattenedMappedData[idx].l4_label = ''
+      }
     }
 
     // If dataLevel 3 and there is a dataLevel 4 then update as a subtotal label
     if (row.datalevel === 3 && config.l4_field) {
-      flattenedMappedData[idx].l1_label = ''
-      flattenedMappedData[idx].l2_label = ''
-      flattenedMappedData[idx].l3_label = `${row.l3_label} SUBTOTAL`
-      flattenedMappedData[idx].l4_label = ''
+      if (shift) {
+        flattenedMappedData[idx].l1_label = ''
+        flattenedMappedData[idx].l2_label = ''
+        flattenedMappedData[idx].l3_label = ''
+        flattenedMappedData[idx].l4_label = `${row.l3_label} SUBTOTAL`
+      } else {
+        flattenedMappedData[idx].l1_label = ''
+        flattenedMappedData[idx].l2_label = ''
+        flattenedMappedData[idx].l3_label = `${row.l3_label} SUBTOTAL`
+        flattenedMappedData[idx].l4_label = ''
+      }
     }
 
     // if l1 grouping does change, set new value
