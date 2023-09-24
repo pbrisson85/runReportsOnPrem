@@ -5,21 +5,24 @@ const appSettings = () => {
       dataName: 'shiftTotals',
       default: false,
       onTrueSetToFalse: ['shiftTotalsCss'],
-      subtotalOption: true,
     },
     {
       label: 'Shift Totals Labels and Css',
       dataName: 'shiftTotalsCss',
       default: false,
       onTrueSetToFalse: ['shiftTotals'],
-      subtotalOption: true,
-      shiftedSubtotals: true,
     },
     {
-      label: 'Bypass Cache',
-      dataName: 'bypassCache',
+      label: 'Bypass Cache Everyone',
+      dataName: 'bypassCacheEveryone',
       default: false,
-      onTrueSetToFalse: false,
+      onTrueSetToFalse: ['bypassCacheAdminOnly'],
+    },
+    {
+      label: 'Bypass Cache Admin Only',
+      dataName: 'bypassCacheAdminOnly',
+      default: true,
+      onTrueSetToFalse: ['bypassCacheEveryone'],
     },
   ]
 }

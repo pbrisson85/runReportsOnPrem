@@ -64,6 +64,7 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
 
       if (shiftTotalsCss) {
         flattenedMappedData[idx].l2_total = true
+        flattenedMappedData[idx].shiftTotalsCss = true
       } else {
         flattenedMappedData[idx].l1_total = true
       }
@@ -85,6 +86,7 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
 
       if (shiftTotalsCss) {
         flattenedMappedData[idx].l3_total = true
+        flattenedMappedData[idx].shiftTotalsCss = true
       } else {
         flattenedMappedData[idx].l2_total = true
       }
@@ -106,6 +108,7 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
 
       if (shiftTotalsCss) {
         flattenedMappedData[idx].l4_total = true
+        flattenedMappedData[idx].shiftTotalsCss = true
       } else {
         flattenedMappedData[idx].l3_total = true
       }
