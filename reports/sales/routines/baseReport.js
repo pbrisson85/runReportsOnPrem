@@ -122,7 +122,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
 
   ///////////////////////////////// INVENTORY DATA
 
-  const allInven = await Promise.all([
+  let allInven = await Promise.all([
     totalOnly ? [] : await l1_getFgInven(config),
     totalOnly ? [] : await l2_getFgInven(config),
     totalOnly ? [] : config.l3_field ? await l3_getFgInven(config) : [],
@@ -144,6 +144,8 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
     totalOnly ? [] : config.l4_field ? await l4_getFgAtLoc_untagged(config) : [],
     await l0_getFgAtLoc_untagged(config),
   ])
+
+  allInven = allInven.flat()
 
   console.log('allInven', allInven)
 
