@@ -11,9 +11,6 @@ const getReportConfig = reqBody => {
   }
 
   // define config object
-  /* Add all sales invoice or sales order table query filters to this boolean. This controls item filters in Inv and PO */
-  const hasSalesFilters = reqBody.salesPerson || reqBody.customer || reqBody.country || reqBody.state || reqBody.export || reqBody.northAmerica
-
   let config = {
     program: typeof reqBody.program === 'undefined' ? null : reqBody.program === 'all' ? null : reqBody.program,
     l1_filter: reqBody.l1_filter ?? null,
@@ -27,7 +24,6 @@ const getReportConfig = reqBody => {
     state: reqBody.state ?? null,
     export: reqBody.export ?? null,
     northAmerica: reqBody.northAmerica ?? null,
-    hasSalesFilters,
     queryLevel: reqBody.queryLevel ?? null,
     jbBuyerFilter,
     user: reqBody.user ?? null,
@@ -35,8 +31,6 @@ const getReportConfig = reqBody => {
     shiftTotals: reqBody.shiftTotals ?? null,
     shiftTotalsCss: reqBody.shiftTotalsCss ?? null,
   }
-
-  // going to update the inven supplemental to put seconds and by product in item type then going to run this logic multiple times with different item types in sequence and then append the reports. and then add a final total row. the showByProduct, showSeconds flags will determine if the process should be run again with the different item types. Will also need to store the itme type in the data so that it can be passed in the request on right click.
 
   switch (reqBody.reportFormat) {
     case 'speciesgroupProg':
