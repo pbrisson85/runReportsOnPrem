@@ -48,8 +48,8 @@ app.use(helmet())
 app.use(express.json())
 
 app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`)
-  req.body && console.log(`${JSON.stringify(req.body)}`)
+  console.log(`\n${req.method} ${req.url}`)
+  req.method === 'POST' && console.log(`${JSON.stringify(req.body)}`)
   next()
 })
 
