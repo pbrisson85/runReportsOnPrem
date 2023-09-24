@@ -43,8 +43,6 @@ const getReportConfig = reqBody => {
     },
   }
 
-  console.log('config: ', config)
-
   switch (reqBody.reportFormat) {
     case 'speciesgroupProg':
       config = {
