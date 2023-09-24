@@ -121,6 +121,32 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   // The routine and all of the queries can be the same for all reports. Going to buikd out this rpeort and then change the config manually to test.
 
   ///////////////////////////////// INVENTORY DATA
+
+  const allInven = await Promise.all([
+    totalOnly ? [] : await l1_getFgInven(config),
+    totalOnly ? [] : await l2_getFgInven(config),
+    totalOnly ? [] : config.l3_field ? await l3_getFgInven(config) : [],
+    totalOnly ? [] : config.l4_field ? await l4_getFgInven(config) : [],
+    await l0_getFgInven(config),
+    totalOnly ? [] : await l1_getFgInTransit(config),
+    totalOnly ? [] : await l2_getFgInTransit(config),
+    totalOnly ? [] : config.l3_field ? await l3_getFgInTransit(config) : [],
+    totalOnly ? [] : config.l4_field ? await l4_getFgInTransit(config) : [],
+    await l0_getFgInTransit(config),
+    totalOnly ? [] : await l1_getFgAtLoc(config),
+    totalOnly ? [] : await l2_getFgAtLoc(config),
+    totalOnly ? [] : config.l3_field ? await l3_getFgAtLoc(config) : [],
+    totalOnly ? [] : config.l4_field ? await l4_getFgAtLoc(config) : [],
+    await l0_getFgAtLoc(config),
+    totalOnly ? [] : await l1_getFgAtLoc_untagged(config),
+    totalOnly ? [] : await l2_getFgAtLoc_untagged(config),
+    totalOnly ? [] : config.l3_field ? await l3_getFgAtLoc_untagged(config) : [],
+    totalOnly ? [] : config.l4_field ? await l4_getFgAtLoc_untagged(config) : [],
+    await l0_getFgAtLoc_untagged(config),
+  ])
+
+  console.log('allInven', allInven)
+
   /* TOTAL FG (FG) */
   const l1_fgInven = totalOnly ? [] : await l1_getFgInven(config)
   const l2_fgInven = totalOnly ? [] : await l2_getFgInven(config)
