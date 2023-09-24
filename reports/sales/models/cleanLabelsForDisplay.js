@@ -1,15 +1,7 @@
 const _ = require('lodash')
 
 const cleanLabelsForDisplay = (flattenedMappedData, config) => {
-  let shiftTotals = false
-  let shiftTotalsCss = false
-
-  if (config.shiftTotals) {
-    shiftTotals = true
-  } else if (config.shiftTotalsCss) {
-    shiftTotals = true
-    shiftTotalsCss = true
-  }
+  const { shiftTotals, shiftTotalsCss, dataLabelInSubtotals, subtotalLabelInSubtotals } = config
 
   const cacheData = _.cloneDeep(flattenedMappedData)
 
@@ -50,13 +42,13 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
 
     // always update the dataLevel 1 subtotal label
     if (row.datalevel === 1) {
-      if (shiftTotals) {
+      if (shiftTotals || shiftTotalsCss) {
         flattenedMappedData[idx].l1_label = ''
-        flattenedMappedData[idx].l2_label = `${row.l1_label}`
+        flattenedMappedData[idx].l2_label = `${dataLabelInSubtotals ? row.l1_label : ''} ${subtotalLabelInSubtotals ? 'subtotal' : ''} `
         flattenedMappedData[idx].l3_label = ''
         flattenedMappedData[idx].l4_label = ''
       } else {
-        flattenedMappedData[idx].l1_label = `${row.l1_label}`
+        flattenedMappedData[idx].l1_label = `${dataLabelInSubtotals ? row.l1_label : ''} ${subtotalLabelInSubtotals ? 'subtotal' : ''}`
         flattenedMappedData[idx].l2_label = ''
         flattenedMappedData[idx].l3_label = ''
         flattenedMappedData[idx].l4_label = ''
@@ -72,14 +64,14 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
 
     // If dataLevel 2 and there is a dataLevel 3 then update as a subtotal label
     if (row.datalevel === 2 && config.l3_field) {
-      if (shiftTotals) {
+      if (shiftTotals || shiftTotalsCss) {
         flattenedMappedData[idx].l1_label = ''
         flattenedMappedData[idx].l2_label = ''
-        flattenedMappedData[idx].l3_label = `${row.l2_label}`
+        flattenedMappedData[idx].l3_label = `${dataLabelInSubtotals ? row.l2_label : ''} ${subtotalLabelInSubtotals ? 'subtotal' : ''}`
         flattenedMappedData[idx].l4_label = ''
       } else {
         flattenedMappedData[idx].l1_label = ''
-        flattenedMappedData[idx].l2_label = `${row.l2_label}`
+        flattenedMappedData[idx].l2_label = `${dataLabelInSubtotals ? row.l2_label : ''} ${subtotalLabelInSubtotals ? 'subtotal' : ''}`
         flattenedMappedData[idx].l3_label = ''
         flattenedMappedData[idx].l4_label = ''
       }
@@ -94,15 +86,15 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
 
     // If dataLevel 3 and there is a dataLevel 4 then update as a subtotal label
     if (row.datalevel === 3 && config.l4_field) {
-      if (shiftTotals) {
+      if (shiftTotals || shiftTotalsCss) {
         flattenedMappedData[idx].l1_label = ''
         flattenedMappedData[idx].l2_label = ''
         flattenedMappedData[idx].l3_label = ''
-        flattenedMappedData[idx].l4_label = `${row.l3_label}`
+        flattenedMappedData[idx].l4_label = `${dataLabelInSubtotals ? row.l3_label : ''} ${subtotalLabelInSubtotals ? 'subtotal' : ''}`
       } else {
         flattenedMappedData[idx].l1_label = ''
         flattenedMappedData[idx].l2_label = ''
-        flattenedMappedData[idx].l3_label = `${row.l3_label}`
+        flattenedMappedData[idx].l3_label = `${dataLabelInSubtotals ? row.l3_label : ''} ${subtotalLabelInSubtotals ? 'subtotal' : ''}`
         flattenedMappedData[idx].l4_label = ''
       }
 
@@ -128,11 +120,6 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
     if (row.l3_label !== l3Value) {
       l3Value = row.l3_label
     }
-
-    // // re-label total row with program filter
-    // if (config.program && idx === cacheData.length - 1) {
-    //   flattenedMappedData[idx].l1_label = `${config.program} FG`
-    // }
   })
 
   return flattenedMappedData

@@ -25,11 +25,15 @@ const getReportConfig = reqBody => {
     export: reqBody.export ?? null,
     northAmerica: reqBody.northAmerica ?? null,
     queryLevel: reqBody.queryLevel ?? null,
+    itemType: reqBody.itemType ?? 'FG',
     jbBuyerFilter,
     user: reqBody.user ?? null,
-    itemType: reqBody.itemType ?? 'FG',
-    shiftTotals: reqBody.shiftTotals ?? null,
-    shiftTotalsCss: reqBody.shiftTotalsCss ?? null,
+    subtotalRowFormats: {
+      shiftTotals: reqBody.shiftTotals ?? null,
+      shiftTotalsCss: reqBody.shiftTotalsCss ?? null,
+      dataLabelInSubtotals: reqBody.dataLabelInSubtotals ?? null,
+      subtotalLabelInSubtotals: reqBody.subtotalLabelInSubtotals ?? null,
+    },
   }
 
   switch (reqBody.reportFormat) {
