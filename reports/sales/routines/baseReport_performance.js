@@ -160,6 +160,38 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   const l4_fgPo = totalOnly ? [] : config.l4_field ? await l4_getFgPo(config) : []
   const l0_fgPo = await l0_getFgPo(config)
 
+  let allInven = await Promise.all([
+    l1_fgInven,
+    l2_fgInven,
+    l3_fgInven,
+    l4_fgInven,
+    l0_fgInven,
+    l1_fgInTransit,
+    l2_fgInTransit,
+    l3_fgInTransit,
+    l4_fgInTransit,
+    l0_fgInTransit,
+    l1_fgAtLoc,
+    l2_fgAtLoc,
+    l3_fgAtLoc,
+    l4_fgAtLoc,
+    l0_fgAtLoc,
+    l1_fgAtLoc_untagged,
+    l2_fgAtLoc_untagged,
+    l3_fgAtLoc_untagged,
+    l4_fgAtLoc_untagged,
+    l0_fgAtLoc_untagged,
+    l1_fgPo,
+    l2_fgPo,
+    l3_fgPo,
+    l4_fgPo,
+    l0_fgPo,
+  ])
+
+  allInven = allInven.flat()
+
+  console.log('allInven', allInven)
+
   // ///////////////////////////////// SALES ORDERS
   /* ALL SO */
   const l1_so = totalOnly ? [] : await l1_getSo(config)
