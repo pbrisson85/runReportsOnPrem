@@ -39,10 +39,10 @@ const getReportConfig = reqBody => {
     jbBuyerFilter,
     user: reqBody.user ?? null,
     subtotalRowFormats: {
-      shiftTotals: reqBody.shiftTotals ?? appSettings_unflat['shiftTotals'][0].default,
-      shiftTotalsCss: reqBody.shiftTotalsCss ?? appSettings_unflat['shiftTotalsCss'][0].default,
-      dataLabelInSubtotals: reqBody.dataLabelInSubtotals ?? appSettings_unflat['dataLabelInSubtotals'][0].default,
-      subtotalLabelInSubtotals: reqBody.subtotalLabelInSubtotals ?? appSettings_unflat['subtotalLabelInSubtotals'][0].default,
+      shiftTotals: reqBody.shiftTotals ?? appSettings_unflat['shiftTotals'].default,
+      shiftTotalsCss: reqBody.shiftTotalsCss ?? appSettings_unflat['shiftTotalsCss'].default,
+      dataLabelInSubtotals: reqBody.dataLabelInSubtotals ?? appSettings_unflat['dataLabelInSubtotals'].default,
+      subtotalLabelInSubtotals: reqBody.subtotalLabelInSubtotals ?? appSettings_unflat['subtotalLabelInSubtotals'].default,
     },
   }
 
