@@ -49,7 +49,7 @@ app.use(express.json())
 
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`)
-  console.log(`${req.body}`)
+  req.body && console.log(`${JSON.stringify(req.body)}`)
   next()
 })
 
