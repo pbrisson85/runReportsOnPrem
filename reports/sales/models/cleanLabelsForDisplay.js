@@ -3,6 +3,11 @@ const _ = require('lodash')
 const cleanLabelsForDisplay = (flattenedMappedData, config) => {
   const { shiftTotals, shiftTotalsCss, dataLabelInSubtotals, subtotalLabelInSubtotals } = config.subtotalRowFormats
 
+  console.log('shiftTotals: ', shiftTotals)
+  console.log('shiftTotalsCss: ', shiftTotalsCss)
+  console.log('dataLabelInSubtotals: ', dataLabelInSubtotals)
+  console.log('subtotalLabelInSubtotals: ', subtotalLabelInSubtotals)
+
   const cacheData = _.cloneDeep(flattenedMappedData)
 
   // Need to track when the l1, l2, l3, l4 values change so that we can hide them except for the first occurance
