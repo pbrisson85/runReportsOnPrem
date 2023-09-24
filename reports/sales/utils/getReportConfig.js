@@ -1,3 +1,6 @@
+const appSettings = require('../../filters/queries/hardcode/appSettings')
+const unflattenByCompositKey = require('../models/unflattenByCompositKey')
+
 const getReportConfig = reqBody => {
   // auth filters:
   let jbBuyerFilter = false
@@ -9,6 +12,10 @@ const getReportConfig = reqBody => {
     // check for front end option
     if (reqBody.dataFilters === 'jbBuyer') jbBuyerFilter = true
   }
+
+  // get subtotalRowFormats defaults
+  const appSettingsData = appSettings()
+  const appSettings_unflat = unflattenByCompositKey(appSettingsData, { 1: 'dataName' })
 
   // define config object
   let config = {
@@ -29,10 +36,10 @@ const getReportConfig = reqBody => {
     jbBuyerFilter,
     user: reqBody.user ?? null,
     subtotalRowFormats: {
-      shiftTotals: reqBody.shiftTotals ?? null,
-      shiftTotalsCss: reqBody.shiftTotalsCss ?? null,
-      dataLabelInSubtotals: reqBody.dataLabelInSubtotals ?? null,
-      subtotalLabelInSubtotals: reqBody.subtotalLabelInSubtotals ?? null,
+      shiftTotals: reqBody.shiftTotals ?? appSettings_unflat['shiftTotals'][0].default,
+      shiftTotalsCss: reqBody.shiftTotalsCss ?? appSettings_unflat['shiftTotalsCss'][0].default,
+      dataLabelInSubtotals: reqBody.dataLabelInSubtotals ?? appSettings_unflat['dataLabelInSubtotals'][0].default,
+      subtotalLabelInSubtotals: reqBody.subtotalLabelInSubtotals ?? appSettings_unflat['subtotalLabelInSubtotals'][0].default,
     },
   }
 
