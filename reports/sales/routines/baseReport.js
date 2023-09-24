@@ -122,33 +122,6 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
 
   ///////////////////////////////// INVENTORY DATA
 
-  let allInven = await Promise.all([
-    totalOnly ? [] : await l1_getFgInven(config),
-    totalOnly ? [] : await l2_getFgInven(config),
-    totalOnly ? [] : config.l3_field ? await l3_getFgInven(config) : [],
-    totalOnly ? [] : config.l4_field ? await l4_getFgInven(config) : [],
-    await l0_getFgInven(config),
-    totalOnly ? [] : await l1_getFgInTransit(config),
-    totalOnly ? [] : await l2_getFgInTransit(config),
-    totalOnly ? [] : config.l3_field ? await l3_getFgInTransit(config) : [],
-    totalOnly ? [] : config.l4_field ? await l4_getFgInTransit(config) : [],
-    await l0_getFgInTransit(config),
-    totalOnly ? [] : await l1_getFgAtLoc(config),
-    totalOnly ? [] : await l2_getFgAtLoc(config),
-    totalOnly ? [] : config.l3_field ? await l3_getFgAtLoc(config) : [],
-    totalOnly ? [] : config.l4_field ? await l4_getFgAtLoc(config) : [],
-    await l0_getFgAtLoc(config),
-    totalOnly ? [] : await l1_getFgAtLoc_untagged(config),
-    totalOnly ? [] : await l2_getFgAtLoc_untagged(config),
-    totalOnly ? [] : config.l3_field ? await l3_getFgAtLoc_untagged(config) : [],
-    totalOnly ? [] : config.l4_field ? await l4_getFgAtLoc_untagged(config) : [],
-    await l0_getFgAtLoc_untagged(config),
-  ])
-
-  allInven = allInven.flat()
-
-  console.log('allInven', allInven)
-
   /* TOTAL FG (FG) */
   const l1_fgInven = totalOnly ? [] : await l1_getFgInven(config)
   const l2_fgInven = totalOnly ? [] : await l2_getFgInven(config)
@@ -186,6 +159,38 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   const l3_fgPo = totalOnly ? [] : config.l3_field ? await l3_getFgPo(config) : []
   const l4_fgPo = totalOnly ? [] : config.l4_field ? await l4_getFgPo(config) : []
   const l0_fgPo = await l0_getFgPo(config)
+
+  let allInven = await Promise.all([
+    l1_fgInven,
+    l2_fgInven,
+    l3_fgInven,
+    l4_fgInven,
+    l0_fgInven,
+    l1_fgInTransit,
+    l2_fgInTransit,
+    l3_fgInTransit,
+    l4_fgInTransit,
+    l0_fgInTransit,
+    l1_fgAtLoc,
+    l2_fgAtLoc,
+    l3_fgAtLoc,
+    l4_fgAtLoc,
+    l0_fgAtLoc,
+    l1_fgAtLoc_untagged,
+    l2_fgAtLoc_untagged,
+    l3_fgAtLoc_untagged,
+    l4_fgAtLoc_untagged,
+    l0_fgAtLoc_untagged,
+    l1_fgPo,
+    l2_fgPo,
+    l3_fgPo,
+    l4_fgPo,
+    l0_fgPo,
+  ])
+
+  allInven = allInven.flat()
+
+  console.log('allInven', allInven)
 
   // ///////////////////////////////// SALES ORDERS
   /* ALL SO */
