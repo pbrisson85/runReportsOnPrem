@@ -15,7 +15,10 @@ const getReportConfig = reqBody => {
 
   // get subtotalRowFormats defaults
   const appSettingsData = appSettings()
+  console.log('appSettingsData: ', appSettingsData)
+
   const appSettings_unflat = unflattenByCompositKey(appSettingsData, { 1: 'dataName' })
+  console.log('appSettings_unflat: ', appSettings_unflat)
 
   // define config object
   let config = {
