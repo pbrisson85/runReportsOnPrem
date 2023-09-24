@@ -1,9 +1,7 @@
 const _ = require('lodash')
 
 const cleanLabelsForDisplay = (flattenedMappedData, config) => {
-  console.log('config in cleanLabelsForDisplay', config)
-
-  const { shiftTotals, shiftTotalsCss, dataLabelInSubtotals, subtotalLabelInSubtotals } = config.subtotalRowFormats
+  const { shiftTotals, shiftTotalsCss, dataLabelInSubtotals, subtotalLabelInSubtotals } = config?.subtotalRowFormats
 
   const cacheData = _.cloneDeep(flattenedMappedData)
 
