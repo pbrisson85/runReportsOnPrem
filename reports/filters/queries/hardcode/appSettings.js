@@ -13,6 +13,7 @@ const appSettings = () => {
       default: false,
       onTrueSetToFalse: ['shiftTotals'],
       subtotalOption: true,
+      shiftedSubtotals: true,
     },
     {
       label: 'Bypass Cache',
