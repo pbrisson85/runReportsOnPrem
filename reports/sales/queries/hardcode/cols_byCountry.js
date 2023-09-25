@@ -20,6 +20,7 @@ const cols = [
     drillDownSortable: true, // used to determine what cols are sortable IN DRILLDOWN MODE
     optional: false, // flag to determine if the col is optional
     showByDefault: true, // flag to determine if optional col is shown by default
+    searchable: true, // flag to determine if col is searchable
   },
 ]
 
