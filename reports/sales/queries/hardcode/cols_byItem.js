@@ -21,6 +21,7 @@ const cols = [
     showByDefault: true, // flag to determine if optional col is shown by default
     drillDownSortable: true, // used to determine what cols are sortable IN DRILLDOWN MODE
     searchable: true, // flag to determine if col is searchable
+    searchValue: null, // placeholder for the search filter
   },
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
@@ -44,6 +45,7 @@ const cols = [
     showByDefault: true, // flag to determine if optional col is shown by default
     drillDownSortable: true, // used to determine what cols are sortable IN DRILLDOWN MODE
     searchable: true, // flag to determine if col is searchable
+    searchValue: null, // placeholder for the search filter
   },
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
