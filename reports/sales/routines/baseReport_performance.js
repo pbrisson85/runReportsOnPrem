@@ -123,29 +123,29 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   ///////////////////////////////// INVENTORY DATA
 
   /* TOTAL FG (FG) */
-  const l1_fgInven = totalOnly ? [] : await l1_getFgInven(config)
-  const l2_fgInven = totalOnly ? [] : await l2_getFgInven(config)
-  const l3_fgInven = totalOnly ? [] : config.l3_field ? await l3_getFgInven(config) : []
-  const l4_fgInven = totalOnly ? [] : config.l4_field ? await l4_getFgInven(config) : []
-  const l0_fgInven = await l0_getFgInven(config)
+  const l1_fgInven = totalOnly ? [] : l1_getFgInven(config)
+  const l2_fgInven = totalOnly ? [] : l2_getFgInven(config)
+  const l3_fgInven = totalOnly ? [] : config.l3_field ? l3_getFgInven(config) : []
+  const l4_fgInven = totalOnly ? [] : config.l4_field ? l4_getFgInven(config) : []
+  const l0_fgInven = l0_getFgInven(config)
   /* FG IN TRANSIT*/
-  const l1_fgInTransit = totalOnly ? [] : await l1_getFgInTransit(config)
-  const l2_fgInTransit = totalOnly ? [] : await l2_getFgInTransit(config)
-  const l3_fgInTransit = totalOnly ? [] : config.l3_field ? await l3_getFgInTransit(config) : []
-  const l4_fgInTransit = totalOnly ? [] : config.l4_field ? await l4_getFgInTransit(config) : []
-  const l0_fgInTransit = await l0_getFgInTransit(config)
+  const l1_fgInTransit = totalOnly ? [] : l1_getFgInTransit(config)
+  const l2_fgInTransit = totalOnly ? [] : l2_getFgInTransit(config)
+  const l3_fgInTransit = totalOnly ? [] : config.l3_field ? l3_getFgInTransit(config) : []
+  const l4_fgInTransit = totalOnly ? [] : config.l4_field ? l4_getFgInTransit(config) : []
+  const l0_fgInTransit = l0_getFgInTransit(config)
   /* FG ON HAND (LESS IN TRANSIT) */
-  const l1_fgAtLoc = totalOnly ? [] : await l1_getFgAtLoc(config)
-  const l2_fgAtLoc = totalOnly ? [] : await l2_getFgAtLoc(config)
-  const l3_fgAtLoc = totalOnly ? [] : config.l3_field ? await l3_getFgAtLoc(config) : []
-  const l4_fgAtLoc = totalOnly ? [] : config.l4_field ? await l4_getFgAtLoc(config) : []
-  const l0_fgAtLoc = await l0_getFgAtLoc(config)
+  const l1_fgAtLoc = totalOnly ? [] : l1_getFgAtLoc(config)
+  const l2_fgAtLoc = totalOnly ? [] : l2_getFgAtLoc(config)
+  const l3_fgAtLoc = totalOnly ? [] : config.l3_field ? l3_getFgAtLoc(config) : []
+  const l4_fgAtLoc = totalOnly ? [] : config.l4_field ? l4_getFgAtLoc(config) : []
+  const l0_fgAtLoc = l0_getFgAtLoc(config)
   /* FG ON HAND UNTAGGED */
-  const l1_fgAtLoc_untagged = totalOnly ? [] : await l1_getFgAtLoc_untagged(config)
-  const l2_fgAtLoc_untagged = totalOnly ? [] : await l2_getFgAtLoc_untagged(config)
-  const l3_fgAtLoc_untagged = totalOnly ? [] : config.l3_field ? await l3_getFgAtLoc_untagged(config) : []
-  const l4_fgAtLoc_untagged = totalOnly ? [] : config.l4_field ? await l4_getFgAtLoc_untagged(config) : []
-  const l0_fgAtLoc_untagged = await l0_getFgAtLoc_untagged(config)
+  const l1_fgAtLoc_untagged = totalOnly ? [] : l1_getFgAtLoc_untagged(config)
+  const l2_fgAtLoc_untagged = totalOnly ? [] : l2_getFgAtLoc_untagged(config)
+  const l3_fgAtLoc_untagged = totalOnly ? [] : config.l3_field ? l3_getFgAtLoc_untagged(config) : []
+  const l4_fgAtLoc_untagged = totalOnly ? [] : config.l4_field ? l4_getFgAtLoc_untagged(config) : []
+  const l0_fgAtLoc_untagged = l0_getFgAtLoc_untagged(config)
   /* FG ON HAND TAGGED */
   // const l1_fgAtLoc_tagged = totalOnly ? [] : await l1_getFgAtLoc_tagged(config)
   // const l2_fgAtLoc_tagged = totalOnly ? [] : await l2_getFgAtLoc_tagged(config)
@@ -154,13 +154,13 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   // const l0_fgAtLoc_tagged = await l0_getFgAtLoc_tagged(config)
 
   /* FG ON ORDER */
-  const l1_fgPo = totalOnly ? [] : await l1_getFgPo(config)
-  const l2_fgPo = totalOnly ? [] : await l2_getFgPo(config)
-  const l3_fgPo = totalOnly ? [] : config.l3_field ? await l3_getFgPo(config) : []
-  const l4_fgPo = totalOnly ? [] : config.l4_field ? await l4_getFgPo(config) : []
-  const l0_fgPo = await l0_getFgPo(config)
+  const l1_fgPo = totalOnly ? [] : l1_getFgPo(config)
+  const l2_fgPo = totalOnly ? [] : l2_getFgPo(config)
+  const l3_fgPo = totalOnly ? [] : config.l3_field ? l3_getFgPo(config) : []
+  const l4_fgPo = totalOnly ? [] : config.l4_field ? l4_getFgPo(config) : []
+  const l0_fgPo = l0_getFgPo(config)
 
-  let allInven = await Promise.all([
+  const allInvenP = await Promise.all([
     l1_fgInven,
     l2_fgInven,
     l3_fgInven,
@@ -188,74 +188,131 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
     l0_fgPo,
   ])
 
-  allInven = allInven.flat()
+  const allInven = allInvenP.flat()
 
   console.log('allInven', allInven)
 
   // ///////////////////////////////// SALES ORDERS
   /* ALL SO */
-  const l1_so = totalOnly ? [] : await l1_getSo(config)
-  const l2_so = totalOnly ? [] : await l2_getSo(config)
-  const l3_so = totalOnly ? [] : config.l3_field ? await l3_getSo(config) : []
-  const l4_so = totalOnly ? [] : config.l4_field ? await l4_getSo(config) : []
-  const l0_so = await l0_getSo(config)
+  const l1_so = totalOnly ? [] : l1_getSo(config)
+  const l2_so = totalOnly ? [] : l2_getSo(config)
+  const l3_so = totalOnly ? [] : config.l3_field ? l3_getSo(config) : []
+  const l4_so = totalOnly ? [] : config.l4_field ? l4_getSo(config) : []
+  const l0_so = l0_getSo(config)
 
-  const l1_so_byWk = totalOnly ? [] : await l1_getSo_byWk(config)
-  const l2_so_byWk = totalOnly ? [] : await l2_getSo_byWk(config)
-  const l3_so_byWk = totalOnly ? [] : config.l3_field ? await l3_getSo_byWk(config) : []
-  const l4_so_byWk = totalOnly ? [] : config.l4_field ? await l4_getSo_byWk(config) : []
-  const l0_so_byWk = await l0_getSo_byWk(config)
+  const l1_so_byWk = totalOnly ? [] : l1_getSo_byWk(config)
+  const l2_so_byWk = totalOnly ? [] : l2_getSo_byWk(config)
+  const l3_so_byWk = totalOnly ? [] : config.l3_field ? l3_getSo_byWk(config) : []
+  const l4_so_byWk = totalOnly ? [] : config.l4_field ? l4_getSo_byWk(config) : []
+  const l0_so_byWk = l0_getSo_byWk(config)
 
   /* TAGGED SO */
-  // const l1_soTagged = totalOnly ? [] : await l1_getSoTagged(config)
-  // const l2_soTagged = totalOnly ? [] : await l2_getSoTagged(config)
-  // const l3_soTagged = totalOnly ? [] : config.l3_field ? await l3_getSoTagged(config) : []
-  // const l4_soTagged = totalOnly ? [] : config.l4_field ? await l4_getSoTagged(config) : []
-  // const l0_soTagged = await l0_getSoTagged(config)
+  // const l1_soTagged = totalOnly ? [] :  l1_getSoTagged(config)
+  // const l2_soTagged = totalOnly ? [] :  l2_getSoTagged(config)
+  // const l3_soTagged = totalOnly ? [] : config.l3_field ?  l3_getSoTagged(config) : []
+  // const l4_soTagged = totalOnly ? [] : config.l4_field ?  l4_getSoTagged(config) : []
+  // const l0_soTagged =  l0_getSoTagged(config)
 
-  // const l1_soTagged_byWk = totalOnly ? [] : await l1_getSoTagged_byWk(config)
-  // const l2_soTagged_byWk = totalOnly ? [] : await l2_getSoTagged_byWk(config)
-  // const l3_soTagged_byWk = totalOnly ? [] : config.l3_field ? await l3_getSoTagged_byWk(config) : []
-  // const l4_soTagged_byWk = totalOnly ? [] : config.l4_field ? await l4_getSoTagged_byWk(config) : []
-  // const l0_soTagged_byWk = await l0_getSoTagged_byWk(config)
+  // const l1_soTagged_byWk = totalOnly ? [] :  l1_getSoTagged_byWk(config)
+  // const l2_soTagged_byWk = totalOnly ? [] :  l2_getSoTagged_byWk(config)
+  // const l3_soTagged_byWk = totalOnly ? [] : config.l3_field ?  l3_getSoTagged_byWk(config) : []
+  // const l4_soTagged_byWk = totalOnly ? [] : config.l4_field ?  l4_getSoTagged_byWk(config) : []
+  // const l0_soTagged_byWk =  l0_getSoTagged_byWk(config)
 
   /* UNTAGGED SO */
-  const l1_soUntagged = totalOnly ? [] : await l1_getSoUntagged(config)
-  const l2_soUntagged = totalOnly ? [] : await l2_getSoUntagged(config)
-  const l3_soUntagged = totalOnly ? [] : config.l3_field ? await l3_getSoUntagged(config) : []
-  const l4_soUntagged = totalOnly ? [] : config.l4_field ? await l4_getSoUntagged(config) : []
-  const l0_soUntagged = await l0_getSoUntagged(config)
+  const l1_soUntagged = totalOnly ? [] : l1_getSoUntagged(config)
+  const l2_soUntagged = totalOnly ? [] : l2_getSoUntagged(config)
+  const l3_soUntagged = totalOnly ? [] : config.l3_field ? l3_getSoUntagged(config) : []
+  const l4_soUntagged = totalOnly ? [] : config.l4_field ? l4_getSoUntagged(config) : []
+  const l0_soUntagged = l0_getSoUntagged(config)
 
-  const l1_soUntagged_byWk = totalOnly ? [] : await l1_getSoUntagged_byWk(config)
-  const l2_soUntagged_byWk = totalOnly ? [] : await l2_getSoUntagged_byWk(config)
-  const l3_soUntagged_byWk = totalOnly ? [] : config.l3_field ? await l3_getSoUntagged_byWk(config) : []
-  const l4_soUntagged_byWk = totalOnly ? [] : config.l4_field ? await l4_getSoUntagged_byWk(config) : []
-  const l0_soUntagged_byWk = await l0_getSoUntagged_byWk(config)
+  const l1_soUntagged_byWk = totalOnly ? [] : l1_getSoUntagged_byWk(config)
+  const l2_soUntagged_byWk = totalOnly ? [] : l2_getSoUntagged_byWk(config)
+  const l3_soUntagged_byWk = totalOnly ? [] : config.l3_field ? l3_getSoUntagged_byWk(config) : []
+  const l4_soUntagged_byWk = totalOnly ? [] : config.l4_field ? l4_getSoUntagged_byWk(config) : []
+  const l0_soUntagged_byWk = l0_getSoUntagged_byWk(config)
 
   // ///////////////////////////////// SALES DATA
-  const l1_salesByFy = totalOnly ? [] : await l1_getSalesByFyYtd(config, startWeek, endWeek, false)
-  const l2_salesByFy = totalOnly ? [] : await l2_getSalesByFyYtd(config, startWeek, endWeek, false)
-  const l3_salesByFy = totalOnly ? [] : config.l3_field ? await l3_getSalesByFyYtd(config, startWeek, endWeek, false) : []
-  const l4_salesByFy = totalOnly ? [] : config.l4_field ? await l4_getSalesByFyYtd(config, startWeek, endWeek, false) : []
-  const l0_salesByFy = await l0_getSalesByFyYtd(config, startWeek, endWeek, false)
+  const l1_salesByFy = totalOnly ? [] : l1_getSalesByFyYtd(config, startWeek, endWeek, false)
+  const l2_salesByFy = totalOnly ? [] : l2_getSalesByFyYtd(config, startWeek, endWeek, false)
+  const l3_salesByFy = totalOnly ? [] : config.l3_field ? l3_getSalesByFyYtd(config, startWeek, endWeek, false) : []
+  const l4_salesByFy = totalOnly ? [] : config.l4_field ? l4_getSalesByFyYtd(config, startWeek, endWeek, false) : []
+  const l0_salesByFy = l0_getSalesByFyYtd(config, startWeek, endWeek, false)
 
-  const l1_salesByFyYtd = totalOnly ? [] : await l1_getSalesByFyYtd(config, startWeek, endWeek, true)
-  const l2_salesByFyYtd = totalOnly ? [] : await l2_getSalesByFyYtd(config, startWeek, endWeek, true)
-  const l3_salesByFyYtd = totalOnly ? [] : config.l3_field ? await l3_getSalesByFyYtd(config, startWeek, endWeek, true) : []
-  const l4_salesByFyYtd = totalOnly ? [] : config.l4_field ? await l4_getSalesByFyYtd(config, startWeek, endWeek, true) : []
-  const l0_salesByFyYtd = await l0_getSalesByFyYtd(config, startWeek, endWeek, true)
+  const l1_salesByFyYtd = totalOnly ? [] : l1_getSalesByFyYtd(config, startWeek, endWeek, true)
+  const l2_salesByFyYtd = totalOnly ? [] : l2_getSalesByFyYtd(config, startWeek, endWeek, true)
+  const l3_salesByFyYtd = totalOnly ? [] : config.l3_field ? l3_getSalesByFyYtd(config, startWeek, endWeek, true) : []
+  const l4_salesByFyYtd = totalOnly ? [] : config.l4_field ? l4_getSalesByFyYtd(config, startWeek, endWeek, true) : []
+  const l0_salesByFyYtd = l0_getSalesByFyYtd(config, startWeek, endWeek, true)
 
-  const l1_salesByWk = totalOnly ? [] : await l1_getSalesByWk(config, start, end)
-  const l2_salesByWk = totalOnly ? [] : await l2_getSalesByWk(config, start, end)
-  const l3_salesByWk = totalOnly ? [] : config.l3_field ? await l3_getSalesByWk(config, start, end) : []
-  const l4_salesByWk = totalOnly ? [] : config.l4_field ? await l4_getSalesByWk(config, start, end) : []
-  const l0_salesByWk = await l0_getSalesByWk(config, start, end)
+  const l1_salesByWk = totalOnly ? [] : l1_getSalesByWk(config, start, end)
+  const l2_salesByWk = totalOnly ? [] : l2_getSalesByWk(config, start, end)
+  const l3_salesByWk = totalOnly ? [] : config.l3_field ? l3_getSalesByWk(config, start, end) : []
+  const l4_salesByWk = totalOnly ? [] : config.l4_field ? l4_getSalesByWk(config, start, end) : []
+  const l0_salesByWk = l0_getSalesByWk(config, start, end)
 
-  const l1_salesPeriodToDate = totalOnly ? [] : await l1_getSalesPeriodToDate(config, start, end)
-  const l2_salesPeriodToDate = totalOnly ? [] : await l2_getSalesPeriodToDate(config, start, end)
-  const l3_salesPeriodToDate = totalOnly ? [] : config.l3_field ? await l3_getSalesPeriodToDate(config, start, end) : []
-  const l4_salesPeriodToDate = totalOnly ? [] : config.l4_field ? await l4_getSalesPeriodToDate(config, start, end) : []
-  const l0_salesPeriodToDate = await l0_getSalesPeriodToDate(config, start, end)
+  const l1_salesPeriodToDate = totalOnly ? [] : l1_getSalesPeriodToDate(config, start, end)
+  const l2_salesPeriodToDate = totalOnly ? [] : l2_getSalesPeriodToDate(config, start, end)
+  const l3_salesPeriodToDate = totalOnly ? [] : config.l3_field ? l3_getSalesPeriodToDate(config, start, end) : []
+  const l4_salesPeriodToDate = totalOnly ? [] : config.l4_field ? l4_getSalesPeriodToDate(config, start, end) : []
+  const l0_salesPeriodToDate = l0_getSalesPeriodToDate(config, start, end)
+
+  const allSalesP = await Promise.all([
+    l1_so,
+    l2_so,
+    l3_so,
+    l4_so,
+    l0_so,
+    l1_so_byWk,
+    l2_so_byWk,
+    l3_so_byWk,
+    l4_so_byWk,
+    l0_so_byWk,
+    // l1_soTagged,
+    // l2_soTagged,
+    // l3_soTagged,
+    // l4_soTagged,
+    // l0_soTagged,
+    // l1_soTagged_byWk,
+    // l2_soTagged_byWk,
+    // l3_soTagged_byWk,
+    // l4_soTagged_byWk,
+    // l0_soTagged_byWk,
+    l1_soUntagged,
+    l2_soUntagged,
+    l3_soUntagged,
+    l4_soUntagged,
+    l0_soUntagged,
+    l1_soUntagged_byWk,
+    l2_soUntagged_byWk,
+    l3_soUntagged_byWk,
+    l4_soUntagged_byWk,
+    l0_soUntagged_byWk,
+    l1_salesByFy,
+    l2_salesByFy,
+    l3_salesByFy,
+    l4_salesByFy,
+    l0_salesByFy,
+    l1_salesByFyYtd,
+    l2_salesByFyYtd,
+    l3_salesByFyYtd,
+    l4_salesByFyYtd,
+    l0_salesByFyYtd,
+    l1_salesByWk,
+    l2_salesByWk,
+    l3_salesByWk,
+    l4_salesByWk,
+    l0_salesByWk,
+    l1_salesPeriodToDate,
+    l2_salesPeriodToDate,
+    l3_salesPeriodToDate,
+    l4_salesPeriodToDate,
+    l0_salesPeriodToDate,
+  ])
+
+  const allSales = allSalesP.flat()
+
+  console.log('allSales', allSales)
 
   const companyTotalSales = await getCompanyTotalSales(start, end, config)
 
