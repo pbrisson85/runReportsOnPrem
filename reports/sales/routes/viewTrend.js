@@ -9,6 +9,7 @@ const labelCols_byUsVsExport = require('../queries/hardcode/cols_byUsVsExport')
 const labelCols_byNorthAmericaVsForeign = require('../queries/hardcode/cols_byNorthAmericaVsForeign')
 const labelCols_byCountry = require('../queries/hardcode/cols_byCountry')
 const labelCols_byState = require('../queries/hardcode/cols_byState')
+const labelCols_byFreshFrozen = require('../queries/hardcode/cols_byFreshFrozen')
 
 const getReportConfig = require('../utils/getReportConfig')
 const getViewTrendConfig = require('../utils/getViewTrendConfig')
@@ -60,6 +61,9 @@ router.post('/', async (req, res) => {
       break
     case 'Trend By State':
       cols = labelCols_byState
+      break
+    case 'Trend By Fresh vs Frozen':
+      cols = labelCols_byFreshFrozen
       break
   }
 

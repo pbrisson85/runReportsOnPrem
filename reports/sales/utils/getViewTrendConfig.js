@@ -97,6 +97,13 @@ const getViewTrendConfig = rightMenuSelection => {
         },
         inv: {},
       }
+
+    case 'Trend By Fresh vs Frozen':
+      return {
+        sl: { l1_label: 'ms.fg_fresh_frozen' },
+        so: { l1_label: 'ms.fg_fresh_frozen' },
+        inv: { l1_label: 'ms.fg_fresh_frozen' },
+      }
   }
 }
 
