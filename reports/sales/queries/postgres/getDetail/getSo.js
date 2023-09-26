@@ -22,6 +22,7 @@ const getSo_detail = async config => {
         ${config.state ? sql`AND so.state = ${config.state}`: sql``} 
         ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
         ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``} 
+        ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
@@ -59,6 +60,7 @@ const getSoTagged_detail = async config => {
         ${config.state ? sql`AND so.state = ${config.state}`: sql``} 
         ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
         ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``} 
+        ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
@@ -96,6 +98,7 @@ const getSoUntagged_detail = async config => {
         ${config.state ? sql`AND so.state = ${config.state}`: sql``} 
         ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
         ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``} 
+        ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 

@@ -37,6 +37,7 @@ const l1_getSalesByFyYtd = async (config, start, end, showYtd, trendQuery) => {
         ${config.state ? sql`AND sl.state = ${config.state}`: sql``} 
         ${config.export ? sql`AND sl.domestic = ${config.export}`: sql``} 
         ${config.northAmerica ? sql`AND sl.north_america = ${config.northAmerica}`: sql``} 
+        ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
@@ -95,6 +96,7 @@ const l0_getSalesByFyYtd = async (config, start, end, showYtd) => {
         ${config.state ? sql`AND sl.state = ${config.state}`: sql``} 
         ${config.export ? sql`AND sl.domestic = ${config.export}`: sql``} 
         ${config.northAmerica ? sql`AND sl.north_america = ${config.northAmerica}`: sql``} 
+        ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
