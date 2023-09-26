@@ -3,7 +3,7 @@ const buildReport = require('../routines/baseReport')
 const { getStartOfWeek } = require('../queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../queries/postgres/getWeekForDate')
 const getDefaults = require('../utils/getReportDefaults')
-const getCols = require('../queries/hardcode/cols')
+const getCols = require('../queries/hardcode/cols_baseReport')
 const getReportConfig = require('../utils/getReportConfig')
 
 // @route   POST /api/sales/byProgram
