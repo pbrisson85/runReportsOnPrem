@@ -10,6 +10,8 @@ const getSo_detail = async config => {
       FROM "salesReporting".sales_orders AS so
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
+        LEFT OUTER JOIN "masters".customer_supplement AS cs 
+          ON cs.customer_code = so.customer_code
           
       WHERE 
         so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
@@ -17,6 +19,7 @@ const getSo_detail = async config => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
+        ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 
         ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
         ${config.country ? sql`AND so.country = ${config.country}`: sql``} 
         ${config.state ? sql`AND so.state = ${config.state}`: sql``} 
@@ -47,6 +50,8 @@ const getSoTagged_detail = async config => {
       FROM "salesReporting".sales_orders AS so
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
+        LEFT OUTER JOIN "masters".customer_supplement AS cs 
+          ON cs.customer_code = so.customer_code
           
       WHERE 
         so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
@@ -55,6 +60,7 @@ const getSoTagged_detail = async config => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
+        ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 
         ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
         ${config.country ? sql`AND so.country = ${config.country}`: sql``} 
         ${config.state ? sql`AND so.state = ${config.state}`: sql``} 
@@ -85,6 +91,8 @@ const getSoUntagged_detail = async config => {
       FROM "salesReporting".sales_orders AS so
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
+        LEFT OUTER JOIN "masters".customer_supplement AS cs 
+          ON cs.customer_code = so.customer_code
           
       WHERE 
         so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
@@ -93,6 +101,7 @@ const getSoUntagged_detail = async config => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
+        ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 
         ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
         ${config.country ? sql`AND so.country = ${config.country}`: sql``} 
         ${config.state ? sql`AND so.state = ${config.state}`: sql``} 
