@@ -24,6 +24,8 @@ const l1_getSo_byWk = async (config, trendQuery) => {
         FROM "salesReporting".sales_orders AS so
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = so.item_num 
+          LEFT OUTER JOIN "masters".customer_supplement AS cs 
+            ON cs.customer_code = so.customer_code 
          
         WHERE 
           so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
@@ -84,6 +86,8 @@ const l1_getSoTagged_byWk = async (config, trendQuery) => {
           FROM "salesReporting".sales_orders AS so
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = so.item_num 
+            LEFT OUTER JOIN "masters".customer_supplement AS cs 
+              ON cs.customer_code = so.customer_code 
            
           WHERE 
             so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
@@ -145,6 +149,8 @@ const l1_getSoUntagged_byWk = async (config, trendQuery) => {
       FROM "salesReporting".sales_orders AS so
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
+        LEFT OUTER JOIN "masters".customer_supplement AS cs 
+          ON cs.customer_code = so.customer_code 
       
       WHERE 
         so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
@@ -203,6 +209,8 @@ const l0_getSo_byWk = async config => {
            FROM "salesReporting".sales_orders AS so
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = so.item_num 
+            LEFT OUTER JOIN "masters".customer_supplement AS cs 
+              ON cs.customer_code = so.customer_code 
            
            WHERE 
             so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
@@ -250,6 +258,8 @@ const l0_getSoTagged_byWk = async config => {
       FROM "salesReporting".sales_orders AS so
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
+        LEFT OUTER JOIN "masters".customer_supplement AS cs 
+          ON cs.customer_code = so.customer_code 
       
       WHERE 
         so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
@@ -298,6 +308,8 @@ const l0_getSoUntagged_byWk = async config => {
       FROM "salesReporting".sales_orders AS so
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
+        LEFT OUTER JOIN "masters".customer_supplement AS cs 
+          ON cs.customer_code = so.customer_code 
       
       WHERE 
         so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 

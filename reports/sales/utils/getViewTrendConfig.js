@@ -104,6 +104,13 @@ const getViewTrendConfig = rightMenuSelection => {
         so: { l1_label: 'ms.fg_fresh_frozen' },
         inv: { l1_label: 'ms.fg_fresh_frozen' },
       }
+
+    case 'Trend By Customer Type':
+      return {
+        sl: { l1_label: 'cs.category' },
+        so: { l1_label: 'cs.category' },
+        inv: {},
+      }
   }
 }
 

@@ -34,6 +34,7 @@ const getReportConfig = reqBody => {
     queryLevel: reqBody.queryLevel ?? null,
     itemType: reqBody.itemType ?? 'FG',
     freshFrozen: reqBody.freshFrozen ?? null,
+    custType: reqBody.custType ?? null,
     jbBuyerFilter,
     user: reqBody.user ?? null,
     subtotalRowFormats: {

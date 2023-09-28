@@ -26,12 +26,15 @@ const l1_getSalesByFyYtd = async (config, start, end, showYtd, trendQuery) => {
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
+        LEFT OUTER JOIN "masters".customer_supplement AS cs 
+              ON cs.customer_code = sl.customer_code
           
       WHERE 
         ${config.itemType ? sql`ms.item_type = ${config.itemType}`: sql`ms.item_type IS NOT NULL`} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
+        ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 
         ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
         ${config.country ? sql`AND sl.country = ${config.country}`: sql``} 
         ${config.state ? sql`AND sl.state = ${config.state}`: sql``} 
@@ -85,12 +88,15 @@ const l0_getSalesByFyYtd = async (config, start, end, showYtd) => {
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
+        LEFT OUTER JOIN "masters".customer_supplement AS cs 
+          ON cs.customer_code = sl.customer_code
       
       WHERE 
         ${config.itemType ? sql`ms.item_type = ${config.itemType}`: sql`ms.item_type IS NOT NULL`} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``}   
+        ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 
         ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
         ${config.country ? sql`AND sl.country = ${config.country}`: sql``} 
         ${config.state ? sql`AND sl.state = ${config.state}`: sql``} 

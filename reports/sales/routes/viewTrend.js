@@ -4,6 +4,7 @@ const { getWeekForDate } = require('../queries/postgres/getWeekForDate')
 const viewTrend = require('../routines/viewTrend')
 const labelCols_byItem = require('../queries/hardcode/cols_byItem')
 const labelCols_byCustomer = require('../queries/hardcode/cols_byCustomer')
+const labelCols_byCustType = require('../queries/hardcode/cols_byCustType')
 const labelCols_bySalesperson = require('../queries/hardcode/cols_bySalesperson')
 const labelCols_byUsVsExport = require('../queries/hardcode/cols_byUsVsExport')
 const labelCols_byNorthAmericaVsForeign = require('../queries/hardcode/cols_byNorthAmericaVsForeign')
@@ -64,6 +65,9 @@ router.post('/', async (req, res) => {
       break
     case 'Trend By Fresh vs Frozen':
       cols = labelCols_byFreshFrozen
+      break
+    case 'Trend By Customer Type':
+      cols = labelCols_byCustType
       break
   }
 

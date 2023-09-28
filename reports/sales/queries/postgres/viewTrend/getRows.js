@@ -19,7 +19,9 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
         
         FROM "salesReporting".sales_line_items AS sl
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-              ON ms.item_num = sl.item_number 
+              ON ms.item_num = sl.item_number
+            LEFT OUTER JOIN "masters".customer_supplement AS cs 
+              ON cs.customer_code = sl.customer_code
               
         WHERE 
             ${config.itemType ? sql`ms.item_type = ${config.itemType}`: sql`ms.item_type IS NOT NULL`} 
@@ -27,6 +29,7 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}
             ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``}  
+            ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 
             ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
             ${config.country ? sql`AND sl.country = ${config.country}`: sql``} 
             ${config.state ? sql`AND sl.state = ${config.state}`: sql``} 
@@ -61,13 +64,16 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
         FROM "salesReporting".sales_orders AS so
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = so.item_num 
-              
+            LEFT OUTER JOIN "masters".customer_supplement AS cs 
+              ON cs.customer_code = so.customer_code
+
         WHERE 
             so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)  
             ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
-            ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``}
+            ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
+            ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 
             ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
             ${config.country ? sql`AND so.country = ${config.country}`: sql``} 
             ${config.state ? sql`AND so.state = ${config.state}`: sql``} 

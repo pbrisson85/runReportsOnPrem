@@ -26,6 +26,8 @@ const l1_getSalesByWk = async (config, start, end, trendQuery) => {
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
+        LEFT OUTER JOIN "masters".customer_supplement AS cs 
+          ON cs.customer_code = sl.customer_code
       
       WHERE 
         sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
@@ -33,6 +35,7 @@ const l1_getSalesByWk = async (config, start, end, trendQuery) => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
+        ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 
         ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
         ${config.country ? sql`AND sl.country = ${config.country}`: sql``} 
         ${config.state ? sql`AND sl.state = ${config.state}`: sql``} 
@@ -88,6 +91,8 @@ const l1_getSalesPeriodToDate = async (config, start, end, trendQuery) => {
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
+        LEFT OUTER JOIN "masters".customer_supplement AS cs 
+          ON cs.customer_code = sl.customer_code
       
       WHERE 
         sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
@@ -95,6 +100,7 @@ const l1_getSalesPeriodToDate = async (config, start, end, trendQuery) => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
+        ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 
         ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
         ${config.country ? sql`AND sl.country = ${config.country}`: sql``} 
         ${config.state ? sql`AND sl.state = ${config.state}`: sql``} 
@@ -145,6 +151,8 @@ const l0_getSalesByWk = async (config, start, end) => {
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
+        LEFT OUTER JOIN "masters".customer_supplement AS cs 
+          ON cs.customer_code = sl.customer_code
       
       WHERE 
         sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
@@ -152,6 +160,7 @@ const l0_getSalesByWk = async (config, start, end) => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
+        ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 
         ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
         ${config.country ? sql`AND sl.country = ${config.country}`: sql``} 
         ${config.state ? sql`AND sl.state = ${config.state}`: sql``} 
@@ -194,6 +203,8 @@ const l0_getSalesPeriodToDate = async (config, start, end) => {
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
+        LEFT OUTER JOIN "masters".customer_supplement AS cs 
+          ON cs.customer_code = sl.customer_code
       
       WHERE 
         sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
@@ -201,6 +212,7 @@ const l0_getSalesPeriodToDate = async (config, start, end) => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
+        ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 
         ${config.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.salesPerson}`: sql``} 
         ${config.country ? sql`AND sl.country = ${config.country}`: sql``} 
         ${config.state ? sql`AND sl.state = ${config.state}`: sql``} 
