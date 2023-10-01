@@ -1,5 +1,5 @@
 const invenFgCols = require('./colsInvenFg')
-const purchaseOrderCols = require('./purchaseOrderCols')
+const purchaseOrderCols = require('./colsPurchaseOrder')
 const salesOrderCols = require('./colsSalesOrder')
 const salesInvoiceCols = require('./colsSalesInvoice')
 
