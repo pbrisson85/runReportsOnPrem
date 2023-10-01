@@ -1,6 +1,6 @@
 // This applies to all columns with a colType: 'invenFg'
 
-export const invenFgCols = [
+const invenFgCols = [
   {
     unfilteredColIdx: 99, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
     displayName: 'Item', // show as column header
@@ -457,3 +457,5 @@ export const invenFgCols = [
     defaultSort: false,
   },
 ]
+
+module.exports = invenFgCols

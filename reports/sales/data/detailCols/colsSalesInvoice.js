@@ -1,6 +1,6 @@
 // This applies to all columns with acolType: 'salesInvoice'
 
-export const salesInvoiceCols = [
+const salesInvoiceCols = [
   // {
   //   unfilteredColIdx: 99, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
   //   displayName: 'No Cost', // show as column header
@@ -919,3 +919,5 @@ export const salesInvoiceCols = [
     defaultSort: false,
   },
 ]
+
+module.exports = salesInvoiceCols

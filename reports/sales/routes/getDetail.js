@@ -12,7 +12,7 @@ const { getFgPo_detail } = require('../queries/postgres/getDetail/getFgOpenPo')
 const { getSales_detail } = require('../queries/postgres/getDetail/getSales')
 const { getSo_detail, getSoTagged_detail, getSoUntagged_detail } = require('../queries/postgres/getDetail/getSo')
 const { getSoByWk_detail, getSoByWkTagged_detail, getSoByWkUntagged_detail } = require('../queries/postgres/getDetail/getSoByWeek')
-const { detailColsMap } = require('../data/detailCols/colsMap')
+const detailColsMap = require('../data/detailCols/colsMap')
 
 // @route   POST /api/sales/detail/forProgBySpecBrndSize/
 // @desc

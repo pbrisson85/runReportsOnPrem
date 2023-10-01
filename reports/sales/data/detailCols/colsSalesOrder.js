@@ -1,6 +1,6 @@
 // This applies to all columns with a colType: 'salesOrder'
 
-export const salesOrderCols = [
+const salesOrderCols = [
   // {
   //   unfilteredColIdx: 99, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
   //   displayName: 'No Cost', // show as column header
@@ -1648,3 +1648,5 @@ export const salesOrderCols = [
     defaultSort: false,
   },
 ]
+
+module.exports = salesOrderCols
