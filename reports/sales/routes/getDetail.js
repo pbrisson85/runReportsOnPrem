@@ -12,7 +12,7 @@ const { getFgPo_detail } = require('../queries/postgres/getDetail/getFgOpenPo')
 const { getSales_detail } = require('../queries/postgres/getDetail/getSales')
 const { getSo_detail, getSoTagged_detail, getSoUntagged_detail } = require('../queries/postgres/getDetail/getSo')
 const { getSoByWk_detail, getSoByWkTagged_detail, getSoByWkUntagged_detail } = require('../queries/postgres/getDetail/getSoByWeek')
-const { getSoByCust_detail } = require('../queries/postgres/getDetail/getSoByCust')
+const { detailColsMap } = require('../data/detailCols/colsMap')
 
 // @route   POST /api/sales/detail/forProgBySpecBrndSize/
 // @desc
@@ -105,7 +105,7 @@ router.post('/', async (req, res) => {
   }
 
   // Assign columns
-  const cols = getSoByCust_detail[colType]
+  const cols = detailColsMap[colType]
 
   console.log(`${config.user} - get detail data for ${reportFormat} route COMPLETE. \n`)
   res.send({ data, cols })
