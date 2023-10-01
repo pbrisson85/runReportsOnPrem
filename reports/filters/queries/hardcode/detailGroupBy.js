@@ -58,4 +58,4 @@ const groupByOptions = {
   ],
 }
 
-export default groupByOptions
+module.exports = groupByOptions
