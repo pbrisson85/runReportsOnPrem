@@ -18,7 +18,7 @@ const getSales_detail = async (config, start, end, year) => {
       WHERE 
         sl.week >= ${start} AND sl.week <= ${end} 
         AND sl.fiscal_year = ${year} 
-        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 

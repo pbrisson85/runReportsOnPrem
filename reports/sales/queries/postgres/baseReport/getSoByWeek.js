@@ -13,7 +13,7 @@ const l1_getSo_byWk = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``}
+        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``}
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
@@ -39,7 +39,7 @@ const l1_getSoTagged_byWk = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND sales_orders.tagged_weight > 0 
@@ -66,7 +66,7 @@ const l1_getSoUntagged_byWk = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND sales_orders.untagged_weight > 0 
@@ -95,7 +95,7 @@ const l2_getSo_byWk = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
@@ -121,7 +121,7 @@ const l2_getSoTagged_byWk = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND sales_orders.tagged_weight > 0 
@@ -148,7 +148,7 @@ const l2_getSoUntagged_byWk = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND sales_orders.untagged_weight > 0 
@@ -177,7 +177,7 @@ const l3_getSo_byWk = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
@@ -203,7 +203,7 @@ const l3_getSoTagged_byWk = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND sales_orders.tagged_weight > 0 
@@ -230,7 +230,7 @@ const l3_getSoUntagged_byWk = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND sales_orders.untagged_weight > 0 
@@ -259,7 +259,7 @@ const l4_getSo_byWk = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
@@ -285,7 +285,7 @@ const l4_getSoTagged_byWk = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND sales_orders.tagged_weight > 0 
@@ -312,7 +312,7 @@ const l4_getSoUntagged_byWk = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND sales_orders.untagged_weight > 0 
@@ -341,7 +341,7 @@ const l0_getSo_byWk = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
@@ -367,7 +367,7 @@ const l0_getSoTagged_byWk = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND sales_orders.tagged_weight > 0 
@@ -394,7 +394,7 @@ const l0_getSoUntagged_byWk = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND sales_orders.untagged_weight > 0 

@@ -30,7 +30,7 @@ const l1_getSalesByFyYtd = async (config, start, end, showYtd, trendQuery) => {
               ON cs.customer_code = sl.customer_code
           
       WHERE 
-        ${config.itemType ? sql`ms.item_type IN ${config.itemType}`: sql`ms.item_type IS NOT NULL`} 
+        ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
@@ -92,7 +92,7 @@ const l0_getSalesByFyYtd = async (config, start, end, showYtd) => {
           ON cs.customer_code = sl.customer_code
       
       WHERE 
-        ${config.itemType ? sql`ms.item_type IN ${config.itemType}`: sql`ms.item_type IS NOT NULL`} 
+        ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``}   
