@@ -17,6 +17,9 @@ const getReportConfig = reqBody => {
   const appSettingsData = appSettings()
   const appSettings_unflat = unflattenByCompositKey(appSettingsData, { 1: 'dataName' })
 
+  reqBody.itemType = reqBody.itemType.replace(/\\/g, '')
+  console.log('reqBody.itemType: ', reqBody.itemType)
+
   // define config object
   let config = {
     program: typeof reqBody.program === 'undefined' ? null : reqBody.program === 'all' ? null : reqBody.program,
