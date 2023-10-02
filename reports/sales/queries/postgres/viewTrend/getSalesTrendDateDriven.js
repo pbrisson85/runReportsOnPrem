@@ -31,7 +31,7 @@ const l1_getSalesByWk = async (config, start, end, trendQuery) => {
       
       WHERE 
         sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
-        ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
@@ -96,7 +96,7 @@ const l1_getSalesPeriodToDate = async (config, start, end, trendQuery) => {
       
       WHERE 
         sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
-        ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
@@ -156,7 +156,7 @@ const l0_getSalesByWk = async (config, start, end) => {
       
       WHERE 
         sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
-        ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
@@ -208,7 +208,7 @@ const l0_getSalesPeriodToDate = async (config, start, end) => {
       
       WHERE 
         sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
-        ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 

@@ -17,7 +17,7 @@ const getFgInven_detail = async config => {
           WHERE 
             pi.on_hand_lbs <> 0 
             AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
-            ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+            ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
             ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
@@ -53,7 +53,7 @@ const getFgInTransit_detail = async config => {
             pi.on_hand_lbs <> 0 
             AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             AND pi.location_type = ${'IN TRANSIT'} 
-            ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+            ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
             ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
@@ -88,7 +88,7 @@ const getFgAtLoc_detail = async config => {
             pi.on_hand_lbs <> 0 
             AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             AND pi.location_type <> ${'IN TRANSIT'} 
-            ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+            ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
             ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
@@ -125,7 +125,7 @@ const getFgAtLoc_untagged_detail = async config => {
                 pi.on_hand_lbs <> 0 
                 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
                 AND pi.location_type <> ${'IN TRANSIT'} 
-                ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+                ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
                 ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
                 ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
                 ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
@@ -146,7 +146,7 @@ const getFgAtLoc_untagged_detail = async config => {
                   
               WHERE 
                 ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
-                ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+                ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
                 ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
                 ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
                 ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
@@ -185,7 +185,7 @@ const getFgAtLoc_tagged_detail = async config => {
           
           WHERE 
             ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
-            ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+            ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
             ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  

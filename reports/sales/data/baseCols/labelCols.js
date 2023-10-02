@@ -53,7 +53,7 @@ const getCols = body => {
       return applyTemplate(template, frzBrndSoakSize)
 
     default:
-      return applyTemplate(template, speciesgroupProg)
+      return applyTemplate(template, speciesgroupProgFrz) // must match default in config file
   }
 }
 

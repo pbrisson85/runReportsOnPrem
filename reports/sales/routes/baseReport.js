@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
 
   // If start, or end passed then default (COULD ADD THIS TO THE CONFIG FILE + add explanation, why would it be undefined)
   let defaultDateFlag = false
-  if (typeof typeof start === 'undefined' || typeof end === 'undefined') {
+  if (typeof start === 'undefined' || typeof end === 'undefined') {
     const { defaultStart, defaultEnd, defaultYear } = await getDefaults()
     start = defaultStart
     end = defaultEnd
@@ -51,31 +51,31 @@ router.post('/', async (req, res) => {
   /* INCLUDE NON FG */
   if (showNonFg) {
     // get seconds row
-    config.itemType = 'SECONDS'
+    config.itemType = ['SECONDS']
     const seconds = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
     seconds.data[0].totalRow = false
     seconds.data[0].nonFgRow = true
 
     // get by product row
-    config.itemType = 'BY PRODUCT'
+    config.itemType = ['BY PRODUCT']
     const byProduct = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
     byProduct.data[0].totalRow = false
     byProduct.data[0].nonFgRow = true
 
     // get RM row
-    config.itemType = 'RM'
+    config.itemType = ['RM']
     const rm = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
     rm.data[0].totalRow = false
     rm.data[0].nonFgRow = true
 
     // get Non Seafood row
-    config.itemType = 'NON-SEAFOOD'
+    config.itemType = ['NON-SEAFOOD']
     const nonSeafoodSales = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
     nonSeafoodSales.data[0].totalRow = false
     nonSeafoodSales.data[0].nonFgRow = true
 
     // get ice row
-    config.itemType = 'ICE'
+    config.itemType = ['ICE']
     const ice = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
     ice.data[0].totalRow = false
     ice.data[0].nonFgRow = true

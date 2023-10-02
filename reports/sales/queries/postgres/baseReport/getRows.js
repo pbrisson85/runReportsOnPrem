@@ -12,9 +12,9 @@ const getRowsFourthLevelDetail = async (config, start, end, showFyTrend) => {
           FROM "salesReporting".sales_line_items 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = sales_line_items.item_number 
-        
+          
           WHERE 
-            ${config.itemType ? sql`ms.item_type = ${config.itemType}`: sql`ms.item_type IS NOT NULL`} 
+            ${config.itemType ? sql`ms.item_type IN ${config.itemType}`: sql`ms.item_type IS NOT NULL`} 
             ${!showFyTrend ? sql`AND sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end}` : sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -29,7 +29,7 @@ const getRowsFourthLevelDetail = async (config, start, end, showFyTrend) => {
         
           WHERE 
             perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory)
-            ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``}  
+            ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``}  
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
           
@@ -43,7 +43,7 @@ const getRowsFourthLevelDetail = async (config, start, end, showFyTrend) => {
         
           WHERE 
             sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
-            ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+            ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
@@ -71,7 +71,7 @@ const getRowsThirdLevelDetail = async (config, start, end, showFyTrend) => {
               ON ms.item_num = sales_line_items.item_number 
         
           WHERE 
-            ${config.itemType ? sql`ms.item_type = ${config.itemType}`: sql`ms.item_type IS NOT NULL`} 
+            ${config.itemType ? sql`ms.item_type IN ${config.itemType}`: sql`ms.item_type IS NOT NULL`} 
             ${!showFyTrend ? sql`AND sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} ` : sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -86,7 +86,7 @@ const getRowsThirdLevelDetail = async (config, start, end, showFyTrend) => {
         
           WHERE 
             perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
-            ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+            ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
           
@@ -100,7 +100,7 @@ const getRowsThirdLevelDetail = async (config, start, end, showFyTrend) => {
         
           WHERE 
             sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
-            ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+            ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
@@ -125,7 +125,7 @@ const getRowsSecondLevelDetail = async (config, start, end, showFyTrend) => {
               ON ms.item_num = sales_line_items.item_number 
         
           WHERE 
-            ${config.itemType ? sql`ms.item_type = ${config.itemType}`: sql`ms.item_type IS NOT NULL`} 
+            ${config.itemType ? sql`ms.item_type IN ${config.itemType}`: sql`ms.item_type IS NOT NULL`} 
             ${!showFyTrend ? sql`AND sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} ` : sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -140,7 +140,7 @@ const getRowsSecondLevelDetail = async (config, start, end, showFyTrend) => {
         
           WHERE 
             perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
-            ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+            ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
@@ -154,7 +154,7 @@ const getRowsSecondLevelDetail = async (config, start, end, showFyTrend) => {
         
           WHERE 
             sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
-            ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+            ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
@@ -179,7 +179,7 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend) => {
               ON ms.item_num = sales_line_items.item_number 
           
           WHERE 
-            ${config.itemType ? sql`ms.item_type = ${config.itemType}`: sql`ms.item_type IS NOT NULL`} 
+            ${config.itemType ? sql`ms.item_type IN ${config.itemType}`: sql`ms.item_type IS NOT NULL`} 
             ${!showFyTrend ? sql`AND sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} ` : sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -194,7 +194,7 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend) => {
           
           WHERE 
             perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
-            ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+            ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
@@ -208,7 +208,7 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend) => {
           
           WHERE 
             sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
-            ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+            ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           

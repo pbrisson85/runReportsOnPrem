@@ -32,7 +32,7 @@ const l1_getSalesWkDriven = async (config, startWk, endWk, trendQuery, year) => 
       WHERE 
         sl.week >= ${startWk} AND sl.week <= ${endWk} 
         AND sl.fiscal_year = ${year} 
-        ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
@@ -93,7 +93,7 @@ const l0_getSalesWkDriven = async (config, startWk, endWk, year) => {
       WHERE 
         sl.week >= ${startWk} AND sl.week <= ${endWk} 
         AND sl.fiscal_year = ${year} 
-        ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 

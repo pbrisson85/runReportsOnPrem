@@ -32,7 +32,7 @@ const getReportConfig = reqBody => {
     export: reqBody.export ?? null,
     northAmerica: reqBody.northAmerica ?? null,
     queryLevel: reqBody.queryLevel ?? null,
-    itemType: reqBody.itemType ?? 'FG',
+    itemType: reqBody.itemType ?? ['FG'],
     freshFrozen: reqBody.freshFrozen ?? null,
     custType: reqBody.custType ?? null,
     jbBuyerFilter,
@@ -197,8 +197,10 @@ const getReportConfig = reqBody => {
       config = {
         l1_field: 'ms.species_group',
         l2_field: 'ms.program',
+        l3_field: 'ms.fg_fresh_frozen',
         l1_name: 'species group', // Used for filter labels on front end
         l2_name: 'program',
+        l3_name: 'fresh/frozen',
         ...config,
       }
   }

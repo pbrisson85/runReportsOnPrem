@@ -29,7 +29,7 @@ const l1_getSo_byWk = async (config, trendQuery) => {
          
         WHERE 
           so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-          ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+          ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
           ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
           ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
           ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
@@ -92,7 +92,7 @@ const l1_getSoTagged_byWk = async (config, trendQuery) => {
           WHERE 
             so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
             AND so.tagged_weight > 0  
-            ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+            ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
             ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
@@ -155,7 +155,7 @@ const l1_getSoUntagged_byWk = async (config, trendQuery) => {
       WHERE 
         so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
         AND so.untagged_weight > 0  
-        ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
@@ -214,7 +214,7 @@ const l0_getSo_byWk = async config => {
            
            WHERE 
             so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-            ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+            ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
             ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
@@ -264,7 +264,7 @@ const l0_getSoTagged_byWk = async config => {
       WHERE 
         so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
         AND so.tagged_weight > 0  
-        ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
@@ -314,7 +314,7 @@ const l0_getSoUntagged_byWk = async config => {
       WHERE 
         so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
         AND so.untagged_weight > 0  
-        ${config.itemType ? sql`AND ms.item_type = ${config.itemType}`: sql``} 
+        ${config.itemType ? sql`AND ms.item_type IN ${config.itemType}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
