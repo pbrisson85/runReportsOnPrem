@@ -21,6 +21,9 @@ const getReportConfig = reqBody => {
     console.log('reqBody.itemType: ', reqBody.itemType)
     reqBody.itemType = reqBody.itemType.replace(/""/g, '"').replace(/"\[/g, '[').replace(/\]"/g, ']').replace(/"/g, "'")
     console.log('reqBody.itemType: ', reqBody.itemType)
+
+    console.log("typeof ['FG']", typeof ['FG'])
+    console.log('typeof reqBody.itemType', typeof reqBody.itemType)
   }
 
   // define config object
