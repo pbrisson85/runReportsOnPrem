@@ -7,6 +7,8 @@ const getRowsFourthLevelDetail = async (config, start, end, showFyTrend) => {
 
   const itemTypeArray = JSON.stringify(config.itemType)
 
+  console.log('itemTypeArray', itemTypeArray)
+
   try {
     console.log(`${config.user} - query postgres to get row labels (getRowsFourthLevelDetail) ...`)
 
