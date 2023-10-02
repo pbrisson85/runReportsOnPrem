@@ -7,8 +7,6 @@ const getRowsFourthLevelDetail = async (config, start, end, showFyTrend) => {
 
   const itemTypeArray = JSON.stringify(config.itemType)
 
-  console.log('itemTypeArray', itemTypeArray)
-
   try {
     console.log(`${config.user} - query postgres to get row labels (getRowsFourthLevelDetail) ...`)
 
@@ -67,6 +65,8 @@ const getRowsThirdLevelDetail = async (config, start, end, showFyTrend) => {
   // Note showFyTrend is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
   let itemTypeArray = JSON.stringify(config.itemType)
+
+  console.log('itemTypeArray', itemTypeArray)
 
   try {
     console.log(`${config.user} - query postgres to get row labels (getRowsThirdLevelDetail) ...`)
