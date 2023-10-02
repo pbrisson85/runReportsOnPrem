@@ -63,7 +63,7 @@ const getRowsFourthLevelDetail = async (config, start, end, showFyTrend) => {
 const getRowsThirdLevelDetail = async (config, start, end, showFyTrend) => {
   // Note showFyTrend is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
-  const itemTypeArray = JSON.stringify(config.itemType)
+  let itemTypeArray = JSON.stringify(config.itemType)
 
   console.log('itemTypeArray', itemTypeArray)
 
