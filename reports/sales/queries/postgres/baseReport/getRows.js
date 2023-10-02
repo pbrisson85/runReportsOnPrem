@@ -5,8 +5,6 @@ const getRowsFourthLevelDetail = async (config, start, end, showFyTrend) => {
 
   /*${config.itemType ? sql`, REPLACE('${sql(config.itemType)}','"','') AS itemtype` : sql``}*/
 
-  const itemTypeArray = JSON.stringify(config.itemType)
-
   try {
     console.log(`${config.user} - query postgres to get row labels (getRowsFourthLevelDetail) ...`)
 
@@ -126,8 +124,6 @@ const getRowsThirdLevelDetail = async (config, start, end, showFyTrend) => {
 }
 
 const getRowsSecondLevelDetail = async (config, start, end, showFyTrend) => {
-  const itemTypeArray = JSON.stringify(config.itemType)
-
   try {
     console.log(`${config.user} - query postgres to get row labels (getRowsSecondLevelDetail) ...`)
 
@@ -182,8 +178,6 @@ const getRowsSecondLevelDetail = async (config, start, end, showFyTrend) => {
 }
 
 const getRowsFirstLevelDetail = async (config, start, end, showFyTrend) => {
-  const itemTypeArray = JSON.stringify(config.itemType)
-
   try {
     console.log(`${config.user} - query postgres to get row labels (getRowsFirstLevelDetail) ...`)
 

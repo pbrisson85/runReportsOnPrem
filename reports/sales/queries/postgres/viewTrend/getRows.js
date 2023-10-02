@@ -6,8 +6,6 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
 
     // NOTE THAT CURRENTLY OPEN POS ARE IN THE INVENTORY TABLE. BELOW WOULD NEED TO QUERY THE PO TABLE IF IT IS MOVED.
 
-    const itemTypeArray = JSON.stringify(config.itemType)
-
     const response = await sql
       `SELECT 
           ${trendQuery.sl.l1_label ? sql`${sql(trendQuery.sl.l1_label)} AS l1_label,`: sql``} 
