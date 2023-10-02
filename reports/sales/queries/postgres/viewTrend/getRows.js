@@ -6,7 +6,7 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
 
     // NOTE THAT CURRENTLY OPEN POS ARE IN THE INVENTORY TABLE. BELOW WOULD NEED TO QUERY THE PO TABLE IF IT IS MOVED.
 
-    const itemTypeArray = JSON.stringify(config.itemType).replace(/"/g, "'")
+    const itemTypeArray = JSON.stringify(config.itemType)
 
     const response = await sql
       `SELECT 
@@ -17,7 +17,7 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
           ${trendQuery.sl.l5_label ? sql`${sql(trendQuery.sl.l5_label)} AS l5_label,`: sql``} 
           ${trendQuery.sl.l6_label ? sql`${sql(trendQuery.sl.l6_label)} AS l6_label,`: sql``} 
           ${trendQuery.sl.l7_label ? sql`${sql(trendQuery.sl.l7_label)} AS l7_label,`: sql``} 
-          ${config.queryLevel} AS datalevel ${config.itemType ? sql`, ${sql(itemTypeArray)} AS itemtype` : sql``} 
+          ${config.queryLevel} AS datalevel ${config.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``} 
         
         FROM "salesReporting".sales_line_items AS sl
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -61,7 +61,7 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
           ${trendQuery.so.l5_label ? sql`${sql(trendQuery.so.l5_label)} AS l5_label,`: sql``} 
           ${trendQuery.so.l6_label ? sql`${sql(trendQuery.so.l6_label)} AS l6_label,`: sql``} 
           ${trendQuery.so.l7_label ? sql`${sql(trendQuery.so.l7_label)} AS l7_label,`: sql``} 
-          ${config.queryLevel} AS datalevel ${config.itemType ? sql`, ${sql(itemTypeArray)} AS itemtype` : sql``} 
+          ${config.queryLevel} AS datalevel ${config.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``} 
         
         FROM "salesReporting".sales_orders AS so
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -107,7 +107,7 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
           ${trendQuery.inv.l5_label ? sql`${sql(trendQuery.inv.l5_label)} AS l5_label,`: sql``} 
           ${trendQuery.inv.l6_label ? sql`${sql(trendQuery.inv.l6_label)} AS l6_label,`: sql``} 
           ${trendQuery.inv.l7_label ? sql`${sql(trendQuery.inv.l7_label)} AS l7_label,`: sql``}
-          ${config.queryLevel} AS datalevel ${config.itemType ? sql`, ${sql(itemTypeArray)} AS itemtype` : sql``} 
+          ${config.queryLevel} AS datalevel ${config.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``} 
         
         FROM "invenReporting".perpetual_inventory 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
