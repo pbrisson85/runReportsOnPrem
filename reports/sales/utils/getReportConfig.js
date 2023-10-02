@@ -19,7 +19,7 @@ const getReportConfig = reqBody => {
 
   if (typeof reqBody.itemType !== 'undefined') {
     console.log('reqBody.itemType: ', reqBody.itemType)
-    reqBody.itemType = reqBody.itemType.replace(/""/g, '"').replace(/"\[/g, '[').replace(/\]"/g, ']')
+    reqBody.itemType = reqBody.itemType.replace(/""/g, '"').replace(/"\[/g, '[').replace(/\]"/g, ']').replace(/"/g, "'")
     console.log('reqBody.itemType: ', reqBody.itemType)
   }
 
