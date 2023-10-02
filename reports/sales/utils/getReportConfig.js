@@ -32,7 +32,7 @@ const getReportConfig = reqBody => {
     export: reqBody.export ?? null,
     northAmerica: reqBody.northAmerica ?? null,
     queryLevel: reqBody.queryLevel ?? null,
-    itemType: reqBody.itemType ?? ['FG'],
+    itemType: typeof reqBody.itemType === 'undefined' || reqBody.itemType === null ? ['FG'] : json.parse(reqBody.itemType),
     freshFrozen: reqBody.freshFrozen ?? null,
     custType: reqBody.custType ?? null,
     jbBuyerFilter,
