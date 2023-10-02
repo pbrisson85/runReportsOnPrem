@@ -66,6 +66,12 @@ const getRowsThirdLevelDetail = async (config, start, end, showFyTrend) => {
 
   let itemTypeArray = JSON.stringify(config.itemType)
 
+  console.log('itemTypeArray', itemTypeArray)
+
+  itemTypeArray = itemTypeArray.replace(/"/g, "'")
+
+  console.log('itemTypeArray', itemTypeArray)
+
   try {
     console.log(`${config.user} - query postgres to get row labels (getRowsThirdLevelDetail) ...`)
 
