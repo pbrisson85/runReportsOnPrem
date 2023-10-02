@@ -3,13 +3,14 @@ const sql = require('../../../../../server')
 const getRowsFourthLevelDetail = async (config, start, end, showFyTrend) => {
   // Note showFyTrend is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
-  /*${config.itemType ? sql`, REPLACE('${sql(config.itemType)}','"','') AS itemtype` : sql``}*/
+  /*${config.itemType ? sql`, REPLACE('${sql(itemTypeArray)}','"','') AS itemtype` : sql``}*/
+  const itemTypeArray = JSON.stringify(config.itemType)
 
   try {
     console.log(`${config.user} - query postgres to get row labels (getRowsFourthLevelDetail) ...`)
 
     const response = await sql
-        `SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, 4 AS datalevel ${config.itemType ? sql`, '${sql(config.itemType)}' AS itemtype` : sql``}
+        `SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, 4 AS datalevel ${config.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}
         
           FROM "salesReporting".sales_line_items 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -23,7 +24,7 @@ const getRowsFourthLevelDetail = async (config, start, end, showFyTrend) => {
           
           GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)} 
         
-        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, 4 AS datalevel ${config.itemType ? sql`, '${sql(config.itemType)}' AS itemtype` : sql``}  
+        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, 4 AS datalevel ${config.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
         
           FROM "invenReporting".perpetual_inventory 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -37,7 +38,7 @@ const getRowsFourthLevelDetail = async (config, start, end, showFyTrend) => {
           
           GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)} 
         
-        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, 4 AS datalevel ${config.itemType ? sql`, '${sql(config.itemType)}' AS itemtype` : sql``}  
+        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, 4 AS datalevel ${config.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
         
           FROM "salesReporting".sales_orders 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -62,7 +63,7 @@ const getRowsFourthLevelDetail = async (config, start, end, showFyTrend) => {
 const getRowsThirdLevelDetail = async (config, start, end, showFyTrend) => {
   // Note showFyTrend is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
-  let itemTypeArray = JSON.stringify(config.itemType)
+  const itemTypeArray = JSON.stringify(config.itemType)
 
   console.log('itemTypeArray', itemTypeArray)
 
@@ -74,7 +75,7 @@ const getRowsThirdLevelDetail = async (config, start, end, showFyTrend) => {
     console.log(`${config.user} - query postgres to get row labels (getRowsThirdLevelDetail) ...`)
 
     const response = await sql
-        `SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``}, 3 AS datalevel ${config.itemType ? sql`, '${sql(config.itemType)}' AS itemtype` : sql``} 
+        `SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``}, 3 AS datalevel ${config.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``} 
         
           FROM "salesReporting".sales_line_items 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -88,7 +89,7 @@ const getRowsThirdLevelDetail = async (config, start, end, showFyTrend) => {
           
           GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)} 
         
-        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``}, 3 AS datalevel ${config.itemType ? sql`, '${sql(config.itemType)}' AS itemtype` : sql``}  
+        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``}, 3 AS datalevel ${config.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
         
           FROM "invenReporting".perpetual_inventory 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -102,7 +103,7 @@ const getRowsThirdLevelDetail = async (config, start, end, showFyTrend) => {
           
           GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)} 
         
-        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``}, 3 AS datalevel ${config.itemType ? sql`, '${sql(config.itemType)}' AS itemtype` : sql``}  
+        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``}, 3 AS datalevel ${config.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
         
           FROM "salesReporting".sales_orders 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -124,11 +125,13 @@ const getRowsThirdLevelDetail = async (config, start, end, showFyTrend) => {
 }
 
 const getRowsSecondLevelDetail = async (config, start, end, showFyTrend) => {
+  const itemTypeArray = JSON.stringify(config.itemType)
+
   try {
     console.log(`${config.user} - query postgres to get row labels (getRowsSecondLevelDetail) ...`)
 
     const response = await sql
-        `SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``}, 2 AS datalevel ${config.itemType ? sql`, '${sql(config.itemType)}' AS itemtype` : sql``}
+        `SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``}, 2 AS datalevel ${config.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}
         
           FROM "salesReporting".sales_line_items 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -142,7 +145,7 @@ const getRowsSecondLevelDetail = async (config, start, end, showFyTrend) => {
           
           GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)} 
         
-        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``}, 2 AS datalevel ${config.itemType ? sql`, '${sql(config.itemType)}' AS itemtype` : sql``} 
+        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``}, 2 AS datalevel ${config.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``} 
         
           FROM "invenReporting".perpetual_inventory 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -156,7 +159,7 @@ const getRowsSecondLevelDetail = async (config, start, end, showFyTrend) => {
           
           GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)} 
         
-        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``}, 2 AS datalevel ${config.itemType ? sql`, '${sql(config.itemType)}' AS itemtype` : sql``} 
+        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``}, 2 AS datalevel ${config.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``} 
         
           FROM "salesReporting".sales_orders 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -178,11 +181,13 @@ const getRowsSecondLevelDetail = async (config, start, end, showFyTrend) => {
 }
 
 const getRowsFirstLevelDetail = async (config, start, end, showFyTrend) => {
+  const itemTypeArray = JSON.stringify(config.itemType)
+
   try {
     console.log(`${config.user} - query postgres to get row labels (getRowsFirstLevelDetail) ...`)
 
     const response = await sql
-        `SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``}, 1 AS datalevel ${config.itemType ? sql`, '${sql(config.itemType)}' AS itemtype` : sql``} 
+        `SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``}, 1 AS datalevel ${config.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``} 
         
           FROM "salesReporting".sales_line_items 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -196,7 +201,7 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend) => {
           
           GROUP BY ${sql(config.l1_field)} 
         
-        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``}, 1 AS datalevel ${config.itemType ? sql`, '${sql(config.itemType)}' AS itemtype` : sql``}  
+        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``}, 1 AS datalevel ${config.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
         
           FROM "invenReporting".perpetual_inventory 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -210,7 +215,7 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend) => {
           
           GROUP BY ${sql(config.l1_field)} 
         
-        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``}, 1 AS datalevel ${config.itemType ? sql`, '${sql(config.itemType)}' AS itemtype` : sql``}  
+        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``}, 1 AS datalevel ${config.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
         
           FROM "salesReporting".sales_orders 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
