@@ -5,7 +5,13 @@ const getRowsFourthLevelDetail = async (config, start, end, showFyTrend) => {
 
   /*${config.itemType ? sql`, REPLACE('${sql(config.itemType)}','"','') AS itemtype` : sql``}*/
 
-  const itemTypeArray = JSON.stringify(config.itemType).replace(/"/g, "'") //.replace(/"/g, "'")
+  let itemTypeArray = JSON.stringify(config.itemType) //.replace(/"/g, "'")
+
+  console.log('itemTypeArray', itemTypeArray)
+
+  itemTypeArray = itemTypeArray.replace(/"/g, "'")
+
+  console.log('itemTypeArray', itemTypeArray)
 
   try {
     console.log(`${config.user} - query postgres to get row labels (getRowsFourthLevelDetail) ...`)
