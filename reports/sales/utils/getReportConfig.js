@@ -19,8 +19,18 @@ const getReportConfig = reqBody => {
 
   if (typeof reqBody.itemType !== 'undefined') {
     console.log('reqBody.itemType: ', reqBody.itemType)
-    reqBody.itemType = reqBody.itemType.replace(/\\/g, '')
-    console.log('reqBody.itemType: ', reqBody.itemType)
+    const noDoubleQuotes = reqBody.itemType.replace(/"/g, '')
+    console.log('noDoubleQuotes: ', noDoubleQuotes)
+
+    const allSingleQuotes = reqBody.itemType.replace(/"/g, "'")
+    console.log('allSingleQuotes: ', allSingleQuotes)
+
+    const replaceTwoDoubles = reqBody.itemType.replace(/""/g, '"')
+    console.log('replaceTwoDoubles: ', replaceTwoDoubles)
+
+    console.log('reqBody.itemType: ', JSON.parse(replaceTwoDoubles))
+
+    console.log('reqBody.itemType: ', JSON.parse(reqBody.itemType))
   }
 
   // define config object
