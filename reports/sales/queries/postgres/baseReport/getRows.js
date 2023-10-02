@@ -5,13 +5,7 @@ const getRowsFourthLevelDetail = async (config, start, end, showFyTrend) => {
 
   /*${config.itemType ? sql`, REPLACE('${sql(config.itemType)}','"','') AS itemtype` : sql``}*/
 
-  let itemTypeArray = JSON.stringify(config.itemType) //.replace(/"/g, "'")
-
-  console.log('itemTypeArray', itemTypeArray)
-
-  itemTypeArray = itemTypeArray.replace(/"/g, "'")
-
-  console.log('itemTypeArray', itemTypeArray)
+  const itemTypeArray = JSON.stringify(config.itemType).replace(/"/g, "'")
 
   try {
     console.log(`${config.user} - query postgres to get row labels (getRowsFourthLevelDetail) ...`)
@@ -70,7 +64,7 @@ const getRowsFourthLevelDetail = async (config, start, end, showFyTrend) => {
 const getRowsThirdLevelDetail = async (config, start, end, showFyTrend) => {
   // Note showFyTrend is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
-  const itemTypeArray = JSON.stringify(config.itemType)
+  let itemTypeArray = JSON.stringify(config.itemType)
 
   console.log('itemTypeArray', itemTypeArray)
 
