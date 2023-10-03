@@ -19,11 +19,11 @@ const getReportConfig = reqBody => {
 
   if (typeof reqBody.itemType !== 'undefined') {
     console.log('reqBody.itemType: ', reqBody.itemType)
-    reqBody.itemType = reqBody.itemType.replace(/""/g, '"').replace(/"\[/g, '[').replace(/\]"/g, ']').replace(/"/g, "'")
-    console.log('reqBody.itemType: ', reqBody.itemType)
+    reqBody.itemType = reqBody.itemType.replace(/""/g, '"').replace(/"\[/g, '').replace(/\]"/g, '').replace(/"/g, "'")
+    console.log('reqBody.itemType: ', [reqBody.itemType])
 
     console.log("typeof ['FG']", typeof ['FG'])
-    console.log('typeof reqBody.itemType', typeof reqBody.itemType)
+    console.log('typeof reqBody.itemType', typeof [reqBody.itemType])
   }
 
   // define config object
@@ -41,7 +41,7 @@ const getReportConfig = reqBody => {
     export: reqBody.export ?? null,
     northAmerica: reqBody.northAmerica ?? null,
     queryLevel: reqBody.queryLevel ?? null,
-    itemType: reqBody.itemType ?? ['FG'],
+    itemType: reqBody.itemType ? [reqBody.itemType] : ['FG'],
     freshFrozen: reqBody.freshFrozen ?? null,
     custType: reqBody.custType ?? null,
     jbBuyerFilter,
