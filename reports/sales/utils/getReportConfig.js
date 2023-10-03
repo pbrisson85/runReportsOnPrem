@@ -20,8 +20,8 @@ const getReportConfig = reqBody => {
   if (typeof reqBody.itemType !== 'undefined') {
     console.log('reqBody.itemType: ', reqBody.itemType)
     reqBody.itemType = [...reqBody.itemType.replace(/""/g, '').replace(/"\[/g, '').replace(/\]"/g, '').split(', ')]
-    console.log('reqBody.itemType: ', [reqBody.itemType])
-    console.log('typeof', typeof [reqBody.itemType])
+    console.log('reqBody.itemType: ', reqBody.itemType)
+    console.log('typeof', typeof reqBody.itemType)
   }
 
   // define config object
