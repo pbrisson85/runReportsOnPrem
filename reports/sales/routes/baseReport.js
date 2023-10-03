@@ -52,37 +52,37 @@ router.post('/', async (req, res) => {
   if (showNonFg) {
     // get seconds row
     config.itemType = ['SECONDS']
-    const seconds = buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+    const seconds = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
     seconds.data[0].totalRow = false
     seconds.data[0].nonFgRow = true
 
     // get seconds row
     config.itemType = ['FG', 'SECONDS']
-    const fgAndSeconds = buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+    const fgAndSeconds = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
     fgAndSeconds.data[0].totalRow = false
     fgAndSeconds.data[0].nonFgRow = true
 
     // get by product row
     config.itemType = ['BY PRODUCT']
-    const byProduct = buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+    const byProduct = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
     byProduct.data[0].totalRow = false
     byProduct.data[0].nonFgRow = true
 
     // get RM row
     config.itemType = ['RM']
-    const rm = buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+    const rm = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
     rm.data[0].totalRow = false
     rm.data[0].nonFgRow = true
 
     // get Non Seafood row
     config.itemType = ['NON-SEAFOOD']
-    const nonSeafoodSales = buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+    const nonSeafoodSales = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
     nonSeafoodSales.data[0].totalRow = false
     nonSeafoodSales.data[0].nonFgRow = true
 
     // get ice row
     config.itemType = ['ICE']
-    const ice = buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+    const ice = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
     ice.data[0].totalRow = false
     ice.data[0].nonFgRow = true
 
