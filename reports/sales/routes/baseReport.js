@@ -52,36 +52,50 @@ router.post('/', async (req, res) => {
   if (showNonFg) {
     // get seconds row
     config.itemType = ['SECONDS']
-    const seconds = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
-    seconds.data[0].totalRow = false
-    seconds.data[0].nonFgRow = true
+    const seconds = buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+    // seconds.data[0].totalRow = false
+    // seconds.data[0].nonFgRow = true
+
+    // get seconds row
+    config.itemType = ['FG', 'SECONDS']
+    const fgAndSeconds = buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+    // seconds.data[0].totalRow = false
+    // seconds.data[0].nonFgRow = true
 
     // get by product row
     config.itemType = ['BY PRODUCT']
-    const byProduct = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
-    byProduct.data[0].totalRow = false
-    byProduct.data[0].nonFgRow = true
+    const byProduct = buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+    // byProduct.data[0].totalRow = false
+    // byProduct.data[0].nonFgRow = true
 
     // get RM row
     config.itemType = ['RM']
-    const rm = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
-    rm.data[0].totalRow = false
-    rm.data[0].nonFgRow = true
+    const rm = buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+    // rm.data[0].totalRow = false
+    // rm.data[0].nonFgRow = true
 
     // get Non Seafood row
     config.itemType = ['NON-SEAFOOD']
-    const nonSeafoodSales = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
-    nonSeafoodSales.data[0].totalRow = false
-    nonSeafoodSales.data[0].nonFgRow = true
+    const nonSeafoodSales = buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+    // nonSeafoodSales.data[0].totalRow = false
+    // nonSeafoodSales.data[0].nonFgRow = true
 
     // get ice row
     config.itemType = ['ICE']
-    const ice = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
-    ice.data[0].totalRow = false
-    ice.data[0].nonFgRow = true
+    const ice = buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year, true)
+    // ice.data[0].totalRow = false
+    // ice.data[0].nonFgRow = true
+
+    let nonFgResult = []
+    const promises = [seconds, fgAndSeconds, byProduct, rm, nonSeafoodSales, ice]
+    Promise.all(promises).then(values => {
+      values.data[0].totalRow = false
+      values.data[0].nonFgRow = true
+      nonFgResult = [...nonFgResult, ...values.data]
+    })
 
     // union seconds and by product to response data, add total row, remove total row flags for front end css
-    response.data = [...response.data, ...seconds.data, ...byProduct.data, ...rm.data, ...nonSeafoodSales.data, ...ice.data]
+    response.data = [...response.data, ...nonFgResult]
   }
 
   // if default date then add to response
