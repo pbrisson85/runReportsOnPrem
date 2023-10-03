@@ -87,7 +87,15 @@ router.post('/', async (req, res) => {
     ice.data[0].nonFgRow = true
 
     // union seconds and by product to response data, add total row, remove total row flags for front end css
-    response.data = [...response.data, ...seconds, ...fgAndSeconds, ...byProduct, ...rm, ...nonSeafoodSales, ...ice]
+    response.data = [
+      ...response.data,
+      ...seconds.data,
+      ...fgAndSeconds.data,
+      ...byProduct.data,
+      ...rm.data,
+      ...nonSeafoodSales.data,
+      ...ice.data,
+    ]
   }
 
   // if default date then add to response
