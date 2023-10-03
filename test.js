@@ -1,9 +1,11 @@
-console.log(JSON.stringify(['FG', 'RM']))
+const test1 = "\"[\"\"FG\"\",\"\"SECONDS\"\"]\"" //prettier-ignore
 
-let test1 = "\"[\"\"FG\"\"]\"" //prettier-ignore
+console.log('test1', test1)
 
-console.log(test1)
+const test2 = test1.replace(/""/g, '').replace(/"\[/g, '').replace(/\]"/g, '').split(',')
 
-test1 = [...test1.replace(/""/g, '').replace(/"\[/g, '').replace(/\]"/g, '').split(', ')]
+console.log('test2', test2)
 
-console.log(test1)
+const test3 = [...test1.replace(/""/g, '').replace(/"\[/g, '').replace(/\]"/g, '').split(',')]
+
+console.log('test3', test3)
