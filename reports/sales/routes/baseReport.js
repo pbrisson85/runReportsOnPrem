@@ -89,7 +89,7 @@ router.post('/', async (req, res) => {
     let nonFgResult = []
     const promises = [seconds, fgAndSeconds, byProduct, rm, nonSeafoodSales, ice]
     Promise.all(promises).then(values => {
-      console.log('values', values)
+      console.log('values.data', values.data)
 
       values.data[0].totalRow = false
       values.data[0].nonFgRow = true
