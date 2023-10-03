@@ -17,11 +17,9 @@ const getReportConfig = reqBody => {
   const appSettingsData = appSettings()
   const appSettings_unflat = unflattenByCompositKey(appSettingsData, { 1: 'dataName' })
 
+  // The itemType comes from hardcoding a field into the rows and then passing back. Sonce it is an array truned into a string then it gets double quotes around it. This parses the strange format that postgres returns. Note that the total row gets entered into the row as an actual array which is why this is tested for a string.
   if (typeof reqBody.itemType !== 'undefined' && typeof reqBody.itemType === 'string') {
-    console.log('reqBody.itemType: ', reqBody.itemType)
     reqBody.itemType = [...reqBody.itemType.replace(/""/g, '').replace(/"\[/g, '').replace(/\]"/g, '').split(', ')]
-    console.log('reqBody.itemType: ', reqBody.itemType)
-    console.log('typeof', typeof reqBody.itemType)
   }
 
   // define config object
@@ -39,7 +37,7 @@ const getReportConfig = reqBody => {
     export: reqBody.export ?? null,
     northAmerica: reqBody.northAmerica ?? null,
     queryLevel: reqBody.queryLevel ?? null,
-    itemType: reqBody.itemType ?? ['FG'],
+    itemType: reqBody.itemType ?? ['FG', 'SECONDS'],
     freshFrozen: reqBody.freshFrozen ?? null,
     custType: reqBody.custType ?? null,
     jbBuyerFilter,
