@@ -17,7 +17,7 @@ const getReportConfig = reqBody => {
   const appSettingsData = appSettings()
   const appSettings_unflat = unflattenByCompositKey(appSettingsData, { 1: 'dataName' })
 
-  if (typeof reqBody.itemType !== 'undefined') {
+  if (typeof reqBody.itemType !== 'undefined' && typeof reqBody.itemType === 'string') {
     console.log('reqBody.itemType: ', reqBody.itemType)
     reqBody.itemType = [...reqBody.itemType.replace(/""/g, '').replace(/"\[/g, '').replace(/\]"/g, '').split(', ')]
     console.log('reqBody.itemType: ', reqBody.itemType)
