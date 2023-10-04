@@ -272,7 +272,7 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   })
 
   const flattenedMappedData = Object.values(mappedData)
-  let finalData = cleanLabelsForDisplay(flattenedMappedData, '')
+  let data = cleanLabelsForDisplay(flattenedMappedData, '')
     .sort((a, b) => {
       // if has includes total, put at end
       if (a.l1_label < b.l1_label) return -1
@@ -285,33 +285,33 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
       if (b.l2_filter?.includes('TOTAL')) return -1
       return 0
     }) // no label in total row, first col
-  finalData = [...filterRow, ...finalData]
+  data = [...filterRow, ...data]
 
-  const salesColsByWk = await getDateEndPerWeekByRange(start, end, config)
+  const trendColsSales = await getDateEndPerWeekByRange(start, end, config)
 
   // get data column names by fiscal year
-  let salesColsByFy = null
-  let salesColsByFyYtd = null
-  if (showFyTrend) salesColsByFy = await getFiscalYearCols()
-  if (showFyTrend) salesColsByFyYtd = await getFiscalYearYtdCols()
+  let trendColsSaByFy = null
+  let trendColsSaByFyYtd = null
+  if (showFyTrend) trendColsSaByFy = await getFiscalYearCols()
+  if (showFyTrend) trendColsSaByFyYtd = await getFiscalYearYtdCols()
 
   // get so by week cols
   const start_so = await getEarliestShipWk(config)
   const end_so = await getLatestShipWk(config)
-  const soCols = await getDateEndPerWeekByRange_so(start_so, end_so, config)
-  const soCols_tg = await getDateEndPerWeekByRange_so_tg(start_so, end_so, config)
-  const soCols_untg = await getDateEndPerWeekByRange_so_untg(start_so, end_so, config)
+  const trendColsSo = await getDateEndPerWeekByRange_so(start_so, end_so, config)
+  const trendColsSo_tg = await getDateEndPerWeekByRange_so_tg(start_so, end_so, config)
+  const trendColsSo_untg = await getDateEndPerWeekByRange_so_untg(start_so, end_so, config)
 
   // return
   return {
-    data: finalData,
-    salesColsByWk: salesColsByWk,
-    salesColsByFy: salesColsByFy,
-    salesColsByFyYtd: salesColsByFyYtd,
+    data: data,
+    trendColsSales: trendColsSales,
+    trendColsSaByFy: trendColsSaByFy,
+    trendColsSaByFyYtd: trendColsSaByFyYtd,
     labelCols: labelCols,
-    soCols,
-    soCols_tg,
-    soCols_untg,
+    trendColsSo,
+    trendColsSo_tg,
+    trendColsSo_untg,
   }
 }
 

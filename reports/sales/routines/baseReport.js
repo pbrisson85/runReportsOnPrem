@@ -687,33 +687,35 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   const mappedData = combineMappedRows(mappedSales, mappedInven)
 
   const flattenedMappedData = Object.values(mappedData)
-  const finalData = cleanLabelsForDisplay(flattenedMappedData, config)
-  const salesColsByWk = await getDateEndPerWeekByRange(start, end, config)
-  //const collapsedData = collapseRedundantTotalRows(finalData, level)
+  const data = cleanLabelsForDisplay(flattenedMappedData, config)
+  const trendColsSales = await getDateEndPerWeekByRange(start, end, config)
+  //const collapsedData = collapseRedundantTotalRows(data, level)
 
   // get data column names by fiscal year
-  let salesColsByFy = null
-  let salesColsByFyYtd = null
-  if (showFyTrend) salesColsByFy = await getFiscalYearCols()
-  if (showFyTrend) salesColsByFyYtd = await getFiscalYearYtdCols()
+  let trendColsSaByFy = null
+  let trendColsSaByFyYtd = null
+  if (showFyTrend) trendColsSaByFy = await getFiscalYearCols()
+  if (showFyTrend) trendColsSaByFyYtd = await getFiscalYearYtdCols()
 
   // get so by week cols
   const start_so = await getEarliestShipWk(config)
   const end_so = await getLatestShipWk(config)
-  const soCols = await getDateEndPerWeekByRange_so(start_so, end_so, config)
-  const soCols_tg = await getDateEndPerWeekByRange_so_tg(start_so, end_so, config)
-  const soCols_untg = await getDateEndPerWeekByRange_so_untg(start_so, end_so, config)
+  const trendColsSo = await getDateEndPerWeekByRange_so(start_so, end_so, config)
+  const trendColsSo_tg = await getDateEndPerWeekByRange_so_tg(start_so, end_so, config)
+  const trendColsSo_untg = await getDateEndPerWeekByRange_so_untg(start_so, end_so, config)
 
   // return
   return {
-    data: finalData,
-    salesColsByWk: salesColsByWk,
-    salesColsByFy: salesColsByFy,
-    salesColsByFyYtd: salesColsByFyYtd,
-    labelCols: labelCols,
-    soCols,
-    soCols_tg,
-    soCols_untg,
+    data,
+    cols: {
+      trendColsSales,
+      trendColsSaByFy,
+      trendColsSaByFyYtd,
+      labelCols,
+      trendColsSo,
+      trendColsSo_tg,
+      trendColsSo_untg,
+    },
   }
 }
 
