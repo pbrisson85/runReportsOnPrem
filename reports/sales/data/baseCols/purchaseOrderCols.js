@@ -1,4 +1,4 @@
-export const poCols = [
+const poCols = [
   {
     unfilteredColIdx: 1,
     displayName: 'FG P.O.',
@@ -25,3 +25,5 @@ export const poCols = [
     showByDefault: true, // flag to determine if optional col is shown by default
   },
 ]
+
+module.exports = poCols

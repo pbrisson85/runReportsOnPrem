@@ -1,4 +1,4 @@
-export const trendCol = [
+const trendCol = [
   {
     unfilteredColIdx: 2,
     //displayName: 1, // array of displayNames and dataNames provided by back end. This template is applied to these in the tableColsAtom
@@ -26,3 +26,5 @@ export const trendCol = [
     showByDefault: true, // flag to determine if optional col is shown by default
   },
 ]
+
+module.exports = trendCol

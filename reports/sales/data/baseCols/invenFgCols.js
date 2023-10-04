@@ -1,4 +1,4 @@
-export const invenFgCols = [
+const invenFgCols = [
   {
     unfilteredColIdx: 1,
     displayName: 'FG INVEN',
@@ -130,3 +130,5 @@ export const invenFgCols = [
     showByDefault: false, // flag to determine if optional col is shown by default
   },
 ]
+
+module.exports = invenFgCols

@@ -1,4 +1,4 @@
-export const invenKpiCol = [
+const invenKpiCol = [
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
     displayName: 'WEEKS INV', // show as column header
@@ -56,3 +56,5 @@ export const invenKpiCol = [
     showByDefault: false, // flag to determine if optional col is shown by default
   },
 ]
+
+module.exports = invenKpiCol

@@ -1,4 +1,4 @@
-export const salesKpiCol = [
+const salesKpiCol = [
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
     displayName: 'COMPANY %', // show as column header
@@ -252,3 +252,5 @@ export const salesKpiCol = [
     showByDefault: false, // flag to determine if optional col is shown by default
   },
 ]
+
+module.exports = salesKpiCol

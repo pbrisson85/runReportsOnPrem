@@ -1,4 +1,4 @@
-export const totalsCol = [
+const totalsCol = [
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
     displayName: 'FG SALES', // show as column header
@@ -48,3 +48,5 @@ export const totalsCol = [
     showByDefault: true, // flag to determine if optional col is shown by default
   },
 ]
+
+module.exports = totalsCol

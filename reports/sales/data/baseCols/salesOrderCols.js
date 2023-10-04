@@ -1,4 +1,4 @@
-export const openOrdersCol = [
+const openOrdersCol = [
   {
     unfilteredColIdx: 0,
     displayName: 'FG SO',
@@ -101,3 +101,5 @@ export const openOrdersCol = [
     showByDefault: false, // flag to determine if optional col is shown by default
   },
 ]
+
+module.exports = openOrdersCol
