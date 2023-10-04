@@ -116,6 +116,7 @@ const calcAveWeeklySales = require('../models/calcAveWeeklySales')
 const calcWeeksInvOnHand = require('../models/calcWeeksInvOnHand')
 const calcInventoryAvailable = require('../models/calcInventoryAvailable')
 const collapseRedundantTotalRows = require('../models/collapseRedundantTotalRows')
+const columnConfigs = require('../data/baseCols/columns')
 
 const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, labelCols, year, totalOnly) => {
   // The routine and all of the queries can be the same for all reports. Going to buikd out this rpeort and then change the config manually to test.
@@ -715,6 +716,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
       trendColsSo,
       trendColsSo_tg,
       trendColsSo_untg,
+      columnConfigs,
     },
   }
 }
