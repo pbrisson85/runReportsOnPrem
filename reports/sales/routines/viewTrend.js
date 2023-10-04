@@ -48,6 +48,7 @@ const calcPercentSalesCol = require('../models/calcPercentSalesCol')
 const calcAveWeeklySales = require('../models/calcAveWeeklySales')
 const calcWeeksInvOnHand = require('../models/calcWeeksInvOnHand')
 const calcInventoryAvailable = require('../models/calcInventoryAvailable')
+const columnConfigs = require('../data/baseCols/columns')
 
 const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startWeek, endWeek, trendQuery, year) => {
   ///////////////////////////////// INVENTORY DATA
@@ -304,14 +305,17 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
 
   // return
   return {
-    data: data,
-    trendColsSales: trendColsSales,
-    trendColsSaByFy: trendColsSaByFy,
-    trendColsSaByFyYtd: trendColsSaByFyYtd,
-    labelCols: labelCols,
-    trendColsSo,
-    trendColsSo_tg,
-    trendColsSo_untg,
+    data,
+    cols: {
+      trendColsSales,
+      trendColsSaByFy,
+      trendColsSaByFyYtd,
+      labelCols,
+      trendColsSo,
+      trendColsSo_tg,
+      trendColsSo_untg,
+      columnConfigs,
+    },
   }
 }
 
