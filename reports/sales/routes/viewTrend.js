@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const { getStartOfWeek } = require('../queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../queries/postgres/getWeekForDate')
-const viewTrend = require('../routines/viewTrend')
+const viewTrend = require('../routines/viewTrendCopy')
 const labelCols_byItem = require('../data/trendCols/colsByItem')
 const labelCols_byCustomer = require('../data/trendCols/colsByCustomer')
 const labelCols_byCustType = require('../data/trendCols/colsByCustType')
