@@ -121,18 +121,22 @@ const columnConfigs = require('../data/baseCols/columns')
 const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, labelCols, year, totalOnly) => {
   // The routine and all of the queries can be the same for all reports. Going to buikd out this rpeort and then change the config manually to test.
 
-  const skip = () => {
+  const skipP = () => {
     return () => {
       return []
     }
   }
 
+  const skip = () => {
+    return []
+  }
+
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
-  const l1_fgInven = totalOnly ? skip() : () => {return l1_getFgInven(config)} //prettier-ignore
-  const l2_fgInven = totalOnly ? skip() : () => {return l2_getFgInven(config)} //prettier-ignore
-  const l3_fgInven = totalOnly ? skip() : config.l3_field ? () => {return l3_getFgInven(config)}: skip() //prettier-ignore
-  const l4_fgInven = totalOnly ? skip() : config.l4_field ? () => {return l4_getFgInven(config)}: skip() //prettier-ignore
+  const l1_fgInven = totalOnly ? skipP() : () => {return l1_getFgInven(config)} //prettier-ignore
+  const l2_fgInven = totalOnly ? skipP() : () => {return l2_getFgInven(config)} //prettier-ignore
+  const l3_fgInven = totalOnly ? skipP() : config.l3_field ? () => {return l3_getFgInven(config)}: skipP() //prettier-ignore
+  const l4_fgInven = totalOnly ? skipP() : config.l4_field ? () => {return l4_getFgInven(config)}: skipP() //prettier-ignore
   const l0_fgInven = () => {return l0_getFgInven(config)} //prettier-ignore
   /* FG IN TRANSIT*/
   const l1_fgInTransit = totalOnly ? skip() : await l1_getFgInTransit(config)
