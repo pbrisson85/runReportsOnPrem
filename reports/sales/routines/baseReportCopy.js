@@ -127,11 +127,11 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
 
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
-  const l1_fgInven = totalOnly ? skip() : l1_getFgInven(config)
-  const l2_fgInven = totalOnly ? skip() : l2_getFgInven(config)
-  const l3_fgInven = totalOnly ? skip() : config.l3_field ? l3_getFgInven(config) : skip()
-  const l4_fgInven = totalOnly ? skip() : config.l4_field ? l4_getFgInven(config) : skip()
-  const l0_fgInven = l0_getFgInven(config)
+  const l1_fgInven = totalOnly ? skip() : () => {return l1_getFgInven(config)} //prettier-ignore
+  const l2_fgInven = totalOnly ? skip() : () => {return l2_getFgInven(config)} //prettier-ignore
+  const l3_fgInven = totalOnly ? skip() : config.l3_field ? () => {return l3_getFgInven(config)}: skip() //prettier-ignore
+  const l4_fgInven = totalOnly ? skip() : config.l4_field ? () => {return l4_getFgInven(config)}: skip() //prettier-ignore
+  const l0_fgInven = () => {return l0_getFgInven(config)} //prettier-ignore
   /* FG IN TRANSIT*/
   const l1_fgInTransit = totalOnly ? skip() : await l1_getFgInTransit(config)
   const l2_fgInTransit = totalOnly ? skip() : await l2_getFgInTransit(config)
