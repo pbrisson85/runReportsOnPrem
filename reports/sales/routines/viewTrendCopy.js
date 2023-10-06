@@ -299,8 +299,8 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   const trendColsSalesF = () => { return getDateEndPerWeekByRange(start, end, config)} 
 
   // get data column names by fiscal year
-  let trendColsSaByFyF = null
-  let trendColsSaByFyYtdF = null
+  let trendColsSaByFyF = () => { return null}
+  let trendColsSaByFyYtdF = () => { return null}
   if (showFyTrend) trendColsSaByFyF = () => { return getFiscalYearCols()} 
   if (showFyTrend) trendColsSaByFyYtdF = () => { return getFiscalYearYtdCols()} 
 
