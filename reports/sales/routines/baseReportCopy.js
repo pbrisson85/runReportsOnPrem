@@ -559,22 +559,27 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   const l0_invAvailable = calcInventoryAvailable(l0_fgInvenR, l0_fgPoR, l0_soR, 'invenAvailable')
 
   ///////////////////////////////// ROWS
-  // const rowsFourthLevelDetail = totalOnly ? skip() : config.l4_field ? () => {return getRowsFourthLevelDetail(config, start, end, showFyTrend)} : skip() 
-  // const rowsThirdLevelDetail = totalOnly ? skip() : config.l3_field ?  () => {return getRowsThirdLevelDetail(config, start, end, showFyTrend)} : skip() 
-  // const rowsSecondLevelDetail = totalOnly ? skip() : () => {return getRowsSecondLevelDetail(config, start, end, showFyTrend)} 
-  // const rowsFirstLevelDetail = totalOnly ? skip() : () => {return getRowsFirstLevelDetail(config, start, end, showFyTrend)} 
+  const rowsFourthLevelDetail = totalOnly ? skip() : config.l4_field ? () => {return getRowsFourthLevelDetail(config, start, end, showFyTrend)} : skip() 
+  const rowsThirdLevelDetail = totalOnly ? skip() : config.l3_field ? () => {return getRowsThirdLevelDetail(config, start, end, showFyTrend)} : skip() 
+  const rowsSecondLevelDetail = totalOnly ? skip() : () => {return getRowsSecondLevelDetail(config, start, end, showFyTrend)} 
+  const rowsFirstLevelDetail = totalOnly ? skip() : () => {return getRowsFirstLevelDetail(config, start, end, showFyTrend)} 
 
-  const rowsFourthLevelDetail = totalOnly ? [] : config.l4_field ? await getRowsFourthLevelDetail(config, start, end, showFyTrend) : [] 
-  const rowsThirdLevelDetail = totalOnly ? [] : config.l3_field ?  await getRowsThirdLevelDetail(config, start, end, showFyTrend) : [] 
-  const rowsSecondLevelDetail = totalOnly ? [] : await getRowsSecondLevelDetail(config, start, end, showFyTrend) 
-  const rowsFirstLevelDetail = totalOnly ? [] : await getRowsFirstLevelDetail(config, start, end, showFyTrend)
+  console.log('rowsFourthLevelDetail', rowsFourthLevelDetail)
+  console.log('rowsThirdLevelDetail', rowsThirdLevelDetail)
+  console.log('rowsSecondLevelDetail', rowsSecondLevelDetail)
+  console.log('rowsFirstLevelDetail', rowsFirstLevelDetail)
 
-  // const [rowsFourthLevelDetailR, rowsThirdLevelDetailR, rowsSecondLevelDetailR, rowsFirstLevelDetailR] = Promise.all([
-  //   rowsFourthLevelDetail(),
-  //   rowsThirdLevelDetail(),
-  //   rowsSecondLevelDetail(),
-  //   rowsFirstLevelDetail(),
-  // ])
+  // const rowsFourthLevelDetail = totalOnly ? [] : config.l4_field ? await getRowsFourthLevelDetail(config, start, end, showFyTrend) : [] 
+  // const rowsThirdLevelDetail = totalOnly ? [] : config.l3_field ? await getRowsThirdLevelDetail(config, start, end, showFyTrend) : [] 
+  // const rowsSecondLevelDetail = totalOnly ? [] : await getRowsSecondLevelDetail(config, start, end, showFyTrend) 
+  // const rowsFirstLevelDetail = totalOnly ? [] : await getRowsFirstLevelDetail(config, start, end, showFyTrend)
+
+  const [rowsFourthLevelDetailR, rowsThirdLevelDetailR, rowsSecondLevelDetailR, rowsFirstLevelDetailR] = Promise.all([
+    rowsFourthLevelDetail(),
+    rowsThirdLevelDetail(),
+    rowsSecondLevelDetail(),
+    rowsFirstLevelDetail(),
+  ])
 
   const totalsRow = [
     {
@@ -589,7 +594,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   ]
 
   // COMPILE FINAL ROW TEMPLATE
-  const rowTemplate = [...rowsFourthLevelDetail, ...rowsThirdLevelDetail, ...rowsSecondLevelDetail, ...rowsFirstLevelDetail]
+  const rowTemplate = [...rowsFourthLevelDetailR, ...rowsThirdLevelDetailR, ...rowsSecondLevelDetailR, ...rowsFirstLevelDetailR]
     .sort((a, b) => {
       // if has includes total, put at end
       if (a.l4_label?.includes('TOTAL')) return 1
