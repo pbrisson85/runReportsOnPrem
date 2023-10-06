@@ -564,17 +564,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   const rowsSecondLevelDetail = totalOnly ? skip() : () => {return getRowsSecondLevelDetail(config, start, end, showFyTrend)} 
   const rowsFirstLevelDetail = totalOnly ? skip() : () => {return getRowsFirstLevelDetail(config, start, end, showFyTrend)} 
 
-  console.log('rowsFourthLevelDetail', rowsFourthLevelDetail)
-  console.log('rowsThirdLevelDetail', rowsThirdLevelDetail)
-  console.log('rowsSecondLevelDetail', rowsSecondLevelDetail)
-  console.log('rowsFirstLevelDetail', rowsFirstLevelDetail)
-
-  // const rowsFourthLevelDetail = totalOnly ? [] : config.l4_field ? await getRowsFourthLevelDetail(config, start, end, showFyTrend) : [] 
-  // const rowsThirdLevelDetail = totalOnly ? [] : config.l3_field ? await getRowsThirdLevelDetail(config, start, end, showFyTrend) : [] 
-  // const rowsSecondLevelDetail = totalOnly ? [] : await getRowsSecondLevelDetail(config, start, end, showFyTrend) 
-  // const rowsFirstLevelDetail = totalOnly ? [] : await getRowsFirstLevelDetail(config, start, end, showFyTrend)
-
-  const [rowsFourthLevelDetailR, rowsThirdLevelDetailR, rowsSecondLevelDetailR, rowsFirstLevelDetailR] = Promise.all([
+  const [rowsFourthLevelDetailR, rowsThirdLevelDetailR, rowsSecondLevelDetailR, rowsFirstLevelDetailR] = await Promise.all([
     rowsFourthLevelDetail(),
     rowsThirdLevelDetail(),
     rowsSecondLevelDetail(),
