@@ -346,18 +346,26 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   const l0_twelveWkAveSales = calcAveWeeklySales(l0_trailingTwelveWeek, 'twelveWkAveSales', 12)
 
   /* WEEKS INV ON HAND */
-  const l1_weeksInvOnHand = totalOnly ? skip() : calcWeeksInvOnHand(l1_fgInven, l1_aveWeeklySales, 'weeksInvenOnHand')
-  const l2_weeksInvOnHand = totalOnly ? skip() : calcWeeksInvOnHand(l2_fgInven, l2_aveWeeklySales, 'weeksInvenOnHand')
-  const l3_weeksInvOnHand = totalOnly ? skip() : config.l3_field ? calcWeeksInvOnHand(l3_fgInven, l3_aveWeeklySales, 'weeksInvenOnHand') : skip()
-  const l4_weeksInvOnHand = totalOnly ? skip() : config.l4_field ? calcWeeksInvOnHand(l4_fgInven, l4_aveWeeklySales, 'weeksInvenOnHand') : skip()
-  const l0_weeksInvOnHand = calcWeeksInvOnHand(l0_fgInven, l0_aveWeeklySales, 'weeksInvenOnHand')
+  const l1_weeksInvOnHand = totalOnly ? skip() : calcWeeksInvOnHand(l1_fgInvenR, l1_aveWeeklySales, 'weeksInvenOnHand')
+  const l2_weeksInvOnHand = totalOnly ? skip() : calcWeeksInvOnHand(l2_fgInvenR, l2_aveWeeklySales, 'weeksInvenOnHand')
+  const l3_weeksInvOnHand = totalOnly
+    ? skip()
+    : config.l3_field
+    ? calcWeeksInvOnHand(l3_fgInvenR, l3_aveWeeklySales, 'weeksInvenOnHand')
+    : skip()
+  const l4_weeksInvOnHand = totalOnly
+    ? skip()
+    : config.l4_field
+    ? calcWeeksInvOnHand(l4_fgInvenR, l4_aveWeeklySales, 'weeksInvenOnHand')
+    : skip()
+  const l0_weeksInvOnHand = calcWeeksInvOnHand(l0_fgInvenR, l0_aveWeeklySales, 'weeksInvenOnHand')
 
   /* INVENTORY AVAILABLE */
-  const l1_invAvailable = totalOnly ? skip() : calcInventoryAvailable(l1_fgInven, l1_fgPo, l1_so, 'invenAvailable')
-  const l2_invAvailable = totalOnly ? skip() : calcInventoryAvailable(l2_fgInven, l2_fgPo, l2_so, 'invenAvailable')
-  const l3_invAvailable = totalOnly ? skip() : config.l3_field ? calcInventoryAvailable(l3_fgInven, l3_fgPo, l3_so, 'invenAvailable') : skip()
-  const l4_invAvailable = totalOnly ? skip() : config.l4_field ? calcInventoryAvailable(l4_fgInven, l4_fgPo, l4_so, 'invenAvailable') : skip()
-  const l0_invAvailable = calcInventoryAvailable(l0_fgInven, l0_fgPo, l0_so, 'invenAvailable')
+  const l1_invAvailable = totalOnly ? skip() : calcInventoryAvailable(l1_fgInvenR, l1_fgPo, l1_so, 'invenAvailable')
+  const l2_invAvailable = totalOnly ? skip() : calcInventoryAvailable(l2_fgInvenR, l2_fgPo, l2_so, 'invenAvailable')
+  const l3_invAvailable = totalOnly ? skip() : config.l3_field ? calcInventoryAvailable(l3_fgInvenR, l3_fgPo, l3_so, 'invenAvailable') : skip()
+  const l4_invAvailable = totalOnly ? skip() : config.l4_field ? calcInventoryAvailable(l4_fgInvenR, l4_fgPo, l4_so, 'invenAvailable') : skip()
+  const l0_invAvailable = calcInventoryAvailable(l0_fgInvenR, l0_fgPo, l0_so, 'invenAvailable')
 
   ///////////////////////////////// ROWS
   const rowsFourthLevelDetail = totalOnly ? skip() : config.l4_field ? await getRowsFourthLevelDetail(config, start, end, showFyTrend) : skip()
