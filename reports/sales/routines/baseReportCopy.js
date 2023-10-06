@@ -812,17 +812,19 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   //const collapsedData = collapseRedundantTotalRows(data, level)
 
   // get data column names by fiscal year
-  let trendColsSaByFy = null
-  let trendColsSaByFyYtd = null
-  if (showFyTrend) trendColsSaByFy = await getFiscalYearCols()
-  if (showFyTrend) trendColsSaByFyYtd = await getFiscalYearYtdCols()
+  let trendColsSaByFyF = () => {return null}
+  let trendColsSaByFyYtdF = () => {return null}
+  if (showFyTrend) trendColsSaByFyF = () => {return getFiscalYearCols()} 
+  if (showFyTrend) trendColsSaByFyYtdF = () => {return  getFiscalYearYtdCols()}
 
   // get so by week cols
-  const start_so = await getEarliestShipWk(config)
-  const end_so = await getLatestShipWk(config)
-  const trendColsSo = await getDateEndPerWeekByRange_so(start_so, end_so, config)
-  const trendColsSo_tg = await getDateEndPerWeekByRange_so_tg(start_so, end_so, config)
-  const trendColsSo_untg = await getDateEndPerWeekByRange_so_untg(start_so, end_so, config)
+  const start_soF = () => {return  getEarliestShipWk(config)}
+  const end_soF = () => {return  getLatestShipWk(config)}
+  const trendColsSoF = () => {return  getDateEndPerWeekByRange_so(start_so, end_so, config)}
+  const trendColsSo_tgF = () => {return  getDateEndPerWeekByRange_so_tg(start_so, end_so, config)}
+  const trendColsSo_untgF = () => {return  getDateEndPerWeekByRange_so_untg(start_so, end_so, config)}
+
+  const [trendColsSaByFy,trendColsSaByFyYtd, start_so, end_so, trendColsSo, trendColsSo_tg, trendColsSo_untg] = await Promise.all([trendColsSaByFyF(),trendColsSaByFyYtdF(), start_soF(), end_soF(), trendColsSoF(), trendColsSo_tgF(), trendColsSo_untgF()])
 
   // return
   return {
