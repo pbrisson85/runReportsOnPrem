@@ -122,7 +122,9 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   // The routine and all of the queries can be the same for all reports. Going to buikd out this rpeort and then change the config manually to test.
 
   const skip = () => {
-    return []
+    return () => {
+      return []
+    }
   }
 
   ///////////////////////////////// INVENTORY DATA
