@@ -11,7 +11,7 @@ const getCols = body => {
     view: null, // dataset to show for the column (extended_cost, weight, cost_per_lb)
     data: false,
     colType: 'label',
-    optional: true, // flag to determine if the col is optional
+    optional: false, // flag to determine if the col is optional
     showByDefault: true, // flag to determine if optional col is shown by default
   }
 

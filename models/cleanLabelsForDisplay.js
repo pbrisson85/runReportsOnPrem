@@ -1,12 +1,21 @@
 const _ = require('lodash')
 
 const cleanLabelsForDisplay = (flattenedMappedData, config) => {
+  /* TEST */ let collapsedLabels = true
+
   const shiftTotals = config?.subtotalRowFormats?.shiftTotals
   const shiftTotalsCss = config?.subtotalRowFormats?.shiftTotalsCss
   const dataLabelInSubtotals = config?.subtotalRowFormats?.dataLabelInSubtotals
   const subtotalLabelInSubtotals = config?.subtotalRowFormats?.subtotalLabelInSubtotals
 
   const cacheData = _.cloneDeep(flattenedMappedData)
+
+  // determine highest data level (how many label cols) to know how to shift all to the
+  let maxLevel = 0
+  if (config.l1_field) maxLevel = 1
+  if (config.l2_field) maxLevel = 2
+  if (config.l3_field) maxLevel = 3
+  if (config.l4_field) maxLevel = 4
 
   // Need to track when the l1, l2, l3, l4 values change so that we can hide them except for the first occurance
   let l1Value = ''
@@ -45,13 +54,20 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
 
     // always update the dataLevel 1 subtotal label
     if (row.datalevel === 1) {
-      if (shiftTotals || shiftTotalsCss) {
+      const dataLabel = dataLabelInSubtotals ? row.l1_label : ''
+      const subtotalLabel = subtotalLabelInSubtotals ? ' subtotal' : ''
+      if (collapsedLabels) {
+        flattenedMappedData[idx].l1_label = maxLevel === 1 ? `${dataLabel}${subtotalLabel}` : ''
+        flattenedMappedData[idx].l2_label = maxLevel === 2 ? `${dataLabel}${subtotalLabel}` : ''
+        flattenedMappedData[idx].l3_label = maxLevel === 3 ? `${dataLabel}${subtotalLabel}` : ''
+        flattenedMappedData[idx].l4_label = maxLevel === 4 ? `${dataLabel}${subtotalLabel}` : ''
+      } else if (shiftTotals || shiftTotalsCss) {
         flattenedMappedData[idx].l1_label = ''
-        flattenedMappedData[idx].l2_label = `${dataLabelInSubtotals ? row.l1_label : ''} ${subtotalLabelInSubtotals ? 'subtotal' : ''} `
+        flattenedMappedData[idx].l2_label = `${dataLabel}${subtotalLabel}`
         flattenedMappedData[idx].l3_label = ''
         flattenedMappedData[idx].l4_label = ''
       } else {
-        flattenedMappedData[idx].l1_label = `${dataLabelInSubtotals ? row.l1_label : ''} ${subtotalLabelInSubtotals ? 'subtotal' : ''}`
+        flattenedMappedData[idx].l1_label = `${dataLabel}${subtotalLabel}`
         flattenedMappedData[idx].l2_label = ''
         flattenedMappedData[idx].l3_label = ''
         flattenedMappedData[idx].l4_label = ''
@@ -67,14 +83,22 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
 
     // If dataLevel 2 and there is a dataLevel 3 then update as a subtotal label
     if (row.datalevel === 2 && config.l3_field) {
-      if (shiftTotals || shiftTotalsCss) {
+      const dataLabel = dataLabelInSubtotals ? row.l2_label : ''
+      const subtotalLabel = subtotalLabelInSubtotals ? ' subtotal' : ''
+
+      if (collapsedLabels) {
+        flattenedMappedData[idx].l1_label = maxLevel === 1 ? `${dataLabel}${subtotalLabel}` : ''
+        flattenedMappedData[idx].l2_label = maxLevel === 2 ? `${dataLabel}${subtotalLabel}` : ''
+        flattenedMappedData[idx].l3_label = maxLevel === 3 ? `${dataLabel}${subtotalLabel}` : ''
+        flattenedMappedData[idx].l4_label = maxLevel === 4 ? `${dataLabel}${subtotalLabel}` : ''
+      } else if (shiftTotals || shiftTotalsCss) {
         flattenedMappedData[idx].l1_label = ''
         flattenedMappedData[idx].l2_label = ''
-        flattenedMappedData[idx].l3_label = `${dataLabelInSubtotals ? row.l2_label : ''} ${subtotalLabelInSubtotals ? 'subtotal' : ''}`
+        flattenedMappedData[idx].l3_label = `${dataLabel}${subtotalLabel}`
         flattenedMappedData[idx].l4_label = ''
       } else {
         flattenedMappedData[idx].l1_label = ''
-        flattenedMappedData[idx].l2_label = `${dataLabelInSubtotals ? row.l2_label : ''} ${subtotalLabelInSubtotals ? 'subtotal' : ''}`
+        flattenedMappedData[idx].l2_label = `${dataLabel}${subtotalLabel}`
         flattenedMappedData[idx].l3_label = ''
         flattenedMappedData[idx].l4_label = ''
       }
@@ -89,15 +113,23 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
 
     // If dataLevel 3 and there is a dataLevel 4 then update as a subtotal label
     if (row.datalevel === 3 && config.l4_field) {
-      if (shiftTotals || shiftTotalsCss) {
+      const dataLabel = dataLabelInSubtotals ? row.l3_label : ''
+      const subtotalLabel = subtotalLabelInSubtotals ? ' subtotal' : ''
+
+      if (collapsedLabels) {
+        flattenedMappedData[idx].l1_label = maxLevel === 1 ? `${dataLabel}${subtotalLabel}` : ''
+        flattenedMappedData[idx].l2_label = maxLevel === 2 ? `${dataLabel}${subtotalLabel}` : ''
+        flattenedMappedData[idx].l3_label = maxLevel === 3 ? `${dataLabel}${subtotalLabel}` : ''
+        flattenedMappedData[idx].l4_label = maxLevel === 4 ? `${dataLabel}${subtotalLabel}` : ''
+      } else if (shiftTotals || shiftTotalsCss) {
         flattenedMappedData[idx].l1_label = ''
         flattenedMappedData[idx].l2_label = ''
         flattenedMappedData[idx].l3_label = ''
-        flattenedMappedData[idx].l4_label = `${dataLabelInSubtotals ? row.l3_label : ''} ${subtotalLabelInSubtotals ? 'subtotal' : ''}`
+        flattenedMappedData[idx].l4_label = `${dataLabel}${subtotalLabel}`
       } else {
         flattenedMappedData[idx].l1_label = ''
         flattenedMappedData[idx].l2_label = ''
-        flattenedMappedData[idx].l3_label = `${dataLabelInSubtotals ? row.l3_label : ''} ${subtotalLabelInSubtotals ? 'subtotal' : ''}`
+        flattenedMappedData[idx].l3_label = `${dataLabel}${subtotalLabel}`
         flattenedMappedData[idx].l4_label = ''
       }
 
