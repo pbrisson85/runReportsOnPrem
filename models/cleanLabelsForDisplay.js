@@ -58,9 +58,9 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
       const subtotalLabel = subtotalLabelInSubtotals ? ' subtotal' : ''
       if (collapsedLabels) {
         flattenedMappedData[idx].l1_label = maxLevel === 1 ? `${dataLabel}${subtotalLabel}` : ''
-        flattenedMappedData[idx].l2_label = maxLevel === 2 ? `${dataLabel}${subtotalLabel}` : ''
-        flattenedMappedData[idx].l3_label = maxLevel === 3 ? `${dataLabel}${subtotalLabel}` : ''
-        flattenedMappedData[idx].l4_label = maxLevel === 4 ? `${dataLabel}${subtotalLabel}` : ''
+        flattenedMappedData[idx].l2_label = maxLevel === 2 ? `  ${dataLabel}${subtotalLabel}` : ''
+        flattenedMappedData[idx].l3_label = maxLevel === 3 ? `    ${dataLabel}${subtotalLabel}` : ''
+        flattenedMappedData[idx].l4_label = maxLevel === 4 ? `      ${dataLabel}${subtotalLabel}` : ''
       } else if (shiftTotals || shiftTotalsCss) {
         flattenedMappedData[idx].l1_label = ''
         flattenedMappedData[idx].l2_label = `${dataLabel}${subtotalLabel}`
@@ -88,9 +88,9 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
 
       if (collapsedLabels) {
         flattenedMappedData[idx].l1_label = maxLevel === 1 ? `${dataLabel}${subtotalLabel}` : ''
-        flattenedMappedData[idx].l2_label = maxLevel === 2 ? `${dataLabel}${subtotalLabel}` : ''
-        flattenedMappedData[idx].l3_label = maxLevel === 3 ? `${dataLabel}${subtotalLabel}` : ''
-        flattenedMappedData[idx].l4_label = maxLevel === 4 ? `${dataLabel}${subtotalLabel}` : ''
+        flattenedMappedData[idx].l2_label = maxLevel === 2 ? `  ${dataLabel}${subtotalLabel}` : ''
+        flattenedMappedData[idx].l3_label = maxLevel === 3 ? `    ${dataLabel}${subtotalLabel}` : ''
+        flattenedMappedData[idx].l4_label = maxLevel === 4 ? `      ${dataLabel}${subtotalLabel}` : ''
       } else if (shiftTotals || shiftTotalsCss) {
         flattenedMappedData[idx].l1_label = ''
         flattenedMappedData[idx].l2_label = ''
@@ -118,9 +118,9 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
 
       if (collapsedLabels) {
         flattenedMappedData[idx].l1_label = maxLevel === 1 ? `${dataLabel}${subtotalLabel}` : ''
-        flattenedMappedData[idx].l2_label = maxLevel === 2 ? `${dataLabel}${subtotalLabel}` : ''
-        flattenedMappedData[idx].l3_label = maxLevel === 3 ? `${dataLabel}${subtotalLabel}` : ''
-        flattenedMappedData[idx].l4_label = maxLevel === 4 ? `${dataLabel}${subtotalLabel}` : ''
+        flattenedMappedData[idx].l2_label = maxLevel === 2 ? `  ${dataLabel}${subtotalLabel}` : ''
+        flattenedMappedData[idx].l3_label = maxLevel === 3 ? `    ${dataLabel}${subtotalLabel}` : ''
+        flattenedMappedData[idx].l4_label = maxLevel === 4 ? `      ${dataLabel}${subtotalLabel}` : ''
       } else if (shiftTotals || shiftTotalsCss) {
         flattenedMappedData[idx].l1_label = ''
         flattenedMappedData[idx].l2_label = ''
