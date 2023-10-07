@@ -25,7 +25,7 @@ const generateSalesData = require('./generateSales/routes/generateSales')
 const generateInvAllocFile = require('./generateSales/routes/generateInvAllocFile')
 
 /* UI */
-const getFilters = require('./reports/filters/routes/getFilters')
+const getFilters = require('./reports/sales/routes/getFilters')
 
 // initialize startup procedures
 const { runCronOnStartup } = require('./startup/cron')

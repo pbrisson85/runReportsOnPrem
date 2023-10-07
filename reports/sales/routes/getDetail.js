@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { getWeekForDate } = require('../queries/postgres/getWeekForDate')
+const { getWeekForDate } = require('../../../database/queries/postgres/getWeekForDate')
 const getReportConfig = require('../utils/getReportConfig')
 const {
   getFgInven_detail,
@@ -7,13 +7,17 @@ const {
   getFgAtLoc_detail,
   getFgAtLoc_untagged_detail,
   getFgAtLoc_tagged_detail,
-} = require('../queries/postgres/getDetail/getFgInven')
-const { getFgPo_detail } = require('../queries/postgres/getDetail/getFgOpenPo')
-const { getSales_detail } = require('../queries/postgres/getDetail/getSales')
-const { getSo_detail, getSoTagged_detail, getSoUntagged_detail } = require('../queries/postgres/getDetail/getSo')
-const { getSoByWk_detail, getSoByWkTagged_detail, getSoByWkUntagged_detail } = require('../queries/postgres/getDetail/getSoByWeek')
+} = require('../../../database/queries/postgres/getDetail/getFgInven')
+const { getFgPo_detail } = require('../../../database/queries/postgres/getDetail/getFgOpenPo')
+const { getSales_detail } = require('../../../database/queries/postgres/getDetail/getSales')
+const { getSo_detail, getSoTagged_detail, getSoUntagged_detail } = require('../../../database/queries/postgres/getDetail/getSo')
+const {
+  getSoByWk_detail,
+  getSoByWkTagged_detail,
+  getSoByWkUntagged_detail,
+} = require('../../../database/queries/postgres/getDetail/getSoByWeek')
 const detailColsMap = require('../data/detailCols/colsMap')
-const groupByOptions = require('../../filters/queries/hardcode/detailGroupBy')
+const groupByOptions = require('../data/filters/detailGroupBy')
 
 // @route   POST /api/sales/detail/forProgBySpecBrndSize/
 // @desc

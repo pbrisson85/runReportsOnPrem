@@ -3,9 +3,9 @@ const {
   getDateEndPerWeekByRange_so,
   getDateEndPerWeekByRange_so_tg,
   getDateEndPerWeekByRange_so_untg,
-} = require('../queries/postgres/getDateEndPerWeek')
-const { getFiscalYearCols, getFiscalYearYtdCols } = require('../queries/postgres/getFiscalYearCols')
-const { getLatestShipWk, getEarliestShipWk } = require('../queries/postgres/getSoDates')
+} = require('../../../database/queries/postgres/getDateEndPerWeek')
+const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../../database/queries/postgres/getFiscalYearCols')
+const { getLatestShipWk, getEarliestShipWk } = require('../../../database/queries/postgres/getSoDates')
 const {
   l1_getSalesByWk,
   l2_getSalesByWk,
@@ -17,22 +17,22 @@ const {
   l3_getSalesPeriodToDate,
   l4_getSalesPeriodToDate,
   l0_getSalesPeriodToDate,
-} = require('../queries/postgres/baseReport/getSalesTrendDateDriven')
+} = require('../../../database/queries/postgres/baseReport/getSalesTrendDateDriven')
 const {
   l1_getSalesWkDriven,
   l2_getSalesWkDriven,
   l3_getSalesWkDriven,
   l4_getSalesWkDriven,
   l0_getSalesWkDriven,
-} = require('../queries/postgres/baseReport/getSalesTrendWkDriven')
-const { getCompanyTotalSales } = require('../queries/postgres/kpi/getCompanyTotalSales')
+} = require('../../../database/queries/postgres/baseReport/getSalesTrendWkDriven')
+const { getCompanyTotalSales } = require('../../../database/queries/postgres/kpi/getCompanyTotalSales')
 const {
   l1_getSalesByFyYtd,
   l2_getSalesByFyYtd,
   l3_getSalesByFyYtd,
   l4_getSalesByFyYtd,
   l0_getSalesByFyYtd,
-} = require('../queries/postgres/baseReport/getSalesTrendByFyYtd')
+} = require('../../../database/queries/postgres/baseReport/getSalesTrendByFyYtd')
 const {
   l1_getFgInven,
   l2_getFgInven,
@@ -59,8 +59,8 @@ const {
   l3_getFgAtLoc_tagged,
   l4_getFgAtLoc_tagged,
   l0_getFgAtLoc_tagged,
-} = require('../queries/postgres/baseReport/getFgInven')
-const { l1_getFgPo, l2_getFgPo, l3_getFgPo, l4_getFgPo, l0_getFgPo } = require('../queries/postgres/baseReport/getFgOpenPo')
+} = require('../../../database/queries/postgres/baseReport/getFgInven')
+const { l1_getFgPo, l2_getFgPo, l3_getFgPo, l4_getFgPo, l0_getFgPo } = require('../../../database/queries/postgres/baseReport/getFgOpenPo')
 const {
   l1_getSo,
   l2_getSo,
@@ -77,7 +77,7 @@ const {
   l3_getSoUntagged,
   l4_getSoUntagged,
   l0_getSoUntagged,
-} = require('../queries/postgres/baseReport/getSo')
+} = require('../../../database/queries/postgres/baseReport/getSo')
 const {
   l1_getSo_byWk,
   l2_getSo_byWk,
@@ -94,28 +94,28 @@ const {
   l3_getSoUntagged_byWk,
   l4_getSoUntagged_byWk,
   l0_getSoUntagged_byWk,
-} = require('../queries/postgres/baseReport/getSoByWeek')
+} = require('../../../database/queries/postgres/baseReport/getSoByWeek')
 const {
   getRowsFourthLevelDetail,
   getRowsThirdLevelDetail,
   getRowsSecondLevelDetail,
   getRowsFirstLevelDetail,
-} = require('../queries/postgres/baseReport/getRows')
-const mapSalesToRowTemplates_fourLevel = require('../models/mapSalesToRowTemplatesFourLevel')
-const mapInvenToRowTemplates_fourLevel = require('../models/mapInvenToRowTemplatesFourLevel')
-const mapSalesToRowTemplates_threeLevel = require('../models/mapSalesToRowTemplatesThreeLevel')
-const mapInvenToRowTemplates_threeLevel = require('../models/mapInvenToRowTemplatesThreeLevel')
-const mapSalesToRowTemplates_twoLevel = require('../models/mapSalesToRowTemplatesTwoLevel')
-const mapInvenToRowTemplates_twoLevel = require('../models/mapInvenToRowTemplatesTwoLevel')
-const combineMappedRows = require('../models/combineMappedRows')
-const cleanLabelsForDisplay = require('../models/cleanLabelsForDisplay')
-const unflattenByCompositKey = require('../models/unflattenByCompositKey')
-const calcPercentSalesCol = require('../models/calcPercentSalesCol')
-const getSpeciesGroupTotalSales = require('../queries/postgres/getSpeciesGroupTotalSalesFromProgram')
-const calcAveWeeklySales = require('../models/calcAveWeeklySales')
-const calcWeeksInvOnHand = require('../models/calcWeeksInvOnHand')
-const calcInventoryAvailable = require('../models/calcInventoryAvailable')
-const collapseRedundantTotalRows = require('../models/collapseRedundantTotalRows')
+} = require('../../../database/queries/postgres/baseReport/getRows')
+const mapSalesToRowTemplates_fourLevel = require('../../../models/mapSalesToRowTemplatesFourLevel')
+const mapInvenToRowTemplates_fourLevel = require('../../../models/mapInvenToRowTemplatesFourLevel')
+const mapSalesToRowTemplates_threeLevel = require('../../../models/mapSalesToRowTemplatesThreeLevel')
+const mapInvenToRowTemplates_threeLevel = require('../../../models/mapInvenToRowTemplatesThreeLevel')
+const mapSalesToRowTemplates_twoLevel = require('../../../models/mapSalesToRowTemplatesTwoLevel')
+const mapInvenToRowTemplates_twoLevel = require('../../../models/mapInvenToRowTemplatesTwoLevel')
+const combineMappedRows = require('../../../models/combineMappedRows')
+const cleanLabelsForDisplay = require('../../../models/cleanLabelsForDisplay')
+const unflattenByCompositKey = require('../../../models/unflattenByCompositKey')
+const calcPercentSalesCol = require('../../../models/calcPercentSalesCol')
+const getSpeciesGroupTotalSales = require('../../../database/queries/postgres/getSpeciesGroupTotalSalesFromProgram')
+const calcAveWeeklySales = require('../../../models/calcAveWeeklySales')
+const calcWeeksInvOnHand = require('../../../models/calcWeeksInvOnHand')
+const calcInventoryAvailable = require('../../../models/calcInventoryAvailable')
+const collapseRedundantTotalRows = require('../../../models/collapseRedundantTotalRows')
 const columnConfigs = require('../data/baseCols/columns')
 
 const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, labelCols, year, totalOnly) => {

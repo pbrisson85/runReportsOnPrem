@@ -1,5 +1,7 @@
 #### Goals:
 
+### I now realize that this app is NOT a sales reporting app. it is a reporting app period. I will switch naming over to reportGenerator. The routines and routes will be report specific. They will take same input filters and will use all the same queries. It is just what cols do you want to include, what filters do you want by default (different reports can generate different config settings by default.)
+
 - Priorities:
 
   ### Need a master file of all country codes to validate the ship to country against in generateSales

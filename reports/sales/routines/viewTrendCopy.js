@@ -3,19 +3,19 @@ const {
   getDateEndPerWeekByRange_so,
   getDateEndPerWeekByRange_so_tg,
   getDateEndPerWeekByRange_so_untg,
-} = require('../queries/postgres/getDateEndPerWeek')
-const { getFiscalYearCols, getFiscalYearYtdCols } = require('../queries/postgres/getFiscalYearCols')
-const { getLatestShipWk, getEarliestShipWk } = require('../queries/postgres/getSoDates')
+} = require('../../../database/queries/postgres/getDateEndPerWeek')
+const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../../database/queries/postgres/getFiscalYearCols')
+const { getLatestShipWk, getEarliestShipWk } = require('../../../database/queries/postgres/getSoDates')
 const {
   l1_getSalesByWk,
   l0_getSalesByWk,
   l1_getSalesPeriodToDate,
   l0_getSalesPeriodToDate,
-} = require('../queries/postgres/viewTrend/getSalesTrendDateDriven')
-const { l1_getSalesWkDriven, l0_getSalesWkDriven } = require('../queries/postgres/viewTrend/getSalesTrendWkDriven')
-const { getCompanyTotalSales } = require('../queries/postgres/kpi/getCompanyTotalSales')
-const { l0_getSalesPeriodToDate: l0_program_getSalesPeriodToDate } = require('../queries/postgres/baseReport/getSalesTrendDateDriven')
-const { l1_getSalesByFyYtd, l0_getSalesByFyYtd } = require('../queries/postgres/viewTrend/getSalesTrendByFyYtd')
+} = require('../../../database/queries/postgres/viewTrend/getSalesTrendDateDriven')
+const { l1_getSalesWkDriven, l0_getSalesWkDriven } = require('../../../database/queries/postgres/viewTrend/getSalesTrendWkDriven')
+const { getCompanyTotalSales } = require('../../../database/queries/postgres/kpi/getCompanyTotalSales')
+const { l0_getSalesPeriodToDate: l0_program_getSalesPeriodToDate } = require('../../../database/queries/postgres/baseReport/getSalesTrendDateDriven')
+const { l1_getSalesByFyYtd, l0_getSalesByFyYtd } = require('../../../database/queries/postgres/viewTrend/getSalesTrendByFyYtd')
 const {
   l1_getFgInven,
   l0_getFgInven,
@@ -27,9 +27,9 @@ const {
   l0_getFgAtLoc_untagged,
   l1_getFgAtLoc_tagged,
   l0_getFgAtLoc_tagged,
-} = require('../queries/postgres/viewTrend/getFgInven')
-const { l1_getFgPo, l0_getFgPo } = require('../queries/postgres/viewTrend/getFgOpenPo')
-const { l1_getSo, l0_getSo, l1_getSoTagged, l0_getSoTagged, l1_getSoUntagged, l0_getSoUntagged } = require('../queries/postgres/viewTrend/getSo')
+} = require('../../../database/queries/postgres/viewTrend/getFgInven')
+const { l1_getFgPo, l0_getFgPo } = require('../../../database/queries/postgres/viewTrend/getFgOpenPo')
+const { l1_getSo, l0_getSo, l1_getSoTagged, l0_getSoTagged, l1_getSoUntagged, l0_getSoUntagged } = require('../../../database/queries/postgres/viewTrend/getSo')
 const {
   l1_getSo_byWk,
   l0_getSo_byWk,
@@ -37,17 +37,17 @@ const {
   l0_getSoTagged_byWk,
   l1_getSoUntagged_byWk,
   l0_getSoUntagged_byWk,
-} = require('../queries/postgres/viewTrend/getSoByWeek')
-const { getRowsFirstLevelDetail } = require('../queries/postgres/viewTrend/getRows')
-const mapSalesToRowTemplates = require('../models/mapSalesToRowTemplatesOneLevel')
-const mapInvenToRowTemplates = require('../models/mapInvenToRowTemplatesOneLevel')
-const combineMappedRows = require('../models/combineMappedRows')
-const cleanLabelsForDisplay = require('../models/cleanLabelsForDisplay')
-const unflattenByCompositKey = require('../models/unflattenByCompositKey')
-const calcPercentSalesCol = require('../models/calcPercentSalesCol')
-const calcAveWeeklySales = require('../models/calcAveWeeklySales')
-const calcWeeksInvOnHand = require('../models/calcWeeksInvOnHand')
-const calcInventoryAvailable = require('../models/calcInventoryAvailable')
+} = require('../../../database/queries/postgres/viewTrend/getSoByWeek')
+const { getRowsFirstLevelDetail } = require('../../../database/queries/postgres/viewTrend/getRows')
+const mapSalesToRowTemplates = require('../../../models/mapSalesToRowTemplatesOneLevel')
+const mapInvenToRowTemplates = require('../../../models/mapInvenToRowTemplatesOneLevel')
+const combineMappedRows = require('../../../models/combineMappedRows')
+const cleanLabelsForDisplay = require('../../../models/cleanLabelsForDisplay')
+const unflattenByCompositKey = require('../../../models/unflattenByCompositKey')
+const calcPercentSalesCol = require('../../../models/calcPercentSalesCol')
+const calcAveWeeklySales = require('../../../models/calcAveWeeklySales')
+const calcWeeksInvOnHand = require('../../../models/calcWeeksInvOnHand')
+const calcInventoryAvailable = require('../../../models/calcInventoryAvailable')
 const columnConfigs = require('../data/baseCols/columns')
 
 const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startWeek, endWeek, trendQuery, year) => {
