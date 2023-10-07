@@ -11,7 +11,7 @@ const getCols = body => {
     view: null, // dataset to show for the column (extended_cost, weight, cost_per_lb)
     data: false,
     colType: 'label',
-    optional: true, // flag to determine if the col is optional
+    optional: false, // flag to determine if the col is optional
     showByDefault: true, // flag to determine if optional col is shown by default
   }
 
@@ -84,29 +84,29 @@ const speciesgroupProg = [
 ]
 
 const speciesgroupProgFrz = [
-  {
-    displayName: 'MAJOR CATEGORY', // show as column header
-    dataName: 'l1_label', // key to pull data from
-    filterName: 'l1_filter', // key to match up the column with the filter
-    width: '175px', // css width
-    left: '0px', // css positioning for sticky sum of prior col widths
-    rightClickMenu: [], // array of options for right click menu
-  },
-  {
-    displayName: 'PROGRAM', // show as column header
-    dataName: 'l2_label', // key to pull data from
-    filterName: 'l2_filter', // key to match up the column with the filter
-    width: '175px', // css width
-    left: '175px', // css positioning for sticky sum of prior col widths
-    borderRight: false, // border right on ladst frozen cell
-    rightClickMenu: [], // array of options for right click menu
-  },
+  // {
+  //   displayName: 'MAJOR CATEGORY', // show as column header
+  //   dataName: 'l1_label', // key to pull data from
+  //   filterName: 'l1_filter', // key to match up the column with the filter
+  //   width: '175px', // css width
+  //   left: '0px', // css positioning for sticky sum of prior col widths
+  //   rightClickMenu: [], // array of options for right click menu
+  // },
+  // {
+  //   displayName: 'PROGRAM', // show as column header
+  //   dataName: 'l2_label', // key to pull data from
+  //   filterName: 'l2_filter', // key to match up the column with the filter
+  //   width: '175px', // css width
+  //   left: '175px', // css positioning for sticky sum of prior col widths
+  //   borderRight: false, // border right on ladst frozen cell
+  //   rightClickMenu: [], // array of options for right click menu
+  // },
   {
     displayName: 'FREEZE', // show as column header
     dataName: 'l3_label', // key to pull data from
     filterName: 'l3_filter', // key to match up the column with the filter
     width: '175px', // css width
-    left: '350px', // css positioning for sticky sum of prior col widths
+    left: '0px', // css positioning for sticky sum of prior col widths
     borderRight: true, // border right on ladst frozen cell
     rightClickMenu: [], // array of options for right click menu
   },
