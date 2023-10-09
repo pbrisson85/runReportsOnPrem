@@ -1,7 +1,7 @@
 const _ = require('lodash')
 
 const cleanLabelsForDisplay = (flattenedMappedData, config) => {
-  /* TEST */ let collapsedLabels = true
+  /* TEST */ let collapsedLabels = false
 
   const shiftTotals = config?.subtotalRowFormats?.shiftTotals
   const shiftTotalsCss = config?.subtotalRowFormats?.shiftTotalsCss
