@@ -106,7 +106,7 @@ const speciesgroupProgFrz = [
     dataName: 'l3_label', // key to pull data from
     filterName: 'l3_filter', // key to match up the column with the filter
     width: '175px', // css width
-    left: '0px', // css positioning for sticky sum of prior col widths
+    left: '350px', // css positioning for sticky sum of prior col widths
     borderRight: true, // border right on ladst frozen cell
     rightClickMenu: [], // array of options for right click menu
   },
