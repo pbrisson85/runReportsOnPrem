@@ -111,6 +111,27 @@ const getViewTrendConfig = rightMenuSelection => {
         so: { l1_label: 'cs.category' },
         inv: {},
       }
+
+    case 'Trend By Species Group':
+      return {
+        sl: { l1_label: 'ms.species_group' },
+        so: { l1_label: 'ms.species_group' },
+        inv: { l1_label: 'ms.species_group' },
+      }
+
+    case 'Trend By Program':
+      return {
+        sl: { l1_label: 'ms.program' },
+        so: { l1_label: 'ms.program' },
+        inv: { l1_label: 'ms.program' },
+      }
+
+    case 'Trend By Species':
+      return {
+        sl: { l1_label: 'ms.species' },
+        so: { l1_label: 'ms.species' },
+        inv: { l1_label: 'ms.species' },
+      }
   }
 }
 

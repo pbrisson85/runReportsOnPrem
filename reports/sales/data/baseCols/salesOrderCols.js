@@ -28,6 +28,9 @@ const openOrdersCol = [
       'Trend By Country',
       'Trend By State',
       'Trend By Fresh vs Frozen',
+      'Trend By Species Group',
+      'Trend By Species',
+      'Trend By Program',
     ],
     drilldownRightClickMenu: [
       'Get Details',
@@ -40,6 +43,9 @@ const openOrdersCol = [
       'Trend By Country',
       'Trend By State',
       'Trend By Fresh vs Frozen',
+      'Trend By Species Group',
+      'Trend By Species',
+      'Trend By Program',
     ],
     colType: 'salesOrder', // Make sure to update the getViewFilter on the back end to allow this colType in the view
     allowTrend: true,

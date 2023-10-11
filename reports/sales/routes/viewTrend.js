@@ -11,7 +11,9 @@ const labelCols_byNorthAmericaVsForeign = require('../data/trendCols/colsByNorth
 const labelCols_byCountry = require('../data/trendCols/colsByCountry')
 const labelCols_byState = require('../data/trendCols/colsByState')
 const labelCols_byFreshFrozen = require('../data/trendCols/colsByFreshFrozen')
-
+const labelCols_byProgram = require('../data/trendCols/colsByProgram')
+const labelCols_bySpecies = require('../data/trendCols/colsBySpecies')
+const labelCols_bySpeciesGroup = require('../data/trendCols/colsBySpeciesGroup')
 const getReportConfig = require('../utils/getReportConfig')
 const getViewTrendConfig = require('../utils/getViewTrendConfig')
 const addCustomerName = require('../routines/custom/trendByCustomer')
@@ -68,6 +70,15 @@ router.post('/', async (req, res) => {
       break
     case 'Trend By Customer Type':
       cols = labelCols_byCustType
+      break
+    case 'Trend By Program':
+      cols = labelCols_byProgram
+      break
+    case 'Trend By Species':
+      cols = labelCols_bySpecies
+      break
+    case 'Trend By Species Group':
+      cols = labelCols_bySpeciesGroup
       break
   }
 
