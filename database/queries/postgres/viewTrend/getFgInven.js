@@ -30,7 +30,10 @@ const l1_getFgInven = async (config, trendQuery) => {
       WHERE 
         pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+        ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+        ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
@@ -83,7 +86,10 @@ const l1_getFgInTransit = async (config, trendQuery) => {
         pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         AND pi.location_type = ${'IN TRANSIT'} 
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+        ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+        ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
@@ -135,7 +141,10 @@ const l1_getFgAtLoc = async (config, trendQuery) => {
         pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         AND pi.location_type <> ${'IN TRANSIT'} 
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+        ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+        ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
@@ -201,7 +210,10 @@ LEFT OUTER JOIN (
   
 WHERE 
   ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-  ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+  ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+  ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+  ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+  ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
   ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
   ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
   ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
@@ -252,7 +264,10 @@ const l1_getFgAtLoc_tagged = async (config, trendQuery) => {
       WHERE 
         tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+        ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+        ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
@@ -298,7 +313,10 @@ const l0_getFgInven = async (config, trendQuery) => {
       WHERE 
         pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+        ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+        ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
@@ -332,7 +350,10 @@ const l0_getFgInTransit = async (config, trendQuery) => {
         pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         AND pi.location_type = ${'IN TRANSIT'}  
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+        ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+        ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -366,7 +387,10 @@ const l0_getFgAtLoc = async (config, trendQuery) => {
         pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         AND pi.location_type <> ${'IN TRANSIT'} 
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+        ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+        ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -416,7 +440,10 @@ const l0_getFgAtLoc_untagged = async (config, trendQuery) => {
  
  WHERE 
   ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-  ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+  ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+  ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+  ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+  ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
   ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
   ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
   ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
@@ -447,7 +474,10 @@ const l0_getFgAtLoc_tagged = async (config, trendQuery) => {
       WHERE 
         tagged_inventory.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+        ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+        ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  

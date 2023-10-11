@@ -18,6 +18,9 @@ const getSoByWk_detail = async (config, weekSerial) => {
         AND so.week_serial = ${weekSerial} 
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+        ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+        ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
         ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 
@@ -60,6 +63,9 @@ const getSoTagged_detail = async (config, weekSerial) => {
         AND so.week_serial = ${weekSerial}
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+        ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+        ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
         ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 
@@ -103,6 +109,9 @@ const getSoByWkUntagged_detail = async (config, weekSerial) => {
         AND so.week_serial = ${weekSerial}
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+        ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+        ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
         ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 

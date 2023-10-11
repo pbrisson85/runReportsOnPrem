@@ -31,6 +31,9 @@ const l1_getSo_byWk = async (config, trendQuery) => {
           so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
           ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
           ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+          ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+          ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+          ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
           ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
           ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
           ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
@@ -94,6 +97,9 @@ const l1_getSoTagged_byWk = async (config, trendQuery) => {
             AND so.tagged_weight > 0  
             ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+            ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+            ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+            ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
             ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
             ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
@@ -157,6 +163,9 @@ const l1_getSoUntagged_byWk = async (config, trendQuery) => {
         AND so.untagged_weight > 0  
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+        ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+        ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
         ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
@@ -216,6 +225,9 @@ const l0_getSo_byWk = async config => {
             so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
             ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+            ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+            ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+            ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
             ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
             ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
@@ -266,6 +278,9 @@ const l0_getSoTagged_byWk = async config => {
         AND so.tagged_weight > 0  
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+        ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+        ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
         ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 
@@ -316,6 +331,9 @@ const l0_getSoUntagged_byWk = async config => {
         AND so.untagged_weight > 0  
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+        ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+        ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
         ${config.salesPerson ? sql`AND so.out_sales_rep = ${config.salesPerson}`: sql``} 

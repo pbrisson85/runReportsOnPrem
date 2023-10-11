@@ -31,7 +31,10 @@ const l1_getSalesByFyYtd = async (config, start, end, showYtd, trendQuery) => {
           
       WHERE 
         ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+        ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+        ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``} 
         ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 
@@ -93,7 +96,10 @@ const l0_getSalesByFyYtd = async (config, start, end, showYtd) => {
       
       WHERE 
         ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+        ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+        ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``}   
         ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 

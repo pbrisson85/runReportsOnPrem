@@ -19,6 +19,9 @@ const getFgInven_detail = async config => {
             AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+            ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+            ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+            ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
             ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -55,6 +58,9 @@ const getFgInTransit_detail = async config => {
             AND pi.location_type = ${'IN TRANSIT'} 
             ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+            ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+            ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
             ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -90,6 +96,9 @@ const getFgAtLoc_detail = async config => {
             AND pi.location_type <> ${'IN TRANSIT'} 
             ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+            ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+            ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
             ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -127,6 +136,9 @@ const getFgAtLoc_untagged_detail = async config => {
                 AND pi.location_type <> ${'IN TRANSIT'} 
                 ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
                 ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+                ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+                ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+                ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
                 ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
                 ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
                 ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -148,6 +160,9 @@ const getFgAtLoc_untagged_detail = async config => {
                 ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
                 ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
                 ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+                ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+                ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+                ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
                 ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
                 ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
                 ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -187,6 +202,9 @@ const getFgAtLoc_tagged_detail = async config => {
             ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
             ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+            ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+            ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
             ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 

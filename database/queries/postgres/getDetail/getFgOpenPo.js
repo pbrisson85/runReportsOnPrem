@@ -18,6 +18,9 @@ const getFgPo_detail = async config => {
         AND p.version = (SELECT MAX(p2.version) - 1 FROM "invenReporting".perpetual_inventory AS p2) 
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+        ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+        ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
         ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 

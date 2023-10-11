@@ -28,7 +28,10 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
         WHERE 
             ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
             ${!showFyTrend ? sql`AND sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} ` : sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+            ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+            ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}
             ${config.customer ? sql`AND sl.customer_code = ${config.customer}`: sql``}  
             ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 
@@ -72,7 +75,10 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
         WHERE 
             so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)  
             ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+            ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+            ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
             ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
             ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 
@@ -116,7 +122,10 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
         WHERE 
             perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+            ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+            ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
             ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``}  
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 

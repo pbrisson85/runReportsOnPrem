@@ -30,7 +30,10 @@ const l1_getSo = async (config, trendQuery) => {
          WHERE 
           so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
           ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
-          ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+          ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+          ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+          ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+          ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
           ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
           ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
           ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 
@@ -92,7 +95,10 @@ const l1_getSoTagged = async (config, trendQuery) => {
             so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
             AND so.tagged_weight > 0  
             ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+            ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+            ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
             ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
             ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 
@@ -155,6 +161,9 @@ const l1_getSoUntagged = async (config, trendQuery) => {
         AND so.untagged_weight > 0  
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+        ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+        ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
         ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 
@@ -212,7 +221,10 @@ const l0_getSo = async config => {
            WHERE 
             so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
             ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+            ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+            ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
             ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
             ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
             ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 
@@ -260,7 +272,10 @@ const l0_getSoTagged = async config => {
         so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
         AND so.tagged_weight > 0  
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+        ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+        ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
         ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 
@@ -308,7 +323,10 @@ const l0_getSoUntagged = async config => {
         so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
         AND so.untagged_weight > 0  
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
+        ${config.species ? sql`AND ms.species = ${config.species}`: sql``}
+        ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}
         ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``}  
         ${config.customer ? sql`AND so.customer_code = ${config.customer}`: sql``} 
         ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 

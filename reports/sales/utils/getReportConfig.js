@@ -40,6 +40,9 @@ const getReportConfig = reqBody => {
     itemType: reqBody.itemType ?? ['FG'],
     freshFrozen: reqBody.freshFrozen ?? null,
     custType: reqBody.custType ?? null,
+    speciesGroup: reqBody.speciesGroup ?? null,
+    species: reqBody.species ?? null,
+    programDrilldown: reqBody.programDrilldown ?? null,
     jbBuyerFilter,
     user: reqBody.user ?? null,
     subtotalRowFormats: {
