@@ -59,10 +59,10 @@ const l1_getSalesProjectionPeriodToDate = async (config, start, end) => {
     console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getSalesProjectionPeriodToDate) ...`)
 
     const response = await sql
-      `SELECT pj.column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
+      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT sl.item_number AS item_num, sl.week_serial AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+        SELECT sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
         
         FROM "salesReporting".sales_line_items AS sl 
           
@@ -70,7 +70,7 @@ const l1_getSalesProjectionPeriodToDate = async (config, start, end) => {
           sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
           
         UNION 
-          SELECT so.item_num AS item_num, so.week_serial AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so
             
@@ -154,10 +154,10 @@ const l2_getSalesProjectionPeriodToDate = async (config, start, end) => {
     console.log(`${config.user} - level 2: query postgres to get FG sales data period total (l2_getSalesProjectionPeriodToDate) ...`)
 
     const response = await sql
-      `SELECT pj.column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
+      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT sl.item_number AS item_num, sl.week_serial AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+        SELECT sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
         
         FROM "salesReporting".sales_line_items AS sl
           
@@ -165,7 +165,7 @@ const l2_getSalesProjectionPeriodToDate = async (config, start, end) => {
           sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end}
         
         UNION 
-          SELECT so.item_num AS item_num, so.week_serial AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so
             
@@ -250,10 +250,10 @@ const l3_getSalesProjectionPeriodToDate = async (config, start, end) => {
     console.log(`${config.user} - level 3: query postgres to get FG sales data period total (l3_getSalesProjectionPeriodToDate) ...`)
 
     const response = await sql
-      `SELECT pj.column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
+      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT sl.item_number AS item_num, sl.week_serial AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+        SELECT sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
         
         FROM "salesReporting".sales_line_items AS sl
           
@@ -261,7 +261,7 @@ const l3_getSalesProjectionPeriodToDate = async (config, start, end) => {
           sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end}
           
         UNION 
-          SELECT so.item_num AS item_num, so.week_serial AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so
             
@@ -346,10 +346,10 @@ const l4_getSalesProjectionPeriodToDate = async (config, start, end) => {
     console.log(`${config.user} - level 4: query postgres to get FG sales data period total (l4_getSalesProjectionPeriodToDate) ...`)
 
     const response = await sql
-      `SELECT pj.column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
+      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT sl.item_number AS item_num, sl.week_serial AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+        SELECT sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
         
         FROM "salesReporting".sales_line_items AS sl
           
@@ -357,7 +357,7 @@ const l4_getSalesProjectionPeriodToDate = async (config, start, end) => {
           sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end}
           
         UNION 
-          SELECT so.item_num AS item_num, so.week_serial AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so
             
@@ -444,10 +444,10 @@ const l0_getSalesProjectionPeriodToDate = async (config, start, end) => {
 
     const response = await sql
       `
-      SELECT pj.column ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
+      SELECT 'SALES TOTAL' AS column ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT sl.item_number AS item_num, sl.week_serial AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+        SELECT sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
       
         FROM "salesReporting".sales_line_items AS sl 
           
@@ -455,7 +455,7 @@ const l0_getSalesProjectionPeriodToDate = async (config, start, end) => {
           sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
           
         UNION
-          SELECT so.item_num AS item_num, so.week_serial AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so 
          
