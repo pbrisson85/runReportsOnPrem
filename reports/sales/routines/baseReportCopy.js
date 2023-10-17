@@ -142,9 +142,6 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   let {useProjection} = config
   useProjection = true
 
-  // Call all column functions
-  const [trendColsSales, trendColsSaByFy, trendColsSaByFyYtd, trendColsSo, trendColsSo_tg, trendColsSo_untg] = await Promise.all([trendColsSalesF(), trendColsSaByFyF(),trendColsSaByFyYtdF(), trendColsSoF(), trendColsSo_tgF(), trendColsSo_untgF()])
-
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
   const l1_fgInven = totalOnly ? skip() : () => {return l1_getFgInven(config)} 
@@ -894,6 +891,9 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   const trendColsSoF = () => {return  getDateEndPerWeekByRange_so(start_so, end_so, config)}
   const trendColsSo_tgF = () => {return  getDateEndPerWeekByRange_so_tg(start_so, end_so, config)}
   const trendColsSo_untgF = () => {return  getDateEndPerWeekByRange_so_untg(start_so, end_so, config)}
+
+  // Call all column functions
+  const [trendColsSales, trendColsSaByFy, trendColsSaByFyYtd, trendColsSo, trendColsSo_tg, trendColsSo_untg] = await Promise.all([trendColsSalesF(), trendColsSaByFyF(),trendColsSaByFyYtdF(), trendColsSoF(), trendColsSo_tgF(), trendColsSo_untgF()])
   
   // return
   return {
