@@ -29,13 +29,13 @@ const l1_getSalesProjectionByWk = async (config, start, end) => {
         UNION 
           SELECT so.week_serial AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
-          FROM "salesReporting".sales_orders AS so
+          FROM "salesReporting".sales_orders AS so 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = so.item_num 
       
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
+            AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
             ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
@@ -84,7 +84,7 @@ const l1_getSalesProjectionPeriodToDate = async (config, start, end) => {
       
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
+            AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
             ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
@@ -131,7 +131,7 @@ const l2_getSalesProjectionByWk = async (config, start, end) => {
       
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
+            AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
             ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
@@ -179,7 +179,7 @@ const l2_getSalesProjectionPeriodToDate = async (config, start, end) => {
       
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
+            AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
             ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
@@ -227,7 +227,7 @@ const l3_getSalesProjectionByWk = async (config, start, end) => {
       
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
+            AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
             ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
@@ -275,7 +275,7 @@ const l3_getSalesProjectionPeriodToDate = async (config, start, end) => {
       
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
+            AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
             ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
@@ -323,7 +323,7 @@ const l4_getSalesProjectionByWk = async (config, start, end) => {
       
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
+            AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
             ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
@@ -372,7 +372,7 @@ const l4_getSalesProjectionPeriodToDate = async (config, start, end) => {
       
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
+            AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
             ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
@@ -422,7 +422,7 @@ const l0_getSalesProjectionByWk = async (config, start, end) => {
         
          WHERE 
           so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
-          so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
+          AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
           ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
           ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
           ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
@@ -471,7 +471,7 @@ const l0_getSalesProjectionPeriodToDate = async (config, start, end) => {
         
          WHERE 
           so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
-          so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
+          AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
           ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
           ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
           ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
