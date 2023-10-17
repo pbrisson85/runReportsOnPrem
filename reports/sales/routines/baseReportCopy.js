@@ -6,7 +6,6 @@ const {
 } = require('../../../database/queries/postgres/getDateEndPerWeek')
 const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../../database/queries/postgres/getFiscalYearCols')
 const { getLatestShipWk, getEarliestShipWk } = require('../../../database/queries/postgres/getSoDates')
-const { getLatestSaleDate } = require('../../../database/queries/postgres/getSalesDate')
 const {
 l0_getSalesProjectionByWk,
 l0_getSalesProjectionPeriodToDate,
@@ -142,9 +141,6 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
 
   let {useProjection} = config
   useProjection = true
-
-  // get sales projection cols
-  const latestInvoiceDate = await getLatestSaleDate()
 
   // Call all column functions
   const [trendColsSales, trendColsSaByFy, trendColsSaByFyYtd, trendColsSo, trendColsSo_tg, trendColsSo_untg] = await Promise.all([trendColsSalesF(), trendColsSaByFyF(),trendColsSaByFyYtdF(), trendColsSoF(), trendColsSo_tgF(), trendColsSo_untgF()])
