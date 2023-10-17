@@ -1,4 +1,4 @@
-const invenFgCols = [
+const invenCols = [
   {
     unfilteredColIdx: 1,
     displayName: 'FG INVEN',

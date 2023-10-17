@@ -6,6 +6,19 @@ const {
 } = require('../../../database/queries/postgres/getDateEndPerWeek')
 const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../../database/queries/postgres/getFiscalYearCols')
 const { getLatestShipWk, getEarliestShipWk } = require('../../../database/queries/postgres/getSoDates')
+const { getLatestSaleDate } = require('../../../database/queries/postgres/getSalesDate')
+const {
+l0_getSalesProjectionByWk,
+l0_getSalesProjectionPeriodToDate,
+l2_getSalesProjectionByWk,
+l2_getSalesProjectionPeriodToDate,
+l1_getSalesProjectionByWk,
+l1_getSalesProjectionPeriodToDate,
+l3_getSalesProjectionByWk,
+l3_getSalesProjectionPeriodToDate,
+l4_getSalesProjectionByWk,
+l4_getSalesProjectionPeriodToDate
+} = require('../../../database/queries/postgres/baseReport/getSalesProjection')
 const {
   l1_getSalesByWk,
   l2_getSalesByWk,
@@ -127,6 +140,15 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
     }
   }
 
+  let {useProjection} = config
+  useProjection = true
+
+  // get sales projection cols
+  const latestInvoiceDate = await getLatestSaleDate()
+
+  // Call all column functions
+  const [trendColsSales, trendColsSaByFy, trendColsSaByFyYtd, trendColsSo, trendColsSo_tg, trendColsSo_untg] = await Promise.all([trendColsSalesF(), trendColsSaByFyF(),trendColsSaByFyYtdF(), trendColsSoF(), trendColsSo_tgF(), trendColsSo_untgF()])
+
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
   const l1_fgInven = totalOnly ? skip() : () => {return l1_getFgInven(config)} 
@@ -206,6 +228,23 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   const l0_soUntagged_byWk = () => {return l0_getSoUntagged_byWk(config)}
 
   // ///////////////////////////////// SALES DATA
+
+  /*SALES PROJECTIONS*/
+
+  const l1_salesProjectionByWk = totalOnly || !useProjection ? skip() : () => {return l1_getSalesProjectionByWk(config, start, end)}
+  const l2_salesProjectionByWk = totalOnly || !useProjection ? skip() : () => {return l2_getSalesProjectionByWk(config, start, end)}
+  const l3_salesProjectionByWk = totalOnly || !useProjection ? skip() : config.l3_field ? () => {return l3_getSalesProjectionByWk(config, start, end)} : skip()
+  const l4_salesProjectionByWk = totalOnly || !useProjection ? skip() : config.l4_field ? () => {return l4_getSalesProjectionByWk(config, start, end)} : skip()
+  const l0_salesProjectionByWk = !useProjection ? skip() : () => {return l0_getSalesProjectionByWk(config, start, end)}
+
+  const l1_salesProjectionPeriodToDate = totalOnly || !useProjection ? skip() : () => {return l1_getSalesProjectionPeriodToDate(config, start, end)}
+  const l2_salesProjectionPeriodToDate = totalOnly || !useProjection ? skip() : () => {return l2_getSalesProjectionPeriodToDate(config, start, end)}
+  const l3_salesProjectionPeriodToDate = totalOnly || !useProjection ? skip() : config.l3_field ? () => {return l3_getSalesProjectionPeriodToDate(config, start, end)} : skip()
+  const l4_salesProjectionPeriodToDate = totalOnly || !useProjection ? skip() : config.l4_field ? () => {return l4_getSalesProjectionPeriodToDate(config, start, end)} : skip()
+  const l0_salesProjectionPeriodToDate = !useProjection ? skip() : () => {return l0_getSalesProjectionPeriodToDate(config, start, end)}
+
+  /*SALES*/
+
   const l1_salesByFy = totalOnly ? skip() : () => {return l1_getSalesByFyYtd(config, startWeek, endWeek, false)}
   const l2_salesByFy = totalOnly ? skip() : () => {return l2_getSalesByFyYtd(config, startWeek, endWeek, false)}
   const l3_salesByFy = totalOnly ? skip() : config.l3_field ? () => {return l3_getSalesByFyYtd(config, startWeek, endWeek, false)} : skip()
@@ -218,17 +257,17 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   const l4_salesByFyYtd = totalOnly ? skip() : config.l4_field ? () => {return l4_getSalesByFyYtd(config, startWeek, endWeek, true)} : skip()
   const l0_salesByFyYtd = () => {return l0_getSalesByFyYtd(config, startWeek, endWeek, true)}
 
-  const l1_salesByWk = totalOnly ? skip() : () => {return l1_getSalesByWk(config, start, end)}
-  const l2_salesByWk = totalOnly ? skip() : () => {return l2_getSalesByWk(config, start, end)}
-  const l3_salesByWk = totalOnly ? skip() : config.l3_field ? () => {return l3_getSalesByWk(config, start, end)} : skip()
-  const l4_salesByWk = totalOnly ? skip() : config.l4_field ? () => {return l4_getSalesByWk(config, start, end)} : skip()
-  const l0_salesByWk = () => {return l0_getSalesByWk(config, start, end)}
+  const l1_salesByWk = totalOnly || useProjection ? skip() : () => {return l1_getSalesByWk(config, start, end)}
+  const l2_salesByWk = totalOnly || useProjection ? skip() : () => {return l2_getSalesByWk(config, start, end)}
+  const l3_salesByWk = totalOnly || useProjection ? skip() : config.l3_field ? () => {return l3_getSalesByWk(config, start, end)} : skip()
+  const l4_salesByWk = totalOnly || useProjection ? skip() : config.l4_field ? () => {return l4_getSalesByWk(config, start, end)} : skip()
+  const l0_salesByWk = useProjection ? skip() : () => {return l0_getSalesByWk(config, start, end)}
 
-  const l1_salesPeriodToDate = totalOnly ? skip() : () => {return l1_getSalesPeriodToDate(config, start, end)}
-  const l2_salesPeriodToDate = totalOnly ? skip() : () => {return l2_getSalesPeriodToDate(config, start, end)}
-  const l3_salesPeriodToDate = totalOnly ? skip() : config.l3_field ? () => {return l3_getSalesPeriodToDate(config, start, end)} : skip()
-  const l4_salesPeriodToDate = totalOnly ? skip() : config.l4_field ? () => {return l4_getSalesPeriodToDate(config, start, end)} : skip()
-  const l0_salesPeriodToDate = () => {return l0_getSalesPeriodToDate(config, start, end)}
+  const l1_salesPeriodToDate = totalOnly || useProjection ? skip() : () => {return l1_getSalesPeriodToDate(config, start, end)}
+  const l2_salesPeriodToDate = totalOnly || useProjection ? skip() : () => {return l2_getSalesPeriodToDate(config, start, end)}
+  const l3_salesPeriodToDate = totalOnly || useProjection ? skip() : config.l3_field ? () => {return l3_getSalesPeriodToDate(config, start, end)} : skip()
+  const l4_salesPeriodToDate = totalOnly || useProjection ? skip() : config.l4_field ? () => {return l4_getSalesPeriodToDate(config, start, end)} : skip()
+  const l0_salesPeriodToDate = useProjection ? skip() : () => {return l0_getSalesPeriodToDate(config, start, end)}
 
   const companyTotalSales = () => {return getCompanyTotalSales(start, end, config)}
 
@@ -257,6 +296,10 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   const l0_trailingTwelveWeek = endWeek < 12 ? skip() : () => {return l0_getSalesWkDriven(config, endWeek - 11, endWeek, year)}
 
   /*  */
+
+
+   
+
 
   const [
     companyTotalSalesR,
@@ -320,6 +363,16 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
     l3_soUntagged_byWkR,
     l4_soUntagged_byWkR,
     l0_soUntagged_byWkR,
+    l1_salesProjectionBywkF,
+    l2_salesProjectionBywkF,
+    l3_salesProjectionBywkF,
+    l4_salesProjectionBywkF,
+    l0_salesProjectionBywkF,
+    l1_salesProjectionPeriodToDateF,
+    l2_salesProjectionPeriodToDateF,
+    l3_salesProjectionPeriodToDateF,
+    l4_salesProjectionPeriodToDateF,
+    l0_salesProjectionPeriodToDateF,
     l1_salesByFyR,
     l2_salesByFyR,
     l3_salesByFyR,
@@ -422,6 +475,16 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
     l3_soUntagged_byWk(),
     l4_soUntagged_byWk(),
     l0_soUntagged_byWk(),
+    l1_salesProjectionByWk(),
+    l2_salesProjectionByWk(),
+    l3_salesProjectionByWk(),
+    l4_salesProjectionByWk(),
+    l0_salesProjectionByWk(),
+    l1_salesProjectionPeriodToDate(),
+    l2_salesProjectionPeriodToDate(),
+    l3_salesProjectionPeriodToDate(),
+    l4_salesProjectionPeriodToDate(),
+    l0_salesProjectionPeriodToDate(),
     l1_salesByFy(),
     l2_salesByFy(),
     l3_salesByFy(),
@@ -668,6 +731,16 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
 
   const mappedSales = mapSalesToRowTemplates(
     [
+      ...l1_salesProjectionBywkF,
+      ...l2_salesProjectionBywkF,
+      ...l3_salesProjectionBywkF,
+      ...l4_salesProjectionBywkF,
+      ...l0_salesProjectionBywkF,
+      ...l1_salesProjectionPeriodToDateF,
+      ...l2_salesProjectionPeriodToDateF,
+      ...l3_salesProjectionPeriodToDateF,
+      ...l4_salesProjectionPeriodToDateF,
+      ...l0_salesProjectionPeriodToDateF,
       ...l1_salesByWkR,
       ...l2_salesByWkR,
       ...l3_salesByWkR,
@@ -808,6 +881,8 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
 
   const flattenedMappedData = Object.values(mappedData)
   const data = cleanLabelsForDisplay(flattenedMappedData, config)
+
+  /* Build Columns */
   const trendColsSalesF = () => {return  getDateEndPerWeekByRange(start, end, config)}
   //const collapsedData = collapseRedundantTotalRows(data, level)
 
@@ -820,13 +895,10 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   // get so by week cols
   const start_so = await getEarliestShipWk(config)
   const end_so = await getLatestShipWk(config)
-
   const trendColsSoF = () => {return  getDateEndPerWeekByRange_so(start_so, end_so, config)}
   const trendColsSo_tgF = () => {return  getDateEndPerWeekByRange_so_tg(start_so, end_so, config)}
   const trendColsSo_untgF = () => {return  getDateEndPerWeekByRange_so_untg(start_so, end_so, config)}
-
-  const [trendColsSales, trendColsSaByFy,trendColsSaByFyYtd, trendColsSo, trendColsSo_tg, trendColsSo_untg] = await Promise.all([trendColsSalesF(), trendColsSaByFyF(),trendColsSaByFyYtdF(), trendColsSoF(), trendColsSo_tgF(), trendColsSo_untgF()])
-
+  
   // return
   return {
     data,
