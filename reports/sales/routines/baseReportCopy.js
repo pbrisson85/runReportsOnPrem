@@ -356,16 +356,16 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
     l3_soUntagged_byWkR,
     l4_soUntagged_byWkR,
     l0_soUntagged_byWkR,
-    l1_salesProjectionBywkF,
-    l2_salesProjectionBywkF,
-    l3_salesProjectionBywkF,
-    l4_salesProjectionBywkF,
-    l0_salesProjectionBywkF,
-    l1_salesProjectionPeriodToDateF,
-    l2_salesProjectionPeriodToDateF,
-    l3_salesProjectionPeriodToDateF,
-    l4_salesProjectionPeriodToDateF,
-    l0_salesProjectionPeriodToDateF,
+    l1_salesProjectionBywkR,
+    l2_salesProjectionBywkR,
+    l3_salesProjectionBywkR,
+    l4_salesProjectionBywkR,
+    l0_salesProjectionBywkR,
+    l1_salesProjectionPeriodToDateR,
+    l2_salesProjectionPeriodToDateR,
+    l3_salesProjectionPeriodToDateR,
+    l4_salesProjectionPeriodToDateR,
+    l0_salesProjectionPeriodToDateR,
     l1_salesByFyR,
     l2_salesByFyR,
     l3_salesByFyR,
@@ -552,29 +552,36 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   let l3_percent_speciesGroupSales = []
   let l4_percent_speciesGroupSales = []
   let l0_percent_speciesGroupSales = []
+
+  let l0_sales = useProjection ? l0_salesProjectionPeriodToDateR : l0_salesPeriodToDateR
+  let l1_sales = useProjection ? l1_salesProjectionPeriodToDateR : l1_salesPeriodToDateR
+  let l2_sales = useProjection ? l2_salesProjectionPeriodToDateR : l2_salesPeriodToDateR
+  let l3_sales = useProjection ? l3_salesProjectionPeriodToDateR : l3_salesPeriodToDateR
+  let l4_sales = useProjection ? l4_salesProjectionPeriodToDateR : l4_salesPeriodToDateR
+
   if (config.program !== null) {
     const speciesGroupTotalSales = await getSpeciesGroupTotalSales(start, end, config)
-    l1_percent_speciesGroupSales = totalOnly ? [] : calcPercentSalesCol(speciesGroupTotalSales[0], l1_salesPeriodToDateR, 'percentSpeciesGroupSales') 
-    l2_percent_speciesGroupSales = totalOnly ? [] : calcPercentSalesCol(speciesGroupTotalSales[0], l2_salesPeriodToDateR, 'percentSpeciesGroupSales') 
-    l3_percent_speciesGroupSales = totalOnly ? [] : config.l3_field ? calcPercentSalesCol(speciesGroupTotalSales[0], l3_salesPeriodToDateR, 'percentSpeciesGroupSales') : [] 
-    l4_percent_speciesGroupSales = totalOnly ? [] : config.l4_field ? calcPercentSalesCol(speciesGroupTotalSales[0], l4_salesPeriodToDateR, 'percentSpeciesGroupSales') : [] 
-    l0_percent_speciesGroupSales = calcPercentSalesCol(speciesGroupTotalSales[0], l0_salesPeriodToDateR, 'percentSpeciesGroupSales')
+    l1_percent_speciesGroupSales = totalOnly ? [] : calcPercentSalesCol(speciesGroupTotalSales[0], l1_sales, 'percentSpeciesGroupSales') 
+    l2_percent_speciesGroupSales = totalOnly ? [] : calcPercentSalesCol(speciesGroupTotalSales[0], l2_sales, 'percentSpeciesGroupSales') 
+    l3_percent_speciesGroupSales = totalOnly ? [] : config.l3_field ? calcPercentSalesCol(speciesGroupTotalSales[0], l3_sales, 'percentSpeciesGroupSales') : [] 
+    l4_percent_speciesGroupSales = totalOnly ? [] : config.l4_field ? calcPercentSalesCol(speciesGroupTotalSales[0], l4_sales, 'percentSpeciesGroupSales') : [] 
+    l0_percent_speciesGroupSales = calcPercentSalesCol(speciesGroupTotalSales[0], l0_sales, 'percentSpeciesGroupSales')
   }
 
   /* % REPORT TOTAL */
-  const l1_percent_reportTotal = totalOnly ? [] : calcPercentSalesCol(l0_salesPeriodToDateR[0], l1_salesPeriodToDateR, 'percentReportTotal')
-  const l2_percent_reportTotal = totalOnly ? [] : calcPercentSalesCol(l0_salesPeriodToDateR[0], l2_salesPeriodToDateR, 'percentReportTotal')
-  const l3_percent_reportTotal = totalOnly ? [] : config.l3_field ? calcPercentSalesCol(l0_salesPeriodToDateR[0], l3_salesPeriodToDateR, 'percentReportTotal') : [] 
-  const l4_percent_reportTotal = totalOnly ? [] : config.l4_field ? calcPercentSalesCol(l0_salesPeriodToDateR[0], l4_salesPeriodToDateR, 'percentReportTotal') : [] 
-  const l0_percent_reportTotal = calcPercentSalesCol(l0_salesPeriodToDateR[0], l0_salesPeriodToDateR, 'percentReportTotal')
+  const l1_percent_reportTotal = totalOnly ? [] : calcPercentSalesCol(l0_sales[0], l1_sales, 'percentReportTotal')
+  const l2_percent_reportTotal = totalOnly ? [] : calcPercentSalesCol(l0_sales[0], l2_sales, 'percentReportTotal')
+  const l3_percent_reportTotal = totalOnly ? [] : config.l3_field ? calcPercentSalesCol(l0_sales[0], l3_sales, 'percentReportTotal') : [] 
+  const l4_percent_reportTotal = totalOnly ? [] : config.l4_field ? calcPercentSalesCol(l0_sales[0], l4_sales, 'percentReportTotal') : [] 
+  const l0_percent_reportTotal = calcPercentSalesCol(l0_sales[0], l0_sales, 'percentReportTotal')
 
   /* AVE WEEKLY SALES */
   const weeks = endWeek - startWeek + 1
-  const l1_aveWeeklySales = totalOnly ? [] : calcAveWeeklySales(l1_salesPeriodToDateR, 'aveWeeklySales', weeks)
-  const l2_aveWeeklySales = totalOnly ? [] : calcAveWeeklySales(l2_salesPeriodToDateR, 'aveWeeklySales', weeks)
-  const l3_aveWeeklySales = totalOnly ? [] : config.l3_field ? calcAveWeeklySales(l3_salesPeriodToDateR, 'aveWeeklySales', weeks) : []
-  const l4_aveWeeklySales = totalOnly ? [] : config.l4_field ? calcAveWeeklySales(l4_salesPeriodToDateR, 'aveWeeklySales', weeks) : []
-  const l0_aveWeeklySales = calcAveWeeklySales(l0_salesPeriodToDateR, 'aveWeeklySales', weeks)
+  const l1_aveWeeklySales = totalOnly ? [] : calcAveWeeklySales(l1_sales, 'aveWeeklySales', weeks)
+  const l2_aveWeeklySales = totalOnly ? [] : calcAveWeeklySales(l2_sales, 'aveWeeklySales', weeks)
+  const l3_aveWeeklySales = totalOnly ? [] : config.l3_field ? calcAveWeeklySales(l3_sales, 'aveWeeklySales', weeks) : []
+  const l4_aveWeeklySales = totalOnly ? [] : config.l4_field ? calcAveWeeklySales(l4_sales, 'aveWeeklySales', weeks) : []
+  const l0_aveWeeklySales = calcAveWeeklySales(l0_sales, 'aveWeeklySales', weeks)
 
   const l1_twoWkAveSales = totalOnly ? [] : calcAveWeeklySales(l1_trailingTwoWeekR, 'twoWkAveSales', 2)
   const l2_twoWkAveSales = totalOnly ? [] : calcAveWeeklySales(l2_trailingTwoWeekR, 'twoWkAveSales', 2)
@@ -724,16 +731,16 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
 
   const mappedSales = mapSalesToRowTemplates(
     [
-      ...l1_salesProjectionBywkF,
-      ...l2_salesProjectionBywkF,
-      ...l3_salesProjectionBywkF,
-      ...l4_salesProjectionBywkF,
-      ...l0_salesProjectionBywkF,
-      ...l1_salesProjectionPeriodToDateF,
-      ...l2_salesProjectionPeriodToDateF,
-      ...l3_salesProjectionPeriodToDateF,
-      ...l4_salesProjectionPeriodToDateF,
-      ...l0_salesProjectionPeriodToDateF,
+      ...l1_salesProjectionBywkR,
+      ...l2_salesProjectionBywkR,
+      ...l3_salesProjectionBywkR,
+      ...l4_salesProjectionBywkR,
+      ...l0_salesProjectionBywkR,
+      ...l1_salesProjectionPeriodToDateR,
+      ...l2_salesProjectionPeriodToDateR,
+      ...l3_salesProjectionPeriodToDateR,
+      ...l4_salesProjectionPeriodToDateR,
+      ...l0_salesProjectionPeriodToDateR,
       ...l1_salesByWkR,
       ...l2_salesByWkR,
       ...l3_salesByWkR,
