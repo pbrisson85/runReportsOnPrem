@@ -10,6 +10,7 @@ const {
 } = require('../../../database/queries/postgres/getDetail/getFgInven')
 const { getFgPo_detail } = require('../../../database/queries/postgres/getDetail/getFgOpenPo')
 const { getSales_detail } = require('../../../database/queries/postgres/getDetail/getSales')
+const { getSalesProjection_detail } = require('../../../database/queries/postgres/getDetail/getSalesProjection')
 const { getSo_detail, getSoTagged_detail, getSoUntagged_detail } = require('../../../database/queries/postgres/getDetail/getSo')
 const {
   getSoByWk_detail,
@@ -102,7 +103,11 @@ router.post('/', async (req, res) => {
       endWeek = columnDataName.split('-')[1].split('W')[1]
       year = columnDataName.split('-')[0]
     }
-    data = await getSales_detail(config, startWeek, endWeek, year)
+    if (config.views.useProjection) {
+      data = await getSalesProjection_detail(config, startWeek, endWeek, year)
+    } else {
+      data = await getSales_detail(config, startWeek, endWeek, year)
+    }
   }
 
   if (colType === 'purchaseOrder') {

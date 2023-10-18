@@ -139,7 +139,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
     }
   }
 
-  const {useProjection} = config.views
+  const { useProjection } = config.views
 
   console.log('useProjection', useProjection)
 
