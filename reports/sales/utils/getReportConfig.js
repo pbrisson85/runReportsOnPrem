@@ -43,6 +43,9 @@ const getReportConfig = reqBody => {
     speciesGroup: reqBody.speciesGroup ?? null,
     species: reqBody.species ?? null,
     programDrilldown: reqBody.programDrilldown ?? null,
+    views: {
+      useProjection: reqBody.creds.admin ?? false, // temporarily use the admin credential to determine if the projection view should be used DURING TESTING
+    },
     jbBuyerFilter,
     user: reqBody.user ?? null,
     subtotalRowFormats: {
