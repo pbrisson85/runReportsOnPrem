@@ -140,7 +140,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   }
 
   let {useProjection} = config
-  useProjection = true
+  useProjection = false
 
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
