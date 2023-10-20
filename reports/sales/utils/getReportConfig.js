@@ -44,7 +44,7 @@ const getReportConfig = reqBody => {
     species: reqBody.species ?? null,
     programDrilldown: reqBody.programDrilldown ?? null,
     views: {
-      useProjection: false, // reqBody.creds.admin ?? false, // temporarily use the admin credential to determine if the projection view should be used DURING TESTING
+      useProjection: reqBody.creds.admin ?? false, // temporarily use the admin credential to determine if the projection view should be used DURING TESTING
     },
     jbBuyerFilter,
     user: reqBody.user ?? null,

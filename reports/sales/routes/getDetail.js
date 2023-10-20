@@ -103,11 +103,22 @@ router.post('/', async (req, res) => {
       endWeek = columnDataName.split('-')[1].split('W')[1]
       year = columnDataName.split('-')[0]
     }
-    if (config.views.useProjection) {
-      data = await getSalesProjection_detail(config, startWeek, endWeek, year)
-    } else {
-      data = await getSales_detail(config, startWeek, endWeek, year)
+
+    data = await getSales_detail(config, startWeek, endWeek, year)
+  }
+
+  if (colType === 'salesProjection') {
+    // Transform all queries to have a start week, end week, and year
+    let startWeek = await getWeekForDate(periodStart, config)
+    let endWeek = await getWeekForDate(periodEnd, config)
+
+    if (columnDataName.split('-')[1]?.charAt(0) === 'W') {
+      startWeek = columnDataName.split('-')[1].split('W')[1]
+      endWeek = columnDataName.split('-')[1].split('W')[1]
+      year = columnDataName.split('-')[0]
     }
+
+    data = await getSalesProjection_detail(config, startWeek, endWeek, year)
   }
 
   if (colType === 'purchaseOrder') {

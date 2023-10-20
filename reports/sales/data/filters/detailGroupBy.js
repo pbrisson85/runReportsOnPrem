@@ -43,6 +43,25 @@ const groupByOptions = {
     { label: 'Invoice Line Item', dataName: 'ungrouped', default: false },
   ],
 
+  salesProjection: [
+    { label: 'Item', dataName: 'item_number', default: false },
+    { label: 'Species', dataName: 'species', default: false },
+    { label: 'Brand', dataName: 'brand', default: false },
+    { label: 'Size', dataName: 'size_name', default: false },
+    { label: 'Soak', dataName: 'fg_treatment', default: false },
+    { label: 'Location', dataName: 'location', default: false },
+    { label: 'Freeze', dataName: 'fg_fresh_frozen', default: false },
+    { label: 'Week', dataName: 'week_serial', default: false },
+    { label: 'Ship Date', dataName: 'ship_date', default: false },
+    { label: 'Document', dataName: 'doc_num', default: false },
+    { label: 'Customer', dataName: 'customer_code', default: true },
+    { label: 'Tax Export', dataName: 'domestic', default: false },
+    { label: 'ShipTo State', dataName: 'state', default: false },
+    { label: 'ShipTo Intl', dataName: 'north_america', default: false },
+    { label: 'ShipTo Country', dataName: 'country', default: false },
+    { label: 'Doc Line Item', dataName: 'ungrouped', default: false },
+  ],
+
   purchaseOrder: [
     { label: 'Item', dataName: 'item_number', default: false },
     { label: 'Species', dataName: 'species', default: false },

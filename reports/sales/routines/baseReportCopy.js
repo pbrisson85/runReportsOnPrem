@@ -1,5 +1,6 @@
 const {
   getDateEndPerWeekByRange,
+  getDateEndPerWeekByRange_pj,
   getDateEndPerWeekByRange_so,
   getDateEndPerWeekByRange_so_tg,
   getDateEndPerWeekByRange_so_untg,
@@ -885,11 +886,13 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
 
   /* Build Columns */
   const trendColsSalesF = () => {return  getDateEndPerWeekByRange(start, end, config)}
+  const trendColsSalesProjF = () => {return  getDateEndPerWeekByRange_pj(start, end, config)}
+
   //const collapsedData = collapseRedundantTotalRows(data, level)
 
   // get data column names by fiscal year
-  let trendColsSaByFyF = () => {return null}
-  let trendColsSaByFyYtdF = () => {return null}
+  let trendColsSaByFyF = () => { return [] }
+  let trendColsSaByFyYtdF = () => { return [] }
   if (showFyTrend) trendColsSaByFyF = () => {return getFiscalYearCols()} 
   if (showFyTrend) trendColsSaByFyYtdF = () => {return  getFiscalYearYtdCols()}
 
@@ -901,12 +904,12 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   const trendColsSo_untgF = () => {return  getDateEndPerWeekByRange_so_untg(start_so, end_so, config)}
 
   // Call all column functions
-  const [trendColsSales, trendColsSaByFy, trendColsSaByFyYtd, trendColsSo, trendColsSo_tg, trendColsSo_untg] = await Promise.all([trendColsSalesF(), trendColsSaByFyF(),trendColsSaByFyYtdF(), trendColsSoF(), trendColsSo_tgF(), trendColsSo_untgF()])
+  const [trendColsSalesProj, trendColsSales, trendColsSaByFy, trendColsSaByFyYtd, trendColsSo, trendColsSo_tg, trendColsSo_untg] = await Promise.all([trendColsSalesProjF(), trendColsSalesF(), trendColsSaByFyF(),trendColsSaByFyYtdF(), trendColsSoF(), trendColsSo_tgF(), trendColsSo_untgF()])
   
-  // return
   return {
     data,
     cols: {
+      trendColsSalesProj,
       trendColsSales,
       trendColsSaByFy,
       trendColsSaByFyYtd,
@@ -915,6 +918,10 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
       trendColsSo_tg,
       trendColsSo_untg,
       columnConfigs,
+      defaultTrend: {
+        dataName: useProjection ? columnConfigs.salesProjectionCol[0].dataName : columnConfigs.totalsCol[0].dataName,
+        colType: useProjection ? columnConfigs.salesProjectionCol[0].colType : columnConfigs.totalsCol[0].colType
+      }
     },
   }
 }

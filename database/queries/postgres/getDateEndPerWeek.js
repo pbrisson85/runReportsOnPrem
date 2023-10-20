@@ -22,6 +22,19 @@ const getDateEndPerWeekByRange = async (start, end, config) => {
   return periodsByWeek
 }
 
+const getDateEndPerWeekByRange_pj = async (start, end, config) => {
+  console.log(
+    `${config.user} - getDateEndPerWeekByRange_so, query postgres for accounting period ends by week serial for ${new Date(
+      start
+    ).toLocaleDateString()} through ${new Date(end).toLocaleDateString()} ...`
+  )
+
+  const periodsByWeek =
+    await sql`SELECT period_by_week.week_serial || '_pj' AS dataName, period_by_week.date_end AS displayName FROM "accountingPeriods".period_by_week WHERE period_by_week.formatted_date_end >= ${start} AND period_by_week.formatted_date_end <= ${end} ORDER BY period_by_week.formatted_date_end ASC`
+
+  return periodsByWeek
+}
+
 const getDateEndPerWeekByRange_so = async (start, end, config) => {
   console.log(
     `${config.user} - getDateEndPerWeekByRange_so, query postgres for accounting period ends by week serial for ${new Date(
@@ -66,3 +79,4 @@ module.exports.getDateEndPerWeek = getDateEndPerWeek
 module.exports.getDateEndPerWeekByRange_so = getDateEndPerWeekByRange_so
 module.exports.getDateEndPerWeekByRange_so_tg = getDateEndPerWeekByRange_so_tg
 module.exports.getDateEndPerWeekByRange_so_untg = getDateEndPerWeekByRange_so_untg
+module.exports.getDateEndPerWeekByRange_pj = getDateEndPerWeekByRange_pj
