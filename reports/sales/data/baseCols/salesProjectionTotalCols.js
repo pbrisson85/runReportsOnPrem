@@ -47,7 +47,7 @@ const totalsCol = [
       'Trend By Species',
       'Trend By Program',
     ],
-    colType: 'salesInvoice', // Make sure to update the getViewFilter on the back end to allow this colType in the view
+    colType: 'salesProjection', // Make sure to update the getViewFilter on the back end to allow this colType in the view
     allowTrend: true,
     drillDownSortable: true,
     optional: false, // flag to determine if the col is optional

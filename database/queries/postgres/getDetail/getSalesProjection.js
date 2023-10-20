@@ -4,7 +4,7 @@ const sql = require('../../../../server')
 
 const getSalesProjection_detail = async (config, start, end, year) => {
   try {
-    console.log(`${config.user} - level ${config.queryLevel}: query postgres to get FG sales data period total ...`)
+    console.log(`${config.user} - level ${config.queryLevel}: query postgres to get SALES PROJECTION ...`)
 
     const response = await sql
       `SELECT status, pj.net_sales_ext, pj.gross_margin_lb, pj.cost_lb, pj.net_sales_lb, pj.othp_lb, pj.gross_sales_lb, pj.location, pj.customer_code, pj.customer_name, pj.doc_num, pj.line_number, pj.ship_date, pj.week_serial, pj.item_number, ms.description, ms.species, ms.brand, ms.size_name, ms.fg_treatment, ms.fg_fresh_frozen, pj.lbs, pj.gross_sales_ext, pj.othp_ext, pj.cogs_ext, pj.gross_margin_ext, pj.sales_rep, pj.north_america, pj.domestic, pj.country, pj.state 
