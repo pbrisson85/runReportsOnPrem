@@ -36,6 +36,7 @@ const getSalesProjection_detail = async (config, start, end, year) => {
               ON cs.customer_code = so.customer_code
         
         WHERE 
+            1=1
             ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``} 
