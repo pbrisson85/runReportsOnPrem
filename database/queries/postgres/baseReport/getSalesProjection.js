@@ -14,7 +14,7 @@ const l1_getSalesProjectionByWk = async (config, start, end) => {
       `SELECT pj.column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT sl.item_number AS item_num, sl.week_serial || '_pj' AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+        SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, sl.week_serial || '_pj' AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
         
         FROM "salesReporting".sales_line_items AS sl
 
@@ -22,7 +22,7 @@ const l1_getSalesProjectionByWk = async (config, start, end) => {
           sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end}
         
         UNION 
-          SELECT so.item_num AS item_num, so.week_serial || '_pj' AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, so.week_serial || '_pj' AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so        
       
@@ -62,7 +62,7 @@ const l1_getSalesProjectionPeriodToDate = async (config, start, end) => {
       `SELECT 'SALES PROJECTION TOTAL' AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+        SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
         
         FROM "salesReporting".sales_line_items AS sl 
           
@@ -70,7 +70,7 @@ const l1_getSalesProjectionPeriodToDate = async (config, start, end) => {
           sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
           
         UNION 
-          SELECT so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so
             
@@ -109,7 +109,7 @@ const l2_getSalesProjectionByWk = async (config, start, end) => {
       `SELECT pj.column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT sl.item_number AS item_num, sl.week_serial || '_pj' AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+        SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, sl.week_serial || '_pj' AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
         
         FROM "salesReporting".sales_line_items AS sl
           
@@ -117,7 +117,7 @@ const l2_getSalesProjectionByWk = async (config, start, end) => {
           sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end}
         
         UNION 
-          SELECT so.item_num AS item_num, so.week_serial || '_pj' AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, so.week_serial || '_pj' AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so
            
@@ -157,7 +157,7 @@ const l2_getSalesProjectionPeriodToDate = async (config, start, end) => {
       `SELECT 'SALES PROJECTION TOTAL' AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+        SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
         
         FROM "salesReporting".sales_line_items AS sl
           
@@ -165,7 +165,7 @@ const l2_getSalesProjectionPeriodToDate = async (config, start, end) => {
           sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end}
         
         UNION 
-          SELECT so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so
             
@@ -205,7 +205,7 @@ const l3_getSalesProjectionByWk = async (config, start, end) => {
       `SELECT pj.column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT sl.item_number AS item_num, sl.week_serial || '_pj' AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+        SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, sl.week_serial || '_pj' AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
         
         FROM "salesReporting".sales_line_items AS sl
           
@@ -213,7 +213,7 @@ const l3_getSalesProjectionByWk = async (config, start, end) => {
           sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end}
           
         UNION 
-          SELECT so.item_num AS item_num, so.week_serial || '_pj' AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, so.week_serial || '_pj' AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so
             
@@ -253,7 +253,7 @@ const l3_getSalesProjectionPeriodToDate = async (config, start, end) => {
       `SELECT 'SALES PROJECTION TOTAL' AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+        SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
         
         FROM "salesReporting".sales_line_items AS sl
           
@@ -261,7 +261,7 @@ const l3_getSalesProjectionPeriodToDate = async (config, start, end) => {
           sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end}
           
         UNION 
-          SELECT so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so
             
@@ -301,7 +301,7 @@ const l4_getSalesProjectionByWk = async (config, start, end) => {
       `SELECT pj.column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT sl.item_number AS item_num, sl.week_serial || '_pj' AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+        SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, sl.week_serial || '_pj' AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
         
         FROM "salesReporting".sales_line_items AS sl
           
@@ -309,7 +309,7 @@ const l4_getSalesProjectionByWk = async (config, start, end) => {
           sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end}
           
         UNION 
-          SELECT so.item_num AS item_num, so.week_serial || '_pj' AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, so.week_serial || '_pj' AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so
             
@@ -349,7 +349,7 @@ const l4_getSalesProjectionPeriodToDate = async (config, start, end) => {
       `SELECT 'SALES PROJECTION TOTAL' AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+        SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
         
         FROM "salesReporting".sales_line_items AS sl
           
@@ -357,7 +357,7 @@ const l4_getSalesProjectionPeriodToDate = async (config, start, end) => {
           sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end}
           
         UNION 
-          SELECT so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so
             
@@ -398,7 +398,7 @@ const l0_getSalesProjectionByWk = async (config, start, end) => {
       SELECT pj.column ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT sl.item_number AS item_num, sl.week_serial || '_pj' AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+        SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, sl.week_serial || '_pj' AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
       
         FROM "salesReporting".sales_line_items AS sl 
           
@@ -406,7 +406,7 @@ const l0_getSalesProjectionByWk = async (config, start, end) => {
           sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
           
         UNION
-          SELECT so.item_num AS item_num, so.week_serial || '_pj' AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, so.week_serial || '_pj' AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so 
           
@@ -447,7 +447,7 @@ const l0_getSalesProjectionPeriodToDate = async (config, start, end) => {
       SELECT 'SALES PROJECTION TOTAL' AS column ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+        SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
       
         FROM "salesReporting".sales_line_items AS sl 
           
@@ -455,7 +455,7 @@ const l0_getSalesProjectionPeriodToDate = async (config, start, end) => {
           sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
           
         UNION
-          SELECT so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so 
          
