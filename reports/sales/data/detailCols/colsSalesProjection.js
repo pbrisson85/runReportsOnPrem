@@ -1,4 +1,4 @@
-// This applies to all columns with acolType: 'salesInvoice'
+// This applies to all columns with acolType: 'salesProjection'
 
 const salesProjectionCols = [
   {
@@ -116,7 +116,7 @@ const salesProjectionCols = [
     groupBy: ['doc_num', 'ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: ['doc_num', 'customer_code'],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -147,7 +147,7 @@ const salesProjectionCols = [
     groupBy: ['item_number', 'ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: ['item_number', 'description'],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -178,7 +178,7 @@ const salesProjectionCols = [
     groupBy: ['item_number', 'ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: [],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -221,7 +221,7 @@ const salesProjectionCols = [
     ],
     groupByIncrement: true,
     groupedLeftSticky: [],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: true,
   },
   {
@@ -264,7 +264,7 @@ const salesProjectionCols = [
     ],
     groupByIncrement: true,
     groupedLeftSticky: [],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -307,7 +307,7 @@ const salesProjectionCols = [
     ],
     groupByIncrement: true,
     groupedLeftSticky: [],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -350,7 +350,7 @@ const salesProjectionCols = [
     ],
     groupByIncrement: true,
     groupedLeftSticky: [],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -393,7 +393,7 @@ const salesProjectionCols = [
     ],
     groupByIncrement: true,
     groupedLeftSticky: [],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -436,7 +436,7 @@ const salesProjectionCols = [
     ],
     groupByIncrement: true,
     groupedLeftSticky: [],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -479,7 +479,7 @@ const salesProjectionCols = [
     ],
     groupByIncrement: false,
     groupedLeftSticky: [],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -522,7 +522,7 @@ const salesProjectionCols = [
     ],
     groupByIncrement: false,
     groupedLeftSticky: [],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -565,7 +565,7 @@ const salesProjectionCols = [
     ],
     groupByIncrement: false,
     groupedLeftSticky: [],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -608,7 +608,7 @@ const salesProjectionCols = [
     ],
     groupByIncrement: false,
     groupedLeftSticky: [],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -651,7 +651,7 @@ const salesProjectionCols = [
     ],
     groupByIncrement: false,
     groupedLeftSticky: [],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -680,7 +680,7 @@ const salesProjectionCols = [
     groupBy: ['ship_date', 'doc_num', 'ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: ['ship_date'],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -711,7 +711,7 @@ const salesProjectionCols = [
     groupBy: ['location', 'ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: ['location'],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -741,7 +741,7 @@ const salesProjectionCols = [
     groupBy: ['ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: [],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -770,7 +770,7 @@ const salesProjectionCols = [
     groupBy: ['week_serial', 'ship_date', 'doc_num', 'ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: ['week_serial'],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -799,7 +799,7 @@ const salesProjectionCols = [
     groupBy: ['doc_num', 'customer_code', 'ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: [],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -828,7 +828,7 @@ const salesProjectionCols = [
     groupBy: ['species', 'item_number', 'ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: ['species'],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -857,7 +857,7 @@ const salesProjectionCols = [
     groupBy: ['brand', 'item_number', 'ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: ['brand'],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -886,7 +886,7 @@ const salesProjectionCols = [
     groupBy: ['size_name', 'item_number', 'ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: ['size_name'],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -915,7 +915,7 @@ const salesProjectionCols = [
     groupBy: ['fg_treatment', 'item_number', 'ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: ['fg_treatment'],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -944,7 +944,7 @@ const salesProjectionCols = [
     groupBy: ['fg_fresh_frozen', 'item_number', 'ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: ['fg_fresh_frozen'],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
 
@@ -974,7 +974,7 @@ const salesProjectionCols = [
     groupBy: ['doc_num', 'ungrouped', 'state'],
     groupByIncrement: false,
     groupedLeftSticky: ['state'],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -1003,7 +1003,7 @@ const salesProjectionCols = [
     groupBy: ['doc_num', 'ungrouped', 'north_america'],
     groupByIncrement: false,
     groupedLeftSticky: ['north_america'],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -1032,7 +1032,7 @@ const salesProjectionCols = [
     groupBy: ['doc_num', 'ungrouped', 'domestic'],
     groupByIncrement: false,
     groupedLeftSticky: ['domestic'],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
   {
@@ -1061,7 +1061,7 @@ const salesProjectionCols = [
     groupBy: ['doc_num', 'ungrouped', 'country'],
     groupByIncrement: false,
     groupedLeftSticky: ['country'],
-    colType: 'salesInvoice',
+    colType: 'salesProjection',
     defaultSort: false,
   },
 ]
