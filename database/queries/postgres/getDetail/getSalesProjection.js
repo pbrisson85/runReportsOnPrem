@@ -33,7 +33,7 @@ const getSalesProjection_detail = async (config, start, end, year) => {
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = pj.item_number 
             LEFT OUTER JOIN "masters".customer_supplement AS cs 
-              ON cs.customer_code = so.customer_code
+              ON cs.customer_code = pj.customer_code
         
         WHERE 
             1=1
