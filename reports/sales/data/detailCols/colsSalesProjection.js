@@ -462,7 +462,7 @@ const salesProjectionCols = [
     searchValue: null,
     fraction: true,
     fractionNumerator: 'gross_sales_ext',
-    fractionDenominator: 'calc_gm_rept_weight',
+    fractionDenominator: 'lbs',
     groupBy: [
       'fg_fresh_frozen',
       'fg_treatment',
@@ -505,7 +505,7 @@ const salesProjectionCols = [
     searchValue: null,
     fraction: true,
     fractionNumerator: 'net_sales_ext',
-    fractionDenominator: 'calc_gm_rept_weight',
+    fractionDenominator: 'lbs',
     groupBy: [
       'fg_fresh_frozen',
       'fg_treatment',
@@ -547,8 +547,8 @@ const salesProjectionCols = [
     searchable: false,
     searchValue: null,
     fraction: true,
-    fractionNumerator: 'cogs_ext_gl',
-    fractionDenominator: 'calc_gm_rept_weight',
+    fractionNumerator: 'cogs_ext',
+    fractionDenominator: 'lbs',
     groupBy: [
       'fg_fresh_frozen',
       'fg_treatment',
@@ -591,7 +591,7 @@ const salesProjectionCols = [
     searchValue: null,
     fraction: true,
     fractionNumerator: 'othp_ext',
-    fractionDenominator: 'calc_gm_rept_weight',
+    fractionDenominator: 'lbs',
     groupBy: [
       'fg_fresh_frozen',
       'fg_treatment',
@@ -634,7 +634,7 @@ const salesProjectionCols = [
     searchValue: null,
     fraction: true,
     fractionNumerator: 'gross_margin_ext',
-    fractionDenominator: 'calc_gm_rept_weight',
+    fractionDenominator: 'lbs',
     groupBy: [
       'fg_fresh_frozen',
       'fg_treatment',
@@ -943,7 +943,7 @@ const salesProjectionCols = [
     fractionDenominator: null,
     groupBy: ['fg_fresh_frozen', 'item_number', 'ungrouped'],
     groupByIncrement: false,
-    groupedLeftSticky: [],
+    groupedLeftSticky: ['fg_fresh_frozen'],
     colType: 'salesInvoice',
     defaultSort: false,
   },
