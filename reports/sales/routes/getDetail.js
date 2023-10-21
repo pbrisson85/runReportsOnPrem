@@ -113,8 +113,8 @@ router.post('/', async (req, res) => {
     let endWeek = await getWeekForDate(periodEnd, config)
 
     if (columnDataName.split('-')[1]?.charAt(0) === 'W') {
-      startWeek = columnDataName.split('-')[1].split('W')[1]
-      endWeek = columnDataName.split('-')[1].split('W')[1]
+      startWeek = columnDataName.split('-')[1].split('W')[1].split('_')[0]
+      endWeek = columnDataName.split('-')[1].split('W')[1].split('_')[0]
       year = columnDataName.split('-')[0]
     }
 
