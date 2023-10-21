@@ -19,7 +19,7 @@ const getSalesProjection_detail = async (config, start, end, year) => {
           AND sl.fiscal_year = ${year} 
          
         UNION 
-          SELECT 'UNBILLED' AS status, so.net_sales_ext, so.gross_margin_lb, so.ave_cost_per_lb AS cost_lb, so.sales_net_lb AS net_sales_lb, so.othp_lb, so.unit_price AS gross_sales_lb, so.location, so.customer_code, so.customer_name, so.so_num AS doc_num, so.so_line AS line_number, so.formatted_ship_date AS ship_date, so.week_serial, so.item_num AS item_number, so.ext_weight AS lbs, so.ext_sales AS gross_sales_ext, so.ext_othp AS othp_ext, so.ext_cost AS cogs_ext, so.gross_margin_ext, so.out_sales_rep AS sales_rep, so.north_america, so.domestic, so.country, so.state 
+          SELECT 'UNBILLED' AS status, so.sales_net_ext, so.gross_margin_lb, so.ave_cost_per_lb AS cost_lb, so.sales_net_lb AS net_sales_lb, so.othp_lb, so.unit_price AS gross_sales_lb, so.location, so.customer_code, so.customer_name, so.so_num AS doc_num, so.so_line AS line_number, so.formatted_ship_date AS ship_date, so.week_serial, so.item_num AS item_number, so.ext_weight AS lbs, so.ext_sales AS gross_sales_ext, so.ext_othp AS othp_ext, so.ext_cost AS cogs_ext, so.gross_margin_ext, so.out_sales_rep AS sales_rep, so.north_america, so.domestic, so.country, so.state 
       
           FROM "salesReporting".sales_orders AS so 
           
