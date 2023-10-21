@@ -25,7 +25,8 @@ const getSalesProjection_detail = async (config, start, end, year) => {
           
           WHERE 
             so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-            AND so.week_serial = ${weekSerial} 
+            AND so.week >= ${start} AND so.week <= ${end} 
+            AND so.fiscal_year = ${year} 
           
         ) AS pj
 
