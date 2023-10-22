@@ -94,12 +94,12 @@ const l1_getSalesProjByWk = async (config, start, end, trendQuery) => {
       GROUP BY 
         pj.column 
         ${trendQuery.sl.l1_label ? sql`, pj.l1_label`: sql``} 
-        ${trendQuery.sl.l2_label ? sql`, pj.l1_label`: sql``} 
-        ${trendQuery.sl.l3_label ? sql`, pj.l1_label`: sql``} 
-        ${trendQuery.sl.l4_label ? sql`, pj.l1_label`: sql``} 
-        ${trendQuery.sl.l5_label ? sql`, pj.l1_label`: sql``} 
-        ${trendQuery.sl.l6_label ? sql`, pj.l1_label`: sql``} 
-        ${trendQuery.sl.l7_label ? sql`, pj.l1_label`: sql``} 
+        ${trendQuery.sl.l2_label ? sql`, pj.l2_label`: sql``} 
+        ${trendQuery.sl.l3_label ? sql`, pj.l3_label`: sql``} 
+        ${trendQuery.sl.l4_label ? sql`, pj.l4_label`: sql``} 
+        ${trendQuery.sl.l5_label ? sql`, pj.l5_label`: sql``} 
+        ${trendQuery.sl.l6_label ? sql`, pj.l6_label`: sql``} 
+        ${trendQuery.sl.l7_label ? sql`, pj.l7_label`: sql``}  
       
       ORDER BY pj.column` //prettier-ignore
 
@@ -201,13 +201,13 @@ const l1_getSalesProjPeriodToDate = async (config, start, end, trendQuery) => {
       ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
     
     GROUP BY 
-      ${trendQuery.sl.l1_label ? sql`, pj.l1_label`: sql``} 
-      ${trendQuery.sl.l2_label ? sql`, pj.l1_label`: sql``} 
-      ${trendQuery.sl.l3_label ? sql`, pj.l1_label`: sql``} 
-      ${trendQuery.sl.l4_label ? sql`, pj.l1_label`: sql``} 
-      ${trendQuery.sl.l5_label ? sql`, pj.l1_label`: sql``} 
-      ${trendQuery.sl.l6_label ? sql`, pj.l1_label`: sql``} 
-      ${trendQuery.sl.l7_label ? sql`, pj.l1_label`: sql``} 
+      ${trendQuery.sl.l1_label ? sql` pj.l1_label`: sql``} 
+      ${trendQuery.sl.l2_label ? sql`, pj.l2_label`: sql``} 
+      ${trendQuery.sl.l3_label ? sql`, pj.l3_label`: sql``} 
+      ${trendQuery.sl.l4_label ? sql`, pj.l4_label`: sql``} 
+      ${trendQuery.sl.l5_label ? sql`, pj.l5_label`: sql``} 
+      ${trendQuery.sl.l6_label ? sql`, pj.l6_label`: sql``} 
+      ${trendQuery.sl.l7_label ? sql`, pj.l7_label`: sql``} 
     
     ` //prettier-ignore
 
