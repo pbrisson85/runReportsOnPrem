@@ -29,6 +29,10 @@ const l1_getSalesProjByWk = async (config, start, end, trendQuery) => {
           COALESCE(sl.othp_ext,0) AS othp 
 
         FROM "salesReporting".sales_line_items AS sl
+          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = sl.item_number 
+          LEFT OUTER JOIN "masters".customer_supplement AS cs 
+            ON cs.customer_code = sl.customer_code
 
         WHERE 
           sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
@@ -57,6 +61,10 @@ const l1_getSalesProjByWk = async (config, start, end, trendQuery) => {
               COALESCE(so.ext_othp,0) AS othp 
          
           FROM "salesReporting".sales_orders AS so
+            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+              ON ms.item_num = so.item_number 
+            LEFT OUTER JOIN "masters".customer_supplement AS cs 
+              ON cs.customer_code = so.customer_code
 
           WHERE 
             so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
@@ -138,6 +146,10 @@ const l1_getSalesProjPeriodToDate = async (config, start, end, trendQuery) => {
         COALESCE(sl.othp_ext,0) AS othp 
 
       FROM "salesReporting".sales_line_items AS sl
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+          ON ms.item_num = sl.item_number 
+        LEFT OUTER JOIN "masters".customer_supplement AS cs 
+          ON cs.customer_code = sl.customer_code
 
       WHERE 
         sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
@@ -165,6 +177,10 @@ const l1_getSalesProjPeriodToDate = async (config, start, end, trendQuery) => {
             COALESCE(so.ext_othp,0) AS othp 
        
         FROM "salesReporting".sales_orders AS so
+            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+              ON ms.item_num = so.item_number 
+            LEFT OUTER JOIN "masters".customer_supplement AS cs 
+              ON cs.customer_code = so.customer_code
 
         WHERE 
           so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
