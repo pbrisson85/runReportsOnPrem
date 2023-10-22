@@ -348,7 +348,7 @@ const l0_getSalesProjPeriodToDate = async (config, start, end) => {
     console.log(`${config.user} - level 0: (getSalesTrend Lvl3) query postgres to get FG sales data period total ...`)
 
     const response = await sql
-    `SELECT 'SALES PROJECTION TOTAL' AS column, 'SALES TOTAL' AS column
+    `SELECT 'SALES PROJECTION TOTAL' AS column
     ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 
     'TOTAL' AS l2_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
     
