@@ -16,7 +16,7 @@ const getSpeciesGroupTotalSales = async (start, end, config) => {
       requestEmailNotification(`Warning: More than one species group found for program ${config.program} in master_supplement table.`)
     }
 
-    const speciesGroup = speciesGroupResponse[0].species_group
+    const speciesGroup = speciesGroupResponse[0]?.species_group
 
     console.log(`${config.user} - look up species group total sales for ${speciesGroup} ...`)
 
