@@ -113,10 +113,10 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   // ///////////////////////////////// SALES DATA
 
   /*SALES PROJECTIONS*/
-  const l1_salesProjByWkF = !useProjection ? skip() : () => {return l1_getSalesProjByWk(config, start, end)}
+  const l1_salesProjByWkF = !useProjection ? skip() : () => {return l1_getSalesProjByWk(config, start, end, trendQuery)}
   const l0_salesProjByWkF = !useProjection ? skip() : () => {return l0_getSalesProjByWk(config, start, end)}
 
-  const l1_salesProjPeriodToDateF = !useProjection ? skip() : () => {return l1_getSalesProjPeriodToDate(config, start, end)}
+  const l1_salesProjPeriodToDateF = !useProjection ? skip() : () => {return l1_getSalesProjPeriodToDate(config, start, end, trendQuery)}
   const l0_salesProjPeriodToDateF = !useProjection ? skip() : () => {return l0_getSalesProjPeriodToDate(config, start, end)}
 
   const l1_salesByFyF = () => { return l1_getSalesByFyYtd(config, start, end, false, trendQuery)}

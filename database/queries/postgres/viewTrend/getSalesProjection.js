@@ -68,7 +68,6 @@ const l1_getSalesProjByWk = async (config, start, end, trendQuery) => {
             ${config.export ? sql`AND so.domestic = ${config.export}`: sql``} 
             ${config.northAmerica ? sql`AND so.north_america = ${config.northAmerica}`: sql``} 
             
-
       ) AS pj
       
       LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -228,20 +227,14 @@ const l0_getSalesProjByWk = async (config, start, end) => {
     console.log(`${config.user} - level 0: (getSalesTrend Lvl3) query postgres to get FG sales data by week ...`)
 
     const response = await sql
-    `SELECT pj.column, pj.l1_label, pj.l2_label, pj.l3_label, pj.l4_label, pj.l5_label, pj.l6_label, pj.l7_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS slaes, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
+    `SELECT pj.column, ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 
+    'TOTAL' AS l2_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS slaes, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
     
     FROM (
       SELECT
         sl.item_number,
         sl.customer_code,
         sl.week_serial || '_pj' AS column, 
-        ${trendQuery.sl.l1_label ? sql`${sql(trendQuery.sl.l1_label)} AS l1_label,`: sql``} 
-        ${trendQuery.sl.l2_label ? sql`${sql(trendQuery.sl.l2_label)} AS l2_label,`: sql``} 
-        ${trendQuery.sl.l3_label ? sql`${sql(trendQuery.sl.l3_label)} AS l3_label,`: sql``} 
-        ${trendQuery.sl.l4_label ? sql`${sql(trendQuery.sl.l4_label)} AS l4_label,`: sql``} 
-        ${trendQuery.sl.l5_label ? sql`${sql(trendQuery.sl.l5_label)} AS l5_label,`: sql``} 
-        ${trendQuery.sl.l6_label ? sql`${sql(trendQuery.sl.l6_label)} AS l6_label,`: sql``} 
-        ${trendQuery.sl.l7_label ? sql`${sql(trendQuery.sl.l7_label)} AS l7_label,`: sql``}
         COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
         COALESCE(sl.gross_sales_ext,0) AS sales, 
         COALESCE(sl.cogs_ext_gl,0) AS cogs, 
@@ -263,13 +256,6 @@ const l0_getSalesProjByWk = async (config, start, end) => {
             so.item_num AS item_number,
             so.customer_code,
             so.week_serial || '_pj' AS column, 
-            ${trendQuery.so.l1_label ? sql`${sql(trendQuery.so.l1_label)} AS l1_label,`: sql``} 
-            ${trendQuery.so.l2_label ? sql`${sql(trendQuery.so.l2_label)} AS l2_label,`: sql``} 
-            ${trendQuery.so.l3_label ? sql`${sql(trendQuery.so.l3_label)} AS l3_label,`: sql``} 
-            ${trendQuery.so.l4_label ? sql`${sql(trendQuery.so.l4_label)} AS l4_label,`: sql``} 
-            ${trendQuery.so.l5_label ? sql`${sql(trendQuery.so.l5_label)} AS l5_label,`: sql``} 
-            ${trendQuery.so.l6_label ? sql`${sql(trendQuery.so.l6_label)} AS l6_label,`: sql``} 
-            ${trendQuery.so.l7_label ? sql`${sql(trendQuery.so.l7_label)} AS l7_label,`: sql``} 
             COALESCE(so.ext_weight,0) AS lbs, 
             COALESCE(so.ext_sales,0) AS sales, 
             COALESCE(so.ext_cost,0) AS cogs, 
@@ -330,19 +316,14 @@ const l0_getSalesProjPeriodToDate = async (config, start, end) => {
     console.log(`${config.user} - level 0: (getSalesTrend Lvl3) query postgres to get FG sales data period total ...`)
 
     const response = await sql
-    `SELECT 'SALES PROJECTION TOTAL' AS column, pj.l1_label, pj.l2_label, pj.l3_label, pj.l4_label, pj.l5_label, pj.l6_label, pj.l7_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS slaes, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
+    `SELECT 'SALES PROJECTION TOTAL' AS column, 'SALES TOTAL' AS column
+    ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 
+    'TOTAL' AS l2_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS slaes, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
     
     FROM (
       SELECT
         sl.item_number,
         sl.customer_code,
-        ${trendQuery.sl.l1_label ? sql`${sql(trendQuery.sl.l1_label)} AS l1_label,`: sql``} 
-        ${trendQuery.sl.l2_label ? sql`${sql(trendQuery.sl.l2_label)} AS l2_label,`: sql``} 
-        ${trendQuery.sl.l3_label ? sql`${sql(trendQuery.sl.l3_label)} AS l3_label,`: sql``} 
-        ${trendQuery.sl.l4_label ? sql`${sql(trendQuery.sl.l4_label)} AS l4_label,`: sql``} 
-        ${trendQuery.sl.l5_label ? sql`${sql(trendQuery.sl.l5_label)} AS l5_label,`: sql``} 
-        ${trendQuery.sl.l6_label ? sql`${sql(trendQuery.sl.l6_label)} AS l6_label,`: sql``} 
-        ${trendQuery.sl.l7_label ? sql`${sql(trendQuery.sl.l7_label)} AS l7_label,`: sql``}
         COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
         COALESCE(sl.gross_sales_ext,0) AS sales, 
         COALESCE(sl.cogs_ext_gl,0) AS cogs, 
@@ -363,13 +344,6 @@ const l0_getSalesProjPeriodToDate = async (config, start, end) => {
         SELECT 
             so.item_num AS item_number,
             so.customer_code,
-            ${trendQuery.so.l1_label ? sql`${sql(trendQuery.so.l1_label)} AS l1_label,`: sql``} 
-            ${trendQuery.so.l2_label ? sql`${sql(trendQuery.so.l2_label)} AS l2_label,`: sql``} 
-            ${trendQuery.so.l3_label ? sql`${sql(trendQuery.so.l3_label)} AS l3_label,`: sql``} 
-            ${trendQuery.so.l4_label ? sql`${sql(trendQuery.so.l4_label)} AS l4_label,`: sql``} 
-            ${trendQuery.so.l5_label ? sql`${sql(trendQuery.so.l5_label)} AS l5_label,`: sql``} 
-            ${trendQuery.so.l6_label ? sql`${sql(trendQuery.so.l6_label)} AS l6_label,`: sql``} 
-            ${trendQuery.so.l7_label ? sql`${sql(trendQuery.so.l7_label)} AS l7_label,`: sql``} 
             COALESCE(so.ext_weight,0) AS lbs, 
             COALESCE(so.ext_sales,0) AS sales, 
             COALESCE(so.ext_cost,0) AS cogs, 
