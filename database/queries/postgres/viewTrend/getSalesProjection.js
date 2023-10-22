@@ -120,8 +120,6 @@ const l1_getSalesProjByWk = async (config, start, end, trendQuery) => {
       
       ORDER BY pj.column` //prettier-ignore
 
-    console.log('l1_getSalesProjByWk', response)
-
     return response
   } catch (error) {
     console.error(error)
