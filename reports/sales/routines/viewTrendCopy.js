@@ -330,6 +330,7 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   data = [...filterRow, ...data]
 
   const trendColsSalesF = () => { return getDateEndPerWeekByRange(start, end, config)} 
+  const trendColsSalesProjF = () => {return  getDateEndPerWeekByRange_pj(start, end, config)}
 
   // get data column names by fiscal year
   let trendColsSaByFyF = () => { return []}
@@ -345,12 +346,13 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   const trendColsSo_tgF = () => { return getDateEndPerWeekByRange_so_tg(start_so, end_so, config)} 
   const trendColsSo_untgF = () => { return getDateEndPerWeekByRange_so_untg(start_so, end_so, config)} 
 
-  const [trendColsSales, trendColsSaByFy,trendColsSaByFyYtd, trendColsSo, trendColsSo_tg, trendColsSo_untg] = await Promise.all([trendColsSalesF(), trendColsSaByFyF(),trendColsSaByFyYtdF(), trendColsSoF(), trendColsSo_tgF(), trendColsSo_untgF()])
+  const [trendColsSalesProj, trendColsSales, trendColsSaByFy,trendColsSaByFyYtd, trendColsSo, trendColsSo_tg, trendColsSo_untg] = await Promise.all([trendColsSalesProjF(), trendColsSalesF(), trendColsSaByFyF(),trendColsSaByFyYtdF(), trendColsSoF(), trendColsSo_tgF(), trendColsSo_untgF()])
 
   // return
   return {
     data,
     cols: {
+      trendColsSalesProj,
       trendColsSales,
       trendColsSaByFy,
       trendColsSaByFyYtd,
