@@ -18,7 +18,7 @@ const {
   l0_getSalesProjByWk,
   l1_getSalesProjPeriodToDate,
   l0_getSalesProjPeriodToDate,
-} = require('../../../database/queries/postgres/viewTrend/getSalesTrendDateDriven')
+} = require('../../../database/queries/postgres/viewTrend/getSalesProjection')
 const { l1_getSalesWkDriven, l0_getSalesWkDriven } = require('../../../database/queries/postgres/viewTrend/getSalesTrendWkDriven')
 const { getCompanyTotalSales } = require('../../../database/queries/postgres/kpi/getCompanyTotalSales_OLD')
 const { l0_getSalesPeriodToDate: l0_program_getSalesPeriodToDate } = require('../../../database/queries/postgres/baseReport/getSalesTrendDateDriven')
