@@ -1,24 +1,8 @@
-const requestEmailNotification = require('../../../../requests/requestEmail')
 const sql = require('../../../../server')
 
 const getSpeciesGroupTotalSales = async (start, end, config) => {
   try {
     console.log(`${config.user} - look up species group for program ${config.program} ...`)
-
-    const speciesGroupResponse =
-      await sql
-      `SELECT DISTINCT(ms.species_group) AS species_group
-        FROM "invenReporting".master_supplement AS ms
-        WHERE ms.program = ${config.program}` //prettier-ignore
-
-    // If more than one, notify dev
-    if (speciesGroupResponse.length > 1) {
-      requestEmailNotification(`Warning: More than one species group found for program ${config.program} in master_supplement table.`)
-    }
-
-    const speciesGroup = speciesGroupResponse[0]?.species_group
-
-    console.log(`${config.user} - look up species group total sales for ${speciesGroup} ...`)
 
     const response =
       await sql`
@@ -51,7 +35,10 @@ const getSpeciesGroupTotalSales = async (start, end, config) => {
           WHERE
           1=1 
           ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
-          ${config.program ? sql`AND ms.species_group = ${speciesGroup}`: sql``}
+          ${config.program ? sql`AND ms.species_group IN 
+            SELECT DISTINCT(ms.species_group) AS species_group
+            FROM "invenReporting".master_supplement AS ms
+            WHERE ms.program = ${config.program}`: sql``}
           ` //prettier-ignore
 
     return response
