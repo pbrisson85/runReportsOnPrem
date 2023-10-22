@@ -62,7 +62,7 @@ const l1_getSalesProjByWk = async (config, start, end, trendQuery) => {
          
           FROM "salesReporting".sales_orders AS so
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-              ON ms.item_num = so.item_number 
+              ON ms.item_num = so.item_num 
             LEFT OUTER JOIN "masters".customer_supplement AS cs 
               ON cs.customer_code = so.customer_code
 
@@ -178,7 +178,7 @@ const l1_getSalesProjPeriodToDate = async (config, start, end, trendQuery) => {
        
         FROM "salesReporting".sales_orders AS so
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-              ON ms.item_num = so.item_number 
+              ON ms.item_num = so.item_num 
             LEFT OUTER JOIN "masters".customer_supplement AS cs 
               ON cs.customer_code = so.customer_code
 
