@@ -1,7 +1,7 @@
 const totalsCol = [
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
-    displayName: 'SLS PROJECTION', // show as column header
+    displayName: 'SLS PROJ', // show as column header
     dataName: 'SALES PROJECTION TOTAL', // key to pull data from
     justifyData: 'end', // css justify content
     justifyHeading: 'center', // css justify content

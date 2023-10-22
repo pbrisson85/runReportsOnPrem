@@ -145,7 +145,18 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
 
   const companyTotalSalesF = () => { return getCompanyTotalSales(start, end, config)}
 
-  const [l1_fgInven, l0_fgInven, l1_fgInTransit, l0_fgInTransit, l1_fgAtLoc, l0_fgAtLoc, l1_fgAtLoc_untagged, l0_fgAtLoc_untagged, l1_fgAtLoc_tagged, l0_fgAtLoc_tagged, l1_fgPo, l0_fgPo, l1_so, l0_so, l1_soTagged, l0_soTagged, l1_soUntagged, l0_soUntagged, l1_so_byWk, l0_so_byWk, l1_soTagged_byWk, l0_soTagged_byWk, l1_soUntagged_byWk, l0_soUntagged_byWk, l1_salesByFy, l0_salesByFy, l1_salesByFyYtd, l0_salesByFyYtd, l1_salesByWk, l0_salesByWk, l1_salesPeriodToDate, l0_salesPeriodToDate, l1_trailingTwoWeek, l0_trailingTwoWeek, l1_trailingFourWeek, l0_trailingFourWeek, l1_trailingEightWeek, l0_trailingEightWeek, l1_trailingTwelveWeek, l0_trailingTwelveWeek, companyTotalSales ] = await Promise.all([l1_fgInvenF(), l0_fgInvenF(), l1_fgInTransitF(), l0_fgInTransitF(), l1_fgAtLocF(), l0_fgAtLocF(), l1_fgAtLoc_untaggedF(), l0_fgAtLoc_untaggedF(), l1_fgAtLoc_taggedF(), l0_fgAtLoc_taggedF(), l1_fgPoF(), l0_fgPoF(), l1_soF(), l0_soF(), l1_soTaggedF(), l0_soTaggedF(), l1_soUntaggedF(), l0_soUntaggedF(), l1_so_byWkF(), l0_so_byWkF(), l1_soTagged_byWkF(), l0_soTagged_byWkF(), l1_soUntagged_byWkF(), l0_soUntagged_byWkF(), l1_salesByFyF(), l0_salesByFyF(), l1_salesByFyYtdF(), l0_salesByFyYtdF(), l1_salesByWkF(), l0_salesByWkF(), l1_salesPeriodToDateF(), l0_salesPeriodToDateF(), l1_trailingTwoWeekF(), l0_trailingTwoWeekF(), l1_trailingFourWeekF(), l0_trailingFourWeekF(), l1_trailingEightWeekF(), l0_trailingEightWeekF(), l1_trailingTwelveWeekF(), l0_trailingTwelveWeekF(), companyTotalSalesF()])
+  const [
+    l1_salesProjByWk,
+    l0_salesProjByWk,
+    l1_salesProjPeriodToDate,
+    l0_salesProjPeriodToDate,
+    l1_fgInven, l0_fgInven, l1_fgInTransit, l0_fgInTransit, l1_fgAtLoc, l0_fgAtLoc, l1_fgAtLoc_untagged, l0_fgAtLoc_untagged, l1_fgAtLoc_tagged, l0_fgAtLoc_tagged, l1_fgPo, l0_fgPo, l1_so, l0_so, l1_soTagged, l0_soTagged, l1_soUntagged, l0_soUntagged, l1_so_byWk, l0_so_byWk, l1_soTagged_byWk, l0_soTagged_byWk, l1_soUntagged_byWk, l0_soUntagged_byWk, l1_salesByFy, l0_salesByFy, l1_salesByFyYtd, l0_salesByFyYtd, l1_salesByWk, l0_salesByWk, l1_salesPeriodToDate, l0_salesPeriodToDate, l1_trailingTwoWeek, l0_trailingTwoWeek, l1_trailingFourWeek, l0_trailingFourWeek, l1_trailingEightWeek, l0_trailingEightWeek, l1_trailingTwelveWeek, l0_trailingTwelveWeek, companyTotalSales 
+  ] = await Promise.all([
+    l1_salesProjByWkF(),
+    l0_salesProjByWkF(),
+    l1_salesProjPeriodToDateF(),
+    l0_salesProjPeriodToDateF(),
+    l1_fgInvenF(), l0_fgInvenF(), l1_fgInTransitF(), l0_fgInTransitF(), l1_fgAtLocF(), l0_fgAtLocF(), l1_fgAtLoc_untaggedF(), l0_fgAtLoc_untaggedF(), l1_fgAtLoc_taggedF(), l0_fgAtLoc_taggedF(), l1_fgPoF(), l0_fgPoF(), l1_soF(), l0_soF(), l1_soTaggedF(), l0_soTaggedF(), l1_soUntaggedF(), l0_soUntaggedF(), l1_so_byWkF(), l0_so_byWkF(), l1_soTagged_byWkF(), l0_soTagged_byWkF(), l1_soUntagged_byWkF(), l0_soUntagged_byWkF(), l1_salesByFyF(), l0_salesByFyF(), l1_salesByFyYtdF(), l0_salesByFyYtdF(), l1_salesByWkF(), l0_salesByWkF(), l1_salesPeriodToDateF(), l0_salesPeriodToDateF(), l1_trailingTwoWeekF(), l0_trailingTwoWeekF(), l1_trailingFourWeekF(), l0_trailingFourWeekF(), l1_trailingEightWeekF(), l0_trailingEightWeekF(), l1_trailingTwelveWeekF(), l0_trailingTwelveWeekF(), companyTotalSalesF()])
 
   ///////////////////////////////// KPI DATA
   /* % COMPANY SALES */
@@ -229,6 +240,10 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
 
   const mappedSales = mapSalesToRowTemplates(
     [
+      ...l1_salesProjByWk,
+      ...l0_salesProjByWk,
+      ...l1_salesProjPeriodToDate,
+      ...l0_salesProjPeriodToDate,
       ...l1_salesByWk,
       ...l0_salesByWk,
       ...l1_salesPeriodToDate,
