@@ -15,8 +15,6 @@ const mapSalesToRowTemplates = (salesLines, rowTemplate) => {
   let grossMargin
 
   salesLines.forEach(soLine => {
-    console.log('soLine', soLine)
-
     let {
       sales_numerator,
       sales_denominator,
