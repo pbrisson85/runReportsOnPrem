@@ -9,7 +9,16 @@ const l1_getSalesProjByWk = async (config, start, end, trendQuery) => {
     console.log(`${config.user} - level 1: (getSalesTrend Lvl3) query postgres to get FG sales data by week ...`)
 
     const response = await sql
-      `SELECT pj.column, pj.l1_label, pj.l2_label, pj.l3_label, pj.l4_label, pj.l5_label, pj.l6_label, pj.l7_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS slaes, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
+      `SELECT 
+        pj.column, 
+        ${trendQuery.sl.l1_label ? sql`pj.l1_label,`: sql``} 
+        ${trendQuery.sl.l2_label ? sql`pj.l2_label,`: sql``} 
+        ${trendQuery.sl.l3_label ? sql`pj.l3_label,`: sql``}
+        ${trendQuery.sl.l4_label ? sql`pj.l4_label,`: sql``}
+        ${trendQuery.sl.l5_label ? sql`pj.l5_label,`: sql``}
+        ${trendQuery.sl.l6_label ? sql`pj.l6_label,`: sql``}
+        ${trendQuery.sl.l7_label ? sql`pj.l7_label,`: sql``}
+        SUM(pj.lbs) AS lbs, SUM(pj.sales) AS slaes, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
       
       FROM (
         SELECT
@@ -127,7 +136,16 @@ const l1_getSalesProjPeriodToDate = async (config, start, end, trendQuery) => {
     console.log(`${config.user} - level 1: (getSalesTrend Lvl3) query postgres to get FG sales data period total ...`)
 
     const response = await sql
-    `SELECT 'SALES PROJECTION TOTAL' AS column, pj.l1_label, pj.l2_label, pj.l3_label, pj.l4_label, pj.l5_label, pj.l6_label, pj.l7_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS slaes, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
+    `SELECT 
+      'SALES PROJECTION TOTAL' AS column, 
+      ${trendQuery.sl.l1_label ? sql`pj.l1_label,`: sql``} 
+      ${trendQuery.sl.l2_label ? sql`pj.l2_label,`: sql``} 
+      ${trendQuery.sl.l3_label ? sql`pj.l3_label,`: sql``}
+      ${trendQuery.sl.l4_label ? sql`pj.l4_label,`: sql``}
+      ${trendQuery.sl.l5_label ? sql`pj.l5_label,`: sql``}
+      ${trendQuery.sl.l6_label ? sql`pj.l6_label,`: sql``}
+      ${trendQuery.sl.l7_label ? sql`pj.l7_label,`: sql``}
+      SUM(pj.lbs) AS lbs, SUM(pj.sales) AS slaes, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
     
     FROM (
       SELECT
