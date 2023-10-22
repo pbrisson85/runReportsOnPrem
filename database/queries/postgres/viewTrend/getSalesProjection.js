@@ -18,7 +18,7 @@ const l1_getSalesProjByWk = async (config, start, end, trendQuery) => {
         ${trendQuery.sl.l5_label ? sql`pj.l5_label,`: sql``}
         ${trendQuery.sl.l6_label ? sql`pj.l6_label,`: sql``}
         ${trendQuery.sl.l7_label ? sql`pj.l7_label,`: sql``}
-        SUM(pj.lbs) AS lbs, SUM(pj.sales) AS slaes, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
+        SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
       
       FROM (
         SELECT
@@ -143,7 +143,7 @@ const l1_getSalesProjPeriodToDate = async (config, start, end, trendQuery) => {
       ${trendQuery.sl.l5_label ? sql`pj.l5_label,`: sql``}
       ${trendQuery.sl.l6_label ? sql`pj.l6_label,`: sql``}
       ${trendQuery.sl.l7_label ? sql`pj.l7_label,`: sql``}
-      SUM(pj.lbs) AS lbs, SUM(pj.sales) AS slaes, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
+      SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
     
     FROM (
       SELECT
@@ -260,7 +260,7 @@ const l0_getSalesProjByWk = async (config, start, end) => {
 
     const response = await sql
     `SELECT pj.column ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 
-    'TOTAL' AS l2_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS slaes, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
+    'TOTAL' AS l2_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
     
     FROM (
       SELECT
@@ -350,7 +350,7 @@ const l0_getSalesProjPeriodToDate = async (config, start, end) => {
     const response = await sql
     `SELECT 'SALES PROJECTION TOTAL' AS column, 'SALES TOTAL' AS column
     ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 
-    'TOTAL' AS l2_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS slaes, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
+    'TOTAL' AS l2_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
     
     FROM (
       SELECT
