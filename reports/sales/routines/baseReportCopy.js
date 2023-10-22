@@ -865,7 +865,7 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   
   // Send only sales or projection cols:
 
-  useProjection ? delete columnConfigs.totalsCol : delete columnConfigs.salesProjectionCol
+  //useProjection ? delete columnConfigs.totalsCol : delete columnConfigs.salesProjectionCol
 
   return {
     data,
