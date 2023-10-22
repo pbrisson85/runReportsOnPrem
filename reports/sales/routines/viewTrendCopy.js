@@ -13,8 +13,14 @@ const {
   l1_getSalesPeriodToDate,
   l0_getSalesPeriodToDate,
 } = require('../../../database/queries/postgres/viewTrend/getSalesTrendDateDriven')
+const {
+  l1_getSalesProjByWk,
+  l0_getSalesProjByWk,
+  l1_getSalesProjPeriodToDate,
+  l0_getSalesProjPeriodToDate,
+} = require('../../../database/queries/postgres/viewTrend/getSalesTrendDateDriven')
 const { l1_getSalesWkDriven, l0_getSalesWkDriven } = require('../../../database/queries/postgres/viewTrend/getSalesTrendWkDriven')
-const { getCompanyTotalSales } = require('../../../database/queries/postgres/kpi/getCompanyTotalSales')
+const { getCompanyTotalSales } = require('../../../database/queries/postgres/kpi/getCompanyTotalSales_OLD')
 const { l0_getSalesPeriodToDate: l0_program_getSalesPeriodToDate } = require('../../../database/queries/postgres/baseReport/getSalesTrendDateDriven')
 const { l1_getSalesByFyYtd, l0_getSalesByFyYtd } = require('../../../database/queries/postgres/viewTrend/getSalesTrendByFyYtd')
 const {
@@ -57,6 +63,9 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
       return []
     }
   }
+
+  const { useProjection } = config.views
+  console.log('useProjection', useProjection)
 
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
@@ -102,6 +111,14 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   const l0_soUntagged_byWkF = () => { return l0_getSoUntagged_byWk(config)}
 
   // ///////////////////////////////// SALES DATA
+
+  /*SALES PROJECTIONS*/
+  const l1_salesProjByWkF = !useProjection ? skip() : () => {return l1_getSalesProjByWk(config, start, end)}
+  const l0_salesProjByWkF = !useProjection ? skip() : () => {return l0_getSalesProjByWk(config, start, end)}
+
+  const l1_salesProjPeriodToDateF = !useProjection ? skip() : () => {return l1_getSalesProjPeriodToDate(config, start, end)}
+  const l0_salesProjPeriodToDateF = !useProjection ? skip() : () => {return l0_getSalesProjPeriodToDate(config, start, end)}
+
   const l1_salesByFyF = () => { return l1_getSalesByFyYtd(config, start, end, false, trendQuery)}
   const l0_salesByFyF = () => { return l0_getSalesByFyYtd(config, start, end, false)}
 
@@ -327,6 +344,10 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
       trendColsSo_tg,
       trendColsSo_untg,
       columnConfigs,
+      defaultTrend: {
+        dataName: useProjection ? columnConfigs.salesProjectionCol[0].dataName : columnConfigs.totalsCol[0].dataName,
+        colType: useProjection ? columnConfigs.salesProjectionCol[0].colType : columnConfigs.totalsCol[0].colType
+      }
     },
   }
 }

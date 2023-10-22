@@ -4,8 +4,6 @@ const sql = require('../../../../server')
 
 // FG Species Group col total for period
 
-// SINCE I AM NOT USING A YEAR AS A FILTER I AM GETTING ALLLLLLLLLLL YEARS FUCKING MOMO
-
 const l1_getSalesWkDriven = async (config, startWk, endWk, year) => {
   try {
     console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getSalesWkDriven) ...`)

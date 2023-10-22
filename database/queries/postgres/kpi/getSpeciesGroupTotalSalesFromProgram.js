@@ -1,11 +1,27 @@
+const requestEmailNotification = require('../../../../requests/requestEmail')
 const sql = require('../../../../server')
 
-const getCompanyTotalSales = async (start, end, config) => {
+const getSpeciesGroupTotalSales = async (start, end, config) => {
   try {
-    console.log(`${config.user} - level 0: query postgres to get FG sales data period total ...`)
+    console.log(`${config.user} - look up species group for program ${config.program} ...`)
 
-    const response = await sql
-      `
+    const speciesGroupResponse =
+      await sql
+      `SELECT DISTINCT(ms.species_group) AS species_group
+        FROM "invenReporting".master_supplement AS ms
+        WHERE ms.program = ${config.program}` //prettier-ignore
+
+    // If more than one, notify dev
+    if (speciesGroupResponse.length > 1) {
+      requestEmailNotification(`Warning: More than one species group found for program ${config.program} in master_supplement table.`)
+    }
+
+    const speciesGroup = speciesGroupResponse[0].species_group
+
+    console.log(`${config.user} - look up species group total sales for ${speciesGroup} ...`)
+
+    const response =
+      await sql`
       SELECT ${config.useProjection ? sql`'SALES PROJECTION TOTAL'`: sql`'SALES TOTAL'`} AS column ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
@@ -25,7 +41,7 @@ const getCompanyTotalSales = async (start, end, config) => {
             WHERE 
               so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
               AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
-        `: sql``} 
+         `: sql``} 
         
           ) AS pj
           
@@ -35,6 +51,7 @@ const getCompanyTotalSales = async (start, end, config) => {
           WHERE
           1=1 
           ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+          ${config.program ? sql`AND ms.species_group = ${speciesGroup}`: sql``}
           ` //prettier-ignore
 
     return response
@@ -44,4 +61,4 @@ const getCompanyTotalSales = async (start, end, config) => {
   }
 }
 
-module.exports.getCompanyTotalSales = getCompanyTotalSales
+module.exports = getSpeciesGroupTotalSales

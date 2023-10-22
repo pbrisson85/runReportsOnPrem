@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const getCompanyTotalSales = async (start, end, config) => {
+const getProgramTotalSales = async (start, end, config) => {
   try {
     console.log(`${config.user} - level 0: query postgres to get FG sales data period total ...`)
 
@@ -35,6 +35,7 @@ const getCompanyTotalSales = async (start, end, config) => {
           WHERE
           1=1 
           ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+          ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
           ` //prettier-ignore
 
     return response
@@ -44,4 +45,4 @@ const getCompanyTotalSales = async (start, end, config) => {
   }
 }
 
-module.exports.getCompanyTotalSales = getCompanyTotalSales
+module.exports.getProgramTotalSales = getProgramTotalSales
