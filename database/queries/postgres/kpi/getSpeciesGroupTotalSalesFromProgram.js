@@ -36,9 +36,9 @@ const getSpeciesGroupTotalSales = async (start, end, config) => {
           ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
           ${config.program ? sql`AND ms.species_group IN (
             SELECT DISTINCT(ms.species_group) AS species_group
-            FROM "invenReporting".master_supplement AS ms
-            WHERE ms.program = ${config.program}`: sql``}
-            )
+              FROM "invenReporting".master_supplement AS ms
+              WHERE ms.program = ${config.program})`: sql``}
+            
           ` //prettier-ignore
 
     return response
