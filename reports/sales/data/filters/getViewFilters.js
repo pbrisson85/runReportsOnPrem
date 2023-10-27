@@ -12,12 +12,12 @@ const getViewFilters = () => {
       additionalData: { decimals: 0 },
       cols: ['label', 'salesInvoice', 'salesOrder', 'salesKpi', 'salesProjection'], // No inven, only sales data
     },
-    // {
-    //   label: 'OTHP $',
-    //   dataName: 'othp',
-    //   additionalData: { decimals: 0 },
-    //   cols: ['label',  'salesInvoice', 'salesOrder', 'salesKpi', 'salesProjection'], // No inven, only sales data
-    // },
+    {
+      label: 'OTHP $',
+      dataName: 'othp',
+      additionalData: { decimals: 0 },
+      cols: ['label', 'salesInvoice', 'salesOrder', 'salesKpi', 'salesProjection'], // No inven, only sales data
+    },
     {
       label: 'NET REVENUE',
       dataName: 'netSales',
