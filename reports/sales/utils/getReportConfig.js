@@ -38,7 +38,7 @@ const getReportConfig = reqBody => {
     export: reqBody.export ?? null,
     northAmerica: reqBody.northAmerica ?? null,
     queryLevel: reqBody.queryLevel ?? null,
-    itemType: reqBody.itemType ?? ['FG'], // 'BY PRODUCT', 'SECONDS', 'WIP', 'RM', 'ICE', 'NON SEAFOOD'
+    itemType: reqBody.itemType ?? ['FG', 'SECONDS'], // 'BY PRODUCT', 'SECONDS', 'WIP', 'RM', 'ICE', 'NON SEAFOOD'
     freshFrozen: reqBody.freshFrozen ?? null,
     custType: reqBody.custType ?? null,
     speciesGroup: reqBody.speciesGroup ?? null,

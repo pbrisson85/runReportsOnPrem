@@ -5,6 +5,10 @@ const getRowsFourthLevelDetail = async (config, start, end) => {
 
   const itemTypeArray = JSON.stringify(config.itemType)
 
+  console.log('!config.trends.fyYtd || !config.trends.fyFullYear', !config.trends.fyYtd || !config.trends.fyFullYear)
+  console.log('config.trends.fyYtd', config.trends.fyYtd)
+  console.log('config.trends.fyFullYear', config.trends.fyFullYear)
+
   try {
     console.log(`${config.user} - query postgres to get row labels (getRowsFourthLevelDetail) ...`)
 
@@ -63,6 +67,10 @@ const getRowsThirdLevelDetail = async (config, start, end) => {
   // config.trends.fyYtd || config.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
   let itemTypeArray = JSON.stringify(config.itemType)
+
+  console.log('!config.trends.fyYtd || !config.trends.fyFullYear', !config.trends.fyYtd || !config.trends.fyFullYear)
+  console.log('config.trends.fyYtd', config.trends.fyYtd)
+  console.log('config.trends.fyFullYear', config.trends.fyFullYear)
 
   try {
     console.log(`${config.user} - query postgres to get row labels (getRowsThirdLevelDetail) ...`)
