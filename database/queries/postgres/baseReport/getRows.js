@@ -1,7 +1,7 @@
 const sql = require('../../../../server')
 
 const getRowsFourthLevelDetail = async (config, start, end) => {
-  // config.trend.fyYtd || config.trend.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
+  // config.trends.fyYtd || config.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
   const itemTypeArray = JSON.stringify(config.itemType)
 
@@ -17,7 +17,7 @@ const getRowsFourthLevelDetail = async (config, start, end) => {
 
           WHERE 
             ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-            ${!config.trend.fyYtd || !config.trend.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end}` : sql``} 
+            ${!config.trends.fyYtd || !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end}` : sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
@@ -60,7 +60,7 @@ const getRowsFourthLevelDetail = async (config, start, end) => {
 }
 
 const getRowsThirdLevelDetail = async (config, start, end) => {
-  // config.trend.fyYtd || config.trend.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
+  // config.trends.fyYtd || config.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
   let itemTypeArray = JSON.stringify(config.itemType)
 
@@ -76,7 +76,7 @@ const getRowsThirdLevelDetail = async (config, start, end) => {
         
           WHERE 
             ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-            ${!config.trend.fyYtd || !config.trend.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} ` : sql``} 
+            ${!config.trends.fyYtd || !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} ` : sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
@@ -118,7 +118,7 @@ const getRowsThirdLevelDetail = async (config, start, end) => {
 }
 
 const getRowsSecondLevelDetail = async (config, start, end) => {
-  // config.trend.fyYtd || config.trend.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
+  // config.trends.fyYtd || config.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
   const itemTypeArray = JSON.stringify(config.itemType)
 
@@ -134,7 +134,7 @@ const getRowsSecondLevelDetail = async (config, start, end) => {
         
           WHERE 
             ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-            ${!config.trend.fyYtd || !config.trend.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} ` : sql``} 
+            ${!config.trends.fyYtd || !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} ` : sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
@@ -176,7 +176,7 @@ const getRowsSecondLevelDetail = async (config, start, end) => {
 }
 
 const getRowsFirstLevelDetail = async (config, start, end) => {
-  // config.trend.fyYtd || config.trend.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
+  // config.trends.fyYtd || config.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
   const itemTypeArray = JSON.stringify(config.itemType)
 
@@ -192,7 +192,7 @@ const getRowsFirstLevelDetail = async (config, start, end) => {
           
           WHERE 
             ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-            ${!config.trend.fyYtd || !config.trend.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} ` : sql``} 
+            ${!config.trends.fyYtd || !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} ` : sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
