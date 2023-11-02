@@ -14,14 +14,9 @@ const getReportConfig = require('../utils/getReportConfig')
 router.post('/', async (req, res) => {
   console.log(`\nget get SALES base report route HIT...`)
 
-  let { start, end, showFyTrend, year } = req.body
+  let { start, end, year } = req.body
 
   const config = getReportConfig(req.body)
-
-  // If showFyTrend param not passed in body then default to false (COULD ADD THIS TO THE CONFIG FILE + add explanation, why would it be undefined)
-  if (typeof showFyTrend === 'undefined') {
-    showFyTrend = false
-  }
 
   // If start, or end passed then default (COULD ADD THIS TO THE CONFIG FILE + add explanation, why would it be undefined)
   let defaultDateFlag = false
@@ -41,7 +36,7 @@ router.post('/', async (req, res) => {
   const startWeek = await getWeekForDate(start, config) // temporarily until I change the data that is being passed by the front end to the week
   const endWeek = await getWeekForDate(end, config) // temporarily until I change the data that is being passed by the front end to the week
 
-  const response = await buildReport(periodStart, end, showFyTrend, startWeek, endWeek, config, labelCols, year)
+  const response = await buildReport(periodStart, end, startWeek, endWeek, config, labelCols, year)
 
   /* CUSTOMIZE RESPONSE */
 

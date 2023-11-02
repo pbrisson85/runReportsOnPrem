@@ -133,7 +133,7 @@ const collapseRedundantTotalRows = require('../../../models/collapseRedundantTot
 const columnConfigs = require('../data/baseCols/columns')
 const sortRowTemplate = require('../../../models/sortRowTemplate')
 
-const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, labelCols, year, totalOnly) => {
+const buildReport = async (start, end, startWeek, endWeek, config, labelCols, year) => {
   // The routine and all of the queries can be the same for all reports. Going to buikd out this rpeort and then change the config manually to test.
 
   const skip = () => {
@@ -141,9 +141,6 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
       return []
     }
   }
-
-  const { useProjection } = config.views
-  console.log('useProjection', useProjection)
 
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
@@ -231,36 +228,36 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   // ///////////////////////////////// SALES DATA
 
   /*SALES PROJECTIONS*/
-  const l0_salesProjectionByWk = !useProjection ? skip() : () => {return l0_getSalesProjectionByWk(config, start, end)}
-  const l1_salesProjectionByWk = !useProjection ? skip() : () => {return l1_getSalesProjectionByWk(config, start, end)}
-  const l2_salesProjectionByWk = !useProjection ? skip() : () => {return l2_getSalesProjectionByWk(config, start, end)}
-  const l3_salesProjectionByWk = !useProjection ? skip() : config.l3_field ? () => {return l3_getSalesProjectionByWk(config, start, end)} : skip()
-  const l4_salesProjectionByWk = !useProjection ? skip() : config.l4_field ? () => {return l4_getSalesProjectionByWk(config, start, end)} : skip()
+  const l0_salesProjectionByWk = !config.views.useProjection ? skip() : () => {return l0_getSalesProjectionByWk(config, start, end)}
+  const l1_salesProjectionByWk = !config.views.useProjection ? skip() : () => {return l1_getSalesProjectionByWk(config, start, end)}
+  const l2_salesProjectionByWk = !config.views.useProjection ? skip() : () => {return l2_getSalesProjectionByWk(config, start, end)}
+  const l3_salesProjectionByWk = !config.views.useProjection ? skip() : config.l3_field ? () => {return l3_getSalesProjectionByWk(config, start, end)} : skip()
+  const l4_salesProjectionByWk = !config.views.useProjection ? skip() : config.l4_field ? () => {return l4_getSalesProjectionByWk(config, start, end)} : skip()
 
-  const l0_salesProjectionPeriodToDate = !useProjection ? skip() : () => {return l0_getSalesProjectionPeriodToDate(config, start, end)}
-  const l1_salesProjectionPeriodToDate = !useProjection ? skip() : () => {return l1_getSalesProjectionPeriodToDate(config, start, end)}
-  const l2_salesProjectionPeriodToDate = !useProjection ? skip() : () => {return l2_getSalesProjectionPeriodToDate(config, start, end)}
-  const l3_salesProjectionPeriodToDate = !useProjection ? skip() : config.l3_field ? () => {return l3_getSalesProjectionPeriodToDate(config, start, end)} : skip()
-  const l4_salesProjectionPeriodToDate = !useProjection ? skip() : config.l4_field ? () => {return l4_getSalesProjectionPeriodToDate(config, start, end)} : skip()
+  const l0_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : () => {return l0_getSalesProjectionPeriodToDate(config, start, end)}
+  const l1_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : () => {return l1_getSalesProjectionPeriodToDate(config, start, end)}
+  const l2_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : () => {return l2_getSalesProjectionPeriodToDate(config, start, end)}
+  const l3_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : config.l3_field ? () => {return l3_getSalesProjectionPeriodToDate(config, start, end)} : skip()
+  const l4_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : config.l4_field ? () => {return l4_getSalesProjectionPeriodToDate(config, start, end)} : skip()
 
   /*SALES*/
-  const l0_salesByFy = () => {return l0_getSalesByFyYtd(config, startWeek, endWeek, false)}
-  const l1_salesByFy = () => {return l1_getSalesByFyYtd(config, startWeek, endWeek, false)}
-  const l2_salesByFy = () => {return l2_getSalesByFyYtd(config, startWeek, endWeek, false)}
-  const l3_salesByFy =  config.l3_field ? () => {return l3_getSalesByFyYtd(config, startWeek, endWeek, false)} : skip()
-  const l4_salesByFy =  config.l4_field ? () => {return l4_getSalesByFyYtd(config, startWeek, endWeek, false)} : skip()
+  const l0_salesByFy = !config.trends.fyFullYear ? skip() : () => {return l0_getSalesByFyYtd(config, startWeek, endWeek, false)}
+  const l1_salesByFy = !config.trends.fyFullYear ? skip() : () => {return l1_getSalesByFyYtd(config, startWeek, endWeek, false)}
+  const l2_salesByFy = !config.trends.fyFullYear ? skip() : () => {return l2_getSalesByFyYtd(config, startWeek, endWeek, false)}
+  const l3_salesByFy = !config.trends.fyFullYear ? skip() : config.l3_field ? () => {return l3_getSalesByFyYtd(config, startWeek, endWeek, false)} : skip()
+  const l4_salesByFy = !config.trends.fyFullYear ? skip() : config.l4_field ? () => {return l4_getSalesByFyYtd(config, startWeek, endWeek, false)} : skip()
 
-  const l0_salesByFyYtd = () => {return l0_getSalesByFyYtd(config, startWeek, endWeek, true)}
-  const l1_salesByFyYtd = () => {return l1_getSalesByFyYtd(config, startWeek, endWeek, true)}
-  const l2_salesByFyYtd = () => {return l2_getSalesByFyYtd(config, startWeek, endWeek, true)}
-  const l3_salesByFyYtd =  config.l3_field ? () => {return l3_getSalesByFyYtd(config, startWeek, endWeek, true)} : skip()
-  const l4_salesByFyYtd =  config.l4_field ? () => {return l4_getSalesByFyYtd(config, startWeek, endWeek, true)} : skip()
+  const l0_salesByFyYtd = !config.trends.fyYtd ? skip() : () => {return l0_getSalesByFyYtd(config, startWeek, endWeek, true)}
+  const l1_salesByFyYtd = !config.trends.fyYtd ? skip() : () => {return l1_getSalesByFyYtd(config, startWeek, endWeek, true)}
+  const l2_salesByFyYtd = !config.trends.fyYtd ? skip() : () => {return l2_getSalesByFyYtd(config, startWeek, endWeek, true)}
+  const l3_salesByFyYtd = !config.trends.fyYtd ? skip() : config.l3_field ? () => {return l3_getSalesByFyYtd(config, startWeek, endWeek, true)} : skip()
+  const l4_salesByFyYtd = !config.trends.fyYtd ? skip() : config.l4_field ? () => {return l4_getSalesByFyYtd(config, startWeek, endWeek, true)} : skip()
 
-  const l0_salesByWk = () => {return l0_getSalesByWk(config, start, end)}
-  const l1_salesByWk = () => {return l1_getSalesByWk(config, start, end)}
-  const l2_salesByWk = () => {return l2_getSalesByWk(config, start, end)}
-  const l3_salesByWk =  config.l3_field ? () => {return l3_getSalesByWk(config, start, end)} : skip()
-  const l4_salesByWk =  config.l4_field ? () => {return l4_getSalesByWk(config, start, end)} : skip()
+  const l0_salesByWk = !config.trends.fiscalWeeks ? skip() : () => {return l0_getSalesByWk(config, start, end)}
+  const l1_salesByWk = !config.trends.fiscalWeeks ? skip() : () => {return l1_getSalesByWk(config, start, end)}
+  const l2_salesByWk = !config.trends.fiscalWeeks ? skip() : () => {return l2_getSalesByWk(config, start, end)}
+  const l3_salesByWk = !config.trends.fiscalWeeks ? skip() : config.l3_field ? () => {return l3_getSalesByWk(config, start, end)} : skip()
+  const l4_salesByWk = !config.trends.fiscalWeeks ? skip() : config.l4_field ? () => {return l4_getSalesByWk(config, start, end)} : skip()
 
   const l0_salesPeriodToDate = () => {return l0_getSalesPeriodToDate(config, start, end)}
   const l1_salesPeriodToDate = () => {return l1_getSalesPeriodToDate(config, start, end)}
@@ -535,11 +532,11 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   ])
 
   // Define numerators and denominators to use
-  let l0_reportSales = useProjection ? l0_salesProjectionPeriodToDateR : l0_salesPeriodToDateR
-  let l1_reportSales = useProjection ? l1_salesProjectionPeriodToDateR : l1_salesPeriodToDateR
-  let l2_reportSales = useProjection ? l2_salesProjectionPeriodToDateR : l2_salesPeriodToDateR
-  let l3_reportSales = useProjection ? l3_salesProjectionPeriodToDateR : l3_salesPeriodToDateR
-  let l4_reportSales = useProjection ? l4_salesProjectionPeriodToDateR : l4_salesPeriodToDateR
+  let l0_reportSales = config.views.useProjection ? l0_salesProjectionPeriodToDateR : l0_salesPeriodToDateR
+  let l1_reportSales = config.views.useProjection ? l1_salesProjectionPeriodToDateR : l1_salesPeriodToDateR
+  let l2_reportSales = config.views.useProjection ? l2_salesProjectionPeriodToDateR : l2_salesPeriodToDateR
+  let l3_reportSales = config.views.useProjection ? l3_salesProjectionPeriodToDateR : l3_salesPeriodToDateR
+  let l4_reportSales = config.views.useProjection ? l4_salesProjectionPeriodToDateR : l4_salesPeriodToDateR
 
   /* % COMPANY SALES */
   const l0_percent_companySales = calcPercentSalesCol(companyTotalSalesR[0], l0_reportSales, 'percentCompanySales')
@@ -617,10 +614,10 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   const l4_invAvailable = config.l4_field ? calcInventoryAvailable(l4_fgInvenR, l4_fgPoR, l4_soR, 'invenAvailable') : []
 
   ///////////////////////////////// ROWS
-  const rowsFourthLevelDetail =  config.l4_field ? () => {return getRowsFourthLevelDetail(config, start, end, showFyTrend)} : skip() 
-  const rowsThirdLevelDetail =  config.l3_field ? () => {return getRowsThirdLevelDetail(config, start, end, showFyTrend)} : skip() 
-  const rowsSecondLevelDetail = () => {return getRowsSecondLevelDetail(config, start, end, showFyTrend)} 
-  const rowsFirstLevelDetail = () => {return getRowsFirstLevelDetail(config, start, end, showFyTrend)} 
+  const rowsFourthLevelDetail =  config.l4_field ? () => {return getRowsFourthLevelDetail(config, start, end)} : skip() 
+  const rowsThirdLevelDetail =  config.l3_field ? () => {return getRowsThirdLevelDetail(config, start, end)} : skip() 
+  const rowsSecondLevelDetail = () => {return getRowsSecondLevelDetail(config, start, end)} 
+  const rowsFirstLevelDetail = () => {return getRowsFirstLevelDetail(config, start, end)} 
 
   const [rowsFourthLevelDetailR, rowsThirdLevelDetailR, rowsSecondLevelDetailR, rowsFirstLevelDetailR] = await Promise.all([
     rowsFourthLevelDetail(),
@@ -672,21 +669,6 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
     level = 4
   }
 
-  // switch to include fy trend data
-  const fyTrendSales = showFyTrend
-    ? [
-        ...l1_salesByFyR,
-        ...l2_salesByFyR,
-        ...l3_salesByFyR,
-        ...l4_salesByFyR,
-        ...l0_salesByFyR,
-        ...l1_salesByFyYtdR,
-        ...l2_salesByFyYtdR,
-        ...l3_salesByFyYtdR,
-        ...l4_salesByFyYtdR,
-        ...l0_salesByFyYtdR,
-      ]
-    : []
 
   const mappedSales = mapSalesToRowTemplates(
     [
@@ -740,7 +722,16 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
       ...l3_soUntagged_byWkR,
       ...l4_soUntagged_byWkR,
       ...l0_soUntagged_byWkR,
-      ...fyTrendSales,
+      ...l1_salesByFyR,
+      ...l2_salesByFyR,
+      ...l3_salesByFyR,
+      ...l4_salesByFyR,
+      ...l0_salesByFyR,
+      ...l1_salesByFyYtdR,
+      ...l2_salesByFyYtdR,
+      ...l3_salesByFyYtdR,
+      ...l4_salesByFyYtdR,
+      ...l0_salesByFyYtdR,
       ...l1_percent_companySales,
       ...l2_percent_companySales,
       ...l3_percent_companySales,
@@ -842,20 +833,14 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   const data = cleanLabelsForDisplay(flattenedMappedData, config)
 
   /* Build Columns */
-  const trendColsSalesF = () => {return  getDateEndPerWeekByRange(start, end, config)}
-  const trendColsSalesProjF = () => {return  getDateEndPerWeekByRange_pj(start, end, config)}
-
-  //const collapsedData = collapseRedundantTotalRows(data, level)
-
-  // get data column names by fiscal year
-  let trendColsSaByFyF = () => { return [] }
-  let trendColsSaByFyYtdF = () => { return [] }
-  if (showFyTrend) trendColsSaByFyF = () => {return getFiscalYearCols()} 
-  if (showFyTrend) trendColsSaByFyYtdF = () => {return  getFiscalYearYtdCols()}
+  const trendColsSalesF = !config.trends.fiscalWeeks ? skip() : () => {return  getDateEndPerWeekByRange(start, end, config)}
+  const trendColsSalesProjF = !config.views.useProjection ? skip() : () => {return  getDateEndPerWeekByRange_pj(start, end, config)}
+  const trendColsSaByFyF = !config.trends.fyFullYear ? skip() : () => {return getFiscalYearCols()} 
+  const trendColsSaByFyYtdF = !config.trends.fyYtd ? skip() : () => {return  getFiscalYearYtdCols()}
 
   // get so by week cols
   const start_so = await getEarliestShipWk(config)
-  const end_so = await getLatestShipWk(config)
+  const end_so = await getLatestShipWk(config) // NEED A MAX RANGE HERE !!!!!!!!!! SLS PERSON ACCIDENTALLY ENTERED 2031 INTO A SO AN FRONT END CRASHED
   const trendColsSoF = () => {return  getDateEndPerWeekByRange_so(start_so, end_so, config)}
   const trendColsSo_tgF = () => {return  getDateEndPerWeekByRange_so_tg(start_so, end_so, config)}
   const trendColsSo_untgF = () => {return  getDateEndPerWeekByRange_so_untg(start_so, end_so, config)}
@@ -865,12 +850,12 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
   
   // Send only sales or projection cols:
 
-  //useProjection ? delete columnConfigs.totalsCol : delete columnConfigs.salesProjectionCol
+  //config.views.useProjection ? delete columnConfigs.totalsCol : delete columnConfigs.salesProjectionCol
 
   return {
     data,
     cols: {
-      trendColsSalesProj,
+      trendColsSalesProj, // Only include if projection is checked
       trendColsSales,
       trendColsSaByFy,
       trendColsSaByFyYtd,
@@ -880,8 +865,8 @@ const buildReport = async (start, end, showFyTrend, startWeek, endWeek, config, 
       trendColsSo_untg,
       columnConfigs,
       defaultTrend: {
-        dataName: useProjection ? columnConfigs.salesProjectionCol[0].dataName : columnConfigs.totalsCol[0].dataName,
-        colType: useProjection ? columnConfigs.salesProjectionCol[0].colType : columnConfigs.totalsCol[0].colType
+        dataName: config.views.useProjection ? columnConfigs.salesProjectionCol[0].dataName : columnConfigs.totalsCol[0].dataName,
+        colType: config.views.useProjection ? columnConfigs.salesProjectionCol[0].colType : columnConfigs.totalsCol[0].colType
       }
     },
   }

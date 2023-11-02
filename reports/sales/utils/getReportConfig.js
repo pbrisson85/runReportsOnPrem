@@ -1,5 +1,6 @@
 const appSettings = require('../data/filters/appSettings')
 const unflattenByCompositKey = require('../../../models/unflattenByCompositKey')
+const trendTypeOptions = require('../data/filters/trendType')
 
 const getReportConfig = reqBody => {
   // auth filters:
@@ -45,6 +46,16 @@ const getReportConfig = reqBody => {
     programDrilldown: reqBody.programDrilldown ?? null,
     views: {
       useProjection: false, // reqBody.creds.admin ?? false, // temporarily use the admin credential to determine if the projection view should be used DURING TESTING
+    },
+    trends: {
+      fiscalWeeks: reqBody.trend.includes('fiscalWeeks'),
+      fiscalPeriods: reqBody.trend.includes('fiscalPeriods'),
+      fiscalQuarters: reqBody.trend.includes('fiscalQuarters'),
+      fyYtd: reqBody.trend.includes('fyYtd'),
+      fyFullYear: reqBody.trend.includes('fyFullYear'),
+      calMonths: reqBody.trend.includes('calMonths'),
+      calYtd: reqBody.trend.includes('calYtd'),
+      calFullYear: reqBody.trend.includes('calFullYear'),
     },
     jbBuyerFilter,
     user: reqBody.user ?? null,

@@ -3,7 +3,7 @@ const getDistinctPrograms = require('../../../database/queries/postgres/getDisti
 const getViewFilters = require('../data/filters/getViewFilters')
 const getDistinctFiscalYears = require('../../../database/queries/postgres/getDistinctFiscalYears')
 const getReportFormats = require('../data/filters/getReportFormats')
-const getReportFilters = require('../data/filters/getReportFilters')
+const trendTypeOptions = require('../data/filters/trendType')
 const getDataFilters = require('../data/filters/getDataFilters')
 const { getDateEndPerWeek } = require('../../../database/queries/postgres/getDateEndPerWeek')
 const getReportConfig = require('../utils/getReportConfig')
@@ -91,11 +91,11 @@ router.get('/dataFilters', async (req, res) => {
 })
 
 // Generate Filter Data
-router.get('/viewFilters', async (req, res) => {
-  console.log('get report filters route HIT...')
-  const reports = getReportFilters()
+router.get('/trendFilters', async (req, res) => {
+  console.log('get trend filters route HIT...')
+  const reports = trendTypeOptions()
   res.send(reports)
-  console.log('get report filters route COMPLETE. ')
+  console.log('get trend filters route COMPLETE. ')
 })
 
 // Get App Admin Settings

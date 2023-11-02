@@ -24,7 +24,7 @@ const getDateEndPerWeekByRange = async (start, end, config) => {
 
 const getDateEndPerWeekByRange_pj = async (start, end, config) => {
   console.log(
-    `${config.user} - getDateEndPerWeekByRange_so, query postgres for accounting period ends by week serial for ${new Date(
+    `${config.user} - getDateEndPerWeekByRange_pj, query postgres for accounting period ends by week serial for ${new Date(
       start
     ).toLocaleDateString()} through ${new Date(end).toLocaleDateString()} ...`
   )
