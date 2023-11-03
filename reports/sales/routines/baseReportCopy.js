@@ -142,6 +142,9 @@ const unflattenByCompositKey = require('../../../models/unflattenByCompositKey')
 const calcPercentSalesCol = require('../../../models/calcPercentSalesCol')
 const getSpeciesGroupTotalSales = require('../../../database/queries/postgres/kpi/getSpeciesGroupTotalSalesFromProgram')
 const calcAveWeeklySales = require('../../../models/calcAveWeeklySales')
+
+const calcYoyYtdSalesCol = require('../../../models/calcYoyYtdSalesCol')
+
 const calcWeeksInvOnHand = require('../../../models/calcWeeksInvOnHand')
 const calcInventoryAvailable = require('../../../models/calcInventoryAvailable')
 const collapseRedundantTotalRows = require('../../../models/collapseRedundantTotalRows')
@@ -591,6 +594,13 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
   let l3_reportSales = config.views.useProjection ? l3_salesProjectionPeriodToDateR : config.trends.calMonths ? l3_salesCalMoToDateR : l3_salesPeriodToDateR
   let l4_reportSales = config.views.useProjection ? l4_salesProjectionPeriodToDateR : config.trends.calMonths ? l4_salesCalMoToDateR : l4_salesPeriodToDateR
 
+  /* % YoY YTD SALES */
+  const l0_yoyYtd_companySales = !config.trends.fyYtd ? [] : calcYoyYtdSalesCol(l0_salesByFyYtdR, 'yoyYtdSales')
+  const l1_yoyYtd_companySales = !config.trends.fyYtd ? [] : calcYoyYtdSalesCol(l1_salesByFyYtdR, 'yoyYtdSales')
+  const l2_yoyYtd_companySales = !config.trends.fyYtd ? [] : calcYoyYtdSalesCol(l2_salesByFyYtdR, 'yoyYtdSales')
+  const l3_yoyYtd_companySales = !config.trends.fyYtd ? [] : config.l3_field ? calcYoyYtdSalesCol(l3_salesByFyYtdR, 'yoyYtdSales') : [] 
+  const l4_yoyYtd_companySales = !config.trends.fyYtd ? [] : config.l4_field ? calcYoyYtdSalesCol(l4_salesByFyYtdR, 'yoyYtdSales') : [] 
+
   /* % COMPANY SALES */
   const l0_percent_companySales = calcPercentSalesCol(companyTotalSalesR[0], l0_reportSales, 'percentCompanySales')
   const l1_percent_companySales = calcPercentSalesCol(companyTotalSalesR[0], l1_reportSales, 'percentCompanySales')
@@ -840,6 +850,11 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
       ...l3_twelveWkAveSales,
       ...l4_twelveWkAveSales,
       ...l0_twelveWkAveSales,
+      ...l0_yoyYtd_companySales,
+      ...l1_yoyYtd_companySales,
+      ...l2_yoyYtd_companySales,
+      ...l3_yoyYtd_companySales,
+      ...l4_yoyYtd_companySales,
     ],
     rowTemplate_unflat
   )
