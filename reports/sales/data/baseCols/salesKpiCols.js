@@ -169,7 +169,7 @@ const salesKpiCol = [
   },
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
-    displayName: '12Wk ROLLING', // show as column header
+    displayName: '12Wk Rolling', // show as column header
     dataName: '12wk Rolling', // key to pull data from
     justifyData: 'end', // css justify content
     justifyHeading: 'center', // css justify content
@@ -197,7 +197,7 @@ const salesKpiCol = [
   },
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
-    displayName: '4WK ROLLING', // show as column header
+    displayName: '4WK Rolling', // show as column header
     dataName: '4wk Rolling', // key to pull data from
     justifyData: 'end', // css justify content
     justifyHeading: 'center', // css justify content
