@@ -135,6 +135,7 @@ const buildDrillDown = async (labelCols, config, start, end, startWeek, endWeek,
   const l0_salesPeriodToDateF = () => { return l0_getSalesPeriodToDate(config, start, end)}
 
   /* KPI Data */
+  
   const l1_trailingTwoWeekF = endWeek < 2 ? skip() : () => { return l1_getSalesWkDriven(config, endWeek - 1, endWeek, trendQuery, year, '2wk Rolling')}
   const l0_trailingTwoWeekF = endWeek < 2 ? skip() : () => { return l0_getSalesWkDriven(config, endWeek - 1, endWeek, year, '2wk Rolling')}
 
@@ -327,6 +328,13 @@ const buildDrillDown = async (labelCols, config, start, end, startWeek, endWeek,
 
   const mappedSales = mapSalesToRowTemplates(
     [
+      ...l0_trailingFourWeek,
+      ...l1_trailingFourWeek,
+    
+      ...l0_trailingTwelveWeek,
+      ...l1_trailingTwelveWeek,
+    
+
       ...l1_salesProjByWk,
       ...l0_salesProjByWk,
       ...l1_salesProjPeriodToDate,
