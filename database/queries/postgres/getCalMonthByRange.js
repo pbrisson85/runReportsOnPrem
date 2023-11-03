@@ -1,8 +1,8 @@
 const sql = require('../../../server')
 
 const getCalMonthByRange = async (start, end, config) => {
-  const periodsByWeek =
-    await sql`SELECT DISTINCT(EXTRACT('MONTH' FROM sales_line_items.formatted_invoice_date)) AS dataName, DISTINCT(EXTRACT('MONTH' FROM sales_line_items.formatted_invoice_date)) AS displayName 
+  const periodsByWeek = await sql`
+    SELECT EXTRACT('MONTH' FROM sales_line_items.formatted_invoice_date) AS dataName, EXTRACT('MONTH' FROM sales_line_items.formatted_invoice_date) AS displayName 
     
     FROM "salesReporting".sales_line_items 
     
