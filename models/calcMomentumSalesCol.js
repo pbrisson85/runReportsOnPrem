@@ -49,10 +49,10 @@ const calcMomentum = (fourWk, twelveWk, colName) => {
       l5_label,
       l6_label,
       column: colName,
-      lbs: lbsFourWk - lbsTwelveWk,
-      sales: salesFourWk - salesTwelveWk,
-      cogs: cogsFourWk - cogsTwelveWk,
-      othp: othpFourWk - othpTwelveWk,
+      lbs: (lbsFourWk - lbsTwelveWk) / lbsTwelveWk,
+      sales: (salesFourWk - salesTwelveWk) / salesTwelveWk,
+      cogs: (cogsFourWk - cogsTwelveWk) / cogsTwelveWk,
+      othp: (othpFourWk - othpTwelveWk) / othpTwelveWk,
     }
 
     return calcData
