@@ -52,6 +52,7 @@ const combineMappedRows = require('../../../models/combineMappedRows')
 const cleanLabelsForDisplay = require('../../../models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../../../models/unflattenByCompositKey')
 const calcPercentSalesCol = require('../../../models/calcPercentSalesCol')
+const calcYoyYtdSalesCol = require('../../../models/calcYoyYtdSalesCol')
 const calcAveWeeklySales = require('../../../models/calcAveWeeklySales')
 const calcWeeksInvOnHand = require('../../../models/calcWeeksInvOnHand')
 const calcInventoryAvailable = require('../../../models/calcInventoryAvailable')
@@ -238,6 +239,11 @@ const buildDrillDown = async (labelCols, config, start, end, startWeek, endWeek,
     companyTotalSalesF()])
 
   ///////////////////////////////// KPI DATA
+
+  /* % YoY YTD SALES */
+  const l0_yoyYtd_companySales = !config.trends.fyYtd ? [] : calcYoyYtdSalesCol(l0_salesByFyYtd, 'yoyYtdSales')
+  const l1_yoyYtd_companySales = !config.trends.fyYtd ? [] : calcYoyYtdSalesCol(l1_salesByFyYtd, 'yoyYtdSales')
+  
   /* % COMPANY SALES */
   const l1_percent_companySales = calcPercentSalesCol(companyTotalSales[0], l1_salesPeriodToDate, 'percentCompanySales')
   const l0_percent_companySales = calcPercentSalesCol(companyTotalSales[0], l0_salesPeriodToDate, 'percentCompanySales')
@@ -356,6 +362,8 @@ const buildDrillDown = async (labelCols, config, start, end, startWeek, endWeek,
       ...l0_eightWkAveSales,
       ...l1_twelveWkAveSales,
       ...l0_twelveWkAveSales,
+      ...l0_yoyYtd_companySales,
+      ...l1_yoyYtd_companySales,
     ],
     rowTemplate_unflat
   )
