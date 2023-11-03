@@ -1,6 +1,8 @@
 const calcYoyYtdSalesCol = (eachRowData, colName) => {
+  console.log('eachRowData', eachRowData)
+
   const yoySales = eachRowData.map((row, idx) => {
-    console.log('idx, row', idx, row)
+    //console.log('idx, row', idx, row)
 
     const { lbs, sales, cogs, othp, column, l1_label, l2_label } = row
 
