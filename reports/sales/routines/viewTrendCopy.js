@@ -409,7 +409,7 @@ const buildDrillDown = async (labelCols, config, start, end, startWeek, endWeek,
   data = [...filterRow, ...data]
 
   const trendColsSalesF = !config.trends.fiscalWeeks ? skip() : () => { return getDateEndPerWeekByRange(start, end, config)} 
-  const trendColsSalesProjF = !config.views.config.views.useProjection ? skip() : () => {return  getDateEndPerWeekByRange_pj(start, end, config)}
+  const trendColsSalesProjF = !config.views.useProjection ? skip() : () => {return  getDateEndPerWeekByRange_pj(start, end, config)}
   const trendColsSaByFyF = !config.trends.fyFullYear ? skip() : () => { return []}
   const trendColsSaByFyYtdF = !config.trends.fyYtd ? skip() : () => { return []}
 
