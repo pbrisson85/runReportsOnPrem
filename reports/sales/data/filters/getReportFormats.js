@@ -10,7 +10,7 @@ const getReportFormats = () => {
     {
       label: 'species group / program / freeze',
       dataName: 'speciesgroupProgFrz',
-      defaults: ['all'], // list of programs (datanames) that this is the default report
+      defaults: [], // list of programs (datanames) that this is the default report
       optional: ['all'], // list of programs (datanames) that allow this
       forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
     },
@@ -38,7 +38,7 @@ const getReportFormats = () => {
     {
       label: 'species group / freeze',
       dataName: 'speciesgroupFreeze',
-      defaults: [], // list of programs (datanames) that this is the default report
+      defaults: ['all'], // list of programs (datanames) that this is the default report
       optional: ['all'], // list of programs (datanames) that allow this
       forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
     },

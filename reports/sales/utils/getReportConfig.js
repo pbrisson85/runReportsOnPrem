@@ -218,11 +218,9 @@ const getReportConfig = reqBody => {
     default:
       config = {
         l1_field: 'ms.species_group',
-        l2_field: 'ms.program',
-        l3_field: 'ms.fg_fresh_frozen',
+        l2_field: 'ms.fg_fresh_frozen',
         l1_name: 'species group', // Used for filter labels on front end
-        l2_name: 'program',
-        l3_name: 'fresh/frozen',
+        l2_name: 'fresh/frozen',
         ...config,
       }
   }
