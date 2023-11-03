@@ -29,17 +29,17 @@ const calcMomentum = (fourWk, twelveWk, colName) => {
     const row = fourWk_unflat[key] ?? twelveWk_unflat[key]
     let { l1_label, l2_label, l3_label, l4_label, l5_label, l6_label } = row
 
-    const lbsFourWk = cy_unflat[key]?.lbs ?? 0
-    const lbsTwelveWk = py_unflat[key]?.lbs ?? 0
+    const lbsFourWk = fourWk_unflat[key]?.lbs ?? 0
+    const lbsTwelveWk = twelveWk_unflat[key]?.lbs ?? 0
 
-    const salesFourWk = cy_unflat[key]?.sales ?? 0
-    const salesTwelveWk = py_unflat[key]?.sales ?? 0
+    const salesFourWk = fourWk_unflat[key]?.sales ?? 0
+    const salesTwelveWk = twelveWk_unflat[key]?.sales ?? 0
 
-    const cogsFourWk = cy_unflat[key]?.cogs ?? 0
-    const cogsTwelveWk = py_unflat[key]?.cogs ?? 0
+    const cogsFourWk = fourWk_unflat[key]?.cogs ?? 0
+    const cogsTwelveWk = twelveWk_unflat[key]?.cogs ?? 0
 
-    const othpFourWk = cy_unflat[key]?.othp ?? 0
-    const othpTwelveWk = py_unflat[key]?.othp ?? 0
+    const othpFourWk = fourWk_unflat[key]?.othp ?? 0
+    const othpTwelveWk = twelveWk_unflat[key]?.othp ?? 0
 
     const calcData = {
       l1_label,
