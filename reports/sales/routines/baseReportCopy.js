@@ -458,28 +458,28 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
   const speciesGroupTotalSales = () => {return getSpeciesGroupTotalSales(start, end, config)}
 
   const l0_trailingTwoWeek = endWeek < 2 ? skip() : () => {return l0_getSalesWkDriven(config, endWeek - 1, endWeek, year)}
-  const l1_trailingTwoWeek =  endWeek < 2 ? skip() : () => {return l1_getSalesWkDriven(config, endWeek - 1, endWeek, year)}
-  const l2_trailingTwoWeek =  endWeek < 2 ? skip() : () => {return l2_getSalesWkDriven(config, endWeek - 1, endWeek, year)}
-  const l3_trailingTwoWeek =  endWeek < 2 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, endWeek - 1, endWeek, year)} : skip() 
-  const l4_trailingTwoWeek =  endWeek < 2 ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, endWeek - 1, endWeek, year)} : skip() 
+  const l1_trailingTwoWeek = endWeek < 2 ? skip() : () => {return l1_getSalesWkDriven(config, endWeek - 1, endWeek, year)}
+  const l2_trailingTwoWeek = endWeek < 2 ? skip() : () => {return l2_getSalesWkDriven(config, endWeek - 1, endWeek, year)}
+  const l3_trailingTwoWeek = endWeek < 2 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, endWeek - 1, endWeek, year)} : skip() 
+  const l4_trailingTwoWeek = endWeek < 2 ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, endWeek - 1, endWeek, year)} : skip() 
   
   const l0_trailingFourWeek = endWeek < 4 ? skip() : () => {return l0_getSalesWkDriven(config, endWeek - 3, endWeek, year)}
-  const l1_trailingFourWeek =  endWeek < 4 ? skip() : () => {return l1_getSalesWkDriven(config, endWeek - 3, endWeek, year)}
-  const l2_trailingFourWeek =  endWeek < 4 ? skip() : () => {return l2_getSalesWkDriven(config, endWeek - 3, endWeek, year)}
-  const l3_trailingFourWeek =  endWeek < 4 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, endWeek - 3, endWeek, year)} : skip() 
-  const l4_trailingFourWeek =  endWeek < 4 ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, endWeek - 3, endWeek, year)} : skip() 
+  const l1_trailingFourWeek = endWeek < 4 ? skip() : () => {return l1_getSalesWkDriven(config, endWeek - 3, endWeek, year)}
+  const l2_trailingFourWeek = endWeek < 4 ? skip() : () => {return l2_getSalesWkDriven(config, endWeek - 3, endWeek, year)}
+  const l3_trailingFourWeek = endWeek < 4 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, endWeek - 3, endWeek, year)} : skip() 
+  const l4_trailingFourWeek = endWeek < 4 ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, endWeek - 3, endWeek, year)} : skip() 
 
   const l0_trailingEightWeek = endWeek < 8 ? skip() : () => {return l0_getSalesWkDriven(config, endWeek - 7, endWeek, year)}
-  const l1_trailingEightWeek =  endWeek < 8 ? skip() : () => {return l1_getSalesWkDriven(config, endWeek - 7, endWeek, year)}
-  const l2_trailingEightWeek =  endWeek < 8 ? skip() : () => {return l2_getSalesWkDriven(config, endWeek - 7, endWeek, year)}
-  const l3_trailingEightWeek =  endWeek < 8 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, endWeek - 7, endWeek, year)} : skip() 
-  const l4_trailingEightWeek =  endWeek < 8 ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, endWeek - 7, endWeek, year)} : skip() 
+  const l1_trailingEightWeek = endWeek < 8 ? skip() : () => {return l1_getSalesWkDriven(config, endWeek - 7, endWeek, year)}
+  const l2_trailingEightWeek = endWeek < 8 ? skip() : () => {return l2_getSalesWkDriven(config, endWeek - 7, endWeek, year)}
+  const l3_trailingEightWeek = endWeek < 8 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, endWeek - 7, endWeek, year)} : skip() 
+  const l4_trailingEightWeek = endWeek < 8 ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, endWeek - 7, endWeek, year)} : skip() 
 
   const l0_trailingTwelveWeek = endWeek < 12 ? skip() : () => {return l0_getSalesWkDriven(config, endWeek - 11, endWeek, year)}
-  const l1_trailingTwelveWeek =  endWeek < 12 ? skip() : () => {return l1_getSalesWkDriven(config, endWeek - 11, endWeek, year)}
-  const l2_trailingTwelveWeek =  endWeek < 12 ? skip() : () => {return l2_getSalesWkDriven(config, endWeek - 11, endWeek, year)}
-  const l3_trailingTwelveWeek =  endWeek < 12 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, endWeek - 11, endWeek, year)} : skip() 
-  const l4_trailingTwelveWeek =  endWeek < 12  ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, endWeek - 11, endWeek, year)} : skip() 
+  const l1_trailingTwelveWeek = endWeek < 12 ? skip() : () => {return l1_getSalesWkDriven(config, endWeek - 11, endWeek, year)}
+  const l2_trailingTwelveWeek = endWeek < 12 ? skip() : () => {return l2_getSalesWkDriven(config, endWeek - 11, endWeek, year)}
+  const l3_trailingTwelveWeek = endWeek < 12 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, endWeek - 11, endWeek, year)} : skip() 
+  const l4_trailingTwelveWeek = endWeek < 12  ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, endWeek - 11, endWeek, year)} : skip() 
   
   const [ 
     companyTotalSalesR,

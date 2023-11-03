@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQuery) => {
+const getRowsFirstLevelDetail = async (config, start, end, trendQuery) => {
   const itemTypeArray = JSON.stringify(config.itemType)
 
   try {
@@ -27,7 +27,7 @@ const getRowsFirstLevelDetail = async (config, start, end, showFyTrend, trendQue
               
         WHERE 
             ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-            ${!showFyTrend ? sql`AND sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} ` : sql``} 
+            ${!config.trends.fyYtd && !config.trends.fyFullYear ? sql`AND sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} ` : sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}
             ${config.species ? sql`AND ms.species = ${config.species}`: sql``}

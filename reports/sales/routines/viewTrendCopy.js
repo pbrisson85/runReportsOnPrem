@@ -57,15 +57,15 @@ const calcWeeksInvOnHand = require('../../../models/calcWeeksInvOnHand')
 const calcInventoryAvailable = require('../../../models/calcInventoryAvailable')
 const columnConfigs = require('../data/baseCols/columns')
 
-const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startWeek, endWeek, trendQuery, year) => {
+
+// Note that KPI data does not have the logic cleaned up to handle useSalesProjection like the base report does at this time.
+
+const buildDrillDown = async (labelCols, config, start, end, startWeek, endWeek, trendQuery, year) => {
   const skip = () => {
     return () => {
       return []
     }
   }
-
-  const { useProjection } = config.views
-  console.log('useProjection', useProjection)
 
   ///////////////////////////////// INVENTORY DATA
   /* TOTAL FG (FG) */
@@ -112,25 +112,27 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
 
   // ///////////////////////////////// SALES DATA
 
-  /*SALES PROJECTIONS*/
-  const l1_salesProjByWkF = !useProjection ? skip() : () => {return l1_getSalesProjByWk(config, start, end, trendQuery)}
-  const l0_salesProjByWkF = !useProjection ? skip() : () => {return l0_getSalesProjByWk(config, start, end)}
+  /* SALES PROJECTIONS */
+  const l1_salesProjByWkF = !config.views.useProjection ? skip() : () => {return l1_getSalesProjByWk(config, start, end, trendQuery)}
+  const l0_salesProjByWkF = !config.views.useProjection ? skip() : () => {return l0_getSalesProjByWk(config, start, end)}
 
-  const l1_salesProjPeriodToDateF = !useProjection ? skip() : () => {return l1_getSalesProjPeriodToDate(config, start, end, trendQuery)}
-  const l0_salesProjPeriodToDateF = !useProjection ? skip() : () => {return l0_getSalesProjPeriodToDate(config, start, end)}
+  const l1_salesProjPeriodToDateF = !config.views.useProjection ? skip() : () => {return l1_getSalesProjPeriodToDate(config, start, end, trendQuery)}
+  const l0_salesProjPeriodToDateF = !config.views.useProjection ? skip() : () => {return l0_getSalesProjPeriodToDate(config, start, end)}
 
-  const l1_salesByFyF = () => { return l1_getSalesByFyYtd(config, start, end, false, trendQuery)}
-  const l0_salesByFyF = () => { return l0_getSalesByFyYtd(config, start, end, false)}
+  /* SALES */
+  const l1_salesByFyF = !config.trends.fyFullYear ? skip() : () => { return l1_getSalesByFyYtd(config, start, end, false, trendQuery)}
+  const l0_salesByFyF = !config.trends.fyFullYear ? skip() : () => { return l0_getSalesByFyYtd(config, start, end, false)}
 
-  const l1_salesByFyYtdF = () => { return l1_getSalesByFyYtd(config, startWeek, endWeek, true, trendQuery)}
-  const l0_salesByFyYtdF = () => { return l0_getSalesByFyYtd(config, startWeek, endWeek, true)}
+  const l1_salesByFyYtdF = !config.trends.fyYtd ? skip() : () => { return l1_getSalesByFyYtd(config, startWeek, endWeek, true, trendQuery)}
+  const l0_salesByFyYtdF = !config.trends.fyYtd ? skip() : () => { return l0_getSalesByFyYtd(config, startWeek, endWeek, true)}
 
-  const l1_salesByWkF = () => { return l1_getSalesByWk(config, start, end, trendQuery)}
-  const l0_salesByWkF = () => { return l0_getSalesByWk(config, start, end)}
+  const l1_salesByWkF = !config.trends.fiscalWeeks ? skip() : () => { return l1_getSalesByWk(config, start, end, trendQuery)}
+  const l0_salesByWkF = !config.trends.fiscalWeeks ? skip() : () => { return l0_getSalesByWk(config, start, end)}
 
   const l1_salesPeriodToDateF = () => { return l1_getSalesPeriodToDate(config, start, end, trendQuery)}
   const l0_salesPeriodToDateF = () => { return l0_getSalesPeriodToDate(config, start, end)}
 
+  /* KPI Data */
   const l1_trailingTwoWeekF = endWeek < 2 ? skip() : () => { return l1_getSalesWkDriven(config, endWeek - 1, endWeek, trendQuery, year)}
   const l0_trailingTwoWeekF = endWeek < 2 ? skip() : () => { return l0_getSalesWkDriven(config, endWeek - 1, endWeek, year)}
 
@@ -150,13 +152,90 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
     l0_salesProjByWk,
     l1_salesProjPeriodToDate,
     l0_salesProjPeriodToDate,
-    l1_fgInven, l0_fgInven, l1_fgInTransit, l0_fgInTransit, l1_fgAtLoc, l0_fgAtLoc, l1_fgAtLoc_untagged, l0_fgAtLoc_untagged, l1_fgAtLoc_tagged, l0_fgAtLoc_tagged, l1_fgPo, l0_fgPo, l1_so, l0_so, l1_soTagged, l0_soTagged, l1_soUntagged, l0_soUntagged, l1_so_byWk, l0_so_byWk, l1_soTagged_byWk, l0_soTagged_byWk, l1_soUntagged_byWk, l0_soUntagged_byWk, l1_salesByFy, l0_salesByFy, l1_salesByFyYtd, l0_salesByFyYtd, l1_salesByWk, l0_salesByWk, l1_salesPeriodToDate, l0_salesPeriodToDate, l1_trailingTwoWeek, l0_trailingTwoWeek, l1_trailingFourWeek, l0_trailingFourWeek, l1_trailingEightWeek, l0_trailingEightWeek, l1_trailingTwelveWeek, l0_trailingTwelveWeek, companyTotalSales 
+    l1_fgInven, l0_fgInven, 
+    l1_fgInTransit, 
+    l0_fgInTransit, 
+    l1_fgAtLoc, 
+    l0_fgAtLoc, 
+    l1_fgAtLoc_untagged, 
+    l0_fgAtLoc_untagged, 
+    l1_fgAtLoc_tagged, 
+    l0_fgAtLoc_tagged, 
+    l1_fgPo, l0_fgPo, 
+    l1_so, l0_so, 
+    l1_soTagged, 
+    l0_soTagged, 
+    l1_soUntagged, 
+    l0_soUntagged, 
+    l1_so_byWk, 
+    l0_so_byWk, 
+    l1_soTagged_byWk, 
+    l0_soTagged_byWk, 
+    l1_soUntagged_byWk, 
+    l0_soUntagged_byWk, 
+    l1_salesByFy, 
+    l0_salesByFy, 
+    l1_salesByFyYtd, 
+    l0_salesByFyYtd, 
+    l1_salesByWk, 
+    l0_salesByWk, 
+    l1_salesPeriodToDate, 
+    l0_salesPeriodToDate, 
+    l1_trailingTwoWeek, 
+    l0_trailingTwoWeek, 
+    l1_trailingFourWeek, 
+    l0_trailingFourWeek, 
+    l1_trailingEightWeek, 
+    l0_trailingEightWeek, 
+    l1_trailingTwelveWeek, 
+    l0_trailingTwelveWeek, 
+    companyTotalSales 
   ] = await Promise.all([
     l1_salesProjByWkF(),
     l0_salesProjByWkF(),
     l1_salesProjPeriodToDateF(),
     l0_salesProjPeriodToDateF(),
-    l1_fgInvenF(), l0_fgInvenF(), l1_fgInTransitF(), l0_fgInTransitF(), l1_fgAtLocF(), l0_fgAtLocF(), l1_fgAtLoc_untaggedF(), l0_fgAtLoc_untaggedF(), l1_fgAtLoc_taggedF(), l0_fgAtLoc_taggedF(), l1_fgPoF(), l0_fgPoF(), l1_soF(), l0_soF(), l1_soTaggedF(), l0_soTaggedF(), l1_soUntaggedF(), l0_soUntaggedF(), l1_so_byWkF(), l0_so_byWkF(), l1_soTagged_byWkF(), l0_soTagged_byWkF(), l1_soUntagged_byWkF(), l0_soUntagged_byWkF(), l1_salesByFyF(), l0_salesByFyF(), l1_salesByFyYtdF(), l0_salesByFyYtdF(), l1_salesByWkF(), l0_salesByWkF(), l1_salesPeriodToDateF(), l0_salesPeriodToDateF(), l1_trailingTwoWeekF(), l0_trailingTwoWeekF(), l1_trailingFourWeekF(), l0_trailingFourWeekF(), l1_trailingEightWeekF(), l0_trailingEightWeekF(), l1_trailingTwelveWeekF(), l0_trailingTwelveWeekF(), companyTotalSalesF()])
+    l1_fgInvenF(), 
+    l0_fgInvenF(), 
+    l1_fgInTransitF(), 
+    l0_fgInTransitF(), 
+    l1_fgAtLocF(), 
+    l0_fgAtLocF(), 
+    l1_fgAtLoc_untaggedF(), 
+    l0_fgAtLoc_untaggedF(), 
+    l1_fgAtLoc_taggedF(), 
+    l0_fgAtLoc_taggedF(), 
+    l1_fgPoF(), 
+    l0_fgPoF(), 
+    l1_soF(), 
+    l0_soF(), 
+    l1_soTaggedF(), 
+    l0_soTaggedF(), 
+    l1_soUntaggedF(), 
+    l0_soUntaggedF(), 
+    l1_so_byWkF(), 
+    l0_so_byWkF(), 
+    l1_soTagged_byWkF(), 
+    l0_soTagged_byWkF(), 
+    l1_soUntagged_byWkF(), 
+    l0_soUntagged_byWkF(), 
+    l1_salesByFyF(), 
+    l0_salesByFyF(), 
+    l1_salesByFyYtdF(), 
+    l0_salesByFyYtdF(), 
+    l1_salesByWkF(), 
+    l0_salesByWkF(), 
+    l1_salesPeriodToDateF(), 
+    l0_salesPeriodToDateF(), 
+    l1_trailingTwoWeekF(), 
+    l0_trailingTwoWeekF(), 
+    l1_trailingFourWeekF(), 
+    l0_trailingFourWeekF(), 
+    l1_trailingEightWeekF(), 
+    l0_trailingEightWeekF(), 
+    l1_trailingTwelveWeekF(), 
+    l0_trailingTwelveWeekF(), 
+    companyTotalSalesF()])
 
   ///////////////////////////////// KPI DATA
   /* % COMPANY SALES */
@@ -202,7 +281,7 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
   const l0_invAvailable = !l0_fgInven.length ? [] : calcInventoryAvailable(l0_fgInven, l0_fgPo, l0_so, 'invenAvailable')
 
   ///////////////////////////////// ROWS
-  const rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, showFyTrend, trendQuery)
+  const rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, trendQuery)
 
   const totalsRow = [
     { totalRow: true, l1_label: `${config.itemType} SALES`, l2_label: `TOTAL`, datalevel: config.queryLevel, itemtype: config.itemType },
@@ -235,9 +314,6 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
     1: 'l1_label',
   })
 
-  // switch to include fy trend data
-  const fyTrendSales = showFyTrend ? [...l1_salesByFy, ...l0_salesByFy, ...l1_salesByFyYtd, ...l0_salesByFyYtd] : []
-
   const mappedSales = mapSalesToRowTemplates(
     [
       ...l1_salesProjByWk,
@@ -260,7 +336,10 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
       ...l0_soTagged_byWk,
       ...l1_soUntagged_byWk,
       ...l0_soUntagged_byWk,
-      ...fyTrendSales,
+      ...l1_salesByFy, 
+      ...l0_salesByFy, 
+      ...l1_salesByFyYtd, 
+      ...l0_salesByFyYtd,
       ...l1_percent_companySales,
       ...l0_percent_companySales,
       ...l1_percent_programSales,
@@ -329,14 +408,10 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
     }) // no label in total row, first col
   data = [...filterRow, ...data]
 
-  const trendColsSalesF = () => { return getDateEndPerWeekByRange(start, end, config)} 
-  const trendColsSalesProjF = () => {return  getDateEndPerWeekByRange_pj(start, end, config)}
-
-  // get data column names by fiscal year
-  let trendColsSaByFyF = () => { return []}
-  let trendColsSaByFyYtdF = () => { return []}
-  if (showFyTrend) trendColsSaByFyF = () => { return getFiscalYearCols()} 
-  if (showFyTrend) trendColsSaByFyYtdF = () => { return getFiscalYearYtdCols()} 
+  const trendColsSalesF = !config.trends.fiscalWeeks ? skip() : () => { return getDateEndPerWeekByRange(start, end, config)} 
+  const trendColsSalesProjF = !config.views.config.views.useProjection ? skip() : () => {return  getDateEndPerWeekByRange_pj(start, end, config)}
+  const trendColsSaByFyF = !config.trends.fyFullYear ? skip() : () => { return []}
+  const trendColsSaByFyYtdF = !config.trends.fyYtd ? skip() : () => { return []}
 
   // get so by week cols
   const start_so = await getEarliestShipWk(config)
@@ -362,8 +437,8 @@ const buildDrillDown = async (labelCols, config, start, end, showFyTrend, startW
       trendColsSo_untg,
       columnConfigs,
       defaultTrend: {
-        dataName: useProjection ? columnConfigs.salesProjectionCol[0].dataName : columnConfigs.totalsCol[0].dataName,
-        colType: useProjection ? columnConfigs.salesProjectionCol[0].colType : columnConfigs.totalsCol[0].colType
+        dataName: config.views.useProjection ? columnConfigs.salesProjectionCol[0].dataName : columnConfigs.totalsCol[0].dataName,
+        colType: config.views.useProjection ? columnConfigs.salesProjectionCol[0].colType : columnConfigs.totalsCol[0].colType
       }
     },
   }
