@@ -8,7 +8,7 @@ const getCalMonthByRange = async (start, end, config) => {
     
     WHERE sales_line_items.formatted_invoice_date >= '01-01-2023' AND sales_line_items.formatted_invoice_date <= '11-30-2023' 
     
-    ORDER BY EXTRACT('MONTH' FROM TO_DATE(sales_line_items.formatted_invoice_date, 'Month')) ASC`
+    ORDER BY EXTRACT('MONTH' FROM sales_line_items.formatted_invoice_date) ASC`
 
   return periodsByWeek
 }

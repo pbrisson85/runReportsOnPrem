@@ -23,7 +23,7 @@ const l1_getSalesByCalMo = async (config, start, end) => {
       
       GROUP BY EXTRACT('MONTH' FROM sales_line_items.formatted_invoice_date), ${sql(config.l1_field)} 
       
-      ORDER BY EXTRACT('MONTH' FROM TO_DATE(sales_line_items.formatted_invoice_date, 'Month')) ASC` //prettier-ignore
+      ORDER BY EXTRACT('MONTH' FROM sales_line_items.formatted_invoice_date) ASC` //prettier-ignore
 
     return response
   } catch (error) {
@@ -83,7 +83,7 @@ const l2_getSalesByCalMo = async (config, start, end) => {
       
       GROUP BY EXTRACT('MONTH' FROM sales_line_items.formatted_invoice_date), ${sql(config.l1_field)}, ${sql(config.l2_field)} 
       
-      ORDER BY EXTRACT('MONTH' FROM TO_DATE(sales_line_items.formatted_invoice_date, 'Month')) ASC` //prettier-ignore
+      ORDER BY EXTRACT('MONTH' FROM sales_line_items.formatted_invoice_date) ASC` //prettier-ignore
 
     return response
   } catch (error) {
@@ -139,7 +139,7 @@ const l3_getSalesByCalMo = async (config, start, end) => {
       
       GROUP BY EXTRACT('MONTH' FROM sales_line_items.formatted_invoice_date), ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)} 
       
-      ORDER BY EXTRACT('MONTH' FROM TO_DATE(sales_line_items.formatted_invoice_date, 'Month')) ASC` //prettier-ignore
+      ORDER BY EXTRACT('MONTH' FROM sales_line_items.formatted_invoice_date) ASC` //prettier-ignore
 
     return response
   } catch (error) {
@@ -195,7 +195,7 @@ const l4_getSalesByCalMo = async (config, start, end) => {
       
       GROUP BY EXTRACT('MONTH' FROM sales_line_items.formatted_invoice_date), ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)} 
       
-      ORDER BY EXTRACT('MONTH' FROM TO_DATE(sales_line_items.formatted_invoice_date, 'Month')) ASC` //prettier-ignore
+      ORDER BY EXTRACT('MONTH' FROM sales_line_items.formatted_invoice_date) ASC` //prettier-ignore
 
     return response
   } catch (error) {
@@ -251,7 +251,7 @@ const l0_getSalesByCalMo = async (config, start, end) => {
       
       GROUP BY EXTRACT('MONTH' FROM sales_line_items.formatted_invoice_date) 
       
-      ORDER BY EXTRACT('MONTH' FROM TO_DATE(sales_line_items.formatted_invoice_date, 'Month')) ASC` //prettier-ignore
+      ORDER BY EXTRACT('MONTH' FROM sales_line_items.formatted_invoice_date) ASC` //prettier-ignore
 
     return response
   } catch (error) {
