@@ -53,6 +53,7 @@ const cleanLabelsForDisplay = require('../../../models/cleanLabelsForDisplay')
 const unflattenByCompositKey = require('../../../models/unflattenByCompositKey')
 const calcPercentSalesCol = require('../../../models/calcPercentSalesCol')
 const calcYoyYtdSalesCol = require('../../../models/calcYoyYtdSalesCol')
+const calcMomentum = require('../../../models/calcMomentumSalesCol')
 const calcAveWeeklySales = require('../../../models/calcAveWeeklySales')
 const calcWeeksInvOnHand = require('../../../models/calcWeeksInvOnHand')
 const calcInventoryAvailable = require('../../../models/calcInventoryAvailable')
@@ -278,6 +279,10 @@ const buildDrillDown = async (labelCols, config, start, end, startWeek, endWeek,
   const l1_twelveWkAveSales = calcAveWeeklySales(l1_trailingTwelveWeek, 'twelveWkAveSales', 12)
   const l0_twelveWkAveSales = calcAveWeeklySales(l0_trailingTwelveWeek, 'twelveWkAveSales', 12)
 
+  /* MOMENTUM */
+  const l1_momentum = calcMomentum(l1_fourWkAveSales, l1_twelveWkAveSales, 'momentum')
+  const l0_momentum = calcMomentum(l0_fourWkAveSales, l0_twelveWkAveSales, 'momentum')
+
   /* WEEKS INV ON HAND */
   const l1_weeksInvOnHand = !l1_fgInven.length ? [] : calcWeeksInvOnHand(l1_fgInven, l1_aveWeeklySales, 'weeksInvenOnHand')
   const l0_weeksInvOnHand = !l0_fgInven.length ? [] : calcWeeksInvOnHand(l0_fgInven, l0_aveWeeklySales, 'weeksInvenOnHand')
@@ -364,6 +369,8 @@ const buildDrillDown = async (labelCols, config, start, end, startWeek, endWeek,
       ...l0_twelveWkAveSales,
       ...l0_yoyYtd_companySales,
       ...l1_yoyYtd_companySales,
+      ...l1_momentum,
+      ...l0_momentum,
     ],
     rowTemplate_unflat
   )

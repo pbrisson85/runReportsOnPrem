@@ -142,9 +142,8 @@ const unflattenByCompositKey = require('../../../models/unflattenByCompositKey')
 const calcPercentSalesCol = require('../../../models/calcPercentSalesCol')
 const getSpeciesGroupTotalSales = require('../../../database/queries/postgres/kpi/getSpeciesGroupTotalSalesFromProgram')
 const calcAveWeeklySales = require('../../../models/calcAveWeeklySales')
-
 const calcYoyYtdSalesCol = require('../../../models/calcYoyYtdSalesCol')
-
+const calcMomentum = require('../../../models/calcMomentumSalesCol')
 const calcWeeksInvOnHand = require('../../../models/calcWeeksInvOnHand')
 const calcInventoryAvailable = require('../../../models/calcInventoryAvailable')
 const collapseRedundantTotalRows = require('../../../models/collapseRedundantTotalRows')
@@ -662,6 +661,13 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
   const l3_twelveWkAveSales = config.l3_field ? calcAveWeeklySales(l3_trailingTwelveWeekR, 'twelveWkAveSales', 12) : []
   const l4_twelveWkAveSales = config.l4_field ? calcAveWeeklySales(l4_trailingTwelveWeekR, 'twelveWkAveSales', 12) : []
   
+  /* MOMENTUM */
+  const l0_momentum = calcMomentum(l0_fourWkAveSales, l0_twelveWkAveSales, 'momentum')
+  const l1_momentum = calcMomentum(l1_fourWkAveSales, l1_twelveWkAveSales, 'momentum')
+  const l2_momentum = calcMomentum(l2_fourWkAveSales, l2_twelveWkAveSales, 'momentum')
+  const l3_momentum = calcMomentum(l3_fourWkAveSales, l3_twelveWkAveSales, 'momentum')
+  const l4_momentum = calcMomentum(l4_fourWkAveSales, l4_twelveWkAveSales, 'momentum')
+
   /* WEEKS INV ON HAND */
   const l0_weeksInvOnHand = calcWeeksInvOnHand(l0_fgInvenR, l0_aveWeeklySales, 'weeksInvenOnHand')
   const l1_weeksInvOnHand = calcWeeksInvOnHand(l1_fgInvenR, l1_aveWeeklySales, 'weeksInvenOnHand')
@@ -855,6 +861,12 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
       ...l2_yoyYtd_companySales,
       ...l3_yoyYtd_companySales,
       ...l4_yoyYtd_companySales,
+      ...l0_momentum,
+      ...l1_momentum,
+      ...l2_momentum,
+      ...l3_momentum,
+      ...l4_momentum,
+      
     ],
     rowTemplate_unflat
   )
