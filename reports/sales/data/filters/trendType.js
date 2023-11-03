@@ -5,7 +5,7 @@ const trendTypeOptions = () => {
     {
       label: 'Fiscal Weeks',
       dataName: 'fiscalWeeks',
-      default: true,
+      default: false,
       onTrueSetFalse: ['fiscalPeriods', 'fiscalQuarters', 'calMonths', 'calYtd', 'calFullYear'],
       onFalseSetTrue: [],
     },
