@@ -45,8 +45,6 @@ const l1_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
 
           GROUP BY ${sql(config.l1_field)} ` //prettier-ignore
 
-    console.log(response)
-
     return response
   } catch (error) {
     console.error(error)
