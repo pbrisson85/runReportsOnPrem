@@ -29,7 +29,7 @@ const salesKpiCol = [
   },
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
-    displayName: 'Trending', // show as column header
+    displayName: 'Momentum', // show as column header
     dataName: 'momentum', // key to pull data from
     justifyData: 'end', // css justify content
     justifyHeading: 'center', // css justify content
