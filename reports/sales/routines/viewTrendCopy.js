@@ -411,7 +411,7 @@ const buildDrillDown = async (labelCols, config, start, end, startWeek, endWeek,
   const trendColsSalesF = !config.trends.fiscalWeeks ? skip() : () => { return getDateEndPerWeekByRange(start, end, config)} 
   const trendColsSalesProjF = !config.views.useProjection ? skip() : () => {return  getDateEndPerWeekByRange_pj(start, end, config)}
   const trendColsSaByFyF = !config.trends.fyFullYear ? skip() : () => { return getFiscalYearCols()}
-  const trendColsSaByFyYtdF = !config.trends.fyYtd ? skip() : () => { return  getFiscalYearYtdCols()}
+  const trendColsSaByFyYtdF = !config.trends.fyYtd ? skip() : () => { return  getFiscalYearYtdCols(2022, 2022)}
 
   // get so by week cols
   const start_so = await getEarliestShipWk(config)
