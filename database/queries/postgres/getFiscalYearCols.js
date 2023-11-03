@@ -15,13 +15,15 @@ const getFiscalYearCols = async () => {
   return fys
 }
 
-const getFiscalYearYtdCols = async () => {
+const getFiscalYearYtdCols = async (startYear, endYear) => {
   console.log(`query postgres for fiscal years in sales subledger ...`)
 
   const fys = await sql`SELECT 
       DISTINCT(sl.fiscal_year) || '_ytd' AS dataName, 
       sl.fiscal_year  || ' YTD' AS displayName, TRUE AS fyYtdTrendCol
     FROM "salesReporting".sales_line_items AS sl 
+
+    WHERE sl.fiscal_year >= ${startYear} AND sl.fiscal_year <= ${endYear}
     
     ORDER BY sl.fiscal_year || '_ytd' ASC`
 
