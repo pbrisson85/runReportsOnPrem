@@ -585,11 +585,11 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
   ])
 
   // Define numerators and denominators to use
-  let l0_reportSales = config.views.useProjection ? l0_salesProjectionPeriodToDateR : l0_salesPeriodToDateR
-  let l1_reportSales = config.views.useProjection ? l1_salesProjectionPeriodToDateR : l1_salesPeriodToDateR
-  let l2_reportSales = config.views.useProjection ? l2_salesProjectionPeriodToDateR : l2_salesPeriodToDateR
-  let l3_reportSales = config.views.useProjection ? l3_salesProjectionPeriodToDateR : l3_salesPeriodToDateR
-  let l4_reportSales = config.views.useProjection ? l4_salesProjectionPeriodToDateR : l4_salesPeriodToDateR
+  let l0_reportSales = config.views.useProjection ? l0_salesProjectionPeriodToDateR : config.trends.calMonths ? l0_salesCalMoToDateR : l0_salesPeriodToDateR
+  let l1_reportSales = config.views.useProjection ? l1_salesProjectionPeriodToDateR : config.trends.calMonths ? l1_salesCalMoToDateR : l1_salesPeriodToDateR
+  let l2_reportSales = config.views.useProjection ? l2_salesProjectionPeriodToDateR : config.trends.calMonths ? l2_salesCalMoToDateR : l2_salesPeriodToDateR
+  let l3_reportSales = config.views.useProjection ? l3_salesProjectionPeriodToDateR : config.trends.calMonths ? l3_salesCalMoToDateR : l3_salesPeriodToDateR
+  let l4_reportSales = config.views.useProjection ? l4_salesProjectionPeriodToDateR : config.trends.calMonths ? l4_salesCalMoToDateR : l4_salesPeriodToDateR
 
   /* % COMPANY SALES */
   const l0_percent_companySales = calcPercentSalesCol(companyTotalSalesR[0], l0_reportSales, 'percentCompanySales')
