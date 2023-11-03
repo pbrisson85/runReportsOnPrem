@@ -8,7 +8,7 @@ const salesKpiCol = [
     width: '100px', // css width
     subColStyle: true,
     number: true,
-    percent: true,
+    percent: false,
     boolean: false, // flag to use formatTableData model
     decimals: 2, // flip when fliping view ****************************************************************
     rightSticky: true, // css sticky
