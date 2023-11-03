@@ -85,6 +85,8 @@ const l2_getSalesByCalMo = async (config, start, end) => {
       
       ORDER BY EXTRACT('MONTH' FROM sales_line_items.formatted_invoice_date) ASC` //prettier-ignore
 
+    console.log('response', response)
+
     return response
   } catch (error) {
     console.error(error)
@@ -110,8 +112,6 @@ const l2_getSalesCalMoToDate = async (config, start, end) => {
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
       
       GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}` //prettier-ignore
-
-    console.log('response', response)
 
     return response
   } catch (error) {
