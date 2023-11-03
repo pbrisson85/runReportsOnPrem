@@ -22,7 +22,7 @@ const invenFgCols = [
     colType: 'invenFg', // Make sure to update the getViewFilter on the back end to allow this colType in the view
     drillDownSortable: true,
     optional: true, // flag to determine if the col is optional
-    showByDefault: true, // flag to determine if optional col is shown by default
+    showByDefault: false, // flag to determine if optional col is shown by default
   },
   {
     unfilteredColIdx: 1,

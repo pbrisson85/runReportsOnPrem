@@ -1,7 +1,7 @@
 const totalsCol = [
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
-    displayName: 'YTD SALES', // show as column header
+    displayName: '2023 YTD', // show as column header
     dataName: 'SALES TOTAL', // key to pull data from
     justifyData: 'end', // css justify content
     justifyHeading: 'center', // css justify content
