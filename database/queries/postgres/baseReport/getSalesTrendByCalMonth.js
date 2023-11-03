@@ -111,6 +111,8 @@ const l2_getSalesCalMoToDate = async (config, start, end) => {
       
       GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}` //prettier-ignore
 
+    console.log('response', response)
+
     return response
   } catch (error) {
     console.error(error)
