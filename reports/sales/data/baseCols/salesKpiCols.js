@@ -169,8 +169,92 @@ const salesKpiCol = [
   },
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
+    displayName: '12Wk ROLLING', // show as column header
+    dataName: '12wk Rolling', // key to pull data from
+    justifyData: 'end', // css justify content
+    justifyHeading: 'center', // css justify content
+    width: '100px', // css width
+    subColStyle: true,
+    number: true,
+    percent: false,
+    boolean: false, // flag to use formatTableData model
+    decimals: 0, // flip when fliping view ****************************************************************
+    rightSticky: true, // css sticky
+    right: '700px', // css positioning for sticky sum of prior col widths
+    hidden: false, // flag to hide column.
+    view: 'weight', // dataset to show for the column (extended_cost, weight, cost_per_lb)
+    data: true,
+    valueFallback: 0,
+    borderLeft: false, // border right on ladst frozen cell
+    popoverMsg: '',
+    rightClickMenu: [],
+    drilldownRightClickMenu: [],
+    colType: 'salesKpi', // Make sure to update the getViewFilter on the back end to allow this colType in the view
+    allowTrend: false,
+    drillDownSortable: true,
+    optional: true, // flag to determine if the col is optional
+    showByDefault: false, // flag to determine if optional col is shown by default
+  },
+  {
+    unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
+    displayName: '4WK ROLLING', // show as column header
+    dataName: '4wk Rolling', // key to pull data from
+    justifyData: 'end', // css justify content
+    justifyHeading: 'center', // css justify content
+    width: '100px', // css width
+    subColStyle: true,
+    number: true,
+    percent: false,
+    boolean: false, // flag to use formatTableData model
+    decimals: 0, // flip when fliping view ****************************************************************
+    rightSticky: true, // css sticky
+    right: '700px', // css positioning for sticky sum of prior col widths
+    hidden: false, // flag to hide column.
+    view: 'weight', // dataset to show for the column (extended_cost, weight, cost_per_lb)
+    data: true,
+    valueFallback: 0,
+    borderLeft: false, // border right on ladst frozen cell
+    popoverMsg: '',
+    rightClickMenu: [],
+    drilldownRightClickMenu: [],
+    colType: 'salesKpi', // Make sure to update the getViewFilter on the back end to allow this colType in the view
+    allowTrend: false,
+    drillDownSortable: true,
+    optional: true, // flag to determine if the col is optional
+    showByDefault: false, // flag to determine if optional col is shown by default
+  },
+  {
+    unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
     displayName: 'WEEKLY AVE', // show as column header
     dataName: 'aveWeeklySales', // key to pull data from
+    justifyData: 'end', // css justify content
+    justifyHeading: 'center', // css justify content
+    width: '100px', // css width
+    subColStyle: true,
+    number: true,
+    percent: false,
+    boolean: false, // flag to use formatTableData model
+    decimals: 0, // flip when fliping view ****************************************************************
+    rightSticky: true, // css sticky
+    right: '700px', // css positioning for sticky sum of prior col widths
+    hidden: false, // flag to hide column.
+    view: 'weight', // dataset to show for the column (extended_cost, weight, cost_per_lb)
+    data: true,
+    valueFallback: 0,
+    borderLeft: false, // border right on ladst frozen cell
+    popoverMsg: '',
+    rightClickMenu: [],
+    drilldownRightClickMenu: [],
+    colType: 'salesKpi', // Make sure to update the getViewFilter on the back end to allow this colType in the view
+    allowTrend: false,
+    drillDownSortable: true,
+    optional: true, // flag to determine if the col is optional
+    showByDefault: false, // flag to determine if optional col is shown by default
+  },
+  {
+    unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
+    displayName: '12 WK AVE', // show as column header
+    dataName: 'twelveWkAveSales', // key to pull data from
     justifyData: 'end', // css justify content
     justifyHeading: 'center', // css justify content
     width: '100px', // css width

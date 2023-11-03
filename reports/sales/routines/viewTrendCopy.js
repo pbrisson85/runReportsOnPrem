@@ -135,17 +135,17 @@ const buildDrillDown = async (labelCols, config, start, end, startWeek, endWeek,
   const l0_salesPeriodToDateF = () => { return l0_getSalesPeriodToDate(config, start, end)}
 
   /* KPI Data */
-  const l1_trailingTwoWeekF = endWeek < 2 ? skip() : () => { return l1_getSalesWkDriven(config, endWeek - 1, endWeek, trendQuery, year)}
-  const l0_trailingTwoWeekF = endWeek < 2 ? skip() : () => { return l0_getSalesWkDriven(config, endWeek - 1, endWeek, year)}
+  const l1_trailingTwoWeekF = endWeek < 2 ? skip() : () => { return l1_getSalesWkDriven(config, endWeek - 1, endWeek, trendQuery, year, '2wk Rolling')}
+  const l0_trailingTwoWeekF = endWeek < 2 ? skip() : () => { return l0_getSalesWkDriven(config, endWeek - 1, endWeek, year, '2wk Rolling')}
 
-  const l1_trailingFourWeekF = endWeek < 4 ? skip() : () => { return l1_getSalesWkDriven(config, endWeek - 3, endWeek, trendQuery, year)}
-  const l0_trailingFourWeekF = endWeek < 4 ? skip() : () => { return l0_getSalesWkDriven(config, endWeek - 3, endWeek, year)}
+  const l1_trailingFourWeekF = endWeek < 4 ? skip() : () => { return l1_getSalesWkDriven(config, endWeek - 3, endWeek, trendQuery, year, '4wk Rolling')}
+  const l0_trailingFourWeekF = endWeek < 4 ? skip() : () => { return l0_getSalesWkDriven(config, endWeek - 3, endWeek, year, '4wk Rolling')}
 
-  const l1_trailingEightWeekF = endWeek < 8 ? skip() : () => { return l1_getSalesWkDriven(config, endWeek - 7, endWeek, trendQuery, year)}
-  const l0_trailingEightWeekF = endWeek < 8 ? skip() : () => { return l0_getSalesWkDriven(config, endWeek - 7, endWeek, year)}
+  const l1_trailingEightWeekF = endWeek < 8 ? skip() : () => { return l1_getSalesWkDriven(config, endWeek - 7, endWeek, trendQuery, year, '8wk Rolling')}
+  const l0_trailingEightWeekF = endWeek < 8 ? skip() : () => { return l0_getSalesWkDriven(config, endWeek - 7, endWeek, year, '8wk Rolling')}
 
-  const l1_trailingTwelveWeekF = endWeek < 12 ? skip() : () => { return l1_getSalesWkDriven(config, endWeek - 11, endWeek, trendQuery, year)}
-  const l0_trailingTwelveWeekF = endWeek < 12 ? skip() : () => { return l0_getSalesWkDriven(config, endWeek - 11, endWeek, year)}
+  const l1_trailingTwelveWeekF = endWeek < 12 ? skip() : () => { return l1_getSalesWkDriven(config, endWeek - 11, endWeek, trendQuery, year, '12wk Rolling')}
+  const l0_trailingTwelveWeekF = endWeek < 12 ? skip() : () => { return l0_getSalesWkDriven(config, endWeek - 11, endWeek, year, '12wk Rolling')}
 
   const companyTotalSalesF = () => { return getCompanyTotalSales(start, end, config)}
 

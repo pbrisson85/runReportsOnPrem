@@ -512,29 +512,29 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
   const programTotalSales = () => {return getProgramTotalSales(start, end, config)}
   const speciesGroupTotalSales = () => {return getSpeciesGroupTotalSales(start, end, config)}
 
-  const l0_trailingTwoWeek = endWeek < 2 ? skip() : () => {return l0_getSalesWkDriven(config, endWeek - 1, endWeek, year)}
-  const l1_trailingTwoWeek = endWeek < 2 ? skip() : () => {return l1_getSalesWkDriven(config, endWeek - 1, endWeek, year)}
-  const l2_trailingTwoWeek = endWeek < 2 ? skip() : () => {return l2_getSalesWkDriven(config, endWeek - 1, endWeek, year)}
-  const l3_trailingTwoWeek = endWeek < 2 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, endWeek - 1, endWeek, year)} : skip() 
-  const l4_trailingTwoWeek = endWeek < 2 ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, endWeek - 1, endWeek, year)} : skip() 
+  const l0_trailingTwoWeek = endWeek < 2 ? skip() : () => {return l0_getSalesWkDriven(config, endWeek - 1, endWeek, year, '2wk Rolling')}
+  const l1_trailingTwoWeek = endWeek < 2 ? skip() : () => {return l1_getSalesWkDriven(config, endWeek - 1, endWeek, year, '2wk Rolling')}
+  const l2_trailingTwoWeek = endWeek < 2 ? skip() : () => {return l2_getSalesWkDriven(config, endWeek - 1, endWeek, year, '2wk Rolling')}
+  const l3_trailingTwoWeek = endWeek < 2 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, endWeek - 1, endWeek, year, '2wk Rolling')} : skip() 
+  const l4_trailingTwoWeek = endWeek < 2 ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, endWeek - 1, endWeek, year, '2wk Rolling')} : skip() 
   
-  const l0_trailingFourWeek = endWeek < 4 ? skip() : () => {return l0_getSalesWkDriven(config, endWeek - 3, endWeek, year)}
-  const l1_trailingFourWeek = endWeek < 4 ? skip() : () => {return l1_getSalesWkDriven(config, endWeek - 3, endWeek, year)}
-  const l2_trailingFourWeek = endWeek < 4 ? skip() : () => {return l2_getSalesWkDriven(config, endWeek - 3, endWeek, year)}
-  const l3_trailingFourWeek = endWeek < 4 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, endWeek - 3, endWeek, year)} : skip() 
-  const l4_trailingFourWeek = endWeek < 4 ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, endWeek - 3, endWeek, year)} : skip() 
+  const l0_trailingFourWeek = endWeek < 4 ? skip() : () => {return l0_getSalesWkDriven(config, endWeek - 3, endWeek, year, '4wk Rolling')}
+  const l1_trailingFourWeek = endWeek < 4 ? skip() : () => {return l1_getSalesWkDriven(config, endWeek - 3, endWeek, year, '4wk Rolling')}
+  const l2_trailingFourWeek = endWeek < 4 ? skip() : () => {return l2_getSalesWkDriven(config, endWeek - 3, endWeek, year, '4wk Rolling')}
+  const l3_trailingFourWeek = endWeek < 4 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, endWeek - 3, endWeek, year, '4wk Rolling')} : skip() 
+  const l4_trailingFourWeek = endWeek < 4 ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, endWeek - 3, endWeek, year, '4wk Rolling')} : skip() 
 
-  const l0_trailingEightWeek = endWeek < 8 ? skip() : () => {return l0_getSalesWkDriven(config, endWeek - 7, endWeek, year)}
-  const l1_trailingEightWeek = endWeek < 8 ? skip() : () => {return l1_getSalesWkDriven(config, endWeek - 7, endWeek, year)}
-  const l2_trailingEightWeek = endWeek < 8 ? skip() : () => {return l2_getSalesWkDriven(config, endWeek - 7, endWeek, year)}
-  const l3_trailingEightWeek = endWeek < 8 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, endWeek - 7, endWeek, year)} : skip() 
-  const l4_trailingEightWeek = endWeek < 8 ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, endWeek - 7, endWeek, year)} : skip() 
+  const l0_trailingEightWeek = endWeek < 8 ? skip() : () => {return l0_getSalesWkDriven(config, endWeek - 7, endWeek, year, '8wk Rolling')}
+  const l1_trailingEightWeek = endWeek < 8 ? skip() : () => {return l1_getSalesWkDriven(config, endWeek - 7, endWeek, year, '8wk Rolling')}
+  const l2_trailingEightWeek = endWeek < 8 ? skip() : () => {return l2_getSalesWkDriven(config, endWeek - 7, endWeek, year, '8wk Rolling')}
+  const l3_trailingEightWeek = endWeek < 8 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, endWeek - 7, endWeek, year, '8wk Rolling')} : skip() 
+  const l4_trailingEightWeek = endWeek < 8 ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, endWeek - 7, endWeek, year, '8wk Rolling')} : skip() 
 
-  const l0_trailingTwelveWeek = endWeek < 12 ? skip() : () => {return l0_getSalesWkDriven(config, endWeek - 11, endWeek, year)}
-  const l1_trailingTwelveWeek = endWeek < 12 ? skip() : () => {return l1_getSalesWkDriven(config, endWeek - 11, endWeek, year)}
-  const l2_trailingTwelveWeek = endWeek < 12 ? skip() : () => {return l2_getSalesWkDriven(config, endWeek - 11, endWeek, year)}
-  const l3_trailingTwelveWeek = endWeek < 12 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, endWeek - 11, endWeek, year)} : skip() 
-  const l4_trailingTwelveWeek = endWeek < 12  ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, endWeek - 11, endWeek, year)} : skip() 
+  const l0_trailingTwelveWeek = endWeek < 12 ? skip() : () => {return l0_getSalesWkDriven(config, endWeek - 11, endWeek, year, '12wk Rolling')}
+  const l1_trailingTwelveWeek = endWeek < 12 ? skip() : () => {return l1_getSalesWkDriven(config, endWeek - 11, endWeek, year, '12wk Rolling')}
+  const l2_trailingTwelveWeek = endWeek < 12 ? skip() : () => {return l2_getSalesWkDriven(config, endWeek - 11, endWeek, year, '12wk Rolling')}
+  const l3_trailingTwelveWeek = endWeek < 12 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, endWeek - 11, endWeek, year, '12wk Rolling')} : skip() 
+  const l4_trailingTwelveWeek = endWeek < 12  ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, endWeek - 11, endWeek, year, '12wk Rolling')} : skip() 
   
   const [ 
     companyTotalSalesR,
@@ -741,6 +741,16 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
 
   const mappedSales = mapSalesToRowTemplates(
     [
+      ...l0_trailingFourWeek,
+  ...l1_trailingFourWeek,
+  ...l2_trailingFourWeek,
+  ...l3_trailingFourWeek,
+  ...l4_trailingFourWeek,
+  ...l0_trailingTwelveWeek,
+  ...l1_trailingTwelveWeek,
+  ...l2_trailingTwelveWeek,
+  ...l3_trailingTwelveWeek,
+  ...l4_trailingTwelveWeek,
       ...l0_salesByCalMoR,
     ...l1_salesByCalMoR,
     ...l2_salesByCalMoR,
