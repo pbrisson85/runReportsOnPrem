@@ -27,14 +27,14 @@ const trendTypeOptions = () => {
       label: 'FY YTD',
       dataName: 'fyYtd',
       default: false,
-      onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fiscalQuarters', 'calMonths', 'calYtd', 'calFullYear'],
+      onTrueSetFalse: ['calMonths', 'calYtd', 'calFullYear'],
       onFalseSetTrue: [],
     },
     {
       label: 'FY Full Year',
       dataName: 'fyFullYear',
       default: false,
-      onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fiscalQuarters', 'calMonths', 'calYtd', 'calFullYear'],
+      onTrueSetFalse: ['calMonths', 'calYtd', 'calFullYear'],
       onFalseSetTrue: [],
     },
     {
