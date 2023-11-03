@@ -4,13 +4,13 @@ const sql = require('../../../../server')
 
 // FG Species Group col total for period
 
-const l1_getSalesWkDriven = async (config, startWk, endWk, trendQuery, year) => {
+const l1_getSalesWkDriven = async (config, startWk, endWk, trendQuery, year, colName) => {
   try {
     console.log(`${config.user} - level 1: (l1_getSalesWkDriven) query postgres to get FG sales data period total ...`)
 
     const response = await sql
       `SELECT 
-        'SALES TOTAL' AS column, 
+      ${sql`${colName}`} AS column, 
         ${trendQuery.sl.l1_label ? sql`${sql(trendQuery.sl.l1_label)} AS l1_label,`: sql``} 
         ${trendQuery.sl.l2_label ? sql`${sql(trendQuery.sl.l2_label)} AS l2_label,`: sql``} 
         ${trendQuery.sl.l3_label ? sql`${sql(trendQuery.sl.l3_label)} AS l3_label,`: sql``} 
@@ -73,13 +73,13 @@ const l1_getSalesWkDriven = async (config, startWk, endWk, trendQuery, year) => 
 
 // All sales col total for a program
 
-const l0_getSalesWkDriven = async (config, startWk, endWk, year) => {
+const l0_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
   try {
     console.log(`${config.user} - level 0: (l0_getSalesWkDriven) query postgres to get FG sales data period total ...`)
 
     const response = await sql
       `SELECT 
-        'SALES TOTAL' AS column
+      ${sql`${colName}`} AS column
         ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 
         'TOTAL' AS l2_label,  
         COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, 
