@@ -5,9 +5,9 @@ const getRowsFourthLevelDetail = async (config, start, end) => {
 
   const itemTypeArray = JSON.stringify(config.itemType)
 
-  console.log('!config.trends.fyYtd || !config.trends.fyFullYear', !config.trends.fyYtd || !config.trends.fyFullYear)
-  console.log('config.trends.fyYtd', config.trends.fyYtd)
-  console.log('config.trends.fyFullYear', config.trends.fyFullYear)
+  console.log('!config.trends.fyYtd && !config.trends.fyFullYear', !config.trends.fyYtd && !config.trends.fyFullYear)
+  console.log('!config.trends.fyYtd', !config.trends.fyYtd)
+  console.log('!config.trends.fyFullYear', !config.trends.fyFullYear)
 
   try {
     console.log(`${config.user} - query postgres to get row labels (getRowsFourthLevelDetail) ...`)
@@ -21,7 +21,7 @@ const getRowsFourthLevelDetail = async (config, start, end) => {
 
           WHERE 
             ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-            ${!config.trends.fyYtd || !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end}` : sql``} 
+            ${!config.trends.fyYtd && !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end}` : sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
@@ -68,9 +68,9 @@ const getRowsThirdLevelDetail = async (config, start, end) => {
 
   let itemTypeArray = JSON.stringify(config.itemType)
 
-  console.log('!config.trends.fyYtd || !config.trends.fyFullYear', !config.trends.fyYtd || !config.trends.fyFullYear)
-  console.log('config.trends.fyYtd', config.trends.fyYtd)
-  console.log('config.trends.fyFullYear', config.trends.fyFullYear)
+  console.log('!config.trends.fyYtd && !config.trends.fyFullYear', !config.trends.fyYtd && !config.trends.fyFullYear)
+  console.log('!config.trends.fyYtd', !config.trends.fyYtd)
+  console.log('!config.trends.fyFullYear', !config.trends.fyFullYear)
 
   try {
     console.log(`${config.user} - query postgres to get row labels (getRowsThirdLevelDetail) ...`)
@@ -84,7 +84,7 @@ const getRowsThirdLevelDetail = async (config, start, end) => {
         
           WHERE 
             ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-            ${!config.trends.fyYtd || !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} ` : sql``} 
+            ${!config.trends.fyYtd && !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} ` : sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
@@ -142,7 +142,7 @@ const getRowsSecondLevelDetail = async (config, start, end) => {
         
           WHERE 
             ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-            ${!config.trends.fyYtd || !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} ` : sql``} 
+            ${!config.trends.fyYtd && !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} ` : sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
@@ -200,7 +200,7 @@ const getRowsFirstLevelDetail = async (config, start, end) => {
           
           WHERE 
             ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-            ${!config.trends.fyYtd || !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} ` : sql``} 
+            ${!config.trends.fyYtd && !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} ` : sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
