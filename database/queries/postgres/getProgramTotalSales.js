@@ -11,7 +11,10 @@ const getProgramTotalSales = async (start, end, program) => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sales_line_items.item_number 
       
-      WHERE sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} AND ms.byproduct_type IS NULL AND ms.item_type = ${'FG'} AND ms.program = ${program}` //prettier-ignore
+      WHERE 
+        sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
+        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}` : sql``} 
+        AND ms.program = ${program}` //prettier-ignore
 
     return response
   } catch (error) {
