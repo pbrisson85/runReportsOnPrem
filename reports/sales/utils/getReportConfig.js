@@ -68,6 +68,19 @@ const getReportConfig = reqBody => {
   }
 
   switch (reqBody.reportFormat) {
+    case 'typeSpecgroupFreeze':
+      config = {
+        l1_field: 'ms.item_type',
+        l2_field: 'ms.species_group',
+        l3_field: 'ms.program',
+        l1_name: 'item type', // Used for filter labels on front end (when setting filters on right click to pass back)
+        l2_name: 'species group', // Used for filter labels on front end
+        l3_name: 'program',
+        ...config,
+      }
+
+      break
+
     case 'speciesgroupProg':
       config = {
         l1_field: 'ms.species_group',

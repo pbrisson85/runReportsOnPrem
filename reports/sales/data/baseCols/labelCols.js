@@ -16,6 +16,9 @@ const getCols = body => {
   }
 
   switch (reportFormat) {
+    case 'typeSpecgroupFreeze':
+      return applyTemplate(template, typeSpecgroupFreeze)
+
     case 'speciesgroupProg':
       return applyTemplate(template, speciesgroupProg)
 
@@ -53,7 +56,7 @@ const getCols = body => {
       return applyTemplate(template, frzBrndSoakSize)
 
     default:
-      return applyTemplate(template, speciesgroupProgFrz) // must match default in config file
+      return applyTemplate(template, speciesgroupFreeze) // must match default in config file
   }
 }
 
@@ -62,6 +65,34 @@ const applyTemplate = (template, cols) => {
     return { ...template, ...col }
   })
 }
+
+const typeSpecgroupFreeze = [
+  {
+    displayName: 'ITEM TYPE', // show as column header
+    dataName: 'l1_label', // key to pull data from
+    filterName: 'l1_filter', // key to match up the column with the filter
+    width: '100px', // css width
+    left: '0px', // css positioning for sticky sum of prior col widths
+    rightClickMenu: [], // array of options for right click menu
+  },
+  {
+    displayName: 'MAJOR CATEGORY', // show as column header
+    dataName: 'l2_label', // key to pull data from
+    filterName: 'l2_filter', // key to match up the column with the filter
+    width: '175px', // css width
+    left: '100px', // css positioning for sticky sum of prior col widths
+    rightClickMenu: [], // array of options for right click menu
+  },
+  {
+    displayName: 'PROGRAM', // show as column header
+    dataName: 'l3_label', // key to pull data from
+    filterName: 'l3_filter', // key to match up the column with the filter
+    width: '175px', // css width
+    left: '275px', // css positioning for sticky sum of prior col widths
+    borderRight: true, // border right on ladst frozen cell
+    rightClickMenu: [], // array of options for right click menu
+  },
+]
 
 const speciesgroupProg = [
   {
