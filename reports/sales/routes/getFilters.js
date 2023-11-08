@@ -8,7 +8,7 @@ const getDataFilters = require('../data/filters/getDataFilters')
 const { getDateEndPerWeek } = require('../../../database/queries/postgres/getDateEndPerWeek')
 const getReportConfig = require('../utils/getReportConfig')
 const appSettings = require('../data/filters/appSettings')
-const getItemTypes = require('../data/filters/trendType')
+const getItemTypes = require('../../../database/queries/postgres/filters/getItemTypes')
 
 // Generate Filter Data
 router.post('/programs', async (req, res) => {
@@ -84,8 +84,17 @@ router.get('/itemTypes', async (req, res) => {
   console.log('get item types filters route HIT...')
   // get config for applicable filters
   const config = getReportConfig(req.body)
-  const reports = await getItemTypes(req.body.fy, config)
-  res.send(reports)
+  let types = await getItemTypes(req.body.fy, config)
+
+  // Add default manually
+  types = types.map(type => {
+    return {
+      ...type,
+      default: type.dataName === 'FG' || type.dataName === 'SECONDS',
+    }
+  })
+
+  res.send(types)
   console.log('get item types filters route COMPLETE. ')
 })
 

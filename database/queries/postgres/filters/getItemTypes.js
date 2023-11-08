@@ -1,4 +1,4 @@
-const sql = require('../../../server')
+const sql = require('../../../../server')
 
 const getItemTypes = async (fy, config) => {
   try {
@@ -27,7 +27,7 @@ const getItemTypes = async (fy, config) => {
         WHERE 
             sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
             ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
-            `
+    `
 
     return response
   } catch (error) {
