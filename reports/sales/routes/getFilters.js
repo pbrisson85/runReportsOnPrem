@@ -15,7 +15,7 @@ router.post('/programs', async (req, res) => {
   console.log('get sales PROGRAMS filters lot route HIT...')
   // get config for applicable filters
   const config = getReportConfig(req.body)
-  const programs = await getDistinctPrograms(req.body.fy, config)
+  const programs = await getDistinctPrograms('2023', config) // Add the year to get defaults because right now it is hardcoded into the front end.
   programs.sort((a, b) => {
     if (a.label > b.label) return 1
     if (a.label < b.label) return -1
@@ -84,9 +84,9 @@ router.get('/itemTypes', async (req, res) => {
   console.log('get item types filters route HIT...')
   // get config for applicable filters
   const config = getReportConfig(req.body)
-  let types = await getItemTypes(req.body.fy, config)
+  let types = await getItemTypes('2023', config) // Add the year to get defaults because right now it is hardcoded into the front end.
 
-  // Add default manually
+  // Add default manually ************ add this to getDefaults ******************************
   types = types.map(type => {
     return {
       ...type,
