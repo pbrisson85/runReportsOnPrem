@@ -1,4 +1,5 @@
 const {
+  getDateEndPerFiscalPeriodByRange,
   getDateEndPerWeekByRange,
   getDateEndPerWeekByRange_pj,
   getDateEndPerWeekByRange_so,
@@ -33,6 +34,11 @@ const {
   l3_getSalesPeriodToDate,
   l4_getSalesPeriodToDate,
   l0_getSalesPeriodToDate,
+  l0_getSalesByFiscalPeriod,
+  l1_getSalesByFiscalPeriod,
+  l2_getSalesByFiscalPeriod,
+  l3_getSalesByFiscalPeriod,
+  l4_getSalesByFiscalPeriod
 } = require('../../../database/queries/postgres/baseReport/getSalesTrendDateDriven')
 const {
   l1_getSalesByCalMo,
@@ -271,7 +277,7 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
   const l3_salesCalMoToDate = !config.trends.calMonths ? skip() : config.l3_field ? () => {return l3_getSalesCalMoToDate(config, start, end)} : skip()
   const l4_salesCalMoToDate = !config.trends.calMonths ? skip() : config.l4_field ? () => {return l4_getSalesCalMoToDate(config, start, end)} : skip()
 
-  ////
+  // TRENDS
 
   const l0_salesByFy = !config.trends.fyFullYear ? skip() : () => {return l0_getSalesByFyYtd(config, startWeek, endWeek, false)}
   const l1_salesByFy = !config.trends.fyFullYear ? skip() : () => {return l1_getSalesByFyYtd(config, startWeek, endWeek, false)}
@@ -291,6 +297,12 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
   const l3_salesByWk = !config.trends.fiscalWeeks ? skip() : config.l3_field ? () => {return l3_getSalesByWk(config, start, end)} : skip()
   const l4_salesByWk = !config.trends.fiscalWeeks ? skip() : config.l4_field ? () => {return l4_getSalesByWk(config, start, end)} : skip()
 
+  const l0_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : () => {return l0_getSalesByFiscalPeriod(config, start, end)}
+  const l1_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : () => {return l1_getSalesByFiscalPeriod(config, start, end)}
+  const l2_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : () => {return l2_getSalesByFiscalPeriod(config, start, end)}
+  const l3_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.l3_field ? () => {return l3_getSalesByFiscalPeriod(config, start, end)} : skip()
+  const l4_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.l4_field ? () => {return l4_getSalesByFiscalPeriod(config, start, end)} : skip()
+
   // TEMPORARILY SKIPPING IF SET TO CAL MONTHS
   const l0_salesPeriodToDate = config.trends.calMonths ? skip() : () => {return l0_getSalesPeriodToDate(config, start, end)}
   const l1_salesPeriodToDate = config.trends.calMonths ? skip() : () => {return l1_getSalesPeriodToDate(config, start, end)}
@@ -301,6 +313,11 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
   /*  */
 
   const [
+    l0_salesByFiscalPeriodR,
+    l1_salesByFiscalPeriodR,
+    l2_salesByFiscalPeriodR,
+    l3_salesByFiscalPeriodR,
+    l4_salesByFiscalPeriodR,
     l0_salesByCalMoR,
     l1_salesByCalMoR,
     l2_salesByCalMoR,
@@ -311,7 +328,6 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
     l2_salesCalMoToDateR,
     l3_salesCalMoToDateR,
     l4_salesCalMoToDateR,
-
     l1_fgInvenR,
     l2_fgInvenR,
     l3_fgInvenR,
@@ -403,17 +419,21 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
     l4_salesPeriodToDateR,
     l0_salesPeriodToDateR,
   ] = await Promise.all([
+    l0_salesByFiscalPeriod(),
+    l1_salesByFiscalPeriod(),
+    l2_salesByFiscalPeriod(),
+    l3_salesByFiscalPeriod(),
+    l4_salesByFiscalPeriod(),
     l0_salesByCalMo(),
-  l1_salesByCalMo(),
-  l2_salesByCalMo(),
-  l3_salesByCalMo(),
-  l4_salesByCalMo(),
-  l0_salesCalMoToDate(),
-  l1_salesCalMoToDate(),
-  l2_salesCalMoToDate(),
-  l3_salesCalMoToDate(),
-  l4_salesCalMoToDate(),
-
+    l1_salesByCalMo(),
+    l2_salesByCalMo(),
+    l3_salesByCalMo(),
+    l4_salesByCalMo(),
+    l0_salesCalMoToDate(),
+    l1_salesCalMoToDate(),
+    l2_salesCalMoToDate(),
+    l3_salesCalMoToDate(),
+    l4_salesCalMoToDate(),
     l1_fgInven(),
     l2_fgInven(),
     l3_fgInven(),
@@ -741,26 +761,31 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
 
   const mappedSales = mapSalesToRowTemplates(
     [
+      ...l0_salesByFiscalPeriodR,
+      ...l1_salesByFiscalPeriodR,
+      ...l2_salesByFiscalPeriodR,
+      ...l3_salesByFiscalPeriodR,
+      ...l4_salesByFiscalPeriodR,
       ...l0_trailingFourWeekR,
-  ...l1_trailingFourWeekR,
-  ...l2_trailingFourWeekR,
-  ...l3_trailingFourWeekR,
-  ...l4_trailingFourWeekR,
-  ...l0_trailingTwelveWeekR,
-  ...l1_trailingTwelveWeekR,
-  ...l2_trailingTwelveWeekR,
-  ...l3_trailingTwelveWeekR,
-  ...l4_trailingTwelveWeekR,
+      ...l1_trailingFourWeekR,
+      ...l2_trailingFourWeekR,
+      ...l3_trailingFourWeekR,
+      ...l4_trailingFourWeekR,
+      ...l0_trailingTwelveWeekR,
+      ...l1_trailingTwelveWeekR,
+      ...l2_trailingTwelveWeekR,
+      ...l3_trailingTwelveWeekR,
+      ...l4_trailingTwelveWeekR,
       ...l0_salesByCalMoR,
-    ...l1_salesByCalMoR,
-    ...l2_salesByCalMoR,
-    ...l3_salesByCalMoR,
-    ...l4_salesByCalMoR,
-    ...l0_salesCalMoToDateR,
-    ...l1_salesCalMoToDateR,
-    ...l2_salesCalMoToDateR,
-    ...l3_salesCalMoToDateR,
-    ...l4_salesCalMoToDateR,
+      ...l1_salesByCalMoR,
+      ...l2_salesByCalMoR,
+      ...l3_salesByCalMoR,
+      ...l4_salesByCalMoR,
+      ...l0_salesCalMoToDateR,
+      ...l1_salesCalMoToDateR,
+      ...l2_salesCalMoToDateR,
+      ...l3_salesCalMoToDateR,
+      ...l4_salesCalMoToDateR,
       ...l1_salesProjectionBywkR,
       ...l2_salesProjectionBywkR,
       ...l3_salesProjectionBywkR,
@@ -928,11 +953,11 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
   )
 
   const mappedData = combineMappedRows(mappedSales, mappedInven)
-
   const flattenedMappedData = Object.values(mappedData)
   const data = cleanLabelsForDisplay(flattenedMappedData, config)
 
   /* Build Columns */
+  const trendColsSales_byPeriodF = !config.trends.fiscalPeriods ? skip() : () => {return  getDateEndPerFiscalPeriodByRange(year, config)}
   const trendColsSalesF = !config.trends.fiscalWeeks ? skip() : () => {return  getDateEndPerWeekByRange(start, end, config)}
   const trendColsSalesProjF = !config.views.useProjection ? skip() : () => {return  getDateEndPerWeekByRange_pj(start, end, config)}
   const trendColsSaByFyF = !config.trends.fyFullYear ? skip() : () => {return getFiscalYearCols()} 
@@ -949,6 +974,7 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
 
   // Call all column functions
   const [
+    trendColsSales_byPeriod,
     trendColsSalesProj, 
     trendColsSales, 
     trendColsSaByFy, 
@@ -958,6 +984,7 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
     trendColsSo_untg,
     trendColsCalMo
   ] = await Promise.all([
+    trendColsSales_byPeriodF(),
     trendColsSalesProjF(), 
     trendColsSalesF(), 
     trendColsSaByFyF(),
@@ -975,6 +1002,7 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
   return {
     data,
     cols: {
+      trendColsSales_byPeriod,
       trendColsCalMo,
       trendColsSalesProj, // Only include if projection is checked
       trendColsSales,
