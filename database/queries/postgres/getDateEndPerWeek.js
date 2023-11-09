@@ -10,11 +10,7 @@ const getDateEndPerWeek = async fy => {
 }
 
 const getDateEndPerFiscalPeriodByRange = async (fy, config) => {
-  console.log(
-    `${config.user} - getDateEndPerFiscalPeriodByRange, query postgres for accounting period ends by week serial for ${new Date(
-      start
-    ).toLocaleDateString()} through ${new Date(end).toLocaleDateString()} ...`
-  )
+  console.log(`${config.user} - getDateEndPerFiscalPeriodByRange, query postgres for accounting period ends by period serial`)
 
   const periods = await sql`
     SELECT p.period_serial AS dataName, p.date_end AS displayName 
