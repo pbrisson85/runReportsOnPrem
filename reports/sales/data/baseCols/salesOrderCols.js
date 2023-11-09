@@ -51,7 +51,7 @@ const openOrdersCol = [
     allowTrend: true,
     drillDownSortable: true,
     optional: true, // flag to determine if the col is optional
-    showByDefault: false, // flag to determine if optional col is shown by default
+    showByDefault: true, // flag to determine if optional col is shown by default
   },
   {
     unfilteredColIdx: 0,
@@ -77,7 +77,7 @@ const openOrdersCol = [
     colType: 'salesOrder', // Make sure to update the getViewFilter on the back end to allow this colType in the view
     allowTrend: true,
     optional: true, // flag to determine if the col is optional
-    showByDefault: false, // flag to determine if optional col is shown by default
+    showByDefault: true, // flag to determine if optional col is shown by default
   },
   {
     unfilteredColIdx: 0,
@@ -104,7 +104,7 @@ const openOrdersCol = [
     allowTrend: true,
     drillDownSortable: true,
     optional: true, // flag to determine if the col is optional
-    showByDefault: false, // flag to determine if optional col is shown by default
+    showByDefault: true, // flag to determine if optional col is shown by default
   },
 ]
 
