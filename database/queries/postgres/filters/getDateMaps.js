@@ -1,3 +1,5 @@
+const sql = require('../../../../server')
+
 const getFiscalPeriodsMap = async () => {
   console.log(`query postgres for getFiscalPeriodsMap ...`)
 
