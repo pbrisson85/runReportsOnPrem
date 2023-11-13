@@ -15,7 +15,7 @@ const getFiscalPeriodsMap = async () => {
           WHERE d.formatted_date = CURRENT_DATE
           )
       
-        GROUP BY w.period_serial, w.fiscal_year, w.period_num, w.date_start, w.date_end, display_start, display_end
+        GROUP BY w.period_serial, w.fiscal_year, w.period_num
         ORDER BY fiscal_year, wk_first ASC
       `
 
