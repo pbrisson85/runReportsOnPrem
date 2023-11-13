@@ -19,8 +19,6 @@ const getFiscalPeriodsMap = async () => {
         ORDER BY fiscal_year, wk_first ASC
       `
 
-  console.log('periods map: ', map)
-
   return map
 }
 
@@ -28,7 +26,7 @@ const getWeeksMap = async () => {
   console.log(`query postgres for getWeeksMap ...`)
 
   const map = await sql`
-      SELECT w.week_serial, w.fiscal_year, w.week, w.period_serial, w.period_num
+      SELECT w.week_serial, w.fiscal_year, w.week, w.period_serial, w.period_num, w.date_start, w.date_end, w.date_start || ' (' || RIGHT(w.week_serial,3) || ') ' AS display_start, w.date_end || ' (' || RIGHT(w.week_serial,3) || ') ' AS display_end
       FROM "accountingPeriods".period_by_week AS w
       WHERE w.fiscal_year <= (
         SELECT d.fiscal_year
