@@ -47,16 +47,16 @@ router.get('/fy', async (req, res) => {
   console.log('get sales YEARS filters lot route COMPLETE. ')
 })
 
-// // Generate Filter Data
-// router.get('/periods', async (req, res) => {
-//   console.log('get periods given fiscal year lot route HIT...')
-//   const periodsMap = await getPeriodsMap()
-//   const weeksMap = await getWeeksMap()
-//   const fiscalYearMap = await getFiscalYearMap()
+// Generate Filter Data
+router.get('/periodMaps', async (req, res) => {
+  console.log('get period maps route HIT...')
+  const periodsMap = await getPeriodsMap()
+  const weeksMap = await getWeeksMap()
+  const fiscalYearMap = await getFiscalYearMap()
 
-//   res.send({ periodsMap, weeksMap, fiscalYearMap })
-//   console.log('get periods given fiscal year lot route COMPLETE. ')
-// })
+  res.send({ periodsMap, weeksMap, fiscalYearMap })
+  console.log('get periods maps lot route COMPLETE. ')
+})
 
 // Generate Filter Data
 router.get('/periods/:fy', async (req, res) => {
