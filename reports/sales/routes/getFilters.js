@@ -61,7 +61,7 @@ router.get('/periodMaps', async (req, res) => {
   const fiscalYearMap = await getFiscalYearMap()
   const currentFiscal = await getCurrentFiscalYear()
 
-  res.send({ periodsMap, weeksMap, fiscalYearMap, currentFiscal })
+  res.send({ periodsMap, weeksMap, fiscalYearMap, currentFiscal: currentFiscal[0] })
   console.log('get periods maps lot route COMPLETE. ')
 })
 
