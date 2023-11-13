@@ -94,7 +94,3 @@ module.exports.getDateEndPerWeekByRange_so_tg = getDateEndPerWeekByRange_so_tg
 module.exports.getDateEndPerWeekByRange_so_untg = getDateEndPerWeekByRange_so_untg
 module.exports.getDateEndPerWeekByRange_pj = getDateEndPerWeekByRange_pj
 module.exports.getDateEndPerFiscalPeriodByRange = getDateEndPerFiscalPeriodByRange
-module.exports.getPeriodsMap = getPeriodsMap
-module.exports.getWeeksMap = getWeeksMap
-module.exports.getFiscalYearMap = getFiscalYearMap
-module.exports.getCurrentFiscalYear = getCurrentFiscalYear
