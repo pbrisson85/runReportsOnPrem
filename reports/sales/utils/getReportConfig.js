@@ -184,12 +184,12 @@ const getReportConfig = reqBody => {
         l2_field: 'ms.brand',
         l3_field: 'ms.fg_treatment',
         l4_field: 'ms.size_name',
-        l4_field: 'ms.item_num',
+        l5_field: 'ms.item_num',
         l1_name: 'fresh/frozen', // Used for filter labels on front end
         l2_name: 'brand',
         l3_name: 'soak',
         l4_name: 'size',
-        l4_name: 'item',
+        l5_name: 'item',
         ...config,
       }
       break
