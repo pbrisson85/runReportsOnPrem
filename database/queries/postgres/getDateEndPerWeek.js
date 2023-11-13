@@ -64,6 +64,16 @@ const getFiscalYearMap = async () => {
   return map
 }
 
+const getCurrentFiscalYear = async () => {
+  console.log(`query postgres for getCurrentFiscalYear ...`)
+  const year = await sql`
+    SELECT d.fiscal_year
+      FROM "accountingPeriods".period_by_day AS d
+    WHERE d.formatted_date = CURRENT_DATE
+    `
+  return year
+}
+
 const getDateEndPerFiscalPeriodByRange = async (fy, config) => {
   console.log(`${config.user} - getDateEndPerFiscalPeriodByRange, query postgres for accounting period ends by period serial`)
 
@@ -152,3 +162,4 @@ module.exports.getDateEndPerFiscalPeriodByRange = getDateEndPerFiscalPeriodByRan
 module.exports.getPeriodsMap = getPeriodsMap
 module.exports.getWeeksMap = getWeeksMap
 module.exports.getFiscalYearMap = getFiscalYearMap
+module.exports.getCurrentFiscalYear = getCurrentFiscalYear

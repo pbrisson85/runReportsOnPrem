@@ -5,7 +5,13 @@ const getDistinctFiscalYears = require('../../../database/queries/postgres/getDi
 const getReportFormats = require('../data/filters/getReportFormats')
 const trendTypeOptions = require('../data/filters/trendType')
 const getDataFilters = require('../data/filters/getDataFilters')
-const { getPeriodsMap, getWeeksMap, getFiscalYearMap, getDateEndPerWeek } = require('../../../database/queries/postgres/getDateEndPerWeek')
+const {
+  getPeriodsMap,
+  getWeeksMap,
+  getFiscalYearMap,
+  getCurrentFiscalYear,
+  getDateEndPerWeek,
+} = require('../../../database/queries/postgres/getDateEndPerWeek')
 const getReportConfig = require('../utils/getReportConfig')
 const appSettings = require('../data/filters/appSettings')
 const getItemTypes = require('../../../database/queries/postgres/filters/getItemTypes')
@@ -53,8 +59,9 @@ router.get('/periodMaps', async (req, res) => {
   const periodsMap = await getPeriodsMap()
   const weeksMap = await getWeeksMap()
   const fiscalYearMap = await getFiscalYearMap()
+  const currentFiscal = await getCurrentFiscalYear()
 
-  res.send({ periodsMap, weeksMap, fiscalYearMap })
+  res.send({ periodsMap, weeksMap, fiscalYearMap, currentFiscal })
   console.log('get periods maps lot route COMPLETE. ')
 })
 
