@@ -356,7 +356,7 @@ const frzBrndSoakSizeItem = [
     filterName: 'l4_filter', // key to match up the column with the filter
     width: '100px', // css width
     left: '400px', // css positioning for sticky sum of prior col widths
-    borderRight: true, // border right on ladst frozen cell
+    borderRight: false, // border right on ladst frozen cell
     rightClickMenu: [], // array of options for right click menu
   },
   {
