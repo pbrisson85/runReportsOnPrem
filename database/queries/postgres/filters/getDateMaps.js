@@ -3,11 +3,20 @@ const sql = require('../../../../server')
 const getFiscalPeriodsMap = async () => {
   console.log(`query postgres for getFiscalPeriodsMap ...`)
 
+  /*
+    LEFT OUTER JOIN (
+                SELECT DISTINCT(w2.period_serial AS period_serial, MIN(w.date_start),  MAX(w.date_end), MIN(w.week) AS wk_first, MAX(w.week) AS wk_last
+                FROM "accountingPeriods".period_by_week AS w2
+                GROUP BY w2.period_serial
+            ) AS ps ON w.
+    */
+
   const map = await sql`
       SELECT 
-          DISTINCT(w.period_serial) AS period_serial, w.fiscal_year, w.period_num, w.date_start, w.date_end, w.date_start || ' (' || RIGHT(w.period_serial,3) || ') ' AS display_start, w.date_end || ' (' || RIGHT(w.period_serial,3) || ') ' AS display_end, MIN(w.week) AS wk_first, MAX(w.week) AS wk_last 
+          DISTINCT(w.period_serial) AS period_serial, w.fiscal_year, w.period_num, MIN(w.date_start) AS date_start, MAX(w.date_end) AS date_end, MIN(w.date_start) || ' (' || RIGHT(w.period_serial,3) || ') ' AS display_start, MAX(w.date_end) || ' (' || RIGHT(w.period_serial,3) || ') ' AS display_end, MIN(w.week) AS wk_first, MAX(w.week) AS wk_last 
 
         FROM "accountingPeriods".period_by_week AS w
+            
          
         WHERE w.fiscal_year <= (
           SELECT d.fiscal_year
