@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const buildReport = require('../routines/baseReportCopy')
+const buildReport = require('../routines/baseReport')
 const { getStartOfWeek } = require('../../../database/queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../../../database/queries/postgres/getWeekForDate')
 const getDefaults = require('../utils/getReportDefaults')

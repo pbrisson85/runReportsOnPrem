@@ -1,5 +1,64 @@
 const sql = require('../../../../server')
 
+const getRowsFifthLevelDetail = async (config, start, end) => {
+  // config.trends.fyYtd || config.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
+
+  const itemTypeArray = JSON.stringify(config.itemType)
+
+  try {
+    console.log(`${config.user} - query postgres to get row labels (getRowsFifthLevelDetail) ...`)
+
+    const response = await sql
+        `SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.l5_field)},'NA') AS l5_label, 5 AS datalevel ${config.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}
+        
+          FROM "salesReporting".sales_line_items 
+            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+              ON ms.item_num = sales_line_items.item_number 
+
+          WHERE 
+            ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
+            ${!config.trends.fyYtd && !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end}` : sql``} 
+            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+          
+          GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)}, ${sql(config.l5_field)} 
+        
+        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.l5_field)},'NA') AS l5_label, 5 AS datalevel ${config.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
+        
+          FROM "invenReporting".perpetual_inventory 
+            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+              ON ms.item_num = perpetual_inventory.item_number 
+        
+          WHERE 
+            perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory)
+            ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``}  
+            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          
+          GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)}, ${sql(config.l5_field)} 
+        
+        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.l5_field)},'NA') AS l5_label, 5 AS datalevel ${config.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
+        
+          FROM "salesReporting".sales_orders 
+            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+              ON ms.item_num = sales_orders.item_num 
+        
+          WHERE 
+            sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
+            ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+          
+          GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)}, ${sql(config.l5_field)}
+          ` //prettier-ignore
+
+    return response
+  } catch (error) {
+    console.error(error)
+    return error
+  }
+}
+
 const getRowsFourthLevelDetail = async (config, start, end) => {
   // config.trends.fyYtd || config.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
@@ -237,3 +296,4 @@ module.exports.getRowsFirstLevelDetail = getRowsFirstLevelDetail
 module.exports.getRowsSecondLevelDetail = getRowsSecondLevelDetail
 module.exports.getRowsThirdLevelDetail = getRowsThirdLevelDetail
 module.exports.getRowsFourthLevelDetail = getRowsFourthLevelDetail
+module.exports.getRowsFifthLevelDetail = getRowsFifthLevelDetail

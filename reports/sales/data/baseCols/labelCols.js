@@ -55,8 +55,8 @@ const getCols = body => {
     case 'frzBrndSoakSize':
       return applyTemplate(template, frzBrndSoakSize)
 
-    case 'frzBrndSoakItem':
-      return applyTemplate(template, frzBrndSoakItem)
+    case 'frzBrndSoakSizeItem':
+      return applyTemplate(template, frzBrndSoakSizeItem)
 
     default:
       return applyTemplate(template, speciesgroupFreeze) // must match default in config file
@@ -322,7 +322,7 @@ const frzBrndSoakSize = [
   },
 ]
 
-const frzBrndSoakItem = [
+const frzBrndSoakSizeItem = [
   {
     displayName: 'FRESH/FROZEN', // show as column header
     dataName: 'l1_label', // key to pull data from
@@ -351,11 +351,20 @@ const frzBrndSoakItem = [
     rightClickMenu: [], // array of options for right click menu
   },
   {
-    displayName: 'ITEM', // show as column header
+    displayName: 'SIZE', // show as column header
     dataName: 'l4_label', // key to pull data from
     filterName: 'l4_filter', // key to match up the column with the filter
     width: '100px', // css width
     left: '400px', // css positioning for sticky sum of prior col widths
+    borderRight: true, // border right on ladst frozen cell
+    rightClickMenu: [], // array of options for right click menu
+  },
+  {
+    displayName: 'ITEM', // show as column header
+    dataName: 'l5_label', // key to pull data from
+    filterName: 'l5_filter', // key to match up the column with the filter
+    width: '100px', // css width
+    left: '500px', // css positioning for sticky sum of prior col widths
     borderRight: true, // border right on ladst frozen cell
     rightClickMenu: [], // array of options for right click menu
   },
