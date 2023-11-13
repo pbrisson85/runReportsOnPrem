@@ -2,6 +2,8 @@ const Decimal = require('decimal.js')
 const _ = require('lodash')
 
 const mapSalesToRowTemplates = (salesLines, rowTemplate) => {
+  console.log('rowTemplate: ', rowTemplate)
+
   const rowTemplateCache = _.cloneDeep(rowTemplate)
 
   let revenuePerLb = 0
