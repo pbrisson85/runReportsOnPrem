@@ -5,13 +5,13 @@ const getDistinctFiscalYears = require('../../../database/queries/postgres/getDi
 const getReportFormats = require('../data/filters/getReportFormats')
 const trendTypeOptions = require('../data/filters/trendType')
 const getDataFilters = require('../data/filters/getDataFilters')
+const { getDateEndPerWeek } = require('../../../database/queries/postgres/getDateEndPerWeek')
 const {
-  getPeriodsMap,
+  getFiscalPeriodsMap,
   getWeeksMap,
   getFiscalYearMap,
   getCurrentFiscalYear,
-  getDateEndPerWeek,
-} = require('../../../database/queries/postgres/getDateEndPerWeek')
+} = require('../../../database/queries/postgres/filters/getDateMaps')
 const getReportConfig = require('../utils/getReportConfig')
 const appSettings = require('../data/filters/appSettings')
 const getItemTypes = require('../../../database/queries/postgres/filters/getItemTypes')
@@ -56,7 +56,7 @@ router.get('/fy', async (req, res) => {
 // Generate Filter Data
 router.get('/periodMaps', async (req, res) => {
   console.log('get period maps route HIT...')
-  const periodsMap = await getPeriodsMap()
+  const periodsMap = await getFiscalPeriodsMap()
   const weeksMap = await getWeeksMap()
   const fiscalYearMap = await getFiscalYearMap()
   const currentFiscal = await getCurrentFiscalYear()
