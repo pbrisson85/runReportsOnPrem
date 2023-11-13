@@ -19,6 +19,8 @@ const getFiscalPeriodsMap = async () => {
         ORDER BY fiscal_year, wk_first ASC
       `
 
+  console.log('periods map: ', map)
+
   return map
 }
 
