@@ -5,7 +5,7 @@ const getDistinctFiscalYears = require('../../../database/queries/postgres/getDi
 const getReportFormats = require('../data/filters/getReportFormats')
 const trendTypeOptions = require('../data/filters/trendType')
 const getDataFilters = require('../data/filters/getDataFilters')
-const { getDateEndPerWeek } = require('../../../database/queries/postgres/getDateEndPerWeek')
+const { getPeriodsMap, getWeeksMap, getFiscalYearMap, getDateEndPerWeek } = require('../../../database/queries/postgres/getDateEndPerWeek')
 const getReportConfig = require('../utils/getReportConfig')
 const appSettings = require('../data/filters/appSettings')
 const getItemTypes = require('../../../database/queries/postgres/filters/getItemTypes')
@@ -46,6 +46,17 @@ router.get('/fy', async (req, res) => {
   res.send(fys)
   console.log('get sales YEARS filters lot route COMPLETE. ')
 })
+
+// // Generate Filter Data
+// router.get('/periods', async (req, res) => {
+//   console.log('get periods given fiscal year lot route HIT...')
+//   const periodsMap = await getPeriodsMap()
+//   const weeksMap = await getWeeksMap()
+//   const fiscalYearMap = await getFiscalYearMap()
+
+//   res.send({ periodsMap, weeksMap, fiscalYearMap })
+//   console.log('get periods given fiscal year lot route COMPLETE. ')
+// })
 
 // Generate Filter Data
 router.get('/periods/:fy', async (req, res) => {
