@@ -5,7 +5,7 @@ const getFiscalPeriodsMap = async () => {
 
   const map = await sql`
       SELECT 
-          DISTINCT(w.period_serial) AS period_serial, w.fiscal_year, w.period_num, w.date_start, w.date_end, w.date_start || " (" || RIGHT(w.period_serial,3) || ") " AS display_start, w.date_end || " (" || RIGHT(w.period_serial,3) || ") " AS display_end, w.date_end, MIN(w.week) AS wk_first, MAX(w.week) AS wk_last 
+          DISTINCT(w.period_serial) AS period_serial, w.fiscal_year, w.period_num, w.date_start, w.date_end, w.date_start || ' (' || RIGHT(w.period_serial,3) || ') ' AS display_start, w.date_end || ' (' || RIGHT(w.period_serial,3) || ') ' AS display_end, w.date_end, MIN(w.week) AS wk_first, MAX(w.week) AS wk_last 
 
         FROM "accountingPeriods".period_by_week AS w
          
