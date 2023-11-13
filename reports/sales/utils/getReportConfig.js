@@ -30,6 +30,7 @@ const getReportConfig = reqBody => {
     l2_filter: reqBody.l2_filter ?? null,
     l3_filter: reqBody.l3_filter ?? null,
     l4_filter: reqBody.l4_filter ?? null,
+    l5_filter: reqBody.l5_filter ?? null,
     customer: reqBody.customer ?? null,
     item: reqBody.item ?? null,
     salesPerson: reqBody.salesPerson ?? null,

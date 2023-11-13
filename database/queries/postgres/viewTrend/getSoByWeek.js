@@ -47,6 +47,7 @@ const l1_getSo_byWk = async (config, trendQuery) => {
           ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
           ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
           ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``}  
+          ${config.queryLevel > 4 ? sql`AND ${sql(config.l5_field)} = ${config.l5_filter}` : sql``}
          
         GROUP BY 
           so.week_serial, 
@@ -113,6 +114,7 @@ const l1_getSoTagged_byWk = async (config, trendQuery) => {
             ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
             ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
             ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
+            ${config.queryLevel > 4 ? sql`AND ${sql(config.l5_field)} = ${config.l5_filter}` : sql``}
            
           GROUP BY 
             so.week_serial, 
@@ -179,6 +181,7 @@ const l1_getSoUntagged_byWk = async (config, trendQuery) => {
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
+        ${config.queryLevel > 4 ? sql`AND ${sql(config.l5_field)} = ${config.l5_filter}` : sql``}
       
       GROUP BY 
         so.week_serial, 
@@ -241,6 +244,7 @@ const l0_getSo_byWk = async config => {
             ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
             ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
             ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
+            ${config.queryLevel > 4 ? sql`AND ${sql(config.l5_field)} = ${config.l5_filter}` : sql``}
            
            GROUP BY so.week_serial 
            
@@ -294,6 +298,7 @@ const l0_getSoTagged_byWk = async config => {
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
+        ${config.queryLevel > 4 ? sql`AND ${sql(config.l5_field)} = ${config.l5_filter}` : sql``}
       
       GROUP BY so.week_serial 
       
@@ -347,6 +352,7 @@ const l0_getSoUntagged_byWk = async config => {
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
+        ${config.queryLevel > 4 ? sql`AND ${sql(config.l5_field)} = ${config.l5_filter}` : sql``}
       
       GROUP BY so.week_serial 
       

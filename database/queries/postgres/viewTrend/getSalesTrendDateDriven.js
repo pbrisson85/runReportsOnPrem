@@ -50,6 +50,7 @@ const l1_getSalesByWk = async (config, start, end, trendQuery) => {
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
+        ${config.queryLevel > 4 ? sql`AND ${sql(config.l5_field)} = ${config.l5_filter}` : sql``}
       
       GROUP BY 
         sl.week_serial, 
@@ -118,6 +119,7 @@ const l1_getSalesPeriodToDate = async (config, start, end, trendQuery) => {
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
+        ${config.queryLevel > 4 ? sql`AND ${sql(config.l5_field)} = ${config.l5_filter}` : sql``}
       
       GROUP BY 
         ${trendQuery.sl.l1_label ? sql`${sql(trendQuery.sl.l1_label)}`: sql``} 
@@ -181,6 +183,7 @@ const l0_getSalesByWk = async (config, start, end) => {
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
+        ${config.queryLevel > 4 ? sql`AND ${sql(config.l5_field)} = ${config.l5_filter}` : sql``}
       
       GROUP BY sl.week_serial 
       
@@ -236,6 +239,7 @@ const l0_getSalesPeriodToDate = async (config, start, end) => {
         ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
         ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``}
         ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
+        ${config.queryLevel > 4 ? sql`AND ${sql(config.l5_field)} = ${config.l5_filter}` : sql``}
         ` //prettier-ignore
 
     return response

@@ -307,6 +307,7 @@ const buildDrillDown = async (labelCols, config, start, end, startWeek, endWeek,
                   ${config.l2_filter ? `${config.l2_name}: ${config.l2_filter}, ` : ``}
                   ${config.l3_filter ? `${config.l3_name}: ${config.l3_filter}, ` : ``}
                   ${config.l4_filter ? `${config.l4_name}: ${config.l4_filter}, ` : ``}
+                  ${config.l5_filter ? `${config.l5_name}: ${config.l5_filter}, ` : ``}
                   ${config.customer ? `cust: ${config.customer}, ` : ``}
                   ${config.item ? `item: ${config.item}, ` : ``}
                   ${config.salesPerson ? `salesperson: ${config.salesPerson}, ` : ``}
@@ -330,11 +331,8 @@ const buildDrillDown = async (labelCols, config, start, end, startWeek, endWeek,
     [
       ...l0_trailingFourWeek,
       ...l1_trailingFourWeek,
-    
       ...l0_trailingTwelveWeek,
       ...l1_trailingTwelveWeek,
-    
-
       ...l1_salesProjByWk,
       ...l0_salesProjByWk,
       ...l1_salesProjPeriodToDate,
