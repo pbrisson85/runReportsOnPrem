@@ -391,7 +391,7 @@ const l4_getSalesProjectionPeriodToDate = async (config, start, end) => {
 
 const l5_getSalesProjectionByWk = async (config, start, end) => {
   try {
-    console.log(`${config.user} - level 4: query postgres to get FG sales data by week (l4_getSalesProjectionByWk) ...`)
+    console.log(`${config.user} - level 5: query postgres to get FG sales data by week (l4_getSalesProjectionByWk) ...`)
 
     const response = await sql
       `SELECT pj.column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.l5_field)},'NA') AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
@@ -439,7 +439,7 @@ const l5_getSalesProjectionByWk = async (config, start, end) => {
 
 const l5_getSalesProjectionPeriodToDate = async (config, start, end) => {
   try {
-    console.log(`${config.user} - level 4: query postgres to get FG sales data period total (l4_getSalesProjectionPeriodToDate) ...`)
+    console.log(`${config.user} - level 5: query postgres to get FG sales data period total (l4_getSalesProjectionPeriodToDate) ...`)
 
     const response = await sql
       `SELECT 'SALES PROJECTION TOTAL' AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.l5_field)},'NA') AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 

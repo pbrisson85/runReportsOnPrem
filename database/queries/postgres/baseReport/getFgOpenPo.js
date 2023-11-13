@@ -121,7 +121,7 @@ const l4_getFgPo = async config => {
 
 const l5_getFgPo = async config => {
   try {
-    console.log(`${config.user} - level 4: query postgres for FG open PO (l4_getFgPo) ...`)
+    console.log(`${config.user} - level 5: query postgres for FG open PO (l4_getFgPo) ...`)
 
     const response = await sql
        `SELECT 'FG ON ORDER' AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.l5_field)},'NA') AS l5_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 

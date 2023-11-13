@@ -358,7 +358,7 @@ const l4_getSalesPeriodToDate = async (config, start, end) => {
 
 const l5_getSalesByWk = async (config, start, end) => {
   try {
-    console.log(`${config.user} - level 4: query postgres to get FG sales data by week (l4_getSalesByWk) ...`)
+    console.log(`${config.user} - level 5: query postgres to get FG sales data by week (l4_getSalesByWk) ...`)
 
     const response = await sql
       `SELECT sl.week_serial AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.l5_field)},'NA') AS l5_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
@@ -386,7 +386,7 @@ const l5_getSalesByWk = async (config, start, end) => {
 
 const l5_getSalesByFiscalPeriod = async (config, start, end) => {
   try {
-    console.log(`${config.user} - level 4: query postgres to get FG sales data by week (l4_getSalesByWk) ...`)
+    console.log(`${config.user} - level 5: query postgres to get FG sales data by week (l4_getSalesByWk) ...`)
 
     const response = await sql
       `SELECT sl.period_serial AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.l5_field)},'NA') AS l5_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
@@ -416,7 +416,7 @@ const l5_getSalesByFiscalPeriod = async (config, start, end) => {
 
 const l5_getSalesPeriodToDate = async (config, start, end) => {
   try {
-    console.log(`${config.user} - level 4: query postgres to get FG sales data period total (l4_getSalesPeriodToDate) ...`)
+    console.log(`${config.user} - level 5: query postgres to get FG sales data period total (l4_getSalesPeriodToDate) ...`)
 
     const response = await sql
       `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.l5_field)},'NA') AS l5_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 

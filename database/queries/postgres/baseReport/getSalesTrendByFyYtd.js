@@ -143,7 +143,7 @@ const l4_getSalesByFyYtd = async (config, start, end, showYtd) => {
 const l5_getSalesByFyYtd = async (config, start, end, showYtd) => {
   try {
     console.log(
-      `${config.user} - level 4: query postgres to get FG sales data by week for week ${start} through week ${end} (l4_getSalesByFyYtd) ...`
+      `${config.user} - level 5: query postgres to get FG sales data by week for week ${start} through week ${end} (l4_getSalesByFyYtd) ...`
     )
 
     const response = await sql

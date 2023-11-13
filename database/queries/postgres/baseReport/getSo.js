@@ -304,11 +304,11 @@ const l4_getSoUntagged = async config => {
   }
 }
 
-/* *********************************************** level 4 *********************************************** */
+/* *********************************************** level 5 *********************************************** */
 
 const l5_getSo = async config => {
   try {
-    console.log(`${config.user} - level 4: query postgres for FG Sales Orders (l4_getSo) ...`)
+    console.log(`${config.user} - level 5: query postgres for FG Sales Orders (l4_getSo) ...`)
 
     const response = await sql
       `SELECT 'FG OPEN ORDER' AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.l5_field)},'NA') AS l5_label, COALESCE(SUM(sales_orders.ext_weight),0) AS lbs, COALESCE(SUM(sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.ext_cost),0) AS cogs, COALESCE(SUM(sales_orders.ext_othp),0) AS othp 
@@ -332,7 +332,7 @@ const l5_getSo = async config => {
 
 const l5_getSoTagged = async config => {
   try {
-    console.log(`${config.user} - level 4: query postgres for FG Sales Orders (l4_getSoTagged) ...`)
+    console.log(`${config.user} - level 5: query postgres for FG Sales Orders (l4_getSoTagged) ...`)
 
     const response = await sql
       `SELECT 'FG OPEN ORDER TAGGED' AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.l5_field)},'NA') AS l5_label, COALESCE(SUM(sales_orders.tagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.tagged_weight * ave_tagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
@@ -357,7 +357,7 @@ const l5_getSoTagged = async config => {
 
 const l5_getSoUntagged = async config => {
   try {
-    console.log(`${config.user} - level 4: query postgres for FG Sales Orders (l4_getSoUntagged) ...`)
+    console.log(`${config.user} - level 5: query postgres for FG Sales Orders (l4_getSoUntagged) ...`)
 
     const response = await sql
       `SELECT 'FG OPEN ORDER UNTAGGED' AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.l5_field)},'NA') AS l5_label, COALESCE(SUM(sales_orders.untagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.untagged_weight * ave_untagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
