@@ -8,6 +8,7 @@ const trendTypeOptions = () => {
       default: false,
       onTrueSetFalse: ['fiscalPeriods', 'fiscalQuarters', 'calMonths', 'calYtd', 'calFullYear'],
       onFalseSetTrue: [],
+      filterMap: 'weeks', // front end map to filter (appears as map in query)
     },
     {
       label: 'Fiscal Periods',
@@ -15,6 +16,7 @@ const trendTypeOptions = () => {
       default: false,
       onTrueSetFalse: ['fiscalWeeks', 'fiscalQuarters', 'calMonths', 'calYtd', 'calFullYear'],
       onFalseSetTrue: [],
+      filterMap: 'fiscal_periods', // front end map to filter (appears as map in query)
     },
     {
       label: 'Fiscal Quarters',
@@ -22,6 +24,7 @@ const trendTypeOptions = () => {
       default: false,
       onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'calMonths', 'calYtd', 'calFullYear'],
       onFalseSetTrue: [],
+      filterMap: 'fiscal_quarters', // front end map to filter (appears as map in query)
     },
     {
       label: 'FY YTD',
@@ -29,6 +32,7 @@ const trendTypeOptions = () => {
       default: false,
       onTrueSetFalse: ['calMonths', 'calYtd', 'calFullYear'],
       onFalseSetTrue: [],
+      filterMap: 'fiscal_years', // front end map to filter (appears as map in query)
     },
     {
       label: 'FY Full Year',
@@ -36,6 +40,7 @@ const trendTypeOptions = () => {
       default: false,
       onTrueSetFalse: ['calMonths', 'calYtd', 'calFullYear'],
       onFalseSetTrue: [],
+      filterMap: 'fiscal_years', // front end map to filter (appears as map in query)
     },
     {
       label: 'Calendar Months',
@@ -43,6 +48,7 @@ const trendTypeOptions = () => {
       default: false,
       onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fiscalQuarters', 'fyYtd', 'fyFullYear'],
       onFalseSetTrue: [],
+      filterMap: 'cal_months', // front end map to filter (appears as map in query)
     },
     {
       label: 'Calendar YTD',
@@ -50,6 +56,7 @@ const trendTypeOptions = () => {
       default: false,
       onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fiscalQuarters', 'fyYtd', 'fyFullYear'],
       onFalseSetTrue: [],
+      filterMap: 'cal_years', // front end map to filter (appears as map in query)
     },
     {
       label: 'Calendar Full Year',
@@ -57,6 +64,7 @@ const trendTypeOptions = () => {
       default: false,
       onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fiscalQuarters', 'fyYtd', 'fyFullYear'],
       onFalseSetTrue: [],
+      filterMap: 'cal_years', // front end map to filter (appears as map in query)
     },
   ]
 }
