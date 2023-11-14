@@ -27,7 +27,7 @@ const getWeeksMap = async () => {
   console.log(`query postgres for getWeeksMap ...`)
 
   const map = await sql`
-      SELECT w.week_serial, w.fiscal_year, w.week, w.period_serial, w.period_num, w.date_start, w.date_end, w.date_start || ' (' || RIGHT(w.week_serial,3) || ') ' AS display_start, w.date_end || ' (' || RIGHT(w.week_serial,3) || ') ' AS display_end, 'weeks' AS map, 'true' AS default_map
+      SELECT w.week_serial, w.fiscal_year, w.week, w.period_serial, w.period_num, w.date_start, w.date_end, w.date_start || ' (' || RIGHT(w.week_serial,3) || ') ' AS display_start, w.date_end || ' (' || RIGHT(w.week_serial,3) || ') ' AS display_end, 'weeks' AS map, TRUE AS default_map
 
       FROM "accountingPeriods".period_by_week AS w
       WHERE w.fiscal_year <= (
