@@ -100,7 +100,7 @@ const getReportFormats = () => {
       dataName: 'frzBrndSoakSizeItem',
       default: false, // if true, this is the default report for an unlisted program (one which does not appear in the defaults array)
       defaults: [], // list of programs (datanames) that this is the default report
-      optional: ['all'], // list of programs (datanames) that allow this, or use 'any' to allow all programs EXCEPT 'all'
+      optional: ['any'], // list of programs (datanames) that allow this, or use 'any' to allow all programs EXCEPT 'all'
       forbiddenCols: [],
     },
   ]
