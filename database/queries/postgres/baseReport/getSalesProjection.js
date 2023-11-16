@@ -29,6 +29,14 @@ const l1_getSalesProjectionByWk = async (config, start, end) => {
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
             AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
+
+        UNION 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, ps.week_serial || '_pj' AS column, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        
+          FROM "salesReporting".projected_sales AS ps        
+        
+          WHERE 
+            ps.date >= ${start} AND ps.date <= ${end}
           
           ) AS pj
           
@@ -77,6 +85,15 @@ const l1_getSalesProjectionPeriodToDate = async (config, start, end) => {
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
             AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
+
+        UNION 
+        SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+      
+        FROM "salesReporting".projected_sales AS ps        
+      
+        WHERE 
+          ps.date >= ${start} AND ps.date <= ${end}
+
           ) AS pj
 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -124,6 +141,14 @@ const l2_getSalesProjectionByWk = async (config, start, end) => {
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
             AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
+
+        UNION 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, ps.week_serial || '_pj' AS column, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+          
+          FROM "salesReporting".projected_sales AS ps        
+          
+          WHERE 
+              ps.date >= ${start} AND ps.date <= ${end}
 
           ) AS pj
 
@@ -173,6 +198,14 @@ const l2_getSalesProjectionPeriodToDate = async (config, start, end) => {
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
             AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
             
+        UNION 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        
+          FROM "salesReporting".projected_sales AS ps        
+        
+          WHERE 
+            ps.date >= ${start} AND ps.date <= ${end}
+
           ) AS pj
 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -221,6 +254,15 @@ const l3_getSalesProjectionByWk = async (config, start, end) => {
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
             AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
            
+        UNION 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, ps.week_serial || '_pj' AS column, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        
+          FROM "salesReporting".projected_sales AS ps        
+        
+          WHERE 
+            ps.date >= ${start} AND ps.date <= ${end}
+
+
           ) AS pj
 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -269,6 +311,15 @@ const l3_getSalesProjectionPeriodToDate = async (config, start, end) => {
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
             AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
             
+        
+        UNION 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        
+          FROM "salesReporting".projected_sales AS ps        
+        
+          WHERE 
+            ps.date >= ${start} AND ps.date <= ${end}
+
           ) AS pj
 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -317,6 +368,14 @@ const l4_getSalesProjectionByWk = async (config, start, end) => {
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
             AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
             
+        UNION 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, ps.week_serial || '_pj' AS column, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        
+          FROM "salesReporting".projected_sales AS ps        
+        
+          WHERE 
+            ps.date >= ${start} AND ps.date <= ${end}
+
           ) AS pj
 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -365,6 +424,15 @@ const l4_getSalesProjectionPeriodToDate = async (config, start, end) => {
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
             AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
             
+        
+        UNION 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        
+          FROM "salesReporting".projected_sales AS ps        
+        
+          WHERE 
+            ps.date >= ${start} AND ps.date <= ${end}
+
           ) AS pj
 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -413,6 +481,14 @@ const l5_getSalesProjectionByWk = async (config, start, end) => {
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
             AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
             
+        UNION 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, ps.week_serial || '_pj' AS column, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        
+          FROM "salesReporting".projected_sales AS ps        
+        
+          WHERE 
+          ps.date >= ${start} AND ps.date <= ${end}
+
           ) AS pj
 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -461,6 +537,14 @@ const l5_getSalesProjectionPeriodToDate = async (config, start, end) => {
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
             AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
             
+        UNION 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        
+          FROM "salesReporting".projected_sales AS ps        
+        
+          WHERE 
+            ps.date >= ${start} AND ps.date <= ${end}
+
           ) AS pj
 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -510,6 +594,14 @@ const l0_getSalesProjectionByWk = async (config, start, end) => {
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
             AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
          
+        UNION 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, ps.week_serial || '_pj' AS column, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        
+          FROM "salesReporting".projected_sales AS ps        
+        
+          WHERE 
+            ps.date >= ${start} AND ps.date <= ${end}
+
           ) AS pj
 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -559,6 +651,15 @@ const l0_getSalesProjectionPeriodToDate = async (config, start, end) => {
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
             AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
         
+
+        UNION 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        
+          FROM "salesReporting".projected_sales AS ps        
+        
+          WHERE 
+            ps.date >= ${start} AND ps.date <= ${end}
+
           ) AS pj
           
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
