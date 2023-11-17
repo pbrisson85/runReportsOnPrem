@@ -622,6 +622,9 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
   const programTotalSales = () => {return getProgramTotalSales(start, end, config)}
   const speciesGroupTotalSales = () => {return getSpeciesGroupTotalSales(start, end, config)}
 
+
+  //*****Note that we maybe cannot use week driven sales queries with projection because it only handles weeks for a specific fiscal year while the projection could span fiscal years */
+
   const l0_trailingTwoWeek = endWeek < 2 ? skip() : () => {return l0_getSalesWkDriven(config, endWeek - 1, endWeek, year, '2wk Rolling')}
   const l1_trailingTwoWeek = endWeek < 2 ? skip() : () => {return l1_getSalesWkDriven(config, endWeek - 1, endWeek, year, '2wk Rolling')}
   const l2_trailingTwoWeek = endWeek < 2 ? skip() : () => {return l2_getSalesWkDriven(config, endWeek - 1, endWeek, year, '2wk Rolling')}

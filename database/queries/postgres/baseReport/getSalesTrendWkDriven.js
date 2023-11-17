@@ -9,7 +9,7 @@ const l1_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
     //${config.useProjection ? sql`'SALES PROJECTION TOTAL'`: sql`'SALES TOTAL'`}
 
     const response = await sql
-      `SELECT ${sql`${colName}`} AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
+      `SELECT ${sql`${colName}`} AS column, COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs),0) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
         SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
@@ -303,6 +303,7 @@ const l0_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
   console.log('startWk', startWk)
   console.log('endWk', endWk)
   console.log('year', year)
+  console.log('colName', colName)
 
   try {
     console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getSalesProjectionPeriodToDate) ...`)
