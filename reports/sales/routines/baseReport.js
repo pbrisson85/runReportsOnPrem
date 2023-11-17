@@ -182,6 +182,12 @@ const sortRowTemplate = require('../../../models/sortRowTemplate')
 const buildReport = async (start, end, startWeek, endWeek, config, labelCols, year) => {
   // The routine and all of the queries can be the same for all reports. Going to buikd out this rpeort and then change the config manually to test.
 
+  console.log('start', start)
+  console.log('end', end)
+  console.log('startWeek', startWeek)
+  console.log('endWeek', endWeek)
+  console.log('year', year)
+
   const skip = () => {
     return () => {
       return []
