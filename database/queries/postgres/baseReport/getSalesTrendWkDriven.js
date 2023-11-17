@@ -30,6 +30,15 @@ const l1_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
               so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
               AND so.week >= ${startWk} AND so.week <= ${endWk}
               AND so.fiscal_year = ${year} 
+
+          UNION 
+            SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+          
+            FROM "salesReporting".projected_sales AS ps        
+          
+            WHERE 
+              ps.week >= ${startWk} AND ps.week <= ${endWk} AND ps.fiscal_year = ${year}
+
         `: sql``}
         
           ) AS pj
@@ -80,6 +89,15 @@ const l2_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
               so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
               AND so.week >= ${startWk} AND so.week <= ${endWk}
               AND so.fiscal_year = ${year} 
+
+          UNION 
+            SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+          
+            FROM "salesReporting".projected_sales AS ps        
+          
+            WHERE 
+              ps.week >= ${startWk} AND ps.week <= ${endWk} AND ps.fiscal_year = ${year}
+
         `: sql``} 
     
           ) AS pj
@@ -130,6 +148,15 @@ const l3_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
               so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
               AND so.week >= ${startWk} AND so.week <= ${endWk}
               AND so.fiscal_year = ${year} 
+
+          UNION 
+            SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+          
+            FROM "salesReporting".projected_sales AS ps        
+          
+            WHERE 
+              ps.week >= ${startWk} AND ps.week <= ${endWk} AND ps.fiscal_year = ${year}
+
         `: sql``} 
 
           ) AS pj
@@ -180,6 +207,15 @@ const l4_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
               so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
               AND so.week >= ${startWk} AND so.week <= ${endWk}
               AND so.fiscal_year = ${year} 
+
+          UNION 
+            SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+          
+            FROM "salesReporting".projected_sales AS ps        
+          
+            WHERE 
+              ps.week >= ${startWk} AND ps.week <= ${endWk} AND ps.fiscal_year = ${year}
+
         `: sql``}
         
           ) AS pj
@@ -230,6 +266,15 @@ const l5_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
               so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
               AND so.week >= ${startWk} AND so.week <= ${endWk}
               AND so.fiscal_year = ${year} 
+
+          UNION 
+            SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+          
+            FROM "salesReporting".projected_sales AS ps        
+          
+            WHERE 
+              ps.week >= ${startWk} AND ps.week <= ${endWk} AND ps.fiscal_year = ${year}
+
         `: sql``}
         
           ) AS pj
@@ -281,6 +326,15 @@ const l0_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
               so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
               AND so.week >= ${startWk} AND so.week <= ${endWk}
               AND so.fiscal_year = ${year} 
+
+          UNION 
+            SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+          
+            FROM "salesReporting".projected_sales AS ps        
+          
+            WHERE 
+              ps.week >= ${startWk} AND ps.week <= ${endWk} AND ps.fiscal_year = ${year}
+
         `: sql``} 
         
         
