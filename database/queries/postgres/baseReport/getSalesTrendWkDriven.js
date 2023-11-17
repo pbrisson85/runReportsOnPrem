@@ -300,6 +300,10 @@ const l5_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
 /* *********************************************** Totals *********************************************** */
 
 const l0_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
+  console.log('startWk', startWk)
+  console.log('endWk', endWk)
+  console.log('year', year)
+
   try {
     console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getSalesProjectionPeriodToDate) ...`)
 
@@ -350,6 +354,8 @@ const l0_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
           ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
           
             ` //prettier-ignore
+
+    console.log('response', response)
 
     return response
   } catch (error) {
