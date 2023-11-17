@@ -310,7 +310,7 @@ const l0_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
 
     const response = await sql
       `
-      SELECT ${sql`${colName}`} AS column ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
+      SELECT ${sql`${colName}`} AS column ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(pj.lbs),0) AS lbs, COALESCE(SUM(pj.sales),0) AS sales, COALESCE(SUM(pj.cogs),0) AS cogs, COALESCE(SUM(pj.othp),0) AS othp 
       
       FROM (
         SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
@@ -322,7 +322,7 @@ const l0_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
           AND sl.fiscal_year = ${year} 
         
         ${config.useProjection ? sql`
-          UNION ALL
+          UNION
             SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
     
             FROM "salesReporting".sales_orders AS so 
@@ -332,7 +332,7 @@ const l0_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
               AND so.week >= ${startWk} AND so.week <= ${endWk}
               AND so.fiscal_year = ${year} 
 
-          UNION ALL
+          UNION
             SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
           
             FROM "salesReporting".projected_sales AS ps        
