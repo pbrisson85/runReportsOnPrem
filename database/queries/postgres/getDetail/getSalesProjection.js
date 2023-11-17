@@ -35,7 +35,8 @@ const getSalesProjection_detail = async (config, start, end, year) => {
             FROM "salesReporting".projected_sales AS ps        
           
             WHERE 
-              ps.date >= ${start} AND ps.date <= ${end}
+            AND ps.week >= ${start} AND ps.week <= ${end}
+            AND ps.fiscal_year = ${year} 
           
         ) AS pj
 
