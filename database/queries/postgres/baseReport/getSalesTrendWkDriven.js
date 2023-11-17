@@ -322,7 +322,7 @@ const l0_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
           AND sl.fiscal_year = ${year} 
         
         ${config.useProjection ? sql`
-          UNION
+          UNION ALL
             SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
     
             FROM "salesReporting".sales_orders AS so 
@@ -332,7 +332,7 @@ const l0_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
               AND so.week >= ${startWk} AND so.week <= ${endWk}
               AND so.fiscal_year = ${year} 
 
-          UNION 
+          UNION ALL
             SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
           
             FROM "salesReporting".projected_sales AS ps        
@@ -342,7 +342,7 @@ const l0_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
 
         `: sql``} 
         
-        
+      
           ) AS pj
           
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
