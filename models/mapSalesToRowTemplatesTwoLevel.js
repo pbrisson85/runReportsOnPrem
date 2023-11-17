@@ -34,8 +34,6 @@ const mapSalesToRowTemplates = (salesLines, rowTemplate) => {
       percentFormat,
     } = soLine
 
-    console.log('why does 12-16 break? data: ', soLine)
-
     // For percent cols
     if (percentFormat) {
       revenue = parseFloat(new Decimal(sales_numerator).dividedBy(sales_denominator).toFixed(2))

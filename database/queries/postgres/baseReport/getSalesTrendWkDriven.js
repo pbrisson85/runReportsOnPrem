@@ -300,11 +300,6 @@ const l5_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
 /* *********************************************** Totals *********************************************** */
 
 const l0_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
-  console.log('startWk', startWk)
-  console.log('endWk', endWk)
-  console.log('year', year)
-  console.log('colName', colName)
-
   try {
     console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getSalesProjectionPeriodToDate) ...`)
 
