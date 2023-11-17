@@ -30,7 +30,7 @@ const getSalesProjection_detail = async (config, start, end, year) => {
 
 
         UNION 
-            SELECT 'PROJECTION' AS status, 0 AS sales_net_ext, 0 AS gross_margin_lb, 0 AS ave_cost_per_lb, 0 AS net_sales_lb, 0 AS othp_lb, 0 AS gross_sales_lb, 'NA' AS location, ps.customer_code, ps.customer_name, 'PROJECTION' AS doc_num, 'NA' AS line_number, ps.formatted_ship_date AS ship_date, ps.week_serial, ps.item_number, ps.lbs, 0 AS gross_sales_ext, 0 AS othp_ext, 0 AS cogs_ext, 0 AS gross_margin_ext, 'NEEDED' AS sales_rep, 'NEEDED' AS north_america, 'NEEDED' AS domestic, 'NEEDED' AS country, 'NEEDED' AS state
+            SELECT 'PROJECTION' AS status, 0 AS sales_net_ext, 0 AS gross_margin_lb, 0 AS ave_cost_per_lb, 0 AS net_sales_lb, 0 AS othp_lb, 0 AS gross_sales_lb, 'NA' AS location, ps.customer_code, ps.customer_name, 'PROJECTION' AS doc_num, 'NA' AS line_number, ps.date AS ship_date, ps.week_serial, ps.item_number, ps.lbs, 0 AS gross_sales_ext, 0 AS othp_ext, 0 AS cogs_ext, 0 AS gross_margin_ext, 'NEEDED' AS sales_rep, 'NEEDED' AS north_america, 'NEEDED' AS domestic, 'NEEDED' AS country, 'NEEDED' AS state
             
             FROM "salesReporting".projected_sales AS ps        
           
