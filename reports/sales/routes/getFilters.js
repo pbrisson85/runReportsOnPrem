@@ -10,7 +10,7 @@ const {
   getFiscalPeriodsMap,
   getWeeksMap,
   getFiscalYearMap,
-  getCurrentFiscalYear,
+  getCurrentPeriods,
 } = require('../../../database/queries/postgres/filters/getDateMaps')
 const getReportConfig = require('../utils/getReportConfig')
 const appSettings = require('../data/filters/appSettings')
@@ -56,12 +56,38 @@ router.get('/fy', async (req, res) => {
 // Generate Filter Data
 router.get('/periodMaps', async (req, res) => {
   console.log('get period maps route HIT...')
-  const periodsMap = await getFiscalPeriodsMap()
-  const weeksMap = await getWeeksMap()
-  const fiscalYearMap = await getFiscalYearMap()
-  const currentFiscal = await getCurrentFiscalYear()
+  let periodsMap = await getFiscalPeriodsMap()
+  let weeksMap = await getWeeksMap()
+  let fiscalYearMap = await getFiscalYearMap()
 
   res.send({ periodsMap, weeksMap, fiscalYearMap, currentFiscal: currentFiscal[0] })
+  console.log('get periods maps lot route COMPLETE. ')
+})
+
+// Generate Filter Data
+router.get('/currentPeriods', async (req, res) => {
+  let current = await getCurrentPeriods()
+
+  // fiscal periods will go through the prior fiscal period completed (wed is cutoff)
+  const todayWeek = current.week
+  const today = new Date().getDay() // sunday is 0
+  let shiftWeek = 1
+  if (today <= 2) {
+    // if sun, mon, tues then shift back two weeks for last closed week
+    shiftWeek = 2
+    // if wed, thur, fri, sat then shift back one wek for last closed week
+  }
+  const week = todayWeek - shiftWeek < 1 ? 1 : todayWeek - shiftWeek
+  current.week = week
+
+  // fiscal quarters will go through the prior fiscal quarter (wed is cutoff)
+  // fiscal full year will go through the prior full fiscal year completed.
+  // fiscal YTD will go through the prior week completed (wed is cutoff)
+  // calendar month will go through prior calendar month
+  // calendar year to date will go through prior completed calendar month
+  // calendar year will go through prior completed calendar year.
+
+  res.send(current)
   console.log('get periods maps lot route COMPLETE. ')
 })
 

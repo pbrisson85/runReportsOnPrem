@@ -59,17 +59,25 @@ const getFiscalYearMap = async () => {
   return map
 }
 
-const getCurrentFiscalYear = async () => {
+const getCurrentPeriods = async () => {
   console.log(`query postgres for getCurrentFiscalYear ...`)
   const year = await sql`
-      SELECT d.fiscal_year
-        FROM "accountingPeriods".period_by_day AS d
+      SELECT 
+        d.fiscal_year, 
+        d.week, 
+        d.period,
+        d.fiscal_quarter, 
+        EXTRACT('year' FROM CURRENT_DATE) AS calendar_year, 
+        EXTRACT('month' FROM CURRENT_DATE) AS calendar_month, 
+        EXTRACT('quarter' FROM CURRENT_DATE) AS calendar_quarter
+
+      FROM "accountingPeriods".period_by_day AS d
       WHERE d.formatted_date = CURRENT_DATE
       `
-  return year
+  return year[0]
 }
 
 module.exports.getFiscalPeriodsMap = getFiscalPeriodsMap
 module.exports.getWeeksMap = getWeeksMap
 module.exports.getFiscalYearMap = getFiscalYearMap
-module.exports.getCurrentFiscalYear = getCurrentFiscalYear
+module.exports.getCurrentPeriods = getCurrentPeriods
