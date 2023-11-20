@@ -46,10 +46,10 @@ const getReportConfig = reqBody => {
     species: reqBody.species ?? null,
     programDrilldown: reqBody.programDrilldown ?? null,
     views: {
-      useProjection: reqBody.trend?.includes('fiscalWeeks') ?? false, // reqBody.creds.admin ?? false, // temporarily use the admin credential to determine if the projection view should be used DURING TESTING
+      useProjection: false, //reqBody.trend?.includes('fiscalWeeks') ?? false, // reqBody.creds.admin ?? false, // temporarily use the admin credential to determine if the projection view should be used DURING TESTING
     },
     trends: {
-      fiscalWeeks: false, // reqBody.trend?.includes('fiscalWeeks') ?? false,
+      fiscalWeeks: reqBody.trend?.includes('fiscalWeeks') ?? false,
       fiscalPeriods: reqBody.trend?.includes('fiscalPeriods') ?? false,
       fiscalQuarters: reqBody.trend?.includes('fiscalQuarters') ?? false,
       fyYtd: reqBody.trend?.includes('fyYtd') ?? false,
