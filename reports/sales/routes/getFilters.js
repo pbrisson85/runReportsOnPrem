@@ -60,7 +60,7 @@ router.get('/periodMaps', async (req, res) => {
   let weeksMap = await getWeeksMap()
   let fiscalYearMap = await getFiscalYearMap()
 
-  res.send({ periodsMap, weeksMap, fiscalYearMap, currentFiscal: currentFiscal[0] })
+  res.send({ periodsMap, weeksMap, fiscalYearMap })
   console.log('get periods maps lot route COMPLETE. ')
 })
 
