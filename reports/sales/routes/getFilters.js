@@ -56,11 +56,11 @@ router.get('/fy', async (req, res) => {
 // Generate Filter Data
 router.get('/periodMaps', async (req, res) => {
   console.log('get period maps route HIT...')
-  let periodsMap = await getFiscalPeriodsMap()
-  let weeksMap = await getWeeksMap()
-  let fiscalYearMap = await getFiscalYearMap()
+  let fiscal_periods = await getFiscalPeriodsMap()
+  let weeks = await getWeeksMap()
+  let fiscal_years = await getFiscalYearMap()
 
-  res.send({ periodsMap, weeksMap, fiscalYearMap })
+  res.send({ fiscal_periods, weeks, fiscal_years }) // the key must match the "map" property in the query
   console.log('get periods maps lot route COMPLETE. ')
 })
 
