@@ -28,7 +28,7 @@ const getFiscalQuartersMap = async () => {
 
   const map = await sql`
       SELECT 
-          DISTINCT(w.quarter_serial) AS quarter_serial, w.fiscal_year, w.quarter_num, MIN(w.date_start) AS date_start, MAX(w.date_end) AS date_end, MIN(w.date_start) || ' (' || w.quarter_serial || ') ' AS display_start, MAX(w.date_end) || ' (' || w.quarter_serial || ') ' AS display_end, MIN(w.week) AS wk_first, MAX(w.week) AS wk_last, MIN(w.period_num) AS period_first, MAX(w.period_num) AS period_last, 'fiscal_quarters' AS map 
+          DISTINCT(w.quarter_serial) AS quarter_serial, w.fiscal_year, w.quarter_num, MIN(w.date_start) AS date_start, MAX(w.date_end) AS date_end, MIN(w.date_start) || ' (' || w.quarter_serial || ') ' AS display_start, MAX(w.date_end) || ' (' || w.quarter_serial || ') ' AS display_end, MIN(w.week) AS wk_first, MAX(w.week) AS wk_last, MIN(w.period_num) AS p_first, MAX(w.period_num) AS p_last, 'fiscal_quarters' AS map 
 
         FROM "accountingPeriods".period_by_week AS w
             
@@ -69,7 +69,7 @@ const getFiscalYearMap = async () => {
 
   const map = await sql`
       SELECT 
-        DISTINCT(p.fiscal_year) AS fiscal_year, MIN(p.period_num) AS p_first, MAX(p.period_num) AS p_last, MIN(p.week) AS wk_first, MAX(p.week) AS wk_last, 'fiscal_years' AS map
+        DISTINCT(p.fiscal_year) AS fiscal_year, DISTINCT(p.fiscal_year) AS display_start, DISTINCT(p.fiscal_year) AS display_end, MIN(p.period_num) AS p_first, MAX(p.period_num) AS p_last, MIN(p.week) AS wk_first, MAX(p.week) AS wk_last, 'fiscal_years' AS map, TRUE AS 'prevent_filter'
 
       FROM "accountingPeriods".period_by_week AS p
       WHERE p.fiscal_year <= (
