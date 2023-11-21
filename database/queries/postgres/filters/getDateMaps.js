@@ -69,7 +69,7 @@ const getFiscalYearMap = async () => {
 
   const map = await sql`
       SELECT 
-        DISTINCT(p.fiscal_year) AS fiscal_year, DISTINCT(p.fiscal_year) AS display_start, DISTINCT(p.fiscal_year) AS display_end, MIN(p.period_num) AS p_first, MAX(p.period_num) AS p_last, MIN(p.week) AS wk_first, MAX(p.week) AS wk_last, 'fiscal_years' AS map, TRUE AS 'prevent_filter'
+        DISTINCT ON (p.fiscal_year, p.fiscal_year, p.fiscal_year) AS fiscal_year, display_start, display_end, MIN(p.period_num) AS p_first, MAX(p.period_num) AS p_last, MIN(p.week) AS wk_first, MAX(p.week) AS wk_last, 'fiscal_years' AS map, TRUE AS 'prevent_filter'
 
       FROM "accountingPeriods".period_by_week AS p
       WHERE p.fiscal_year <= (
