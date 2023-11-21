@@ -68,16 +68,23 @@ const getFiscalYearMap = async () => {
   console.log(`query postgres for getFiscalYearMap ...`)
 
   const map = await sql`
-      SELECT 
-        DISTINCT ON (p.fiscal_year, p.fiscal_year, p.fiscal_year) AS fiscal_year, display_start, display_end, MIN(p.period_num) AS p_first, MAX(p.period_num) AS p_last, MIN(p.week) AS wk_first, MAX(p.week) AS wk_last, 'fiscal_years' AS map, TRUE AS 'prevent_filter'
+        SELECT 
+          DISTINCT ON (p.fiscal_year) p.fiscal_year AS fiscal_year, p.fiscal_year AS display_start, p.fiscal_year AS display_end,
+          MIN(p.period_num) AS p_first, 
+          MAX(p.period_num) AS p_last, 
+          MIN(p.week) AS wk_first, 
+          MAX(p.week) AS wk_last, 
+          'fiscal_years' AS map, 
+          TRUE AS prevent_filter
 
-      FROM "accountingPeriods".period_by_week AS p
-      WHERE p.fiscal_year <= (
-        SELECT d.fiscal_year
-        FROM "accountingPeriods".period_by_day AS d
-        WHERE d.formatted_date = CURRENT_DATE
-        )
-      GROUP BY fiscal_year, display_start, display_end
+        FROM "accountingPeriods".period_by_week AS p
+        
+        WHERE p.fiscal_year <= (
+          SELECT d.fiscal_year
+          FROM "accountingPeriods".period_by_day AS d
+          WHERE d.formatted_date = CURRENT_DATE
+          )
+        GROUP BY fiscal_year
       `
   return map
 }
