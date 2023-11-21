@@ -11,6 +11,7 @@ const {
   getWeeksMap,
   getFiscalYearMap,
   getCurrentPeriods,
+  getFiscalQuartersMap,
 } = require('../../../database/queries/postgres/filters/getDateMaps')
 const getReportConfig = require('../utils/getReportConfig')
 const appSettings = require('../data/filters/appSettings')
@@ -59,8 +60,9 @@ router.get('/periodMaps', async (req, res) => {
   let fiscal_periods = await getFiscalPeriodsMap()
   let weeks = await getWeeksMap()
   let fiscal_years = await getFiscalYearMap()
+  let fiscal_quarters = await getFiscalQuartersMap()
 
-  res.send({ fiscal_periods, weeks, fiscal_years }) // the key must match the "map" property in the query
+  res.send({ fiscal_periods, weeks, fiscal_years, fiscal_quarters }) // the key must match the "map" property in the query
   console.log('get periods maps lot route COMPLETE. ')
 })
 

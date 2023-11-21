@@ -23,6 +23,29 @@ const getFiscalPeriodsMap = async () => {
   return map
 }
 
+const getFiscalQuartersMap = async () => {
+  console.log(`query postgres for getFiscalQuartersMap ...`)
+
+  const map = await sql`
+      SELECT 
+          DISTINCT(w.quarter_serial) AS quarter_serial, w.fiscal_year, w.quarter_num, MIN(w.date_start) AS date_start, MAX(w.date_end) AS date_end, MIN(w.date_start) || ' (' || w.quarter_serial || ') ' AS display_start, MAX(w.date_end) || ' (' || w.quarter_serial || ') ' AS display_end, MIN(w.week) AS wk_first, MAX(w.week) AS wk_last, MIN(w.period_num) AS period_first, MAX(w.period_num) AS period_last, 'fiscal_quarters' AS map 
+
+        FROM "accountingPeriods".period_by_week AS w
+            
+         
+        WHERE w.fiscal_year <= (
+          SELECT d.fiscal_year
+          FROM "accountingPeriods".period_by_day AS d
+          WHERE d.formatted_date = CURRENT_DATE
+          )
+      
+        GROUP BY w.quarter_serial, w.fiscal_year, w.quarter_num
+        ORDER BY fiscal_year, wk_first ASC
+      `
+
+  return map
+}
+
 const getWeeksMap = async () => {
   console.log(`query postgres for getWeeksMap ...`)
 
@@ -81,3 +104,4 @@ module.exports.getFiscalPeriodsMap = getFiscalPeriodsMap
 module.exports.getWeeksMap = getWeeksMap
 module.exports.getFiscalYearMap = getFiscalYearMap
 module.exports.getCurrentPeriods = getCurrentPeriods
+module.exports.getFiscalQuartersMap = getFiscalQuartersMap
