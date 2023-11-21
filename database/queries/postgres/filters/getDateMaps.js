@@ -77,7 +77,7 @@ const getFiscalYearMap = async () => {
         FROM "accountingPeriods".period_by_day AS d
         WHERE d.formatted_date = CURRENT_DATE
         )
-      GROUP BY fiscal_year
+      GROUP BY fiscal_year, display_start, display_end
       `
   return map
 }
