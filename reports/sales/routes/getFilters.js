@@ -15,6 +15,8 @@ const {
   getCalYearsMap,
   getCalMonthsMap,
   getCalQuartersMap,
+  getFiscalYtdMap,
+  getCalYtdMap,
 } = require('../../../database/queries/postgres/filters/getDateMaps')
 const getReportConfig = require('../utils/getReportConfig')
 const appSettings = require('../data/filters/appSettings')
@@ -67,8 +69,16 @@ router.get('/periodMaps', async (req, res) => {
   let cal_years = await getCalYearsMap()
   let cal_months = await getCalMonthsMap()
   let cal_quarters = await getCalQuartersMap()
+  let fiscal_ytd = await getFiscalYtdMap()
+  let cal_ytd = await getCalYtdMap()
 
-  res.send({ fiscal_periods, weeks, fiscal_years, fiscal_quarters, cal_years, cal_months, cal_quarters }) // the key must match the "map" property in the query
+  // Note that FY YTD should have each week as a dropdown and only for the current year. and should not have years filtered out because that is not applicable.
+  // OK - cal months doesnt show the date in the display.
+  // OK - same for cal quarters
+  // cal YTD should only have the calendar months from the current year in the drop downs.
+  // OK - cal full year needs the dates in the dropdown.
+
+  res.send({ fiscal_periods, weeks, fiscal_years, fiscal_quarters, cal_years, cal_months, cal_quarters, fiscal_ytd, cal_ytd }) // the key must match the "map" property in the query
   console.log('get periods maps lot route COMPLETE. ')
 })
 
