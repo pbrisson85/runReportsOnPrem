@@ -70,16 +70,28 @@ const getWeeksMap = async () => {
   console.log(`query postgres for getWeeksMap ...`)
 
   const map = await sql`
-      SELECT w.week_serial, w.fiscal_year, w.week, w.period_serial, w.period_num, w.date_start, w.date_end, w.date_start || ' (' || w.week_serial || ') ' AS display_start, w.date_end || ' (' || w.week_serial || ') ' AS display_end, 'weeks' AS map, TRUE AS default_map, 
-      FALSE AS prevent_filter
+      SELECT 
+        p.week_serial, 
+        p.fiscal_year, 
+        p.week, 
+        p.period_serial, 
+        p.period, 
+        MIN(p.formatted_date) AS date_start, 
+        MAX(p.formatted_date) AS date_end, 
+        TO_CHAR(MIN(p.formatted_date), 'mm/dd/yy') || ' (' || p.week_serial || ') ' AS display_start, 
+        TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.week_serial || ') ' AS display_end, 
+        'weeks' AS map, 
+        TRUE AS default_map, 
+        FALSE AS prevent_filter
 
-      FROM "accountingPeriods".period_by_week AS w
-      WHERE w.fiscal_year <= (
+      FROM "accountingPeriods".period_by_day AS p
+      WHERE p.fiscal_year <= (
         SELECT d.fiscal_year
         FROM "accountingPeriods".period_by_day AS d
         WHERE d.formatted_date = CURRENT_DATE
         )
-      ORDER BY w.week_serial ASC
+      GROUP BY p.week_serial, p.fiscal_year, p.week, p.period_serial, p.period
+      ORDER BY p.week_serial ASC
       `
 
   return map
@@ -89,23 +101,27 @@ const getFiscalYearMap = async () => {
   console.log(`query postgres for getFiscalYearMap ...`)
 
   const map = await sql`
-        SELECT 
-          DISTINCT ON (p.fiscal_year) p.fiscal_year AS fiscal_year, p.fiscal_year AS display_start, p.fiscal_year AS display_end,
-          MIN(p.period_num) AS p_first, 
-          MAX(p.period_num) AS p_last, 
-          MIN(p.week) AS wk_first, 
-          MAX(p.week) AS wk_last, 
-          'fiscal_years' AS map, 
-          TRUE AS prevent_filter
+    SELECT 
+      DISTINCT ON (p.fiscal_year) p.fiscal_year AS fiscal_year, 
+      TO_CHAR(MIN(p.formatted_date), 'mm/dd/yy') || ' (' || p.fiscal_year || ') ' AS display_start,
+      TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.fiscal_year || ') ' AS display_end,
+      MIN(p.formatted_date) AS date_start, 
+      MAX(p.formatted_date) AS date_end, 
+      MIN(p.period) AS p_first, 
+      MAX(p.period) AS p_last, 
+      MIN(p.week) AS wk_first, 
+      MAX(p.week) AS wk_last, 
+      'fiscal_years' AS map, 
+      TRUE AS prevent_filter
 
-        FROM "accountingPeriods".period_by_week AS p
-        
-        WHERE p.fiscal_year <= (
-          SELECT d.fiscal_year
-          FROM "accountingPeriods".period_by_day AS d
-          WHERE d.formatted_date = CURRENT_DATE
-          )
-        GROUP BY fiscal_year
+    FROM "accountingPeriods".period_by_day AS p
+
+    WHERE p.fiscal_year <= (
+      SELECT d.fiscal_year
+      FROM "accountingPeriods".period_by_day AS d
+      WHERE d.formatted_date = CURRENT_DATE
+      )
+    GROUP BY fiscal_year
       `
   return map
 }
@@ -115,8 +131,12 @@ const getCalMonthsMap = async () => {
 
   const map = await sql`
   SELECT 
-  DISTINCT ON (p.cal_month_serial) p.cal_month AS cal_month, p.cal_month_serial AS display_start, p.cal_month_serial AS display_end, 
-  MIN(p.formatted_date) AS date_start, MAX(p.formatted_date) AS date_end, p.cal_year,
+  DISTINCT ON (p.cal_month_serial) p.cal_month AS cal_month, 
+  p.cal_month_serial AS display_start, 
+  p.cal_month_serial AS display_end, 
+  MIN(p.formatted_date) AS date_start, 
+  MAX(p.formatted_date) AS date_end, 
+  p.cal_year,
   'cal_months' AS map, 
   FALSE AS prevent_filter
 
