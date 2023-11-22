@@ -5,20 +5,28 @@ const getFiscalPeriodsMap = async () => {
 
   const map = await sql`
       SELECT 
-          DISTINCT(w.period_serial) AS period_serial, w.fiscal_year, w.period_num, MIN(w.date_start) AS date_start, MAX(w.date_end) AS date_end, MIN(w.date_start) || ' (' || w.period_serial || ') ' AS display_start, MAX(w.date_end) || ' (' || w.period_serial || ') ' AS display_end, MIN(w.week) AS wk_first, MAX(w.week) AS wk_last, 'fiscal_periods' AS map, 
-          FALSE AS prevent_filter 
+        DISTINCT(p.period_serial) AS period_serial,
+        p.period,
+        p.fiscal_year,  
+        MIN(p.formatted_date) AS date_start, 
+        MAX(p.formatted_date) AS date_end, 
+        TO_CHAR(MIN(p.formatted_date), 'mm/dd/yy') || ' (' || p.period_serial || ') ' AS display_start, 
+        TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.period_serial || ') ' AS display_end, 
+        MIN(p.week) AS wk_first, 
+        MAX(p.week) AS wk_last, 
+        'fiscal_periods' AS map, 
+        FALSE AS prevent_filter 
 
-        FROM "accountingPeriods".period_by_week AS w
-            
-         
-        WHERE w.fiscal_year <= (
-          SELECT d.fiscal_year
-          FROM "accountingPeriods".period_by_day AS d
-          WHERE d.formatted_date = CURRENT_DATE
-          )
-      
-        GROUP BY w.period_serial, w.fiscal_year, w.period_num
-        ORDER BY fiscal_year, wk_first ASC
+      FROM "accountingPeriods".period_by_day AS p
+
+      WHERE p.fiscal_year <= (
+        SELECT d.fiscal_year
+        FROM "accountingPeriods".period_by_day AS d
+        WHERE d.formatted_date = CURRENT_DATE
+        )
+
+      GROUP BY p.period_serial, p.period, p.fiscal_year
+      ORDER BY fiscal_year, wk_first ASC
       `
 
   return map
@@ -28,21 +36,31 @@ const getFiscalQuartersMap = async () => {
   console.log(`query postgres for getFiscalQuartersMap ...`)
 
   const map = await sql`
-      SELECT 
-          DISTINCT(w.quarter_serial) AS quarter_serial, w.fiscal_year, w.quarter_num, MIN(w.date_start) AS date_start, MAX(w.date_end) AS date_end, MIN(w.date_start) || ' (' || w.quarter_serial || ') ' AS display_start, MAX(w.date_end) || ' (' || w.quarter_serial || ') ' AS display_end, MIN(w.week) AS wk_first, MAX(w.week) AS wk_last, MIN(w.period_num) AS p_first, MAX(w.period_num) AS p_last, 'fiscal_quarters' AS map, 
-          FALSE AS prevent_filter 
+    SELECT 
+        DISTINCT(p.quarter_serial) AS quarter_serial, 
+        p.fiscal_year, 
+        p.fiscal_quarter, 
+        MIN(p.formatted_date) AS date_start, 
+        MAX(p.formatted_date) AS date_end, 
+        MIN(p.formatted_date) || ' (' || p.quarter_serial || ') ' AS display_start, 
+        MAX(p.formatted_date) || ' (' || p.quarter_serial || ') ' AS display_end, 
+        MIN(p.week) AS wk_first, 
+        MAX(p.week) AS wk_last, 
+        MIN(p.period) AS p_first, 
+        MAX(p.period) AS p_last, 
+        'fiscal_quarters' AS map, 
+        FALSE AS prevent_filter 
 
-        FROM "accountingPeriods".period_by_week AS w
-            
-         
-        WHERE w.fiscal_year <= (
-          SELECT d.fiscal_year
-          FROM "accountingPeriods".period_by_day AS d
-          WHERE d.formatted_date = CURRENT_DATE
-          )
-      
-        GROUP BY w.quarter_serial, w.fiscal_year, w.quarter_num
-        ORDER BY fiscal_year, wk_first ASC
+    FROM "accountingPeriods".period_by_day AS p
+
+    WHERE p.fiscal_year <= (
+      SELECT d.fiscal_year
+      FROM "accountingPeriods".period_by_day AS d
+      WHERE d.formatted_date = CURRENT_DATE
+      )
+
+    GROUP BY p.quarter_serial, p.fiscal_year, p.fiscal_quarter
+    ORDER BY fiscal_year, wk_first ASC
       `
 
   return map
