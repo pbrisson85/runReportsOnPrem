@@ -103,6 +103,8 @@ const getFiscalYearMap = async () => {
   const map = await sql`
     SELECT 
       DISTINCT ON (p.fiscal_year) p.fiscal_year AS fiscal_year, 
+      p.fiscal_year AS label, 
+      p.fiscal_year AS "dataName", 
       TO_CHAR(MIN(p.formatted_date), 'mm/dd/yy') || ' (' || p.fiscal_year || ') ' AS display_start,
       TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.fiscal_year || ') ' AS display_end,
       MIN(p.formatted_date) AS date_start, 
@@ -215,6 +217,8 @@ const getCalYearsMap = async () => {
   const map = await sql`
     SELECT 
       DISTINCT ON (p.cal_year) p.cal_year AS cal_year, 
+      p.cal_year AS label, 
+      p.cal_year AS "dataName", 
       TO_CHAR(MIN(p.formatted_date), 'mm/dd/yy') || ' (' || p.cal_year || ') ' AS display_start,
       TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.cal_year || ') ' AS display_end, 
       MIN(formatted_date) AS date_start, 
