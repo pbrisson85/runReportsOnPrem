@@ -122,6 +122,7 @@ const getFiscalYearMap = async () => {
       WHERE d.formatted_date = CURRENT_DATE
       )
     GROUP BY fiscal_year
+    GROUP BY fiscal_year DESC
       `
   return map
 }
@@ -229,6 +230,7 @@ const getCalYearsMap = async () => {
       WHERE d.formatted_date = CURRENT_DATE
       )
     GROUP BY cal_year
+    ORDER BY cal_year DESC
       `
   return map
 }
