@@ -37,6 +37,7 @@ const trendTypeOptions = () => {
       onFalseSetTrue: [],
       filterMap: 'fiscal_ytd', // front end map to filter (appears as map in query)
       yearsMap: 'fiscal_years',
+      ytd: true, // bool for front end to not show the start trend dropdown
     },
     {
       label: 'FY Full Year',
@@ -73,6 +74,7 @@ const trendTypeOptions = () => {
       onFalseSetTrue: [],
       filterMap: 'cal_ytd', // front end map to filter (appears as map in query)
       yearsMap: 'cal_years',
+      ytd: true, // bool for front end to not show the start trend dropdown
     },
     {
       label: 'Calendar Full Year',
