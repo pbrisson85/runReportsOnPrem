@@ -122,7 +122,7 @@ const getFiscalYearMap = async () => {
       WHERE d.formatted_date = CURRENT_DATE
       )
     GROUP BY fiscal_year
-    GROUP BY fiscal_year DESC
+    ORDER BY fiscal_year DESC
       `
   return map
 }
