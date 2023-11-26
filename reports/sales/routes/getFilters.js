@@ -4,6 +4,8 @@ const getViewFilters = require('../data/filters/getViewFilters')
 const getDistinctFiscalYears = require('../../../database/queries/postgres/getDistinctFiscalYears')
 const getReportFormats = require('../data/filters/getReportFormats')
 const trendTypeOptions = require('../data/filters/trendType')
+const totalTypeOptions = require('../data/filters/totalTypes')
+const projectionOptions = require('../data/filters/useProjections')
 const getDataFilters = require('../data/filters/getDataFilters')
 const { getDateEndPerWeek } = require('../../../database/queries/postgres/getDateEndPerWeek')
 const {
@@ -139,6 +141,22 @@ router.get('/trendFilters', async (req, res) => {
   const reports = trendTypeOptions()
   res.send(reports)
   console.log('get trend filters route COMPLETE. ')
+})
+
+// Generate Filter Data
+router.get('/totalsFilters', async (req, res) => {
+  console.log('get totals filters route HIT...')
+  const reports = totalTypeOptions()
+  res.send(reports)
+  console.log('get totals filters route COMPLETE. ')
+})
+
+// Generate Filter Data
+router.get('/projectionFilters', async (req, res) => {
+  console.log('get projection filters route HIT...')
+  const reports = projectionOptions()
+  res.send(reports)
+  console.log('get projection filters route COMPLETE. ')
 })
 
 // Generate Filter Data

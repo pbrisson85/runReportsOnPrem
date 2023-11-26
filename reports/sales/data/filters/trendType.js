@@ -8,7 +8,7 @@ const trendTypeOptions = () => {
       default: false,
       onTrueSetFalse: ['fiscalPeriods', 'fiscalQuarters', 'fyYtd', 'fyFullYear', 'calMonths', 'calYtd', 'calFullYear', 'calQuarters'],
       onFalseSetTrue: [],
-      filterMap: 'weeks', // front end map to filter (appears as map in query)
+      periodsMap: 'weeks', // front end map to filter (appears as map in query)
       yearsMap: 'fiscal_years', // determines what map to use for the years menu. (dont show years, show fiscal, show calendar)
     },
     {
@@ -17,7 +17,7 @@ const trendTypeOptions = () => {
       default: false,
       onTrueSetFalse: ['fiscalWeeks', 'fiscalQuarters', 'fyYtd', 'fyFullYear', 'calMonths', 'calYtd', 'calFullYear', 'calQuarters'],
       onFalseSetTrue: [],
-      filterMap: 'fiscal_periods', // front end map to filter (appears as map in query)
+      periodsMap: 'fiscal_periods', // front end map to filter (appears as map in query)
       yearsMap: 'fiscal_years',
     },
     {
@@ -26,7 +26,7 @@ const trendTypeOptions = () => {
       default: false,
       onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fyYtd', 'fyFullYear', 'calMonths', 'calYtd', 'calFullYear', 'calQuarters'],
       onFalseSetTrue: [],
-      filterMap: 'fiscal_quarters', // front end map to filter (appears as map in query)
+      periodsMap: 'fiscal_quarters', // front end map to filter (appears as map in query)
       yearsMap: 'fiscal_years',
     },
     {
@@ -35,7 +35,7 @@ const trendTypeOptions = () => {
       default: false,
       onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fiscalQuarters', 'fyFullYear', 'calMonths', 'calYtd', 'calFullYear', 'calQuarters'],
       onFalseSetTrue: [],
-      filterMap: 'fiscal_ytd', // front end map to filter (appears as map in query)
+      periodsMap: 'fiscal_ytd', // front end map to filter (appears as map in query)
       yearsMap: 'fiscal_years',
       ytd: true, // bool for front end to not show the start trend dropdown
     },
@@ -45,7 +45,7 @@ const trendTypeOptions = () => {
       default: false,
       onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fiscalQuarters', 'fyYtd', 'calMonths', 'calYtd', 'calFullYear', 'calQuarters'],
       onFalseSetTrue: [],
-      filterMap: 'fiscal_years', // front end map to filter (appears as map in query)
+      periodsMap: 'fiscal_years', // front end map to filter (appears as map in query)
       yearsMap: null,
     },
     {
@@ -54,7 +54,7 @@ const trendTypeOptions = () => {
       default: false,
       onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fyYtd', 'fyFullYear', 'fiscalQuarters', 'calYtd', 'calFullYear', 'calQuarters'],
       onFalseSetTrue: [],
-      filterMap: 'cal_months', // front end map to filter (appears as map in query)
+      periodsMap: 'cal_months', // front end map to filter (appears as map in query)
       yearsMap: 'cal_years',
     },
     {
@@ -63,7 +63,7 @@ const trendTypeOptions = () => {
       default: false,
       onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fyYtd', 'fyFullYear', 'fiscalQuarters', 'calYtd', 'calFullYear', 'calMonths'],
       onFalseSetTrue: [],
-      filterMap: 'cal_quarters', // front end map to filter (appears as map in query)
+      periodsMap: 'cal_quarters', // front end map to filter (appears as map in query)
       yearsMap: 'cal_years', // front end map to years (appears as map in query)
     },
     {
@@ -72,7 +72,7 @@ const trendTypeOptions = () => {
       default: false,
       onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fyYtd', 'fyFullYear', 'fiscalQuarters', 'calMonths', 'calFullYear', 'calQuarters'],
       onFalseSetTrue: [],
-      filterMap: 'cal_ytd', // front end map to filter (appears as map in query)
+      periodsMap: 'cal_ytd', // front end map to filter (appears as map in query)
       yearsMap: 'cal_years',
       ytd: true, // bool for front end to not show the start trend dropdown
     },
@@ -82,7 +82,7 @@ const trendTypeOptions = () => {
       default: false,
       onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fyYtd', 'fyFullYear', 'fiscalQuarters', 'calMonths', 'calYtd', 'calQuarters'],
       onFalseSetTrue: [],
-      filterMap: 'cal_years', // front end map to filter (appears as map in query)
+      periodsMap: 'cal_years', // front end map to filter (appears as map in query)
       yearsMap: null,
     },
   ]
