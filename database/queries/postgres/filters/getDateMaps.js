@@ -15,7 +15,7 @@ const getFiscalPeriodsMap = async () => {
         MIN(p.week) AS wk_first, 
         MAX(p.week) AS wk_last, 
         'fiscal_periods' AS map, 
-        FALSE AS prevent_filter 
+        FALSE AS "prevent_filterByYear" 
 
       FROM "accountingPeriods".period_by_day AS p
 
@@ -49,7 +49,7 @@ const getFiscalQuartersMap = async () => {
         MIN(p.period) AS p_first, 
         MAX(p.period) AS p_last, 
         'fiscal_quarters' AS map, 
-        FALSE AS prevent_filter 
+        FALSE AS "prevent_filterByYear" 
 
     FROM "accountingPeriods".period_by_day AS p
 
@@ -82,7 +82,7 @@ const getWeeksMap = async () => {
         TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.week_serial || ') ' AS display_end, 
         'weeks' AS map, 
         TRUE AS default_map, 
-        FALSE AS prevent_filter
+        FALSE AS "prevent_filterByYear"
 
       FROM "accountingPeriods".period_by_day AS p
       WHERE p.fiscal_year <= (
@@ -114,7 +114,7 @@ const getFiscalYearMap = async () => {
       MIN(p.week) AS wk_first, 
       MAX(p.week) AS wk_last, 
       'fiscal_years' AS map, 
-      TRUE AS prevent_filter,
+      TRUE AS "prevent_filterByYear",
       CASE WHEN p.fiscal_year = (
         SELECT c.fiscal_year
         FROM "accountingPeriods".period_by_day AS c
@@ -151,7 +151,7 @@ const getFiscalYtdMap = async () => {
       TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.week_serial || ') ' AS display_end, 
       'fiscal_ytd' AS map, 
       FALSE AS default_map, 
-      TRUE AS prevent_filter
+      TRUE AS "prevent_filterByYear"
 
     FROM "accountingPeriods".period_by_day AS p
     WHERE p.fiscal_year = (
@@ -177,7 +177,7 @@ const getCalMonthsMap = async () => {
     MAX(p.formatted_date) AS date_end, 
     p.cal_year,
     'cal_months' AS map, 
-    FALSE AS prevent_filter
+    FALSE AS "prevent_filterByYear"
 
   FROM "accountingPeriods".period_by_day AS p
 
@@ -203,7 +203,7 @@ const getCalQuartersMap = async () => {
     MAX(formatted_date) AS date_end, 
     p.cal_year,
     'cal_quarters' AS map, 
-    FALSE AS prevent_filter
+    FALSE AS "prevent_filterByYear"
 
     FROM "accountingPeriods".period_by_day AS p
 
@@ -230,7 +230,7 @@ const getCalYearsMap = async () => {
       MIN(formatted_date) AS date_start, 
       MAX(formatted_date) AS date_end,
       'cal_years' AS map, 
-      TRUE AS prevent_filter,
+      TRUE AS "prevent_filterByYear",
       CASE WHEN p.cal_year = EXTRACT('year' FROM CURRENT_DATE) THEN TRUE ELSE FALSE END AS default,
       2 AS max_selections,
       TRUE AS blank_to_default
@@ -260,7 +260,7 @@ const getCalYtdMap = async () => {
         MAX(p.formatted_date) AS date_end, 
         p.cal_year,
         'cal_ytd' AS map, 
-        TRUE AS prevent_filter
+        TRUE AS "prevent_filterByYear"
 
       FROM "accountingPeriods".period_by_day AS p
 
