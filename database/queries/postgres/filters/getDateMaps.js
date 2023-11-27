@@ -260,7 +260,7 @@ const getCalYtdMap = async () => {
         MAX(p.formatted_date) AS date_end, 
         p.cal_year,
         'cal_ytd' AS map, 
-        FALSE AS prevent_filter
+        TRUE AS prevent_filter
 
       FROM "accountingPeriods".period_by_day AS p
 
