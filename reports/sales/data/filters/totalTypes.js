@@ -5,7 +5,7 @@ const totalTypeOptions = () => {
       dataName: 'fyYtd',
       default: true,
       onTrueSetFalse: ['calYtd'],
-      onFalseSetTrue: ['calYtd'],
+      onFalseSetTrue: [],
       periodsMap: 'fiscal_ytd', // front end map to filter (appears as map in query)
       yearsMap: 'fiscal_years',
       ytd: true, // bool for front end to not show the start trend dropdown
@@ -16,7 +16,7 @@ const totalTypeOptions = () => {
       dataName: 'calYtd',
       default: false,
       onTrueSetFalse: ['fyYtd'],
-      onFalseSetTrue: ['fyYtd'],
+      onFalseSetTrue: [],
       periodsMap: 'cal_ytd', // front end map to filter (appears as map in query)
       yearsMap: 'cal_years',
       ytd: true, // bool for front end to not show the start trend dropdown
