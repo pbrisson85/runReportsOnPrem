@@ -145,7 +145,7 @@ const getFiscalYtdMap = async () => {
       TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.week_serial || ') ' AS display_end, 
       'fiscal_ytd' AS map, 
       FALSE AS default_map, 
-      TRUE AS prevent_filter
+      TRUE AS prevent_filter,
       CASE WHEN p.fiscal_year = EXTRACT('year', CURRENT_DATE) THEN TRUE ELSE FALSE END AS default
 
     FROM "accountingPeriods".period_by_day AS p
