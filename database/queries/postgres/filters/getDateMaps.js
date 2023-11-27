@@ -115,7 +115,7 @@ const getFiscalYearMap = async () => {
       MAX(p.week) AS wk_last, 
       'fiscal_years' AS map, 
       TRUE AS prevent_filter,
-      CASE WHEN p.fiscal_year = EXTRACT('year' FROM CURRENT_DATE) THEN TRUE ELSE FALSE END AS default
+      CASE WHEN p.fiscal_year = curr_fiscal.fiscal_year THEN TRUE ELSE FALSE END AS default
 
     FROM "accountingPeriods".period_by_day AS p
 
@@ -123,7 +123,7 @@ const getFiscalYearMap = async () => {
       SELECT d.fiscal_year
       FROM "accountingPeriods".period_by_day AS d
       WHERE d.formatted_date = CURRENT_DATE
-      )
+      ) AS curr_fiscal
     GROUP BY fiscal_year
     ORDER BY fiscal_year DESC
       `
