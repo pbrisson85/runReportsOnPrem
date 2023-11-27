@@ -118,7 +118,8 @@ const getFiscalYearMap = async () => {
       CASE WHEN p.fiscal_year = (
         SELECT c.fiscal_year
         FROM "accountingPeriods".period_by_day AS c
-        WHERE c.formatted_date = CURRENT_DATE) THEN TRUE ELSE FALSE END AS default
+        WHERE c.formatted_date = CURRENT_DATE) THEN TRUE ELSE FALSE END AS default,
+      2 AS max_selections
 
     FROM "accountingPeriods".period_by_day AS p
 
@@ -229,7 +230,8 @@ const getCalYearsMap = async () => {
       MAX(formatted_date) AS date_end,
       'cal_years' AS map, 
       TRUE AS prevent_filter,
-      CASE WHEN p.cal_year = EXTRACT('year' FROM CURRENT_DATE) THEN TRUE ELSE FALSE END AS default
+      CASE WHEN p.cal_year = EXTRACT('year' FROM CURRENT_DATE) THEN TRUE ELSE FALSE END AS default,
+      2 AS max_selections
 
     FROM "accountingPeriods".period_by_day AS p
 
