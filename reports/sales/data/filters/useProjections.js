@@ -9,3 +9,5 @@ const projectionOptions = () => {
     },
   ]
 }
+
+module.exports = projectionOptions
