@@ -146,7 +146,7 @@ const getFiscalYtdMap = async () => {
       'fiscal_ytd' AS map, 
       FALSE AS default_map, 
       TRUE AS prevent_filter
-      CASE WHEN p.fiscal_year = EXTRACT('year', CURRENT_DATE) THEN TRUE AS default_totals ELSE FALSE AS default_totals
+      CASE WHEN p.fiscal_year = EXTRACT('year', CURRENT_DATE) THEN TRUE ELSE FALSE END AS default
 
     FROM "accountingPeriods".period_by_day AS p
     WHERE p.fiscal_year = (
