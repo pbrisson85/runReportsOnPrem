@@ -114,7 +114,8 @@ const getFiscalYearMap = async () => {
       MIN(p.week) AS wk_first, 
       MAX(p.week) AS wk_last, 
       'fiscal_years' AS map, 
-      TRUE AS prevent_filter
+      TRUE AS prevent_filter,
+      CASE WHEN p.fiscal_year = EXTRACT('year' FROM CURRENT_DATE) THEN TRUE ELSE FALSE END AS default
 
     FROM "accountingPeriods".period_by_day AS p
 
@@ -145,8 +146,7 @@ const getFiscalYtdMap = async () => {
       TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.week_serial || ') ' AS display_end, 
       'fiscal_ytd' AS map, 
       FALSE AS default_map, 
-      TRUE AS prevent_filter,
-      CASE WHEN p.fiscal_year = EXTRACT('year' FROM CURRENT_DATE) THEN TRUE ELSE FALSE END AS default
+      TRUE AS prevent_filter
 
     FROM "accountingPeriods".period_by_day AS p
     WHERE p.fiscal_year = (
@@ -225,7 +225,8 @@ const getCalYearsMap = async () => {
       MIN(formatted_date) AS date_start, 
       MAX(formatted_date) AS date_end,
       'cal_years' AS map, 
-      TRUE AS prevent_filter
+      TRUE AS prevent_filter,
+      CASE WHEN p.cal_year = EXTRACT('year' FROM CURRENT_DATE) THEN TRUE ELSE FALSE END AS default
 
     FROM "accountingPeriods".period_by_day AS p
 
