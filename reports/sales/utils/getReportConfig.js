@@ -39,24 +39,33 @@ const getReportConfig = reqBody => {
     export: reqBody.export ?? null,
     northAmerica: reqBody.northAmerica ?? null,
     queryLevel: reqBody.queryLevel ?? null,
-    itemType: reqBody.itemType ?? ['FG', 'SECONDS'], // 'BY PRODUCT', 'SECONDS', 'WIP', 'RM', 'ICE', 'NON SEAFOOD'
+    itemType: reqBody.itemType ?? ['FG', 'SECONDS'],
     freshFrozen: reqBody.freshFrozen ?? null,
     custType: reqBody.custType ?? null,
     speciesGroup: reqBody.speciesGroup ?? null,
     species: reqBody.species ?? null,
     programDrilldown: reqBody.programDrilldown ?? null,
     views: {
-      useProjection: false, //reqBody.trend?.includes('fiscalWeeks') ?? false, // reqBody.creds.admin ?? false, // temporarily use the admin credential to determine if the projection view should be used DURING TESTING
+      useProjection: false, // delete this and move to totals: useProjection
     },
     trends: {
-      fiscalWeeks: reqBody.trend?.includes('fiscalWeeks') ?? false,
-      fiscalPeriods: reqBody.trend?.includes('fiscalPeriods') ?? false,
-      fiscalQuarters: reqBody.trend?.includes('fiscalQuarters') ?? false,
-      fyYtd: reqBody.trend?.includes('fyYtd') ?? false,
-      fyFullYear: reqBody.trend?.includes('fyFullYear') ?? false,
-      calMonths: reqBody.trend?.includes('calMonths') ?? false,
-      calYtd: reqBody.trend?.includes('calYtd') ?? false,
-      calFullYear: reqBody.trend?.includes('calFullYear') ?? false,
+      fiscalWeeks: reqBody.trendOption[0]?.dataName === 'fiscalWeeks' ?? false,
+      fiscalPeriods: reqBody.trendOption[0]?.dataName === 'fiscalPeriods' ?? false,
+      fiscalQuarters: reqBody.trendOption[0]?.dataName === 'fiscalQuarters' ?? false,
+      fyYtd: reqBody.trendOption[0]?.dataName === 'fyYtd' ?? false,
+      fyFullYear: reqBody.trendOption[0]?.dataName === 'fyFullYear' ?? false,
+      calMonths: reqBody.trendOption[0]?.dataName === 'calMonths' ?? false,
+      calYtd: reqBody.trendOption[0]?.dataName === 'calYtd' ?? false,
+      calFullYear: reqBody.trendOption[0]?.dataName === 'calFullYear' ?? false,
+      startDate: reqBody.trendStart.date_start,
+      trendEnd: reqBody.trendEnd.date_end,
+      useProjection: reqBody.trendUseProjection[0],
+    },
+    totals: {
+      startDate: reqBody.totalsStart.date_start, // For now just going to assume that we are only getting the current year. Will need to determine the actual start and end based on the years in the array and the weeks, period, month, etc.
+      endDate: reqBody.totalsEnd.date_end,
+      years: reqBody.totalsYears,
+      useProjection: reqBody.totalsUseProjection[0],
     },
     jbBuyerFilter,
     user: reqBody.user ?? null,
