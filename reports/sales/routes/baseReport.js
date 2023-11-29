@@ -16,7 +16,9 @@ router.post('/', async (req, res) => {
 
   let { start, end, year } = req.body
 
-  const config = getReportConfig(req.body)
+  const config = getReportConfig(req.body)  
+
+  console.log(config)
 
   // If start, or end passed then default (COULD ADD THIS TO THE CONFIG FILE + add explanation, why would it be undefined)
   let defaultDateFlag = false
