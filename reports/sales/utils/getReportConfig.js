@@ -57,14 +57,14 @@ const getReportConfig = reqBody => {
       calMonths: reqBody.trendOption[0]?.dataName === 'calMonths' ?? false,
       calYtd: reqBody.trendOption[0]?.dataName === 'calYtd' ?? false,
       calFullYear: reqBody.trendOption[0]?.dataName === 'calFullYear' ?? false,
-      startDate: reqBody.trendStart.date_start,
-      trendEnd: reqBody.trendEnd.date_end,
+      startDate: new Date(reqBody.trendStart.date_start),
+      trendEnd: new Date(reqBody.trendEnd.date_end),
       useProjection: reqBody.trendUseProjection[0],
     },
     totals: {
-      startDate: reqBody.totalsStart.date_start, // For now just going to assume that we are only getting the current year. Will need to determine the actual start and end based on the years in the array and the weeks, period, month, etc.
-      endDate: reqBody.totalsEnd.date_end,
-      years: reqBody.totalsYears,
+      // For now just going to assume that we are only getting the current year. Will need to determine the actual start and end based on the years in the array and the weeks, period, month, etc.
+      startDate1: new Date(reqBody.totalsStart.date_start),
+      endDate1: new Date(reqBody.totalsEnd.date_end),
       useProjection: reqBody.totalsUseProjection[0],
     },
     jbBuyerFilter,
