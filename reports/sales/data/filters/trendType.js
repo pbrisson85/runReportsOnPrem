@@ -5,7 +5,7 @@ const trendTypeOptions = () => {
     {
       label: 'Fiscal Weeks',
       dataName: 'fiscalWeeks',
-      default: false,
+      default: true,
       onTrueSetFalse: ['fiscalPeriods', 'fiscalQuarters', 'fyYtd', 'fyFullYear', 'calMonths', 'calYtd', 'calFullYear', 'calQuarters'],
       onFalseSetTrue: [],
       periodsMap: 'weeks', // front end map to filter (appears as map in query)
