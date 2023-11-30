@@ -1,7 +1,7 @@
 const calcPercentSalesCol = (totalData, eachRowData, colName) => {
   // get company total sales
 
-  if (typeof totalData.lbs === 'undefined') {
+  if (typeof totalData?.lbs === 'undefined') {
     console.log('colName', colName)
     console.log('eachRowData', eachRowData)
     console.log(totalData)
