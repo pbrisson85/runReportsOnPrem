@@ -55,9 +55,6 @@ const getReportConfig = async reqBody => {
     speciesGroup: reqBody.speciesGroup ?? null,
     species: reqBody.species ?? null,
     programDrilldown: reqBody.programDrilldown ?? null,
-    views: {
-      useProjection: false, // delete this and move to totals: useProjection
-    },
     trends: {
       fiscalWeeks: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'fiscalWeeks' ?? false,
       fiscalPeriods: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'fiscalPeriods' ?? false,

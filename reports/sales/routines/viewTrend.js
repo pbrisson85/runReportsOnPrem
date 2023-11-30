@@ -115,11 +115,11 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
   // ///////////////////////////////// SALES DATA
 
   /* SALES PROJECTIONS */
-  const l1_salesProjByWkF = !config.views.useProjection ? skip() : () => {return l1_getSalesProjByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary, trendQuery)}
-  const l0_salesProjByWkF = !config.views.useProjection ? skip() : () => {return l0_getSalesProjByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l1_salesProjByWkF = !config.trends.useProjection ? skip() : () => {return l1_getSalesProjByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary, trendQuery)}
+  const l0_salesProjByWkF = !config.trends.useProjection ? skip() : () => {return l0_getSalesProjByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
 
-  const l1_salesProjPeriodToDateF = !config.views.useProjection ? skip() : () => {return l1_getSalesProjPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary, trendQuery)}
-  const l0_salesProjPeriodToDateF = !config.views.useProjection ? skip() : () => {return l0_getSalesProjPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l1_salesProjPeriodToDateF = !config.totals.useProjection ? skip() : () => {return l1_getSalesProjPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary, trendQuery)}
+  const l0_salesProjPeriodToDateF = !config.totals.useProjection ? skip() : () => {return l0_getSalesProjPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
 
   /* SALES */
   const l1_salesByFyF = !config.trends.fyFullYear ? skip() : () => { return l1_getSalesByFyYtd(config, config.totals.startDatePrimary, config.totals.endDatePrimary, false, trendQuery)}
@@ -434,7 +434,7 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
   const trendColsCalMoByRangeF = !config.trends.calMonths ? skip() : () => {return  getCalMonthByRange(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
   const trendColsSales_byPeriodF = !config.trends.fiscalPeriods ? skip() : () => {return  getDateEndPerFiscalPeriodByRange(config.totals.yearPrimary, config)}
   const trendColsSalesF = !config.trends.fiscalWeeks ? skip() : () => { return getDateEndPerWeekByRange(config)} 
-  const trendColsSalesProjF = !config.views.useProjection ? skip() : () => {return  getDateEndPerWeekByRange_pj(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
+  const trendColsSalesProjF = !config.trends.useProjection ? skip() : () => {return  getDateEndPerWeekByRange_pj(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
   const trendColsSaByFyF = !config.trends.fyFullYear ? skip() : () => { return getFiscalYearCols()}
   const trendColsSaByFyYtdF = !config.trends.fyYtd ? skip() : () => { return  getFiscalYearYtdCols(2022, 2022)}
 
@@ -464,8 +464,8 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
       trendColsSo_untg,
       columnConfigs,
       defaultTrend: {
-        dataName: config.views.useProjection ? columnConfigs.salesProjectionCol[0].dataName : columnConfigs.totalsCol[0].dataName,
-        colType: config.views.useProjection ? columnConfigs.salesProjectionCol[0].colType : columnConfigs.totalsCol[0].colType
+        dataName: config.trends.useProjection ? columnConfigs.salesProjectionCol[0].dataName : columnConfigs.totalsCol[0].dataName,
+        colType: config.trends.useProjection ? columnConfigs.salesProjectionCol[0].colType : columnConfigs.totalsCol[0].colType
       }
     },
   }

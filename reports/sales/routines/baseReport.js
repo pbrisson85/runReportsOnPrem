@@ -52,12 +52,6 @@ const {
   l4_getSalesByCalMo,
   l5_getSalesByCalMo,
   l0_getSalesByCalMo,
-  l1_getSalesCalMoToDate,
-  l2_getSalesCalMoToDate,
-  l3_getSalesCalMoToDate,
-  l4_getSalesCalMoToDate,
-  l5_getSalesCalMoToDate,
-  l0_getSalesCalMoToDate,
 } = require('../../../database/queries/postgres/baseReport/getSalesTrendByCalMonth')
 const {
   l1_getSalesWkDriven,
@@ -286,19 +280,19 @@ const buildReport = async (config, labelCols) => {
   // ///////////////////////////////// SALES DATA
 
   /*SALES PROJECTIONS*/
-  const l0_salesProjectionByWk = !config.views.useProjection ? skip() : () => {return l0_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l1_salesProjectionByWk = !config.views.useProjection ? skip() : () => {return l1_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l2_salesProjectionByWk = !config.views.useProjection ? skip() : () => {return l2_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l3_salesProjectionByWk = !config.views.useProjection ? skip() : config.l3_field ? () => {return l3_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
-  const l4_salesProjectionByWk = !config.views.useProjection ? skip() : config.l4_field ? () => {return l4_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
-  const l5_salesProjectionByWk = !config.views.useProjection ? skip() : config.l5_field ? () => {return l5_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l0_salesProjectionByWk = !config.trends.useProjection ? skip() : () => {return l0_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l1_salesProjectionByWk = !config.trends.useProjection ? skip() : () => {return l1_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l2_salesProjectionByWk = !config.trends.useProjection ? skip() : () => {return l2_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l3_salesProjectionByWk = !config.trends.useProjection ? skip() : config.l3_field ? () => {return l3_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l4_salesProjectionByWk = !config.trends.useProjection ? skip() : config.l4_field ? () => {return l4_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l5_salesProjectionByWk = !config.trends.useProjection ? skip() : config.l5_field ? () => {return l5_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
 
-  const l0_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : () => {return l0_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l1_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : () => {return l1_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l2_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : () => {return l2_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l3_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : config.l3_field ? () => {return l3_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
-  const l4_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : config.l4_field ? () => {return l4_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
-  const l5_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : config.l5_field ? () => {return l5_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l0_salesProjectionPeriodToDate = !config.totals.useProjection ? skip() : () => {return l0_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l1_salesProjectionPeriodToDate = !config.totals.useProjection ? skip() : () => {return l1_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l2_salesProjectionPeriodToDate = !config.totals.useProjection ? skip() : () => {return l2_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l3_salesProjectionPeriodToDate = !config.totals.useProjection ? skip() : config.l3_field ? () => {return l3_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l4_salesProjectionPeriodToDate = !config.totals.useProjection ? skip() : config.l4_field ? () => {return l4_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l5_salesProjectionPeriodToDate = !config.totals.useProjection ? skip() : config.l5_field ? () => {return l5_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
 
   /*SALES*/
   const l0_salesByCalMo = !config.trends.calMonths ? skip() : () => {return l0_getSalesByCalMo(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
@@ -367,12 +361,6 @@ const buildReport = async (config, labelCols) => {
     l3_salesByCalMoR,
     l4_salesByCalMoR,
     l5_salesByCalMoR,
-    l0_salesCalMoToDateR,
-    l1_salesCalMoToDateR,
-    l2_salesCalMoToDateR,
-    l3_salesCalMoToDateR,
-    l4_salesCalMoToDateR,
-    l5_salesCalMoToDateR,
     l1_fgInvenR,
     l2_fgInvenR,
     l3_fgInvenR,
@@ -494,12 +482,6 @@ const buildReport = async (config, labelCols) => {
     l3_salesByCalMo(),
     l4_salesByCalMo(),
     l5_salesByCalMo(),
-    l0_salesCalMoToDate(),
-    l1_salesCalMoToDate(),
-    l2_salesCalMoToDate(),
-    l3_salesCalMoToDate(),
-    l4_salesCalMoToDate(),
-    l5_salesCalMoToDate(),
     l1_fgInven(),
     l2_fgInven(),
     l3_fgInven(),
@@ -706,12 +688,12 @@ const buildReport = async (config, labelCols) => {
   ])
 
   // Define numerators and denominators to use
-  let l0_reportSales = config.views.useProjection ? l0_salesProjectionPeriodToDateR : config.trends.calMonths ? l0_salesCalMoToDateR : l0_salesPeriodToDateR
-  let l1_reportSales = config.views.useProjection ? l1_salesProjectionPeriodToDateR : config.trends.calMonths ? l1_salesCalMoToDateR : l1_salesPeriodToDateR
-  let l2_reportSales = config.views.useProjection ? l2_salesProjectionPeriodToDateR : config.trends.calMonths ? l2_salesCalMoToDateR : l2_salesPeriodToDateR
-  let l3_reportSales = config.views.useProjection ? l3_salesProjectionPeriodToDateR : config.trends.calMonths ? l3_salesCalMoToDateR : l3_salesPeriodToDateR
-  let l4_reportSales = config.views.useProjection ? l4_salesProjectionPeriodToDateR : config.trends.calMonths ? l4_salesCalMoToDateR : l4_salesPeriodToDateR
-  let l5_reportSales = config.views.useProjection ? l5_salesProjectionPeriodToDateR : config.trends.calMonths ? l5_salesCalMoToDateR : l5_salesPeriodToDateR
+  let l0_reportSales = config.totals.useProjection ? l0_salesProjectionPeriodToDateR : l0_salesPeriodToDateR
+  let l1_reportSales = config.totals.useProjection ? l1_salesProjectionPeriodToDateR : l1_salesPeriodToDateR
+  let l2_reportSales = config.totals.useProjection ? l2_salesProjectionPeriodToDateR : l2_salesPeriodToDateR
+  let l3_reportSales = config.totals.useProjection ? l3_salesProjectionPeriodToDateR : l3_salesPeriodToDateR
+  let l4_reportSales = config.totals.useProjection ? l4_salesProjectionPeriodToDateR : l4_salesPeriodToDateR
+  let l5_reportSales = config.totals.useProjection ? l5_salesProjectionPeriodToDateR : l5_salesPeriodToDateR
 
   /* % YoY YTD SALES */
   const l0_yoyYtd_companySales = !config.trends.fyYtd ? [] : calcYoyYtdSalesCol(l0_salesByFyYtdR, 'yoyYtdSales')
@@ -906,12 +888,6 @@ const buildReport = async (config, labelCols) => {
       ...l3_salesByCalMoR,
       ...l4_salesByCalMoR,
       ...l5_salesByCalMoR,
-      ...l0_salesCalMoToDateR,
-      ...l1_salesCalMoToDateR,
-      ...l2_salesCalMoToDateR,
-      ...l3_salesCalMoToDateR,
-      ...l4_salesCalMoToDateR,
-      ...l5_salesCalMoToDateR,
       ...l1_salesProjectionBywkR,
       ...l2_salesProjectionBywkR,
       ...l3_salesProjectionBywkR,
@@ -1116,7 +1092,7 @@ const buildReport = async (config, labelCols) => {
   /* Build Columns */
   const trendColsSales_byPeriodF = !config.trends.fiscalPeriods ? skip() : () => {return  getDateEndPerFiscalPeriodByRange(config.totals.yearPrimary, config)}
   const trendColsSalesF = !config.trends.fiscalWeeks ? skip() : () => {return  getDateEndPerWeekByRange(config)}
-  const trendColsSalesProjF = !config.views.useProjection ? skip() : () => {return  getDateEndPerWeekByRange_pj(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
+  const trendColsSalesProjF = !config.trends.useProjection ? skip() : () => {return  getDateEndPerWeekByRange_pj(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
   const trendColsSaByFyF = !config.trends.fyFullYear ? skip() : () => {return getFiscalYearCols()} 
   const trendColsSaByFyYtdF = !config.trends.fyYtd ? skip() : () => {return  getFiscalYearYtdCols(2022, 2022)}
   const trendColsCalMoByRangeF = !config.trends.calMonths ? skip() : () => {return  getCalMonthByRange(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
@@ -1152,9 +1128,8 @@ const buildReport = async (config, labelCols) => {
     trendColsCalMoByRangeF(),
   ])
   
-  // Send only sales or projection cols:
 
-  //config.views.useProjection ? delete columnConfigs.totalsCol : delete columnConfigs.salesProjectionCol
+ 
 
   return {
     data,
@@ -1171,8 +1146,8 @@ const buildReport = async (config, labelCols) => {
       trendColsSo_untg,
       columnConfigs,
       defaultTrend: {
-        dataName: config.views.useProjection ? columnConfigs.salesProjectionCol[0].dataName : columnConfigs.totalsCol[0].dataName,
-        colType: config.views.useProjection ? columnConfigs.salesProjectionCol[0].colType : columnConfigs.totalsCol[0].colType
+        dataName: config.trends.useProjection ? columnConfigs.salesProjectionCol[0].dataName : columnConfigs.totalsCol[0].dataName,
+        colType: config.trends.useProjection ? columnConfigs.salesProjectionCol[0].colType : columnConfigs.totalsCol[0].colType
       }
     },
   }
