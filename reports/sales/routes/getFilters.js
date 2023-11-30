@@ -87,7 +87,6 @@ router.get('/defaultDates', async (req, res) => {
 
   const { defaultEnd } = await getDefaults()
   const defaultEndWeek = await getWeekForDate(defaultEnd, req.user) // Need to pass from front end
-
   const defaults = await getDefaultDates(defaultEndWeek)
 
   console.log('defaultDate', defaults)
