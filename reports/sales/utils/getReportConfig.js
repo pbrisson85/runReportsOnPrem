@@ -73,16 +73,15 @@ const getReportConfig = async reqBody => {
     },
     totals: {
       // For now just going to assume that we are only getting the current year. Will need to determine the actual start and end based on the years in the array and the weeks, period, month, etc.
-      startDatePrimary: new Date(reqBody.totalsStart.date_start ?? periodStart),
-      endDatePrimary: new Date(reqBody.totalsEnd.date_end ?? defaultEnd),
+      startDatePrimary: new Date(reqBody.totalsStart?.date_start ?? periodStart),
+      endDatePrimary: new Date(reqBody.totalsEnd?.date_end ?? defaultEnd),
       startWeekPrimary: defaultStartWeek,
       endWeekPrimary: defaultEndWeek,
-
-      yearPrimary: reqBody.totalsYears[0] ?? defaultYear,
+      yearPrimary: typeof reqBody.totalsYears === 'undefined' ? defaultYear : reqBody.totalsYears[0],
       startDateComparison: new Date(reqBody.totalsStart.date_start ?? periodStart),
       endDateComparison: new Date(reqBody.totalsEnd.date_end ?? defaultEnd),
-      yearComparison: reqBody.totalsYears[0] ?? defaultYear,
-      useProjection: reqBody.totalsUseProjection[0] ?? null,
+      yearComparison: typeof reqBody.totalsYears === 'undefined' ? defaultYear : reqBody.totalsYears[0],
+      useProjection: typeof reqBody.totalsUseProjection === 'undefined' ? false : reqBody.totalsUseProjection[0] ?? false,
     },
     jbBuyerFilter,
     user: reqBody.user ?? null,
