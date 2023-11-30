@@ -274,7 +274,7 @@ const getCalYtdMap = async () => {
   return map
 }
 
-const getDefaultDates = async endDate => {
+const getDefaultDates = async () => {
   console.log(`query postgres for getCurrentFiscalYear ...`)
   const year = await sql`
       SELECT -- field name must match the "currentName" property in the "trendTypes" and "totalTypes" filters to get the default end date in the app
@@ -282,12 +282,12 @@ const getDefaultDates = async endDate => {
         d.week, 
         d.period, 
         d.fiscal_quarter, 
-        EXTRACT('year' FROM ${endDate}) AS calendar_year, 
-        EXTRACT('month' FROM ${endDate}) AS calendar_month, 
-        EXTRACT('quarter' FROM ${endDate}) AS calendar_quarter
+        EXTRACT('year' FROM CURRENT_DATE) AS calendar_year, 
+        EXTRACT('month' FROM CURRENT_DATE) AS calendar_month, 
+        EXTRACT('quarter' FROM CURRENT_DATE) AS calendar_quarter
 
       FROM "accountingPeriods".period_by_day AS d
-      WHERE d.formatted_date = ${endDate}
+      WHERE d.formatted_date = CURRENT_DATE
       `
   return year[0]
 }
