@@ -14,7 +14,7 @@ const l1_getSalesByCalMo = async config => {
       FROM "salesReporting".sales_line_items AS sl
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number
-        LEFT OUTER JOIN "accountingPeriods".peiod_by_day AS p
+        LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
           ON sl.formatted_invoice_date = p.formatted_date
       
       WHERE 
@@ -48,7 +48,7 @@ const l2_getSalesByCalMo = async config => {
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
-        LEFT OUTER JOIN "accountingPeriods".peiod_by_day AS p
+        LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
           ON sl.formatted_invoice_date = p.formatted_date
       
       WHERE 
@@ -82,7 +82,7 @@ const l3_getSalesByCalMo = async config => {
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
-        LEFT OUTER JOIN "accountingPeriods".peiod_by_day AS p
+        LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
           ON sl.formatted_invoice_date = p.formatted_date
       
       WHERE 
@@ -118,7 +118,7 @@ const l4_getSalesByCalMo = async config => {
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
-        LEFT OUTER JOIN "accountingPeriods".peiod_by_day AS p
+        LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
           ON sl.formatted_invoice_date = p.formatted_date
       
       WHERE 
@@ -154,7 +154,7 @@ const l5_getSalesByCalMo = async config => {
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
-        LEFT OUTER JOIN "accountingPeriods".peiod_by_day AS p
+        LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
           ON sl.formatted_invoice_date = p.formatted_date
       
       WHERE 
@@ -190,7 +190,7 @@ const l0_getSalesByCalMo = async config => {
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
-        LEFT OUTER JOIN "accountingPeriods".peiod_by_day AS p
+        LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
           ON sl.formatted_invoice_date = p.formatted_date
       
       WHERE 
