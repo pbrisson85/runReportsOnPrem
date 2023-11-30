@@ -351,8 +351,6 @@ const l0_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
           
             ` //prettier-ignore
 
-    console.log('response', response)
-
     return response
   } catch (error) {
     console.error(error)
