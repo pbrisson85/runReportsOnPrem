@@ -1094,7 +1094,7 @@ const buildReport = async (config, labelCols) => {
   const trendColsSalesProjF = !config.trends.useProjection ? skip() : () => {return  getDateEndPerWeekByRange_pj(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
   const trendColsSaByFyF = !config.trends.fyFullYear ? skip() : () => {return getFiscalYearCols()} 
   const trendColsSaByFyYtdF = !config.trends.fyYtd ? skip() : () => {return  getFiscalYearYtdCols(2022, 2022)}
-  const trendColsCalMoByRangeF = !config.trends.calMonths ? skip() : () => {return  getCalMonthByRange(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
+  const trendColsCalMoByRangeF = !config.trends.calMonths ? skip() : () => {return  getCalMonthByRange(config)}
 
   // get so by week cols
   const start_so = await getEarliestShipWk(config)

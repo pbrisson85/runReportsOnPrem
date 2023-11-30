@@ -1,14 +1,16 @@
 const sql = require('../../../server')
 
-const getCalMonthByRange = async (start, end, config) => {
+const getCalMonthByRange = async config => {
   const periodsByWeek = await sql`
-    SELECT EXTRACT('MONTH' FROM sales_line_items.formatted_invoice_date) AS dataName, EXTRACT('MONTH' FROM sales_line_items.formatted_invoice_date) AS displayName 
+    SELECT p.cal_month_serial AS dataName, p.cal_month_serial AS displayName 
     
-    FROM "salesReporting".sales_line_items 
+    FROM "salesReporting".sales_line_items AS sl
+      LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+          ON sl.formatted_invoice_date = p.formatted_date
     
-    WHERE sales_line_items.formatted_invoice_date >= '01-01-2023' AND sales_line_items.formatted_invoice_date <= '11-30-2023' 
+    WHERE sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
     
-    ORDER BY EXTRACT('MONTH' FROM sales_line_items.formatted_invoice_date) ASC`
+    ORDER BY p.cal_month_serial ASC`
 
   return periodsByWeek
 }
