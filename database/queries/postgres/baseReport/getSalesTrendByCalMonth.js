@@ -27,8 +27,6 @@ const l1_getSalesByCalMo = async config => {
       
       ORDER BY p.cal_month_serial ASC` //prettier-ignore
 
-    console.log('l1_getSalesByCalMo', response)
-
     return response
   } catch (error) {
     console.error(error)
@@ -63,8 +61,6 @@ const l2_getSalesByCalMo = async config => {
       
       ORDER BY p.cal_month_serial ASC` //prettier-ignore
 
-    console.log('l2_getSalesByCalMo', response)
-
     return response
   } catch (error) {
     console.error(error)
@@ -98,8 +94,6 @@ const l3_getSalesByCalMo = async config => {
       GROUP BY p.cal_month_serial, ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)} 
       
       ORDER BY p.cal_month_serial ASC` //prettier-ignore
-
-    console.log('l3_getSalesByCalMo', response)
 
     return response
   } catch (error) {
@@ -137,8 +131,6 @@ const l4_getSalesByCalMo = async config => {
       
       ORDER BY p.cal_month_serial ASC` //prettier-ignore
 
-    console.log('l4_getSalesByCalMo', response)
-
     return response
   } catch (error) {
     console.error(error)
@@ -175,8 +167,6 @@ const l5_getSalesByCalMo = async config => {
       
       ORDER BY p.cal_month_serial ASC` //prettier-ignore
 
-    console.log('l5_getSalesByCalMo', response)
-
     return response
   } catch (error) {
     console.error(error)
@@ -212,8 +202,6 @@ const l0_getSalesByCalMo = async config => {
       GROUP BY p.cal_month_serial  
       
       ORDER BY p.cal_month_serial ASC` //prettier-ignore
-
-    console.log('l0_getSalesByCalMo', response)
 
     return response
   } catch (error) {
