@@ -338,13 +338,12 @@ const buildReport = async (config, labelCols) => {
   const l4_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.l4_field ? () => {return l4_getSalesByFiscalPeriod(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
   const l5_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.l5_field ? () => {return l5_getSalesByFiscalPeriod(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
 
-  // TEMPORARILY SKIPPING IF SET TO CAL MONTHS
-  const l0_salesPeriodToDate = config.trends.calMonths ? skip() : () => {return l0_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l1_salesPeriodToDate = config.trends.calMonths ? skip() : () => {return l1_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l2_salesPeriodToDate = config.trends.calMonths ? skip() : () => {return l2_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l3_salesPeriodToDate =  config.trends.calMonths ? skip() : config.l3_field ? () => {return l3_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
-  const l4_salesPeriodToDate =  config.trends.calMonths ? skip() : config.l4_field ? () => {return l4_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
-  const l5_salesPeriodToDate =  config.trends.calMonths ? skip() : config.l5_field ? () => {return l5_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l0_salesPeriodToDate =  () => {return l0_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l1_salesPeriodToDate =  () => {return l1_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l2_salesPeriodToDate =  () => {return l2_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l3_salesPeriodToDate =  config.l3_field ? () => {return l3_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l4_salesPeriodToDate =  config.l4_field ? () => {return l4_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l5_salesPeriodToDate =  config.l5_field ? () => {return l5_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
 
   /*  */
 
@@ -729,12 +728,12 @@ const buildReport = async (config, labelCols) => {
   const l5_percent_speciesGroupSales = !config.program || !config.l5_field ? [] : calcPercentSalesCol(speciesGroupTotalSalesR[0], l5_reportSales, 'percentSpeciesGroupSales')
  
   /* % REPORT TOTAL */
-  const l0_percent_reportTotal = calcPercentSalesCol(l0_reportSales[0], l0_reportSales, 'percentReportTotal0')
-  const l1_percent_reportTotal = calcPercentSalesCol(l0_reportSales[0], l1_reportSales, 'percentReportTotal1')
-  const l2_percent_reportTotal = calcPercentSalesCol(l0_reportSales[0], l2_reportSales, 'percentReportTotal2')
-  const l3_percent_reportTotal = config.l3_field ? calcPercentSalesCol(l0_reportSales[0], l3_reportSales, 'percentReportTota3') : [] 
-  const l4_percent_reportTotal = config.l4_field ? calcPercentSalesCol(l0_reportSales[0], l4_reportSales, 'percentReportTota4') : [] 
-  const l5_percent_reportTotal = config.l5_field ? calcPercentSalesCol(l0_reportSales[0], l5_reportSales, 'percentReportTota5') : [] 
+  const l0_percent_reportTotal = calcPercentSalesCol(l0_reportSales[0], l0_reportSales, 'percentReportTotal')
+  const l1_percent_reportTotal = calcPercentSalesCol(l0_reportSales[0], l1_reportSales, 'percentReportTotal')
+  const l2_percent_reportTotal = calcPercentSalesCol(l0_reportSales[0], l2_reportSales, 'percentReportTotal')
+  const l3_percent_reportTotal = config.l3_field ? calcPercentSalesCol(l0_reportSales[0], l3_reportSales, 'percentReportTota') : [] 
+  const l4_percent_reportTotal = config.l4_field ? calcPercentSalesCol(l0_reportSales[0], l4_reportSales, 'percentReportTota') : [] 
+  const l5_percent_reportTotal = config.l5_field ? calcPercentSalesCol(l0_reportSales[0], l5_reportSales, 'percentReportTota') : [] 
   
   /* AVE WEEKLY SALES */
   const weeks = config.totals.endWeekPrimary - config.totals.startWeekPrimary + 1
