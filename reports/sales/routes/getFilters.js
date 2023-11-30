@@ -24,6 +24,8 @@ const {
 const getReportConfig = require('../utils/getReportConfig')
 const appSettings = require('../data/filters/appSettings')
 const getItemTypes = require('../../../database/queries/postgres/filters/getItemTypes')
+const getDefaults = require('../utils/getReportDefaults')
+const { getWeekForDate } = require('../../../database/queries/postgres/getWeekForDate')
 
 // Generate Filter Data
 router.post('/programs', async (req, res) => {
@@ -75,12 +77,6 @@ router.get('/periodMaps', async (req, res) => {
   let fiscal_ytd = await getFiscalYtdMap()
   let cal_ytd = await getCalYtdMap()
 
-  // Note that FY YTD should have each week as a dropdown and only for the current year. and should not have years filtered out because that is not applicable.
-  // OK - cal months doesnt show the date in the display.
-  // OK - same for cal quarters
-  // cal YTD should only have the calendar months from the current year in the drop downs.
-  // OK - cal full year needs the dates in the dropdown.
-
   res.send({ fiscal_periods, weeks, fiscal_years, fiscal_quarters, cal_years, cal_months, cal_quarters, fiscal_ytd, cal_ytd }) // the key must match the "map" property in the query
   console.log('get periods maps lot route COMPLETE. ')
 })
@@ -89,7 +85,12 @@ router.get('/periodMaps', async (req, res) => {
 router.get('/defaultDates', async (req, res) => {
   // by default get the date that corresponds to the end of the last week closed.
 
-  const defaults = await getDefaultDates()
+  const { defaultEnd } = await getDefaults()
+  const defaultEndWeek = await getWeekForDate(defaultEnd, req.user) // Need to pass from front end
+
+  const defaults = await getDefaultDates(defaultEndWeek)
+
+  console.log('defaultDate', defaults)
 
   res.send(defaults)
   console.log('get periods maps lot route COMPLETE. ')
