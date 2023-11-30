@@ -69,7 +69,7 @@ const getReportConfig = async reqBody => {
       calFullYear: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'calFullYear' ?? false,
       startDate: new Date(reqBody.trendStart?.date_start ?? periodStart),
       trendEnd: new Date(reqBody.trendEnd?.date_end ?? defaultEnd),
-      useProjection: reqBody.trendUseProjection[0] ?? null,
+      useProjection: typeof reqBody.trendUseProjection === 'undefined' ? false : reqBody.trendUseProjection[0] ?? false,
     },
     totals: {
       // For now just going to assume that we are only getting the current year. Will need to determine the actual start and end based on the years in the array and the weeks, period, month, etc.
