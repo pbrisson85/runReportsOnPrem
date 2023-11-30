@@ -25,8 +25,7 @@ const groupByOptions = require('../data/filters/detailGroupBy')
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { columnDataName, colType, periodStart, periodEnd, fyTrendCol, fyYtdTrendCol, reportFormat } = req.body
-  let { year } = req.body
+  const { columnDataName, colType, fyTrendCol, fyYtdTrendCol, reportFormat } = req.body
 
   const config = await getReportConfig(req.body)
   let data = null
@@ -84,8 +83,9 @@ router.post('/', async (req, res) => {
 
   if (colType === 'salesInvoice') {
     // Transform all queries to have a start week, end week, and year
-    let startWeek = await getWeekForDate(periodStart, config)
-    let endWeek = await getWeekForDate(periodEnd, config)
+    let startWeek = config.totals.startWeekPrimary
+    let endWeek = config.totals.endWeekPrimary
+    let year = config.totals.yearPrimary
     let priorYearData = false
 
     if (fyYtdTrendCol) {
@@ -109,8 +109,9 @@ router.post('/', async (req, res) => {
 
   if (colType === 'salesProjection') {
     // Transform all queries to have a start week, end week, and year
-    let startWeek = await getWeekForDate(periodStart, config)
-    let endWeek = await getWeekForDate(periodEnd, config)
+    let startWeek = config.totals.startWeekPrimary
+    let endWeek = config.totals.endWeekPrimary
+    let year = config.totals.yearPrimary
 
     if (columnDataName.split('-')[1]?.charAt(0) === 'W') {
       startWeek = columnDataName.split('-')[1].split('W')[1].split('_')[0]

@@ -1,5 +1,7 @@
 ### To complete
 
+- where did i leave off... getDateMaps default dates is fucgged up and needs to be fixed. Font end needs the default dates. then need to gegt the default dates into the cnfig
+
 - Trend: Back end to be able to add a trend or not. Make the trend with a start and end date
   - nice to have: group quarterly, by fiscal period, by calendar month, by fiscal year, by calendar year
 - Totals: back end to be able to run two sets of totals and a comparison
