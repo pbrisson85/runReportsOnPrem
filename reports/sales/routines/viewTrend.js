@@ -429,6 +429,10 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
     }) // no label in total row, first col
   data = [...filterRow, ...data]
 
+
+
+  const trendColsCalMoByRangeF = !config.trends.calMonths ? skip() : () => {return  getCalMonthByRange(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
+  const trendColsSales_byPeriodF = !config.trends.fiscalPeriods ? skip() : () => {return  getDateEndPerFiscalPeriodByRange(config.totals.yearPrimary, config)}
   const trendColsSalesF = !config.trends.fiscalWeeks ? skip() : () => { return getDateEndPerWeekByRange(config.totals.startDatePrimary, config.totals.endDatePrimary, config)} 
   const trendColsSalesProjF = !config.views.useProjection ? skip() : () => {return  getDateEndPerWeekByRange_pj(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
   const trendColsSaByFyF = !config.trends.fyFullYear ? skip() : () => { return getFiscalYearCols()}
@@ -442,12 +446,14 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
   const trendColsSo_tgF = () => { return getDateEndPerWeekByRange_so_tg(start_so, end_so, config)} 
   const trendColsSo_untgF = () => { return getDateEndPerWeekByRange_so_untg(start_so, end_so, config)} 
 
-  const [trendColsSalesProj, trendColsSales, trendColsSaByFy,trendColsSaByFyYtd, trendColsSo, trendColsSo_tg, trendColsSo_untg] = await Promise.all([trendColsSalesProjF(), trendColsSalesF(), trendColsSaByFyF(),trendColsSaByFyYtdF(), trendColsSoF(), trendColsSo_tgF(), trendColsSo_untgF()])
+  const [trendColsSales_byPeriod, trendColsCalMo, trendColsSalesProj, trendColsSales, trendColsSaByFy,trendColsSaByFyYtd, trendColsSo, trendColsSo_tg, trendColsSo_untg] = await Promise.all([trendColsSales_byPeriodF(), trendColsCalMoByRangeF(), trendColsSalesProjF(), trendColsSalesF(), trendColsSaByFyF(),trendColsSaByFyYtdF(), trendColsSoF(), trendColsSo_tgF(), trendColsSo_untgF()])
 
   // return
   return {
     data,
     cols: {
+      trendColsSales_byPeriod,
+      trendColsCalMo,
       trendColsSalesProj,
       trendColsSales,
       trendColsSaByFy,
@@ -464,5 +470,9 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
     },
   }
 }
+
+
+
+
 
 module.exports = buildDrillDown
