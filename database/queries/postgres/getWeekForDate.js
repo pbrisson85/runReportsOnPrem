@@ -1,8 +1,8 @@
-const getWeekForDate = async (date, config) => {
+const getWeekForDate = async (date, user) => {
   const { Client } = require('pg')
   const pgClient = new Client() // config from ENV
   await pgClient.connect()
-  console.log(`${config.user} - get week for date: ${date} ...`)
+  console.log(`${user} - get week for date: ${date} ...`)
   const response = await pgClient.query(
     `SELECT p.week
      FROM "accountingPeriods".period_by_day AS p

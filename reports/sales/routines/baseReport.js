@@ -179,14 +179,8 @@ const collapseRedundantTotalRows = require('../../../models/collapseRedundantTot
 const columnConfigs = require('../data/baseCols/columns')
 const sortRowTemplate = require('../../../models/sortRowTemplate')
 
-const buildReport = async (start, end, startWeek, endWeek, config, labelCols, year) => {
+const buildReport = async (config, labelCols) => {
   // The routine and all of the queries can be the same for all reports. Going to buikd out this rpeort and then change the config manually to test.
-
-  console.log('start', start)
-  console.log('end', end)
-  console.log('startWeek', startWeek)
-  console.log('endWeek', endWeek)
-  console.log('year', year)
 
   const skip = () => {
     return () => {
@@ -292,71 +286,71 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
   // ///////////////////////////////// SALES DATA
 
   /*SALES PROJECTIONS*/
-  const l0_salesProjectionByWk = !config.views.useProjection ? skip() : () => {return l0_getSalesProjectionByWk(config, start, end)}
-  const l1_salesProjectionByWk = !config.views.useProjection ? skip() : () => {return l1_getSalesProjectionByWk(config, start, end)}
-  const l2_salesProjectionByWk = !config.views.useProjection ? skip() : () => {return l2_getSalesProjectionByWk(config, start, end)}
-  const l3_salesProjectionByWk = !config.views.useProjection ? skip() : config.l3_field ? () => {return l3_getSalesProjectionByWk(config, start, end)} : skip()
-  const l4_salesProjectionByWk = !config.views.useProjection ? skip() : config.l4_field ? () => {return l4_getSalesProjectionByWk(config, start, end)} : skip()
-  const l5_salesProjectionByWk = !config.views.useProjection ? skip() : config.l5_field ? () => {return l5_getSalesProjectionByWk(config, start, end)} : skip()
+  const l0_salesProjectionByWk = !config.views.useProjection ? skip() : () => {return l0_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l1_salesProjectionByWk = !config.views.useProjection ? skip() : () => {return l1_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l2_salesProjectionByWk = !config.views.useProjection ? skip() : () => {return l2_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l3_salesProjectionByWk = !config.views.useProjection ? skip() : config.l3_field ? () => {return l3_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l4_salesProjectionByWk = !config.views.useProjection ? skip() : config.l4_field ? () => {return l4_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l5_salesProjectionByWk = !config.views.useProjection ? skip() : config.l5_field ? () => {return l5_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
 
-  const l0_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : () => {return l0_getSalesProjectionPeriodToDate(config, start, end)}
-  const l1_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : () => {return l1_getSalesProjectionPeriodToDate(config, start, end)}
-  const l2_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : () => {return l2_getSalesProjectionPeriodToDate(config, start, end)}
-  const l3_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : config.l3_field ? () => {return l3_getSalesProjectionPeriodToDate(config, start, end)} : skip()
-  const l4_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : config.l4_field ? () => {return l4_getSalesProjectionPeriodToDate(config, start, end)} : skip()
-  const l5_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : config.l5_field ? () => {return l5_getSalesProjectionPeriodToDate(config, start, end)} : skip()
+  const l0_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : () => {return l0_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l1_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : () => {return l1_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l2_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : () => {return l2_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l3_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : config.l3_field ? () => {return l3_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l4_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : config.l4_field ? () => {return l4_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l5_salesProjectionPeriodToDate = !config.views.useProjection ? skip() : config.l5_field ? () => {return l5_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
 
   /*SALES*/
-  const l0_salesByCalMo = !config.trends.calMonths ? skip() : () => {return l0_getSalesByCalMo(config, start, end)}
-  const l1_salesByCalMo = !config.trends.calMonths ? skip() : () => {return l1_getSalesByCalMo(config, start, end)}
-  const l2_salesByCalMo = !config.trends.calMonths ? skip() : () => {return l2_getSalesByCalMo(config, start, end)}
-  const l3_salesByCalMo = !config.trends.calMonths ? skip() : config.l3_field ? () => {return l3_getSalesByCalMo(config, start, end)} : skip()
-  const l4_salesByCalMo = !config.trends.calMonths ? skip() : config.l4_field ? () => {return l4_getSalesByCalMo(config, start, end)} : skip()
-  const l5_salesByCalMo = !config.trends.calMonths ? skip() : config.l5_field ? () => {return l5_getSalesByCalMo(config, start, end)} : skip()
+  const l0_salesByCalMo = !config.trends.calMonths ? skip() : () => {return l0_getSalesByCalMo(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l1_salesByCalMo = !config.trends.calMonths ? skip() : () => {return l1_getSalesByCalMo(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l2_salesByCalMo = !config.trends.calMonths ? skip() : () => {return l2_getSalesByCalMo(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l3_salesByCalMo = !config.trends.calMonths ? skip() : config.l3_field ? () => {return l3_getSalesByCalMo(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l4_salesByCalMo = !config.trends.calMonths ? skip() : config.l4_field ? () => {return l4_getSalesByCalMo(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l5_salesByCalMo = !config.trends.calMonths ? skip() : config.l5_field ? () => {return l5_getSalesByCalMo(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
 
-  const l0_salesCalMoToDate = !config.trends.calMonths ? skip() : () => {return l0_getSalesCalMoToDate(config, start, end)}
-  const l1_salesCalMoToDate = !config.trends.calMonths ? skip() : () => {return l1_getSalesCalMoToDate(config, start, end)}
-  const l2_salesCalMoToDate = !config.trends.calMonths ? skip() : () => {return l2_getSalesCalMoToDate(config, start, end)}
-  const l3_salesCalMoToDate = !config.trends.calMonths ? skip() : config.l3_field ? () => {return l3_getSalesCalMoToDate(config, start, end)} : skip()
-  const l4_salesCalMoToDate = !config.trends.calMonths ? skip() : config.l4_field ? () => {return l4_getSalesCalMoToDate(config, start, end)} : skip()
-  const l5_salesCalMoToDate = !config.trends.calMonths ? skip() : config.l5_field ? () => {return l5_getSalesCalMoToDate(config, start, end)} : skip()
+  const l0_salesCalMoToDate = !config.trends.calMonths ? skip() : () => {return l0_getSalesCalMoToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l1_salesCalMoToDate = !config.trends.calMonths ? skip() : () => {return l1_getSalesCalMoToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l2_salesCalMoToDate = !config.trends.calMonths ? skip() : () => {return l2_getSalesCalMoToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l3_salesCalMoToDate = !config.trends.calMonths ? skip() : config.l3_field ? () => {return l3_getSalesCalMoToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l4_salesCalMoToDate = !config.trends.calMonths ? skip() : config.l4_field ? () => {return l4_getSalesCalMoToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l5_salesCalMoToDate = !config.trends.calMonths ? skip() : config.l5_field ? () => {return l5_getSalesCalMoToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
 
   // TRENDS
-  const l0_salesByFy = !config.trends.fyFullYear ? skip() : () => {return l0_getSalesByFyYtd(config, startWeek, endWeek, false)}
-  const l1_salesByFy = !config.trends.fyFullYear ? skip() : () => {return l1_getSalesByFyYtd(config, startWeek, endWeek, false)}
-  const l2_salesByFy = !config.trends.fyFullYear ? skip() : () => {return l2_getSalesByFyYtd(config, startWeek, endWeek, false)}
-  const l3_salesByFy = !config.trends.fyFullYear ? skip() : config.l3_field ? () => {return l3_getSalesByFyYtd(config, startWeek, endWeek, false)} : skip()
-  const l4_salesByFy = !config.trends.fyFullYear ? skip() : config.l4_field ? () => {return l4_getSalesByFyYtd(config, startWeek, endWeek, false)} : skip()
-  const l5_salesByFy = !config.trends.fyFullYear ? skip() : config.l5_field ? () => {return l5_getSalesByFyYtd(config, startWeek, endWeek, false)} : skip()
+  const l0_salesByFy = !config.trends.fyFullYear ? skip() : () => {return l0_getSalesByFyYtd(config, config.totals.startWeekPrimary, config.totals.endWeekPrimary, false)}
+  const l1_salesByFy = !config.trends.fyFullYear ? skip() : () => {return l1_getSalesByFyYtd(config, config.totals.startWeekPrimary, config.totals.endWeekPrimary, false)}
+  const l2_salesByFy = !config.trends.fyFullYear ? skip() : () => {return l2_getSalesByFyYtd(config, config.totals.startWeekPrimary, config.totals.endWeekPrimary, false)}
+  const l3_salesByFy = !config.trends.fyFullYear ? skip() : config.l3_field ? () => {return l3_getSalesByFyYtd(config, config.totals.startWeekPrimary, config.totals.endWeekPrimary, false)} : skip()
+  const l4_salesByFy = !config.trends.fyFullYear ? skip() : config.l4_field ? () => {return l4_getSalesByFyYtd(config, config.totals.startWeekPrimary, config.totals.endWeekPrimary, false)} : skip()
+  const l5_salesByFy = !config.trends.fyFullYear ? skip() : config.l5_field ? () => {return l5_getSalesByFyYtd(config, config.totals.startWeekPrimary, config.totals.endWeekPrimary, false)} : skip()
 
-  const l0_salesByFyYtd = !config.trends.fyYtd ? skip() : () => {return l0_getSalesByFyYtd(config, startWeek, endWeek, true)}
-  const l1_salesByFyYtd = !config.trends.fyYtd ? skip() : () => {return l1_getSalesByFyYtd(config, startWeek, endWeek, true)}
-  const l2_salesByFyYtd = !config.trends.fyYtd ? skip() : () => {return l2_getSalesByFyYtd(config, startWeek, endWeek, true)}
-  const l3_salesByFyYtd = !config.trends.fyYtd ? skip() : config.l3_field ? () => {return l3_getSalesByFyYtd(config, startWeek, endWeek, true)} : skip()
-  const l4_salesByFyYtd = !config.trends.fyYtd ? skip() : config.l4_field ? () => {return l4_getSalesByFyYtd(config, startWeek, endWeek, true)} : skip()
-  const l5_salesByFyYtd = !config.trends.fyYtd ? skip() : config.l5_field ? () => {return l5_getSalesByFyYtd(config, startWeek, endWeek, true)} : skip()
+  const l0_salesByFyYtd = !config.trends.fyYtd ? skip() : () => {return l0_getSalesByFyYtd(config, config.totals.startWeekPrimary, config.totals.endWeekPrimary, true)}
+  const l1_salesByFyYtd = !config.trends.fyYtd ? skip() : () => {return l1_getSalesByFyYtd(config, config.totals.startWeekPrimary, config.totals.endWeekPrimary, true)}
+  const l2_salesByFyYtd = !config.trends.fyYtd ? skip() : () => {return l2_getSalesByFyYtd(config, config.totals.startWeekPrimary, config.totals.endWeekPrimary, true)}
+  const l3_salesByFyYtd = !config.trends.fyYtd ? skip() : config.l3_field ? () => {return l3_getSalesByFyYtd(config, config.totals.startWeekPrimary, config.totals.endWeekPrimary, true)} : skip()
+  const l4_salesByFyYtd = !config.trends.fyYtd ? skip() : config.l4_field ? () => {return l4_getSalesByFyYtd(config, config.totals.startWeekPrimary, config.totals.endWeekPrimary, true)} : skip()
+  const l5_salesByFyYtd = !config.trends.fyYtd ? skip() : config.l5_field ? () => {return l5_getSalesByFyYtd(config, config.totals.startWeekPrimary, config.totals.endWeekPrimary, true)} : skip()
 
-  const l0_salesByWk = !config.trends.fiscalWeeks ? skip() : () => {return l0_getSalesByWk(config, start, end)}
-  const l1_salesByWk = !config.trends.fiscalWeeks ? skip() : () => {return l1_getSalesByWk(config, start, end)}
-  const l2_salesByWk = !config.trends.fiscalWeeks ? skip() : () => {return l2_getSalesByWk(config, start, end)}
-  const l3_salesByWk = !config.trends.fiscalWeeks ? skip() : config.l3_field ? () => {return l3_getSalesByWk(config, start, end)} : skip()
-  const l4_salesByWk = !config.trends.fiscalWeeks ? skip() : config.l4_field ? () => {return l4_getSalesByWk(config, start, end)} : skip()
-  const l5_salesByWk = !config.trends.fiscalWeeks ? skip() : config.l5_field ? () => {return l5_getSalesByWk(config, start, end)} : skip()
+  const l0_salesByWk = !config.trends.fiscalWeeks ? skip() : () => {return l0_getSalesByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l1_salesByWk = !config.trends.fiscalWeeks ? skip() : () => {return l1_getSalesByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l2_salesByWk = !config.trends.fiscalWeeks ? skip() : () => {return l2_getSalesByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l3_salesByWk = !config.trends.fiscalWeeks ? skip() : config.l3_field ? () => {return l3_getSalesByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l4_salesByWk = !config.trends.fiscalWeeks ? skip() : config.l4_field ? () => {return l4_getSalesByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l5_salesByWk = !config.trends.fiscalWeeks ? skip() : config.l5_field ? () => {return l5_getSalesByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
 
-  const l0_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : () => {return l0_getSalesByFiscalPeriod(config, start, end)}
-  const l1_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : () => {return l1_getSalesByFiscalPeriod(config, start, end)}
-  const l2_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : () => {return l2_getSalesByFiscalPeriod(config, start, end)}
-  const l3_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.l3_field ? () => {return l3_getSalesByFiscalPeriod(config, start, end)} : skip()
-  const l4_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.l4_field ? () => {return l4_getSalesByFiscalPeriod(config, start, end)} : skip()
-  const l5_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.l5_field ? () => {return l5_getSalesByFiscalPeriod(config, start, end)} : skip()
+  const l0_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : () => {return l0_getSalesByFiscalPeriod(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l1_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : () => {return l1_getSalesByFiscalPeriod(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l2_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : () => {return l2_getSalesByFiscalPeriod(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l3_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.l3_field ? () => {return l3_getSalesByFiscalPeriod(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l4_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.l4_field ? () => {return l4_getSalesByFiscalPeriod(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l5_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.l5_field ? () => {return l5_getSalesByFiscalPeriod(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
 
   // TEMPORARILY SKIPPING IF SET TO CAL MONTHS
-  const l0_salesPeriodToDate = config.trends.calMonths ? skip() : () => {return l0_getSalesPeriodToDate(config, start, end)}
-  const l1_salesPeriodToDate = config.trends.calMonths ? skip() : () => {return l1_getSalesPeriodToDate(config, start, end)}
-  const l2_salesPeriodToDate = config.trends.calMonths ? skip() : () => {return l2_getSalesPeriodToDate(config, start, end)}
-  const l3_salesPeriodToDate =  config.trends.calMonths ? skip() : config.l3_field ? () => {return l3_getSalesPeriodToDate(config, start, end)} : skip()
-  const l4_salesPeriodToDate =  config.trends.calMonths ? skip() : config.l4_field ? () => {return l4_getSalesPeriodToDate(config, start, end)} : skip()
-  const l5_salesPeriodToDate =  config.trends.calMonths ? skip() : config.l5_field ? () => {return l5_getSalesPeriodToDate(config, start, end)} : skip()
+  const l0_salesPeriodToDate = config.trends.calMonths ? skip() : () => {return l0_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l1_salesPeriodToDate = config.trends.calMonths ? skip() : () => {return l1_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l2_salesPeriodToDate = config.trends.calMonths ? skip() : () => {return l2_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
+  const l3_salesPeriodToDate =  config.trends.calMonths ? skip() : config.l3_field ? () => {return l3_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l4_salesPeriodToDate =  config.trends.calMonths ? skip() : config.l4_field ? () => {return l4_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l5_salesPeriodToDate =  config.trends.calMonths ? skip() : config.l5_field ? () => {return l5_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
 
   /*  */
 
@@ -618,40 +612,40 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
 
   ///////////////////////////////// KPI DATA
 
-  const companyTotalSales = () => {return getCompanyTotalSales(start, end, config)}
-  const programTotalSales = () => {return getProgramTotalSales(start, end, config)}
-  const speciesGroupTotalSales = () => {return getSpeciesGroupTotalSales(start, end, config)}
+  const companyTotalSales = () => {return getCompanyTotalSales(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
+  const programTotalSales = () => {return getProgramTotalSales(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
+  const speciesGroupTotalSales = () => {return getSpeciesGroupTotalSales(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
 
 
-  //*****Note that we maybe cannot use week driven sales queries with projection because it only handles weeks for a specific fiscal year while the projection could span fiscal years */
+  //*****Note that we maybe cannot use week driven sales queries with projection because it only handles weeks for a specific fiscal config.totals.yearPrimary while the projection could span fiscal years */
 
-  const l0_trailingTwoWeek = endWeek < 2 ? skip() : () => {return l0_getSalesWkDriven(config, endWeek - 1, endWeek, year, '2wk Rolling')}
-  const l1_trailingTwoWeek = endWeek < 2 ? skip() : () => {return l1_getSalesWkDriven(config, endWeek - 1, endWeek, year, '2wk Rolling')}
-  const l2_trailingTwoWeek = endWeek < 2 ? skip() : () => {return l2_getSalesWkDriven(config, endWeek - 1, endWeek, year, '2wk Rolling')}
-  const l3_trailingTwoWeek = endWeek < 2 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, endWeek - 1, endWeek, year, '2wk Rolling')} : skip() 
-  const l4_trailingTwoWeek = endWeek < 2 ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, endWeek - 1, endWeek, year, '2wk Rolling')} : skip() 
-  const l5_trailingTwoWeek = endWeek < 2 ? skip() : config.l5_field ? () => {return l5_getSalesWkDriven(config, endWeek - 1, endWeek, year, '2wk Rolling')} : skip() 
+  const l0_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : () => {return l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')}
+  const l1_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : () => {return l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')}
+  const l2_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : () => {return l2_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')}
+  const l3_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')} : skip() 
+  const l4_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')} : skip() 
+  const l5_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : config.l5_field ? () => {return l5_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')} : skip() 
   
-  const l0_trailingFourWeek = endWeek < 4 ? skip() : () => {return l0_getSalesWkDriven(config, endWeek - 3, endWeek, year, '4wk Rolling')}
-  const l1_trailingFourWeek = endWeek < 4 ? skip() : () => {return l1_getSalesWkDriven(config, endWeek - 3, endWeek, year, '4wk Rolling')}
-  const l2_trailingFourWeek = endWeek < 4 ? skip() : () => {return l2_getSalesWkDriven(config, endWeek - 3, endWeek, year, '4wk Rolling')}
-  const l3_trailingFourWeek = endWeek < 4 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, endWeek - 3, endWeek, year, '4wk Rolling')} : skip() 
-  const l4_trailingFourWeek = endWeek < 4 ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, endWeek - 3, endWeek, year, '4wk Rolling')} : skip() 
-  const l5_trailingFourWeek = endWeek < 4 ? skip() : config.l5_field ? () => {return l5_getSalesWkDriven(config, endWeek - 3, endWeek, year, '4wk Rolling')} : skip() 
+  const l0_trailingFourWeek = config.totals.endWeekPrimary < 4 ? skip() : () => {return l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, config.totals.yearPrimary, '4wk Rolling')}
+  const l1_trailingFourWeek = config.totals.endWeekPrimary < 4 ? skip() : () => {return l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, config.totals.yearPrimary, '4wk Rolling')}
+  const l2_trailingFourWeek = config.totals.endWeekPrimary < 4 ? skip() : () => {return l2_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, config.totals.yearPrimary, '4wk Rolling')}
+  const l3_trailingFourWeek = config.totals.endWeekPrimary < 4 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, config.totals.yearPrimary, '4wk Rolling')} : skip() 
+  const l4_trailingFourWeek = config.totals.endWeekPrimary < 4 ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, config.totals.yearPrimary, '4wk Rolling')} : skip() 
+  const l5_trailingFourWeek = config.totals.endWeekPrimary < 4 ? skip() : config.l5_field ? () => {return l5_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, config.totals.yearPrimary, '4wk Rolling')} : skip() 
 
-  const l0_trailingEightWeek = endWeek < 8 ? skip() : () => {return l0_getSalesWkDriven(config, endWeek - 7, endWeek, year, '8wk Rolling')}
-  const l1_trailingEightWeek = endWeek < 8 ? skip() : () => {return l1_getSalesWkDriven(config, endWeek - 7, endWeek, year, '8wk Rolling')}
-  const l2_trailingEightWeek = endWeek < 8 ? skip() : () => {return l2_getSalesWkDriven(config, endWeek - 7, endWeek, year, '8wk Rolling')}
-  const l3_trailingEightWeek = endWeek < 8 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, endWeek - 7, endWeek, year, '8wk Rolling')} : skip() 
-  const l4_trailingEightWeek = endWeek < 8 ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, endWeek - 7, endWeek, year, '8wk Rolling')} : skip() 
-  const l5_trailingEightWeek = endWeek < 8 ? skip() : config.l5_field ? () => {return l5_getSalesWkDriven(config, endWeek - 7, endWeek, year, '8wk Rolling')} : skip() 
+  const l0_trailingEightWeek = config.totals.endWeekPrimary < 8 ? skip() : () => {return l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, config.totals.yearPrimary, '8wk Rolling')}
+  const l1_trailingEightWeek = config.totals.endWeekPrimary < 8 ? skip() : () => {return l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, config.totals.yearPrimary, '8wk Rolling')}
+  const l2_trailingEightWeek = config.totals.endWeekPrimary < 8 ? skip() : () => {return l2_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, config.totals.yearPrimary, '8wk Rolling')}
+  const l3_trailingEightWeek = config.totals.endWeekPrimary < 8 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, config.totals.yearPrimary, '8wk Rolling')} : skip() 
+  const l4_trailingEightWeek = config.totals.endWeekPrimary < 8 ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, config.totals.yearPrimary, '8wk Rolling')} : skip() 
+  const l5_trailingEightWeek = config.totals.endWeekPrimary < 8 ? skip() : config.l5_field ? () => {return l5_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, config.totals.yearPrimary, '8wk Rolling')} : skip() 
 
-  const l0_trailingTwelveWeek = endWeek < 12 ? skip() : () => {return l0_getSalesWkDriven(config, endWeek - 11, endWeek, year, '12wk Rolling')}
-  const l1_trailingTwelveWeek = endWeek < 12 ? skip() : () => {return l1_getSalesWkDriven(config, endWeek - 11, endWeek, year, '12wk Rolling')}
-  const l2_trailingTwelveWeek = endWeek < 12 ? skip() : () => {return l2_getSalesWkDriven(config, endWeek - 11, endWeek, year, '12wk Rolling')}
-  const l3_trailingTwelveWeek = endWeek < 12 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, endWeek - 11, endWeek, year, '12wk Rolling')} : skip() 
-  const l4_trailingTwelveWeek = endWeek < 12  ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, endWeek - 11, endWeek, year, '12wk Rolling')} : skip() 
-  const l5_trailingTwelveWeek = endWeek < 12  ? skip() : config.l5_field ? () => {return l5_getSalesWkDriven(config, endWeek - 11, endWeek, year, '12wk Rolling')} : skip() 
+  const l0_trailingTwelveWeek = config.totals.endWeekPrimary < 12 ? skip() : () => {return l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, config.totals.yearPrimary, '12wk Rolling')}
+  const l1_trailingTwelveWeek = config.totals.endWeekPrimary < 12 ? skip() : () => {return l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, config.totals.yearPrimary, '12wk Rolling')}
+  const l2_trailingTwelveWeek = config.totals.endWeekPrimary < 12 ? skip() : () => {return l2_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, config.totals.yearPrimary, '12wk Rolling')}
+  const l3_trailingTwelveWeek = config.totals.endWeekPrimary < 12 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, config.totals.yearPrimary, '12wk Rolling')} : skip() 
+  const l4_trailingTwelveWeek = config.totals.endWeekPrimary < 12  ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, config.totals.yearPrimary, '12wk Rolling')} : skip() 
+  const l5_trailingTwelveWeek = config.totals.endWeekPrimary < 12  ? skip() : config.l5_field ? () => {return l5_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, config.totals.yearPrimary, '12wk Rolling')} : skip() 
   
   const [ 
     companyTotalSalesR,
@@ -761,7 +755,7 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
   const l5_percent_reportTotal = config.l5_field ? calcPercentSalesCol(l0_reportSales[0], l5_reportSales, 'percentReportTotal') : [] 
   
   /* AVE WEEKLY SALES */
-  const weeks = endWeek - startWeek + 1
+  const weeks = config.totals.endWeekPrimary - config.totals.startWeekPrimary + 1
   const l0_aveWeeklySales = calcAveWeeklySales(l0_reportSales, 'aveWeeklySales', weeks)
   const l1_aveWeeklySales = calcAveWeeklySales(l1_reportSales, 'aveWeeklySales', weeks)
   const l2_aveWeeklySales = calcAveWeeklySales(l2_reportSales, 'aveWeeklySales', weeks)
@@ -822,11 +816,11 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
   const l5_invAvailable = config.l5_field ? calcInventoryAvailable(l5_fgInvenR, l5_fgPoR, l5_soR, 'invenAvailable') : []
 
   ///////////////////////////////// ROWS
-  const rowsFifthLevelDetail =  config.l5_field ? () => {return getRowsFifthLevelDetail(config, start, end)} : skip() 
-  const rowsFourthLevelDetail =  config.l4_field ? () => {return getRowsFourthLevelDetail(config, start, end)} : skip() 
-  const rowsThirdLevelDetail =  config.l3_field ? () => {return getRowsThirdLevelDetail(config, start, end)} : skip() 
-  const rowsSecondLevelDetail = () => {return getRowsSecondLevelDetail(config, start, end)} 
-  const rowsFirstLevelDetail = () => {return getRowsFirstLevelDetail(config, start, end)} 
+  const rowsFifthLevelDetail =  config.l5_field ? () => {return getRowsFifthLevelDetail(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip() 
+  const rowsFourthLevelDetail =  config.l4_field ? () => {return getRowsFourthLevelDetail(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip() 
+  const rowsThirdLevelDetail =  config.l3_field ? () => {return getRowsThirdLevelDetail(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip() 
+  const rowsSecondLevelDetail = () => {return getRowsSecondLevelDetail(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} 
+  const rowsFirstLevelDetail = () => {return getRowsFirstLevelDetail(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} 
 
   const [rowsFifthLevelDetailR, rowsFourthLevelDetailR, rowsThirdLevelDetailR, rowsSecondLevelDetailR, rowsFirstLevelDetailR] = await Promise.all([
     rowsFifthLevelDetail(),
@@ -1120,12 +1114,12 @@ const buildReport = async (start, end, startWeek, endWeek, config, labelCols, ye
   const data = cleanLabelsForDisplay(flattenedMappedData, config)
 
   /* Build Columns */
-  const trendColsSales_byPeriodF = !config.trends.fiscalPeriods ? skip() : () => {return  getDateEndPerFiscalPeriodByRange(year, config)}
-  const trendColsSalesF = !config.trends.fiscalWeeks ? skip() : () => {return  getDateEndPerWeekByRange(start, end, config)}
-  const trendColsSalesProjF = !config.views.useProjection ? skip() : () => {return  getDateEndPerWeekByRange_pj(start, end, config)}
+  const trendColsSales_byPeriodF = !config.trends.fiscalPeriods ? skip() : () => {return  getDateEndPerFiscalPeriodByRange(config.totals.yearPrimary, config)}
+  const trendColsSalesF = !config.trends.fiscalWeeks ? skip() : () => {return  getDateEndPerWeekByRange(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
+  const trendColsSalesProjF = !config.views.useProjection ? skip() : () => {return  getDateEndPerWeekByRange_pj(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
   const trendColsSaByFyF = !config.trends.fyFullYear ? skip() : () => {return getFiscalYearCols()} 
   const trendColsSaByFyYtdF = !config.trends.fyYtd ? skip() : () => {return  getFiscalYearYtdCols(2022, 2022)}
-  const trendColsCalMoByRangeF = !config.trends.calMonths ? skip() : () => {return  getCalMonthByRange(start, end, config)}
+  const trendColsCalMoByRangeF = !config.trends.calMonths ? skip() : () => {return  getCalMonthByRange(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
 
   // get so by week cols
   const start_so = await getEarliestShipWk(config)

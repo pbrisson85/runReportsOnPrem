@@ -1,8 +1,11 @@
 const appSettings = require('../data/filters/appSettings')
 const unflattenByCompositKey = require('../../../models/unflattenByCompositKey')
 const trendTypeOptions = require('../data/filters/trendType')
+const getDefaults = require('./getReportDefaults')
+const { getStartOfWeek } = require('../../../database/queries/postgres/getDateStartByWeek')
+const { getWeekForDate } = require('../../../database/queries/postgres/getWeekForDate')
 
-const getReportConfig = reqBody => {
+const getReportConfig = async reqBody => {
   // auth filters:
   let jbBuyerFilter = false
 
@@ -22,6 +25,13 @@ const getReportConfig = reqBody => {
   if (typeof reqBody.itemType !== 'undefined' && typeof reqBody.itemType === 'string') {
     reqBody.itemType = [...reqBody.itemType.replace(/""/g, '').replace(/"\[/g, '').replace(/\]"/g, '').split(',')]
   }
+
+  const { defaultStart, defaultEnd, defaultYear } = await getDefaults()
+  const startOfWeek = await getStartOfWeek(defaultStart)
+  const periodStart = startOfWeek[0].formatted_date_start
+
+  const defaultStartWeek = await getWeekForDate(periodStart, reqBody.user) // Need to pass from front end
+  const defaultEndWeek = await getWeekForDate(defaultEnd, reqBody.user) // Need to pass from front end
 
   // define config object
   let config = {
@@ -57,14 +67,21 @@ const getReportConfig = reqBody => {
       calMonths: reqBody.trendOption[0]?.dataName === 'calMonths' ?? false,
       calYtd: reqBody.trendOption[0]?.dataName === 'calYtd' ?? false,
       calFullYear: reqBody.trendOption[0]?.dataName === 'calFullYear' ?? false,
-      startDate: new Date(reqBody.trendStart.date_start),
+      startDate: new Date(reqBody.trendStart.date_start ?? periodStart),
       trendEnd: new Date(reqBody.trendEnd.date_end),
       useProjection: reqBody.trendUseProjection[0],
     },
     totals: {
       // For now just going to assume that we are only getting the current year. Will need to determine the actual start and end based on the years in the array and the weeks, period, month, etc.
-      startDate1: new Date(reqBody.totalsStart.date_start),
-      endDate1: new Date(reqBody.totalsEnd.date_end),
+      startDatePrimary: new Date(reqBody.totalsStart.date_start ?? periodStart),
+      endDatePrimary: new Date(reqBody.totalsEnd.date_end ?? defaultEnd),
+      startWeekPrimary: defaultStartWeek,
+      endWeekPrimary: defaultEndWeek,
+
+      yearPrimary: reqBody.totalsYears[0] ?? defaultYear,
+      startDateComparison: new Date(reqBody.totalsStart.date_start ?? periodStart),
+      endDateComparison: new Date(reqBody.totalsEnd.date_end ?? defaultEnd),
+      yearComparison: reqBody.totalsYears[0] ?? defaultYear,
       useProjection: reqBody.totalsUseProjection[0],
     },
     jbBuyerFilter,

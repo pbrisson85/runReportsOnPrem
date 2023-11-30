@@ -1,3 +1,45 @@
+### To complete
+
+- Trend: Back end to be able to add a trend or not. Make the trend with a start and end date
+  - nice to have: group quarterly, by fiscal period, by calendar month, by fiscal year, by calendar year
+- Totals: back end to be able to run two sets of totals and a comparison
+- Also need to fix all drilldowns
+
+- Thats it. front end can be enhanced after but if it can handle the above I am where I need to be
+
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+
 #### Goals:
 
 ### I now realize that this app is NOT a sales reporting app. it is a reporting app period. I will switch naming over to reportGenerator. The routines and routes will be report specific. They will take same input filters and will use all the same queries. It is just what cols do you want to include, what filters do you want by default (different reports can generate different config settings by default.)

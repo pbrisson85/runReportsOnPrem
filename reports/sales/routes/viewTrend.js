@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
   const { rightMenuSelection, periodEnd, reportFormat, year } = req.body
   let { periodStart } = req.body
 
-  const config = getReportConfig(req.body)
+  const config = await getReportConfig(req.body)
 
   console.log(`\n${config.user} - get drilldown data for ${reportFormat} route HIT...`)
 

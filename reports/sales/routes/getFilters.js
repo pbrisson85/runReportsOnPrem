@@ -12,13 +12,14 @@ const {
   getFiscalPeriodsMap,
   getWeeksMap,
   getFiscalYearMap,
-  getCurrentPeriods,
+  getDefaultDates,
   getFiscalQuartersMap,
   getCalYearsMap,
   getCalMonthsMap,
   getCalQuartersMap,
   getFiscalYtdMap,
   getCalYtdMap,
+  getCurrentWeek,
 } = require('../../../database/queries/postgres/filters/getDateMaps')
 const getReportConfig = require('../utils/getReportConfig')
 const appSettings = require('../data/filters/appSettings')
@@ -28,7 +29,7 @@ const getItemTypes = require('../../../database/queries/postgres/filters/getItem
 router.post('/programs', async (req, res) => {
   console.log('get sales PROGRAMS filters lot route HIT...')
   // get config for applicable filters
-  const config = getReportConfig(req.body)
+  const config = await getReportConfig(req.body)
   const programs = await getDistinctPrograms('2023', config) // Add the year to get defaults because right now it is hardcoded into the front end.
   programs.sort((a, b) => {
     if (a.label > b.label) return 1
@@ -85,29 +86,12 @@ router.get('/periodMaps', async (req, res) => {
 })
 
 // Generate Filter Data
-router.get('/currentPeriods', async (req, res) => {
-  let current = await getCurrentPeriods()
+router.get('/defaultDates', async (req, res) => {
+  // by default get the date that corresponds to the end of the last week closed.
 
-  // fiscal periods will go through the prior fiscal period completed (wed is cutoff)
-  const todayWeek = current.week
-  const today = new Date().getDay() // sunday is 0
-  let shiftWeek = 1
-  if (today <= 2) {
-    // if sun, mon, tues then shift back two weeks for last closed week
-    shiftWeek = 2
-    // if wed, thur, fri, sat then shift back one wek for last closed week
-  }
-  const week = todayWeek - shiftWeek < 1 ? 1 : todayWeek - shiftWeek
-  current.week = week
+  const defaults = await getDefaultDates()
 
-  // fiscal quarters will go through the prior fiscal quarter (wed is cutoff)
-  // fiscal full year will go through the prior full fiscal year completed.
-  // fiscal YTD will go through the prior week completed (wed is cutoff)
-  // calendar month will go through prior calendar month
-  // calendar year to date will go through prior completed calendar month
-  // calendar year will go through prior completed calendar year.
-
-  res.send(current)
+  res.send(defaults)
   console.log('get periods maps lot route COMPLETE. ')
 })
 
@@ -163,7 +147,7 @@ router.get('/projectionFilters', async (req, res) => {
 router.get('/itemTypes', async (req, res) => {
   console.log('get item types filters route HIT...')
   // get config for applicable filters
-  const config = getReportConfig(req.body)
+  const config = await getReportConfig(req.body)
   let types = await getItemTypes('2023', config) // Add the year to get defaults because right now it is hardcoded into the front end.
 
   // Add default manually ************ add this to getDefaults ******************************

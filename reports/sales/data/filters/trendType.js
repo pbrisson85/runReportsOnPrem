@@ -10,6 +10,7 @@ const trendTypeOptions = () => {
       onFalseSetTrue: [],
       periodsMap: 'weeks', // front end map to filter (appears as map in query)
       yearsMap: 'fiscal_years', // determines what map to use for the years menu. (dont show years, show fiscal, show calendar)
+      currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
     },
     {
       label: 'Fiscal Periods',
@@ -19,6 +20,7 @@ const trendTypeOptions = () => {
       onFalseSetTrue: [],
       periodsMap: 'fiscal_periods', // front end map to filter (appears as map in query)
       yearsMap: 'fiscal_years',
+      currentDateMap: 'period', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
     },
     {
       label: 'Fiscal Quarters',
@@ -28,6 +30,7 @@ const trendTypeOptions = () => {
       onFalseSetTrue: [],
       periodsMap: 'fiscal_quarters', // front end map to filter (appears as map in query)
       yearsMap: 'fiscal_years',
+      currentDateMap: 'fiscal_quarter', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
     },
     {
       label: 'FY YTD',
@@ -37,6 +40,7 @@ const trendTypeOptions = () => {
       onFalseSetTrue: [],
       periodsMap: 'fiscal_ytd', // front end map to filter (appears as map in query)
       yearsMap: 'fiscal_years',
+      currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
       ytd: true, // bool for front end to not show the start trend dropdown
     },
     {
@@ -46,6 +50,7 @@ const trendTypeOptions = () => {
       onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fiscalQuarters', 'fyYtd', 'calMonths', 'calYtd', 'calFullYear', 'calQuarters'],
       onFalseSetTrue: [],
       periodsMap: 'fiscal_years', // front end map to filter (appears as map in query)
+      currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
       yearsMap: null,
     },
     {
@@ -56,6 +61,7 @@ const trendTypeOptions = () => {
       onFalseSetTrue: [],
       periodsMap: 'cal_months', // front end map to filter (appears as map in query)
       yearsMap: 'cal_years',
+      currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
     },
     {
       label: 'Calendar Quarters',
@@ -65,6 +71,7 @@ const trendTypeOptions = () => {
       onFalseSetTrue: [],
       periodsMap: 'cal_quarters', // front end map to filter (appears as map in query)
       yearsMap: 'cal_years', // front end map to years (appears as map in query)
+      currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
     },
     {
       label: 'Calendar YTD',
@@ -74,6 +81,7 @@ const trendTypeOptions = () => {
       onFalseSetTrue: [],
       periodsMap: 'cal_ytd', // front end map to filter (appears as map in query)
       yearsMap: 'cal_years',
+      currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
       ytd: true, // bool for front end to not show the start trend dropdown
     },
     {
@@ -83,6 +91,7 @@ const trendTypeOptions = () => {
       onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fyYtd', 'fyFullYear', 'fiscalQuarters', 'calMonths', 'calYtd', 'calQuarters'],
       onFalseSetTrue: [],
       periodsMap: 'cal_years', // front end map to filter (appears as map in query)
+      currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
       yearsMap: null,
     },
   ]

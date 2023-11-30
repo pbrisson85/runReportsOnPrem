@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
   const { columnDataName, colType, periodStart, periodEnd, fyTrendCol, fyYtdTrendCol, reportFormat } = req.body
   let { year } = req.body
 
-  const config = getReportConfig(req.body)
+  const config = await getReportConfig(req.body)
   let data = null
 
   console.log(`\n${config.user} - get detail data for ${reportFormat} route HIT...`)

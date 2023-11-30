@@ -274,31 +274,45 @@ const getCalYtdMap = async () => {
   return map
 }
 
-const getCurrentPeriods = async () => {
+const getDefaultDates = async endDate => {
   console.log(`query postgres for getCurrentFiscalYear ...`)
   const year = await sql`
-      SELECT 
+      SELECT -- field name must match the "currentName" property in the "trendTypes" and "totalTypes" filters to get the default end date in the app
         d.fiscal_year, 
         d.week, 
-        d.period,
+        d.period, 
         d.fiscal_quarter, 
-        EXTRACT('year' FROM CURRENT_DATE) AS calendar_year, 
-        EXTRACT('month' FROM CURRENT_DATE) AS calendar_month, 
-        EXTRACT('quarter' FROM CURRENT_DATE) AS calendar_quarter
+        EXTRACT('year' FROM ${endDate}) AS calendar_year, 
+        EXTRACT('month' FROM ${endDate}) AS calendar_month, 
+        EXTRACT('quarter' FROM ${endDate}) AS calendar_quarter
 
       FROM "accountingPeriods".period_by_day AS d
-      WHERE d.formatted_date = CURRENT_DATE
+      WHERE d.formatted_date = ${endDate}
       `
   return year[0]
+}
+
+const getCurrentWeek = async () => {
+  const weekNum = await sql`
+  SELECT 
+    d.fiscal_year, 
+    d.week,
+    EXTRACT('DOW' FROM CURRENT_DATE) AS DOW
+
+  FROM "accountingPeriods".period_by_day AS d
+  WHERE d.formatted_date = CURRENT_DATE
+  `
+  return weekNum[0]
 }
 
 module.exports.getFiscalPeriodsMap = getFiscalPeriodsMap
 module.exports.getWeeksMap = getWeeksMap
 module.exports.getFiscalYearMap = getFiscalYearMap
-module.exports.getCurrentPeriods = getCurrentPeriods
+module.exports.getDefaultDates = getDefaultDates
 module.exports.getFiscalQuartersMap = getFiscalQuartersMap
 module.exports.getCalMonthsMap = getCalMonthsMap
 module.exports.getCalYearsMap = getCalYearsMap
 module.exports.getCalQuartersMap = getCalQuartersMap
 module.exports.getFiscalYtdMap = getFiscalYtdMap
 module.exports.getCalYtdMap = getCalYtdMap
+module.exports.getCurrentWeek = getCurrentWeek
