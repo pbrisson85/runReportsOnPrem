@@ -1,6 +1,4 @@
 const router = require('express').Router()
-const { getStartOfWeek } = require('../../../database/queries/postgres/getDateStartByWeek')
-const { getWeekForDate } = require('../../../database/queries/postgres/getWeekForDate')
 const viewTrend = require('../routines/viewTrend')
 const labelCols_byItem = require('../data/trendCols/colsByItem')
 const labelCols_byCustomer = require('../data/trendCols/colsByCustomer')
@@ -23,19 +21,11 @@ const addCustomerName = require('../routines/custom/trendByCustomer')
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { rightMenuSelection, periodEnd, reportFormat, year } = req.body
-  let { periodStart } = req.body
-
+  const { rightMenuSelection, reportFormat } = req.body
+ 
   const config = await getReportConfig(req.body)
 
   console.log(`\n${config.user} - get drilldown data for ${reportFormat} route HIT...`)
-
-  const startWeek = await getWeekForDate(periodStart, config) // temporarily until I change the data that is being passed by the front end to the week
-  const endWeek = await getWeekForDate(periodEnd, config) // temporarily until I change the data that is being passed by the front end to the week
-
-  // Note that start date is the END of the first week. Need the beginning of the same week to pull invoice dates that are after this:
-  const startOfWeek = await getStartOfWeek(periodStart)
-  periodStart = startOfWeek[0].formatted_date_start
 
   console.log('rightMenuSelection: ', rightMenuSelection)
 
@@ -82,7 +72,7 @@ router.post('/', async (req, res) => {
       break
   }
 
-  response = await viewTrend(cols, config, periodStart, periodEnd, startWeek, endWeek, trendQuery, year)
+  response = await viewTrend(cols, config, trendQuery)
 
   // CUSTOM ROUTINES FOR SPECIFIC REPORTS
   if (rightMenuSelection === 'Trend By Customer') {

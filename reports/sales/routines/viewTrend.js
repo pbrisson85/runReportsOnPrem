@@ -62,7 +62,7 @@ const columnConfigs = require('../data/baseCols/columns')
 
 // Note that KPI data does not have the logic cleaned up to handle useSalesProjection like the base report does at this time.
 
-const buildDrillDown = async (labelCols, config, start, end, startWeek, endWeek, trendQuery, year) => {
+const buildDrillDown = async (labelCols, config, trendQuery) => {
   const skip = () => {
     return () => {
       return []
@@ -115,40 +115,40 @@ const buildDrillDown = async (labelCols, config, start, end, startWeek, endWeek,
   // ///////////////////////////////// SALES DATA
 
   /* SALES PROJECTIONS */
-  const l1_salesProjByWkF = !config.views.useProjection ? skip() : () => {return l1_getSalesProjByWk(config, start, end, trendQuery)}
-  const l0_salesProjByWkF = !config.views.useProjection ? skip() : () => {return l0_getSalesProjByWk(config, start, end)}
+  const l1_salesProjByWkF = !config.views.useProjection ? skip() : () => {return l1_getSalesProjByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary, trendQuery)}
+  const l0_salesProjByWkF = !config.views.useProjection ? skip() : () => {return l0_getSalesProjByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
 
-  const l1_salesProjPeriodToDateF = !config.views.useProjection ? skip() : () => {return l1_getSalesProjPeriodToDate(config, start, end, trendQuery)}
-  const l0_salesProjPeriodToDateF = !config.views.useProjection ? skip() : () => {return l0_getSalesProjPeriodToDate(config, start, end)}
+  const l1_salesProjPeriodToDateF = !config.views.useProjection ? skip() : () => {return l1_getSalesProjPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary, trendQuery)}
+  const l0_salesProjPeriodToDateF = !config.views.useProjection ? skip() : () => {return l0_getSalesProjPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
 
   /* SALES */
-  const l1_salesByFyF = !config.trends.fyFullYear ? skip() : () => { return l1_getSalesByFyYtd(config, start, end, false, trendQuery)}
-  const l0_salesByFyF = !config.trends.fyFullYear ? skip() : () => { return l0_getSalesByFyYtd(config, start, end, false)}
+  const l1_salesByFyF = !config.trends.fyFullYear ? skip() : () => { return l1_getSalesByFyYtd(config, config.totals.startDatePrimary, config.totals.endDatePrimary, false, trendQuery)}
+  const l0_salesByFyF = !config.trends.fyFullYear ? skip() : () => { return l0_getSalesByFyYtd(config, config.totals.startDatePrimary, config.totals.endDatePrimary, false)}
 
-  const l1_salesByFyYtdF = !config.trends.fyYtd ? skip() : () => { return l1_getSalesByFyYtd(config, startWeek, endWeek, true, trendQuery)}
-  const l0_salesByFyYtdF = !config.trends.fyYtd ? skip() : () => { return l0_getSalesByFyYtd(config, startWeek, endWeek, true)}
+  const l1_salesByFyYtdF = !config.trends.fyYtd ? skip() : () => { return l1_getSalesByFyYtd(config, config.totals.startWeekPrimary, config.totals.endWeekPrimary, true, trendQuery)}
+  const l0_salesByFyYtdF = !config.trends.fyYtd ? skip() : () => { return l0_getSalesByFyYtd(config, config.totals.startWeekPrimary, config.totals.endWeekPrimary, true)}
 
-  const l1_salesByWkF = !config.trends.fiscalWeeks ? skip() : () => { return l1_getSalesByWk(config, start, end, trendQuery)}
-  const l0_salesByWkF = !config.trends.fiscalWeeks ? skip() : () => { return l0_getSalesByWk(config, start, end)}
+  const l1_salesByWkF = !config.trends.fiscalWeeks ? skip() : () => { return l1_getSalesByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary, trendQuery)}
+  const l0_salesByWkF = !config.trends.fiscalWeeks ? skip() : () => { return l0_getSalesByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
 
-  const l1_salesPeriodToDateF = () => { return l1_getSalesPeriodToDate(config, start, end, trendQuery)}
-  const l0_salesPeriodToDateF = () => { return l0_getSalesPeriodToDate(config, start, end)}
+  const l1_salesPeriodToDateF = () => { return l1_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary, trendQuery)}
+  const l0_salesPeriodToDateF = () => { return l0_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
 
   /* KPI Data */
   
-  const l1_trailingTwoWeekF = endWeek < 2 ? skip() : () => { return l1_getSalesWkDriven(config, endWeek - 1, endWeek, trendQuery, year, '2wk Rolling')}
-  const l0_trailingTwoWeekF = endWeek < 2 ? skip() : () => { return l0_getSalesWkDriven(config, endWeek - 1, endWeek, year, '2wk Rolling')}
+  const l1_trailingTwoWeekF = config.totals.endWeekPrimary < 2 ? skip() : () => { return l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, trendQuery, config.totals.yearPrimary, '2wk Rolling')}
+  const l0_trailingTwoWeekF = config.totals.endWeekPrimary < 2 ? skip() : () => { return l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')}
 
-  const l1_trailingFourWeekF = endWeek < 4 ? skip() : () => { return l1_getSalesWkDriven(config, endWeek - 3, endWeek, trendQuery, year, '4wk Rolling')}
-  const l0_trailingFourWeekF = endWeek < 4 ? skip() : () => { return l0_getSalesWkDriven(config, endWeek - 3, endWeek, year, '4wk Rolling')}
+  const l1_trailingFourWeekF = config.totals.endWeekPrimary < 4 ? skip() : () => { return l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, trendQuery, config.totals.yearPrimary, '4wk Rolling')}
+  const l0_trailingFourWeekF = config.totals.endWeekPrimary < 4 ? skip() : () => { return l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, config.totals.yearPrimary, '4wk Rolling')}
 
-  const l1_trailingEightWeekF = endWeek < 8 ? skip() : () => { return l1_getSalesWkDriven(config, endWeek - 7, endWeek, trendQuery, year, '8wk Rolling')}
-  const l0_trailingEightWeekF = endWeek < 8 ? skip() : () => { return l0_getSalesWkDriven(config, endWeek - 7, endWeek, year, '8wk Rolling')}
+  const l1_trailingEightWeekF = config.totals.endWeekPrimary < 8 ? skip() : () => { return l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, trendQuery, config.totals.yearPrimary, '8wk Rolling')}
+  const l0_trailingEightWeekF = config.totals.endWeekPrimary < 8 ? skip() : () => { return l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, config.totals.yearPrimary, '8wk Rolling')}
 
-  const l1_trailingTwelveWeekF = endWeek < 12 ? skip() : () => { return l1_getSalesWkDriven(config, endWeek - 11, endWeek, trendQuery, year, '12wk Rolling')}
-  const l0_trailingTwelveWeekF = endWeek < 12 ? skip() : () => { return l0_getSalesWkDriven(config, endWeek - 11, endWeek, year, '12wk Rolling')}
+  const l1_trailingTwelveWeekF = config.totals.endWeekPrimary < 12 ? skip() : () => { return l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, trendQuery, config.totals.yearPrimary, '12wk Rolling')}
+  const l0_trailingTwelveWeekF = config.totals.endWeekPrimary < 12 ? skip() : () => { return l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, config.totals.yearPrimary, '12wk Rolling')}
 
-  const companyTotalSalesF = () => { return getCompanyTotalSales(start, end, config)}
+  const companyTotalSalesF = () => { return getCompanyTotalSales(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
 
   const [
     l1_salesProjByWk,
@@ -254,7 +254,7 @@ const buildDrillDown = async (labelCols, config, start, end, startWeek, endWeek,
   let l1_percent_programSales = []
   let l0_percent_programSales = []
   if (config.program !== null) {
-    const l0_program_salesPeriodToDate = await l0_program_getSalesPeriodToDate(config, start, end, config.program)
+    const l0_program_salesPeriodToDate = await l0_program_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary, config.program)
     l1_percent_programSales = calcPercentSalesCol(l0_program_salesPeriodToDate[0], l1_salesPeriodToDate, 'percentProgramSales')
     l0_percent_programSales = calcPercentSalesCol(l0_program_salesPeriodToDate[0], l0_salesPeriodToDate, 'percentProgramSales')
   }
@@ -264,7 +264,7 @@ const buildDrillDown = async (labelCols, config, start, end, startWeek, endWeek,
   const l0_percent_reportTotal = calcPercentSalesCol(l0_salesPeriodToDate[0], l0_salesPeriodToDate, 'percentReportTotal')
 
   /* AVE WEEKLY SALES */
-  const weeks = endWeek - startWeek + 1
+  const weeks = config.totals.endWeekPrimary - config.totals.startWeekPrimary + 1
   const l1_aveWeeklySales = calcAveWeeklySales(l1_salesPeriodToDate, 'aveWeeklySales', weeks)
   const l0_aveWeeklySales = calcAveWeeklySales(l0_salesPeriodToDate, 'aveWeeklySales', weeks)
 
@@ -293,11 +293,11 @@ const buildDrillDown = async (labelCols, config, start, end, startWeek, endWeek,
   const l0_invAvailable = !l0_fgInven.length ? [] : calcInventoryAvailable(l0_fgInven, l0_fgPo, l0_so, 'invenAvailable')
 
   ///////////////////////////////// ROWS
-  const rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, start, end, trendQuery)
+  const rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, config.totals.startDatePrimary, config.totals.endDatePrimary, trendQuery)
 
   const totalsRow = [
     { totalRow: true, l1_label: `${config.itemType} SALES`, l2_label: `TOTAL`, datalevel: config.queryLevel, itemtype: config.itemType },
-  ] // Need an l2_label of TOTAL for front end styling
+  ] // Need an l2_label of TOTAL for front config.totals.endDatePrimary styling
   const filterRow = [
     {
       filterRow: true,
@@ -416,21 +416,21 @@ const buildDrillDown = async (labelCols, config, start, end, startWeek, endWeek,
   const flattenedMappedData = Object.values(mappedData)
   let data = cleanLabelsForDisplay(flattenedMappedData, '')
     .sort((a, b) => {
-      // if has includes total, put at end
+      // if has includes total, put at config.totals.endDatePrimary
       if (a.l1_label < b.l1_label) return -1
       if (a.l1_label > b.l1_label) return 1
       return 0
     })
     .sort((a, b) => {
-      // if has includes total, put at end
+      // if has includes total, put at config.totals.endDatePrimary
       if (a.l2_filter?.includes('TOTAL')) return 1
       if (b.l2_filter?.includes('TOTAL')) return -1
       return 0
     }) // no label in total row, first col
   data = [...filterRow, ...data]
 
-  const trendColsSalesF = !config.trends.fiscalWeeks ? skip() : () => { return getDateEndPerWeekByRange(start, end, config)} 
-  const trendColsSalesProjF = !config.views.useProjection ? skip() : () => {return  getDateEndPerWeekByRange_pj(start, end, config)}
+  const trendColsSalesF = !config.trends.fiscalWeeks ? skip() : () => { return getDateEndPerWeekByRange(config.totals.startDatePrimary, config.totals.endDatePrimary, config)} 
+  const trendColsSalesProjF = !config.views.useProjection ? skip() : () => {return  getDateEndPerWeekByRange_pj(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
   const trendColsSaByFyF = !config.trends.fyFullYear ? skip() : () => { return getFiscalYearCols()}
   const trendColsSaByFyYtdF = !config.trends.fyYtd ? skip() : () => { return  getFiscalYearYtdCols(2022, 2022)}
 
