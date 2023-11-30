@@ -18,7 +18,7 @@ const l1_getSalesByCalMo = async config => {
           ON sl.formatted_invoice_date = p.formatted_date
       
       WHERE 
-        sl.formatted_invoice_date >= '01-01-2023' AND sl.formatted_invoice_date <= '11-30-2023' 
+        sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -52,7 +52,7 @@ const l2_getSalesByCalMo = async config => {
           ON sl.formatted_invoice_date = p.formatted_date
       
       WHERE 
-        sl.formatted_invoice_date >= '01-01-2023' AND sl.formatted_invoice_date <= '11-30-2023' 
+        sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -86,7 +86,7 @@ const l3_getSalesByCalMo = async config => {
           ON sl.formatted_invoice_date = p.formatted_date
       
       WHERE 
-        sl.formatted_invoice_date >= '01-01-2023' AND sl.formatted_invoice_date <= '11-30-2023' 
+        sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -122,7 +122,7 @@ const l4_getSalesByCalMo = async config => {
           ON sl.formatted_invoice_date = p.formatted_date
       
       WHERE 
-        sl.formatted_invoice_date >= '01-01-2023' AND sl.formatted_invoice_date <= '11-30-2023' 
+        sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -158,7 +158,7 @@ const l5_getSalesByCalMo = async config => {
           ON sl.formatted_invoice_date = p.formatted_date
       
       WHERE 
-        sl.formatted_invoice_date >= '01-01-2023' AND sl.formatted_invoice_date <= '11-30-2023' 
+        sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -194,7 +194,7 @@ const l0_getSalesByCalMo = async config => {
           ON sl.formatted_invoice_date = p.formatted_date
       
       WHERE 
-        sl.formatted_invoice_date >= '01-01-2023' AND sl.formatted_invoice_date <= '11-30-2023' 
+        sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
