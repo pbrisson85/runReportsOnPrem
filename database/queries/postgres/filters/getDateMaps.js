@@ -274,24 +274,6 @@ const getCalYtdMap = async () => {
   return map
 }
 
-// const getDefaultDates = async () => {
-//   console.log(`query postgres for getCurrentFiscalYear ...`)
-//   const year = await sql`
-//       SELECT -- field name must match the "currentName" property in the "trendTypes" and "totalTypes" filters to get the default end date in the app
-//         d.fiscal_year,
-//         d.week,
-//         d.period,
-//         d.fiscal_quarter,
-//         EXTRACT('year' FROM CURRENT_DATE) AS calendar_year,
-//         EXTRACT('month' FROM CURRENT_DATE) AS calendar_month,
-//         EXTRACT('quarter' FROM CURRENT_DATE) AS calendar_quarter
-
-//       FROM "accountingPeriods".period_by_day AS d
-//       WHERE d.formatted_date = CURRENT_DATE
-//       `
-//   return year[0]
-// }
-
 const getDefaultDates = async weekNum => {
   console.log(`query postgres for getWeeksMap ...`)
 
@@ -305,10 +287,8 @@ const getDefaultDates = async weekNum => {
         MIN(p.formatted_date) AS date_start, 
         MAX(p.formatted_date) AS date_end, 
         TO_CHAR(MIN(p.formatted_date), 'mm/dd/yy') || ' (' || p.week_serial || ') ' AS display_start, 
-        TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.week_serial || ') ' AS display_end, 
+        TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.week_serial || ') ' AS display_end,
         'weeks' AS map, 
-        TRUE AS default_map, 
-        FALSE AS "prevent_filterByYear"
 
       FROM "accountingPeriods".period_by_day AS p
       WHERE p.fiscal_year = (
