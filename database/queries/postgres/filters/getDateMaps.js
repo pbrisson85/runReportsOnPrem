@@ -288,7 +288,7 @@ const getDefaultDates = async weekNum => {
         MAX(p.formatted_date) AS date_end, 
         TO_CHAR(MIN(p.formatted_date), 'mm/dd/yy') || ' (' || p.week_serial || ') ' AS display_start, 
         TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.week_serial || ') ' AS display_end,
-        'weeks' AS map, 
+        'weeks' AS map
 
       FROM "accountingPeriods".period_by_day AS p
       WHERE p.fiscal_year = (
