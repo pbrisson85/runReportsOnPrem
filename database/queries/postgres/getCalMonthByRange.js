@@ -10,7 +10,11 @@ const getCalMonthByRange = async config => {
     
     WHERE sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
     
+    GROUP BY p.cal_month_serial
+
     ORDER BY p.cal_month_serial ASC`
+
+  console.log('periodsByWeek', periodsByWeek)
 
   return periodsByWeek
 }
