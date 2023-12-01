@@ -6,7 +6,7 @@ const {
 } = require('../../../database/queries/postgres/getDateEndPerWeek')
 const { getTrendColsCalMonths } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsCalMonths')
 const { getTrendColsWeeks } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsWeeks')
-const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../../database/queries/postgres/getFiscalYearCols')
+const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalYear')
 const { getLatestShipWk, getEarliestShipWk } = require('../../../database/queries/postgres/getSoDates')
 const {
   l1_getSalesByWk,

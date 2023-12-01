@@ -93,6 +93,7 @@ const getReportConfig = async reqBody => {
       calFullYear: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'calFullYear' ?? false,
       startDate: new Date(reqBody.trendStart?.date_start ?? periodStart),
       endDate: new Date(reqBody.trendEnd?.date_end ?? defaultEnd),
+      endWeek: reqBody.trendEnd?.wk_last === '52' ? '53' : reqBody.trendEnd?.wk_last,
       useProjection: typeof reqBody.trendUseProjection === 'undefined' ? false : reqBody.trendUseProjection[0] ?? false,
     },
     totals: {
