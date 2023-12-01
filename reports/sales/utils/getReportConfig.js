@@ -33,6 +33,28 @@ const getReportConfig = async reqBody => {
   const defaultStartWeek = await getWeekForDate(periodStart, reqBody.user) // Need to pass from front end
   const defaultEndWeek = await getWeekForDate(defaultEnd, reqBody.user) // Need to pass from front end
 
+  // determine earliest start date for rows.
+  const trendStart = new Date(reqBody.trendStart?.date_start ?? periodStart)
+  const totalsStart = new Date(reqBody.totalsStart?.date_start ?? periodStart)
+
+  let rowStart
+  if (new Date(trendStart).getTime() <= new Date(totalsStart).getTime()) {
+    rowStart = trendStart
+  } else {
+    rowStart = totalsStart
+  }
+
+  // determine latest end date for rows.
+  const trendEnd = new Date(reqBody.trendEnd?.date_end ?? defaultEnd)
+  const totalsEnd = new Date(reqBody.totalsEnd?.date_end ?? defaultEnd)
+
+  let rowEnd
+  if (new Date(trendEnd).getTime() <= new Date(totalsEnd).getTime()) {
+    rowEnd = trendEnd
+  } else {
+    rowEnd = totalsEnd
+  }
+
   // define config object
   let config = {
     program: typeof reqBody.program === 'undefined' ? null : reqBody.program === 'all' ? null : reqBody.program,
@@ -55,6 +77,11 @@ const getReportConfig = async reqBody => {
     speciesGroup: reqBody.speciesGroup ?? null,
     species: reqBody.species ?? null,
     programDrilldown: reqBody.programDrilldown ?? null,
+    rows: {
+      // Rows need to use the widest date range since the totals cols and the trend could differ in range
+      startDate: rowStart,
+      endDate: rowEnd,
+    },
     trends: {
       fiscalWeeks: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'fiscalWeeks' ?? false,
       fiscalPeriods: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'fiscalPeriods' ?? false,

@@ -797,11 +797,11 @@ const buildReport = async (config, labelCols) => {
   const l5_invAvailable = config.l5_field ? calcInventoryAvailable(l5_fgInvenR, l5_fgPoR, l5_soR, 'invenAvailable') : []
 
   ///////////////////////////////// ROWS
-  const rowsFifthLevelDetail =  config.l5_field ? () => {return getRowsFifthLevelDetail(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip() 
-  const rowsFourthLevelDetail =  config.l4_field ? () => {return getRowsFourthLevelDetail(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip() 
-  const rowsThirdLevelDetail =  config.l3_field ? () => {return getRowsThirdLevelDetail(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip() 
-  const rowsSecondLevelDetail = () => {return getRowsSecondLevelDetail(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} 
-  const rowsFirstLevelDetail = () => {return getRowsFirstLevelDetail(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} 
+  const rowsFifthLevelDetail =  config.l5_field ? () => {return getRowsFifthLevelDetail(config)} : skip() 
+  const rowsFourthLevelDetail =  config.l4_field ? () => {return getRowsFourthLevelDetail(config)} : skip() 
+  const rowsThirdLevelDetail =  config.l3_field ? () => {return getRowsThirdLevelDetail(config)} : skip() 
+  const rowsSecondLevelDetail = () => {return getRowsSecondLevelDetail(config)} 
+  const rowsFirstLevelDetail = () => {return getRowsFirstLevelDetail(config)} 
 
   const [rowsFifthLevelDetailR, rowsFourthLevelDetailR, rowsThirdLevelDetailR, rowsSecondLevelDetailR, rowsFirstLevelDetailR] = await Promise.all([
     rowsFifthLevelDetail(),
