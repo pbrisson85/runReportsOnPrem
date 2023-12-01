@@ -13,7 +13,7 @@ const l1_getSo_byCalMo = async config => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-          ON s0.formatted_ship_date = p.formatted_date
+          ON so.formatted_ship_date = p.formatted_date
       
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
@@ -43,7 +43,7 @@ const l1_getSoTagged_byCalMo = async config => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-          ON s0.formatted_ship_date = p.formatted_date
+          ON so.formatted_ship_date = p.formatted_date
       
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
@@ -74,7 +74,7 @@ const l1_getSoUntagged_byCalMo = async config => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-          ON s0.formatted_ship_date = p.formatted_date
+          ON so.formatted_ship_date = p.formatted_date
       
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
@@ -107,7 +107,7 @@ const l2_getSo_byCalMo = async config => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-          ON s0.formatted_ship_date = p.formatted_date
+          ON so.formatted_ship_date = p.formatted_date
       
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
@@ -137,7 +137,7 @@ const l2_getSoTagged_byCalMo = async config => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-          ON s0.formatted_ship_date = p.formatted_date
+          ON so.formatted_ship_date = p.formatted_date
       
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
@@ -168,7 +168,7 @@ const l2_getSoUntagged_byCalMo = async config => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-          ON s0.formatted_ship_date = p.formatted_date
+          ON so.formatted_ship_date = p.formatted_date
       
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
@@ -201,7 +201,7 @@ const l3_getSo_byCalMo = async config => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-          ON s0.formatted_ship_date = p.formatted_date
+          ON so.formatted_ship_date = p.formatted_date
       
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
@@ -231,7 +231,7 @@ const l3_getSoTagged_byCalMo = async config => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-          ON s0.formatted_ship_date = p.formatted_date
+          ON so.formatted_ship_date = p.formatted_date
       
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
@@ -262,7 +262,7 @@ const l3_getSoUntagged_byCalMo = async config => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-          ON s0.formatted_ship_date = p.formatted_date
+          ON so.formatted_ship_date = p.formatted_date
       
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
@@ -295,7 +295,7 @@ const l4_getSo_byCalMo = async config => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-          ON s0.formatted_ship_date = p.formatted_date
+          ON so.formatted_ship_date = p.formatted_date
       
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
@@ -325,7 +325,7 @@ const l4_getSoTagged_byCalMo = async config => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-          ON s0.formatted_ship_date = p.formatted_date
+          ON so.formatted_ship_date = p.formatted_date
       
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
@@ -356,7 +356,7 @@ const l4_getSoUntagged_byCalMo = async config => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-          ON s0.formatted_ship_date = p.formatted_date
+          ON so.formatted_ship_date = p.formatted_date
       
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
@@ -389,7 +389,7 @@ const l5_getSo_byCalMo = async config => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-          ON s0.formatted_ship_date = p.formatted_date
+          ON so.formatted_ship_date = p.formatted_date
       
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
@@ -419,7 +419,7 @@ const l5_getSoTagged_byCalMo = async config => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-          ON s0.formatted_ship_date = p.formatted_date
+          ON so.formatted_ship_date = p.formatted_date
       
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
@@ -450,7 +450,7 @@ const l5_getSoUntagged_byCalMo = async config => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-          ON s0.formatted_ship_date = p.formatted_date
+          ON so.formatted_ship_date = p.formatted_date
       
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
@@ -483,7 +483,7 @@ const l0_getSo_byCalMo = async config => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-          ON s0.formatted_ship_date = p.formatted_date
+          ON so.formatted_ship_date = p.formatted_date
       
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
@@ -513,7 +513,7 @@ const l0_getSoTagged_byCalMo = async config => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-          ON s0.formatted_ship_date = p.formatted_date
+          ON so.formatted_ship_date = p.formatted_date
       
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
@@ -544,7 +544,7 @@ const l0_getSoUntagged_byCalMo = async config => {
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = so.item_num 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-          ON s0.formatted_ship_date = p.formatted_date
+          ON so.formatted_ship_date = p.formatted_date
       
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
