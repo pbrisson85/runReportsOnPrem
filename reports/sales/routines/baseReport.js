@@ -8,7 +8,6 @@ const {
 const { getTrendColsCalMonths } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsCalMonths')
 const { getTrendColsWeeks } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsWeeks')
 const { getTrendColsFiscalPeriods } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalPeriods')
-
 const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../../database/queries/postgres/getFiscalYearCols')
 const { getLatestShipWk, getEarliestShipWk } = require('../../../database/queries/postgres/getSoDates')
 const {
@@ -53,6 +52,14 @@ const {
   l5_getSalesByCalMo,
   l0_getSalesByCalMo,
 } = require('../../../database/queries/postgres/baseReport/getSalesTrendByCalMonth')
+const {
+  l1_getSalesByFiscalQuarter,
+  l2_getSalesByFiscalQuarter,
+  l3_getSalesByFiscalQuarter,
+  l4_getSalesByFiscalQuarter,
+  l5_getSalesByFiscalQuarter,
+  l0_getSalesByFiscalQuarter,
+} = require('../../../database/queries/postgres/baseReport/getSalesTrendByFiscalQuarters')
 const {
   l1_getSalesWkDriven,
   l2_getSalesWkDriven,
@@ -296,21 +303,29 @@ const buildReport = async (config, labelCols) => {
   const l5_salesProjectionPeriodToDate = !config.totals.useProjection ? skip() : config.l5_field ? () => {return l5_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
 
   /*SALES*/
-  const l0_salesByCalMo = !config.trends.calMonths ? skip() : () => {return l0_getSalesByCalMo(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l1_salesByCalMo = !config.trends.calMonths ? skip() : () => {return l1_getSalesByCalMo(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l2_salesByCalMo = !config.trends.calMonths ? skip() : () => {return l2_getSalesByCalMo(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l3_salesByCalMo = !config.trends.calMonths ? skip() : config.l3_field ? () => {return l3_getSalesByCalMo(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
-  const l4_salesByCalMo = !config.trends.calMonths ? skip() : config.l4_field ? () => {return l4_getSalesByCalMo(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
-  const l5_salesByCalMo = !config.trends.calMonths ? skip() : config.l5_field ? () => {return l5_getSalesByCalMo(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
 
-  const l0_salesCalMoToDate = !config.trends.calMonths ? skip() : () => {return l0_getSalesCalMoToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l1_salesCalMoToDate = !config.trends.calMonths ? skip() : () => {return l1_getSalesCalMoToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l2_salesCalMoToDate = !config.trends.calMonths ? skip() : () => {return l2_getSalesCalMoToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l3_salesCalMoToDate = !config.trends.calMonths ? skip() : config.l3_field ? () => {return l3_getSalesCalMoToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
-  const l4_salesCalMoToDate = !config.trends.calMonths ? skip() : config.l4_field ? () => {return l4_getSalesCalMoToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
-  const l5_salesCalMoToDate = !config.trends.calMonths ? skip() : config.l5_field ? () => {return l5_getSalesCalMoToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
-
+  const l0_salesTotalPrimary =  () => {return l0_getSalesTotalPrimary(config)}
+  const l1_salesTotalPrimary =  () => {return l1_getSalesTotalPrimary(config)}
+  const l2_salesTotalPrimary =  () => {return l2_getSalesTotalPrimary(config)}
+  const l3_salesTotalPrimary =  config.l3_field ? () => {return l3_getSalesTotalPrimary(config)} : skip()
+  const l4_salesTotalPrimary =  config.l4_field ? () => {return l4_getSalesTotalPrimary(config)} : skip()
+  const l5_salesTotalPrimary =  config.l5_field ? () => {return l5_getSalesTotalPrimary(config)} : skip()
+  
   // TRENDS
+  const l0_salesByCalMo = !config.trends.calMonths ? skip() : () => {return l0_getSalesByCalMo(config)}
+  const l1_salesByCalMo = !config.trends.calMonths ? skip() : () => {return l1_getSalesByCalMo(config)}
+  const l2_salesByCalMo = !config.trends.calMonths ? skip() : () => {return l2_getSalesByCalMo(config)}
+  const l3_salesByCalMo = !config.trends.calMonths ? skip() : config.l3_field ? () => {return l3_getSalesByCalMo(config)} : skip()
+  const l4_salesByCalMo = !config.trends.calMonths ? skip() : config.l4_field ? () => {return l4_getSalesByCalMo(config)} : skip()
+  const l5_salesByCalMo = !config.trends.calMonths ? skip() : config.l5_field ? () => {return l5_getSalesByCalMo(config)} : skip()
+
+  const l0_salesByFiscalQuarter = !config.trends.fiscalQuarters ? skip() : () => {return l0_getSalesByFiscalQuarter(config)}
+  const l1_salesByFiscalQuarter = !config.trends.fiscalQuarters ? skip() : () => {return l1_getSalesByFiscalQuarter(config)}
+  const l2_salesByFiscalQuarter = !config.trends.fiscalQuarters ? skip() : () => {return l2_getSalesByFiscalQuarter(config)}
+  const l3_salesByFiscalQuarter = !config.trends.fiscalQuarters ? skip() : config.l3_field ? () => {return l3_getSalesByFiscalQuarter(config)} : skip()
+  const l4_salesByFiscalQuarter = !config.trends.fiscalQuarters ? skip() : config.l4_field ? () => {return l4_getSalesByFiscalQuarter(config)} : skip()
+  const l5_salesByFiscalQuarter = !config.trends.fiscalQuarters ? skip() : config.l5_field ? () => {return l5_getSalesByFiscalQuarter(config)} : skip()
+
   const l0_salesByFy = !config.trends.fyFullYear ? skip() : () => {return l0_getSalesByFyYtd(config, config.totals.startWeekPrimary, config.totals.endWeekPrimary, false)}
   const l1_salesByFy = !config.trends.fyFullYear ? skip() : () => {return l1_getSalesByFyYtd(config, config.totals.startWeekPrimary, config.totals.endWeekPrimary, false)}
   const l2_salesByFy = !config.trends.fyFullYear ? skip() : () => {return l2_getSalesByFyYtd(config, config.totals.startWeekPrimary, config.totals.endWeekPrimary, false)}
@@ -339,16 +354,15 @@ const buildReport = async (config, labelCols) => {
   const l4_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.l4_field ? () => {return l4_getSalesByFiscalPeriod(config)} : skip()
   const l5_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.l5_field ? () => {return l5_getSalesByFiscalPeriod(config)} : skip()
 
-  const l0_salesTotalPrimary =  () => {return l0_getSalesTotalPrimary(config)}
-  const l1_salesTotalPrimary =  () => {return l1_getSalesTotalPrimary(config)}
-  const l2_salesTotalPrimary =  () => {return l2_getSalesTotalPrimary(config)}
-  const l3_salesTotalPrimary =  config.l3_field ? () => {return l3_getSalesTotalPrimary(config)} : skip()
-  const l4_salesTotalPrimary =  config.l4_field ? () => {return l4_getSalesTotalPrimary(config)} : skip()
-  const l5_salesTotalPrimary =  config.l5_field ? () => {return l5_getSalesTotalPrimary(config)} : skip()
-
   /*  */
 
   const [
+    l0_salesByFiscalQuarterR,
+    l1_salesByFiscalQuarterR,
+    l2_salesByFiscalQuarterR,
+    l3_salesByFiscalQuarterR,
+    l4_salesByFiscalQuarterR,
+    l5_salesByFiscalQuarterR,
     l0_salesByFiscalPeriodR,
     l1_salesByFiscalPeriodR,
     l2_salesByFiscalPeriodR,
@@ -470,6 +484,12 @@ const buildReport = async (config, labelCols) => {
     l5_salesPeriodToDateR,
     l0_salesPeriodToDateR,
   ] = await Promise.all([
+    l0_salesByFiscalQuarter(),  
+    l1_salesByFiscalQuarter(),
+    l2_salesByFiscalQuarter(),
+    l3_salesByFiscalQuarter(),
+    l4_salesByFiscalQuarter(),
+    l5_salesByFiscalQuarter(),
     l0_salesByFiscalPeriod(),
     l1_salesByFiscalPeriod(),
     l2_salesByFiscalPeriod(),
@@ -864,6 +884,12 @@ const buildReport = async (config, labelCols) => {
 
   const mappedSales = mapSalesToRowTemplates(
     [
+      ...l0_salesByFiscalQuarterR,
+      ...l1_salesByFiscalQuarterR,
+      ...l2_salesByFiscalQuarterR,
+      ...l3_salesByFiscalQuarterR,
+      ...l4_salesByFiscalQuarterR,
+      ...l5_salesByFiscalQuarterR,
       ...l0_salesByFiscalPeriodR,
       ...l1_salesByFiscalPeriodR,
       ...l2_salesByFiscalPeriodR,
