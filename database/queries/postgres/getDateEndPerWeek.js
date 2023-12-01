@@ -22,19 +22,6 @@ const getDateEndPerFiscalPeriodByRange = async (fy, config) => {
   return periods
 }
 
-const getDateEndPerWeekByRange = async config => {
-  console.log(
-    `${config.user} - getDateEndPerWeekByRange, query postgres for accounting period ends by week serial for ${new Date(
-      config.trends.startDate
-    ).toLocaleDateString()} through ${new Date(config.trends.endDate).toLocaleDateString()} ...`
-  )
-
-  const periodsByWeek =
-    await sql`SELECT period_by_week.week_serial AS dataName, period_by_week.date_end AS displayName FROM "accountingPeriods".period_by_week WHERE period_by_week.formatted_date_end >= ${config.trends.startDate} AND period_by_week.formatted_date_end <= ${config.trends.endDate} ORDER BY period_by_week.week ASC`
-
-  return periodsByWeek
-}
-
 const getDateEndPerWeekByRange_pj = async (start, end, config) => {
   console.log(
     `${config.user} - getDateEndPerWeekByRange_pj, query postgres for accounting period ends by week serial for ${new Date(
@@ -87,7 +74,6 @@ const getDateEndPerWeekByRange_so_untg = async (start, end, config) => {
   return periodsByWeek
 }
 
-module.exports.getDateEndPerWeekByRange = getDateEndPerWeekByRange
 module.exports.getDateEndPerWeek = getDateEndPerWeek
 module.exports.getDateEndPerWeekByRange_so = getDateEndPerWeekByRange_so
 module.exports.getDateEndPerWeekByRange_so_tg = getDateEndPerWeekByRange_so_tg

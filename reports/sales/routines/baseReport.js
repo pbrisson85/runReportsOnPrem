@@ -1,6 +1,5 @@
 const {
   getDateEndPerFiscalPeriodByRange,
-  getDateEndPerWeekByRange,
   getDateEndPerWeekByRange_pj,
   getDateEndPerWeekByRange_so,
   getDateEndPerWeekByRange_so_tg,
@@ -8,6 +7,7 @@ const {
 } = require('../../../database/queries/postgres/getDateEndPerWeek')
 const {
   getCalMonthByRange,
+  getTrendWeekCols,
 } = require('../../../database/queries/postgres/trendColHeadings/getCalMonthByRange')
 const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../../database/queries/postgres/getFiscalYearCols')
 const { getLatestShipWk, getEarliestShipWk } = require('../../../database/queries/postgres/getSoDates')
@@ -1090,7 +1090,7 @@ const buildReport = async (config, labelCols) => {
 
   /* Build Columns */
   const trendColsSales_byPeriodF = !config.trends.fiscalPeriods ? skip() : () => {return  getDateEndPerFiscalPeriodByRange(config.totals.yearPrimary, config)}
-  const trendColsSalesF = !config.trends.fiscalWeeks ? skip() : () => {return  getDateEndPerWeekByRange(config)}
+  const trendColsSalesF = !config.trends.fiscalWeeks ? skip() : () => {return  getTrendWeekCols(config)}
   const trendColsSalesProjF = !config.trends.useProjection ? skip() : () => {return  getDateEndPerWeekByRange_pj(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
   const trendColsSaByFyF = !config.trends.fyFullYear ? skip() : () => {return getFiscalYearCols()} 
   const trendColsSaByFyYtdF = !config.trends.fyYtd ? skip() : () => {return  getFiscalYearYtdCols(2022, 2022)}
