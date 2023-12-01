@@ -1144,7 +1144,7 @@ const buildReport = async (config, labelCols) => {
 
     const endDisplayArr = endDisplay.split(',')[0].split('/')
 
-    const endDisplayClean = `${endDisplayArr[0]}/${endDisplayArr[1]/endDisplayArr[2]}`
+    const endDisplayClean = `${endDisplayArr[0]}/${endDisplayArr[1]}/${endDisplayArr[2]}`
 
     const displayName = `${startDisplayClean}-${endDisplayClean}`
 
