@@ -431,7 +431,7 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
 
 
 
-  const trendColsCalMoByRangeF = !config.trends.calMonths ? skip() : () => {return  getCalMonthByRange(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
+  const trendColsCalMoByRangeF = !config.trends.calMonths ? skip() : () => {return  getCalMonthByRange(config)}
   const trendColsSales_byPeriodF = !config.trends.fiscalPeriods ? skip() : () => {return  getDateEndPerFiscalPeriodByRange(config.totals.yearPrimary, config)}
   const trendColsSalesF = !config.trends.fiscalWeeks ? skip() : () => { return getDateEndPerWeekByRange(config)} 
   const trendColsSalesProjF = !config.trends.useProjection ? skip() : () => {return  getDateEndPerWeekByRange_pj(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}

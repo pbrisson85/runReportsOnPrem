@@ -8,7 +8,7 @@ const {
 } = require('../../../database/queries/postgres/getDateEndPerWeek')
 const {
   getCalMonthByRange,
-} = require('../../../database/queries/postgres/getCalMonthByRange')
+} = require('../../../database/queries/postgres/trendColHeadings/getCalMonthByRange')
 const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../../database/queries/postgres/getFiscalYearCols')
 const { getLatestShipWk, getEarliestShipWk } = require('../../../database/queries/postgres/getSoDates')
 const {
