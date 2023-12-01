@@ -10,7 +10,7 @@ const { getTrendColsWeeks } = require('../../../database/queries/postgres/trendC
 const { getTrendColsFiscalPeriods } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalPeriods')
 const { getTrendColsFiscalQuarters } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalQuarters')
 const { getTrendColsFiscalYear } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalYear')
-const { getLatestShipWk, getEarliestShipWk } = require('../../../database/queries/postgres/getSoDates')
+const { getTrendColsSoByCalMonths } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalYear')
 const {
 l0_getSalesProjectionByWk,
 l0_getSalesProjectionPeriodToDate,
@@ -153,6 +153,14 @@ const {
   l0_getSoUntagged_byWk,
 } = require('../../../database/queries/postgres/baseReport/getSoByWeek')
 const {
+  l1_getSo_byCalMo,
+  l2_getSo_byCalMo,
+  l3_getSo_byCalMo,
+  l4_getSo_byCalMo,
+  l5_getSo_byCalMo,
+  l0_getSo_byCalMo,
+} = require('../../../database/queries/postgres/baseReport/getSoByCalMonth')
+const {
   getRowsFifthLevelDetail,
   getRowsFourthLevelDetail,
   getRowsThirdLevelDetail,
@@ -249,13 +257,20 @@ const buildReport = async (config, labelCols) => {
   const l4_so =  config.l4_field ? () => {return l4_getSo(config)} : skip()
   const l5_so =  config.l5_field ? () => {return l5_getSo(config)} : skip()
   
-  const l0_so_byWk = () => {return l0_getSo_byWk(config)}
-  const l1_so_byWk = () => {return l1_getSo_byWk(config)}
-  const l2_so_byWk = () => {return l2_getSo_byWk(config)}
-  const l3_so_byWk =  config.l3_field ? () => {return l3_getSo_byWk(config)} : skip()
-  const l4_so_byWk =  config.l4_field ? () => {return l4_getSo_byWk(config)} : skip()
-  const l5_so_byWk =  config.l5_field ? () => {return l5_getSo_byWk(config)} : skip()
+  const l0_so_byWk = !config.trends.fiscalWeeks ? skip() : () => {return l0_getSo_byWk(config)}
+  const l1_so_byWk = !config.trends.fiscalWeeks ? skip() : () => {return l1_getSo_byWk(config)}
+  const l2_so_byWk = !config.trends.fiscalWeeks ? skip() : () => {return l2_getSo_byWk(config)}
+  const l3_so_byWk = !config.trends.fiscalWeeks ? skip() : config.l3_field ? () => {return l3_getSo_byWk(config)} : skip()
+  const l4_so_byWk = !config.trends.fiscalWeeks ? skip() : config.l4_field ? () => {return l4_getSo_byWk(config)} : skip()
+  const l5_so_byWk = !config.trends.fiscalWeeks ? skip() : config.l5_field ? () => {return l5_getSo_byWk(config)} : skip()
   
+  const l0_so_byCalMo = !config.trends.calMonths ? skip() : () => {return l0_getSo_byCalMo(config)}
+  const l1_so_byCalMo = !config.trends.calMonths ? skip() : () => {return l1_getSo_byCalMo(config)}
+  const l2_so_byCalMo = !config.trends.calMonths ? skip() : () => {return l2_getSo_byCalMo(config)}
+  const l3_so_byCalMo = !config.trends.calMonths ? skip() : config.l3_field ? () => {return l3_getSo_byCalMo(config)} : skip()
+  const l4_so_byCalMo = !config.trends.calMonths ? skip() : config.l4_field ? () => {return l4_getSo_byCalMo(config)} : skip()
+  const l5_so_byCalMo = !config.trends.calMonths ? skip() : config.l5_field ? () => {return l5_getSo_byCalMo(config)} : skip()
+
   /* TAGGED SO */
   // const l0_soTagged = () => {return l0_getSoTagged(config)}
   // const l1_soTagged = () => {return l1_getSoTagged(config)}
@@ -272,19 +287,19 @@ const buildReport = async (config, labelCols) => {
   // const l5_soTagged_byWk =  config.l5_field ? () => {return l5_getSoTagged_byWk(config)}:skip()
 
   /* UNTAGGED SO */
-  const l0_soUntagged = () => {return l0_getSoUntagged(config)}
-  const l1_soUntagged = () => {return l1_getSoUntagged(config)}
-  const l2_soUntagged = () => {return l2_getSoUntagged(config)}
-  const l3_soUntagged =  config.l3_field ? () => {return l3_getSoUntagged(config)} : skip()
-  const l4_soUntagged =  config.l4_field ? () => {return l4_getSoUntagged(config)} : skip()
-  const l5_soUntagged =  config.l5_field ? () => {return l5_getSoUntagged(config)} : skip()
+  // const l0_soUntagged = () => {return l0_getSoUntagged(config)}
+  // const l1_soUntagged = () => {return l1_getSoUntagged(config)}
+  // const l2_soUntagged = () => {return l2_getSoUntagged(config)}
+  // const l3_soUntagged =  config.l3_field ? () => {return l3_getSoUntagged(config)} : skip()
+  // const l4_soUntagged =  config.l4_field ? () => {return l4_getSoUntagged(config)} : skip()
+  // const l5_soUntagged =  config.l5_field ? () => {return l5_getSoUntagged(config)} : skip()
 
-  const l0_soUntagged_byWk = () => {return l0_getSoUntagged_byWk(config)}
-  const l1_soUntagged_byWk = () => {return l1_getSoUntagged_byWk(config)}
-  const l2_soUntagged_byWk = () => {return l2_getSoUntagged_byWk(config)}
-  const l3_soUntagged_byWk =  config.l3_field ? () => {return l3_getSoUntagged_byWk(config)} : skip()
-  const l4_soUntagged_byWk =  config.l4_field ? () => {return l4_getSoUntagged_byWk(config)} : skip()
-  const l5_soUntagged_byWk =  config.l5_field ? () => {return l5_getSoUntagged_byWk(config)} : skip()
+  // const l0_soUntagged_byWk = () => {return l0_getSoUntagged_byWk(config)}
+  // const l1_soUntagged_byWk = () => {return l1_getSoUntagged_byWk(config)}
+  // const l2_soUntagged_byWk = () => {return l2_getSoUntagged_byWk(config)}
+  // const l3_soUntagged_byWk =  config.l3_field ? () => {return l3_getSoUntagged_byWk(config)} : skip()
+  // const l4_soUntagged_byWk =  config.l4_field ? () => {return l4_getSoUntagged_byWk(config)} : skip()
+  // const l5_soUntagged_byWk =  config.l5_field ? () => {return l5_getSoUntagged_byWk(config)} : skip()
 
   // ///////////////////////////////// SALES DATA
 
@@ -418,6 +433,13 @@ const buildReport = async (config, labelCols) => {
     l4_soR,
     l5_soR,
     l0_soR,
+    l1_so_byCalMoR,
+    l2_so_byCalMoR,
+    l3_so_byCalMoR,
+    l4_so_byCalMoR,
+    l5_so_byCalMoR,
+    l0_so_byCalMoR,
+
     l1_so_byWkR,
     l2_so_byWkR,
     l3_so_byWkR,
@@ -436,18 +458,18 @@ const buildReport = async (config, labelCols) => {
     // l4_soTagged_byWkR,
     // l5_soTagged_byWkR,
     // l0_soTagged_byWkR,
-    l1_soUntaggedR,
-    l2_soUntaggedR,
-    l3_soUntaggedR,
-    l4_soUntaggedR,
-    l5_soUntaggedR,
-    l0_soUntaggedR,
-    l1_soUntagged_byWkR,
-    l2_soUntagged_byWkR,
-    l3_soUntagged_byWkR,
-    l4_soUntagged_byWkR,
-    l5_soUntagged_byWkR,
-    l0_soUntagged_byWkR,
+    // l1_soUntaggedR,
+    // l2_soUntaggedR,
+    // l3_soUntaggedR,
+    // l4_soUntaggedR,
+    // l5_soUntaggedR,
+    // l0_soUntaggedR,
+    // l1_soUntagged_byWkR,
+    // l2_soUntagged_byWkR,
+    // l3_soUntagged_byWkR,
+    // l4_soUntagged_byWkR,
+    // l5_soUntagged_byWkR,
+    // l0_soUntagged_byWkR,
     l1_salesProjectionBywkR,
     l2_salesProjectionBywkR,
     l3_salesProjectionBywkR,
@@ -545,6 +567,14 @@ const buildReport = async (config, labelCols) => {
     l4_so(),
     l5_so(),
     l0_so(),
+
+    l1_so_byCalMo(),
+    l2_so_byCalMo(),
+    l3_so_byCalMo(),
+    l4_so_byCalMo(),
+    l5_so_byCalMo(),
+    l0_so_byCalMo(),
+
     l1_so_byWk(),
     l2_so_byWk(),
     l3_so_byWk(),
@@ -563,18 +593,18 @@ const buildReport = async (config, labelCols) => {
     // l4_soTagged_byWk(),
     // l5_soTagged_byWk(),
     // l0_soTagged_byWk(),
-    l1_soUntagged(),
-    l2_soUntagged(),
-    l3_soUntagged(),
-    l4_soUntagged(),
-    l5_soUntagged(),
-    l0_soUntagged(),
-    l1_soUntagged_byWk(),
-    l2_soUntagged_byWk(),
-    l3_soUntagged_byWk(),
-    l4_soUntagged_byWk(),
-    l5_soUntagged_byWk(),
-    l0_soUntagged_byWk(),
+    // l1_soUntagged(),
+    // l2_soUntagged(),
+    // l3_soUntagged(),
+    // l4_soUntagged(),
+    // l5_soUntagged(),
+    // l0_soUntagged(),
+    // l1_soUntagged_byWk(),
+    // l2_soUntagged_byWk(),
+    // l3_soUntagged_byWk(),
+    // l4_soUntagged_byWk(),
+    // l5_soUntagged_byWk(),
+    // l0_soUntagged_byWk(),
     l1_salesProjectionByWk(),
     l2_salesProjectionByWk(),
     l3_salesProjectionByWk(),
@@ -945,18 +975,26 @@ const buildReport = async (config, labelCols) => {
       ...l4_soR,
       ...l5_soR,
       ...l0_soR,
+
+      ...l1_so_byCalMoR,
+      ...l2_so_byCalMoR,
+      ...l3_so_byCalMoR,
+      ...l4_so_byCalMoR,
+      ...l5_so_byCalMoR,
+      ...l0_so_byCalMoR,
+
       // ...l1_soTaggedR,
       // ...l2_soTaggedR,
       // ...l3_soTaggedR,
       // ...l4_soTaggedR,
       // ...l5_soTaggedR,
       // ...l0_soTaggedR,
-      ...l1_soUntaggedR,
-      ...l2_soUntaggedR,
-      ...l3_soUntaggedR,
-      ...l4_soUntaggedR,
-      ...l5_soUntaggedR,
-      ...l0_soUntaggedR,
+      // ...l1_soUntaggedR,
+      // ...l2_soUntaggedR,
+      // ...l3_soUntaggedR,
+      // ...l4_soUntaggedR,
+      // ...l5_soUntaggedR,
+      // ...l0_soUntaggedR,
       ...l1_so_byWkR,
       ...l2_so_byWkR,
       ...l3_so_byWkR,
@@ -969,12 +1007,12 @@ const buildReport = async (config, labelCols) => {
       // ...l4_soTagged_byWkR,
       // ...l5_soTagged_byWkR,
       // ...l0_soTagged_byWkR,
-      ...l1_soUntagged_byWkR,
-      ...l2_soUntagged_byWkR,
-      ...l3_soUntagged_byWkR,
-      ...l4_soUntagged_byWkR,
-      ...l5_soUntagged_byWkR,
-      ...l0_soUntagged_byWkR,
+      // ...l1_soUntagged_byWkR,
+      // ...l2_soUntagged_byWkR,
+      // ...l3_soUntagged_byWkR,
+      // ...l4_soUntagged_byWkR,
+      // ...l5_soUntagged_byWkR,
+      // ...l0_soUntagged_byWkR,
       ...l1_salesByFyR,
       ...l2_salesByFyR,
       ...l3_salesByFyR,
@@ -1126,11 +1164,9 @@ const buildReport = async (config, labelCols) => {
   const trendColsCalMoByRangeF = !config.trends.calMonths ? skip() : () => {return  getTrendColsCalMonths(config)}
 
   // get so by week cols
-  const start_so = await getEarliestShipWk(config)
-  const end_so = await getLatestShipWk(config) // NEED A MAX RANGE HERE !!!!!!!!!! SLS PERSON ACCIDENTALLY ENTERED 2031 INTO A SO AN FRONT END CRASHED
-  const trendColsSoF = () => {return  getDateEndPerWeekByRange_so(start_so, end_so, config)}
-  const trendColsSo_tgF = () => {return  getDateEndPerWeekByRange_so_tg(start_so, end_so, config)}
-  const trendColsSo_untgF = () => {return  getDateEndPerWeekByRange_so_untg(start_so, end_so, config)}
+  const trendColsSoF = !config.trends.calMonths ? () => {return  getDateEndPerWeekByRange_so(config)} : () => {return  getTrendColsSoByCalMonths(config)}
+  const trendColsSo_tgF = () => {return  getDateEndPerWeekByRange_so_tg(config)}
+  const trendColsSo_untgF = () => {return  getDateEndPerWeekByRange_so_untg(config)}
 
 
   // Call all column functions
@@ -1141,8 +1177,8 @@ const buildReport = async (config, labelCols) => {
     trendColsSales, 
     trendColsSaByFyYtd, 
     trendColsSo, 
-    trendColsSo_tg, 
-    trendColsSo_untg,
+    // trendColsSo_tg, 
+    // trendColsSo_untg,
     trendColsCalMo
   ] = await Promise.all([
     trendColsSales_byFiscalQuarterF(),
@@ -1151,8 +1187,8 @@ const buildReport = async (config, labelCols) => {
     trendColsSalesF(), 
     trendColsSaByFyYtdF(), 
     trendColsSoF(), 
-    trendColsSo_tgF(), 
-    trendColsSo_untgF(),
+    // trendColsSo_tgF(), 
+    // trendColsSo_untgF(),
     trendColsCalMoByRangeF(),
   ])
   
@@ -1169,8 +1205,8 @@ const buildReport = async (config, labelCols) => {
       trendColsSaByFyYtd,
       labelCols,
       trendColsSo,
-      trendColsSo_tg,
-      trendColsSo_untg,
+      // trendColsSo_tg,
+      // trendColsSo_untg,
       columnConfigs: columnConfigsTagged,
       defaultTrend: {
         dataName: config.trends.useProjection ? columnConfigs.salesProjectionCol[0].dataName : columnConfigs.primarySalesTotalCol[0].dataName,

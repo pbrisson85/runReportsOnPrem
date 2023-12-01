@@ -4,6 +4,7 @@ const trendTypeOptions = require('../data/filters/trendType')
 const getDefaults = require('./getReportDefaults')
 const { getStartOfWeek } = require('../../../database/queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../../../database/queries/postgres/getWeekForDate')
+const { getEarliestSoShipDate, getLatestSoShipDate } = require('../../../database/queries/postgres/getSoDates')
 
 const getReportConfig = async reqBody => {
   console.log('reqBody', reqBody)
@@ -57,6 +58,10 @@ const getReportConfig = async reqBody => {
     rowEnd = totalsEnd
   }
 
+  // get so dates
+  const start_so = await getEarliestSoShipDate(reqBody.user)
+  const end_so = await getLatestSoShipDate(reqBody.user) // NEED A MAX RANGE HERE !!!!!!!!!! SLS PERSON ACCIDENTALLY ENTERED 2031 INTO A SO AN FRONT END CRASHED
+
   // define config object
   let config = {
     program: typeof reqBody.program === 'undefined' ? null : reqBody.program === 'all' ? null : reqBody.program,
@@ -83,6 +88,10 @@ const getReportConfig = async reqBody => {
       // Rows need to use the widest date range since the totals cols and the trend could differ in range
       startDate: rowStart,
       endDate: rowEnd,
+    },
+    salesOrders: {
+      startDate: start_so,
+      endDate: end_so,
     },
     trends: {
       fiscalWeeks: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'fiscalWeeks' ?? false,
