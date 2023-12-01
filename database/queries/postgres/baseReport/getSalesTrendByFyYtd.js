@@ -26,7 +26,7 @@ const l1_getSalesByFyYtd = async config => {
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.trends.fyYtd ? sql` AND sl.week <= ${config.trends.endWeek}` : sql``}
-        AND p.fiscal_year IN ${config.trends.trendYears}
+        AND p.fiscal_year IN [2022, 2023]
       
       GROUP BY p.fiscal_year, ${sql(config.l1_field)} 
       
