@@ -1126,6 +1126,33 @@ const buildReport = async (config, labelCols) => {
   ])
   
 
+  // Move this function to its own file
+  // Add startDate and endDate to the column configs so that it can be passed back in the detail and trend queries.
+  columnConfigs.primarySalesTotalCol.forEach(col => {
+    // format displayName
+    const startDisplay = new Date(config.totals.startDatePrimary).toLocaleString('en-US', {
+      timeZone: 'America/New_York',
+    })
+
+    const startDisplayArr = startDisplay.split(',')[0].split('/')
+
+    const startDisplayClean = `${startDisplayArr[0]}/${startDisplayArr[1]}`
+
+    const endDisplay = new Date(config.totals.endDatePrimary).toLocaleString('en-US', {
+      timeZone: 'America/New_York',
+    })
+
+    const endDisplayArr = endDisplay.split(',')[0].split('/')
+
+    const endDisplayClean = `${endDisplayArr[0]}/${endDisplayArr[1]/endDisplayArr[2]}`
+
+    const displayName = `${startDisplayClean}-${endDisplayClean}`
+
+    col.startDate = config.totals.startDatePrimary
+    col.endDate = config.totals.endDatePrimary
+    col.displayName = displayName
+
+  })
  
 
   return {
@@ -1143,8 +1170,8 @@ const buildReport = async (config, labelCols) => {
       trendColsSo_untg,
       columnConfigs,
       defaultTrend: {
-        dataName: config.trends.useProjection ? columnConfigs.salesProjectionCol[0].dataName : columnConfigs.totalsCol[0].dataName,
-        colType: config.trends.useProjection ? columnConfigs.salesProjectionCol[0].colType : columnConfigs.totalsCol[0].colType
+        dataName: config.trends.useProjection ? columnConfigs.salesProjectionCol[0].dataName : columnConfigs.primarySalesTotalCol[0].dataName,
+        colType: config.trends.useProjection ? columnConfigs.salesProjectionCol[0].colType : columnConfigs.primarySalesTotalCol[0].colType
       }
     },
   }

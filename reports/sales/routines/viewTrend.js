@@ -465,8 +465,8 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
       trendColsSo_untg,
       columnConfigs,
       defaultTrend: {
-        dataName: config.trends.useProjection ? columnConfigs.salesProjectionCol[0].dataName : columnConfigs.totalsCol[0].dataName,
-        colType: config.trends.useProjection ? columnConfigs.salesProjectionCol[0].colType : columnConfigs.totalsCol[0].colType
+        dataName: config.trends.useProjection ? columnConfigs.salesProjectionCol[0].dataName : columnConfigs.primarySalesTotalCol[0].dataName,
+        colType: config.trends.useProjection ? columnConfigs.salesProjectionCol[0].colType : columnConfigs.primarySalesTotalCol[0].colType
       }
     },
   }

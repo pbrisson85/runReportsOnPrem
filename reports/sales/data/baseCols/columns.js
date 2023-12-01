@@ -3,11 +3,11 @@ const invenKpiCol = require('./invenKpiCols.js')
 const poCols = require('./purchaseOrderCols.js')
 const salesKpiCols = require('./salesKpiCols.js')
 const openOrdersCol = require('./salesOrderCols.js')
-const totalsCol = require('./salesTotalCols.js')
+const primarySalesTotalCol = require('./salesTotalCols.js')
 const trendCol = require('./trendColsTemplate.js')
 const salesProjectionCol = require('./salesProjectionTotalCols.js')
 
 // These are configs for the columns in the report
-const columns = { invenFgCols, invenKpiCol, poCols, salesKpiCols, openOrdersCol, totalsCol, trendCol }
+const columns = { invenFgCols, invenKpiCol, poCols, salesKpiCols, openOrdersCol, primarySalesTotalCol, trendCol }
 
 module.exports = columns

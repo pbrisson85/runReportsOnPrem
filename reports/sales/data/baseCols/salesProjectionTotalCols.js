@@ -1,4 +1,4 @@
-const totalsCol = [
+const primarySalesTotalCol = [
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
     displayName: 'SLS PROJ', // show as column header
@@ -55,4 +55,4 @@ const totalsCol = [
   },
 ]
 
-module.exports = totalsCol
+module.exports = primarySalesTotalCol
