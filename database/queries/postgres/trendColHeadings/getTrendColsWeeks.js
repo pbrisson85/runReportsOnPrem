@@ -8,7 +8,7 @@ const getTrendColsWeeks = async config => {
   )
 
   const periodsByWeek = await sql`
-    SELECT p.week_serial AS dataName, p.date_end AS displayName, MIN(p.formatted_date) AS start_date,  MAX(p.formatted_date) AS end_date
+    SELECT p.week_serial AS dataName, p.formatted_date_end AS displayName, MIN(p.formatted_date) AS start_date,  MAX(p.formatted_date) AS end_date
     
     FROM "accountingPeriods".period_by_day AS p
     
