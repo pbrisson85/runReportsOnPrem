@@ -6,6 +6,8 @@ const { getStartOfWeek } = require('../../../database/queries/postgres/getDateSt
 const { getWeekForDate } = require('../../../database/queries/postgres/getWeekForDate')
 
 const getReportConfig = async reqBody => {
+  console.log('reqBody', reqBody)
+
   // auth filters:
   let jbBuyerFilter = false
 
