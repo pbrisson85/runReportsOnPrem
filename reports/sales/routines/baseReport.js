@@ -433,6 +433,7 @@ const buildReport = async (config, labelCols) => {
     l4_soR,
     l5_soR,
     l0_soR,
+    
     l1_so_byCalMoR,
     l2_so_byCalMoR,
     l3_so_byCalMoR,
