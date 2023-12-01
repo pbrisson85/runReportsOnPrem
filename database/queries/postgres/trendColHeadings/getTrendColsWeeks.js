@@ -18,3 +18,5 @@ const getTrendColsWeeks = async config => {
 
   return periodsByWeek
 }
+
+module.exports.getTrendColsWeeks = getTrendColsWeeks
