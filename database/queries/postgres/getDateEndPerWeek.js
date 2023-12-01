@@ -9,19 +9,6 @@ const getDateEndPerWeek = async fy => {
   return periodsByWeek
 }
 
-const getDateEndPerFiscalPeriodByRange = async (fy, config) => {
-  console.log(`${config.user} - getDateEndPerFiscalPeriodByRange, query postgres for accounting period ends by period serial`)
-
-  const periods = await sql`
-    SELECT p.period_serial AS dataName, p.date_end AS displayName 
-      FROM "accountingPeriods".period_by_month as p 
-        WHERE p.fiscal_year = ${fy} 
-          ORDER BY p.period ASC
-  `
-
-  return periods
-}
-
 const getDateEndPerWeekByRange_pj = async (start, end, config) => {
   console.log(
     `${config.user} - getDateEndPerWeekByRange_pj, query postgres for accounting period ends by week serial for ${new Date(
