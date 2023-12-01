@@ -9,7 +9,7 @@ const { getTrendColsCalMonths } = require('../../../database/queries/postgres/tr
 const { getTrendColsWeeks } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsWeeks')
 const { getTrendColsFiscalPeriods } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalPeriods')
 const { getTrendColsFiscalQuarters } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalQuarters')
-const { getFiscalYearCols, getFiscalYearYtdCols, getTrendColsFiscalYear } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalYear')
+const { getTrendColsFiscalYear } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalYear')
 const { getLatestShipWk, getEarliestShipWk } = require('../../../database/queries/postgres/getSoDates')
 const {
 l0_getSalesProjectionByWk,
