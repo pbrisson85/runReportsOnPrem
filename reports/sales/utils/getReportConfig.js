@@ -49,7 +49,7 @@ const getReportConfig = async reqBody => {
   const totalsEnd = new Date(reqBody.totalsEnd?.date_end ?? defaultEnd)
 
   let rowEnd
-  if (new Date(trendEnd).getTime() <= new Date(totalsEnd).getTime()) {
+  if (new Date(trendEnd).getTime() >= new Date(totalsEnd).getTime()) {
     rowEnd = trendEnd
   } else {
     rowEnd = totalsEnd
