@@ -96,7 +96,7 @@ const getReportConfig = async reqBody => {
       startDate: new Date(reqBody.trendStart?.date_start ?? periodStart),
       endDate: new Date(reqBody.trendEnd?.date_end ?? defaultEnd),
       endWeek: typeof reqBody.trendEnd?.week === 'undefined' ? 0 : reqBody.trendEnd.week === '52' ? 53 : parseInt(reqBody.trendEnd.week),
-      trendYears: reqBody.trendYears ?? [],
+      trendYears: typeof reqBody.trendYears === 'undefined' ? [] : reqBody.trendYears.map(yr => parseInt(yr)),
       useProjection: typeof reqBody.trendUseProjection === 'undefined' ? false : reqBody.trendUseProjection[0] ?? false,
     },
     totals: {
