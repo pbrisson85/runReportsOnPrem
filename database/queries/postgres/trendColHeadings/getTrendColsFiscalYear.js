@@ -14,7 +14,8 @@ const getTrendColsFiscalYear = async config => {
     
     FROM "accountingPeriods".period_by_day AS p
     
-    ${config.trends.fyYtd ? sql`WHERE sl.week >= ${1} AND sl.week <= ${config.trends.endWeek}` : sql``}
+    WHERE p.fiscal_year IN ${config.trends.trendYears}
+    ${config.trends.fyYtd ? sql` AND sl.week >= ${1} AND sl.week <= ${config.trends.endWeek}` : sql``}
 
     GROUP BY p.fiscal_year
 
