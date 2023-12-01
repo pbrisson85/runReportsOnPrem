@@ -16,7 +16,7 @@ const getTrendColsWeeks = async config => {
     
     GROUP BY p.week_serial
 
-    ORDER BY p.week ASC`
+    ORDER BY p.week_serial ASC`
 
   return periodsByWeek
 }
