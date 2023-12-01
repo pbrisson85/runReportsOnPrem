@@ -8,6 +8,7 @@ const {
 const { getTrendColsCalMonths } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsCalMonths')
 const { getTrendColsWeeks } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsWeeks')
 const { getTrendColsFiscalPeriods } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalPeriods')
+const { getTrendColsFiscalQuarters } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalQuarters')
 const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../../database/queries/postgres/getFiscalYearCols')
 const { getLatestShipWk, getEarliestShipWk } = require('../../../database/queries/postgres/getSoDates')
 const {
@@ -1116,6 +1117,8 @@ const buildReport = async (config, labelCols) => {
   const data = cleanLabelsForDisplay(flattenedMappedData, config)
 
   /* Build Columns */
+  
+  const trendColsSales_byFiscalQuarterF = !config.trends.fiscalQuarters ? skip() : () => {return  getTrendColsFiscalQuarters(config)}
   const trendColsSales_byPeriodF = !config.trends.fiscalPeriods ? skip() : () => {return  getTrendColsFiscalPeriods(config)}
   const trendColsSalesF = !config.trends.fiscalWeeks ? skip() : () => {return  getTrendColsWeeks(config)}
   const trendColsSalesProjF = !config.trends.useProjection ? skip() : () => {return  getDateEndPerWeekByRange_pj(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
@@ -1133,6 +1136,7 @@ const buildReport = async (config, labelCols) => {
 
   // Call all column functions
   const [
+    trendColsSales_byFiscalQuarter,
     trendColsSales_byPeriod,
     trendColsSalesProj, 
     trendColsSales, 
@@ -1143,6 +1147,7 @@ const buildReport = async (config, labelCols) => {
     trendColsSo_untg,
     trendColsCalMo
   ] = await Promise.all([
+    trendColsSales_byFiscalQuarterF(),
     trendColsSales_byPeriodF(),
     trendColsSalesProjF(), 
     trendColsSalesF(), 
@@ -1159,6 +1164,7 @@ const buildReport = async (config, labelCols) => {
   return {
     data,
     cols: {
+      trendColsSales_byFiscalQuarter,
       trendColsSales_byPeriod,
       trendColsCalMo,
       trendColsSalesProj, // Only include if projection is checked
