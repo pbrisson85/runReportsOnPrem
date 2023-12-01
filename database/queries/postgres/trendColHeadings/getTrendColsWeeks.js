@@ -1,6 +1,6 @@
-const getTrendWeekCols = async config => {
+const getTrendColsWeeks = async config => {
   console.log(
-    `${config.user} - getTrendWeekCols, query postgres for accounting period ends by week serial for ${new Date(
+    `${config.user} - getTrendColsWeeks, query postgres for accounting period ends by week serial for ${new Date(
       config.trends.startDate
     ).toLocaleDateString()} through ${new Date(config.trends.endDate).toLocaleDateString()} ...`
   )
@@ -15,8 +15,6 @@ const getTrendWeekCols = async config => {
     GROUP BY p.week_serial
 
     ORDER BY p.week ASC`
-
-  console.log('periodsByWeek', periodsByWeek)
 
   return periodsByWeek
 }

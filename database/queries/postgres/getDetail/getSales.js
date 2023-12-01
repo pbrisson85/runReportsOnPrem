@@ -2,7 +2,7 @@ const sql = require('../../../../server')
 
 // FG Program col total for period
 
-const getSales_detail = async (config, start, end, year) => {
+const getSales_detail = async (config, startDate, endDate) => {
   try {
     console.log(`${config.user} - level ${config.queryLevel}: query postgres to get FG sales data period total ...`)
 
@@ -16,8 +16,7 @@ const getSales_detail = async (config, start, end, year) => {
           ON cs.customer_code = sl.customer_code
           
       WHERE 
-        sl.week >= ${start} AND sl.week <= ${end} 
-        AND sl.fiscal_year = ${year} 
+        sl.formatted_invoice_date >= ${startDate} AND sl.formatted_invoice_date <= ${endDate}
         ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
         ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``}

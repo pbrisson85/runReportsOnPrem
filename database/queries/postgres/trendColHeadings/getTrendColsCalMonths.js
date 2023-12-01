@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const getCalMonthByRange = async config => {
+const getTrendColsCalMonths = async config => {
   const periodsByWeek = await sql`
     SELECT p.cal_month_serial AS dataName, p.cal_month_serial AS displayName, MIN(p.formatted_date) AS start_date,  MAX(p.formatted_date) AS end_date
     
@@ -12,9 +12,7 @@ const getCalMonthByRange = async config => {
 
     ORDER BY p.cal_month_serial ASC`
 
-  console.log('periodsByWeek', periodsByWeek)
-
   return periodsByWeek
 }
 
-module.exports.getCalMonthByRange = getCalMonthByRange
+module.exports.getTrendColsCalMonths = getTrendColsCalMonths

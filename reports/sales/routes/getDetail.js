@@ -25,7 +25,9 @@ const groupByOptions = require('../data/filters/detailGroupBy')
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { columnDataName, colType, fyTrendCol, fyYtdTrendCol, reportFormat } = req.body
+  const { columnDataName, colType, fyTrendCol, fyYtdTrendCol, reportFormat, startDate, endDate } = req.body
+
+  console.log(req.body)
 
   const config = await getReportConfig(req.body)
   let data = null
@@ -82,29 +84,7 @@ router.post('/', async (req, res) => {
   }
 
   if (colType === 'salesInvoice') {
-    // Transform all queries to have a start week, end week, and year
-    let startWeek = config.totals.startWeekPrimary
-    let endWeek = config.totals.endWeekPrimary
-    let year = config.totals.yearPrimary
-    let priorYearData = false
-
-    if (fyYtdTrendCol) {
-      priorYearData = true
-      year = columnDataName.split('_')[0]
-    }
-    if (fyTrendCol) {
-      startWeek = 1
-      endWeek = 53
-      priorYearData = true
-      year = columnDataName.split('_')[0]
-    }
-    if (columnDataName.split('-')[1]?.charAt(0) === 'W') {
-      startWeek = columnDataName.split('-')[1].split('W')[1]
-      endWeek = columnDataName.split('-')[1].split('W')[1]
-      year = columnDataName.split('-')[0]
-    }
-
-    data = await getSales_detail(config, startWeek, endWeek, year)
+    data = await getSales_detail(config, startDate, endDate)
   }
 
   if (colType === 'salesProjection') {
