@@ -14,7 +14,7 @@ const getTrendColsWeeks = async config => {
     
     WHERE p.formatted_date >= ${config.trends.startDate} AND p.formatted_date <= ${config.trends.endDate} 
     
-    GROUP BY p.week_serial
+    GROUP BY p.week_serial, p.formatted_date
 
     ORDER BY p.week ASC`
 
