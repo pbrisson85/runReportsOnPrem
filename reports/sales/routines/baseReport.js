@@ -10,7 +10,7 @@ const { getTrendColsWeeks } = require('../../../database/queries/postgres/trendC
 const { getTrendColsFiscalPeriods } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalPeriods')
 const { getTrendColsFiscalQuarters } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalQuarters')
 const { getTrendColsFiscalYear } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalYear')
-const { getTrendColsSoByCalMonths } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalYear')
+const { getTrendColsSoByCalMonths } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsSoByCalMonths')
 const {
 l0_getSalesProjectionByWk,
 l0_getSalesProjectionPeriodToDate,
