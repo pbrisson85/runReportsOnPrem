@@ -5,7 +5,7 @@ const primarySalesTotalCol = [
     dataName: 'SALES TOTAL', // key to pull data from
     justifyData: 'end', // css justify content
     justifyHeading: 'center', // css justify content
-    width: '100px', // css width
+    width: '125px', // css width
     number: true,
     boolean: false, // flag to use formatTableData model
     decimals: 0, // flip when fliping view ****************************************************************
