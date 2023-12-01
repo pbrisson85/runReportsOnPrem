@@ -170,6 +170,7 @@ const calcInventoryAvailable = require('../../../models/calcInventoryAvailable')
 const collapseRedundantTotalRows = require('../../../models/collapseRedundantTotalRows')
 const columnConfigs = require('../data/baseCols/columns')
 const sortRowTemplate = require('../../../models/sortRowTemplate')
+const addDataToSalesTotalCol = require('../../../models/addDataToSalesTotalCol')
 
 const buildReport = async (config, labelCols) => {
   // The routine and all of the queries can be the same for all reports. Going to buikd out this rpeort and then change the config manually to test.
@@ -1125,35 +1126,7 @@ const buildReport = async (config, labelCols) => {
     trendColsCalMoByRangeF(),
   ])
   
-
-  // Move this function to its own file
-  // Add startDate and endDate to the column configs so that it can be passed back in the detail and trend queries.
-  columnConfigs.primarySalesTotalCol.forEach(col => {
-    // format displayName
-    const startDisplay = new Date(config.totals.startDatePrimary).toLocaleString('en-US', {
-      timeZone: 'America/New_York',
-    })
-
-    const startDisplayArr = startDisplay.split(',')[0].split('/')
-
-    const startDisplayClean = `${startDisplayArr[0]}/${startDisplayArr[1]}`
-
-    const endDisplay = new Date(config.totals.endDatePrimary).toLocaleString('en-US', {
-      timeZone: 'America/New_York',
-    })
-
-    const endDisplayArr = endDisplay.split(',')[0].split('/')
-
-    const endDisplayClean = `${endDisplayArr[0]}/${endDisplayArr[1]}/${endDisplayArr[2]}`
-
-    const displayName = `${startDisplayClean}-${endDisplayClean}`
-
-    col.startDate = config.totals.startDatePrimary
-    col.endDate = config.totals.endDatePrimary
-    col.displayName = displayName
-
-  })
- 
+  const columnConfigsTagged = addDataToSalesTotalCol(config, columnConfigs) 
 
   return {
     data,
@@ -1168,7 +1141,7 @@ const buildReport = async (config, labelCols) => {
       trendColsSo,
       trendColsSo_tg,
       trendColsSo_untg,
-      columnConfigs,
+      columnConfigs: columnConfigsTagged,
       defaultTrend: {
         dataName: config.trends.useProjection ? columnConfigs.salesProjectionCol[0].dataName : columnConfigs.primarySalesTotalCol[0].dataName,
         colType: config.trends.useProjection ? columnConfigs.salesProjectionCol[0].colType : columnConfigs.primarySalesTotalCol[0].colType
