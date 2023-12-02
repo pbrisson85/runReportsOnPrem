@@ -304,11 +304,11 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
       filterRow: true,
       l1_label: `${`
                   ${config.program ? `prog: ${config.program}, ` : ``}
-                  ${config.l1_filter ? `${config.l1_name}: ${config.l1_filter}, ` : ``}
-                  ${config.l2_filter ? `${config.l2_name}: ${config.l2_filter}, ` : ``}
-                  ${config.l3_filter ? `${config.l3_name}: ${config.l3_filter}, ` : ``}
-                  ${config.l4_filter ? `${config.l4_name}: ${config.l4_filter}, ` : ``}
-                  ${config.l5_filter ? `${config.l5_name}: ${config.l5_filter}, ` : ``}
+                  ${config.l1_filter ? `${config.baseFormat.l1_name}: ${config.l1_filter}, ` : ``}
+                  ${config.l2_filter ? `${config.baseFormat.l2_name}: ${config.l2_filter}, ` : ``}
+                  ${config.l3_filter ? `${config.baseFormat.l3_name}: ${config.l3_filter}, ` : ``}
+                  ${config.l4_filter ? `${config.baseFormat.l4_name}: ${config.l4_filter}, ` : ``}
+                  ${config.l5_filter ? `${config.baseFormat.l5_name}: ${config.l5_filter}, ` : ``}
                   ${config.trendFilters.customer ? `cust: ${config.trendFilters.customer}, ` : ``}
                   ${config.trendFilters.item ? `item: ${config.trendFilters.item}, ` : ``}
                   ${config.trendFilters.salesPerson ? `salesperson: ${config.trendFilters.salesPerson}, ` : ``}

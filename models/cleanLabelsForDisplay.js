@@ -12,11 +12,11 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
 
   // determine highest data level (how many label cols) to know how to shift all to the
   let maxLevel = 0
-  if (config.l1_field) maxLevel = 1
-  if (config.l2_field) maxLevel = 2
-  if (config.l3_field) maxLevel = 3
-  if (config.l4_field) maxLevel = 4
-  if (config.l5_field) maxLevel = 5
+  if (config.baseFormat.l1_field) maxLevel = 1
+  if (config.baseFormat.l2_field) maxLevel = 2
+  if (config.baseFormat.l3_field) maxLevel = 3
+  if (config.baseFormat.l4_field) maxLevel = 4
+  if (config.baseFormat.l5_field) maxLevel = 5
 
   // Need to track when the l1, l2, l3, l4 values change so that we can hide them except for the first occurance
   let l1Value = ''
@@ -94,7 +94,7 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
     }
 
     // If dataLevel 2 and there is a dataLevel 3 then update as a subtotal label
-    if (row.datalevel === 2 && config.l3_field) {
+    if (row.datalevel === 2 && config.baseFormat.l3_field) {
       const dataLabel = dataLabelInSubtotals ? row.l2_label : ''
       const subtotalLabel = subtotalLabelInSubtotals ? ' subtotal' : ''
 
@@ -127,7 +127,7 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
     }
 
     // If dataLevel 3 and there is a dataLevel 4 then update as a subtotal label
-    if (row.datalevel === 3 && config.l4_field) {
+    if (row.datalevel === 3 && config.baseFormat.l4_field) {
       const dataLabel = dataLabelInSubtotals ? row.l3_label : ''
       const subtotalLabel = subtotalLabelInSubtotals ? ' subtotal' : ''
 
@@ -160,7 +160,7 @@ const cleanLabelsForDisplay = (flattenedMappedData, config) => {
     }
 
     // If dataLevel 4 and there is a dataLevel 5 then update as a subtotal label
-    if (row.datalevel === 4 && config.l5_field) {
+    if (row.datalevel === 4 && config.baseFormat.l5_field) {
       const dataLabel = dataLabelInSubtotals ? row.l4_label : ''
       const subtotalLabel = subtotalLabelInSubtotals ? ' subtotal' : ''
 

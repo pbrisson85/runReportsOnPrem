@@ -236,72 +236,72 @@ const buildReport = async (config, labelCols) => {
   const l0_fgInven = () => {return l0_getFgInven(config)} 
   const l1_fgInven = () => {return l1_getFgInven(config)} 
   const l2_fgInven = () => {return l2_getFgInven(config)} 
-  const l3_fgInven = config.l3_field ? () => {return l3_getFgInven(config)}: skip() 
-  const l4_fgInven = config.l4_field ? () => {return l4_getFgInven(config)}: skip() 
-  const l5_fgInven = config.l5_field ? () => {return l5_getFgInven(config)}: skip() 
+  const l3_fgInven = config.baseFormat.l3_field ? () => {return l3_getFgInven(config)}: skip() 
+  const l4_fgInven = config.baseFormat.l4_field ? () => {return l4_getFgInven(config)}: skip() 
+  const l5_fgInven = config.baseFormat.l5_field ? () => {return l5_getFgInven(config)}: skip() 
 
   /* FG IN TRANSIT*/
   const l0_fgInTransit = () => {return l0_getFgInTransit(config)}
   const l1_fgInTransit = () => {return l1_getFgInTransit(config)}
   const l2_fgInTransit = () => {return l2_getFgInTransit(config)}
-  const l3_fgInTransit =  config.l3_field ? () => {return l3_getFgInTransit(config)} : skip()
-  const l4_fgInTransit =  config.l4_field ? () => {return l4_getFgInTransit(config)} : skip()
-  const l5_fgInTransit =  config.l5_field ? () => {return l5_getFgInTransit(config)} : skip()
+  const l3_fgInTransit =  config.baseFormat.l3_field ? () => {return l3_getFgInTransit(config)} : skip()
+  const l4_fgInTransit =  config.baseFormat.l4_field ? () => {return l4_getFgInTransit(config)} : skip()
+  const l5_fgInTransit =  config.baseFormat.l5_field ? () => {return l5_getFgInTransit(config)} : skip()
 
   /* FG ON HAND (LESS IN TRANSIT) */
   const l0_fgAtLoc = () => {return l0_getFgAtLoc(config)}
   const l1_fgAtLoc = () => {return l1_getFgAtLoc(config)}
   const l2_fgAtLoc = () => {return l2_getFgAtLoc(config)}
-  const l3_fgAtLoc =  config.l3_field ? () => {return l3_getFgAtLoc(config)} : skip()
-  const l4_fgAtLoc =  config.l4_field ? () => {return l4_getFgAtLoc(config)} : skip()
-  const l5_fgAtLoc =  config.l5_field ? () => {return l5_getFgAtLoc(config)} : skip()
+  const l3_fgAtLoc =  config.baseFormat.l3_field ? () => {return l3_getFgAtLoc(config)} : skip()
+  const l4_fgAtLoc =  config.baseFormat.l4_field ? () => {return l4_getFgAtLoc(config)} : skip()
+  const l5_fgAtLoc =  config.baseFormat.l5_field ? () => {return l5_getFgAtLoc(config)} : skip()
 
   /* FG ON HAND UNTAGGED */
   const l0_fgAtLoc_untagged = () => {return l0_getFgAtLoc_untagged(config)}
   const l1_fgAtLoc_untagged = () => {return l1_getFgAtLoc_untagged(config)}
   const l2_fgAtLoc_untagged = () => {return l2_getFgAtLoc_untagged(config)}
-  const l3_fgAtLoc_untagged =  config.l3_field ? () => {return l3_getFgAtLoc_untagged(config)} : skip()
-  const l4_fgAtLoc_untagged =  config.l4_field ? () => {return l4_getFgAtLoc_untagged(config)} : skip()
-  const l5_fgAtLoc_untagged =  config.l5_field ? () => {return l5_getFgAtLoc_untagged(config)} : skip()
+  const l3_fgAtLoc_untagged =  config.baseFormat.l3_field ? () => {return l3_getFgAtLoc_untagged(config)} : skip()
+  const l4_fgAtLoc_untagged =  config.baseFormat.l4_field ? () => {return l4_getFgAtLoc_untagged(config)} : skip()
+  const l5_fgAtLoc_untagged =  config.baseFormat.l5_field ? () => {return l5_getFgAtLoc_untagged(config)} : skip()
 
   /* FG ON HAND TAGGED */
   // const l0_fgAtLoc_tagged = () => {return l0_getFgAtLoc_tagged(config)}
   // const l1_fgAtLoc_tagged = () => {return l1_getFgAtLoc_tagged(config)}
   // const l2_fgAtLoc_tagged = () => {return l2_getFgAtLoc_tagged(config)}
-  // const l3_fgAtLoc_tagged =  config.l3_field ? () => {return l3_getFgAtLoc_tagged(config)}:skip()
-  // const l4_fgAtLoc_tagged =  config.l4_field ? () => {return l4_getFgAtLoc_tagged(config)}:skip()
-  // const l5_fgAtLoc_tagged =  config.l5_field ? () => {return l5_getFgAtLoc_tagged(config)}:skip()
+  // const l3_fgAtLoc_tagged =  config.baseFormat.l3_field ? () => {return l3_getFgAtLoc_tagged(config)}:skip()
+  // const l4_fgAtLoc_tagged =  config.baseFormat.l4_field ? () => {return l4_getFgAtLoc_tagged(config)}:skip()
+  // const l5_fgAtLoc_tagged =  config.baseFormat.l5_field ? () => {return l5_getFgAtLoc_tagged(config)}:skip()
 
   /* FG ON ORDER */
   const l0_fgPo = () => {return l0_getFgPo(config)}
   const l1_fgPo = () => {return l1_getFgPo(config)}
   const l2_fgPo = () => {return l2_getFgPo(config)}
-  const l3_fgPo =  config.l3_field ? () => {return l3_getFgPo(config)} : skip()
-  const l4_fgPo =  config.l4_field ? () => {return l4_getFgPo(config)} : skip()
-  const l5_fgPo =  config.l5_field ? () => {return l5_getFgPo(config)} : skip()
+  const l3_fgPo =  config.baseFormat.l3_field ? () => {return l3_getFgPo(config)} : skip()
+  const l4_fgPo =  config.baseFormat.l4_field ? () => {return l4_getFgPo(config)} : skip()
+  const l5_fgPo =  config.baseFormat.l5_field ? () => {return l5_getFgPo(config)} : skip()
   
   // ///////////////////////////////// SALES ORDERS
   /* ALL SO */
   const l0_so = () => {return l0_getSo(config)}
   const l1_so = () => {return l1_getSo(config)}
   const l2_so = () => {return l2_getSo(config)}
-  const l3_so =  config.l3_field ? () => {return l3_getSo(config)} : skip()
-  const l4_so =  config.l4_field ? () => {return l4_getSo(config)} : skip()
-  const l5_so =  config.l5_field ? () => {return l5_getSo(config)} : skip()
+  const l3_so =  config.baseFormat.l3_field ? () => {return l3_getSo(config)} : skip()
+  const l4_so =  config.baseFormat.l4_field ? () => {return l4_getSo(config)} : skip()
+  const l5_so =  config.baseFormat.l5_field ? () => {return l5_getSo(config)} : skip()
   
   const l0_so_byWk = !config.trends.fiscalWeeks ? skip() : () => {return l0_getSo_byWk(config)}
   const l1_so_byWk = !config.trends.fiscalWeeks ? skip() : () => {return l1_getSo_byWk(config)}
   const l2_so_byWk = !config.trends.fiscalWeeks ? skip() : () => {return l2_getSo_byWk(config)}
-  const l3_so_byWk = !config.trends.fiscalWeeks ? skip() : config.l3_field ? () => {return l3_getSo_byWk(config)} : skip()
-  const l4_so_byWk = !config.trends.fiscalWeeks ? skip() : config.l4_field ? () => {return l4_getSo_byWk(config)} : skip()
-  const l5_so_byWk = !config.trends.fiscalWeeks ? skip() : config.l5_field ? () => {return l5_getSo_byWk(config)} : skip()
+  const l3_so_byWk = !config.trends.fiscalWeeks ? skip() : config.baseFormat.l3_field ? () => {return l3_getSo_byWk(config)} : skip()
+  const l4_so_byWk = !config.trends.fiscalWeeks ? skip() : config.baseFormat.l4_field ? () => {return l4_getSo_byWk(config)} : skip()
+  const l5_so_byWk = !config.trends.fiscalWeeks ? skip() : config.baseFormat.l5_field ? () => {return l5_getSo_byWk(config)} : skip()
 
   const l0_so_byFiscalPeriod = !config.trends.fiscalPeriods ? skip() : () => {return l0_getSo_byFiscalPeriod(config)}
   const l1_so_byFiscalPeriod = !config.trends.fiscalPeriods ? skip() : () => {return l1_getSo_byFiscalPeriod(config)}
   const l2_so_byFiscalPeriod = !config.trends.fiscalPeriods ? skip() : () => {return l2_getSo_byFiscalPeriod(config)}
-  const l3_so_byFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.l3_field ? () => {return l3_getSo_byFiscalPeriod(config)} : skip()
-  const l4_so_byFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.l4_field ? () => {return l4_getSo_byFiscalPeriod(config)} : skip()
-  const l5_so_byFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.l5_field ? () => {return l5_getSo_byFiscalPeriod(config)} : skip()
+  const l3_so_byFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.baseFormat.l3_field ? () => {return l3_getSo_byFiscalPeriod(config)} : skip()
+  const l4_so_byFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.baseFormat.l4_field ? () => {return l4_getSo_byFiscalPeriod(config)} : skip()
+  const l5_so_byFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.baseFormat.l5_field ? () => {return l5_getSo_byFiscalPeriod(config)} : skip()
 
 
   
@@ -310,39 +310,39 @@ const buildReport = async (config, labelCols) => {
   const l0_so_byCalMo = !config.trends.calMonths ? skip() : () => {return l0_getSo_byCalMo(config)}
   const l1_so_byCalMo = !config.trends.calMonths ? skip() : () => {return l1_getSo_byCalMo(config)}
   const l2_so_byCalMo = !config.trends.calMonths ? skip() : () => {return l2_getSo_byCalMo(config)}
-  const l3_so_byCalMo = !config.trends.calMonths ? skip() : config.l3_field ? () => {return l3_getSo_byCalMo(config)} : skip()
-  const l4_so_byCalMo = !config.trends.calMonths ? skip() : config.l4_field ? () => {return l4_getSo_byCalMo(config)} : skip()
-  const l5_so_byCalMo = !config.trends.calMonths ? skip() : config.l5_field ? () => {return l5_getSo_byCalMo(config)} : skip()
+  const l3_so_byCalMo = !config.trends.calMonths ? skip() : config.baseFormat.l3_field ? () => {return l3_getSo_byCalMo(config)} : skip()
+  const l4_so_byCalMo = !config.trends.calMonths ? skip() : config.baseFormat.l4_field ? () => {return l4_getSo_byCalMo(config)} : skip()
+  const l5_so_byCalMo = !config.trends.calMonths ? skip() : config.baseFormat.l5_field ? () => {return l5_getSo_byCalMo(config)} : skip()
 
   /* TAGGED SO */
   // const l0_soTagged = () => {return l0_getSoTagged(config)}
   // const l1_soTagged = () => {return l1_getSoTagged(config)}
   // const l2_soTagged = () => {return l2_getSoTagged(config)}
-  // const l3_soTagged =  config.l3_field ? () => {return l3_getSoTagged(config)}:skip()
-  // const l4_soTagged =  config.l4_field ? () => {return l4_getSoTagged(config)}:skip()
-  // const l5_soTagged =  config.l5_field ? () => {return l5_getSoTagged(config)}:skip()
+  // const l3_soTagged =  config.baseFormat.l3_field ? () => {return l3_getSoTagged(config)}:skip()
+  // const l4_soTagged =  config.baseFormat.l4_field ? () => {return l4_getSoTagged(config)}:skip()
+  // const l5_soTagged =  config.baseFormat.l5_field ? () => {return l5_getSoTagged(config)}:skip()
 
   // const l0_soTagged_byWk = () => {return l0_getSoTagged_byWk(config)}
   // const l1_soTagged_byWk = () => {return l1_getSoTagged_byWk(config)}
   // const l2_soTagged_byWk = () => {return l2_getSoTagged_byWk(config)}
-  // const l3_soTagged_byWk =  config.l3_field ? () => {return l3_getSoTagged_byWk(config)}:skip()
-  // const l4_soTagged_byWk =  config.l4_field ? () => {return l4_getSoTagged_byWk(config)}:skip()
-  // const l5_soTagged_byWk =  config.l5_field ? () => {return l5_getSoTagged_byWk(config)}:skip()
+  // const l3_soTagged_byWk =  config.baseFormat.l3_field ? () => {return l3_getSoTagged_byWk(config)}:skip()
+  // const l4_soTagged_byWk =  config.baseFormat.l4_field ? () => {return l4_getSoTagged_byWk(config)}:skip()
+  // const l5_soTagged_byWk =  config.baseFormat.l5_field ? () => {return l5_getSoTagged_byWk(config)}:skip()
 
   /* UNTAGGED SO */
   // const l0_soUntagged = () => {return l0_getSoUntagged(config)}
   // const l1_soUntagged = () => {return l1_getSoUntagged(config)}
   // const l2_soUntagged = () => {return l2_getSoUntagged(config)}
-  // const l3_soUntagged =  config.l3_field ? () => {return l3_getSoUntagged(config)} : skip()
-  // const l4_soUntagged =  config.l4_field ? () => {return l4_getSoUntagged(config)} : skip()
-  // const l5_soUntagged =  config.l5_field ? () => {return l5_getSoUntagged(config)} : skip()
+  // const l3_soUntagged =  config.baseFormat.l3_field ? () => {return l3_getSoUntagged(config)} : skip()
+  // const l4_soUntagged =  config.baseFormat.l4_field ? () => {return l4_getSoUntagged(config)} : skip()
+  // const l5_soUntagged =  config.baseFormat.l5_field ? () => {return l5_getSoUntagged(config)} : skip()
 
   // const l0_soUntagged_byWk = () => {return l0_getSoUntagged_byWk(config)}
   // const l1_soUntagged_byWk = () => {return l1_getSoUntagged_byWk(config)}
   // const l2_soUntagged_byWk = () => {return l2_getSoUntagged_byWk(config)}
-  // const l3_soUntagged_byWk =  config.l3_field ? () => {return l3_getSoUntagged_byWk(config)} : skip()
-  // const l4_soUntagged_byWk =  config.l4_field ? () => {return l4_getSoUntagged_byWk(config)} : skip()
-  // const l5_soUntagged_byWk =  config.l5_field ? () => {return l5_getSoUntagged_byWk(config)} : skip()
+  // const l3_soUntagged_byWk =  config.baseFormat.l3_field ? () => {return l3_getSoUntagged_byWk(config)} : skip()
+  // const l4_soUntagged_byWk =  config.baseFormat.l4_field ? () => {return l4_getSoUntagged_byWk(config)} : skip()
+  // const l5_soUntagged_byWk =  config.baseFormat.l5_field ? () => {return l5_getSoUntagged_byWk(config)} : skip()
 
   // ///////////////////////////////// SALES DATA
 
@@ -350,68 +350,68 @@ const buildReport = async (config, labelCols) => {
   const l0_salesProjectionByWk = !config.trends.useProjection ? skip() : () => {return l0_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
   const l1_salesProjectionByWk = !config.trends.useProjection ? skip() : () => {return l1_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
   const l2_salesProjectionByWk = !config.trends.useProjection ? skip() : () => {return l2_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l3_salesProjectionByWk = !config.trends.useProjection ? skip() : config.l3_field ? () => {return l3_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
-  const l4_salesProjectionByWk = !config.trends.useProjection ? skip() : config.l4_field ? () => {return l4_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
-  const l5_salesProjectionByWk = !config.trends.useProjection ? skip() : config.l5_field ? () => {return l5_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l3_salesProjectionByWk = !config.trends.useProjection ? skip() : config.baseFormat.l3_field ? () => {return l3_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l4_salesProjectionByWk = !config.trends.useProjection ? skip() : config.baseFormat.l4_field ? () => {return l4_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l5_salesProjectionByWk = !config.trends.useProjection ? skip() : config.baseFormat.l5_field ? () => {return l5_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
 
   const l0_salesProjectionPeriodToDate = !config.totals.useProjection ? skip() : () => {return l0_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
   const l1_salesProjectionPeriodToDate = !config.totals.useProjection ? skip() : () => {return l1_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
   const l2_salesProjectionPeriodToDate = !config.totals.useProjection ? skip() : () => {return l2_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l3_salesProjectionPeriodToDate = !config.totals.useProjection ? skip() : config.l3_field ? () => {return l3_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
-  const l4_salesProjectionPeriodToDate = !config.totals.useProjection ? skip() : config.l4_field ? () => {return l4_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
-  const l5_salesProjectionPeriodToDate = !config.totals.useProjection ? skip() : config.l5_field ? () => {return l5_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l3_salesProjectionPeriodToDate = !config.totals.useProjection ? skip() : config.baseFormat.l3_field ? () => {return l3_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l4_salesProjectionPeriodToDate = !config.totals.useProjection ? skip() : config.baseFormat.l4_field ? () => {return l4_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
+  const l5_salesProjectionPeriodToDate = !config.totals.useProjection ? skip() : config.baseFormat.l5_field ? () => {return l5_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
 
   /*SALES*/
 
   const l0_salesTotalPrimary =  () => {return l0_getSalesTotalPrimary(config)}
   const l1_salesTotalPrimary =  () => {return l1_getSalesTotalPrimary(config)}
   const l2_salesTotalPrimary =  () => {return l2_getSalesTotalPrimary(config)}
-  const l3_salesTotalPrimary =  config.l3_field ? () => {return l3_getSalesTotalPrimary(config)} : skip()
-  const l4_salesTotalPrimary =  config.l4_field ? () => {return l4_getSalesTotalPrimary(config)} : skip()
-  const l5_salesTotalPrimary =  config.l5_field ? () => {return l5_getSalesTotalPrimary(config)} : skip()
+  const l3_salesTotalPrimary =  config.baseFormat.l3_field ? () => {return l3_getSalesTotalPrimary(config)} : skip()
+  const l4_salesTotalPrimary =  config.baseFormat.l4_field ? () => {return l4_getSalesTotalPrimary(config)} : skip()
+  const l5_salesTotalPrimary =  config.baseFormat.l5_field ? () => {return l5_getSalesTotalPrimary(config)} : skip()
   
   // TRENDS
   const l0_salesByCalMo = !config.trends.calMonths ? skip() : () => {return l0_getSalesByCalMo(config)}
   const l1_salesByCalMo = !config.trends.calMonths ? skip() : () => {return l1_getSalesByCalMo(config)}
   const l2_salesByCalMo = !config.trends.calMonths ? skip() : () => {return l2_getSalesByCalMo(config)}
-  const l3_salesByCalMo = !config.trends.calMonths ? skip() : config.l3_field ? () => {return l3_getSalesByCalMo(config)} : skip()
-  const l4_salesByCalMo = !config.trends.calMonths ? skip() : config.l4_field ? () => {return l4_getSalesByCalMo(config)} : skip()
-  const l5_salesByCalMo = !config.trends.calMonths ? skip() : config.l5_field ? () => {return l5_getSalesByCalMo(config)} : skip()
+  const l3_salesByCalMo = !config.trends.calMonths ? skip() : config.baseFormat.l3_field ? () => {return l3_getSalesByCalMo(config)} : skip()
+  const l4_salesByCalMo = !config.trends.calMonths ? skip() : config.baseFormat.l4_field ? () => {return l4_getSalesByCalMo(config)} : skip()
+  const l5_salesByCalMo = !config.trends.calMonths ? skip() : config.baseFormat.l5_field ? () => {return l5_getSalesByCalMo(config)} : skip()
 
   const l0_salesByFiscalQuarter = !config.trends.fiscalQuarters ? skip() : () => {return l0_getSalesByFiscalQuarter(config)}
   const l1_salesByFiscalQuarter = !config.trends.fiscalQuarters ? skip() : () => {return l1_getSalesByFiscalQuarter(config)}
   const l2_salesByFiscalQuarter = !config.trends.fiscalQuarters ? skip() : () => {return l2_getSalesByFiscalQuarter(config)}
-  const l3_salesByFiscalQuarter = !config.trends.fiscalQuarters ? skip() : config.l3_field ? () => {return l3_getSalesByFiscalQuarter(config)} : skip()
-  const l4_salesByFiscalQuarter = !config.trends.fiscalQuarters ? skip() : config.l4_field ? () => {return l4_getSalesByFiscalQuarter(config)} : skip()
-  const l5_salesByFiscalQuarter = !config.trends.fiscalQuarters ? skip() : config.l5_field ? () => {return l5_getSalesByFiscalQuarter(config)} : skip()
+  const l3_salesByFiscalQuarter = !config.trends.fiscalQuarters ? skip() : config.baseFormat.l3_field ? () => {return l3_getSalesByFiscalQuarter(config)} : skip()
+  const l4_salesByFiscalQuarter = !config.trends.fiscalQuarters ? skip() : config.baseFormat.l4_field ? () => {return l4_getSalesByFiscalQuarter(config)} : skip()
+  const l5_salesByFiscalQuarter = !config.trends.fiscalQuarters ? skip() : config.baseFormat.l5_field ? () => {return l5_getSalesByFiscalQuarter(config)} : skip()
 
   const l0_salesByFy = !config.trends.fyFullYear ? skip() : () => {return l0_getSalesByFyYtd(config)}
   const l1_salesByFy = !config.trends.fyFullYear ? skip() : () => {return l1_getSalesByFyYtd(config)}
   const l2_salesByFy = !config.trends.fyFullYear ? skip() : () => {return l2_getSalesByFyYtd(config)}
-  const l3_salesByFy = !config.trends.fyFullYear ? skip() : config.l3_field ? () => {return l3_getSalesByFyYtd(config)} : skip()
-  const l4_salesByFy = !config.trends.fyFullYear ? skip() : config.l4_field ? () => {return l4_getSalesByFyYtd(config)} : skip()
-  const l5_salesByFy = !config.trends.fyFullYear ? skip() : config.l5_field ? () => {return l5_getSalesByFyYtd(config)} : skip()
+  const l3_salesByFy = !config.trends.fyFullYear ? skip() : config.baseFormat.l3_field ? () => {return l3_getSalesByFyYtd(config)} : skip()
+  const l4_salesByFy = !config.trends.fyFullYear ? skip() : config.baseFormat.l4_field ? () => {return l4_getSalesByFyYtd(config)} : skip()
+  const l5_salesByFy = !config.trends.fyFullYear ? skip() : config.baseFormat.l5_field ? () => {return l5_getSalesByFyYtd(config)} : skip()
 
   const l0_salesByFyYtd = !config.trends.fyYtd ? skip() : () => {return l0_getSalesByFyYtd(config)}
   const l1_salesByFyYtd = !config.trends.fyYtd ? skip() : () => {return l1_getSalesByFyYtd(config)}
   const l2_salesByFyYtd = !config.trends.fyYtd ? skip() : () => {return l2_getSalesByFyYtd(config)}
-  const l3_salesByFyYtd = !config.trends.fyYtd ? skip() : config.l3_field ? () => {return l3_getSalesByFyYtd(config)} : skip()
-  const l4_salesByFyYtd = !config.trends.fyYtd ? skip() : config.l4_field ? () => {return l4_getSalesByFyYtd(config)} : skip()
-  const l5_salesByFyYtd = !config.trends.fyYtd ? skip() : config.l5_field ? () => {return l5_getSalesByFyYtd(config)} : skip()
+  const l3_salesByFyYtd = !config.trends.fyYtd ? skip() : config.baseFormat.l3_field ? () => {return l3_getSalesByFyYtd(config)} : skip()
+  const l4_salesByFyYtd = !config.trends.fyYtd ? skip() : config.baseFormat.l4_field ? () => {return l4_getSalesByFyYtd(config)} : skip()
+  const l5_salesByFyYtd = !config.trends.fyYtd ? skip() : config.baseFormat.l5_field ? () => {return l5_getSalesByFyYtd(config)} : skip()
 
   const l0_salesByWk = !config.trends.fiscalWeeks ? skip() : () => {return l0_getSalesByWk(config)}
   const l1_salesByWk = !config.trends.fiscalWeeks ? skip() : () => {return l1_getSalesByWk(config)}
   const l2_salesByWk = !config.trends.fiscalWeeks ? skip() : () => {return l2_getSalesByWk(config)}
-  const l3_salesByWk = !config.trends.fiscalWeeks ? skip() : config.l3_field ? () => {return l3_getSalesByWk(config)} : skip()
-  const l4_salesByWk = !config.trends.fiscalWeeks ? skip() : config.l4_field ? () => {return l4_getSalesByWk(config)} : skip()
-  const l5_salesByWk = !config.trends.fiscalWeeks ? skip() : config.l5_field ? () => {return l5_getSalesByWk(config)} : skip()
+  const l3_salesByWk = !config.trends.fiscalWeeks ? skip() : config.baseFormat.l3_field ? () => {return l3_getSalesByWk(config)} : skip()
+  const l4_salesByWk = !config.trends.fiscalWeeks ? skip() : config.baseFormat.l4_field ? () => {return l4_getSalesByWk(config)} : skip()
+  const l5_salesByWk = !config.trends.fiscalWeeks ? skip() : config.baseFormat.l5_field ? () => {return l5_getSalesByWk(config)} : skip()
 
   const l0_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : () => {return l0_getSalesByFiscalPeriod(config)}
   const l1_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : () => {return l1_getSalesByFiscalPeriod(config)}
   const l2_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : () => {return l2_getSalesByFiscalPeriod(config)}
-  const l3_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.l3_field ? () => {return l3_getSalesByFiscalPeriod(config)} : skip()
-  const l4_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.l4_field ? () => {return l4_getSalesByFiscalPeriod(config)} : skip()
-  const l5_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.l5_field ? () => {return l5_getSalesByFiscalPeriod(config)} : skip()
+  const l3_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.baseFormat.l3_field ? () => {return l3_getSalesByFiscalPeriod(config)} : skip()
+  const l4_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.baseFormat.l4_field ? () => {return l4_getSalesByFiscalPeriod(config)} : skip()
+  const l5_salesByFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.baseFormat.l5_field ? () => {return l5_getSalesByFiscalPeriod(config)} : skip()
 
   /*  */
 
@@ -715,30 +715,30 @@ const buildReport = async (config, labelCols) => {
   const l0_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : () => {return l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')}
   const l1_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : () => {return l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')}
   const l2_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : () => {return l2_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')}
-  const l3_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')} : skip() 
-  const l4_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')} : skip() 
-  const l5_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : config.l5_field ? () => {return l5_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')} : skip() 
+  const l3_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : config.baseFormat.l3_field ? () => {return l3_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')} : skip() 
+  const l4_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : config.baseFormat.l4_field ? () => {return l4_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')} : skip() 
+  const l5_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : config.baseFormat.l5_field ? () => {return l5_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')} : skip() 
   
   const l0_trailingFourWeek = config.totals.endWeekPrimary < 4 ? skip() : () => {return l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, config.totals.yearPrimary, '4wk Rolling')}
   const l1_trailingFourWeek = config.totals.endWeekPrimary < 4 ? skip() : () => {return l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, config.totals.yearPrimary, '4wk Rolling')}
   const l2_trailingFourWeek = config.totals.endWeekPrimary < 4 ? skip() : () => {return l2_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, config.totals.yearPrimary, '4wk Rolling')}
-  const l3_trailingFourWeek = config.totals.endWeekPrimary < 4 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, config.totals.yearPrimary, '4wk Rolling')} : skip() 
-  const l4_trailingFourWeek = config.totals.endWeekPrimary < 4 ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, config.totals.yearPrimary, '4wk Rolling')} : skip() 
-  const l5_trailingFourWeek = config.totals.endWeekPrimary < 4 ? skip() : config.l5_field ? () => {return l5_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, config.totals.yearPrimary, '4wk Rolling')} : skip() 
+  const l3_trailingFourWeek = config.totals.endWeekPrimary < 4 ? skip() : config.baseFormat.l3_field ? () => {return l3_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, config.totals.yearPrimary, '4wk Rolling')} : skip() 
+  const l4_trailingFourWeek = config.totals.endWeekPrimary < 4 ? skip() : config.baseFormat.l4_field ? () => {return l4_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, config.totals.yearPrimary, '4wk Rolling')} : skip() 
+  const l5_trailingFourWeek = config.totals.endWeekPrimary < 4 ? skip() : config.baseFormat.l5_field ? () => {return l5_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, config.totals.yearPrimary, '4wk Rolling')} : skip() 
 
   const l0_trailingEightWeek = config.totals.endWeekPrimary < 8 ? skip() : () => {return l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, config.totals.yearPrimary, '8wk Rolling')}
   const l1_trailingEightWeek = config.totals.endWeekPrimary < 8 ? skip() : () => {return l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, config.totals.yearPrimary, '8wk Rolling')}
   const l2_trailingEightWeek = config.totals.endWeekPrimary < 8 ? skip() : () => {return l2_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, config.totals.yearPrimary, '8wk Rolling')}
-  const l3_trailingEightWeek = config.totals.endWeekPrimary < 8 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, config.totals.yearPrimary, '8wk Rolling')} : skip() 
-  const l4_trailingEightWeek = config.totals.endWeekPrimary < 8 ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, config.totals.yearPrimary, '8wk Rolling')} : skip() 
-  const l5_trailingEightWeek = config.totals.endWeekPrimary < 8 ? skip() : config.l5_field ? () => {return l5_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, config.totals.yearPrimary, '8wk Rolling')} : skip() 
+  const l3_trailingEightWeek = config.totals.endWeekPrimary < 8 ? skip() : config.baseFormat.l3_field ? () => {return l3_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, config.totals.yearPrimary, '8wk Rolling')} : skip() 
+  const l4_trailingEightWeek = config.totals.endWeekPrimary < 8 ? skip() : config.baseFormat.l4_field ? () => {return l4_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, config.totals.yearPrimary, '8wk Rolling')} : skip() 
+  const l5_trailingEightWeek = config.totals.endWeekPrimary < 8 ? skip() : config.baseFormat.l5_field ? () => {return l5_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, config.totals.yearPrimary, '8wk Rolling')} : skip() 
 
   const l0_trailingTwelveWeek = config.totals.endWeekPrimary < 12 ? skip() : () => {return l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, config.totals.yearPrimary, '12wk Rolling')}
   const l1_trailingTwelveWeek = config.totals.endWeekPrimary < 12 ? skip() : () => {return l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, config.totals.yearPrimary, '12wk Rolling')}
   const l2_trailingTwelveWeek = config.totals.endWeekPrimary < 12 ? skip() : () => {return l2_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, config.totals.yearPrimary, '12wk Rolling')}
-  const l3_trailingTwelveWeek = config.totals.endWeekPrimary < 12 ? skip() : config.l3_field ? () => {return l3_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, config.totals.yearPrimary, '12wk Rolling')} : skip() 
-  const l4_trailingTwelveWeek = config.totals.endWeekPrimary < 12  ? skip() : config.l4_field ? () => {return l4_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, config.totals.yearPrimary, '12wk Rolling')} : skip() 
-  const l5_trailingTwelveWeek = config.totals.endWeekPrimary < 12  ? skip() : config.l5_field ? () => {return l5_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, config.totals.yearPrimary, '12wk Rolling')} : skip() 
+  const l3_trailingTwelveWeek = config.totals.endWeekPrimary < 12 ? skip() : config.baseFormat.l3_field ? () => {return l3_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, config.totals.yearPrimary, '12wk Rolling')} : skip() 
+  const l4_trailingTwelveWeek = config.totals.endWeekPrimary < 12  ? skip() : config.baseFormat.l4_field ? () => {return l4_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, config.totals.yearPrimary, '12wk Rolling')} : skip() 
+  const l5_trailingTwelveWeek = config.totals.endWeekPrimary < 12  ? skip() : config.baseFormat.l5_field ? () => {return l5_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, config.totals.yearPrimary, '12wk Rolling')} : skip() 
   
   const [ 
     companyTotalSalesR,
@@ -810,79 +810,79 @@ const buildReport = async (config, labelCols) => {
   const l0_yoyYtd_companySales = !config.trends.fyYtd ? [] : calcYoyYtdSalesCol(l0_salesByFyYtdR, 'yoyYtdSales')
   const l1_yoyYtd_companySales = !config.trends.fyYtd ? [] : calcYoyYtdSalesCol(l1_salesByFyYtdR, 'yoyYtdSales')
   const l2_yoyYtd_companySales = !config.trends.fyYtd ? [] : calcYoyYtdSalesCol(l2_salesByFyYtdR, 'yoyYtdSales')
-  const l3_yoyYtd_companySales = !config.trends.fyYtd ? [] : config.l3_field ? calcYoyYtdSalesCol(l3_salesByFyYtdR, 'yoyYtdSales') : [] 
-  const l4_yoyYtd_companySales = !config.trends.fyYtd ? [] : config.l4_field ? calcYoyYtdSalesCol(l4_salesByFyYtdR, 'yoyYtdSales') : [] 
-  const l5_yoyYtd_companySales = !config.trends.fyYtd ? [] : config.l5_field ? calcYoyYtdSalesCol(l5_salesByFyYtdR, 'yoyYtdSales') : [] 
+  const l3_yoyYtd_companySales = !config.trends.fyYtd ? [] : config.baseFormat.l3_field ? calcYoyYtdSalesCol(l3_salesByFyYtdR, 'yoyYtdSales') : [] 
+  const l4_yoyYtd_companySales = !config.trends.fyYtd ? [] : config.baseFormat.l4_field ? calcYoyYtdSalesCol(l4_salesByFyYtdR, 'yoyYtdSales') : [] 
+  const l5_yoyYtd_companySales = !config.trends.fyYtd ? [] : config.baseFormat.l5_field ? calcYoyYtdSalesCol(l5_salesByFyYtdR, 'yoyYtdSales') : [] 
 
   /* % COMPANY SALES */
   const l0_percent_companySales = calcPercentSalesCol(companyTotalSalesR[0], l0_reportSales, 'percentCompanySales')
   const l1_percent_companySales = calcPercentSalesCol(companyTotalSalesR[0], l1_reportSales, 'percentCompanySales')
   const l2_percent_companySales = calcPercentSalesCol(companyTotalSalesR[0], l2_reportSales, 'percentCompanySales')
-  const l3_percent_companySales = config.l3_field ? calcPercentSalesCol(companyTotalSalesR[0], l3_reportSales, 'percentCompanySales') : [] 
-  const l4_percent_companySales = config.l4_field ? calcPercentSalesCol(companyTotalSalesR[0], l4_reportSales, 'percentCompanySales') : [] 
-  const l5_percent_companySales = config.l5_field ? calcPercentSalesCol(companyTotalSalesR[0], l5_reportSales, 'percentCompanySales') : [] 
+  const l3_percent_companySales = config.baseFormat.l3_field ? calcPercentSalesCol(companyTotalSalesR[0], l3_reportSales, 'percentCompanySales') : [] 
+  const l4_percent_companySales = config.baseFormat.l4_field ? calcPercentSalesCol(companyTotalSalesR[0], l4_reportSales, 'percentCompanySales') : [] 
+  const l5_percent_companySales = config.baseFormat.l5_field ? calcPercentSalesCol(companyTotalSalesR[0], l5_reportSales, 'percentCompanySales') : [] 
 
   /* % PROGRAM SALES */
   const l0_percent_programSales = !config.program ? [] : calcPercentSalesCol(programTotalSalesR[0], l0_reportSales, 'percentProgramSales')
   const l1_percent_programSales = !config.program ? [] : calcPercentSalesCol(programTotalSalesR[0], l1_reportSales, 'percentProgramSales')
   const l2_percent_programSales = !config.program ? [] : calcPercentSalesCol(programTotalSalesR[0], l2_reportSales, 'percentProgramSales')
-  const l3_percent_programSales = !config.program || !config.l3_field ? [] : calcPercentSalesCol(programTotalSalesR[0], l3_reportSales, 'percentProgramSales')
-  const l4_percent_programSales = !config.program || !config.l4_field ? [] : calcPercentSalesCol(programTotalSalesR[0], l4_reportSales, 'percentProgramSales') 
-  const l5_percent_programSales = !config.program || !config.l5_field ? [] : calcPercentSalesCol(programTotalSalesR[0], l5_reportSales, 'percentProgramSales') 
+  const l3_percent_programSales = !config.program || !config.baseFormat.l3_field ? [] : calcPercentSalesCol(programTotalSalesR[0], l3_reportSales, 'percentProgramSales')
+  const l4_percent_programSales = !config.program || !config.baseFormat.l4_field ? [] : calcPercentSalesCol(programTotalSalesR[0], l4_reportSales, 'percentProgramSales') 
+  const l5_percent_programSales = !config.program || !config.baseFormat.l5_field ? [] : calcPercentSalesCol(programTotalSalesR[0], l5_reportSales, 'percentProgramSales') 
 
   /* % SPECIES GROUP SALES */
   // look up species group based on program
   const l0_percent_speciesGroupSales = !config.program ? [] : calcPercentSalesCol(speciesGroupTotalSalesR[0], l0_reportSales, 'percentSpeciesGroupSales')
   const l1_percent_speciesGroupSales = !config.program ? [] : calcPercentSalesCol(speciesGroupTotalSalesR[0], l1_reportSales, 'percentSpeciesGroupSales') 
   const l2_percent_speciesGroupSales = !config.program ? [] : calcPercentSalesCol(speciesGroupTotalSalesR[0], l2_reportSales, 'percentSpeciesGroupSales') 
-  const l3_percent_speciesGroupSales = !config.program || !config.l3_field ? [] : calcPercentSalesCol(speciesGroupTotalSalesR[0], l3_reportSales, 'percentSpeciesGroupSales')
-  const l4_percent_speciesGroupSales = !config.program || !config.l4_field ? [] : calcPercentSalesCol(speciesGroupTotalSalesR[0], l4_reportSales, 'percentSpeciesGroupSales')
-  const l5_percent_speciesGroupSales = !config.program || !config.l5_field ? [] : calcPercentSalesCol(speciesGroupTotalSalesR[0], l5_reportSales, 'percentSpeciesGroupSales')
+  const l3_percent_speciesGroupSales = !config.program || !config.baseFormat.l3_field ? [] : calcPercentSalesCol(speciesGroupTotalSalesR[0], l3_reportSales, 'percentSpeciesGroupSales')
+  const l4_percent_speciesGroupSales = !config.program || !config.baseFormat.l4_field ? [] : calcPercentSalesCol(speciesGroupTotalSalesR[0], l4_reportSales, 'percentSpeciesGroupSales')
+  const l5_percent_speciesGroupSales = !config.program || !config.baseFormat.l5_field ? [] : calcPercentSalesCol(speciesGroupTotalSalesR[0], l5_reportSales, 'percentSpeciesGroupSales')
  
   /* % REPORT TOTAL */
   const l0_percent_reportTotal = calcPercentSalesCol(l0_reportSales[0], l0_reportSales, 'percentReportTotal')
   const l1_percent_reportTotal = calcPercentSalesCol(l0_reportSales[0], l1_reportSales, 'percentReportTotal')
   const l2_percent_reportTotal = calcPercentSalesCol(l0_reportSales[0], l2_reportSales, 'percentReportTotal')
-  const l3_percent_reportTotal = config.l3_field ? calcPercentSalesCol(l0_reportSales[0], l3_reportSales, 'percentReportTota') : [] 
-  const l4_percent_reportTotal = config.l4_field ? calcPercentSalesCol(l0_reportSales[0], l4_reportSales, 'percentReportTota') : [] 
-  const l5_percent_reportTotal = config.l5_field ? calcPercentSalesCol(l0_reportSales[0], l5_reportSales, 'percentReportTota') : [] 
+  const l3_percent_reportTotal = config.baseFormat.l3_field ? calcPercentSalesCol(l0_reportSales[0], l3_reportSales, 'percentReportTota') : [] 
+  const l4_percent_reportTotal = config.baseFormat.l4_field ? calcPercentSalesCol(l0_reportSales[0], l4_reportSales, 'percentReportTota') : [] 
+  const l5_percent_reportTotal = config.baseFormat.l5_field ? calcPercentSalesCol(l0_reportSales[0], l5_reportSales, 'percentReportTota') : [] 
   
   /* AVE WEEKLY SALES */
   const weeks = config.totals.endWeekPrimary - config.totals.startWeekPrimary + 1
   const l0_aveWeeklySales = calcAveWeeklySales(l0_reportSales, 'aveWeeklySales', weeks)
   const l1_aveWeeklySales = calcAveWeeklySales(l1_reportSales, 'aveWeeklySales', weeks)
   const l2_aveWeeklySales = calcAveWeeklySales(l2_reportSales, 'aveWeeklySales', weeks)
-  const l3_aveWeeklySales = config.l3_field ? calcAveWeeklySales(l3_reportSales, 'aveWeeklySales', weeks) : []
-  const l4_aveWeeklySales = config.l4_field ? calcAveWeeklySales(l4_reportSales, 'aveWeeklySales', weeks) : []
-  const l5_aveWeeklySales = config.l5_field ? calcAveWeeklySales(l5_reportSales, 'aveWeeklySales', weeks) : []
+  const l3_aveWeeklySales = config.baseFormat.l3_field ? calcAveWeeklySales(l3_reportSales, 'aveWeeklySales', weeks) : []
+  const l4_aveWeeklySales = config.baseFormat.l4_field ? calcAveWeeklySales(l4_reportSales, 'aveWeeklySales', weeks) : []
+  const l5_aveWeeklySales = config.baseFormat.l5_field ? calcAveWeeklySales(l5_reportSales, 'aveWeeklySales', weeks) : []
 
   const l0_twoWkAveSales = calcAveWeeklySales(l0_trailingTwoWeekR, 'twoWkAveSales', 2)
   const l1_twoWkAveSales = calcAveWeeklySales(l1_trailingTwoWeekR, 'twoWkAveSales', 2)
   const l2_twoWkAveSales = calcAveWeeklySales(l2_trailingTwoWeekR, 'twoWkAveSales', 2)
-  const l3_twoWkAveSales = config.l3_field ? calcAveWeeklySales(l3_trailingTwoWeekR, 'twoWkAveSales', 2) : []
-  const l4_twoWkAveSales = config.l4_field ? calcAveWeeklySales(l4_trailingTwoWeekR, 'twoWkAveSales', 2) : []
-  const l5_twoWkAveSales = config.l5_field ? calcAveWeeklySales(l5_trailingTwoWeekR, 'twoWkAveSales', 2) : []
+  const l3_twoWkAveSales = config.baseFormat.l3_field ? calcAveWeeklySales(l3_trailingTwoWeekR, 'twoWkAveSales', 2) : []
+  const l4_twoWkAveSales = config.baseFormat.l4_field ? calcAveWeeklySales(l4_trailingTwoWeekR, 'twoWkAveSales', 2) : []
+  const l5_twoWkAveSales = config.baseFormat.l5_field ? calcAveWeeklySales(l5_trailingTwoWeekR, 'twoWkAveSales', 2) : []
 
   const l0_fourWkAveSales = calcAveWeeklySales(l0_trailingFourWeekR, 'fourWkAveSales', 4)
   const l1_fourWkAveSales = calcAveWeeklySales(l1_trailingFourWeekR, 'fourWkAveSales', 4)
   const l2_fourWkAveSales = calcAveWeeklySales(l2_trailingFourWeekR, 'fourWkAveSales', 4)
-  const l3_fourWkAveSales = config.l3_field ? calcAveWeeklySales(l3_trailingFourWeekR, 'fourWkAveSales', 4) : []
-  const l4_fourWkAveSales = config.l4_field ? calcAveWeeklySales(l4_trailingFourWeekR, 'fourWkAveSales', 4) : []
-  const l5_fourWkAveSales = config.l5_field ? calcAveWeeklySales(l5_trailingFourWeekR, 'fourWkAveSales', 4) : []
+  const l3_fourWkAveSales = config.baseFormat.l3_field ? calcAveWeeklySales(l3_trailingFourWeekR, 'fourWkAveSales', 4) : []
+  const l4_fourWkAveSales = config.baseFormat.l4_field ? calcAveWeeklySales(l4_trailingFourWeekR, 'fourWkAveSales', 4) : []
+  const l5_fourWkAveSales = config.baseFormat.l5_field ? calcAveWeeklySales(l5_trailingFourWeekR, 'fourWkAveSales', 4) : []
   
   const l0_eightWkAveSales = calcAveWeeklySales(l0_trailingEightWeekR, 'eightWkAveSales', 8)
   const l1_eightWkAveSales = calcAveWeeklySales(l1_trailingEightWeekR, 'eightWkAveSales', 8)
   const l2_eightWkAveSales = calcAveWeeklySales(l2_trailingEightWeekR, 'eightWkAveSales', 8)
-  const l3_eightWkAveSales = config.l3_field ? calcAveWeeklySales(l3_trailingEightWeekR, 'eightWkAveSales', 8) : []
-  const l4_eightWkAveSales = config.l4_field ? calcAveWeeklySales(l4_trailingEightWeekR, 'eightWkAveSales', 8) : []
-  const l5_eightWkAveSales = config.l5_field ? calcAveWeeklySales(l5_trailingEightWeekR, 'eightWkAveSales', 8) : []
+  const l3_eightWkAveSales = config.baseFormat.l3_field ? calcAveWeeklySales(l3_trailingEightWeekR, 'eightWkAveSales', 8) : []
+  const l4_eightWkAveSales = config.baseFormat.l4_field ? calcAveWeeklySales(l4_trailingEightWeekR, 'eightWkAveSales', 8) : []
+  const l5_eightWkAveSales = config.baseFormat.l5_field ? calcAveWeeklySales(l5_trailingEightWeekR, 'eightWkAveSales', 8) : []
   
   const l0_twelveWkAveSales = calcAveWeeklySales(l0_trailingTwelveWeekR, 'twelveWkAveSales', 12)
   const l1_twelveWkAveSales = calcAveWeeklySales(l1_trailingTwelveWeekR, 'twelveWkAveSales', 12)
   const l2_twelveWkAveSales = calcAveWeeklySales(l2_trailingTwelveWeekR, 'twelveWkAveSales', 12)
-  const l3_twelveWkAveSales = config.l3_field ? calcAveWeeklySales(l3_trailingTwelveWeekR, 'twelveWkAveSales', 12) : []
-  const l4_twelveWkAveSales = config.l4_field ? calcAveWeeklySales(l4_trailingTwelveWeekR, 'twelveWkAveSales', 12) : []
-  const l5_twelveWkAveSales = config.l5_field ? calcAveWeeklySales(l5_trailingTwelveWeekR, 'twelveWkAveSales', 12) : []
+  const l3_twelveWkAveSales = config.baseFormat.l3_field ? calcAveWeeklySales(l3_trailingTwelveWeekR, 'twelveWkAveSales', 12) : []
+  const l4_twelveWkAveSales = config.baseFormat.l4_field ? calcAveWeeklySales(l4_trailingTwelveWeekR, 'twelveWkAveSales', 12) : []
+  const l5_twelveWkAveSales = config.baseFormat.l5_field ? calcAveWeeklySales(l5_trailingTwelveWeekR, 'twelveWkAveSales', 12) : []
   
   /* MOMENTUM */
   const l0_momentum = calcMomentum(l0_fourWkAveSales, l0_twelveWkAveSales, 'momentum')
@@ -896,22 +896,22 @@ const buildReport = async (config, labelCols) => {
   const l0_weeksInvOnHand = calcWeeksInvOnHand(l0_fgInvenR, l0_aveWeeklySales, 'weeksInvenOnHand')
   const l1_weeksInvOnHand = calcWeeksInvOnHand(l1_fgInvenR, l1_aveWeeklySales, 'weeksInvenOnHand')
   const l2_weeksInvOnHand = calcWeeksInvOnHand(l2_fgInvenR, l2_aveWeeklySales, 'weeksInvenOnHand')
-  const l3_weeksInvOnHand = config.l3_field ? calcWeeksInvOnHand(l3_fgInvenR, l3_aveWeeklySales, 'weeksInvenOnHand') : [] 
-  const l4_weeksInvOnHand = config.l4_field ? calcWeeksInvOnHand(l4_fgInvenR, l4_aveWeeklySales, 'weeksInvenOnHand') : [] 
-  const l5_weeksInvOnHand = config.l5_field ? calcWeeksInvOnHand(l5_fgInvenR, l5_aveWeeklySales, 'weeksInvenOnHand') : [] 
+  const l3_weeksInvOnHand = config.baseFormat.l3_field ? calcWeeksInvOnHand(l3_fgInvenR, l3_aveWeeklySales, 'weeksInvenOnHand') : [] 
+  const l4_weeksInvOnHand = config.baseFormat.l4_field ? calcWeeksInvOnHand(l4_fgInvenR, l4_aveWeeklySales, 'weeksInvenOnHand') : [] 
+  const l5_weeksInvOnHand = config.baseFormat.l5_field ? calcWeeksInvOnHand(l5_fgInvenR, l5_aveWeeklySales, 'weeksInvenOnHand') : [] 
   
   /* INVENTORY AVAILABLE */
   const l0_invAvailable = calcInventoryAvailable(l0_fgInvenR, l0_fgPoR, l0_soR, 'invenAvailable')
   const l1_invAvailable = calcInventoryAvailable(l1_fgInvenR, l1_fgPoR, l1_soR, 'invenAvailable')
   const l2_invAvailable = calcInventoryAvailable(l2_fgInvenR, l2_fgPoR, l2_soR, 'invenAvailable')
-  const l3_invAvailable = config.l3_field ? calcInventoryAvailable(l3_fgInvenR, l3_fgPoR, l3_soR, 'invenAvailable') : []
-  const l4_invAvailable = config.l4_field ? calcInventoryAvailable(l4_fgInvenR, l4_fgPoR, l4_soR, 'invenAvailable') : []
-  const l5_invAvailable = config.l5_field ? calcInventoryAvailable(l5_fgInvenR, l5_fgPoR, l5_soR, 'invenAvailable') : []
+  const l3_invAvailable = config.baseFormat.l3_field ? calcInventoryAvailable(l3_fgInvenR, l3_fgPoR, l3_soR, 'invenAvailable') : []
+  const l4_invAvailable = config.baseFormat.l4_field ? calcInventoryAvailable(l4_fgInvenR, l4_fgPoR, l4_soR, 'invenAvailable') : []
+  const l5_invAvailable = config.baseFormat.l5_field ? calcInventoryAvailable(l5_fgInvenR, l5_fgPoR, l5_soR, 'invenAvailable') : []
 
   ///////////////////////////////// ROWS
-  const rowsFifthLevelDetail =  config.l5_field ? () => {return getRowsFifthLevelDetail(config)} : skip() 
-  const rowsFourthLevelDetail =  config.l4_field ? () => {return getRowsFourthLevelDetail(config)} : skip() 
-  const rowsThirdLevelDetail =  config.l3_field ? () => {return getRowsThirdLevelDetail(config)} : skip() 
+  const rowsFifthLevelDetail =  config.baseFormat.l5_field ? () => {return getRowsFifthLevelDetail(config)} : skip() 
+  const rowsFourthLevelDetail =  config.baseFormat.l4_field ? () => {return getRowsFourthLevelDetail(config)} : skip() 
+  const rowsThirdLevelDetail =  config.baseFormat.l3_field ? () => {return getRowsThirdLevelDetail(config)} : skip() 
   const rowsSecondLevelDetail = () => {return getRowsSecondLevelDetail(config)} 
   const rowsFirstLevelDetail = () => {return getRowsFirstLevelDetail(config)} 
 
@@ -947,19 +947,19 @@ const buildReport = async (config, labelCols) => {
   let mapInvenToRowTemplates = null
   let rowTemplate_unflat = null
   let level = null
-  if (!config.l3_field) {
+  if (!config.baseFormat.l3_field) {
     // 2 LEVEL REPORT
     mapSalesToRowTemplates = mapSalesToRowTemplates_twoLevel
     mapInvenToRowTemplates = mapInvenToRowTemplates_twoLevel
     rowTemplate_unflat = unflattenByCompositKey(rowTemplate, { 1: 'l1_label', 2: 'l2_label' }) 
     level = 2
-  } else if (!config.l4_field) {
+  } else if (!config.baseFormat.l4_field) {
     // 3 LEVEL REPORT
     mapSalesToRowTemplates = mapSalesToRowTemplates_threeLevel
     mapInvenToRowTemplates = mapInvenToRowTemplates_threeLevel
     rowTemplate_unflat = unflattenByCompositKey(rowTemplate, { 1: 'l1_label', 2: 'l2_label', 3: 'l3_label' }) 
     level = 3
-  } else if (!config.l5_field) {
+  } else if (!config.baseFormat.l5_field) {
     // 4 LEVEL REPORT
     mapSalesToRowTemplates = mapSalesToRowTemplates_fourLevel
     mapInvenToRowTemplates = mapInvenToRowTemplates_fourLevel

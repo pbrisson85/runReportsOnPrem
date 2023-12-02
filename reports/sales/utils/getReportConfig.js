@@ -63,16 +63,16 @@ const getReportConfig = async reqBody => {
   // define config object
   let config = {
     baseFormat: {
-      l1_field: reqBody.reportFormat.l1_field ?? getBaseFormatDefault().l1_field ?? null,
-      l2_field: reqBody.reportFormat.l2_field ?? getBaseFormatDefault().l2_field ?? null,
-      l3_field: reqBody.reportFormat.l3_field ?? getBaseFormatDefault().l3_field ?? null,
-      l4_field: reqBody.reportFormat.l4_field ?? getBaseFormatDefault().l4_field ?? null,
-      l5_field: reqBody.reportFormat.l5_field ?? getBaseFormatDefault().l5_field ?? null,
-      l1_name: reqBody.reportFormat.l1_name ?? getBaseFormatDefault().l1_name ?? null,
-      l2_name: reqBody.reportFormat.l2_name ?? getBaseFormatDefault().l2_name ?? null,
-      l3_name: reqBody.reportFormat.l3_name ?? getBaseFormatDefault().l3_name ?? null,
-      l4_name: reqBody.reportFormat.l4_name ?? getBaseFormatDefault().l4_name ?? null,
-      l5_name: reqBody.reportFormat.l5_name ?? getBaseFormatDefault().l5_name ?? null,
+      l1_field: reqBody.reportFormat?.l1_field ?? getBaseFormatDefault().l1_field ?? null,
+      l2_field: reqBody.reportFormat?.l2_field ?? getBaseFormatDefault().l2_field ?? null,
+      l3_field: reqBody.reportFormat?.l3_field ?? getBaseFormatDefault().l3_field ?? null,
+      l4_field: reqBody.reportFormat?.l4_field ?? getBaseFormatDefault().l4_field ?? null,
+      l5_field: reqBody.reportFormat?.l5_field ?? getBaseFormatDefault().l5_field ?? null,
+      l1_name: reqBody.reportFormat?.l1_name ?? getBaseFormatDefault().l1_name ?? null,
+      l2_name: reqBody.reportFormat?.l2_name ?? getBaseFormatDefault().l2_name ?? null,
+      l3_name: reqBody.reportFormat?.l3_name ?? getBaseFormatDefault().l3_name ?? null,
+      l4_name: reqBody.reportFormat?.l4_name ?? getBaseFormatDefault().l4_name ?? null,
+      l5_name: reqBody.reportFormat?.l5_name ?? getBaseFormatDefault().l5_name ?? null,
     },
     baseFilters: {
       queryLevel: reqBody.queryLevel ?? null,

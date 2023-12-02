@@ -9,7 +9,7 @@ const getRowsFifthLevelDetail = async config => {
     console.log(`${config.user} - query postgres to get row labels (getRowsFifthLevelDetail) ...`)
 
     const response = await sql
-        `SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.l5_field)},'NA') AS l5_label, 5 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}
+        `SELECT COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, 5 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}
         
           FROM "salesReporting".sales_line_items 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -21,9 +21,9 @@ const getRowsFifthLevelDetail = async config => {
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
-          GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)}, ${sql(config.l5_field)} 
+          GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)} 
         
-        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.l5_field)},'NA') AS l5_label, 5 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
+        UNION SELECT COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, 5 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
         
           FROM "invenReporting".perpetual_inventory 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -35,9 +35,9 @@ const getRowsFifthLevelDetail = async config => {
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
           
-          GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)}, ${sql(config.l5_field)} 
+          GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)} 
         
-        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.l5_field)},'NA') AS l5_label, 5 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
+        UNION SELECT COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, 5 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
         
           FROM "salesReporting".sales_orders 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -49,7 +49,7 @@ const getRowsFifthLevelDetail = async config => {
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
-          GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)}, ${sql(config.l5_field)}
+          GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)}
           ` //prettier-ignore
 
     return response
@@ -68,7 +68,7 @@ const getRowsFourthLevelDetail = async config => {
     console.log(`${config.user} - query postgres to get row labels (getRowsFourthLevelDetail) ...`)
 
     const response = await sql
-        `SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label ${config.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 4 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}
+        `SELECT COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 4 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}
         
           FROM "salesReporting".sales_line_items 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -80,9 +80,9 @@ const getRowsFourthLevelDetail = async config => {
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
-          GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)} 
+          GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)} 
         
-        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label ${config.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 4 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
+        UNION SELECT COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 4 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
         
           FROM "invenReporting".perpetual_inventory 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -94,9 +94,9 @@ const getRowsFourthLevelDetail = async config => {
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
           
-          GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)} 
+          GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)} 
         
-        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.l4_field)},'NA') AS l4_label ${config.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 4 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
+        UNION SELECT COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 4 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
         
           FROM "salesReporting".sales_orders 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -108,7 +108,7 @@ const getRowsFourthLevelDetail = async config => {
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
-          GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)}
+          GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}
           ` //prettier-ignore
 
     return response
@@ -127,7 +127,7 @@ const getRowsThirdLevelDetail = async config => {
     console.log(`${config.user} - query postgres to get row labels (getRowsThirdLevelDetail) ...`)
 
     const response = await sql
-        `SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} ${config.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 3 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``} 
+        `SELECT COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 3 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``} 
         
           FROM "salesReporting".sales_line_items 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -139,9 +139,9 @@ const getRowsThirdLevelDetail = async config => {
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
-          GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)} 
+          GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)} 
         
-        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} ${config.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 3 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
+        UNION SELECT COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 3 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
         
           FROM "invenReporting".perpetual_inventory 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -153,9 +153,9 @@ const getRowsThirdLevelDetail = async config => {
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
           
-          GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)} 
+          GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)} 
         
-        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.l3_field)},'NA') AS l3_label ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} ${config.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 3 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
+        UNION SELECT COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 3 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
         
           FROM "salesReporting".sales_orders 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -167,7 +167,7 @@ const getRowsThirdLevelDetail = async config => {
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
-          GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}` //prettier-ignore
+          GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -185,7 +185,7 @@ const getRowsSecondLevelDetail = async config => {
     console.log(`${config.user} - query postgres to get row labels (getRowsSecondLevelDetail) ...`)
 
     const response = await sql
-        `SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} ${config.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 2 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}
+        `SELECT COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label ${config.baseFormat.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 2 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}
         
           FROM "salesReporting".sales_line_items 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -197,9 +197,9 @@ const getRowsSecondLevelDetail = async config => {
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
-          GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)} 
+          GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)} 
         
-        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} ${config.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 2 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``} 
+        UNION SELECT COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label ${config.baseFormat.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 2 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``} 
         
           FROM "invenReporting".perpetual_inventory 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -211,9 +211,9 @@ const getRowsSecondLevelDetail = async config => {
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
-          GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)} 
+          GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)} 
         
-        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.l2_field)},'NA') AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} ${config.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 2 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``} 
+        UNION SELECT COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label ${config.baseFormat.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 2 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``} 
         
           FROM "salesReporting".sales_orders 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -225,7 +225,7 @@ const getRowsSecondLevelDetail = async config => {
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
-          GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}` //prettier-ignore
+          GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -243,7 +243,7 @@ const getRowsFirstLevelDetail = async config => {
     console.log(`${config.user} - query postgres to get row labels (getRowsFirstLevelDetail) ...`)
 
     const response = await sql
-        `SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} ${config.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 1 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``} 
+        `SELECT COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label ${config.baseFormat.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 1 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``} 
         
           FROM "salesReporting".sales_line_items 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -255,9 +255,9 @@ const getRowsFirstLevelDetail = async config => {
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
-          GROUP BY ${sql(config.l1_field)} 
+          GROUP BY ${sql(config.baseFormat.l1_field)} 
         
-        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} ${config.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 1 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
+        UNION SELECT COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label ${config.baseFormat.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 1 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
         
           FROM "invenReporting".perpetual_inventory 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -269,9 +269,9 @@ const getRowsFirstLevelDetail = async config => {
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
-          GROUP BY ${sql(config.l1_field)} 
+          GROUP BY ${sql(config.baseFormat.l1_field)} 
         
-        UNION SELECT COALESCE(${sql(config.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label ${config.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} ${config.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 1 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
+        UNION SELECT COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label ${config.baseFormat.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 1 AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``}  
         
           FROM "salesReporting".sales_orders 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -283,7 +283,7 @@ const getRowsFirstLevelDetail = async config => {
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
-          GROUP BY ${sql(config.l1_field)}` //prettier-ignore
+          GROUP BY ${sql(config.baseFormat.l1_field)}` //prettier-ignore
 
     return response
   } catch (error) {
