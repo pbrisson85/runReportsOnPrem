@@ -16,4 +16,4 @@ const getLabelColsTemplate = () => {
   return template
 }
 
-module.exports = getCols
+module.exports = getLabelColsTemplate
