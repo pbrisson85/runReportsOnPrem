@@ -84,12 +84,9 @@ router.get('/periodMaps', async (req, res) => {
 // Generate Filter Data
 router.get('/defaultDates', async (req, res) => {
   // by default get the date that corresponds to the end of the last week closed.
-
   const { defaultEnd } = await getDefaults()
   const defaultEndWeek = await getWeekForDate(defaultEnd, req.user) // Need to pass from front end
   const defaults = await getDefaultDates(defaultEndWeek)
-
-  console.log('defaultDate', defaults)
 
   res.send(defaults)
   console.log('get periods maps lot route COMPLETE. ')
