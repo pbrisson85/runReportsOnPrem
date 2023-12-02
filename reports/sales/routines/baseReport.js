@@ -1234,7 +1234,7 @@ const buildReport = async (config) => {
   const trendColsCalMoByRangeF = !config.trends.calMonths ? skip() : () => {return  getTrendColsCalMonths(config)}
 
   // get so by week cols
-  const trendColsSoF = config.trends.fiscalWeeks ? () => {return  getDateEndPerWeekByRange_so(config)} : config.trends.calMonths ? () => {return  getTrendColsSoByCalMonths(config)} : config.trends.fiscalPeriods ? () => {return  getTrendColsSoByCalMonths(config)} : null
+  const trendColsSoF = config.trends.fiscalWeeks ? () => {return  getDateEndPerWeekByRange_so(config)} : config.trends.calMonths ? () => {return  getTrendColsSoByCalMonths(config)} : config.trends.fiscalPeriods ? () => {return  getTrendColsSoByCalMonths(config)} : skip()
   const trendColsSo_tgF = () => {return  getDateEndPerWeekByRange_so_tg(config)}
   const trendColsSo_untgF = () => {return  getDateEndPerWeekByRange_so_untg(config)}
 
