@@ -27,9 +27,8 @@ const groupByOptions = require('../data/filters/detailGroupBy')
 router.post('/', async (req, res) => {
   const { columnDataName, colType, fyTrendCol, fyYtdTrendCol, reportFormat, startDate, endDate } = req.body
 
-  console.log(req.body)
-
   const config = await getReportConfig(req.body)
+
   let data = null
 
   console.log(`\n${config.user} - get detail data for ${reportFormat.dataName} route HIT...`)
