@@ -2,7 +2,7 @@ const sql = require('../../../../server')
 
 const getSpeciesGroupTotalSales = async (start, end, config) => {
   try {
-    console.log(`${config.user} - look up species group for program ${config.program} ...`)
+    console.log(`${config.user} - look up species group for program ${config.baseFilters.program} ...`)
 
     const response = await sql`
       SELECT ${config.useProjection ? sql`'SALES PROJECTION TOTAL'`: sql`'SALES TOTAL'`} AS column ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
@@ -34,10 +34,10 @@ const getSpeciesGroupTotalSales = async (start, end, config) => {
           WHERE
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-          ${config.program ? sql`AND ms.species_group IN (
+          ${config.baseFilters.program ? sql`AND ms.species_group IN (
             SELECT DISTINCT(ms.species_group) AS species_group
               FROM "invenReporting".master_supplement AS ms
-              WHERE ms.program = ${config.program})`: sql``}
+              WHERE ms.program = ${config.baseFilters.program})`: sql``}
             
           ` //prettier-ignore
 

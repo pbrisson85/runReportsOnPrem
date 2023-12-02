@@ -35,7 +35,7 @@ const getProgramTotalSales = async (start, end, config) => {
           WHERE
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-          ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``}
           ` //prettier-ignore
 
     return response

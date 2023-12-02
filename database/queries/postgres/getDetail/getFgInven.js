@@ -18,7 +18,7 @@ const getFgInven_detail = async config => {
             pi.on_hand_lbs <> 0 
             AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``}
             ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
             ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
             ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}
@@ -57,7 +57,7 @@ const getFgInTransit_detail = async config => {
             AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             AND pi.location_type = ${'IN TRANSIT'} 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
             ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
             ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}
@@ -96,7 +96,7 @@ const getFgAtLoc_detail = async config => {
             AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             AND pi.location_type <> ${'IN TRANSIT'} 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
             ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
             ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}
@@ -137,7 +137,7 @@ const getFgAtLoc_untagged_detail = async config => {
                 AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
                 AND pi.location_type <> ${'IN TRANSIT'} 
                 ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-                ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+                ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
                 ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
                 ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
                 ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}
@@ -162,7 +162,7 @@ const getFgAtLoc_untagged_detail = async config => {
               WHERE 
                 ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
                 ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-                ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+                ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
                 ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
                 ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
                 ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}
@@ -205,7 +205,7 @@ const getFgAtLoc_tagged_detail = async config => {
           WHERE 
             ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
             ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
             ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}

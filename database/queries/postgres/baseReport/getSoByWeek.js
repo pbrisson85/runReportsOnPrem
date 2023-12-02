@@ -16,7 +16,7 @@ const l1_getSo_byWk = async config => {
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``}
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY so.week_serial, ${sql(config.baseFormat.l1_field)} 
@@ -44,7 +44,7 @@ const l1_getSoTagged_byWk = async config => {
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND so.tagged_weight > 0 
       
@@ -73,7 +73,7 @@ const l1_getSoUntagged_byWk = async config => {
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND so.untagged_weight > 0 
       
@@ -104,7 +104,7 @@ const l2_getSo_byWk = async config => {
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY so.week_serial, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)} 
@@ -132,7 +132,7 @@ const l2_getSoTagged_byWk = async config => {
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND so.tagged_weight > 0 
       
@@ -161,7 +161,7 @@ const l2_getSoUntagged_byWk = async config => {
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND so.untagged_weight > 0 
       
@@ -192,7 +192,7 @@ const l3_getSo_byWk = async config => {
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY so.week_serial, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)} 
@@ -220,7 +220,7 @@ const l3_getSoTagged_byWk = async config => {
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND so.tagged_weight > 0 
       
@@ -249,7 +249,7 @@ const l3_getSoUntagged_byWk = async config => {
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND so.untagged_weight > 0 
       
@@ -280,7 +280,7 @@ const l4_getSo_byWk = async config => {
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY so.week_serial, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)} 
@@ -308,7 +308,7 @@ const l4_getSoTagged_byWk = async config => {
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND so.tagged_weight > 0 
       
@@ -337,7 +337,7 @@ const l4_getSoUntagged_byWk = async config => {
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND so.untagged_weight > 0 
       
@@ -368,7 +368,7 @@ const l5_getSo_byWk = async config => {
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY so.week_serial, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)} 
@@ -396,7 +396,7 @@ const l5_getSoTagged_byWk = async config => {
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND so.tagged_weight > 0 
       
@@ -425,7 +425,7 @@ const l5_getSoUntagged_byWk = async config => {
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND so.untagged_weight > 0 
       
@@ -456,7 +456,7 @@ const l0_getSo_byWk = async config => {
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY so.week_serial 
@@ -484,7 +484,7 @@ const l0_getSoTagged_byWk = async config => {
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND so.tagged_weight > 0 
       
@@ -513,7 +513,7 @@ const l0_getSoUntagged_byWk = async config => {
       WHERE 
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND so.untagged_weight > 0 
       

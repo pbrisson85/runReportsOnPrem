@@ -32,7 +32,7 @@ const l1_getSalesByWk = async (config, start, end, trendQuery) => {
       WHERE 
         sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
         ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
         ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}
@@ -101,7 +101,7 @@ const l1_getSalesPeriodToDate = async (config, start, end, trendQuery) => {
       WHERE 
         sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
         ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
         ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}
@@ -165,7 +165,7 @@ const l0_getSalesByWk = async (config, start, end) => {
       WHERE 
         sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
         ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
         ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}
@@ -221,7 +221,7 @@ const l0_getSalesPeriodToDate = async (config, start, end) => {
       WHERE 
         sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
         ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
         ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}

@@ -823,21 +823,21 @@ const buildReport = async (config) => {
   const l5_percent_companySales = config.baseFormat.l5_field ? calcPercentSalesCol(companyTotalSalesR[0], l5_reportSales, 'percentCompanySales') : [] 
 
   /* % PROGRAM SALES */
-  const l0_percent_programSales = !config.program ? [] : calcPercentSalesCol(programTotalSalesR[0], l0_reportSales, 'percentProgramSales')
-  const l1_percent_programSales = !config.program ? [] : calcPercentSalesCol(programTotalSalesR[0], l1_reportSales, 'percentProgramSales')
-  const l2_percent_programSales = !config.program ? [] : calcPercentSalesCol(programTotalSalesR[0], l2_reportSales, 'percentProgramSales')
-  const l3_percent_programSales = !config.program || !config.baseFormat.l3_field ? [] : calcPercentSalesCol(programTotalSalesR[0], l3_reportSales, 'percentProgramSales')
-  const l4_percent_programSales = !config.program || !config.baseFormat.l4_field ? [] : calcPercentSalesCol(programTotalSalesR[0], l4_reportSales, 'percentProgramSales') 
-  const l5_percent_programSales = !config.program || !config.baseFormat.l5_field ? [] : calcPercentSalesCol(programTotalSalesR[0], l5_reportSales, 'percentProgramSales') 
+  const l0_percent_programSales = !config.baseFilters.program ? [] : calcPercentSalesCol(programTotalSalesR[0], l0_reportSales, 'percentProgramSales')
+  const l1_percent_programSales = !config.baseFilters.program ? [] : calcPercentSalesCol(programTotalSalesR[0], l1_reportSales, 'percentProgramSales')
+  const l2_percent_programSales = !config.baseFilters.program ? [] : calcPercentSalesCol(programTotalSalesR[0], l2_reportSales, 'percentProgramSales')
+  const l3_percent_programSales = !config.baseFilters.program || !config.baseFormat.l3_field ? [] : calcPercentSalesCol(programTotalSalesR[0], l3_reportSales, 'percentProgramSales')
+  const l4_percent_programSales = !config.baseFilters.program || !config.baseFormat.l4_field ? [] : calcPercentSalesCol(programTotalSalesR[0], l4_reportSales, 'percentProgramSales') 
+  const l5_percent_programSales = !config.baseFilters.program || !config.baseFormat.l5_field ? [] : calcPercentSalesCol(programTotalSalesR[0], l5_reportSales, 'percentProgramSales') 
 
   /* % SPECIES GROUP SALES */
   // look up species group based on program
-  const l0_percent_speciesGroupSales = !config.program ? [] : calcPercentSalesCol(speciesGroupTotalSalesR[0], l0_reportSales, 'percentSpeciesGroupSales')
-  const l1_percent_speciesGroupSales = !config.program ? [] : calcPercentSalesCol(speciesGroupTotalSalesR[0], l1_reportSales, 'percentSpeciesGroupSales') 
-  const l2_percent_speciesGroupSales = !config.program ? [] : calcPercentSalesCol(speciesGroupTotalSalesR[0], l2_reportSales, 'percentSpeciesGroupSales') 
-  const l3_percent_speciesGroupSales = !config.program || !config.baseFormat.l3_field ? [] : calcPercentSalesCol(speciesGroupTotalSalesR[0], l3_reportSales, 'percentSpeciesGroupSales')
-  const l4_percent_speciesGroupSales = !config.program || !config.baseFormat.l4_field ? [] : calcPercentSalesCol(speciesGroupTotalSalesR[0], l4_reportSales, 'percentSpeciesGroupSales')
-  const l5_percent_speciesGroupSales = !config.program || !config.baseFormat.l5_field ? [] : calcPercentSalesCol(speciesGroupTotalSalesR[0], l5_reportSales, 'percentSpeciesGroupSales')
+  const l0_percent_speciesGroupSales = !config.baseFilters.program ? [] : calcPercentSalesCol(speciesGroupTotalSalesR[0], l0_reportSales, 'percentSpeciesGroupSales')
+  const l1_percent_speciesGroupSales = !config.baseFilters.program ? [] : calcPercentSalesCol(speciesGroupTotalSalesR[0], l1_reportSales, 'percentSpeciesGroupSales') 
+  const l2_percent_speciesGroupSales = !config.baseFilters.program ? [] : calcPercentSalesCol(speciesGroupTotalSalesR[0], l2_reportSales, 'percentSpeciesGroupSales') 
+  const l3_percent_speciesGroupSales = !config.baseFilters.program || !config.baseFormat.l3_field ? [] : calcPercentSalesCol(speciesGroupTotalSalesR[0], l3_reportSales, 'percentSpeciesGroupSales')
+  const l4_percent_speciesGroupSales = !config.baseFilters.program || !config.baseFormat.l4_field ? [] : calcPercentSalesCol(speciesGroupTotalSalesR[0], l4_reportSales, 'percentSpeciesGroupSales')
+  const l5_percent_speciesGroupSales = !config.baseFilters.program || !config.baseFormat.l5_field ? [] : calcPercentSalesCol(speciesGroupTotalSalesR[0], l5_reportSales, 'percentSpeciesGroupSales')
  
   /* % REPORT TOTAL */
   const l0_percent_reportTotal = calcPercentSalesCol(l0_reportSales[0], l0_reportSales, 'percentReportTotal')

@@ -17,7 +17,7 @@ const getFgPo_detail = async config => {
         p.on_order_lbs <> 0 
         AND p.version = (SELECT MAX(p2.version) - 1 FROM "invenReporting".perpetual_inventory AS p2) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
         ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
         ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}

@@ -18,7 +18,7 @@ const getRowsFifthLevelDetail = async config => {
           WHERE 
             ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
             ${!config.trends.fyYtd && !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${config.rows.startDate} AND sales_line_items.formatted_invoice_date <= ${config.rows.endDate}` : sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
           GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)} 
@@ -32,7 +32,7 @@ const getRowsFifthLevelDetail = async config => {
           WHERE 
             perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory)
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``}  
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
           
           GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)} 
@@ -46,7 +46,7 @@ const getRowsFifthLevelDetail = async config => {
           WHERE 
             sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
           GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)}
@@ -77,7 +77,7 @@ const getRowsFourthLevelDetail = async config => {
           WHERE 
             ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
             ${!config.trends.fyYtd && !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${config.rows.startDate} AND sales_line_items.formatted_invoice_date <= ${config.rows.endDate}` : sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
           GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)} 
@@ -91,7 +91,7 @@ const getRowsFourthLevelDetail = async config => {
           WHERE 
             perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory)
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``}  
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
           
           GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)} 
@@ -105,7 +105,7 @@ const getRowsFourthLevelDetail = async config => {
           WHERE 
             sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
           GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}
@@ -136,7 +136,7 @@ const getRowsThirdLevelDetail = async config => {
           WHERE 
             ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
             ${!config.trends.fyYtd && !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${config.rows.startDate} AND sales_line_items.formatted_invoice_date <= ${config.rows.endDate} ` : sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
           GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)} 
@@ -150,7 +150,7 @@ const getRowsThirdLevelDetail = async config => {
           WHERE 
             perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
           
           GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)} 
@@ -164,7 +164,7 @@ const getRowsThirdLevelDetail = async config => {
           WHERE 
             sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
           GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}` //prettier-ignore
@@ -194,7 +194,7 @@ const getRowsSecondLevelDetail = async config => {
           WHERE 
             ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
             ${!config.trends.fyYtd && !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${config.rows.startDate} AND sales_line_items.formatted_invoice_date <= ${config.rows.endDate} ` : sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
           GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)} 
@@ -208,7 +208,7 @@ const getRowsSecondLevelDetail = async config => {
           WHERE 
             perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
           GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)} 
@@ -222,7 +222,7 @@ const getRowsSecondLevelDetail = async config => {
           WHERE 
             sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
           GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}` //prettier-ignore
@@ -252,7 +252,7 @@ const getRowsFirstLevelDetail = async config => {
           WHERE 
             ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
             ${!config.trends.fyYtd && !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${config.rows.startDate} AND sales_line_items.formatted_invoice_date <= ${config.rows.endDate} ` : sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
           GROUP BY ${sql(config.baseFormat.l1_field)} 
@@ -266,7 +266,7 @@ const getRowsFirstLevelDetail = async config => {
           WHERE 
             perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
           GROUP BY ${sql(config.baseFormat.l1_field)} 
@@ -280,7 +280,7 @@ const getRowsFirstLevelDetail = async config => {
           WHERE 
             sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
           GROUP BY ${sql(config.baseFormat.l1_field)}` //prettier-ignore

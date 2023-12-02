@@ -30,7 +30,7 @@ const l1_getSo = async (config, trendQuery) => {
          WHERE 
           so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-          ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
           ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
           ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}
@@ -96,7 +96,7 @@ const l1_getSoTagged = async (config, trendQuery) => {
             so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
             AND so.tagged_weight > 0  
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
             ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
             ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}
@@ -162,7 +162,7 @@ const l1_getSoUntagged = async (config, trendQuery) => {
         so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
         AND so.untagged_weight > 0  
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``}
         ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
         ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
         ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}
@@ -224,7 +224,7 @@ const l0_getSo = async config => {
            WHERE 
             so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-            ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
             ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
             ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}
@@ -276,7 +276,7 @@ const l0_getSoTagged = async config => {
         so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
         AND so.tagged_weight > 0  
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
         ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
         ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}
@@ -328,7 +328,7 @@ const l0_getSoUntagged = async config => {
         so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
         AND so.untagged_weight > 0  
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
         ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
         ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}

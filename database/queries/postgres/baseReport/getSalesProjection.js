@@ -46,7 +46,7 @@ const l1_getSalesProjectionByWk = async (config, start, end) => {
       WHERE
         1=1 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY pj.column, ${sql(config.baseFormat.l1_field)} 
@@ -102,7 +102,7 @@ const l1_getSalesProjectionPeriodToDate = async (config, start, end) => {
           WHERE
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-          ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
           GROUP BY ${sql(config.baseFormat.l1_field)} ` //prettier-ignore
@@ -158,7 +158,7 @@ const l2_getSalesProjectionByWk = async (config, start, end) => {
           WHERE
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-          ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY pj.column, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)} 
@@ -214,7 +214,7 @@ const l2_getSalesProjectionPeriodToDate = async (config, start, end) => {
           WHERE
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-          ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}` //prettier-ignore
@@ -271,7 +271,7 @@ const l3_getSalesProjectionByWk = async (config, start, end) => {
           WHERE
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-          ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY pj.column, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}
@@ -328,7 +328,7 @@ const l3_getSalesProjectionPeriodToDate = async (config, start, end) => {
           WHERE
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-          ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}` //prettier-ignore
@@ -384,7 +384,7 @@ const l4_getSalesProjectionByWk = async (config, start, end) => {
           WHERE
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-          ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY pj.column, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}
@@ -441,7 +441,7 @@ const l4_getSalesProjectionPeriodToDate = async (config, start, end) => {
           WHERE
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-          ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}` //prettier-ignore
@@ -497,7 +497,7 @@ const l5_getSalesProjectionByWk = async (config, start, end) => {
           WHERE
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-          ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY pj.column, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)}
@@ -553,7 +553,7 @@ const l5_getSalesProjectionPeriodToDate = async (config, start, end) => {
           WHERE
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-          ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)}` //prettier-ignore
@@ -610,7 +610,7 @@ const l0_getSalesProjectionByWk = async (config, start, end) => {
           WHERE
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-          ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY pj.column 
@@ -668,7 +668,7 @@ const l0_getSalesProjectionPeriodToDate = async (config, start, end) => {
           WHERE
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-          ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
           
             ` //prettier-ignore

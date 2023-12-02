@@ -31,7 +31,7 @@ const l1_getSalesByFyYtd = async (config, start, end, showYtd, trendQuery) => {
           
       WHERE 
         ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
         ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
         ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}
@@ -97,7 +97,7 @@ const l0_getSalesByFyYtd = async (config, start, end, showYtd) => {
       
       WHERE 
         ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
         ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
         ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}

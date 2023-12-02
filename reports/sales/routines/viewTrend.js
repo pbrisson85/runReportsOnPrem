@@ -254,8 +254,8 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
   /* % PROGRAM SALES */
   let l1_percent_programSales = []
   let l0_percent_programSales = []
-  if (config.program !== null) {
-    const l0_program_salesPeriodToDate = await l0_program_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary, config.program)
+  if (config.baseFilters.program !== null) {
+    const l0_program_salesPeriodToDate = await l0_program_getSalesPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary, config.baseFilters.program)
     l1_percent_programSales = calcPercentSalesCol(l0_program_salesPeriodToDate[0], l1_salesPeriodToDate, 'percentProgramSales')
     l0_percent_programSales = calcPercentSalesCol(l0_program_salesPeriodToDate[0], l0_salesPeriodToDate, 'percentProgramSales')
   }
@@ -303,7 +303,7 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
     {
       filterRow: true,
       l1_label: `${`
-                  ${config.program ? `prog: ${config.program}, ` : ``}
+                  ${config.baseFilters.program ? `prog: ${config.baseFilters.program}, ` : ``}
                   ${config.l1_filter ? `${config.baseFormat.l1_name}: ${config.l1_filter}, ` : ``}
                   ${config.l2_filter ? `${config.baseFormat.l2_name}: ${config.l2_filter}, ` : ``}
                   ${config.l3_filter ? `${config.baseFormat.l3_name}: ${config.l3_filter}, ` : ``}

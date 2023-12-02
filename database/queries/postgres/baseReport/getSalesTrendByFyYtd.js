@@ -23,7 +23,7 @@ const l1_getSalesByFyYtd = async config => {
           
       WHERE 
         ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.trends.fyYtd ? sql` AND sl.week <= ${config.trends.endWeek}` : sql``}
         AND p.fiscal_year IN ${sql(config.trends.trendYears)}
@@ -62,7 +62,7 @@ const l2_getSalesByFyYtd = async config => {
           
       WHERE 
       ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.trends.fyYtd ? sql`AND sl.week >= ${1} AND sl.week <= ${config.trends.endWeek}` : sql``} 
       
@@ -100,7 +100,7 @@ const l3_getSalesByFyYtd = async config => {
           
       WHERE 
         ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.trends.fyYtd ? sql`AND sl.week >= ${1} AND sl.week <= ${config.trends.endWeek}` : sql``} 
       
@@ -138,7 +138,7 @@ const l4_getSalesByFyYtd = async config => {
           
       WHERE 
         ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.trends.fyYtd ? sql`AND sl.week >= ${1} AND sl.week <= ${config.trends.endWeek}` : sql``} 
       
@@ -176,7 +176,7 @@ const l5_getSalesByFyYtd = async config => {
           
       WHERE 
         ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.trends.fyYtd ? sql`AND sl.week >= ${1} AND sl.week <= ${config.trends.endWeek}` : sql``} 
       
@@ -214,7 +214,7 @@ const l0_getSalesByFyYtd = async config => {
           
       WHERE 
         ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-        ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.trends.fyYtd ? sql`AND sl.week >= ${1} AND sl.week <= ${config.trends.endWeek}` : sql``} 
       
