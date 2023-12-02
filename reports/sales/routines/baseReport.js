@@ -1273,7 +1273,7 @@ const buildReport = async (config) => {
       trendColsSalesProj, // Only include if projection is checked
       trendColsSales,
       trendColsSaByFyYtd,
-      labelCols: config.baseCols,
+      labelCols: config.labelCols,
       trendColsSo,
       // trendColsSo_tg,
       // trendColsSo_untg,
