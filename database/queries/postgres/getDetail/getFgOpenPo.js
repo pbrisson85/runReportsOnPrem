@@ -2,19 +2,19 @@ const sql = require('../../../../server')
 
 // FG open PO grouped by program (includes in transit)
 
-console.log(
-  config.baseFilters.itemType,
-  config.baseFilters.program,
-  config.trendFilters.speciesGroup,
-  config.trendFilters.species,
-  config.trendFilters.program,
-  config.trendFilters.item,
-  config.trendFilters.freshFrozen,
-  config.userPermissions.joeB,
-  config.baseFilters.queryLevel
-)
-
 const getFgPo_detail = async config => {
+  console.log(
+    config.baseFilters.itemType,
+    config.baseFilters.program,
+    config.trendFilters.speciesGroup,
+    config.trendFilters.species,
+    config.trendFilters.program,
+    config.trendFilters.item,
+    config.trendFilters.freshFrozen,
+    config.userPermissions.joeB,
+    config.baseFilters.queryLevel
+  )
+
   try {
     console.log(`${config.user} - level ${config.baseFilters.queryLevel}: query postgres for FG open PO ...`)
 
