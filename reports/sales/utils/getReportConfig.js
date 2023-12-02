@@ -146,9 +146,6 @@ const getReportConfig = async reqBody => {
     },
   }
 
-  // Note that these maps could be added to the actual filter
-  config = mapReportQuery(reqBody, config) // add query fields to config based on report format chosen
-
   return config
 }
 
