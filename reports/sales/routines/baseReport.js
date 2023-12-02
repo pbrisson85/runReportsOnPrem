@@ -222,7 +222,7 @@ const columnConfigs = require('../data/baseCols/columns')
 const sortRowTemplate = require('../../../models/sortRowTemplate')
 const addDataToSalesTotalCol = require('../../../models/addDataToSalesTotalCol')
 
-const buildReport = async (config, labelCols) => {
+const buildReport = async (config) => {
   // The routine and all of the queries can be the same for all reports. Going to buikd out this rpeort and then change the config manually to test.
 
   const skip = () => {
@@ -1273,7 +1273,7 @@ const buildReport = async (config, labelCols) => {
       trendColsSalesProj, // Only include if projection is checked
       trendColsSales,
       trendColsSaByFyYtd,
-      labelCols,
+      labelCols: config.baseCols,
       trendColsSo,
       // trendColsSo_tg,
       // trendColsSo_untg,

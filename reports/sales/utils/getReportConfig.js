@@ -5,6 +5,7 @@ const { getStartOfWeek } = require('../../../database/queries/postgres/getDateSt
 const { getWeekForDate } = require('../../../database/queries/postgres/getWeekForDate')
 const { getEarliestSoShipDate, getLatestSoShipDate } = require('../../../database/queries/postgres/getSoDates')
 const getBaseFormatDefault = require('./configHelpers/getBaseFormatDefault')
+const getlabelCols = require('./configHelpers/getLabelCols')
 
 const getReportConfig = async reqBody => {
   // auth filters:
@@ -62,6 +63,7 @@ const getReportConfig = async reqBody => {
 
   // define config object
   let config = {
+    labelCols: getlabelCols(reqBody),
     baseFormat: {
       l1_field: reqBody.reportFormat?.l1_field ?? getBaseFormatDefault().l1_field ?? null,
       l2_field: reqBody.reportFormat?.l2_field ?? getBaseFormatDefault().l2_field ?? null,

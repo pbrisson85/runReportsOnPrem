@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const buildReport = require('../routines/baseReport')
-const getCols = require('../data/baseCols/labelCols')
 const getReportConfig = require('../utils/getReportConfig')
 
 // @route   POST /api/sales/byProgram
@@ -13,11 +12,7 @@ router.post('/', async (req, res) => {
 
   const config = await getReportConfig(req.body)  
 
-  console.log(config)
- 
-  const labelCols = getCols(req.body) // (COULD ADD THIS TO THE CONFIG FILE + add explanation, why would it be undefined)
-
-  const response = await buildReport( config, labelCols)
+  const response = await buildReport(config)
 
   console.log(`get get SALES base report route COMPLETE. \n`)
   res.send(response)
