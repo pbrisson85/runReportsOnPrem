@@ -19,9 +19,9 @@ const l1_getSalesByFiscalQuarter = async config => {
       
       WHERE 
         sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY p.quarter_serial, ${sql(config.l1_field)} 
       
@@ -53,9 +53,9 @@ const l2_getSalesByFiscalQuarter = async config => {
       
       WHERE 
         sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY p.quarter_serial, ${sql(config.l1_field)}, ${sql(config.l2_field)} 
       
@@ -87,9 +87,9 @@ const l3_getSalesByFiscalQuarter = async config => {
       
       WHERE 
         sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY p.quarter_serial, ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)} 
       
@@ -123,9 +123,9 @@ const l4_getSalesByFiscalQuarter = async config => {
       
       WHERE 
         sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY p.quarter_serial, ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)} 
       
@@ -159,9 +159,9 @@ const l5_getSalesByFiscalQuarter = async config => {
       
       WHERE 
         sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY p.quarter_serial, ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)}, ${sql(config.l5_field)} 
       
@@ -185,7 +185,7 @@ const l0_getSalesByFiscalQuarter = async config => {
     console.log(`${config.user} - level 0: query postgres to get FG sales data by week (l0_getSalesByFiscalQuarter) ...`)
 
     const response = await sql
-      `SELECT p.quarter_serial AS column${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
+      `SELECT p.quarter_serial AS column${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
       
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -195,9 +195,9 @@ const l0_getSalesByFiscalQuarter = async config => {
       
       WHERE 
         sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY p.quarter_serial  
       

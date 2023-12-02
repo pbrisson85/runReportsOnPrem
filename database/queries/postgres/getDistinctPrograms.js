@@ -10,8 +10,12 @@ const getDistinctPrograms = async (fy, config) => {
             ON ms.item_num = sales_line_items.item_number 
               WHERE 
               sales_line_items.fiscal_year = ${fy}
-              ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}` : sql``}
-              ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+              ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}` : sql``}
+              ${
+                config.userPermissions.joeB
+                  ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)`
+                  : sql``
+              }
               
         UNION SELECT DISTINCT(TRIM(ms.program)) AS label, (TRIM(ms.program)) AS "dataName" 
           FROM "invenReporting".perpetual_inventory 
@@ -19,8 +23,12 @@ const getDistinctPrograms = async (fy, config) => {
               ON ms.item_num = perpetual_inventory.item_number 
                 WHERE 
                 perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory)
-                ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}` : sql``}  
-              ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+                ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}` : sql``}  
+              ${
+                config.userPermissions.joeB
+                  ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)`
+                  : sql``
+              } 
                 
         UNION SELECT DISTINCT(TRIM(ms.program)) AS label, (TRIM(ms.program)) AS "dataName" 
           FROM "salesReporting".sales_orders 
@@ -28,8 +36,12 @@ const getDistinctPrograms = async (fy, config) => {
               ON ms.item_num = sales_orders.item_num 
                 WHERE 
                 sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
-                ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}` : sql``}  
-              ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+                ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}` : sql``}  
+              ${
+                config.userPermissions.joeB
+                  ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)`
+                  : sql``
+              }
         `
 
     const all = {

@@ -13,9 +13,9 @@ const l1_getSo = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY ${sql(config.l1_field)}` //prettier-ignore
 
@@ -37,9 +37,9 @@ const l1_getSoTagged = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND sales_orders.tagged_weight > 0 
       
       GROUP BY ${sql(config.l1_field)}` //prettier-ignore
@@ -62,9 +62,9 @@ const l1_getSoUntagged = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND sales_orders.untagged_weight > 0 
       
       GROUP BY ${sql(config.l1_field)}` //prettier-ignore
@@ -89,9 +89,9 @@ const l2_getSo = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}` //prettier-ignore
 
@@ -113,9 +113,9 @@ const l2_getSoTagged = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND sales_orders.tagged_weight > 0 
       
       GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}` //prettier-ignore
@@ -138,9 +138,9 @@ const l2_getSoUntagged = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND sales_orders.untagged_weight > 0 
       
       GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}` //prettier-ignore
@@ -165,9 +165,9 @@ const l3_getSo = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}` //prettier-ignore
 
@@ -189,9 +189,9 @@ const l3_getSoTagged = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND sales_orders.tagged_weight > 0 
       
       GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}` //prettier-ignore
@@ -214,9 +214,9 @@ const l3_getSoUntagged = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND sales_orders.untagged_weight > 0 
       
       GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}` //prettier-ignore
@@ -241,9 +241,9 @@ const l4_getSo = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)}` //prettier-ignore
 
@@ -265,9 +265,9 @@ const l4_getSoTagged = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND sales_orders.tagged_weight > 0 
       
       GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)}` //prettier-ignore
@@ -290,9 +290,9 @@ const l4_getSoUntagged = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND sales_orders.untagged_weight > 0 
       
       GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)}` //prettier-ignore
@@ -317,9 +317,9 @@ const l5_getSo = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)}, ${sql(config.l5_field)}` //prettier-ignore
 
@@ -341,9 +341,9 @@ const l5_getSoTagged = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND sales_orders.tagged_weight > 0 
       
       GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)}, ${sql(config.l5_field)}` //prettier-ignore
@@ -366,9 +366,9 @@ const l5_getSoUntagged = async config => {
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND sales_orders.untagged_weight > 0 
       
       GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)}, ${sql(config.l5_field)}` //prettier-ignore
@@ -387,15 +387,15 @@ const l0_getSo = async config => {
     console.log(`${config.user} - level 0: query postgres for FG Sales Orders (l0_getSo) ...`)
 
     const response = await sql
-      `SELECT 'FG OPEN ORDER' AS column${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(sales_orders.ext_weight),0) AS lbs, COALESCE(SUM(sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.ext_cost),0) AS cogs, COALESCE(SUM(sales_orders.ext_othp),0) AS othp 
+      `SELECT 'FG OPEN ORDER' AS column${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(sales_orders.ext_weight),0) AS lbs, COALESCE(SUM(sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.ext_cost),0) AS cogs, COALESCE(SUM(sales_orders.ext_othp),0) AS othp 
       
       FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       ` //prettier-ignore
 
     return response
@@ -410,15 +410,15 @@ const l0_getSoTagged = async config => {
     console.log(`${config.user} - level 0: query postgres for FG Sales Orders (l0_getSoTagged) ...`)
 
     const response = await sql
-      `SELECT 'FG OPEN ORDER TAGGED' AS column${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(sales_orders.tagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.tagged_weight * ave_tagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
+      `SELECT 'FG OPEN ORDER TAGGED' AS column${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(sales_orders.tagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.tagged_weight * ave_tagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.tagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
       
       FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND sales_orders.tagged_weight > 0` //prettier-ignore
 
     return response
@@ -433,15 +433,15 @@ const l0_getSoUntagged = async config => {
     console.log(`${config.user} - level 0: query postgres for FG Sales Orders (l0_getSoUntagged) ...`)
 
     const response = await sql
-      `SELECT 'FG OPEN ORDER UNTAGGED' AS column${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(sales_orders.untagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.untagged_weight * ave_untagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
+      `SELECT 'FG OPEN ORDER UNTAGGED' AS column${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(sales_orders.untagged_weight),0) AS lbs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_sales),0) AS sales, COALESCE(SUM(sales_orders.untagged_weight * ave_untagged_cost),0) AS cogs, COALESCE(SUM(sales_orders.untagged_weight / sales_orders.ext_weight * sales_orders.ext_othp),0) AS othp 
       
       FROM "salesReporting".sales_orders LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = sales_orders.item_num 
       
       WHERE 
         sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         AND sales_orders.untagged_weight > 0` //prettier-ignore
 
     return response

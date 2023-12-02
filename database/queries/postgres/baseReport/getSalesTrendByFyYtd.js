@@ -22,9 +22,9 @@ const l1_getSalesByFyYtd = async config => {
           ON sl.formatted_invoice_date = p.formatted_date
           
       WHERE 
-        ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
+        ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.trends.fyYtd ? sql` AND sl.week <= ${config.trends.endWeek}` : sql``}
         AND p.fiscal_year IN ${sql(config.trends.trendYears)}
       
@@ -61,9 +61,9 @@ const l2_getSalesByFyYtd = async config => {
           ON sl.formatted_invoice_date = p.formatted_date
           
       WHERE 
-      ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
+      ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.trends.fyYtd ? sql`AND sl.week >= ${1} AND sl.week <= ${config.trends.endWeek}` : sql``} 
       
       GROUP BY p.fiscal_year, ${sql(config.l1_field)}, ${sql(config.l2_field)} 
@@ -99,9 +99,9 @@ const l3_getSalesByFyYtd = async config => {
           ON sl.formatted_invoice_date = p.formatted_date
           
       WHERE 
-        ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
+        ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.trends.fyYtd ? sql`AND sl.week >= ${1} AND sl.week <= ${config.trends.endWeek}` : sql``} 
       
       GROUP BY p.fiscal_year, ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)} 
@@ -137,9 +137,9 @@ const l4_getSalesByFyYtd = async config => {
           ON sl.formatted_invoice_date = p.formatted_date
           
       WHERE 
-        ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
+        ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.trends.fyYtd ? sql`AND sl.week >= ${1} AND sl.week <= ${config.trends.endWeek}` : sql``} 
       
       GROUP BY p.fiscal_year, ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)} 
@@ -175,9 +175,9 @@ const l5_getSalesByFyYtd = async config => {
           ON sl.formatted_invoice_date = p.formatted_date
           
       WHERE 
-        ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
+        ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.trends.fyYtd ? sql`AND sl.week >= ${1} AND sl.week <= ${config.trends.endWeek}` : sql``} 
       
       GROUP BY p.fiscal_year, ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)}, ${sql(config.l5_field)} 
@@ -204,7 +204,7 @@ const l0_getSalesByFyYtd = async config => {
     )
 
     const response = await sql
-      `SELECT p.fiscal_year ${config.trends.fyYtd ? sql`|| '_ytd' ` : sql``} AS column${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
+      `SELECT p.fiscal_year ${config.trends.fyYtd ? sql`|| '_ytd' ` : sql``} AS column${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sl.gross_sales_ext),0) AS sales, COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sl.othp_ext),0) AS othp 
       
       FROM "salesReporting".sales_line_items AS sl
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -213,9 +213,9 @@ const l0_getSalesByFyYtd = async config => {
           ON sl.formatted_invoice_date = p.formatted_date
           
       WHERE 
-        ${config.itemType ? sql`ms.item_type IN ${sql(config.itemType)}`: sql`ms.item_type IS NOT NULL`} 
+        ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
         ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-        ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.trends.fyYtd ? sql`AND sl.week >= ${1} AND sl.week <= ${config.trends.endWeek}` : sql``} 
       
       GROUP BY p.fiscal_year 

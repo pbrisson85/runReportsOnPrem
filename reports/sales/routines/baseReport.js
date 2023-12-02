@@ -159,7 +159,39 @@ const {
   l4_getSo_byCalMo,
   l5_getSo_byCalMo,
   l0_getSo_byCalMo,
+  l1_getSoTagged_byCalMo,
+  l2_getSoTagged_byCalMo,
+  l3_getSoTagged_byCalMo,
+  l4_getSoTagged_byCalMo,
+  l5_getSoTagged_byCalMo,
+  l0_getSoTagged_byCalMo,
+  l1_getSoUntagged_byCalMo,
+  l2_getSoUntagged_byCalMo,
+  l3_getSoUntagged_byCalMo,
+  l4_getSoUntagged_byCalMo,
+  l5_getSoUntagged_byCalMo,
+  l0_getSoUntagged_byCalMo,
 } = require('../../../database/queries/postgres/baseReport/getSoByCalMonth')
+const {
+  l1_getSo_byFiscalPeriod,
+  l2_getSo_byFiscalPeriod,
+  l3_getSo_byFiscalPeriod,
+  l4_getSo_byFiscalPeriod,
+  l5_getSo_byFiscalPeriod,
+  l0_getSo_byFiscalPeriod,
+  l1_getSoTagged_byFiscalPeriod,
+  l2_getSoTagged_byFiscalPeriod,
+  l3_getSoTagged_byFiscalPeriod,
+  l4_getSoTagged_byFiscalPeriod,
+  l5_getSoTagged_byFiscalPeriod,
+  l0_getSoTagged_byFiscalPeriod,
+  l1_getSoUntagged_byFiscalPeriod,
+  l2_getSoUntagged_byFiscalPeriod,
+  l3_getSoUntagged_byFiscalPeriod,
+  l4_getSoUntagged_byFiscalPeriod,
+  l5_getSoUntagged_byFiscalPeriod,
+  l0_getSoUntagged_byFiscalPeriod,
+} = require('../../../database/queries/postgres/baseReport/getSoByFiscalPeriod')
 const {
   getRowsFifthLevelDetail,
   getRowsFourthLevelDetail,
@@ -263,6 +295,17 @@ const buildReport = async (config, labelCols) => {
   const l3_so_byWk = !config.trends.fiscalWeeks ? skip() : config.l3_field ? () => {return l3_getSo_byWk(config)} : skip()
   const l4_so_byWk = !config.trends.fiscalWeeks ? skip() : config.l4_field ? () => {return l4_getSo_byWk(config)} : skip()
   const l5_so_byWk = !config.trends.fiscalWeeks ? skip() : config.l5_field ? () => {return l5_getSo_byWk(config)} : skip()
+
+  const l0_so_byFiscalPeriod = !config.trends.fiscalPeriods ? skip() : () => {return l0_getSo_byFiscalPeriod(config)}
+  const l1_so_byFiscalPeriod = !config.trends.fiscalPeriods ? skip() : () => {return l1_getSo_byFiscalPeriod(config)}
+  const l2_so_byFiscalPeriod = !config.trends.fiscalPeriods ? skip() : () => {return l2_getSo_byFiscalPeriod(config)}
+  const l3_so_byFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.l3_field ? () => {return l3_getSo_byFiscalPeriod(config)} : skip()
+  const l4_so_byFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.l4_field ? () => {return l4_getSo_byFiscalPeriod(config)} : skip()
+  const l5_so_byFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.l5_field ? () => {return l5_getSo_byFiscalPeriod(config)} : skip()
+
+
+  
+
   
   const l0_so_byCalMo = !config.trends.calMonths ? skip() : () => {return l0_getSo_byCalMo(config)}
   const l1_so_byCalMo = !config.trends.calMonths ? skip() : () => {return l1_getSo_byCalMo(config)}
@@ -433,7 +476,7 @@ const buildReport = async (config, labelCols) => {
     l4_soR,
     l5_soR,
     l0_soR,
-    
+
     l1_so_byCalMoR,
     l2_so_byCalMoR,
     l3_so_byCalMoR,
@@ -447,6 +490,14 @@ const buildReport = async (config, labelCols) => {
     l4_so_byWkR,
     l5_so_byWkR,
     l0_so_byWkR,
+
+    l1_so_byFiscalPeriodR,
+    l2_so_byFiscalPeriodR,
+    l3_so_byFiscalPeriodR,
+    l4_so_byFiscalPeriodR,
+    l5_so_byFiscalPeriodR,
+    l0_so_byFiscalPeriodR,
+
     // l1_soTaggedR,
     // l2_soTaggedR,
     // l3_soTaggedR,
@@ -582,6 +633,14 @@ const buildReport = async (config, labelCols) => {
     l4_so_byWk(),
     l5_so_byWk(),
     l0_so_byWk(),
+
+    l1_so_byFiscalPeriod(),
+    l2_so_byFiscalPeriod(),
+    l3_so_byFiscalPeriod(),
+    l4_so_byFiscalPeriod(),
+    l5_so_byFiscalPeriod(),
+    l0_so_byFiscalPeriod(),
+
     // l1_soTagged(),
     // l2_soTagged(),
     // l3_soTagged(),
@@ -867,13 +926,13 @@ const buildReport = async (config, labelCols) => {
   const totalsRow = [
     {
       totalRow: true,
-      l1_label: `${config.itemType} SALES`,
+      l1_label: `${config.baseFilters.itemType} SALES`,
       l2_label: 'TOTAL',
       l3_label: 'TOTAL',
       l4_label: 'TOTAL',
       l5_label: 'TOTAL',
       datalevel: 0,
-      itemtype: config.itemType,
+      itemtype: config.baseFilters.itemType,
     },
   ]
 
@@ -1002,6 +1061,16 @@ const buildReport = async (config, labelCols) => {
       ...l4_so_byWkR,
       ...l5_so_byWkR,
       ...l0_so_byWkR,
+
+      ...l1_so_byFiscalPeriodR,
+      ...l2_so_byFiscalPeriodR,
+      ...l3_so_byFiscalPeriodR,
+      ...l4_so_byFiscalPeriodR,
+      ...l5_so_byFiscalPeriodR,
+      ...l0_so_byFiscalPeriodR,
+
+
+
       // ...l1_soTagged_byWkR,
       // ...l2_soTagged_byWkR,
       // ...l3_soTagged_byWkR,
@@ -1165,7 +1234,7 @@ const buildReport = async (config, labelCols) => {
   const trendColsCalMoByRangeF = !config.trends.calMonths ? skip() : () => {return  getTrendColsCalMonths(config)}
 
   // get so by week cols
-  const trendColsSoF = !config.trends.calMonths ? () => {return  getDateEndPerWeekByRange_so(config)} : () => {return  getTrendColsSoByCalMonths(config)}
+  const trendColsSoF = config.trends.fiscalWeeks ? () => {return  getDateEndPerWeekByRange_so(config)} : config.trends.calMonths ? () => {return  getTrendColsSoByCalMonths(config)} : config.trends.fiscalPeriods ? () => {return  getTrendColsSoByCalMonths(config)} : null
   const trendColsSo_tgF = () => {return  getDateEndPerWeekByRange_so_tg(config)}
   const trendColsSo_untgF = () => {return  getDateEndPerWeekByRange_so_untg(config)}
 

@@ -297,7 +297,7 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
   const rowsFirstLevelDetail = await getRowsFirstLevelDetail(config, config.totals.startDatePrimary, config.totals.endDatePrimary, trendQuery)
 
   const totalsRow = [
-    { totalRow: true, l1_label: `${config.itemType} SALES`, l2_label: `TOTAL`, datalevel: config.queryLevel, itemtype: config.itemType },
+    { totalRow: true, l1_label: `${config.baseFilters.itemType} SALES`, l2_label: `TOTAL`, datalevel: config.baseFilters.queryLevel, itemtype: config.baseFilters.itemType },
   ] // Need an l2_label of TOTAL for front config.totals.endDatePrimary styling
   const filterRow = [
     {
@@ -309,13 +309,13 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
                   ${config.l3_filter ? `${config.l3_name}: ${config.l3_filter}, ` : ``}
                   ${config.l4_filter ? `${config.l4_name}: ${config.l4_filter}, ` : ``}
                   ${config.l5_filter ? `${config.l5_name}: ${config.l5_filter}, ` : ``}
-                  ${config.customer ? `cust: ${config.customer}, ` : ``}
-                  ${config.item ? `item: ${config.item}, ` : ``}
-                  ${config.salesPerson ? `salesperson: ${config.salesPerson}, ` : ``}
-                  ${config.country ? `country: ${config.country}, ` : ``}
-                  ${config.state ? `state: ${config.state}, ` : ``}
-                  ${config.export ? `usa vs export: ${config.export}, ` : ``}
-                  ${config.northAmerica ? `north america vs foreign: ${config.northAmerica}, ` : ``}
+                  ${config.trendFilters.customer ? `cust: ${config.trendFilters.customer}, ` : ``}
+                  ${config.trendFilters.item ? `item: ${config.trendFilters.item}, ` : ``}
+                  ${config.trendFilters.salesPerson ? `salesperson: ${config.trendFilters.salesPerson}, ` : ``}
+                  ${config.trendFilters.country ? `country: ${config.trendFilters.country}, ` : ``}
+                  ${config.trendFilters.state ? `state: ${config.trendFilters.state}, ` : ``}
+                  ${config.trendFilters.export ? `usa vs export: ${config.trendFilters.export}, ` : ``}
+                  ${config.trendFilters.northAmerica ? `north america vs foreign: ${config.trendFilters.northAmerica}, ` : ``}
                  `}`,
     },
   ] // shows at top of report

@@ -5,7 +5,7 @@ const getProgramTotalSales = async (start, end, program) => {
     console.log(`${config.user} - level 0: query postgres to get FG sales data period total ...`)
 
     const response = await sql`
-      SELECT 'SALES TOTAL' AS column${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
+      SELECT 'SALES TOTAL' AS column${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, COALESCE(SUM(sales_line_items.calc_gm_rept_weight),0) AS lbs, COALESCE(SUM(sales_line_items.gross_sales_ext),0) AS sales, COALESCE(SUM(sales_line_items.cogs_ext_gl),0) AS cogs, COALESCE(SUM(sales_line_items.othp_ext),0) AS othp 
       
       FROM "salesReporting".sales_line_items 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -13,7 +13,7 @@ const getProgramTotalSales = async (start, end, program) => {
       
       WHERE 
         sales_line_items.formatted_invoice_date >= ${start} AND sales_line_items.formatted_invoice_date <= ${end} 
-        ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}` : sql``} 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}` : sql``} 
         AND ms.program = ${program}` //prettier-ignore
 
     return response

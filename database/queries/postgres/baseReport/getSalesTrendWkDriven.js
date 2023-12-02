@@ -48,9 +48,9 @@ const l1_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
 
           WHERE
           1=1 
-          ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-          ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
           GROUP BY ${sql(config.l1_field)} ` //prettier-ignore
 
@@ -107,9 +107,9 @@ const l2_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
 
           WHERE
           1=1 
-          ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-          ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}` //prettier-ignore
 
@@ -166,9 +166,9 @@ const l3_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
 
           WHERE
           1=1 
-          ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-          ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}` //prettier-ignore
 
@@ -225,9 +225,9 @@ const l4_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
 
           WHERE
           1=1 
-          ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-          ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)}` //prettier-ignore
 
@@ -284,9 +284,9 @@ const l5_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
 
           WHERE
           1=1 
-          ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-          ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY ${sql(config.l1_field)}, ${sql(config.l2_field)}, ${sql(config.l3_field)}, ${sql(config.l4_field)}, ${sql(config.l5_field)}` //prettier-ignore
 
@@ -305,7 +305,7 @@ const l0_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
 
     const response = await sql
       `
-      SELECT ${sql`${colName}`} AS column ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(pj.lbs),0) AS lbs, COALESCE(SUM(pj.sales),0) AS sales, COALESCE(SUM(pj.cogs),0) AS cogs, COALESCE(SUM(pj.othp),0) AS othp 
+      SELECT ${sql`${colName}`} AS column ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(pj.lbs),0) AS lbs, COALESCE(SUM(pj.sales),0) AS sales, COALESCE(SUM(pj.cogs),0) AS cogs, COALESCE(SUM(pj.othp),0) AS othp 
       
       FROM (
         SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
@@ -345,9 +345,9 @@ const l0_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
 
           WHERE
           1=1 
-          ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-          ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
           
             ` //prettier-ignore
 

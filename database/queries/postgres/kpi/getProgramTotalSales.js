@@ -6,7 +6,7 @@ const getProgramTotalSales = async (start, end, config) => {
 
     const response = await sql
       `
-      SELECT ${config.useProjection ? sql`'SALES PROJECTION TOTAL'`: sql`'SALES TOTAL'`} AS column ${config.itemType ? sql`, REPLACE('${sql(config.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
+      SELECT ${config.useProjection ? sql`'SALES PROJECTION TOTAL'`: sql`'SALES TOTAL'`} AS column ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
         SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
@@ -34,7 +34,7 @@ const getProgramTotalSales = async (start, end, config) => {
 
           WHERE
           1=1 
-          ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.program ? sql`AND ms.program = ${config.program}`: sql``}
           ` //prettier-ignore
 

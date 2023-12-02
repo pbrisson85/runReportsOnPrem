@@ -11,7 +11,11 @@ const getItemTypes = async (fy, config) => {
         WHERE 
             ms.item_type IS NOT NULL
             AND sl.fiscal_year = ${fy}
-            ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+            ${
+              config.userPermissions.joeB
+                ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)`
+                : sql``
+            }
                   
     UNION SELECT DISTINCT(TRIM(ms.item_type)) AS label, (TRIM(ms.item_type)) AS "dataName" 
         FROM "invenReporting".perpetual_inventory AS pi
@@ -20,7 +24,11 @@ const getItemTypes = async (fy, config) => {
         WHERE 
             ms.item_type IS NOT NULL
             AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory)
-            ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+            ${
+              config.userPermissions.joeB
+                ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)`
+                : sql``
+            } 
                     
     UNION SELECT DISTINCT(TRIM(ms.item_type)) AS label, (TRIM(ms.item_type)) AS "dataName" 
         FROM "salesReporting".sales_orders AS so
@@ -29,7 +37,11 @@ const getItemTypes = async (fy, config) => {
         WHERE 
             ms.item_type IS NOT NULL
             AND so.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
-            ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+            ${
+              config.userPermissions.joeB
+                ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)`
+                : sql``
+            }
     `
 
     return response

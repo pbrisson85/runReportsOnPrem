@@ -4,7 +4,7 @@ const sql = require('../../../../server')
 
 const getSalesProjection_detail = async (config, start, end, year) => {
   try {
-    console.log(`${config.user} - level ${config.queryLevel}: query postgres to get SALES PROJECTION ...`)
+    console.log(`${config.user} - level ${config.baseFilters.queryLevel}: query postgres to get SALES PROJECTION ...`)
 
     const response = await sql
       `SELECT status, pj.net_sales_ext, pj.gross_margin_lb, pj.cost_lb, pj.net_sales_lb, pj.othp_lb, pj.gross_sales_lb, pj.location, pj.customer_code, pj.customer_name, pj.doc_num, pj.line_number, pj.ship_date, pj.week_serial, pj.item_number, ms.description, ms.species, ms.brand, ms.size_name, ms.fg_treatment, ms.fg_fresh_frozen, pj.lbs, pj.gross_sales_ext, pj.othp_ext, pj.cogs_ext, pj.gross_margin_ext, pj.sales_rep, pj.north_america, pj.domestic, pj.country, pj.state 
@@ -46,26 +46,26 @@ const getSalesProjection_detail = async (config, start, end, year) => {
         
         WHERE 
             1=1
-            ${config.itemType ? sql`AND ms.item_type IN ${sql(config.itemType)}`: sql``} 
+            ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
             ${config.program ? sql`AND ms.program = ${config.program}`: sql``} 
-            ${config.speciesGroup ? sql`AND ms.species_group = ${config.speciesGroup}`: sql``} 
-            ${config.species ? sql`AND ms.species = ${config.species}`: sql``} 
-            ${config.programDrilldown ? sql`AND ms.program = ${config.programDrilldown}`: sql``}  
-            ${config.item ? sql`AND ms.item_num = ${config.item}`: sql``} 
-            ${config.customer ? sql`AND pj.customer_code = ${config.customer}`: sql``} 
-            ${config.salesPerson ? sql`AND pj.sales_rep = ${config.salesPerson}`: sql``} 
-            ${config.custType ? sql`AND cs.category = ${config.custType}`: sql``} 
-            ${config.country ? sql`AND pj.country = ${config.country}`: sql``} 
-            ${config.state ? sql`AND pj.state = ${config.state}`: sql``} 
-            ${config.export ? sql`AND pj.domestic = ${config.export}`: sql``} 
-            ${config.northAmerica ? sql`AND pj.north_america = ${config.northAmerica}`: sql``} 
-            ${config.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.freshFrozen}`: sql``} 
-            ${config.jbBuyerFilter ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-            ${config.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
-            ${config.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
-            ${config.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``} 
-            ${config.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
-            ${config.queryLevel > 4 ? sql`AND ${sql(config.l5_field)} = ${config.l5_filter}` : sql``}
+            ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``} 
+            ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``} 
+            ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}  
+            ${config.trendFilters.item ? sql`AND ms.item_num = ${config.trendFilters.item}`: sql``} 
+            ${config.trendFilters.customer ? sql`AND pj.customer_code = ${config.trendFilters.customer}`: sql``} 
+            ${config.trendFilters.salesPerson ? sql`AND pj.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
+            ${config.trendFilters.custType ? sql`AND cs.category = ${config.trendFilters.custType}`: sql``} 
+            ${config.trendFilters.country ? sql`AND pj.country = ${config.trendFilters.country}`: sql``} 
+            ${config.trendFilters.state ? sql`AND pj.state = ${config.trendFilters.state}`: sql``} 
+            ${config.trendFilters.export ? sql`AND pj.domestic = ${config.trendFilters.export}`: sql``} 
+            ${config.trendFilters.northAmerica ? sql`AND pj.north_america = ${config.trendFilters.northAmerica}`: sql``} 
+            ${config.trendFilters.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.trendFilters.freshFrozen}`: sql``} 
+            ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+            ${config.baseFilters.queryLevel > 0 ? sql`AND ${sql(config.l1_field)} = ${config.l1_filter}` : sql``} 
+            ${config.baseFilters.queryLevel > 1 ? sql`AND ${sql(config.l2_field)} = ${config.l2_filter}` : sql``} 
+            ${config.baseFilters.queryLevel > 2 ? sql`AND ${sql(config.l3_field)} = ${config.l3_filter}` : sql``} 
+            ${config.baseFilters.queryLevel > 3 ? sql`AND ${sql(config.l4_field)} = ${config.l4_filter}` : sql``} 
+            ${config.baseFilters.queryLevel > 4 ? sql`AND ${sql(config.l5_field)} = ${config.l5_filter}` : sql``}
         ` //prettier-ignore
 
     return response

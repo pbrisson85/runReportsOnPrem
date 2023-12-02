@@ -32,7 +32,7 @@ router.post('/', async (req, res) => {
   const config = await getReportConfig(req.body)
   let data = null
 
-  console.log(`\n${config.user} - get detail data for ${reportFormat} route HIT...`)
+  console.log(`\n${config.user} - get detail data for ${reportFormat.dataName} route HIT...`)
 
   if (colType === 'invenFg') {
     switch (columnDataName) {
@@ -110,7 +110,7 @@ router.post('/', async (req, res) => {
   const cols = detailColsMap[colType]
   const menu = groupByOptions[colType]
 
-  console.log(`${config.user} - get detail data for ${reportFormat} route COMPLETE. \n`)
+  console.log(`${config.user} - get detail data for ${reportFormat.dataName} route COMPLETE. \n`)
   res.send({ data, cols, menu })
 })
 

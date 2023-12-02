@@ -1,107 +1,208 @@
+// Note that additionally front end (query params) needs to be updated
+
 const getReportFormats = () => {
   return [
     {
-      label: 'type / species group / freeze',
-      dataName: 'typeSpecgroupFreeze',
-      defaults: [], // list of programs (datanames) that this is the default report
-      optional: ['all'], // list of programs (datanames) that allow this
+      default: false, // if no report is chosen (such as on first request) this will be used to group report if true
+      label: 'type / species group / freeze', // appears in front end report options
+      dataName: 'typeSpecgroupFreeze', // passed back as "reportFormat" in the front end request. Maps to "invenReporting".master_supplement in reports/sales/utils/config/itemMasterSupplementQueryMap.js
+      defaultsFallback: false, // front end uses defaults array to map a program filter to the default report format. If the program does not appear in any array (which would be a mistake) then this flag will be for the fallbackDefault
+      defaults: [], //list of programs (datanames) that this is the defaultsFallback report
+      optional: ['all'], // list of programs (datanames) that allow this,  or use 'any' to allow all programs EXCEPT 'all'
       forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
+      l1_field: 'ms.item_type', // passed back to config for queries
+      l2_field: 'ms.species_group', // passed back to config for queries
+      l3_field: 'ms.program', // passed back to config for queries
+      l1_name: 'item type', // only used as readable description for active filters on front end.
+      l2_name: 'species group', // only used as readable description for active filters on front end.
+      l3_name: 'program', // only used as readable description for active filters on front end.
     },
     {
+      default: true,
       label: 'species group / program',
       dataName: 'speciesgroupProg',
-      defaults: [], // list of programs (datanames) that this is the default report
-      optional: ['all'], // list of programs (datanames) that allow this
-      forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
+      defaultsFallback: false,
+      defaults: [],
+      optional: ['all'],
+      forbiddenCols: ['percentProgramSales'],
+      l1_field: 'ms.species_group',
+      l2_field: 'ms.program',
+      l1_name: 'species group',
+      l2_name: 'program',
     },
     {
       label: 'species group / program / freeze',
       dataName: 'speciesgroupProgFrz',
-      defaults: [], // list of programs (datanames) that this is the default report
-      optional: ['all'], // list of programs (datanames) that allow this
-      forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
+      defaultsFallback: false,
+      defaults: [],
+      optional: ['all'],
+      forbiddenCols: ['percentProgramSales'],
+      l1_field: 'ms.species_group',
+      l2_field: 'ms.program',
+      l3_field: 'ms.fg_fresh_frozen',
+      l1_name: 'species group',
+      l2_name: 'program',
+      l3_name: 'fresh/frozen',
     },
     {
       label: 'species group / program / species',
       dataName: 'speciesgroupProgSpec',
-      defaults: [], // list of programs (datanames) that this is the default report
-      optional: ['all'], // list of programs (datanames) that allow this
-      forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
+      defaultsFallback: false,
+      defaults: [],
+      optional: ['all'],
+      forbiddenCols: ['percentProgramSales'],
+      l1_field: 'ms.species_group',
+      l2_field: 'ms.program',
+      l3_field: 'ms.species',
+      l1_name: 'species group',
+      l2_name: 'program',
+      l3_name: 'species',
     },
     {
       label: 'species group / brand / skin',
       dataName: 'speciesgroupBrandSkin',
-      defaults: [], // list of programs (datanames) that this is the default report
-      optional: ['all'], // list of programs (datanames) that allow this
-      forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
+      defaultsFallback: false,
+      defaults: [],
+      optional: ['all'],
+      forbiddenCols: ['percentProgramSales'],
+      l1_field: 'ms.species_group',
+      l2_field: 'ms.brand',
+      l3_field: 'ms.fish_skin',
+      l1_name: 'species group',
+      l2_name: 'brand',
+      l3_name: 'skin',
     },
     {
       label: 'species group / skin / brand',
       dataName: 'speciesgroupSkinBrand',
-      defaults: [], // list of programs (datanames) that this is the default report
-      optional: ['all'], // list of programs (datanames) that allow this
-      forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
+      defaultsFallback: false,
+      defaults: [],
+      optional: ['all'],
+      forbiddenCols: ['percentProgramSales'],
+      l1_field: 'ms.species_group',
+      l2_field: 'ms.fish_skin',
+      l3_field: 'ms.brand',
+      l1_name: 'species group',
+      l2_name: 'skin',
+      l3_name: 'brand',
     },
     {
       label: 'species group / freeze',
       dataName: 'speciesgroupFreeze',
-      defaults: ['all'], // list of programs (datanames) that this is the default report
-      optional: ['all'], // list of programs (datanames) that allow this
-      forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
+      defaultsFallback: false,
+      defaults: ['all'],
+      optional: ['all'],
+      forbiddenCols: ['percentProgramSales'],
+      l1_field: 'ms.species_group',
+      l2_field: 'ms.fg_fresh_frozen',
+      l1_name: 'species group',
+      l2_name: 'fresh/frozen',
     },
     {
       label: 'freeze / brand / size',
       dataName: 'frzBrndSize',
-      default: true, // if true, this is the default report for an unlisted program (one which does not appear in the defaults array)
-      defaults: [], // list of programs (datanames) that this is the default report
-      optional: ['any'], // list of programs (datanames) that allow this, or use 'any' to allow all programs EXCEPT 'all'
+      defaultsFallback: true,
+      defaults: [],
+      optional: ['any'],
       forbiddenCols: [],
+      l1_field: 'ms.fg_fresh_frozen',
+      l2_field: 'ms.brand',
+      l3_field: 'ms.size_name',
+      l1_name: 'fresh/frozen',
+      l2_name: 'brand',
+      l3_name: 'size',
     },
     {
       label: 'freeze / brand / soak / size',
       dataName: 'frzBrndSoakSize',
-      default: false, // if true, this is the default report for an unlisted program (one which does not appear in the defaults array)
-      defaults: ['COD USA', 'FLATFISH USA', 'HADDOCK USA', 'PERCH USA', 'POLLOCK USA', 'SCALLOPS DOMESTIC'], // list of programs (datanames) that this is the default report
-      optional: ['any'], // list of programs (datanames) that allow this, or use 'any' to allow all programs EXCEPT 'all'
+      defaultsFallback: false,
+      defaults: ['COD USA', 'FLATFISH USA', 'HADDOCK USA', 'PERCH USA', 'POLLOCK USA', 'SCALLOPS DOMESTIC'],
+      optional: ['any'],
       forbiddenCols: [],
+      l1_field: 'ms.fg_fresh_frozen',
+      l2_field: 'ms.brand',
+      l3_field: 'ms.fg_treatment',
+      l4_field: 'ms.size_name',
+      l1_name: 'fresh/frozen',
+      l2_name: 'brand',
+      l3_name: 'soak',
+      l4_name: 'size',
     },
     {
       label: 'freeze / soak / size',
       dataName: 'frzSoakSize',
-      default: false, // if true, this is the default report for an unlisted program (one which does not appear in the defaults array)
-      defaults: [], // list of programs (datanames) that this is the default report
-      optional: ['any'], // list of programs (datanames) that allow this, or use 'any' to allow all programs EXCEPT 'all'
+      defaultsFallback: false,
+      defaults: [],
+      optional: ['any'],
       forbiddenCols: [],
+      l1_field: 'ms.fg_fresh_frozen',
+      l2_field: 'ms.fg_treatment',
+      l3_field: 'ms.size_name',
+      l1_name: 'fresh/frozen',
+      l2_name: 'soak',
+      l3_name: 'size',
     },
     {
       label: 'species / brand / size',
       dataName: 'specBrndSize',
+      defaultsFallback: false,
       defaults: [],
       optional: ['any'],
       forbiddenCols: [],
+      l1_field: 'ms.species',
+      l2_field: 'ms.brand',
+      l3_field: 'ms.size_name',
+      l1_name: 'species',
+      l2_name: 'brand',
+      l3_name: 'size',
     },
     {
       label: 'species / brand / soak / size',
       dataName: 'specBrndSoakSize',
-      default: false, // if true, this is the default report for an unlisted program (one which does not appear in the defaults array)
-      defaults: ['COD CHN', 'FLATFISH CHN', 'FLATFISH PER', 'HADDOCK CHN', 'PERCH CHN', 'POLLOCK CHN', 'SEAFOOD OTHER', 'SCALLOPS NON DOMESTIC'], // list of programs (datanames) that this is the default report
-      optional: ['any'], // list of programs (datanames) that allow this, or use 'any' to allow all programs EXCEPT 'all'
+      defaultsFallback: false,
+      defaults: ['COD CHN', 'FLATFISH CHN', 'FLATFISH PER', 'HADDOCK CHN', 'PERCH CHN', 'POLLOCK CHN', 'SEAFOOD OTHER', 'SCALLOPS NON DOMESTIC'],
+      optional: ['any'],
       forbiddenCols: [],
+      l1_field: 'ms.species',
+      l2_field: 'ms.brand',
+      l3_field: 'ms.fg_treatment',
+      l4_field: 'ms.size_name',
+      l1_name: 'species',
+      l2_name: 'brand',
+      l3_name: 'soak',
+      l4_name: 'size',
     },
     {
       label: 'species / soak / size',
       dataName: 'specSoakSize',
+      defaultsFallback: false,
       defaults: [],
       optional: ['any'],
       forbiddenCols: [],
+      l1_field: 'ms.species',
+      l2_field: 'ms.fg_treatment',
+      l3_field: 'ms.size_name',
+      l1_name: 'species',
+      l2_name: 'soak',
+      l3_name: 'size',
     },
     {
       label: 'freeze / brand / soak / size / item',
       dataName: 'frzBrndSoakSizeItem',
-      default: false, // if true, this is the default report for an unlisted program (one which does not appear in the defaults array)
-      defaults: [], // list of programs (datanames) that this is the default report
-      optional: ['any'], // list of programs (datanames) that allow this, or use 'any' to allow all programs EXCEPT 'all'
+      defaultsFallback: false,
+      defaults: [],
+      optional: ['any'],
       forbiddenCols: [],
+      l1_field: 'ms.fg_fresh_frozen',
+      l2_field: 'ms.brand',
+      l3_field: 'ms.fg_treatment',
+      l4_field: 'ms.size_name',
+      l5_field: 'ms.item_num',
+      l1_name: 'fresh/frozen',
+      l2_name: 'brand',
+      l3_name: 'soak',
+      l4_name: 'size',
+      l5_name: 'item',
     },
   ]
 }

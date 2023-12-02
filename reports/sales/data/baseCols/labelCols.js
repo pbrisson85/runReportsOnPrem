@@ -15,7 +15,7 @@ const getCols = body => {
     showByDefault: true, // flag to determine if optional col is shown by default
   }
 
-  switch (reportFormat) {
+  switch (reportFormat.dataName) {
     case 'typeSpecgroupFreeze':
       return applyTemplate(template, typeSpecgroupFreeze)
 

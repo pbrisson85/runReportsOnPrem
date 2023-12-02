@@ -1,23 +1,21 @@
 const appSettings = require('../data/filters/appSettings')
 const unflattenByCompositKey = require('../../../models/unflattenByCompositKey')
-const trendTypeOptions = require('../data/filters/trendType')
 const getDefaults = require('./getReportDefaults')
 const { getStartOfWeek } = require('../../../database/queries/postgres/getDateStartByWeek')
 const { getWeekForDate } = require('../../../database/queries/postgres/getWeekForDate')
 const { getEarliestSoShipDate, getLatestSoShipDate } = require('../../../database/queries/postgres/getSoDates')
+const getBaseFormatDefault = require('./configHelpers/getBaseFormatDefault')
 
 const getReportConfig = async reqBody => {
-  console.log('reqBody', reqBody)
-
   // auth filters:
-  let jbBuyerFilter = false
+  let joeB = false
 
   const hasAuthFilters = reqBody.creds?.filters?.length > 0
   if (hasAuthFilters) {
-    jbBuyerFilter = reqBody.creds.filters.find(f => f.dataName === 'jbBuyer').mandatory
+    joeB = reqBody.creds.filters.find(f => f.dataName === 'jbBuyer').mandatory
   } else {
     // check for front end option
-    if (reqBody.dataFilters === 'jbBuyer') jbBuyerFilter = true
+    if (reqBody.dataFilters === 'jbBuyer') joeB = true
   }
 
   // get subtotalRowFormats defaults
@@ -64,26 +62,43 @@ const getReportConfig = async reqBody => {
 
   // define config object
   let config = {
-    program: typeof reqBody.program === 'undefined' ? null : reqBody.program === 'all' ? null : reqBody.program,
-    l1_filter: reqBody.l1_filter ?? null,
-    l2_filter: reqBody.l2_filter ?? null,
-    l3_filter: reqBody.l3_filter ?? null,
-    l4_filter: reqBody.l4_filter ?? null,
-    l5_filter: reqBody.l5_filter ?? null,
-    customer: reqBody.customer ?? null,
-    item: reqBody.item ?? null,
-    salesPerson: reqBody.salesPerson ?? null,
-    country: reqBody.country ?? null,
-    state: reqBody.state ?? null,
-    export: reqBody.export ?? null,
-    northAmerica: reqBody.northAmerica ?? null,
-    queryLevel: reqBody.queryLevel ?? null,
-    itemType: reqBody.itemType ?? ['FG', 'SECONDS'],
-    freshFrozen: reqBody.freshFrozen ?? null,
-    custType: reqBody.custType ?? null,
-    speciesGroup: reqBody.speciesGroup ?? null,
-    species: reqBody.species ?? null,
-    programDrilldown: reqBody.programDrilldown ?? null,
+    baseFormat: {
+      l1_field: reqBody.reportFormat.l1_field ?? getBaseFormatDefault().l1_field ?? null,
+      l2_field: reqBody.reportFormat.l2_field ?? getBaseFormatDefault().l2_field ?? null,
+      l3_field: reqBody.reportFormat.l3_field ?? getBaseFormatDefault().l3_field ?? null,
+      l4_field: reqBody.reportFormat.l4_field ?? getBaseFormatDefault().l4_field ?? null,
+      l5_field: reqBody.reportFormat.l5_field ?? getBaseFormatDefault().l5_field ?? null,
+      l1_name: reqBody.reportFormat.l1_name ?? getBaseFormatDefault().l1_name ?? null,
+      l2_name: reqBody.reportFormat.l2_name ?? getBaseFormatDefault().l2_name ?? null,
+      l3_name: reqBody.reportFormat.l3_name ?? getBaseFormatDefault().l3_name ?? null,
+      l4_name: reqBody.reportFormat.l4_name ?? getBaseFormatDefault().l4_name ?? null,
+      l5_name: reqBody.reportFormat.l5_name ?? getBaseFormatDefault().l5_name ?? null,
+    },
+    baseFilters: {
+      queryLevel: reqBody.queryLevel ?? null,
+      itemType: reqBody.itemType ?? ['FG', 'SECONDS'], //<--- should put these defaults in the filter option and call here
+      program: typeof reqBody.program === 'undefined' ? null : reqBody.program === 'all' ? null : reqBody.program,
+      l1_filter: reqBody.l1_filter ?? null,
+      l2_filter: reqBody.l2_filter ?? null,
+      l3_filter: reqBody.l3_filter ?? null,
+      l4_filter: reqBody.l4_filter ?? null,
+      l5_filter: reqBody.l5_filter ?? null,
+    },
+    trendFilters: {
+      // Note that these filters must be updated on the front end and in the right click menu array in baseCols
+      customer: reqBody.customer ?? null,
+      item: reqBody.item ?? null,
+      salesPerson: reqBody.salesPerson ?? null,
+      country: reqBody.country ?? null,
+      state: reqBody.state ?? null,
+      export: reqBody.export ?? null,
+      northAmerica: reqBody.northAmerica ?? null,
+      freshFrozen: reqBody.freshFrozen ?? null,
+      custType: reqBody.custType ?? null,
+      speciesGroup: reqBody.speciesGroup ?? null,
+      species: reqBody.species ?? null,
+      program: reqBody.programDrilldown ?? null,
+    },
     rows: {
       // Rows need to use the widest date range since the totals cols and the trend could differ in range
       startDate: rowStart,
@@ -98,10 +113,9 @@ const getReportConfig = async reqBody => {
       fiscalPeriods: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'fiscalPeriods' ?? false,
       fiscalQuarters: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'fiscalQuarters' ?? false,
       fyYtd: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'fyYtd' ?? false,
-      fyFullYear: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'fyFullYear' ?? false,
       calMonths: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'calMonths' ?? false,
+      calQuarters: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'calQuarters' ?? false,
       calYtd: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'calYtd' ?? false,
-      calFullYear: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'calFullYear' ?? false,
       startDate: new Date(reqBody.trendStart?.date_start ?? periodStart),
       endDate: new Date(reqBody.trendEnd?.date_end ?? defaultEnd),
       endWeek: typeof reqBody.trendEnd?.week === 'undefined' ? 0 : reqBody.trendEnd.week === '52' ? 53 : parseInt(reqBody.trendEnd.week),
@@ -120,7 +134,9 @@ const getReportConfig = async reqBody => {
       yearComparison: typeof reqBody.totalsYears === 'undefined' ? defaultYear : reqBody.totalsYears[0],
       useProjection: typeof reqBody.totalsUseProjection === 'undefined' ? false : reqBody.totalsUseProjection[0] ?? false,
     },
-    jbBuyerFilter,
+    userPermissions: {
+      joeB,
+    },
     user: reqBody.user ?? null,
     subtotalRowFormats: {
       shiftTotals: reqBody.appSettings?.shiftTotals ?? appSettings_unflat['shiftTotals'].default,
@@ -130,192 +146,8 @@ const getReportConfig = async reqBody => {
     },
   }
 
-  switch (reqBody.reportFormat) {
-    case 'typeSpecgroupFreeze':
-      config = {
-        l1_field: 'ms.item_type',
-        l2_field: 'ms.species_group',
-        l3_field: 'ms.program',
-        l1_name: 'item type', // Used for filter labels on front end (when setting filters on right click to pass back)
-        l2_name: 'species group', // Used for filter labels on front end
-        l3_name: 'program',
-        ...config,
-      }
-
-      break
-
-    case 'speciesgroupProg':
-      config = {
-        l1_field: 'ms.species_group',
-        l2_field: 'ms.program',
-        l1_name: 'species group', // Used for filter labels on front end
-        l2_name: 'program',
-        ...config,
-      }
-
-      break
-
-    case 'speciesgroupProgFrz':
-      config = {
-        l1_field: 'ms.species_group',
-        l2_field: 'ms.program',
-        l3_field: 'ms.fg_fresh_frozen',
-        l1_name: 'species group', // Used for filter labels on front end
-        l2_name: 'program',
-        l3_name: 'fresh/frozen',
-        ...config,
-      }
-
-      break
-
-    case 'speciesgroupProgSpec':
-      config = {
-        l1_field: 'ms.species_group',
-        l2_field: 'ms.program',
-        l3_field: 'ms.species',
-        l1_name: 'species group', // Used for filter labels on front end
-        l2_name: 'program',
-        l3_name: 'species',
-        ...config,
-      }
-
-      break
-
-    case 'speciesgroupBrandSkin':
-      config = {
-        l1_field: 'ms.species_group',
-        l2_field: 'ms.brand',
-        l3_field: 'ms.fish_skin',
-        l1_name: 'species group', // Used for filter labels on front end
-        l2_name: 'brand',
-        l3_name: 'skin',
-        ...config,
-      }
-      break
-
-    case 'speciesgroupSkinBrand':
-      config = {
-        l1_field: 'ms.species_group',
-        l2_field: 'ms.fish_skin',
-        l3_field: 'ms.brand',
-        l1_name: 'species group', // Used for filter labels on front end
-        l2_name: 'skin',
-        l3_name: 'brand',
-        ...config,
-      }
-      break
-
-    case 'speciesgroupFreeze':
-      config = {
-        l1_field: 'ms.species_group',
-        l2_field: 'ms.fg_fresh_frozen',
-        l1_name: 'species group', // Used for filter labels on front end
-        l2_name: 'fresh/frozen',
-        ...config,
-      }
-      break
-
-    case 'frzBrndSize':
-      config = {
-        l1_field: 'ms.fg_fresh_frozen',
-        l2_field: 'ms.brand',
-        l3_field: 'ms.size_name',
-        l1_name: 'fresh/frozen', // Used for filter labels on front end
-        l2_name: 'brand',
-        l3_name: 'size',
-        ...config,
-      }
-      break
-
-    case 'frzBrndSoakSize':
-      config = {
-        l1_field: 'ms.fg_fresh_frozen',
-        l2_field: 'ms.brand',
-        l3_field: 'ms.fg_treatment',
-        l4_field: 'ms.size_name',
-        l1_name: 'fresh/frozen', // Used for filter labels on front end
-        l2_name: 'brand',
-        l3_name: 'soak',
-        l4_name: 'size',
-        ...config,
-      }
-      break
-
-    case 'frzBrndSoakSizeItem':
-      config = {
-        l1_field: 'ms.fg_fresh_frozen',
-        l2_field: 'ms.brand',
-        l3_field: 'ms.fg_treatment',
-        l4_field: 'ms.size_name',
-        l5_field: 'ms.item_num',
-        l1_name: 'fresh/frozen', // Used for filter labels on front end
-        l2_name: 'brand',
-        l3_name: 'soak',
-        l4_name: 'size',
-        l5_name: 'item',
-        ...config,
-      }
-      break
-
-    case 'frzSoakSize':
-      config = {
-        l1_field: 'ms.fg_fresh_frozen',
-        l2_field: 'ms.fg_treatment',
-        l3_field: 'ms.size_name',
-        l1_name: 'fresh/frozen', // Used for filter labels on front end
-        l2_name: 'soak',
-        l3_name: 'size',
-        ...config,
-      }
-      break
-
-    case 'specBrndSize':
-      config = {
-        l1_field: 'ms.species',
-        l2_field: 'ms.brand',
-        l3_field: 'ms.size_name',
-        l1_name: 'species', // Used for filter labels on front end
-        l2_name: 'brand',
-        l3_name: 'size',
-        ...config,
-      }
-      break
-
-    case 'specBrndSoakSize':
-      config = {
-        l1_field: 'ms.species',
-        l2_field: 'ms.brand',
-        l3_field: 'ms.fg_treatment',
-        l4_field: 'ms.size_name',
-        l1_name: 'species', // Used for filter labels on front end
-        l2_name: 'brand',
-        l3_name: 'soak',
-        l4_name: 'size',
-        ...config,
-      }
-      break
-
-    case 'specSoakSize':
-      config = {
-        l1_field: 'ms.species',
-        l2_field: 'ms.fg_treatment',
-        l3_field: 'ms.size_name',
-        l1_name: 'species', // Used for filter labels on front end
-        l2_name: 'soak',
-        l3_name: 'size',
-        ...config,
-      }
-      break
-
-    default:
-      config = {
-        l1_field: 'ms.species_group',
-        l2_field: 'ms.fg_fresh_frozen',
-        l1_name: 'species group', // Used for filter labels on front end
-        l2_name: 'fresh/frozen',
-        ...config,
-      }
-  }
+  // Note that these maps could be added to the actual filter
+  config = mapReportQuery(reqBody, config) // add query fields to config based on report format chosen
 
   return config
 }
