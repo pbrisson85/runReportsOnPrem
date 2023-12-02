@@ -12,6 +12,8 @@ router.post('/', async (req, res) => {
 
   const config = await getReportConfig(req.body)  
 
+  console.log('config', config)
+
   const response = await buildReport(config)
 
   console.log(`get get SALES base report route COMPLETE. \n`)
