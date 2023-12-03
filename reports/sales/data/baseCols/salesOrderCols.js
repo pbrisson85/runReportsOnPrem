@@ -2,6 +2,7 @@ const salesOrdersCol = [
   {
     unfilteredColIdx: 0,
     displayName: 'FG SO',
+    displayName_original: 'FG SO', // because it is overwritten when dates are added
     dataName: 'FG OPEN ORDER',
     justifyData: 'end',
     justifyHeading: 'center',

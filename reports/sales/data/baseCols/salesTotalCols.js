@@ -2,6 +2,7 @@ const primarySalesTotalCol = [
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
     displayName: 'SALES', // show as column header
+    displayName_original: 'SALES', // because it is overwritten when dates are added
     dataName: 'SALES TOTAL', // key to pull data from
     justifyData: 'end', // css justify content
     justifyHeading: 'center', // css justify content
