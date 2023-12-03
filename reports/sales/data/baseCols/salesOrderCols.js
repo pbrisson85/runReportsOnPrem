@@ -1,9 +1,9 @@
 const salesOrdersCol = [
   {
     unfilteredColIdx: 0,
-    displayName: 'FG SO',
-    displayName_original: 'FG SO', // because it is overwritten when dates are added
-    dataName: 'FG OPEN ORDER',
+    displayName: 'S.O.',
+    displayName_original: 'S.O.', // because it is overwritten when dates are added
+    dataName: 'SALES ORDER',
     justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
@@ -57,7 +57,7 @@ const salesOrdersCol = [
   {
     unfilteredColIdx: 0,
     displayName: 'TAGGED SO',
-    dataName: 'FG OPEN ORDER TAGGED',
+    dataName: 'SALES ORDER TAGGED',
     justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
@@ -83,7 +83,7 @@ const salesOrdersCol = [
   {
     unfilteredColIdx: 0,
     displayName: 'UNTAGGED SO',
-    dataName: 'FG OPEN ORDER UNTAGGED',
+    dataName: 'SALES ORDER UNTAGGED',
     justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',

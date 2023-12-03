@@ -1,8 +1,8 @@
 const poCols = [
   {
     unfilteredColIdx: 1,
-    displayName: 'FG P.O.',
-    dataName: 'FG ON ORDER',
+    displayName: 'P.O.',
+    dataName: 'PURCHASE ORDER', // row query column must match the dataName ********* (I changed all the inven go fix)
     justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',

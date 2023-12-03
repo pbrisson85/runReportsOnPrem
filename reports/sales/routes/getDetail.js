@@ -31,19 +31,19 @@ router.post('/', async (req, res) => {
 
   if (colType === 'invenFg') {
     switch (columnDataName) {
-      case 'FG INVEN':
+      case 'INVEN':
         data = await getFgInven_detail(config)
         break
-      case 'FG IN TRANSIT':
+      case 'INV IN TRANSIT':
         data = await getFgInTransit_detail(config)
         break
-      case 'FG ON HAND':
+      case 'INV ON HAND':
         data = await getFgAtLoc_detail(config)
         break
-      case 'FG ON HAND UNTAGGED':
+      case 'INV INV ON HAND UNTAGGED':
         data = await getFgAtLoc_untagged_detail(config)
         break
-      case 'FG ON HAND TAGGED':
+      case 'INV INV ON HAND TAGGED':
         data = await getFgAtLoc_tagged_detail(config)
         break
     }

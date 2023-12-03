@@ -1,8 +1,8 @@
 const invenFgCols = [
   {
     unfilteredColIdx: 1,
-    displayName: 'FG INVEN',
-    dataName: 'FG INVEN',
+    displayName: 'INVEN',
+    dataName: 'INVEN',
     justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
@@ -27,7 +27,7 @@ const invenFgCols = [
   {
     unfilteredColIdx: 1,
     displayName: 'IN TRANSIT',
-    dataName: 'FG IN TRANSIT',
+    dataName: 'INV IN TRANSIT',
     justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
@@ -53,7 +53,7 @@ const invenFgCols = [
   {
     unfilteredColIdx: 1,
     displayName: 'OH ALL',
-    dataName: 'FG ON HAND',
+    dataName: 'INV ON HAND',
     justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
@@ -79,7 +79,7 @@ const invenFgCols = [
   {
     unfilteredColIdx: 1,
     displayName: 'OH TAGGED',
-    dataName: 'FG ON HAND TAGGED',
+    dataName: 'INV ON HAND TAGGED',
     justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
@@ -105,7 +105,7 @@ const invenFgCols = [
   {
     unfilteredColIdx: 1,
     displayName: 'OH UNTAGGED',
-    dataName: 'FG ON HAND UNTAGGED',
+    dataName: 'INV ON HAND UNTAGGED',
     justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
@@ -121,7 +121,7 @@ const invenFgCols = [
     data: true,
     subColStyle: true, // styling CHANGE NAME BECAUSE ON HAND COLS OF IN TRANSIT, IN COUNTRY, OUT OF COUNTRY, ETC WILL ALSO USE THIS
     popoverMsg:
-      'ON HAND UNTAGGED - On hand, at location (not in-transit), has not been allocatted to a specific order. (Note that this col is included in OH ALL)',
+      'INV ON HAND UNTAGGED - On hand, at location (not in-transit), has not been allocatted to a specific order. (Note that this col is included in OH ALL)',
     rightClickMenu: ['Get Details'],
     drilldownRightClickMenu: ['Get Details'],
     colType: 'invenFg', // Make sure to update the getViewFilter on the back end to allow this colType in the view

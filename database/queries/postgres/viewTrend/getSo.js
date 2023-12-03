@@ -8,7 +8,7 @@ const l1_getSo = async (config, trendQuery) => {
 
     const response = await sql
          `SELECT 
-          'FG OPEN ORDER' AS column, 
+          'SALES ORDER' AS column, 
           ${trendQuery.so.l1_label ? sql`${sql(trendQuery.so.l1_label)} AS l1_label,`: sql``} 
           ${trendQuery.so.l2_label ? sql`${sql(trendQuery.so.l2_label)} AS l2_label,`: sql``} 
           ${trendQuery.so.l3_label ? sql`${sql(trendQuery.so.l3_label)} AS l3_label,`: sql``} 
@@ -73,7 +73,7 @@ const l1_getSoTagged = async (config, trendQuery) => {
 
     const response = await sql
            `SELECT 
-            'FG OPEN ORDER TAGGED' AS column, 
+            'SALES ORDER TAGGED' AS column, 
             ${trendQuery.so.l1_label ? sql`${sql(trendQuery.so.l1_label)} AS l1_label,`: sql``} 
             ${trendQuery.so.l2_label ? sql`${sql(trendQuery.so.l2_label)} AS l2_label,`: sql``} 
             ${trendQuery.so.l3_label ? sql`${sql(trendQuery.so.l3_label)} AS l3_label,`: sql``} 
@@ -139,7 +139,7 @@ const l1_getSoUntagged = async (config, trendQuery) => {
 
     const response = await sql
       `SELECT 
-        'FG OPEN ORDER UNTAGGED' AS column, 
+        'SALES ORDER UNTAGGED' AS column, 
         ${trendQuery.so.l1_label ? sql`${sql(trendQuery.so.l1_label)} AS l1_label,`: sql``} 
         ${trendQuery.so.l2_label ? sql`${sql(trendQuery.so.l2_label)} AS l2_label,`: sql``} 
         ${trendQuery.so.l3_label ? sql`${sql(trendQuery.so.l3_label)} AS l3_label,`: sql``} 
@@ -207,7 +207,7 @@ const l0_getSo = async config => {
 
     const response = await sql
            `SELECT 
-            'FG OPEN ORDER' AS column
+            'SALES ORDER' AS column
             ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 
             'TOTAL' AS l2_label,  
             COALESCE(SUM(so.ext_weight),0) AS lbs, 
@@ -258,7 +258,7 @@ const l0_getSoTagged = async config => {
 
     const response = await sql
       `SELECT 
-        'FG OPEN ORDER TAGGED' AS column
+        'SALES ORDER TAGGED' AS column
         ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 
         'TOTAL' AS l2_label,  
         COALESCE(SUM(so.tagged_weight),0) AS lbs, 
@@ -310,7 +310,7 @@ const l0_getSoUntagged = async config => {
 
     const response = await sql
       `SELECT 
-        'FG OPEN ORDER UNTAGGED' AS column
+        'SALES ORDER UNTAGGED' AS column
         ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 
         'TOTAL' AS l2_label,  
         COALESCE(SUM(so.untagged_weight),0) AS lbs, 

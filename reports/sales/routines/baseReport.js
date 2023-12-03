@@ -169,7 +169,7 @@ const buildReport = async (config) => {
   const l4_fgInven = config.baseFormat.l4_field ? () => {return l4_getFgInven(config)}: skip() 
   const l5_fgInven = config.baseFormat.l5_field ? () => {return l5_getFgInven(config)}: skip() 
 
-  /* FG IN TRANSIT*/
+  /* INV IN TRANSIT*/
   const l0_fgInTransit = () => {return l0_getFgInTransit(config)}
   const l1_fgInTransit = () => {return l1_getFgInTransit(config)}
   const l2_fgInTransit = () => {return l2_getFgInTransit(config)}
@@ -177,7 +177,7 @@ const buildReport = async (config) => {
   const l4_fgInTransit =  config.baseFormat.l4_field ? () => {return l4_getFgInTransit(config)} : skip()
   const l5_fgInTransit =  config.baseFormat.l5_field ? () => {return l5_getFgInTransit(config)} : skip()
 
-  /* FG ON HAND (LESS IN TRANSIT) */
+  /* INV ON HAND (LESS IN TRANSIT) */
   const l0_fgAtLoc = () => {return l0_getFgAtLoc(config)}
   const l1_fgAtLoc = () => {return l1_getFgAtLoc(config)}
   const l2_fgAtLoc = () => {return l2_getFgAtLoc(config)}
@@ -185,7 +185,7 @@ const buildReport = async (config) => {
   const l4_fgAtLoc =  config.baseFormat.l4_field ? () => {return l4_getFgAtLoc(config)} : skip()
   const l5_fgAtLoc =  config.baseFormat.l5_field ? () => {return l5_getFgAtLoc(config)} : skip()
 
-  /* FG ON HAND UNTAGGED */
+  /* INV INV ON HAND UNTAGGED */
   const l0_fgAtLoc_untagged = () => {return l0_getFgAtLoc_untagged(config)}
   const l1_fgAtLoc_untagged = () => {return l1_getFgAtLoc_untagged(config)}
   const l2_fgAtLoc_untagged = () => {return l2_getFgAtLoc_untagged(config)}
@@ -193,7 +193,7 @@ const buildReport = async (config) => {
   const l4_fgAtLoc_untagged =  config.baseFormat.l4_field ? () => {return l4_getFgAtLoc_untagged(config)} : skip()
   const l5_fgAtLoc_untagged =  config.baseFormat.l5_field ? () => {return l5_getFgAtLoc_untagged(config)} : skip()
 
-  /* FG ON HAND TAGGED */
+  /* INV INV ON HAND TAGGED */
   // const l0_fgAtLoc_tagged = () => {return l0_getFgAtLoc_tagged(config)}
   // const l1_fgAtLoc_tagged = () => {return l1_getFgAtLoc_tagged(config)}
   // const l2_fgAtLoc_tagged = () => {return l2_getFgAtLoc_tagged(config)}
@@ -201,7 +201,7 @@ const buildReport = async (config) => {
   // const l4_fgAtLoc_tagged =  config.baseFormat.l4_field ? () => {return l4_getFgAtLoc_tagged(config)}:skip()
   // const l5_fgAtLoc_tagged =  config.baseFormat.l5_field ? () => {return l5_getFgAtLoc_tagged(config)}:skip()
 
-  /* FG ON ORDER */
+  /* PURCHASE ORDER */
   const l0_fgPo = () => {return l0_getFgPo(config)}
   const l1_fgPo = () => {return l1_getFgPo(config)}
   const l2_fgPo = () => {return l2_getFgPo(config)}

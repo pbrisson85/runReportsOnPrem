@@ -10,7 +10,7 @@ const l1_getFgPo = async (config, trendQuery) => {
 
     const response = await sql
         `SELECT 
-          'FG ON ORDER' AS column, 
+          'PURCHASE ORDER' AS column, 
           ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)} AS l1_label,`: sql``} 
           ${trendQuery.inv.l2_label ? sql`${sql(trendQuery.inv.l2_label)} AS l2_label,`: sql``} 
           ${trendQuery.inv.l3_label ? sql`${sql(trendQuery.inv.l3_label)} AS l3_label,`: sql``} 
@@ -67,7 +67,7 @@ const l0_getFgPo = async (config, trendQuery) => {
 
     const response = await sql
          `SELECT 
-          'FG ON ORDER' AS column
+          'PURCHASE ORDER' AS column
           ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 
           'TOTAL' AS l2_label,  
           COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs, 

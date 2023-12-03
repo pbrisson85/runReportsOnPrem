@@ -74,20 +74,20 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
   /* TOTAL FG (FG) */
   const l1_fgInvenF = () => { return l1_getFgInven(config, trendQuery)}
   const l0_fgInvenF = () => { return l0_getFgInven(config, trendQuery)}
-  /* FG IN TRANSIT*/
+  /* INV IN TRANSIT*/
   const l1_fgInTransitF = () => { return l1_getFgInTransit(config, trendQuery)}
   const l0_fgInTransitF = () => { return l0_getFgInTransit(config, trendQuery)}
-  /* FG ON HAND (LESS IN TRANSIT) */
+  /* INV ON HAND (LESS IN TRANSIT) */
   const l1_fgAtLocF = () => { return l1_getFgAtLoc(config, trendQuery)}
   const l0_fgAtLocF = () => { return l0_getFgAtLoc(config, trendQuery)}
-  /* FG ON HAND UNTAGGED */
+  /* INV INV ON HAND UNTAGGED */
   const l1_fgAtLoc_untaggedF = () => { return l1_getFgAtLoc_untagged(config, trendQuery)}
   const l0_fgAtLoc_untaggedF = () => { return l0_getFgAtLoc_untagged(config, trendQuery)}
-  /* FG ON HAND TAGGED */
+  /* INV INV ON HAND TAGGED */
   const l1_fgAtLoc_taggedF = () => { return l1_getFgAtLoc_tagged(config, trendQuery)}
   const l0_fgAtLoc_taggedF = () => { return l0_getFgAtLoc_tagged(config, trendQuery)}
 
-  /* FG ON ORDER */
+  /* PURCHASE ORDER */
   const l1_fgPoF = () => { return l1_getFgPo(config, trendQuery)}
   const l0_fgPoF = () => { return l0_getFgPo(config, trendQuery)}
 

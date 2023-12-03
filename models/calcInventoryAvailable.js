@@ -67,5 +67,5 @@ const calcInventoryAvailable = (fgInven, fgPo, fgSo, colName) => {
 module.exports = calcInventoryAvailable
 
 /*
-[FG INVEN] + [FG ON ORDER] - [FG OPEN ORDER]
+[INVEN] + [PURCHASE ORDER] - [SALES ORDER]
 */
