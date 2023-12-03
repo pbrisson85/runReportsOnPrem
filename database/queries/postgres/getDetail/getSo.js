@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const getSo_detail = async config => {
+const getSo_detail = async (config, startDate, endDate) => {
   try {
     console.log(`${config.user} - level ${config.baseFilters.queryLevel}: query postgres for FG Sales Orders ...`)
 
@@ -15,6 +15,7 @@ const getSo_detail = async config => {
           
       WHERE 
         so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
+        AND so.formatted_ship_date >= ${startDate} AND so.formatted_ship_date <= ${endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
@@ -60,6 +61,7 @@ const getSoTagged_detail = async config => {
       WHERE 
         so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
         AND so.tagged_weight > 0 
+        AND so.formatted_ship_date >= ${startDate} AND so.formatted_ship_date <= ${endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
@@ -105,6 +107,7 @@ const getSoUntagged_detail = async config => {
       WHERE 
         so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
         AND so.untagged_weight > 0 
+        AND so.formatted_ship_date >= ${startDate} AND so.formatted_ship_date <= ${endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
