@@ -223,7 +223,7 @@ const calcInventoryAvailable = require('../../../models/calcInventoryAvailable')
 const collapseRedundantTotalRows = require('../../../models/collapseRedundantTotalRows')
 const columnConfigs = require('../data/baseCols/columns')
 const sortRowTemplate = require('../../../models/sortRowTemplate')
-const {addDataToSalesTotalCol} = require('../../../models/colDataHelper')
+const {addDataToSalesTotalCol, addDataToSoTotalCol} = require('../../../models/colDataHelper')
 
 const buildReport = async (config) => {
   // The routine and all of the queries can be the same for all reports. Going to buikd out this rpeort and then change the config manually to test.
@@ -1265,8 +1265,8 @@ const buildReport = async (config) => {
     trendColsCalMoByRangeF(),
   ])
   
-  const columnConfigsTagged = addDataToSalesTotalCol(config, columnConfigs) // adds statDate, endDate, and displayName to the sales totals col
-
+  let columnConfigsTagged = addDataToSalesTotalCol(config, columnConfigs) // adds statDate, endDate, and displayName to the sales totals col
+  columnConfigsTagged = addDataToSoTotalCol(config, columnConfigs) // adds statDate, endDate, and displayName to the sales orders col
 
   
   // **** Note that this is where I should also add the identifying detail to the trend cols that is currently being handled in the trendColsAtom. *****
