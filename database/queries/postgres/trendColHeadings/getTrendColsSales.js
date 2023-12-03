@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const getTrendColsWeeks = async config => {
+const getTrendColsSales = async config => {
   console.log(
     `${config.user} - getTrendColsWeeks, query postgres for column periods ${new Date(
       config.trends.startDate
@@ -8,17 +8,21 @@ const getTrendColsWeeks = async config => {
   )
 
   const periods = await sql`
-    SELECT p.week_serial AS dataName, TO_CHAR(MAX(p.formatted_date),'MM/DD/YY') AS displayName, MIN(p.formatted_date) AS start_date,  MAX(p.formatted_date) AS end_date
+    SELECT 
+    
+    ${sql(
+      config.trends.queryGrouping
+    )} AS dataName, TO_CHAR(MAX(p.formatted_date),'MM/DD/YY') AS displayName, MIN(p.formatted_date) AS start_date,  MAX(p.formatted_date) AS end_date
     
     FROM "accountingPeriods".period_by_day AS p
     
     WHERE p.formatted_date >= ${config.trends.startDate} AND p.formatted_date <= ${config.trends.endDate} 
     
-    GROUP BY p.week_serial
+    GROUP BY ${sql(config.trends.queryGrouping)}
 
-    ORDER BY p.week_serial ASC`
+    ORDER BY ${sql(config.trends.queryGrouping)} ASC`
 
   return periods
 }
 
-module.exports.getTrendColsWeeks = getTrendColsWeeks
+module.exports.getTrendColsSales = getTrendColsSales

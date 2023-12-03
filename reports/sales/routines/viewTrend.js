@@ -5,7 +5,7 @@ const {
   getDateEndPerWeekByRange_so_untg,
 } = require('../../../database/queries/postgres/getDateEndPerWeek')
 const { getTrendColsCalMonths } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsCalMonths')
-const { getTrendColsWeeks } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsWeeks')
+const { getTrendColsWeeks } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsSales')
 const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalYear')
 const { getLatestShipWk, getEarliestShipWk } = require('../../../database/queries/postgres/getSoDates')
 const {
@@ -22,7 +22,7 @@ const {
 } = require('../../../database/queries/postgres/viewTrend/getSalesProjection')
 const { l1_getSalesWkDriven, l0_getSalesWkDriven } = require('../../../database/queries/postgres/viewTrend/getSalesTrendWkDriven')
 const { getCompanyTotalSales } = require('../../../database/queries/postgres/kpi/getCompanyTotalSales_OLD')
-const { l0_getSalesPeriodToDate: l0_program_getSalesPeriodToDate } = require('../../../database/queries/postgres/baseReport/getSalesTrendDateDriven')
+const { l0_getSalesPeriodToDate: l0_program_getSalesPeriodToDate } = require('../../../database/queries/postgres/baseReport/getSalesTrend')
 const { l1_getSalesByFyYtd, l0_getSalesByFyYtd } = require('../../../database/queries/postgres/viewTrend/getSalesTrendByFyYtd')
 const {
   l1_getFgInven,

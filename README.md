@@ -1,7 +1,6 @@
 ### To complete
 
-- trend will only either be sales orders or sales. Nothing else. both will be sent down at same time still.
-- sales orders to be the same time intervals as sales
+- Make the sales trend driven by the config.trends.queryGrouping... In order to do this need to add "period" to the fropdown and add >= period in query
 - add useProjection to all queries.
 
 -
