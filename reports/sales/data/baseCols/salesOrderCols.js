@@ -1,8 +1,8 @@
 const salesOrdersCol = [
   {
     unfilteredColIdx: 0,
-    displayName: 'S.O.',
-    displayName_original: 'S.O.', // because it is overwritten when dates are added
+    displayName: 'SALES ORDERS',
+    displayName_original: 'SALES ORDERS', // because it is overwritten when dates are added
     dataName: 'SALES ORDER',
     justifyData: 'end',
     justifyHeading: 'center',
