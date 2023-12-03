@@ -25,8 +25,6 @@ const l1_getSo_byFiscalPeriod = async config => {
       
       ORDER BY p.period_serial` //prettier-ignore
 
-    console.log('response', response)
-
     return response
   } catch (error) {
     console.error(error)
