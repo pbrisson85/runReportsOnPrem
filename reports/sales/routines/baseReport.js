@@ -12,7 +12,6 @@ const { getTrendColsFiscalQuarters } = require('../../../database/queries/postgr
 const { getTrendColsFiscalYear } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalYear')
 const { getTrendColsSo } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsSo')
 
-const { getTrendColsSoByFiscalPeriods } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsSoByFiscalPeriods')
 
 const {
 l0_getSalesProjectionByWk,
@@ -136,65 +135,25 @@ const {
   l0_getSoUntagged,
 } = require('../../../database/queries/postgres/baseReport/getSo')
 const {
-  l1_getSo_byWk,
-  l2_getSo_byWk,
-  l3_getSo_byWk,
-  l4_getSo_byWk,
-  l5_getSo_byWk,
-  l0_getSo_byWk,
-  l1_getSoTagged_byWk,
-  l2_getSoTagged_byWk,
-  l3_getSoTagged_byWk,
-  l4_getSoTagged_byWk,
-  l5_getSoTagged_byWk,
-  l0_getSoTagged_byWk,
-  l1_getSoUntagged_byWk,
-  l2_getSoUntagged_byWk,
-  l3_getSoUntagged_byWk,
-  l4_getSoUntagged_byWk,
-  l5_getSoUntagged_byWk,
-  l0_getSoUntagged_byWk,
-} = require('../../../database/queries/postgres/baseReport/getSoByWeek')
-const {
-  l1_getSo_byCalMo,
-  l2_getSo_byCalMo,
-  l3_getSo_byCalMo,
-  l4_getSo_byCalMo,
-  l5_getSo_byCalMo,
-  l0_getSo_byCalMo,
-  l1_getSoTagged_byCalMo,
-  l2_getSoTagged_byCalMo,
-  l3_getSoTagged_byCalMo,
-  l4_getSoTagged_byCalMo,
-  l5_getSoTagged_byCalMo,
-  l0_getSoTagged_byCalMo,
-  l1_getSoUntagged_byCalMo,
-  l2_getSoUntagged_byCalMo,
-  l3_getSoUntagged_byCalMo,
-  l4_getSoUntagged_byCalMo,
-  l5_getSoUntagged_byCalMo,
-  l0_getSoUntagged_byCalMo,
-} = require('../../../database/queries/postgres/baseReport/getSoByCalMonth')
-const {
-  l1_getSo_byFiscalPeriod,
-  l2_getSo_byFiscalPeriod,
-  l3_getSo_byFiscalPeriod,
-  l4_getSo_byFiscalPeriod,
-  l5_getSo_byFiscalPeriod,
-  l0_getSo_byFiscalPeriod,
-  l1_getSoTagged_byFiscalPeriod,
-  l2_getSoTagged_byFiscalPeriod,
-  l3_getSoTagged_byFiscalPeriod,
-  l4_getSoTagged_byFiscalPeriod,
-  l5_getSoTagged_byFiscalPeriod,
-  l0_getSoTagged_byFiscalPeriod,
-  l1_getSoUntagged_byFiscalPeriod,
-  l2_getSoUntagged_byFiscalPeriod,
-  l3_getSoUntagged_byFiscalPeriod,
-  l4_getSoUntagged_byFiscalPeriod,
-  l5_getSoUntagged_byFiscalPeriod,
-  l0_getSoUntagged_byFiscalPeriod,
-} = require('../../../database/queries/postgres/baseReport/getSoByFiscalPeriod')
+  l1_getSoTrend,
+  l2_getSoTrend,
+  l3_getSoTrend,
+  l4_getSoTrend,
+  l5_getSoTrend,
+  l0_getSoTrend,
+  l1_getSoTaggedTrend,
+  l2_getSoTaggedTrend,
+  l3_getSoTaggedTrend,
+  l4_getSoTaggedTrend,
+  l5_getSoTaggedTrend,
+  l0_getSoTaggedTrend,
+  l1_getSoUntaggedTrend,
+  l2_getSoUntaggedTrend,
+  l3_getSoUntaggedTrend,
+  l4_getSoUntaggedTrend,
+  l5_getSoUntaggedTrend,
+  l0_getSoUntaggedTrend,
+} = require('../../../database/queries/postgres/baseReport/getSoTrend')
 const {
   getRowsFifthLevelDetail,
   getRowsFourthLevelDetail,
@@ -292,30 +251,12 @@ const buildReport = async (config) => {
   const l4_so =  config.baseFormat.l4_field ? () => {return l4_getSo(config)} : skip()
   const l5_so =  config.baseFormat.l5_field ? () => {return l5_getSo(config)} : skip()
   
-  const l0_so_byWk = !config.trends.fiscalWeeks ? skip() : () => {return l0_getSo_byWk(config)}
-  const l1_so_byWk = !config.trends.fiscalWeeks ? skip() : () => {return l1_getSo_byWk(config)}
-  const l2_so_byWk = !config.trends.fiscalWeeks ? skip() : () => {return l2_getSo_byWk(config)}
-  const l3_so_byWk = !config.trends.fiscalWeeks ? skip() : config.baseFormat.l3_field ? () => {return l3_getSo_byWk(config)} : skip()
-  const l4_so_byWk = !config.trends.fiscalWeeks ? skip() : config.baseFormat.l4_field ? () => {return l4_getSo_byWk(config)} : skip()
-  const l5_so_byWk = !config.trends.fiscalWeeks ? skip() : config.baseFormat.l5_field ? () => {return l5_getSo_byWk(config)} : skip()
-
-  const l0_so_byFiscalPeriod = !config.trends.fiscalPeriods ? skip() : () => {return l0_getSo_byFiscalPeriod(config)}
-  const l1_so_byFiscalPeriod = !config.trends.fiscalPeriods ? skip() : () => {return l1_getSo_byFiscalPeriod(config)}
-  const l2_so_byFiscalPeriod = !config.trends.fiscalPeriods ? skip() : () => {return l2_getSo_byFiscalPeriod(config)}
-  const l3_so_byFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.baseFormat.l3_field ? () => {return l3_getSo_byFiscalPeriod(config)} : skip()
-  const l4_so_byFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.baseFormat.l4_field ? () => {return l4_getSo_byFiscalPeriod(config)} : skip()
-  const l5_so_byFiscalPeriod = !config.trends.fiscalPeriods ? skip() : config.baseFormat.l5_field ? () => {return l5_getSo_byFiscalPeriod(config)} : skip()
-
-
-  
-
-  
-  const l0_so_byCalMo = !config.trends.calMonths ? skip() : () => {return l0_getSo_byCalMo(config)}
-  const l1_so_byCalMo = !config.trends.calMonths ? skip() : () => {return l1_getSo_byCalMo(config)}
-  const l2_so_byCalMo = !config.trends.calMonths ? skip() : () => {return l2_getSo_byCalMo(config)}
-  const l3_so_byCalMo = !config.trends.calMonths ? skip() : config.baseFormat.l3_field ? () => {return l3_getSo_byCalMo(config)} : skip()
-  const l4_so_byCalMo = !config.trends.calMonths ? skip() : config.baseFormat.l4_field ? () => {return l4_getSo_byCalMo(config)} : skip()
-  const l5_so_byCalMo = !config.trends.calMonths ? skip() : config.baseFormat.l5_field ? () => {return l5_getSo_byCalMo(config)} : skip()
+  const l0_soTrend = !config.trends.queryGrouping ? skip() : () => {return l0_getSoTrend(config)}
+  const l1_soTrend = !config.trends.queryGrouping ? skip() : () => {return l1_getSoTrend(config)}
+  const l2_soTrend = !config.trends.queryGrouping ? skip() : () => {return l2_getSoTrend(config)}
+  const l3_soTrend = !config.trends.queryGrouping ? skip() : config.baseFormat.l3_field ? () => {return l3_getSoTrend(config)} : skip()
+  const l4_soTrend = !config.trends.queryGrouping ? skip() : config.baseFormat.l4_field ? () => {return l4_getSoTrend(config)} : skip()
+  const l5_soTrend = !config.trends.queryGrouping ? skip() : config.baseFormat.l5_field ? () => {return l5_getSoTrend(config)} : skip()
 
   /* TAGGED SO */
   // const l0_soTagged = () => {return l0_getSoTagged(config)}
@@ -325,12 +266,12 @@ const buildReport = async (config) => {
   // const l4_soTagged =  config.baseFormat.l4_field ? () => {return l4_getSoTagged(config)}:skip()
   // const l5_soTagged =  config.baseFormat.l5_field ? () => {return l5_getSoTagged(config)}:skip()
 
-  // const l0_soTagged_byWk = () => {return l0_getSoTagged_byWk(config)}
-  // const l1_soTagged_byWk = () => {return l1_getSoTagged_byWk(config)}
-  // const l2_soTagged_byWk = () => {return l2_getSoTagged_byWk(config)}
-  // const l3_soTagged_byWk =  config.baseFormat.l3_field ? () => {return l3_getSoTagged_byWk(config)}:skip()
-  // const l4_soTagged_byWk =  config.baseFormat.l4_field ? () => {return l4_getSoTagged_byWk(config)}:skip()
-  // const l5_soTagged_byWk =  config.baseFormat.l5_field ? () => {return l5_getSoTagged_byWk(config)}:skip()
+  // const l0_soTaggedTrend = () => {return l0_getsoTaggedTrend(config)}
+  // const l1_soTaggedTrend = () => {return l1_getsoTaggedTrend(config)}
+  // const l2_soTaggedTrend = () => {return l2_getsoTaggedTrend(config)}
+  // const l3_soTaggedTrend =  config.baseFormat.l3_field ? () => {return l3_getsoTaggedTrend(config)}:skip()
+  // const l4_soTaggedTrend =  config.baseFormat.l4_field ? () => {return l4_getsoTaggedTrend(config)}:skip()
+  // const l5_soTaggedTrend =  config.baseFormat.l5_field ? () => {return l5_getsoTaggedTrend(config)}:skip()
 
   /* UNTAGGED SO */
   // const l0_soUntagged = () => {return l0_getSoUntagged(config)}
@@ -340,12 +281,12 @@ const buildReport = async (config) => {
   // const l4_soUntagged =  config.baseFormat.l4_field ? () => {return l4_getSoUntagged(config)} : skip()
   // const l5_soUntagged =  config.baseFormat.l5_field ? () => {return l5_getSoUntagged(config)} : skip()
 
-  // const l0_soUntagged_byWk = () => {return l0_getSoUntagged_byWk(config)}
-  // const l1_soUntagged_byWk = () => {return l1_getSoUntagged_byWk(config)}
-  // const l2_soUntagged_byWk = () => {return l2_getSoUntagged_byWk(config)}
-  // const l3_soUntagged_byWk =  config.baseFormat.l3_field ? () => {return l3_getSoUntagged_byWk(config)} : skip()
-  // const l4_soUntagged_byWk =  config.baseFormat.l4_field ? () => {return l4_getSoUntagged_byWk(config)} : skip()
-  // const l5_soUntagged_byWk =  config.baseFormat.l5_field ? () => {return l5_getSoUntagged_byWk(config)} : skip()
+  // const l0_soUntaggedTrend = () => {return l0_getsoUntaggedTrend(config)}
+  // const l1_soUntaggedTrend = () => {return l1_getsoUntaggedTrend(config)}
+  // const l2_soUntaggedTrend = () => {return l2_getsoUntaggedTrend(config)}
+  // const l3_soUntaggedTrend =  config.baseFormat.l3_field ? () => {return l3_getsoUntaggedTrend(config)} : skip()
+  // const l4_soUntaggedTrend =  config.baseFormat.l4_field ? () => {return l4_getsoUntaggedTrend(config)} : skip()
+  // const l5_soUntaggedTrend =  config.baseFormat.l5_field ? () => {return l5_getsoUntaggedTrend(config)} : skip()
 
   // ///////////////////////////////// SALES DATA
 
@@ -480,26 +421,15 @@ const buildReport = async (config) => {
     l5_soR,
     l0_soR,
 
-    l1_so_byCalMoR,
-    l2_so_byCalMoR,
-    l3_so_byCalMoR,
-    l4_so_byCalMoR,
-    l5_so_byCalMoR,
-    l0_so_byCalMoR,
+    l1_soTrendR,
+    l2_soTrendR,
+    l3_soTrendR,
+    l4_soTrendR,
+    l5_soTrendR,
+    l0_soTrendR,
 
-    l1_so_byWkR,
-    l2_so_byWkR,
-    l3_so_byWkR,
-    l4_so_byWkR,
-    l5_so_byWkR,
-    l0_so_byWkR,
 
-    l1_so_byFiscalPeriodR,
-    l2_so_byFiscalPeriodR,
-    l3_so_byFiscalPeriodR,
-    l4_so_byFiscalPeriodR,
-    l5_so_byFiscalPeriodR,
-    l0_so_byFiscalPeriodR,
+ 
 
     // l1_soTaggedR,
     // l2_soTaggedR,
@@ -507,24 +437,24 @@ const buildReport = async (config) => {
     // l4_soTaggedR,
     // l5_soTaggedR,
     // l0_soTaggedR,
-    // l1_soTagged_byWkR,
-    // l2_soTagged_byWkR,
-    // l3_soTagged_byWkR,
-    // l4_soTagged_byWkR,
-    // l5_soTagged_byWkR,
-    // l0_soTagged_byWkR,
+    // l1_soTaggedTrendR,
+    // l2_soTaggedTrendR,
+    // l3_soTaggedTrendR,
+    // l4_soTaggedTrendR,
+    // l5_soTaggedTrendR,
+    // l0_soTaggedTrendR,
     // l1_soUntaggedR,
     // l2_soUntaggedR,
     // l3_soUntaggedR,
     // l4_soUntaggedR,
     // l5_soUntaggedR,
     // l0_soUntaggedR,
-    // l1_soUntagged_byWkR,
-    // l2_soUntagged_byWkR,
-    // l3_soUntagged_byWkR,
-    // l4_soUntagged_byWkR,
-    // l5_soUntagged_byWkR,
-    // l0_soUntagged_byWkR,
+    // l1_soUntaggedTrendR,
+    // l2_soUntaggedTrendR,
+    // l3_soUntaggedTrendR,
+    // l4_soUntaggedTrendR,
+    // l5_soUntaggedTrendR,
+    // l0_soUntaggedTrendR,
     l1_salesProjectionBywkR,
     l2_salesProjectionBywkR,
     l3_salesProjectionBywkR,
@@ -623,26 +553,14 @@ const buildReport = async (config) => {
     l5_so(),
     l0_so(),
 
-    l1_so_byCalMo(),
-    l2_so_byCalMo(),
-    l3_so_byCalMo(),
-    l4_so_byCalMo(),
-    l5_so_byCalMo(),
-    l0_so_byCalMo(),
+    l1_soTrend(),
+    l2_soTrend(),
+    l3_soTrend(),
+    l4_soTrend(),
+    l5_soTrend(),
+    l0_soTrend(),
 
-    l1_so_byWk(),
-    l2_so_byWk(),
-    l3_so_byWk(),
-    l4_so_byWk(),
-    l5_so_byWk(),
-    l0_so_byWk(),
-
-    l1_so_byFiscalPeriod(),
-    l2_so_byFiscalPeriod(),
-    l3_so_byFiscalPeriod(),
-    l4_so_byFiscalPeriod(),
-    l5_so_byFiscalPeriod(),
-    l0_so_byFiscalPeriod(),
+  
 
     // l1_soTagged(),
     // l2_soTagged(),
@@ -650,24 +568,24 @@ const buildReport = async (config) => {
     // l4_soTagged(),
     // l5_soTagged(),
     // l0_soTagged(),
-    // l1_soTagged_byWk(),
-    // l2_soTagged_byWk(),
-    // l3_soTagged_byWk(),
-    // l4_soTagged_byWk(),
-    // l5_soTagged_byWk(),
-    // l0_soTagged_byWk(),
+    // l1_soTaggedTrend(),
+    // l2_soTaggedTrend(),
+    // l3_soTaggedTrend(),
+    // l4_soTaggedTrend(),
+    // l5_soTaggedTrend(),
+    // l0_soTaggedTrend(),
     // l1_soUntagged(),
     // l2_soUntagged(),
     // l3_soUntagged(),
     // l4_soUntagged(),
     // l5_soUntagged(),
     // l0_soUntagged(),
-    // l1_soUntagged_byWk(),
-    // l2_soUntagged_byWk(),
-    // l3_soUntagged_byWk(),
-    // l4_soUntagged_byWk(),
-    // l5_soUntagged_byWk(),
-    // l0_soUntagged_byWk(),
+    // l1_soUntaggedTrend(),
+    // l2_soUntaggedTrend(),
+    // l3_soUntaggedTrend(),
+    // l4_soUntaggedTrend(),
+    // l5_soUntaggedTrend(),
+    // l0_soUntaggedTrend(),
     l1_salesProjectionByWk(),
     l2_salesProjectionByWk(),
     l3_salesProjectionByWk(),
@@ -1039,12 +957,12 @@ const buildReport = async (config) => {
       ...l5_soR,
       ...l0_soR,
 
-      ...l1_so_byCalMoR,
-      ...l2_so_byCalMoR,
-      ...l3_so_byCalMoR,
-      ...l4_so_byCalMoR,
-      ...l5_so_byCalMoR,
-      ...l0_so_byCalMoR,
+      ...l1_soTrendR,
+      ...l2_soTrendR,
+      ...l3_soTrendR,
+      ...l4_soTrendR,
+      ...l5_soTrendR,
+      ...l0_soTrendR,
 
       // ...l1_soTaggedR,
       // ...l2_soTaggedR,
@@ -1058,34 +976,22 @@ const buildReport = async (config) => {
       // ...l4_soUntaggedR,
       // ...l5_soUntaggedR,
       // ...l0_soUntaggedR,
-      ...l1_so_byWkR,
-      ...l2_so_byWkR,
-      ...l3_so_byWkR,
-      ...l4_so_byWkR,
-      ...l5_so_byWkR,
-      ...l0_so_byWkR,
-
-      ...l1_so_byFiscalPeriodR,
-      ...l2_so_byFiscalPeriodR,
-      ...l3_so_byFiscalPeriodR,
-      ...l4_so_byFiscalPeriodR,
-      ...l5_so_byFiscalPeriodR,
-      ...l0_so_byFiscalPeriodR,
+    
 
 
 
-      // ...l1_soTagged_byWkR,
-      // ...l2_soTagged_byWkR,
-      // ...l3_soTagged_byWkR,
-      // ...l4_soTagged_byWkR,
-      // ...l5_soTagged_byWkR,
-      // ...l0_soTagged_byWkR,
-      // ...l1_soUntagged_byWkR,
-      // ...l2_soUntagged_byWkR,
-      // ...l3_soUntagged_byWkR,
-      // ...l4_soUntagged_byWkR,
-      // ...l5_soUntagged_byWkR,
-      // ...l0_soUntagged_byWkR,
+      // ...l1_soTaggedTrendR,
+      // ...l2_soTaggedTrendR,
+      // ...l3_soTaggedTrendR,
+      // ...l4_soTaggedTrendR,
+      // ...l5_soTaggedTrendR,
+      // ...l0_soTaggedTrendR,
+      // ...l1_soUntaggedTrendR,
+      // ...l2_soUntaggedTrendR,
+      // ...l3_soUntaggedTrendR,
+      // ...l4_soUntaggedTrendR,
+      // ...l5_soUntaggedTrendR,
+      // ...l0_soUntaggedTrendR,
       ...l1_salesByFyR,
       ...l2_salesByFyR,
       ...l3_salesByFyR,

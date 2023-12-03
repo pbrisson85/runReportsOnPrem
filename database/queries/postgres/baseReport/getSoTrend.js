@@ -2,9 +2,9 @@ const sql = require('../../../../server')
 
 /* *********************************************** level 1 *********************************************** */
 
-const l1_getSo_byCalMo = async config => {
+const l1_getSoTrend = async config => {
   try {
-    console.log(`${config.user} - level 1: query postgres for FG Sales Orders By Week (l1_getSo_byCalMo) ...`)
+    console.log(`${config.user} - level 1: query postgres for FG Sales Orders By Week (l1_getSoTrend) ...`)
 
     const response = await sql
       `SELECT ${sql(config.trends.queryGrouping)} || '_so' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(so.ext_weight),0) AS lbs, COALESCE(SUM(so.ext_sales),0) AS sales, COALESCE(SUM(so.ext_cost),0) AS cogs, COALESCE(SUM(so.ext_othp),0) AS othp 
@@ -32,9 +32,9 @@ const l1_getSo_byCalMo = async config => {
   }
 }
 
-const l1_getSoTagged_byCalMo = async config => {
+const l1_getSoTaggedTrend = async config => {
   try {
-    console.log(`${config.user} - level 3: query postgres for FG Sales Orders By Week (l1_getSoTagged_byCalMo) ...`)
+    console.log(`${config.user} - level 3: query postgres for FG Sales Orders By Week (l1_getSoTaggedTrend) ...`)
 
     const response = await sql
       `SELECT ${sql(config.trends.queryGrouping)} || '_so_tg' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(so.tagged_weight),0) AS lbs, COALESCE(SUM(so.tagged_weight / so.ext_weight * so.ext_sales),0) AS sales, COALESCE(SUM(so.tagged_weight * ave_tagged_cost),0) AS cogs, COALESCE(SUM(so.tagged_weight / so.ext_weight * so.ext_othp),0) AS othp 
@@ -63,9 +63,9 @@ const l1_getSoTagged_byCalMo = async config => {
   }
 }
 
-const l1_getSoUntagged_byCalMo = async config => {
+const l1_getSoUntaggedTrend = async config => {
   try {
-    console.log(`${config.user} - level 3: query postgres for FG Sales Orders By Week (l1_getSoUntagged_byCalMo) ...`)
+    console.log(`${config.user} - level 3: query postgres for FG Sales Orders By Week (l1_getSoUntaggedTrend) ...`)
 
     const response = await sql
       `SELECT ${sql(config.trends.queryGrouping)} || '_so_untg' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(so.untagged_weight),0) AS lbs, COALESCE(SUM(so.untagged_weight / so.ext_weight * so.ext_sales),0) AS sales, COALESCE(SUM(so.untagged_weight * ave_untagged_cost),0) AS cogs, COALESCE(SUM(so.untagged_weight / so.ext_weight * so.ext_othp),0) AS othp 
@@ -96,9 +96,9 @@ const l1_getSoUntagged_byCalMo = async config => {
 
 /* *********************************************** level 2 *********************************************** */
 
-const l2_getSo_byCalMo = async config => {
+const l2_getSoTrend = async config => {
   try {
-    console.log(`${config.user} - level 2: query postgres for FG Sales Orders By Week (l2_getSo_byCalMo) ...`)
+    console.log(`${config.user} - level 2: query postgres for FG Sales Orders By Week (l2_getSoTrend) ...`)
 
     const response = await sql
       `SELECT ${sql(config.trends.queryGrouping)} || '_so' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(so.ext_weight),0) AS lbs, COALESCE(SUM(so.ext_sales),0) AS sales, COALESCE(SUM(so.ext_cost),0) AS cogs, COALESCE(SUM(so.ext_othp),0) AS othp 
@@ -126,9 +126,9 @@ const l2_getSo_byCalMo = async config => {
   }
 }
 
-const l2_getSoTagged_byCalMo = async config => {
+const l2_getSoTaggedTrend = async config => {
   try {
-    console.log(`${config.user} - level 3: query postgres for FG Sales Orders By Week (l2_getSoTagged_byCalMo) ...`)
+    console.log(`${config.user} - level 3: query postgres for FG Sales Orders By Week (l2_getSoTaggedTrend) ...`)
 
     const response = await sql
       `SELECT ${sql(config.trends.queryGrouping)} || '_so_tg' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(so.tagged_weight),0) AS lbs, COALESCE(SUM(so.tagged_weight / so.ext_weight * so.ext_sales),0) AS sales, COALESCE(SUM(so.tagged_weight * ave_tagged_cost),0) AS cogs, COALESCE(SUM(so.tagged_weight / so.ext_weight * so.ext_othp),0) AS othp 
@@ -157,9 +157,9 @@ const l2_getSoTagged_byCalMo = async config => {
   }
 }
 
-const l2_getSoUntagged_byCalMo = async config => {
+const l2_getSoUntaggedTrend = async config => {
   try {
-    console.log(`${config.user} - level 3: query postgres for FG Sales Orders By Week (l2_getSoUntagged_byCalMo) ...`)
+    console.log(`${config.user} - level 3: query postgres for FG Sales Orders By Week (l2_getSoUntaggedTrend) ...`)
 
     const response = await sql
       `SELECT ${sql(config.trends.queryGrouping)} || '_so_untg' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(so.untagged_weight),0) AS lbs, COALESCE(SUM(so.untagged_weight / so.ext_weight * so.ext_sales),0) AS sales, COALESCE(SUM(so.untagged_weight * ave_untagged_cost),0) AS cogs, COALESCE(SUM(so.untagged_weight / so.ext_weight * so.ext_othp),0) AS othp 
@@ -190,9 +190,9 @@ const l2_getSoUntagged_byCalMo = async config => {
 
 /* *********************************************** level 3 *********************************************** */
 
-const l3_getSo_byCalMo = async config => {
+const l3_getSoTrend = async config => {
   try {
-    console.log(`${config.user} - level 3: query postgres for FG Sales Orders By Week (l3_getSo_byCalMo) ...`)
+    console.log(`${config.user} - level 3: query postgres for FG Sales Orders By Week (l3_getSoTrend) ...`)
 
     const response = await sql
       `SELECT ${sql(config.trends.queryGrouping)} || '_so' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(so.ext_weight),0) AS lbs, COALESCE(SUM(so.ext_sales),0) AS sales, COALESCE(SUM(so.ext_cost),0) AS cogs, COALESCE(SUM(so.ext_othp),0) AS othp 
@@ -220,9 +220,9 @@ const l3_getSo_byCalMo = async config => {
   }
 }
 
-const l3_getSoTagged_byCalMo = async config => {
+const l3_getSoTaggedTrend = async config => {
   try {
-    console.log(`${config.user} - level 3: query postgres for FG Sales Orders By Week (l3_getSoTagged_byCalMo) ...`)
+    console.log(`${config.user} - level 3: query postgres for FG Sales Orders By Week (l3_getSoTaggedTrend) ...`)
 
     const response = await sql
       `SELECT ${sql(config.trends.queryGrouping)} || '_so_tg' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(so.tagged_weight),0) AS lbs, COALESCE(SUM(so.tagged_weight / so.ext_weight * so.ext_sales),0) AS sales, COALESCE(SUM(so.tagged_weight * ave_tagged_cost),0) AS cogs, COALESCE(SUM(so.tagged_weight / so.ext_weight * so.ext_othp),0) AS othp 
@@ -251,9 +251,9 @@ const l3_getSoTagged_byCalMo = async config => {
   }
 }
 
-const l3_getSoUntagged_byCalMo = async config => {
+const l3_getSoUntaggedTrend = async config => {
   try {
-    console.log(`${config.user} - level 3: query postgres for FG Sales Orders By Week (l3_getSoUntagged_byCalMo) ...`)
+    console.log(`${config.user} - level 3: query postgres for FG Sales Orders By Week (l3_getSoUntaggedTrend) ...`)
 
     const response = await sql
       `SELECT ${sql(config.trends.queryGrouping)} || '_so_untg' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(so.untagged_weight),0) AS lbs, COALESCE(SUM(so.untagged_weight / so.ext_weight * so.ext_sales),0) AS sales, COALESCE(SUM(so.untagged_weight * ave_untagged_cost),0) AS cogs, COALESCE(SUM(so.untagged_weight / so.ext_weight * so.ext_othp),0) AS othp 
@@ -284,9 +284,9 @@ const l3_getSoUntagged_byCalMo = async config => {
 
 /* *********************************************** level 4 *********************************************** */
 
-const l4_getSo_byCalMo = async config => {
+const l4_getSoTrend = async config => {
   try {
-    console.log(`${config.user} - level 4: query postgres for FG Sales Orders By Week (l4_getSo_byCalMo) ...`)
+    console.log(`${config.user} - level 4: query postgres for FG Sales Orders By Week (l4_getSoTrend) ...`)
 
     const response = await sql
       `SELECT ${sql(config.trends.queryGrouping)} || '_so' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(so.ext_weight),0) AS lbs, COALESCE(SUM(so.ext_sales),0) AS sales, COALESCE(SUM(so.ext_cost),0) AS cogs, COALESCE(SUM(so.ext_othp),0) AS othp 
@@ -314,9 +314,9 @@ const l4_getSo_byCalMo = async config => {
   }
 }
 
-const l4_getSoTagged_byCalMo = async config => {
+const l4_getSoTaggedTrend = async config => {
   try {
-    console.log(`${config.user} - level 4: query postgres for FG Sales Orders By Week (l4_getSoTagged_byCalMo) ...`)
+    console.log(`${config.user} - level 4: query postgres for FG Sales Orders By Week (l4_getSoTaggedTrend) ...`)
 
     const response = await sql
       `SELECT ${sql(config.trends.queryGrouping)} || '_so_tg' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(so.tagged_weight),0) AS lbs, COALESCE(SUM(so.tagged_weight / so.ext_weight * so.ext_sales),0) AS sales, COALESCE(SUM(so.tagged_weight * ave_tagged_cost),0) AS cogs, COALESCE(SUM(so.tagged_weight / so.ext_weight * so.ext_othp),0) AS othp 
@@ -345,9 +345,9 @@ const l4_getSoTagged_byCalMo = async config => {
   }
 }
 
-const l4_getSoUntagged_byCalMo = async config => {
+const l4_getSoUntaggedTrend = async config => {
   try {
-    console.log(`${config.user} - level 4: query postgres for FG Sales Orders By Week (l4_getSoUntagged_byCalMo) ...`)
+    console.log(`${config.user} - level 4: query postgres for FG Sales Orders By Week (l4_getSoUntaggedTrend) ...`)
 
     const response = await sql
       `SELECT ${sql(config.trends.queryGrouping)} || '_so_untg' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(so.untagged_weight),0) AS lbs, COALESCE(SUM(so.untagged_weight / so.ext_weight * so.ext_sales),0) AS sales, COALESCE(SUM(so.untagged_weight * ave_untagged_cost),0) AS cogs, COALESCE(SUM(so.untagged_weight / so.ext_weight * so.ext_othp),0) AS othp 
@@ -378,9 +378,9 @@ const l4_getSoUntagged_byCalMo = async config => {
 
 /* *********************************************** level 5 *********************************************** */
 
-const l5_getSo_byCalMo = async config => {
+const l5_getSoTrend = async config => {
   try {
-    console.log(`${config.user} - level 5: query postgres for FG Sales Orders By Week (l4_getSo_byCalMo) ...`)
+    console.log(`${config.user} - level 5: query postgres for FG Sales Orders By Week (l4_getSoTrend) ...`)
 
     const response = await sql
       `SELECT ${sql(config.trends.queryGrouping)} || '_so' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, COALESCE(SUM(so.ext_weight),0) AS lbs, COALESCE(SUM(so.ext_sales),0) AS sales, COALESCE(SUM(so.ext_cost),0) AS cogs, COALESCE(SUM(so.ext_othp),0) AS othp 
@@ -408,9 +408,9 @@ const l5_getSo_byCalMo = async config => {
   }
 }
 
-const l5_getSoTagged_byCalMo = async config => {
+const l5_getSoTaggedTrend = async config => {
   try {
-    console.log(`${config.user} - level 5: query postgres for FG Sales Orders By Week (l4_getSoTagged_byCalMo) ...`)
+    console.log(`${config.user} - level 5: query postgres for FG Sales Orders By Week (l4_getSoTaggedTrend) ...`)
 
     const response = await sql
       `SELECT ${sql(config.trends.queryGrouping)} || '_so_tg' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, COALESCE(SUM(so.tagged_weight),0) AS lbs, COALESCE(SUM(so.tagged_weight / so.ext_weight * so.ext_sales),0) AS sales, COALESCE(SUM(so.tagged_weight * ave_tagged_cost),0) AS cogs, COALESCE(SUM(so.tagged_weight / so.ext_weight * so.ext_othp),0) AS othp 
@@ -439,9 +439,9 @@ const l5_getSoTagged_byCalMo = async config => {
   }
 }
 
-const l5_getSoUntagged_byCalMo = async config => {
+const l5_getSoUntaggedTrend = async config => {
   try {
-    console.log(`${config.user} - level 5: query postgres for FG Sales Orders By Week (l4_getSoUntagged_byCalMo) ...`)
+    console.log(`${config.user} - level 5: query postgres for FG Sales Orders By Week (l4_getSoUntaggedTrend) ...`)
 
     const response = await sql
       `SELECT ${sql(config.trends.queryGrouping)} || '_so_untg' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, COALESCE(SUM(so.untagged_weight),0) AS lbs, COALESCE(SUM(so.untagged_weight / so.ext_weight * so.ext_sales),0) AS sales, COALESCE(SUM(so.untagged_weight * ave_untagged_cost),0) AS cogs, COALESCE(SUM(so.untagged_weight / so.ext_weight * so.ext_othp),0) AS othp 
@@ -472,9 +472,9 @@ const l5_getSoUntagged_byCalMo = async config => {
 
 /* *********************************************** TOTAL *********************************************** */
 
-const l0_getSo_byCalMo = async config => {
+const l0_getSoTrend = async config => {
   try {
-    console.log(`${config.user} - level 0: query postgres for FG Sales Orders By Week (l0_getSo_byCalMo) ...`)
+    console.log(`${config.user} - level 0: query postgres for FG Sales Orders By Week (l0_getSoTrend) ...`)
 
     const response = await sql
       `SELECT ${sql(config.trends.queryGrouping)} || '_so' AS column${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(so.ext_weight),0) AS lbs, COALESCE(SUM(so.ext_sales),0) AS sales, COALESCE(SUM(so.ext_cost),0) AS cogs, COALESCE(SUM(so.ext_othp),0) AS othp 
@@ -502,9 +502,9 @@ const l0_getSo_byCalMo = async config => {
   }
 }
 
-const l0_getSoTagged_byCalMo = async config => {
+const l0_getSoTaggedTrend = async config => {
   try {
-    console.log(`${config.user} - level 0: query postgres for FG Sales Orders By Week (l0_getSoTagged_byCalMo) ...`)
+    console.log(`${config.user} - level 0: query postgres for FG Sales Orders By Week (l0_getSoTaggedTrend) ...`)
 
     const response = await sql
       `SELECT ${sql(config.trends.queryGrouping)} || '_so_tg' AS column${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(so.tagged_weight),0) AS lbs, COALESCE(SUM(so.tagged_weight / so.ext_weight * so.ext_sales),0) AS sales, COALESCE(SUM(so.tagged_weight * ave_tagged_cost),0) AS cogs, COALESCE(SUM(so.tagged_weight / so.ext_weight * so.ext_othp),0) AS othp 
@@ -533,9 +533,9 @@ const l0_getSoTagged_byCalMo = async config => {
   }
 }
 
-const l0_getSoUntagged_byCalMo = async config => {
+const l0_getSoUntaggedTrend = async config => {
   try {
-    console.log(`${config.user} - level 0: query postgres for FG Sales Orders By Week (l0_getSoUntagged_byCalMo) ...`)
+    console.log(`${config.user} - level 0: query postgres for FG Sales Orders By Week (l0_getSoUntaggedTrend) ...`)
 
     const response = await sql
       `SELECT ${sql(config.trends.queryGrouping)} || '_so_untg' AS column${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(so.untagged_weight),0) AS lbs, COALESCE(SUM(so.untagged_weight / so.ext_weight * so.ext_sales),0) AS sales, COALESCE(SUM(so.untagged_weight * ave_untagged_cost),0) AS cogs, COALESCE(SUM(so.untagged_weight / so.ext_weight * so.ext_othp),0) AS othp 
@@ -564,26 +564,26 @@ const l0_getSoUntagged_byCalMo = async config => {
   }
 }
 
-module.exports.l5_getSo_byCalMo = l5_getSo_byCalMo
-module.exports.l5_getSoTagged_byCalMo = l5_getSoTagged_byCalMo
-module.exports.l5_getSoUntagged_byCalMo = l5_getSoUntagged_byCalMo
+module.exports.l5_getSoTrend = l5_getSoTrend
+module.exports.l5_getSoTaggedTrend = l5_getSoTaggedTrend
+module.exports.l5_getSoUntaggedTrend = l5_getSoUntaggedTrend
 
-module.exports.l4_getSo_byCalMo = l4_getSo_byCalMo
-module.exports.l4_getSoTagged_byCalMo = l4_getSoTagged_byCalMo
-module.exports.l4_getSoUntagged_byCalMo = l4_getSoUntagged_byCalMo
+module.exports.l4_getSoTrend = l4_getSoTrend
+module.exports.l4_getSoTaggedTrend = l4_getSoTaggedTrend
+module.exports.l4_getSoUntaggedTrend = l4_getSoUntaggedTrend
 
-module.exports.l3_getSo_byCalMo = l3_getSo_byCalMo
-module.exports.l3_getSoTagged_byCalMo = l3_getSoTagged_byCalMo
-module.exports.l3_getSoUntagged_byCalMo = l3_getSoUntagged_byCalMo
+module.exports.l3_getSoTrend = l3_getSoTrend
+module.exports.l3_getSoTaggedTrend = l3_getSoTaggedTrend
+module.exports.l3_getSoUntaggedTrend = l3_getSoUntaggedTrend
 
-module.exports.l0_getSo_byCalMo = l0_getSo_byCalMo
-module.exports.l0_getSoTagged_byCalMo = l0_getSoTagged_byCalMo
-module.exports.l0_getSoUntagged_byCalMo = l0_getSoUntagged_byCalMo
+module.exports.l0_getSoTrend = l0_getSoTrend
+module.exports.l0_getSoTaggedTrend = l0_getSoTaggedTrend
+module.exports.l0_getSoUntaggedTrend = l0_getSoUntaggedTrend
 
-module.exports.l2_getSo_byCalMo = l2_getSo_byCalMo
-module.exports.l2_getSoTagged_byCalMo = l2_getSoTagged_byCalMo
-module.exports.l2_getSoUntagged_byCalMo = l2_getSoUntagged_byCalMo
+module.exports.l2_getSoTrend = l2_getSoTrend
+module.exports.l2_getSoTaggedTrend = l2_getSoTaggedTrend
+module.exports.l2_getSoUntaggedTrend = l2_getSoUntaggedTrend
 
-module.exports.l1_getSo_byCalMo = l1_getSo_byCalMo
-module.exports.l1_getSoTagged_byCalMo = l1_getSoTagged_byCalMo
-module.exports.l1_getSoUntagged_byCalMo = l1_getSoUntagged_byCalMo
+module.exports.l1_getSoTrend = l1_getSoTrend
+module.exports.l1_getSoTaggedTrend = l1_getSoTaggedTrend
+module.exports.l1_getSoUntaggedTrend = l1_getSoUntaggedTrend
