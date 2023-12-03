@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const getTrendColsSoByCalMonths = async config => {
+const getTrendColsSo = async config => {
   console.log(
     `${config.user} - getDateEndPerWeekByRange_so, query postgres for accounting period ends by week serial for ${new Date(
       config.salesOrders.startDate
@@ -25,4 +25,4 @@ const getTrendColsSoByCalMonths = async config => {
   return periods
 }
 
-module.exports.getTrendColsSoByCalMonths = getTrendColsSoByCalMonths
+module.exports.getTrendColsSo = getTrendColsSo
