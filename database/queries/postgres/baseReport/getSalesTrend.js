@@ -40,6 +40,8 @@ const l2_getSalesTrend = async config => {
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
+        LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+          ON sl.formatted_invoice_date = p.formatted_date
       
       WHERE 
         sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
@@ -50,8 +52,6 @@ const l2_getSalesTrend = async config => {
       GROUP BY ${sql(config.trends.queryGrouping)}, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)} 
       
       ORDER BY ${sql(config.trends.queryGrouping)}` //prettier-ignore
-
-    console.log('response', response)
 
     return response
   } catch (error) {
@@ -70,6 +70,8 @@ const l3_getSalesTrend = async config => {
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
+        LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+          ON sl.formatted_invoice_date = p.formatted_date
       
       WHERE 
         sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
@@ -98,7 +100,9 @@ const l4_getSalesTrend = async config => {
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
-      
+        LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+          ON sl.formatted_invoice_date = p.formatted_date
+
       WHERE 
         sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
@@ -126,6 +130,8 @@ const l5_getSalesTrend = async config => {
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
+        LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+          ON sl.formatted_invoice_date = p.formatted_date
       
       WHERE 
         sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
@@ -154,6 +160,8 @@ const l0_getSalesTrend = async config => {
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
+        LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+          ON sl.formatted_invoice_date = p.formatted_date
       
       WHERE 
         sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
