@@ -25,8 +25,6 @@ const l1_getSoTrend = async config => {
       
       ORDER BY ${sql(config.trends.queryGrouping)}` //prettier-ignore
 
-    console.log('response', response)
-
     return response
   } catch (error) {
     console.error(error)
