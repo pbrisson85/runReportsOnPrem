@@ -1237,7 +1237,7 @@ const buildReport = async (config) => {
   const trendColsCalMoByRangeF = !config.trends.calMonths ? skip() : () => {return  getTrendColsCalMonths(config)}
 
   // get so by week cols
-  const trendColsSoF = () => {return  getTrendColsSo(config)} 
+  const trendColsSoF = config.trends.queryGrouping ? () => {return  getTrendColsSo(config)} : skip() 
   const trendColsSo_tgF = () => {return  getDateEndPerWeekByRange_so_tg(config)}
   const trendColsSo_untgF = () => {return  getDateEndPerWeekByRange_so_untg(config)}
 
