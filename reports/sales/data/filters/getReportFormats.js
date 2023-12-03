@@ -45,11 +45,11 @@ const getReportFormats = () => {
       ],
     },
     {
-      default: true,
+      default: true, // if this is true then the defaults array should have "all" or else there will be a mistmatch in what the front end and back end beleive is the default
       label: 'species group / program',
       dataName: 'speciesgroupProg',
       defaultsFallback: false,
-      defaults: [],
+      defaults: ['all'],
       optional: ['all'],
       forbiddenCols: ['percentProgramSales'],
       l1_field: 'ms.species_group',
@@ -248,7 +248,7 @@ const getReportFormats = () => {
       label: 'species group / freeze',
       dataName: 'speciesgroupFreeze',
       defaultsFallback: false,
-      defaults: ['all'],
+      defaults: [],
       optional: ['all'],
       forbiddenCols: ['percentProgramSales'],
       l1_field: 'ms.species_group',
