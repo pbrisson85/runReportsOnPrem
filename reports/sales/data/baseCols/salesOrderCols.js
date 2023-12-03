@@ -1,4 +1,4 @@
-const openOrdersCol = [
+const salesOrdersCol = [
   {
     unfilteredColIdx: 0,
     displayName: 'FG SO',
@@ -108,4 +108,4 @@ const openOrdersCol = [
   },
 ]
 
-module.exports = openOrdersCol
+module.exports = salesOrdersCol
