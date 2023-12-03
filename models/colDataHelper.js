@@ -21,7 +21,7 @@ const addDataToSalesTotalCol = (config, columnConfigs) => {
 
     const endDisplayClean = `${endDisplayArr[0]}/${endDisplayArr[1]}/${endDisplayArr[2]}`
 
-    const displayName = `${startDisplayClean}-${endDisplayClean}`
+    const displayName = `${col.displayName}-${startDisplayClean}-${endDisplayClean}`
 
     col.startDate = config.totals.startDatePrimary
     col.endDate = config.totals.endDatePrimary
@@ -38,20 +38,16 @@ const addDataToSoTotalCol = (config, columnConfigs) => {
     const startDisplay = new Date(config.salesOrders.startDate).toLocaleString('en-US', {
       timeZone: 'America/New_York',
     })
-
     const startDisplayArr = startDisplay.split(',')[0].split('/')
-
-    const startDisplayClean = `${startDisplayArr[0]}/${startDisplayArr[1]}`
+    const startDisplayClean = `${startDisplayArr[0]}/${startDisplayArr[1]}/${startDisplayArr[2]}`
 
     const endDisplay = new Date(config.salesOrders.endDate).toLocaleString('en-US', {
       timeZone: 'America/New_York',
     })
-
     const endDisplayArr = endDisplay.split(',')[0].split('/')
-
     const endDisplayClean = `${endDisplayArr[0]}/${endDisplayArr[1]}/${endDisplayArr[2]}`
 
-    const displayName = `${startDisplayClean}-${endDisplayClean}`
+    const displayName = `${col.displayName}-${startDisplayClean}-${endDisplayClean}`
 
     col.startDate = config.salesOrders.startDate
     col.endDate = config.salesOrders.endDate
