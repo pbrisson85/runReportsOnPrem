@@ -17,7 +17,7 @@ const addDataToSalesTotalCol = (config, columnConfigs) => {
     const endDisplayArr = endDisplay.split(',')[0].split('/')
     const endDisplayClean = `${endDisplayArr[0]}/${endDisplayArr[1]}/${endDisplayArr[2]}`
 
-    const displayName = `${col.displayName_original} ${startDisplayClean} - ${endDisplayClean}`
+    const displayName = `${startDisplayClean} - ${endDisplayClean} ${col.displayName_original}`
 
     col.startDate = config.totals.startDatePrimary
     col.endDate = config.totals.endDatePrimary
@@ -43,7 +43,7 @@ const addDataToSoTotalCol = (config, columnConfigs) => {
     const endDisplayArr = endDisplay.split(',')[0].split('/')
     const endDisplayClean = `${endDisplayArr[0]}/${endDisplayArr[1]}/${endDisplayArr[2]}`
 
-    const displayName = `${col.displayName_original} ${startDisplayClean} - ${endDisplayClean}`
+    const displayName = `${startDisplayClean} - ${endDisplayClean} ${col.displayName_original}`
 
     col.startDate = config.salesOrders.startDate
     col.endDate = config.salesOrders.endDate
