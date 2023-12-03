@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const getTrendColsSoByCalMonths = async config => {
+const getTrendColsSoByFiscalPeriods = async config => {
   console.log(
     `${config.user} - getDateEndPerWeekByRange_so, query postgres for accounting period ends by week serial for ${new Date(
       config.salesOrders.startDate
@@ -8,17 +8,17 @@ const getTrendColsSoByCalMonths = async config => {
   )
 
   const periods = await sql`
-    SELECT p.cal_month_serial || '_so' AS dataName, TO_CHAR(MAX(p.formatted_date),'MM/DD/YY') AS displayName, MIN(p.formatted_date) AS start_date,  MAX(p.formatted_date) AS end_date
+    SELECT p.period_serial || '_so' AS dataName, TO_CHAR(MAX(p.formatted_date),'MM/DD/YY') AS displayName, MIN(p.formatted_date) AS start_date,  MAX(p.formatted_date) AS end_date
     
     FROM "accountingPeriods".period_by_day AS p
     
     WHERE p.formatted_date >= ${config.salesOrders.startDate} AND p.formatted_date <= ${config.salesOrders.endDate} 
     
-    GROUP BY p.cal_month_serial
+    GROUP BY p.period_serial
 
-    ORDER BY p.cal_month_serial ASC`
+    ORDER BY p.period_serial ASC`
 
   return periods
 }
 
-module.exports.getTrendColsSoByCalMonths = getTrendColsSoByCalMonths
+module.exports.getTrendColsSoByFiscalPeriods = getTrendColsSoByFiscalPeriods

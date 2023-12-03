@@ -11,6 +11,9 @@ const { getTrendColsFiscalPeriods } = require('../../../database/queries/postgre
 const { getTrendColsFiscalQuarters } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalQuarters')
 const { getTrendColsFiscalYear } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalYear')
 const { getTrendColsSoByCalMonths } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsSoByCalMonths')
+
+const { getTrendColsSoByFiscalPeriods } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsSoByFiscalPeriods')
+
 const {
 l0_getSalesProjectionByWk,
 l0_getSalesProjectionPeriodToDate,
@@ -1234,7 +1237,7 @@ const buildReport = async (config) => {
   const trendColsCalMoByRangeF = !config.trends.calMonths ? skip() : () => {return  getTrendColsCalMonths(config)}
 
   // get so by week cols
-  const trendColsSoF = config.trends.fiscalWeeks ? () => {return  getDateEndPerWeekByRange_so(config)} : config.trends.calMonths ? () => {return  getTrendColsSoByCalMonths(config)} : config.trends.fiscalPeriods ? () => {return  getTrendColsSoByCalMonths(config)} : skip()
+  const trendColsSoF = config.trends.fiscalWeeks ? () => {return  getDateEndPerWeekByRange_so(config)} : config.trends.calMonths ? () => {return  getTrendColsSoByCalMonths(config)} : config.trends.fiscalPeriods ? () => {return  getTrendColsSoByFiscalPeriods(config)} : skip()
   const trendColsSo_tgF = () => {return  getDateEndPerWeekByRange_so_tg(config)}
   const trendColsSo_untgF = () => {return  getDateEndPerWeekByRange_so_untg(config)}
 

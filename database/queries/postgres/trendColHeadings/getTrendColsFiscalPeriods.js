@@ -8,7 +8,7 @@ const getTrendColsFiscalPeriods = async config => {
   )
 
   const periods = await sql`
-    SELECT p.period_serial || '_so' AS dataName, TO_CHAR(MAX(p.formatted_date),'MM/DD/YY') AS displayName, MIN(p.formatted_date) AS start_date,  MAX(p.formatted_date) AS end_date
+    SELECT p.period_serial AS dataName, TO_CHAR(MAX(p.formatted_date),'MM/DD/YY') AS displayName, MIN(p.formatted_date) AS start_date,  MAX(p.formatted_date) AS end_date
     
     FROM "accountingPeriods".period_by_day AS p
     

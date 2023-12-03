@@ -25,7 +25,7 @@ const groupByOptions = require('../data/filters/detailGroupBy')
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { columnDataName, colType, fyTrendCol, fyYtdTrendCol, reportFormat, startDate, endDate } = req.body
+  const { columnDataName, colType, reportFormat, startDate, endDate } = req.body
 
   const config = await getReportConfig(req.body)
 
