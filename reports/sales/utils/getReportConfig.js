@@ -123,7 +123,7 @@ const getReportConfig = async reqBody => {
       endWeek: typeof reqBody.trendEnd?.week === 'undefined' ? 0 : reqBody.trendEnd.week === '52' ? 53 : parseInt(reqBody.trendEnd.week),
       trendYears: typeof reqBody.trendYears === 'undefined' ? [] : reqBody.trendYears.map(yr => parseInt(yr)),
       useProjection: typeof reqBody.trendUseProjection === 'undefined' ? false : reqBody.trendUseProjection[0] ?? false,
-      queryGrouping: typeof reqBody.trendQueryGrouping === 'undefined' ? false : reqBody.trendQueryGrouping,
+      queryGrouping: typeof reqBody.trendQueryGrouping === 'undefined' ? false : reqBody.trendQueryGrouping[0],
     },
     totals: {
       // For now just going to assume that we are only getting the current year. Will need to determine the actual start and end based on the years in the array and the weeks, period, month, etc.

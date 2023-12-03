@@ -21,9 +21,9 @@ const l1_getSoTrend = async config => {
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
-      GROUP BY ${sql(config.trends.queryGrouping[0])}, ${sql(config.baseFormat.l1_field)} 
+      GROUP BY ${sql(config.trends.queryGrouping)}, ${sql(config.baseFormat.l1_field)} 
       
-      ORDER BY ${sql(config.trends.queryGrouping[0])}` //prettier-ignore
+      ORDER BY ${sql(config.trends.queryGrouping)}` //prettier-ignore
 
     console.log('response', response)
 
