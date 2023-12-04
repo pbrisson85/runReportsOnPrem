@@ -22,6 +22,8 @@ const getTrendColsSales = async config => {
 
     ORDER BY ${sql(config.trends.queryGrouping)} ASC`
 
+  console.log('periods: ', periods)
+
   return periods
 }
 
