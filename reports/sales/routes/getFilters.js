@@ -7,7 +7,6 @@ const trendTypeOptions = require('../data/filters/trendType')
 const totalTypeOptions = require('../data/filters/totalTypes')
 const projectionOptions = require('../data/filters/useProjections')
 const getDataFilters = require('../data/filters/getDataFilters')
-const { getDateEndPerWeek } = require('../../../database/queries/postgres/getDateEndPerWeek')
 const {
   getFiscalPeriodsMap,
   getWeeksMap,
@@ -90,14 +89,6 @@ router.get('/defaultDates', async (req, res) => {
 
   res.send(defaults)
   console.log('get periods maps lot route COMPLETE. ')
-})
-
-// Generate Filter Data
-router.get('/periods/:fy', async (req, res) => {
-  console.log('get periods given fiscal year lot route HIT...')
-  const periods = await getDateEndPerWeek(req.params.fy)
-  res.send(periods)
-  console.log('get periods given fiscal year lot route COMPLETE. ')
 })
 
 // Generate Filter Data

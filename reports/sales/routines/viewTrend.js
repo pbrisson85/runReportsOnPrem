@@ -1,9 +1,5 @@
-const {
-  getDateEndPerWeekByRange_pj,
-  getDateEndPerWeekByRange_so,
-  getDateEndPerWeekByRange_so_tg,
-  getDateEndPerWeekByRange_so_untg,
-} = require('../../../database/queries/postgres/getDateEndPerWeek')
+
+const { getTrendColsSo } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsSo')
 //const { getTrendColsCalMonths } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsCalMonths')
 const { getTrendColsWeeks } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsSales')
 const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalYear')
@@ -37,14 +33,10 @@ const {
   l0_getFgAtLoc_tagged,
 } = require('../../../database/queries/postgres/viewTrend/getFgInven')
 const { l1_getFgPo, l0_getFgPo } = require('../../../database/queries/postgres/viewTrend/getFgOpenPo')
-const { l1_getSo, l0_getSo, l1_getSoTagged, l0_getSoTagged, l1_getSoUntagged, l0_getSoUntagged } = require('../../../database/queries/postgres/viewTrend/getSo')
+const { l1_getSo, l0_getSo } = require('../../../database/queries/postgres/viewTrend/getSo')
 const {
   l1_getSo_byWk,
   l0_getSo_byWk,
-  l1_getSoTagged_byWk,
-  l0_getSoTagged_byWk,
-  l1_getSoUntagged_byWk,
-  l0_getSoUntagged_byWk,
 } = require('../../../database/queries/postgres/viewTrend/getSoByWeek')
 const { getRowsFirstLevelDetail } = require('../../../database/queries/postgres/viewTrend/getRows')
 const mapSalesToRowTemplates = require('../../../models/mapSalesToRowTemplatesOneLevel')
@@ -99,20 +91,6 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
   const l1_so_byWkF = () => { return l1_getSo_byWk(config, trendQuery)}
   const l0_so_byWkF = () => { return l0_getSo_byWk(config)}
 
-  /* TAGGED SO */
-  const l1_soTaggedF = () => { return l1_getSoTagged(config, trendQuery)}
-  const l0_soTaggedF = () => { return l0_getSoTagged(config)}
-
-  const l1_soTagged_byWkF = () => { return l1_getSoTagged_byWk(config, trendQuery)}
-  const l0_soTagged_byWkF = () => { return l0_getSoTagged_byWk(config)}
-
-  /* UNTAGGED SO */
-  const l1_soUntaggedF = () => { return l1_getSoUntagged(config, trendQuery)}
-  const l0_soUntaggedF = () => { return l0_getSoUntagged(config)}
-
-  const l1_soUntagged_byWkF = () => { return l1_getSoUntagged_byWk(config, trendQuery)}
-  const l0_soUntagged_byWkF = () => { return l0_getSoUntagged_byWk(config)}
-
   // ///////////////////////////////// SALES DATA
 
   /* SALES PROJECTIONS */
@@ -165,18 +143,12 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
     l0_fgAtLoc_untagged, 
     l1_fgAtLoc_tagged, 
     l0_fgAtLoc_tagged, 
-    l1_fgPo, l0_fgPo, 
-    l1_so, l0_so, 
-    l1_soTagged, 
-    l0_soTagged, 
-    l1_soUntagged, 
-    l0_soUntagged, 
+    l1_fgPo, 
+    l0_fgPo, 
+    l1_so, 
+    l0_so, 
     l1_so_byWk, 
     l0_so_byWk, 
-    l1_soTagged_byWk, 
-    l0_soTagged_byWk, 
-    l1_soUntagged_byWk, 
-    l0_soUntagged_byWk, 
     l1_salesByFy, 
     l0_salesByFy, 
     l1_salesByFyYtd, 
@@ -213,16 +185,8 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
     l0_fgPoF(), 
     l1_soF(), 
     l0_soF(), 
-    l1_soTaggedF(), 
-    l0_soTaggedF(), 
-    l1_soUntaggedF(), 
-    l0_soUntaggedF(), 
     l1_so_byWkF(), 
     l0_so_byWkF(), 
-    l1_soTagged_byWkF(), 
-    l0_soTagged_byWkF(), 
-    l1_soUntagged_byWkF(), 
-    l0_soUntagged_byWkF(), 
     l1_salesByFyF(), 
     l0_salesByFyF(), 
     l1_salesByFyYtdF(), 
@@ -344,16 +308,8 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
       ...l0_salesPeriodToDate,
       ...l1_so,
       ...l0_so,
-      ...l1_soTagged,
-      ...l0_soTagged,
-      ...l1_soUntagged,
-      ...l0_soUntagged,
       ...l1_so_byWk,
       ...l0_so_byWk,
-      ...l1_soTagged_byWk,
-      ...l0_soTagged_byWk,
-      ...l1_soUntagged_byWk,
-      ...l0_soUntagged_byWk,
       ...l1_salesByFy, 
       ...l0_salesByFy, 
       ...l1_salesByFyYtd, 
@@ -443,11 +399,27 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
   const start_so = await getEarliestShipWk(config)
   const end_so = await getLatestShipWk(config)
 
-  const trendColsSoF = () => { return getDateEndPerWeekByRange_so(start_so, end_so, config)} 
-  const trendColsSo_tgF = () => { return getDateEndPerWeekByRange_so_tg(start_so, end_so, config)} 
-  const trendColsSo_untgF = () => { return getDateEndPerWeekByRange_so_untg(start_so, end_so, config)} 
+  // get so by week cols
+  const trendColsSoF = config.trends.queryGrouping ? () => {return  getTrendColsSo(config)} : skip() 
 
-  const [trendColsSales_byPeriod, trendColsCalMo, trendColsSalesProj, trendColsSales, trendColsSaByFy,trendColsSaByFyYtd, trendColsSo, trendColsSo_tg, trendColsSo_untg] = await Promise.all([trendColsSales_byPeriodF(), trendColsCalMoByRangeF(), trendColsSalesProjF(), trendColsSalesF(), trendColsSaByFyF(),trendColsSaByFyYtdF(), trendColsSoF(), trendColsSo_tgF(), trendColsSo_untgF()])
+  const [
+    trendColsSales_byPeriod, 
+    trendColsCalMo, 
+    trendColsSalesProj, 
+    trendColsSales, 
+    trendColsSaByFy,
+    trendColsSaByFyYtd, 
+    trendColsSo
+  ] = await Promise.all
+      ([
+        trendColsSales_byPeriodF(), 
+        trendColsCalMoByRangeF(), 
+        trendColsSalesProjF(), 
+        trendColsSalesF(), 
+        trendColsSaByFyF(),
+        trendColsSaByFyYtdF(), 
+        trendColsSoF()
+      ])
 
   // return
   return {
@@ -461,8 +433,6 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
       trendColsSaByFyYtd,
       labelCols,
       trendColsSo,
-      trendColsSo_tg,
-      trendColsSo_untg,
       columnConfigs,
       defaultTrend: {
         dataName: config.trends.useProjection ? columnConfigs.salesProjectionCol[0].dataName : columnConfigs.primarySalesTotalCol[0].dataName,

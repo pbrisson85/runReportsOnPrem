@@ -1,10 +1,3 @@
-const {
-  getDateEndPerFiscalPeriodByRange,
-  getDateEndPerWeekByRange_pj,
-  getDateEndPerWeekByRange_so,
-  getDateEndPerWeekByRange_so_tg,
-  getDateEndPerWeekByRange_so_untg,
-} = require('../../../database/queries/postgres/getDateEndPerWeek')
 const { getTrendColsSales } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsSales')
 const { getTrendColsFiscalYear } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalYear')
 const { getTrendColsSo } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsSo')
@@ -49,38 +42,21 @@ const {
 const { getCompanyTotalSales } = require('../../../database/queries/postgres/kpi/getCompanyTotalSales')
 const { getProgramTotalSales } = require('../../../database/queries/postgres/kpi/getProgramTotalSales')
 const {
-  l1_getFgInven,
-  l2_getFgInven,
-  l3_getFgInven,
-  l4_getFgInven,
-  l0_getFgInven,
-  l1_getFgInTransit,
-  l2_getFgInTransit,
-  l3_getFgInTransit,
-  l4_getFgInTransit,
-  l0_getFgInTransit,
-  l1_getFgAtLoc,
-  l2_getFgAtLoc,
-  l3_getFgAtLoc,
-  l4_getFgAtLoc,
-  l0_getFgAtLoc,
-  l1_getFgAtLoc_untagged,
-  l2_getFgAtLoc_untagged,
-  l3_getFgAtLoc_untagged,
-  l4_getFgAtLoc_untagged,
-  l0_getFgAtLoc_untagged,
-  l1_getFgAtLoc_tagged,
-  l2_getFgAtLoc_tagged,
-  l3_getFgAtLoc_tagged,
-  l4_getFgAtLoc_tagged,
-  l0_getFgAtLoc_tagged,
-  l5_getFgInven,
-  l5_getFgInTransit,
-  l5_getFgAtLoc,
-  l5_getFgAtLoc_untagged,
-  l5_getFgAtLoc_tagged,
-} = require('../../../database/queries/postgres/baseReport/getFgInven')
-const { l1_getFgPo, l2_getFgPo, l3_getFgPo, l4_getFgPo, l5_getFgPo, l0_getFgPo } = require('../../../database/queries/postgres/baseReport/getFgOpenPo')
+  l1_getInv,
+  l2_getInv,
+  l3_getInv,
+  l4_getInv,
+  l5_getInv,
+  l0_getInv,
+} = require('../../../database/queries/postgres/baseReport/getInven')
+const { 
+  l1_getFgPo, 
+  l2_getFgPo, 
+  l3_getFgPo, 
+  l4_getFgPo, 
+  l5_getFgPo, 
+  l0_getFgPo 
+} = require('../../../database/queries/postgres/baseReport/getFgOpenPo')
 const {
   l1_getSo,
   l2_getSo,
@@ -88,18 +64,6 @@ const {
   l4_getSo,
   l5_getSo,
   l0_getSo,
-  l1_getSoTagged,
-  l2_getSoTagged,
-  l3_getSoTagged,
-  l4_getSoTagged,
-  l5_getSoTagged,
-  l0_getSoTagged,
-  l1_getSoUntagged,
-  l2_getSoUntagged,
-  l3_getSoUntagged,
-  l4_getSoUntagged,
-  l5_getSoUntagged,
-  l0_getSoUntagged,
 } = require('../../../database/queries/postgres/baseReport/getSo')
 const {
   l1_getSoTrend,
@@ -108,18 +72,6 @@ const {
   l4_getSoTrend,
   l5_getSoTrend,
   l0_getSoTrend,
-  l1_getSoTaggedTrend,
-  l2_getSoTaggedTrend,
-  l3_getSoTaggedTrend,
-  l4_getSoTaggedTrend,
-  l5_getSoTaggedTrend,
-  l0_getSoTaggedTrend,
-  l1_getSoUntaggedTrend,
-  l2_getSoUntaggedTrend,
-  l3_getSoUntaggedTrend,
-  l4_getSoUntaggedTrend,
-  l5_getSoUntaggedTrend,
-  l0_getSoUntaggedTrend,
 } = require('../../../database/queries/postgres/baseReport/getSoTrend')
 const {
   getRowsFifthLevelDetail,
@@ -161,47 +113,16 @@ const buildReport = async (config) => {
   }
 
   ///////////////////////////////// INVENTORY DATA
-  /* TOTAL FG (FG) */
-  const l0_fgInven = () => {return l0_getFgInven(config)} 
-  const l1_fgInven = () => {return l1_getFgInven(config)} 
-  const l2_fgInven = () => {return l2_getFgInven(config)} 
-  const l3_fgInven = config.baseFormat.l3_field ? () => {return l3_getFgInven(config)}: skip() 
-  const l4_fgInven = config.baseFormat.l4_field ? () => {return l4_getFgInven(config)}: skip() 
-  const l5_fgInven = config.baseFormat.l5_field ? () => {return l5_getFgInven(config)}: skip() 
 
-  /* INV IN TRANSIT*/
-  const l0_fgInTransit = () => {return l0_getFgInTransit(config)}
-  const l1_fgInTransit = () => {return l1_getFgInTransit(config)}
-  const l2_fgInTransit = () => {return l2_getFgInTransit(config)}
-  const l3_fgInTransit =  config.baseFormat.l3_field ? () => {return l3_getFgInTransit(config)} : skip()
-  const l4_fgInTransit =  config.baseFormat.l4_field ? () => {return l4_getFgInTransit(config)} : skip()
-  const l5_fgInTransit =  config.baseFormat.l5_field ? () => {return l5_getFgInTransit(config)} : skip()
+  const l0_Inv = () => {return l0_getInv(config)} 
+  const l1_Inv = () => {return l1_getInv(config)} 
+  const l2_Inv = () => {return l2_getInv(config)} 
+  const l3_Inv = config.baseFormat.l3_field ? () => {return l3_getInv(config)}: skip() 
+  const l4_Inv = config.baseFormat.l4_field ? () => {return l4_getInv(config)}: skip() 
+  const l5_Inv = config.baseFormat.l5_field ? () => {return l5_getInv(config)}: skip() 
 
-  /* INV ON HAND (LESS IN TRANSIT) */
-  const l0_fgAtLoc = () => {return l0_getFgAtLoc(config)}
-  const l1_fgAtLoc = () => {return l1_getFgAtLoc(config)}
-  const l2_fgAtLoc = () => {return l2_getFgAtLoc(config)}
-  const l3_fgAtLoc =  config.baseFormat.l3_field ? () => {return l3_getFgAtLoc(config)} : skip()
-  const l4_fgAtLoc =  config.baseFormat.l4_field ? () => {return l4_getFgAtLoc(config)} : skip()
-  const l5_fgAtLoc =  config.baseFormat.l5_field ? () => {return l5_getFgAtLoc(config)} : skip()
+  ///////////////////////////////// PURCHASE DATA
 
-  /* INV INV ON HAND UNTAGGED */
-  const l0_fgAtLoc_untagged = () => {return l0_getFgAtLoc_untagged(config)}
-  const l1_fgAtLoc_untagged = () => {return l1_getFgAtLoc_untagged(config)}
-  const l2_fgAtLoc_untagged = () => {return l2_getFgAtLoc_untagged(config)}
-  const l3_fgAtLoc_untagged =  config.baseFormat.l3_field ? () => {return l3_getFgAtLoc_untagged(config)} : skip()
-  const l4_fgAtLoc_untagged =  config.baseFormat.l4_field ? () => {return l4_getFgAtLoc_untagged(config)} : skip()
-  const l5_fgAtLoc_untagged =  config.baseFormat.l5_field ? () => {return l5_getFgAtLoc_untagged(config)} : skip()
-
-  /* INV INV ON HAND TAGGED */
-  // const l0_fgAtLoc_tagged = () => {return l0_getFgAtLoc_tagged(config)}
-  // const l1_fgAtLoc_tagged = () => {return l1_getFgAtLoc_tagged(config)}
-  // const l2_fgAtLoc_tagged = () => {return l2_getFgAtLoc_tagged(config)}
-  // const l3_fgAtLoc_tagged =  config.baseFormat.l3_field ? () => {return l3_getFgAtLoc_tagged(config)}:skip()
-  // const l4_fgAtLoc_tagged =  config.baseFormat.l4_field ? () => {return l4_getFgAtLoc_tagged(config)}:skip()
-  // const l5_fgAtLoc_tagged =  config.baseFormat.l5_field ? () => {return l5_getFgAtLoc_tagged(config)}:skip()
-
-  /* PURCHASE ORDER */
   const l0_fgPo = () => {return l0_getFgPo(config)}
   const l1_fgPo = () => {return l1_getFgPo(config)}
   const l2_fgPo = () => {return l2_getFgPo(config)}
@@ -209,8 +130,7 @@ const buildReport = async (config) => {
   const l4_fgPo =  config.baseFormat.l4_field ? () => {return l4_getFgPo(config)} : skip()
   const l5_fgPo =  config.baseFormat.l5_field ? () => {return l5_getFgPo(config)} : skip()
   
-  // ///////////////////////////////// SALES ORDERS
-  /* ALL SO */
+  ///////////////////////////////// SALES ORDERS
 
   const l0_so = () => {return l0_getSo(config)}
   const l1_so = () => {return l1_getSo(config)}
@@ -225,36 +145,6 @@ const buildReport = async (config) => {
   const l3_soTrend = !config.trends.queryGrouping ? skip() : config.baseFormat.l3_field ? () => {return l3_getSoTrend(config)} : skip()
   const l4_soTrend = !config.trends.queryGrouping ? skip() : config.baseFormat.l4_field ? () => {return l4_getSoTrend(config)} : skip()
   const l5_soTrend = !config.trends.queryGrouping ? skip() : config.baseFormat.l5_field ? () => {return l5_getSoTrend(config)} : skip()
-
-  /* TAGGED SO */
-  // const l0_soTagged = () => {return l0_getSoTagged(config)}
-  // const l1_soTagged = () => {return l1_getSoTagged(config)}
-  // const l2_soTagged = () => {return l2_getSoTagged(config)}
-  // const l3_soTagged =  config.baseFormat.l3_field ? () => {return l3_getSoTagged(config)}:skip()
-  // const l4_soTagged =  config.baseFormat.l4_field ? () => {return l4_getSoTagged(config)}:skip()
-  // const l5_soTagged =  config.baseFormat.l5_field ? () => {return l5_getSoTagged(config)}:skip()
-
-  // const l0_soTaggedTrend = () => {return l0_getsoTaggedTrend(config)}
-  // const l1_soTaggedTrend = () => {return l1_getsoTaggedTrend(config)}
-  // const l2_soTaggedTrend = () => {return l2_getsoTaggedTrend(config)}
-  // const l3_soTaggedTrend =  config.baseFormat.l3_field ? () => {return l3_getsoTaggedTrend(config)}:skip()
-  // const l4_soTaggedTrend =  config.baseFormat.l4_field ? () => {return l4_getsoTaggedTrend(config)}:skip()
-  // const l5_soTaggedTrend =  config.baseFormat.l5_field ? () => {return l5_getsoTaggedTrend(config)}:skip()
-
-  /* UNTAGGED SO */
-  // const l0_soUntagged = () => {return l0_getSoUntagged(config)}
-  // const l1_soUntagged = () => {return l1_getSoUntagged(config)}
-  // const l2_soUntagged = () => {return l2_getSoUntagged(config)}
-  // const l3_soUntagged =  config.baseFormat.l3_field ? () => {return l3_getSoUntagged(config)} : skip()
-  // const l4_soUntagged =  config.baseFormat.l4_field ? () => {return l4_getSoUntagged(config)} : skip()
-  // const l5_soUntagged =  config.baseFormat.l5_field ? () => {return l5_getSoUntagged(config)} : skip()
-
-  // const l0_soUntaggedTrend = () => {return l0_getsoUntaggedTrend(config)}
-  // const l1_soUntaggedTrend = () => {return l1_getsoUntaggedTrend(config)}
-  // const l2_soUntaggedTrend = () => {return l2_getsoUntaggedTrend(config)}
-  // const l3_soUntaggedTrend =  config.baseFormat.l3_field ? () => {return l3_getsoUntaggedTrend(config)} : skip()
-  // const l4_soUntaggedTrend =  config.baseFormat.l4_field ? () => {return l4_getsoUntaggedTrend(config)} : skip()
-  // const l5_soUntaggedTrend =  config.baseFormat.l5_field ? () => {return l5_getsoUntaggedTrend(config)} : skip()
 
   // ///////////////////////////////// SALES DATA
 
@@ -292,36 +182,12 @@ const buildReport = async (config) => {
   const l5_salesTrend = !config.trends.queryGrouping ? skip() : config.baseFormat.l5_field ? () => {return l5_getSalesTrend(config)} : skip()
 
   const [
-    l1_fgInvenR,
-    l2_fgInvenR,
-    l3_fgInvenR,
-    l4_fgInvenR,
-    l5_fgInvenR,
-    l0_fgInvenR,
-    l1_fgInTransitR,
-    l2_fgInTransitR,
-    l3_fgInTransitR,
-    l4_fgInTransitR,
-    l5_fgInTransitR,
-    l0_fgInTransitR,
-    l1_fgAtLocR,
-    l2_fgAtLocR,
-    l3_fgAtLocR,
-    l4_fgAtLocR,
-    l5_fgAtLocR,
-    l0_fgAtLocR,
-    l1_fgAtLoc_untaggedR,
-    l2_fgAtLoc_untaggedR,
-    l3_fgAtLoc_untaggedR,
-    l4_fgAtLoc_untaggedR,
-    l5_fgAtLoc_untaggedR,
-    l0_fgAtLoc_untaggedR,
-    // l1_fgAtLoc_taggedR,
-    // l2_fgAtLoc_taggedR,
-    // l3_fgAtLoc_taggedR,
-    // l4_fgAtLoc_taggedR,
-    // l5_fgAtLoc_taggedR,
-    // l0_fgAtLoc_taggedR,
+    l1_InvR,
+    l2_InvR,
+    l3_InvR,
+    l4_InvR,
+    l5_InvR,
+    l0_InvR,
     l1_fgPoR,
     l2_fgPoR,
     l3_fgPoR,
@@ -340,30 +206,6 @@ const buildReport = async (config) => {
     l4_soTrendR,
     l5_soTrendR,
     l0_soTrendR,
-    // l1_soTaggedR,
-    // l2_soTaggedR,
-    // l3_soTaggedR,
-    // l4_soTaggedR,
-    // l5_soTaggedR,
-    // l0_soTaggedR,
-    // l1_soTaggedTrendR,
-    // l2_soTaggedTrendR,
-    // l3_soTaggedTrendR,
-    // l4_soTaggedTrendR,
-    // l5_soTaggedTrendR,
-    // l0_soTaggedTrendR,
-    // l1_soUntaggedR,
-    // l2_soUntaggedR,
-    // l3_soUntaggedR,
-    // l4_soUntaggedR,
-    // l5_soUntaggedR,
-    // l0_soUntaggedR,
-    // l1_soUntaggedTrendR,
-    // l2_soUntaggedTrendR,
-    // l3_soUntaggedTrendR,
-    // l4_soUntaggedTrendR,
-    // l5_soUntaggedTrendR,
-    // l0_soUntaggedTrendR,
     l1_salesProjectionBywkR,
     l2_salesProjectionBywkR,
     l3_salesProjectionBywkR,
@@ -389,36 +231,12 @@ const buildReport = async (config) => {
     l5_salesPeriodToDateR,
     l0_salesPeriodToDateR,
   ] = await Promise.all([
-    l1_fgInven(),
-    l2_fgInven(),
-    l3_fgInven(),
-    l4_fgInven(),
-    l5_fgInven(),
-    l0_fgInven(),
-    l1_fgInTransit(),
-    l2_fgInTransit(),
-    l3_fgInTransit(),
-    l4_fgInTransit(),
-    l5_fgInTransit(),
-    l0_fgInTransit(),
-    l1_fgAtLoc(),
-    l2_fgAtLoc(),
-    l3_fgAtLoc(),
-    l4_fgAtLoc(),
-    l5_fgAtLoc(),
-    l0_fgAtLoc(),
-    l1_fgAtLoc_untagged(),
-    l2_fgAtLoc_untagged(),
-    l3_fgAtLoc_untagged(),
-    l4_fgAtLoc_untagged(),
-    l5_fgAtLoc_untagged(),
-    l0_fgAtLoc_untagged(),
-    // l1_fgAtLoc_tagged(),
-    // l2_fgAtLoc_tagged(),
-    // l3_fgAtLoc_tagged(),
-    // l4_fgAtLoc_tagged(),
-    // l5_fgAtLoc_tagged(),
-    // l0_fgAtLoc_tagged(),
+    l1_Inv(),
+    l2_Inv(),
+    l3_Inv(),
+    l4_Inv(),
+    l5_Inv(),
+    l0_Inv(),
     l1_fgPo(),
     l2_fgPo(),
     l3_fgPo(),
@@ -437,30 +255,6 @@ const buildReport = async (config) => {
     l4_soTrend(),
     l5_soTrend(),
     l0_soTrend(),
-    // l1_soTagged(),
-    // l2_soTagged(),
-    // l3_soTagged(),
-    // l4_soTagged(),
-    // l5_soTagged(),
-    // l0_soTagged(),
-    // l1_soTaggedTrend(),
-    // l2_soTaggedTrend(),
-    // l3_soTaggedTrend(),
-    // l4_soTaggedTrend(),
-    // l5_soTaggedTrend(),
-    // l0_soTaggedTrend(),
-    // l1_soUntagged(),
-    // l2_soUntagged(),
-    // l3_soUntagged(),
-    // l4_soUntagged(),
-    // l5_soUntagged(),
-    // l0_soUntagged(),
-    // l1_soUntaggedTrend(),
-    // l2_soUntaggedTrend(),
-    // l3_soUntaggedTrend(),
-    // l4_soUntaggedTrend(),
-    // l5_soUntaggedTrend(),
-    // l0_soUntaggedTrend(),
     l1_salesProjectionByWk(),
     l2_salesProjectionByWk(),
     l3_salesProjectionByWk(),
@@ -676,20 +470,20 @@ const buildReport = async (config) => {
   const l5_momentum = calcMomentum(l5_fourWkAveSales, l5_twelveWkAveSales, 'momentum')
 
   /* WEEKS INV ON HAND */
-  const l0_weeksInvOnHand = calcWeeksInvOnHand(l0_fgInvenR, l0_aveWeeklySales, 'weeksInvenOnHand')
-  const l1_weeksInvOnHand = calcWeeksInvOnHand(l1_fgInvenR, l1_aveWeeklySales, 'weeksInvenOnHand')
-  const l2_weeksInvOnHand = calcWeeksInvOnHand(l2_fgInvenR, l2_aveWeeklySales, 'weeksInvenOnHand')
-  const l3_weeksInvOnHand = config.baseFormat.l3_field ? calcWeeksInvOnHand(l3_fgInvenR, l3_aveWeeklySales, 'weeksInvenOnHand') : [] 
-  const l4_weeksInvOnHand = config.baseFormat.l4_field ? calcWeeksInvOnHand(l4_fgInvenR, l4_aveWeeklySales, 'weeksInvenOnHand') : [] 
-  const l5_weeksInvOnHand = config.baseFormat.l5_field ? calcWeeksInvOnHand(l5_fgInvenR, l5_aveWeeklySales, 'weeksInvenOnHand') : [] 
+  const l0_weeksInvOnHand = calcWeeksInvOnHand(l0_InvR, l0_aveWeeklySales, 'weeksInvenOnHand')
+  const l1_weeksInvOnHand = calcWeeksInvOnHand(l1_InvR, l1_aveWeeklySales, 'weeksInvenOnHand')
+  const l2_weeksInvOnHand = calcWeeksInvOnHand(l2_InvR, l2_aveWeeklySales, 'weeksInvenOnHand')
+  const l3_weeksInvOnHand = config.baseFormat.l3_field ? calcWeeksInvOnHand(l3_InvR, l3_aveWeeklySales, 'weeksInvenOnHand') : [] 
+  const l4_weeksInvOnHand = config.baseFormat.l4_field ? calcWeeksInvOnHand(l4_InvR, l4_aveWeeklySales, 'weeksInvenOnHand') : [] 
+  const l5_weeksInvOnHand = config.baseFormat.l5_field ? calcWeeksInvOnHand(l5_InvR, l5_aveWeeklySales, 'weeksInvenOnHand') : [] 
   
   /* INVENTORY AVAILABLE */
-  const l0_invAvailable = calcInventoryAvailable(l0_fgInvenR, l0_fgPoR, l0_soR, 'invenAvailable')
-  const l1_invAvailable = calcInventoryAvailable(l1_fgInvenR, l1_fgPoR, l1_soR, 'invenAvailable')
-  const l2_invAvailable = calcInventoryAvailable(l2_fgInvenR, l2_fgPoR, l2_soR, 'invenAvailable')
-  const l3_invAvailable = config.baseFormat.l3_field ? calcInventoryAvailable(l3_fgInvenR, l3_fgPoR, l3_soR, 'invenAvailable') : []
-  const l4_invAvailable = config.baseFormat.l4_field ? calcInventoryAvailable(l4_fgInvenR, l4_fgPoR, l4_soR, 'invenAvailable') : []
-  const l5_invAvailable = config.baseFormat.l5_field ? calcInventoryAvailable(l5_fgInvenR, l5_fgPoR, l5_soR, 'invenAvailable') : []
+  const l0_invAvailable = calcInventoryAvailable(l0_InvR, l0_fgPoR, l0_soR, 'invenAvailable')
+  const l1_invAvailable = calcInventoryAvailable(l1_InvR, l1_fgPoR, l1_soR, 'invenAvailable')
+  const l2_invAvailable = calcInventoryAvailable(l2_InvR, l2_fgPoR, l2_soR, 'invenAvailable')
+  const l3_invAvailable = config.baseFormat.l3_field ? calcInventoryAvailable(l3_InvR, l3_fgPoR, l3_soR, 'invenAvailable') : []
+  const l4_invAvailable = config.baseFormat.l4_field ? calcInventoryAvailable(l4_InvR, l4_fgPoR, l4_soR, 'invenAvailable') : []
+  const l5_invAvailable = config.baseFormat.l5_field ? calcInventoryAvailable(l5_InvR, l5_fgPoR, l5_soR, 'invenAvailable') : []
 
   ///////////////////////////////// ROWS
   const rowsFifthLevelDetail =  config.baseFormat.l5_field ? () => {return getRowsFifthLevelDetail(config)} : skip() 
@@ -806,30 +600,6 @@ const buildReport = async (config) => {
       ...l4_soTrendR,
       ...l5_soTrendR,
       ...l0_soTrendR,
-      // ...l1_soTaggedR,
-      // ...l2_soTaggedR,
-      // ...l3_soTaggedR,
-      // ...l4_soTaggedR,
-      // ...l5_soTaggedR,
-      // ...l0_soTaggedR,
-      // ...l1_soUntaggedR,
-      // ...l2_soUntaggedR,
-      // ...l3_soUntaggedR,
-      // ...l4_soUntaggedR,
-      // ...l5_soUntaggedR,
-      // ...l0_soUntaggedR,
-      // ...l1_soTaggedTrendR,
-      // ...l2_soTaggedTrendR,
-      // ...l3_soTaggedTrendR,
-      // ...l4_soTaggedTrendR,
-      // ...l5_soTaggedTrendR,
-      // ...l0_soTaggedTrendR,
-      // ...l1_soUntaggedTrendR,
-      // ...l2_soUntaggedTrendR,
-      // ...l3_soUntaggedTrendR,
-      // ...l4_soUntaggedTrendR,
-      // ...l5_soUntaggedTrendR,
-      // ...l0_soUntaggedTrendR,
       ...l1_percent_companySales,
       ...l2_percent_companySales,
       ...l3_percent_companySales,
@@ -903,36 +673,12 @@ const buildReport = async (config) => {
 
   const mappedInven = mapInvenToRowTemplates(
     [
-      ...l1_fgInvenR,
-      ...l2_fgInvenR,
-      ...l3_fgInvenR,
-      ...l4_fgInvenR,
-      ...l5_fgInvenR,
-      ...l0_fgInvenR,
-      ...l1_fgInTransitR,
-      ...l2_fgInTransitR,
-      ...l3_fgInTransitR,
-      ...l4_fgInTransitR,
-      ...l5_fgInTransitR,
-      ...l0_fgInTransitR,
-      ...l1_fgAtLocR,
-      ...l2_fgAtLocR,
-      ...l3_fgAtLocR,
-      ...l4_fgAtLocR,
-      ...l5_fgAtLocR,
-      ...l0_fgAtLocR,
-      ...l1_fgAtLoc_untaggedR,
-      ...l2_fgAtLoc_untaggedR,
-      ...l3_fgAtLoc_untaggedR,
-      ...l4_fgAtLoc_untaggedR,
-      ...l5_fgAtLoc_untaggedR,
-      ...l0_fgAtLoc_untaggedR,
-      // ...l1_fgAtLoc_taggedR,
-      // ...l2_fgAtLoc_taggedR,
-      // ...l3_fgAtLoc_taggedR,
-      // ...l4_fgAtLoc_taggedR,
-      // ...l5_fgAtLoc_taggedR,
-      // ...l0_fgAtLoc_taggedR,
+      ...l1_InvR,
+      ...l2_InvR,
+      ...l3_InvR,
+      ...l4_InvR,
+      ...l5_InvR,
+      ...l0_InvR,
       ...l1_fgPoR,
       ...l2_fgPoR,
       ...l3_fgPoR,
@@ -963,29 +709,22 @@ const buildReport = async (config) => {
   
   const trendColsSalesF = !config.trends.queryGrouping ? skip() : () => {return  getTrendColsSales(config)}
   const trendColsSaByFyYtdF = !config.trends.fyYtd && !config.trends.fyFullYear ? skip() : () => {return  getTrendColsFiscalYear(config)}
-  const trendColsSalesProjF = !config.trends.useProjection ? skip() : () => {return  getDateEndPerWeekByRange_pj(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
+  //const trendColsSalesProjF = !config.trends.useProjection ? skip() : () => {return  getDateEndPerWeekByRange_pj(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
 
   // get so by week cols
   const trendColsSoF = config.trends.queryGrouping ? () => {return  getTrendColsSo(config)} : skip() 
-  const trendColsSo_tgF = () => {return  getDateEndPerWeekByRange_so_tg(config)}
-  const trendColsSo_untgF = () => {return  getDateEndPerWeekByRange_so_untg(config)}
-
-
+ 
   // Call all column functions
   const [
-    trendColsSalesProj, 
+    //trendColsSalesProj, 
     trendColsSales, 
     trendColsSaByFyYtd, 
     trendColsSo, 
-    // trendColsSo_tg, 
-    // trendColsSo_untg,
   ] = await Promise.all([
-    trendColsSalesProjF(), 
+    //trendColsSalesProjF(), 
     trendColsSalesF(), 
     trendColsSaByFyYtdF(), 
     trendColsSoF(), 
-    // trendColsSo_tgF(), 
-    // trendColsSo_untgF(),
   ])
   
   let columnConfigsTagged = addDataToSalesTotalCol(config, columnConfigs) // adds statDate, endDate, and displayName to the sales totals col
@@ -997,13 +736,11 @@ const buildReport = async (config) => {
   return {
     data,
     cols: {
-      trendColsSalesProj, 
+      //trendColsSalesProj, 
       trendColsSales,
       trendColsSaByFyYtd,
       labelCols: config.labelCols,
       trendColsSo,
-      // trendColsSo_tg,
-      // trendColsSo_untg,
       columnConfigs: columnConfigsTagged,
       defaultTrend: {
         dataName: config.trends.useProjection ? columnConfigs.salesProjectionCol[0].dataName : columnConfigs.primarySalesTotalCol[0].dataName,

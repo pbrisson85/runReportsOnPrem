@@ -1,40 +1,12 @@
-const sql = require('../../../../server')
+const sql = require('../../../../../server')
 
 /* *********************************************** Level 1 *********************************************** */
 
-// FG on hand (includes in transit)
+// Inv in transit
 
-const l1_getFgInven = async config => {
+const l1_getInvInTransit = async config => {
   try {
-    console.log(`${config.user} - level 1: query postgres for FG on hand (l1_getFgInven) ...`)
-
-    // level 1 detail
-
-    const response = await sql
-      `SELECT 'INVEN' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
-      
-      FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
-      
-      WHERE 
-        perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
-        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-      
-      GROUP BY ${sql(config.baseFormat.l1_field)}` //prettier-ignore
-
-    return response
-  } catch (error) {
-    console.error(error)
-    return error
-  }
-}
-
-// FG in transit
-
-const l1_getFgInTransit = async config => {
-  try {
-    console.log(`${config.user} - level 1: query postgres for FG in transit (l1_getFgInTransit) ...`)
+    console.log(`${config.user} - level 1: query postgres for Inv in transit (l1_getInvInTransit) ...`)
 
     const response = await sql
       `SELECT 'INV IN TRANSIT' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
@@ -57,11 +29,11 @@ const l1_getFgInTransit = async config => {
   }
 }
 
-// FG at location
+// Inv at location
 
-const l1_getFgAtLoc = async config => {
+const l1_getInvAtLoc = async config => {
   try {
-    console.log(`${config.user} - level 1: query postgres for FG at location (l1_getFgAtLoc) ...`)
+    console.log(`${config.user} - level 1: query postgres for Inv at location (l1_getInvAtLoc) ...`)
 
     const response = await sql
       `SELECT 'INV ON HAND' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
@@ -84,9 +56,9 @@ const l1_getFgAtLoc = async config => {
   }
 }
 
-const l1_getFgAtLoc_untagged = async config => {
+const l1_getInvAtLoc_untagged = async config => {
   try {
-    console.log(`${config.user} - level 1: query postgres for FG at location UNTAGGED (l1_getFgAtLoc_untagged) ...`)
+    console.log(`${config.user} - level 1: query postgres for Inv at location UNTAGGED (l1_getInvAtLoc_untagged) ...`)
 
     const response = await sql
  `SELECT 'INV INV ON HAND UNTAGGED' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
@@ -127,9 +99,9 @@ const l1_getFgAtLoc_untagged = async config => {
   }
 }
 
-const l1_getFgAtLoc_tagged = async config => {
+const l1_getInvAtLoc_tagged = async config => {
   try {
-    console.log(`${config.user} - level 1: query postgres for FG at location TAGGED (l1_getFgAtLoc_tagged) ...`)
+    console.log(`${config.user} - level 1: query postgres for Inv at location TAGGED (l1_getInvAtLoc_tagged) ...`)
 
     const response = await sql
       `SELECT 'INV INV ON HAND TAGGED' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
@@ -153,38 +125,11 @@ const l1_getFgAtLoc_tagged = async config => {
 
 /* *********************************************** Level 2 *********************************************** */
 
-// FG on hand (includes in transit)
-const l2_getFgInven = async config => {
+// Inv in transit
+
+const l2_getInvInTransit = async config => {
   try {
-    console.log(`${config.user} - level 2: query postgres for FG on hand (l2_getFgInven) ...`)
-
-    // Level 2 detail
-
-    const response = await sql
-      `SELECT 'INVEN' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'NA') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
-      
-      FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
-      
-      WHERE 
-        perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
-        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
-      
-      GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}` //prettier-ignore
-
-    return response
-  } catch (error) {
-    console.error(error)
-    return error
-  }
-}
-
-// FG in transit
-
-const l2_getFgInTransit = async config => {
-  try {
-    console.log(`${config.user} - level 2: query postgres for FG in transit (l2_getFgInTransit) ...`)
+    console.log(`${config.user} - level 2: query postgres for Inv in transit (l2_getInvInTransit) ...`)
 
     const response = await sql
       `SELECT 'INV IN TRANSIT' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
@@ -207,11 +152,11 @@ const l2_getFgInTransit = async config => {
   }
 }
 
-// FG at location
+// Inv at location
 
-const l2_getFgAtLoc = async config => {
+const l2_getInvAtLoc = async config => {
   try {
-    console.log(`${config.user} - level 2: query postgres for FG at location (l2_getFgAtLoc) ...`)
+    console.log(`${config.user} - level 2: query postgres for Inv at location (l2_getInvAtLoc) ...`)
 
     const response = await sql
       `SELECT 'INV ON HAND' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
@@ -234,9 +179,9 @@ const l2_getFgAtLoc = async config => {
   }
 }
 
-const l2_getFgAtLoc_untagged = async config => {
+const l2_getInvAtLoc_untagged = async config => {
   try {
-    console.log(`${config.user} - level 2: query postgres for FG at location UNTAGGED (l2_getFgAtLoc_untagged) ...`)
+    console.log(`${config.user} - level 2: query postgres for Inv at location UNTAGGED (l2_getInvAtLoc_untagged) ...`)
 
     const response = await sql
  `SELECT 'INV INV ON HAND UNTAGGED' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
@@ -280,9 +225,9 @@ const l2_getFgAtLoc_untagged = async config => {
   }
 }
 
-const l2_getFgAtLoc_tagged = async config => {
+const l2_getInvAtLoc_tagged = async config => {
   try {
-    console.log(`${config.user} - level 2: query postgres for FG at location TAGGED (l2_getFgAtLoc_tagged) ...`)
+    console.log(`${config.user} - level 2: query postgres for Inv at location TAGGED (l2_getInvAtLoc_tagged) ...`)
 
     const response = await sql
       `SELECT 'INV INV ON HAND TAGGED' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
@@ -306,34 +251,9 @@ const l2_getFgAtLoc_tagged = async config => {
 
 /* *********************************************** Level 3 *********************************************** */
 
-// FG on hand (includes in transit)
-const l3_getFgInven = async config => {
+const l3_getInvInTransit = async config => {
   try {
-    console.log(`${config.user} - level 3: query postgres for FG on hand (l3_getFgInven) ...`)
-
-    const response = await sql
-      `SELECT 'INVEN' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
-      
-      FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
-      
-      WHERE 
-        perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
-        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-      
-      GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}` //prettier-ignore
-
-    return response
-  } catch (error) {
-    console.error(error)
-    return error
-  }
-}
-
-const l3_getFgInTransit = async config => {
-  try {
-    console.log(`${config.user} - level 3: query postgres for FG in transit (l3_getFgInTransit) ...`)
+    console.log(`${config.user} - level 3: query postgres for Inv in transit (l3_getInvInTransit) ...`)
 
     const response = await sql
       `SELECT 'INV IN TRANSIT' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
@@ -356,9 +276,9 @@ const l3_getFgInTransit = async config => {
   }
 }
 
-const l3_getFgAtLoc = async config => {
+const l3_getInvAtLoc = async config => {
   try {
-    console.log(`${config.user} - level 3: query postgres for FG at location TAGGED (l3_getFgAtLoc) ...`)
+    console.log(`${config.user} - level 3: query postgres for Inv at location TAGGED (l3_getInvAtLoc) ...`)
 
     const response = await sql
       `SELECT 'INV ON HAND' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
@@ -381,9 +301,9 @@ const l3_getFgAtLoc = async config => {
   }
 }
 
-const l3_getFgAtLoc_untagged = async config => {
+const l3_getInvAtLoc_untagged = async config => {
   try {
-    console.log(`${config.user} - level 3: query postgres for FG at location UNTAGGED (l3_getFgAtLoc_untagged) ...`)
+    console.log(`${config.user} - level 3: query postgres for Inv at location UNTAGGED (l3_getInvAtLoc_untagged) ...`)
 
     const response = await sql
  `SELECT 'INV INV ON HAND UNTAGGED' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
@@ -423,9 +343,9 @@ const l3_getFgAtLoc_untagged = async config => {
   }
 }
 
-const l3_getFgAtLoc_tagged = async config => {
+const l3_getInvAtLoc_tagged = async config => {
   try {
-    console.log(`${config.user} - level 3: query postgres for FG at location TAGGED (l3_getFgAtLoc_tagged) ...`)
+    console.log(`${config.user} - level 3: query postgres for Inv at location TAGGED (l3_getInvAtLoc_tagged) ...`)
 
     const response = await sql
       `SELECT 'INV INV ON HAND TAGGED' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
@@ -449,34 +369,9 @@ const l3_getFgAtLoc_tagged = async config => {
 
 /* *********************************************** Level 4 *********************************************** */
 
-// FG on hand (includes in transit)
-const l4_getFgInven = async config => {
+const l4_getInvInTransit = async config => {
   try {
-    console.log(`${config.user} - level 4: query postgres for FG on hand (l4_getFgInven) ...`)
-
-    const response = await sql
-      `SELECT 'INVEN' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
-      
-      FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
-      
-      WHERE 
-        perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
-        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-      
-      GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}` //prettier-ignore
-
-    return response
-  } catch (error) {
-    console.error(error)
-    return error
-  }
-}
-
-const l4_getFgInTransit = async config => {
-  try {
-    console.log(`${config.user} - level 4: query postgres for FG in transit (l4_getFgInTransit) ...`)
+    console.log(`${config.user} - level 4: query postgres for Inv in transit (l4_getInvInTransit) ...`)
 
     const response = await sql
       `SELECT 'INV IN TRANSIT' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
@@ -499,9 +394,9 @@ const l4_getFgInTransit = async config => {
   }
 }
 
-const l4_getFgAtLoc = async config => {
+const l4_getInvAtLoc = async config => {
   try {
-    console.log(`${config.user} - level 4: query postgres for FG at location TAGGED (l4_getFgAtLoc) ...`)
+    console.log(`${config.user} - level 4: query postgres for Inv at location TAGGED (l4_getInvAtLoc) ...`)
 
     const response = await sql
       `SELECT 'INV ON HAND' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
@@ -524,9 +419,9 @@ const l4_getFgAtLoc = async config => {
   }
 }
 
-const l4_getFgAtLoc_untagged = async config => {
+const l4_getInvAtLoc_untagged = async config => {
   try {
-    console.log(`${config.user} - level 4: query postgres for FG at location UNTAGGED (l4_getFgAtLoc_untagged) ...`)
+    console.log(`${config.user} - level 4: query postgres for Inv at location UNTAGGED (l4_getInvAtLoc_untagged) ...`)
 
     const response = await sql
  `SELECT 'INV INV ON HAND UNTAGGED' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
@@ -566,9 +461,9 @@ const l4_getFgAtLoc_untagged = async config => {
   }
 }
 
-const l4_getFgAtLoc_tagged = async config => {
+const l4_getInvAtLoc_tagged = async config => {
   try {
-    console.log(`${config.user} - level 4: query postgres for FG at location TAGGED (l4_getFgAtLoc_tagged) ...`)
+    console.log(`${config.user} - level 4: query postgres for Inv at location TAGGED (l4_getInvAtLoc_tagged) ...`)
 
     const response = await sql
       `SELECT 'INV INV ON HAND TAGGED' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
@@ -592,34 +487,9 @@ const l4_getFgAtLoc_tagged = async config => {
 
 /* *********************************************** Level 5 *********************************************** */
 
-// FG on hand (includes in transit)
-const l5_getFgInven = async config => {
+const l5_getInvInTransit = async config => {
   try {
-    console.log(`${config.user} - level 5: query postgres for FG on hand (l4_getFgInven) ...`)
-
-    const response = await sql
-      `SELECT 'INVEN' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
-      
-      FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
-      
-      WHERE 
-        perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
-        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-      
-      GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)}` //prettier-ignore
-
-    return response
-  } catch (error) {
-    console.error(error)
-    return error
-  }
-}
-
-const l5_getFgInTransit = async config => {
-  try {
-    console.log(`${config.user} - level 5: query postgres for FG in transit (l4_getFgInTransit) ...`)
+    console.log(`${config.user} - level 5: query postgres for Inv in transit (l4_getInvInTransit) ...`)
 
     const response = await sql
       `SELECT 'INV IN TRANSIT' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
@@ -642,9 +512,9 @@ const l5_getFgInTransit = async config => {
   }
 }
 
-const l5_getFgAtLoc = async config => {
+const l5_getInvAtLoc = async config => {
   try {
-    console.log(`${config.user} - level 5: query postgres for FG at location TAGGED (l4_getFgAtLoc) ...`)
+    console.log(`${config.user} - level 5: query postgres for Inv at location TAGGED (l4_getInvAtLoc) ...`)
 
     const response = await sql
       `SELECT 'INV ON HAND' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
@@ -667,9 +537,9 @@ const l5_getFgAtLoc = async config => {
   }
 }
 
-const l5_getFgAtLoc_untagged = async config => {
+const l5_getInvAtLoc_untagged = async config => {
   try {
-    console.log(`${config.user} - level 5: query postgres for FG at location UNTAGGED (l4_getFgAtLoc_untagged) ...`)
+    console.log(`${config.user} - level 5: query postgres for Inv at location UNTAGGED (l4_getInvAtLoc_untagged) ...`)
 
     const response = await sql
  `SELECT 'INV INV ON HAND UNTAGGED' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
@@ -709,9 +579,9 @@ const l5_getFgAtLoc_untagged = async config => {
   }
 }
 
-const l5_getFgAtLoc_tagged = async config => {
+const l5_getInvAtLoc_tagged = async config => {
   try {
-    console.log(`${config.user} - level 5: query postgres for FG at location TAGGED (l4_getFgAtLoc_tagged) ...`)
+    console.log(`${config.user} - level 5: query postgres for Inv at location TAGGED (l4_getInvAtLoc_tagged) ...`)
 
     const response = await sql
       `SELECT 'INV INV ON HAND TAGGED' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
@@ -735,37 +605,11 @@ const l5_getFgAtLoc_tagged = async config => {
 
 /* *********************************************** TOTAL *********************************************** */
 
-// FG on hand (includes in transit)
+// Inv in transit
 
-const l0_getFgInven = async config => {
+const l0_getInvInTransit = async config => {
   try {
-    console.log(`${config.user} - level 0: query postgres for FG on hand (l0_getFgInven) ...`)
-
-    // level 0 detail (TOTAL)
-
-    const response = await sql
-      `SELECT 'INVEN' AS column ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
-      
-      FROM "invenReporting".perpetual_inventory LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = perpetual_inventory.item_number 
-      
-      WHERE 
-        perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
-        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}` //prettier-ignore
-
-    return response
-  } catch (error) {
-    console.error(error)
-    return error
-  }
-}
-
-// FG in transit
-
-const l0_getFgInTransit = async config => {
-  try {
-    console.log(`${config.user} - level 0: query postgres for FG in transit (l0_getFgInTransit) ...`)
+    console.log(`${config.user} - level 0: query postgres for Inv in transit (l0_getInvInTransit) ...`)
 
     const response = await sql
       `SELECT 'INV IN TRANSIT' AS column ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
@@ -787,11 +631,11 @@ const l0_getFgInTransit = async config => {
   }
 }
 
-// FG at location
+// Inv at location
 
-const l0_getFgAtLoc = async config => {
+const l0_getInvAtLoc = async config => {
   try {
-    console.log(`${config.user} - level 0: query postgres for FG at location (l0_getFgAtLoc) ...`)
+    console.log(`${config.user} - level 0: query postgres for Inv at location (l0_getInvAtLoc) ...`)
 
     const response = await sql
       `SELECT 'INV ON HAND' AS column ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(perpetual_inventory.on_hand_lbs),0) AS lbs, COALESCE(SUM(perpetual_inventory.cost_extended),0) AS cogs 
@@ -813,9 +657,9 @@ const l0_getFgAtLoc = async config => {
   }
 }
 
-const l0_getFgAtLoc_untagged = async config => {
+const l0_getInvAtLoc_untagged = async config => {
   try {
-    console.log(`${config.user} - level 0: query postgres for FG at location UNTAGGED (l0_getFgAtLoc_untagged) ...`)
+    console.log(`${config.user} - level 0: query postgres for Inv at location UNTAGGED (l0_getInvAtLoc_untagged) ...`)
 
     const response = await sql
  `SELECT 'INV INV ON HAND UNTAGGED' AS column ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(inven_t.on_hand_lbs),0) - COALESCE(SUM(tagged_t.weight),0) AS lbs , COALESCE(SUM(inven_t.cost_extended),0) - COALESCE(SUM(tagged_t.ext_cost),0) AS cogs 
@@ -849,9 +693,9 @@ const l0_getFgAtLoc_untagged = async config => {
   }
 }
 
-const l0_getFgAtLoc_tagged = async config => {
+const l0_getInvAtLoc_tagged = async config => {
   try {
-    console.log(`${config.user} - level 0: query postgres for FG at location TAGGED (l0_getFgAtLoc_tagged) ...`)
+    console.log(`${config.user} - level 0: query postgres for Inv at location TAGGED (l0_getInvAtLoc_tagged) ...`)
 
     const response = await sql
     `SELECT 'INV INV ON HAND TAGGED' AS column ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(tagged_inventory.weight),0) AS lbs, COALESCE(SUM(tagged_inventory.cost * tagged_inventory.weight),0) AS cogs 
@@ -871,38 +715,32 @@ const l0_getFgAtLoc_tagged = async config => {
   }
 }
 
-module.exports.l5_getFgInven = l5_getFgInven
-module.exports.l5_getFgInTransit = l5_getFgInTransit
-module.exports.l5_getFgAtLoc = l5_getFgAtLoc
-module.exports.l5_getFgAtLoc_untagged = l5_getFgAtLoc_untagged
-module.exports.l5_getFgAtLoc_tagged = l5_getFgAtLoc_tagged
+module.exports.l5_getInvInTransit = l5_getInvInTransit
+module.exports.l5_getInvAtLoc = l5_getInvAtLoc
+module.exports.l5_getInvAtLoc_untagged = l5_getInvAtLoc_untagged
+module.exports.l5_getInvAtLoc_tagged = l5_getInvAtLoc_tagged
 
-module.exports.l4_getFgInven = l4_getFgInven
-module.exports.l4_getFgInTransit = l4_getFgInTransit
-module.exports.l4_getFgAtLoc = l4_getFgAtLoc
-module.exports.l4_getFgAtLoc_untagged = l4_getFgAtLoc_untagged
-module.exports.l4_getFgAtLoc_tagged = l4_getFgAtLoc_tagged
+module.exports.l4_getInvInTransit = l4_getInvInTransit
+module.exports.l4_getInvAtLoc = l4_getInvAtLoc
+module.exports.l4_getInvAtLoc_untagged = l4_getInvAtLoc_untagged
+module.exports.l4_getInvAtLoc_tagged = l4_getInvAtLoc_tagged
 
-module.exports.l3_getFgInven = l3_getFgInven
-module.exports.l3_getFgInTransit = l3_getFgInTransit
-module.exports.l3_getFgAtLoc = l3_getFgAtLoc
-module.exports.l3_getFgAtLoc_untagged = l3_getFgAtLoc_untagged
-module.exports.l3_getFgAtLoc_tagged = l3_getFgAtLoc_tagged
+module.exports.l3_getInvInTransit = l3_getInvInTransit
+module.exports.l3_getInvAtLoc = l3_getInvAtLoc
+module.exports.l3_getInvAtLoc_untagged = l3_getInvAtLoc_untagged
+module.exports.l3_getInvAtLoc_tagged = l3_getInvAtLoc_tagged
 
-module.exports.l2_getFgInven = l2_getFgInven
-module.exports.l2_getFgInTransit = l2_getFgInTransit
-module.exports.l2_getFgAtLoc = l2_getFgAtLoc
-module.exports.l2_getFgAtLoc_untagged = l2_getFgAtLoc_untagged
-module.exports.l2_getFgAtLoc_tagged = l2_getFgAtLoc_tagged
+module.exports.l2_getInvInTransit = l2_getInvInTransit
+module.exports.l2_getInvAtLoc = l2_getInvAtLoc
+module.exports.l2_getInvAtLoc_untagged = l2_getInvAtLoc_untagged
+module.exports.l2_getInvAtLoc_tagged = l2_getInvAtLoc_tagged
 
-module.exports.l1_getFgInven = l1_getFgInven
-module.exports.l1_getFgInTransit = l1_getFgInTransit
-module.exports.l1_getFgAtLoc = l1_getFgAtLoc
-module.exports.l1_getFgAtLoc_untagged = l1_getFgAtLoc_untagged
-module.exports.l1_getFgAtLoc_tagged = l1_getFgAtLoc_tagged
+module.exports.l1_getInvInTransit = l1_getInvInTransit
+module.exports.l1_getInvAtLoc = l1_getInvAtLoc
+module.exports.l1_getInvAtLoc_untagged = l1_getInvAtLoc_untagged
+module.exports.l1_getInvAtLoc_tagged = l1_getInvAtLoc_tagged
 
-module.exports.l0_getFgInven = l0_getFgInven
-module.exports.l0_getFgInTransit = l0_getFgInTransit
-module.exports.l0_getFgAtLoc = l0_getFgAtLoc
-module.exports.l0_getFgAtLoc_untagged = l0_getFgAtLoc_untagged
-module.exports.l0_getFgAtLoc_tagged = l0_getFgAtLoc_tagged
+module.exports.l0_getInvInTransit = l0_getInvInTransit
+module.exports.l0_getInvAtLoc = l0_getInvAtLoc
+module.exports.l0_getInvAtLoc_untagged = l0_getInvAtLoc_untagged
+module.exports.l0_getInvAtLoc_tagged = l0_getInvAtLoc_tagged
