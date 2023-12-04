@@ -1,9 +1,9 @@
 const appSettings = require('../data/filters/appSettings')
 const unflattenByCompositKey = require('../../../models/unflattenByCompositKey')
 const getDefaults = require('./getReportDefaults')
-const { getStartOfWeek } = require('../../../database/queries/postgres/getDateStartByWeek')
+const { getStartOfWeek } = require('./configHelpers/getDateStartByWeek')
 const { getWeekForDate } = require('../../../database/queries/postgres/getWeekForDate')
-const { getEarliestSoShipDate, getLatestSoShipDate } = require('../../../database/queries/postgres/getSoDates')
+const { getEarliestSoShipDate, getLatestSoShipDate } = require('./configHelpers/getSoDates')
 const getBaseFormatDefault = require('./configHelpers/getBaseFormatDefault')
 const getlabelCols = require('./configHelpers/getLabelCols')
 

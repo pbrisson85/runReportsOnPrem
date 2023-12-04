@@ -1,5 +1,5 @@
 const getDistinctFiscalYears = require('../../../database/queries/postgres/getDistinctFiscalYears')
-const { getDateEndPerWeek } = require('../../../database/queries/postgres/getDateEndPerWeek')
+const { getDateEndPerWeek } = require('./configHelpers/getDateEndPerWeek')
 
 const getDefaults = async () => {
   const fys = await getDistinctFiscalYears()

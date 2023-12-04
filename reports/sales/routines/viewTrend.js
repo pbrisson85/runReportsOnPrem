@@ -3,7 +3,7 @@ const { getTrendColsSo } = require('../../../database/queries/postgres/trendColH
 //const { getTrendColsCalMonths } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsCalMonths')
 const { getTrendColsWeeks } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsSales')
 const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalYear')
-const { getLatestShipWk, getEarliestShipWk } = require('../../../database/queries/postgres/getSoDates')
+const { getLatestShipWk, getEarliestShipWk } = require('../utils/configHelpers/getSoDates')
 const {
   l1_getSalesByWk,
   l0_getSalesByWk,

@@ -1,7 +1,6 @@
 const router = require('express').Router()
-const getDistinctPrograms = require('../../../database/queries/postgres/getDistinctPrograms')
+const getDistinctPrograms = require('../../../database/queries/postgres/filters/getDistinctPrograms')
 const getViewFilters = require('../data/filters/getViewFilters')
-const getDistinctFiscalYears = require('../../../database/queries/postgres/getDistinctFiscalYears')
 const getReportFormats = require('../data/filters/getReportFormats')
 const trendTypeOptions = require('../data/filters/trendType')
 const totalTypeOptions = require('../data/filters/totalTypes')
@@ -47,20 +46,6 @@ router.get('/views', async (req, res) => {
   const views = getViewFilters()
   res.send(views)
   console.log('get sales VIEWS filters lot route COMPLETE. ')
-})
-
-// Generate Filter Data
-router.get('/fy', async (req, res) => {
-  console.log('get sales YEARS filters lot route HIT...')
-  const fys = await getDistinctFiscalYears()
-  // sort largest to smallest
-  fys.sort((a, b) => {
-    if (a.label > b.label) return -1
-    if (a.label < b.label) return 1
-    return 0
-  })
-  res.send(fys)
-  console.log('get sales YEARS filters lot route COMPLETE. ')
 })
 
 // Generate Filter Data
