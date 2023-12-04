@@ -74,7 +74,7 @@ const getViewFilters = () => {
       label: 'NET REVENUE/LB',
       dataName: 'netSalesPerLb',
       additionalData: { decimals: 2 },
-      cols: ['label', 'salesInvoice', 'salesInvoiceMo', 'salesOrder', 'salesKpi', 'salesProjection'], // No inven, only sales data
+      cols: ['label', 'salesInvoice', 'salesInvoiceMo', 'salesOrder', 'salesKpi', 'salesProjection', 'invenFg', 'purchaseOrder'], // No inven, only sales data
     },
     {
       label: 'COST/LB',
