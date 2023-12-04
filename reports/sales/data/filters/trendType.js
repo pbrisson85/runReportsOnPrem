@@ -56,7 +56,7 @@ const trendTypeOptions = () => {
       periodsMap: 'cal_months', // front end map to filter (appears as map in query)
       yearsMap: 'cal_years',
       currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
-      queryPeriod: 'p.cal_month', // field for query used in trend group by
+      queryPeriod: 'p.cal_month_serial', // field for query used in trend group by
     },
     {
       label: 'Calendar Quarters',
@@ -67,7 +67,7 @@ const trendTypeOptions = () => {
       periodsMap: 'cal_quarters', // front end map to filter (appears as map in query)
       yearsMap: 'cal_years', // front end map to years (appears as map in query)
       currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
-      queryPeriod: 'p.cal_quarter', // field for query used in trend group by
+      queryPeriod: 'p.cal_quarter_serial', // field for query used in trend group by
     },
     {
       label: 'Calendar Years',
