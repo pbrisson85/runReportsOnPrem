@@ -743,8 +743,8 @@ const buildReport = async (config) => {
       trendColsSo,
       columnConfigs: columnConfigsTagged,
       defaultTrend: {
-        dataName: config.trends.useProjection ? columnConfigs.salesProjectionCol[0].dataName : columnConfigs.primarySalesTotalCol[0].dataName,
-        colType: config.trends.useProjection ? columnConfigs.salesProjectionCol[0].colType : columnConfigs.primarySalesTotalCol[0].colType
+        dataName: columnConfigs.primarySalesTotalCol[0].dataName,
+        colType: columnConfigs.primarySalesTotalCol[0].colType
       }
     },
   }
