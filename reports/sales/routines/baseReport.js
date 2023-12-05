@@ -1,108 +1,3 @@
-// const { getTrendColsSales } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsSales')
-// const { getTrendColsFiscalYear } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalYear')
-// const { getTrendColsSo } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsSo')
-// const {
-// l0_getSalesProjectionByWk,
-// l0_getSalesProjectionPeriodToDate,
-// l2_getSalesProjectionByWk,
-// l2_getSalesProjectionPeriodToDate,
-// l1_getSalesProjectionByWk,
-// l1_getSalesProjectionPeriodToDate,
-// l3_getSalesProjectionByWk,
-// l3_getSalesProjectionPeriodToDate,
-// l4_getSalesProjectionByWk,
-// l4_getSalesProjectionPeriodToDate,
-// l5_getSalesProjectionByWk,
-// l5_getSalesProjectionPeriodToDate
-// } = require('../../../database/queries/postgres/baseReport/getSalesProjection')
-// const {
-//   l1_getSalesTrend,
-//   l2_getSalesTrend,
-//   l3_getSalesTrend,
-//   l4_getSalesTrend,
-//   l5_getSalesTrend,
-//   l0_getSalesTrend,
-// } = require('../../../database/queries/postgres/baseReport/getSalesTrend')
-// const {
-//   l1_getSalesTotalPrimary,
-//   l2_getSalesTotalPrimary,
-//   l3_getSalesTotalPrimary,
-//   l4_getSalesTotalPrimary,
-//   l5_getSalesTotalPrimary,
-//   l0_getSalesTotalPrimary
-// } = require('../../../database/queries/postgres/baseReport/getSales')
-// const {
-//   l1_getSalesWkDriven,
-//   l2_getSalesWkDriven,
-//   l3_getSalesWkDriven,
-//   l4_getSalesWkDriven,
-//   l5_getSalesWkDriven,
-//   l0_getSalesWkDriven,
-// } = require('../../../database/queries/postgres/baseReport/getSalesTrendWkDriven')
-// const { getCompanyTotalSales } = require('../../../database/queries/postgres/kpi/getCompanyTotalSales')
-// const { getProgramTotalSales } = require('../../../database/queries/postgres/kpi/getProgramTotalSales')
-// const {
-//   l1_getInv,
-//   l2_getInv,
-//   l3_getInv,
-//   l4_getInv,
-//   l5_getInv,
-//   l0_getInv,
-// } = require('../../../database/queries/postgres/baseReport/getInven')
-// const { 
-//   l1_getFgPo, 
-//   l2_getFgPo, 
-//   l3_getFgPo, 
-//   l4_getFgPo, 
-//   l5_getFgPo, 
-//   l0_getFgPo 
-// } = require('../../../database/queries/postgres/baseReport/getFgOpenPo')
-// const {
-//   l1_getSo,
-//   l2_getSo,
-//   l3_getSo,
-//   l4_getSo,
-//   l5_getSo,
-//   l0_getSo,
-// } = require('../../../database/queries/postgres/baseReport/getSo')
-// const {
-//   l1_getSoTrend,
-//   l2_getSoTrend,
-//   l3_getSoTrend,
-//   l4_getSoTrend,
-//   l5_getSoTrend,
-//   l0_getSoTrend,
-// } = require('../../../database/queries/postgres/baseReport/getSoTrend')
-// const {
-//   getRowsFifthLevelDetail,
-//   getRowsFourthLevelDetail,
-//   getRowsThirdLevelDetail,
-//   getRowsSecondLevelDetail,
-//   getRowsFirstLevelDetail,
-// } = require('../../../database/queries/postgres/baseReport/getRows')
-// const mapSalesToRowTemplates_fiveLevel = require('../../../models/mapSalesToRowTemplatesFiveLevel')
-// const mapInvenToRowTemplates_fiveLevel = require('../../../models/mapInvenToRowTemplatesFiveLevel')
-// const mapSalesToRowTemplates_fourLevel = require('../../../models/mapSalesToRowTemplatesFourLevel')
-// const mapInvenToRowTemplates_fourLevel = require('../../../models/mapInvenToRowTemplatesFourLevel')
-// const mapSalesToRowTemplates_threeLevel = require('../../../models/mapSalesToRowTemplatesThreeLevel')
-// const mapInvenToRowTemplates_threeLevel = require('../../../models/mapInvenToRowTemplatesThreeLevel')
-// const mapSalesToRowTemplates_twoLevel = require('../../../models/mapSalesToRowTemplatesTwoLevel')
-// const mapInvenToRowTemplates_twoLevel = require('../../../models/mapInvenToRowTemplatesTwoLevel')
-// const combineMappedRows = require('../../../models/combineMappedRows')
-// const cleanLabelsForDisplay = require('../../../models/cleanLabelsForDisplay')
-// const unflattenByCompositKey = require('../../../models/unflattenByCompositKey')
-// const calcPercentSalesCol = require('../../../models/calcPercentSalesCol')
-// const getSpeciesGroupTotalSales = require('../../../database/queries/postgres/kpi/getSpeciesGroupTotalSalesFromProgram')
-// const calcAveWeeklySales = require('../../../models/calcAveWeeklySales')
-// const calcYoyYtdSalesCol = require('../../../models/calcYoyYtdSalesCol')
-// const calcMomentum = require('../../../models/calcMomentumSalesCol')
-// const calcWeeksInvOnHand = require('../../../models/calcWeeksInvOnHand')
-// const calcInventoryAvailable = require('../../../models/calcInventoryAvailable')
-// const collapseRedundantTotalRows = require('../../../models/collapseRedundantTotalRows')
-// const columnConfigs = require('../data/baseCols/columns')
-// const sortRowTemplate = require('../../../models/sortRowTemplate')
-// const {addDataToSalesTotalCol, addDataToSoTotalCol} = require('../../../models/colDataHelper')
-
 const m = require('./baseReport/import')
 
 const buildReport = async (config) => {
@@ -729,8 +624,8 @@ const buildReport = async (config) => {
     trendColsSoF(), 
   ])
   
-  let columnConfigsTagged = m.addDataToSalesTotalCol(config, columnConfigs) // adds statDate, endDate, and displayName to the sales totals col
-  columnConfigsTagged = m.addDataToSoTotalCol(config, columnConfigs) // adds statDate, endDate, and displayName to the sales orders col
+  let columnConfigsTagged = m.addDataToSalesTotalCol(config, m.columnConfigs) // adds statDate, endDate, and displayName to the sales totals col
+  columnConfigsTagged = m.addDataToSoTotalCol(config, m.columnConfigs) // adds statDate, endDate, and displayName to the sales orders col
 
   
   // **** Note that this is where I should also add the identifying detail to the trend cols that is currently being handled in the trendColsAtom. *****
@@ -745,8 +640,8 @@ const buildReport = async (config) => {
       trendColsSo,
       columnConfigs: columnConfigsTagged,
       defaultTrend: {
-        dataName: columnConfigs.primarySalesTotalCol[0].dataName,
-        colType: columnConfigs.primarySalesTotalCol[0].colType
+        dataName: m.columnConfigs.primarySalesTotalCol[0].dataName,
+        colType: m.columnConfigs.primarySalesTotalCol[0].colType
       }
     },
   }
