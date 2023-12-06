@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
 
   if (projection.sl || projection.so || projection.pr) colType = 'salesProjection' // WONKY
 
-  console.log(projection)
+  console.log('projection', projection)
 
   const config = await getReportConfig(req.body)
 
