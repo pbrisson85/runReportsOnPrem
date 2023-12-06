@@ -5,7 +5,7 @@ const l1_getSalesTrend = async config => {
     console.log(`${config.user} - level 1: query postgres to get FG sales data by week (l1_getSalesTrend) ...`)
 
     const response = await sql
-      `SELECT pj.column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp, ${sql(config.trends.useProjection.sl)} AS "slProjection", ${sql(config.trends.useProjection.so)} AS "soProjection", ${sql(config.trends.useProjection.pr)} AS "prProjection" 
+      `SELECT pj.column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp, ${sql(config.trends.useProjection.sl)} AS slProjection, ${sql(config.trends.useProjection.so)} AS soProjection, ${sql(config.trends.useProjection.pr)} AS prProjection 
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -77,7 +77,7 @@ const l2_getSalesTrend = async config => {
     console.log(`${config.user} - level 2: query postgres to get FG sales data by week (l2_getSalesTrend) ...`)
 
     const response = await sql
-      `SELECT pj.column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp, ${sql(config.trends.useProjection.sl)} AS "slProjection", ${sql(config.trends.useProjection.so)} AS "soProjection", ${sql(config.trends.useProjection.pr)} AS "prProjection"
+      `SELECT pj.column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp, ${sql(config.trends.useProjection.sl)} AS slProjection, ${sql(config.trends.useProjection.so)} AS soProjection, ${sql(config.trends.useProjection.pr)} AS prProjection
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -153,7 +153,7 @@ const l3_getSalesTrend = async config => {
     console.log(`${config.user} - level 3: query postgres to get FG sales data by week (l3_getSalesTrend) ...`)
 
     const response = await sql
-      `SELECT pj.column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp, ${sql(config.trends.useProjection.sl)} AS "slProjection", ${sql(config.trends.useProjection.so)} AS "soProjection", ${sql(config.trends.useProjection.pr)} AS "prProjection"
+      `SELECT pj.column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp, ${sql(config.trends.useProjection.sl)} AS slProjection, ${sql(config.trends.useProjection.so)} AS soProjection, ${sql(config.trends.useProjection.pr)} AS prProjection
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -228,7 +228,7 @@ const l4_getSalesTrend = async config => {
     console.log(`${config.user} - level 4: query postgres to get FG sales data by week (l4_getSalesTrend) ...`)
 
     const response = await sql
-      `SELECT pj.column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp, ${sql(config.trends.useProjection.sl)} AS "slProjection", ${sql(config.trends.useProjection.so)} AS "soProjection", ${sql(config.trends.useProjection.pr)} AS "prProjection"
+      `SELECT pj.column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp, ${sql(config.trends.useProjection.sl)} AS slProjection, ${sql(config.trends.useProjection.so)} AS soProjection, ${sql(config.trends.useProjection.pr)} AS prProjection
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -303,7 +303,7 @@ const l5_getSalesTrend = async config => {
     console.log(`${config.user} - level 5: query postgres to get FG sales data by week (l4_getSalesTrend) ...`)
 
     const response = await sql
-      `SELECT pj.column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp, ${sql(config.trends.useProjection.sl)} AS "slProjection", ${sql(config.trends.useProjection.so)} AS "soProjection", ${sql(config.trends.useProjection.pr)} AS "prProjection"
+      `SELECT pj.column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp, ${sql(config.trends.useProjection.sl)} AS slProjection, ${sql(config.trends.useProjection.so)} AS soProjection, ${sql(config.trends.useProjection.pr)} AS prProjection
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -378,7 +378,7 @@ const l0_getSalesTrend = async config => {
 
     const response = await sql
       `
-      SELECT pj.column ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp, ${sql(config.trends.useProjection.sl)} AS "slProjection", ${sql(config.trends.useProjection.so)} AS "soProjection", ${sql(config.trends.useProjection.pr)} AS "prProjection"
+      SELECT pj.column ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp, ${sql(config.trends.useProjection.sl)} AS slProjection, ${sql(config.trends.useProjection.so)} AS soProjection, ${sql(config.trends.useProjection.pr)} AS prProjection
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
