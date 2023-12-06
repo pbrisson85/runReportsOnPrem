@@ -45,22 +45,6 @@ const buildReport = async (config) => {
 
   // ///////////////////////////////// SALES DATA
 
-  /*SALES PROJECTIONS*/
-
-  const l0_salesProjectionByWk = !config.trends.useProjection ? skip() : () => {return m.l0_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l1_salesProjectionByWk = !config.trends.useProjection ? skip() : () => {return m.l1_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l2_salesProjectionByWk = !config.trends.useProjection ? skip() : () => {return m.l2_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l3_salesProjectionByWk = !config.trends.useProjection ? skip() : config.baseFormat.l3_field ? () => {return m.l3_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
-  const l4_salesProjectionByWk = !config.trends.useProjection ? skip() : config.baseFormat.l4_field ? () => {return m.l4_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
-  const l5_salesProjectionByWk = !config.trends.useProjection ? skip() : config.baseFormat.l5_field ? () => {return m.l5_getSalesProjectionByWk(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
-
-  const l0_salesProjectionPeriodToDate = !config.totals.useProjection ? skip() : () => {return m.l0_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l1_salesProjectionPeriodToDate = !config.totals.useProjection ? skip() : () => {return m.l1_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l2_salesProjectionPeriodToDate = !config.totals.useProjection ? skip() : () => {return m.l2_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)}
-  const l3_salesProjectionPeriodToDate = !config.totals.useProjection ? skip() : config.baseFormat.l3_field ? () => {return m.l3_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
-  const l4_salesProjectionPeriodToDate = !config.totals.useProjection ? skip() : config.baseFormat.l4_field ? () => {return m.l4_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
-  const l5_salesProjectionPeriodToDate = !config.totals.useProjection ? skip() : config.baseFormat.l5_field ? () => {return m.l5_getSalesProjectionPeriodToDate(config, config.totals.startDatePrimary, config.totals.endDatePrimary)} : skip()
-
   /*SALES*/
 
   const l0_salesTotalPrimary =  () => {return m.l0_getSalesTotalPrimary(config)}
@@ -103,18 +87,6 @@ const buildReport = async (config) => {
     l4_soTrendR,
     l5_soTrendR,
     l0_soTrendR,
-    l1_salesProjectionBywkR,
-    l2_salesProjectionBywkR,
-    l3_salesProjectionBywkR,
-    l4_salesProjectionBywkR,
-    l5_salesProjectionBywkR,
-    l0_salesProjectionBywkR,
-    l1_salesProjectionPeriodToDateR,
-    l2_salesProjectionPeriodToDateR,
-    l3_salesProjectionPeriodToDateR,
-    l4_salesProjectionPeriodToDateR,
-    l5_salesProjectionPeriodToDateR,
-    l0_salesProjectionPeriodToDateR,
     l1_salesTrendR,
     l2_salesTrendR,
     l3_salesTrendR,
@@ -152,18 +124,6 @@ const buildReport = async (config) => {
     l4_soTrend(),
     l5_soTrend(),
     l0_soTrend(),
-    l1_salesProjectionByWk(),
-    l2_salesProjectionByWk(),
-    l3_salesProjectionByWk(),
-    l4_salesProjectionByWk(),
-    l5_salesProjectionByWk(),
-    l0_salesProjectionByWk(),
-    l1_salesProjectionPeriodToDate(),
-    l2_salesProjectionPeriodToDate(),
-    l3_salesProjectionPeriodToDate(),
-    l4_salesProjectionPeriodToDate(),
-    l5_salesProjectionPeriodToDate(),
-    l0_salesProjectionPeriodToDate(),
     l1_salesTrend(),
     l2_salesTrend(),
     l3_salesTrend(),
@@ -183,8 +143,6 @@ const buildReport = async (config) => {
   const companyTotalSales = () => {return m.getCompanyTotalSales(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
   const programTotalSales = () => {return m.getProgramTotalSales(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
   const speciesGroupTotalSales = () => {return m.getSpeciesGroupTotalSales(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
-
-  //*****Note that we maybe cannot use week driven sales queries with projection because it only handles weeks for a specific fiscal config.totals.yearPrimary while the projection could span fiscal years */
 
   const l0_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : () => {return m.l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')}
   const l1_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : () => {return m.l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')}
@@ -273,12 +231,12 @@ const buildReport = async (config) => {
   ])
 
   // Define numerators and denominators to use
-  let l0_reportSales = config.totals.useProjection ? l0_salesProjectionPeriodToDateR : l0_salesPeriodToDateR
-  let l1_reportSales = config.totals.useProjection ? l1_salesProjectionPeriodToDateR : l1_salesPeriodToDateR
-  let l2_reportSales = config.totals.useProjection ? l2_salesProjectionPeriodToDateR : l2_salesPeriodToDateR
-  let l3_reportSales = config.totals.useProjection ? l3_salesProjectionPeriodToDateR : l3_salesPeriodToDateR
-  let l4_reportSales = config.totals.useProjection ? l4_salesProjectionPeriodToDateR : l4_salesPeriodToDateR
-  let l5_reportSales = config.totals.useProjection ? l5_salesProjectionPeriodToDateR : l5_salesPeriodToDateR
+  let l0_reportSales = l0_salesPeriodToDateR
+  let l1_reportSales = l1_salesPeriodToDateR
+  let l2_reportSales = l2_salesPeriodToDateR
+  let l3_reportSales = l3_salesPeriodToDateR
+  let l4_reportSales = l4_salesPeriodToDateR
+  let l5_reportSales = l5_salesPeriodToDateR
 
   /* % YoY YTD SALES */
   const l0_yoyYtd_companySales = !config.trends.fyYtd ? [] : m.calcYoyYtdSalesCol(l0_salesByFyYtdR, 'yoyYtdSales')
@@ -461,18 +419,6 @@ const buildReport = async (config) => {
       ...l3_trailingTwelveWeekR,
       ...l4_trailingTwelveWeekR,
       ...l5_trailingTwelveWeekR,
-      ...l1_salesProjectionBywkR,
-      ...l2_salesProjectionBywkR,
-      ...l3_salesProjectionBywkR,
-      ...l4_salesProjectionBywkR,
-      ...l5_salesProjectionBywkR,
-      ...l0_salesProjectionBywkR,
-      ...l1_salesProjectionPeriodToDateR,
-      ...l2_salesProjectionPeriodToDateR,
-      ...l3_salesProjectionPeriodToDateR,
-      ...l4_salesProjectionPeriodToDateR,
-      ...l5_salesProjectionPeriodToDateR,
-      ...l0_salesProjectionPeriodToDateR,
       ...l1_salesTrendR,
       ...l2_salesTrendR,
       ...l3_salesTrendR,
@@ -606,19 +552,16 @@ const buildReport = async (config) => {
   
   const trendColsSalesF = !config.trends.queryGrouping ? skip() : () => {return  m.getTrendColsSales(config)}
   const trendColsSaByFyYtdF = !config.trends.fyYtd && !config.trends.fyFullYear ? skip() : () => {return  m.getTrendColsFiscalYear(config)}
-  //const trendColsSalesProjF = !config.trends.useProjection ? skip() : () => {return  getDateEndPerWeekByRange_pj(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
-
+ 
   // get so by week cols
   const trendColsSoF = config.trends.queryGrouping ? () => {return  m.getTrendColsSo(config)} : skip() 
  
   // Call all column functions
   const [
-    //trendColsSalesProj, 
     trendColsSales, 
     trendColsSaByFyYtd, 
     trendColsSo, 
   ] = await Promise.all([
-    //trendColsSalesProjF(), 
     trendColsSalesF(), 
     trendColsSaByFyYtdF(), 
     trendColsSoF(), 
@@ -633,7 +576,6 @@ const buildReport = async (config) => {
   return {
     data,
     cols: {
-      //trendColsSalesProj, 
       trendColsSales,
       trendColsSaByFyYtd,
       labelCols: config.labelCols,

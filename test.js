@@ -1,38 +1,41 @@
-// const process = async () => {
-//   const promises = []
+const process = async () => {
+  const postgres = require('postgres')
+  const sql = postgres()
 
-//   const func1 = string => {
-//     return [string]
-//   }
+  const testQuery = async () => {
+    try {
+      const response = await sql
+              `SELECT pj.column, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
+              
+              FROM (
+                SELECT null AS doc_num, null AS line_number, null AS item_num, null AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+                
+                FROM null
+        
+                WHERE
+                  1=2
+                  ) AS pj
+                
+                  LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+                      ON ms.item_num = pj.item_num
+        
+              WHERE
+                1=1 
+               
+        
+              GROUP BY pj.column
+              
+              ORDER BY pj.column` //prettier-ignore
 
-//   const func2 = string => {
-//     return [string]
-//   }
+      return response
+    } catch (error) {
+      console.error(error)
+      return error
+    }
+  }
 
-//   const func3 = string => {
-//     return [string]
-//   }
+  const response = await testQuery()
+  console.log('response', response)
+}
 
-//   promises.push(func1('func1'))
-//   promises.push(func2('func2'))
-//   promises.push(func3('func3'))
-
-//   console.log(promises)
-
-//   const results = await Promise.all(promises)
-
-//   let final = []
-//   results.forEach(result => {
-//     final = [...final, ...result]
-//   })
-
-//   console.log(final)
-// }
-
-// process()
-
-const arrTrue = ['1', '2']
-const arrFalse = []
-
-console.log('arrFalse.length', arrFalse.length)
-console.log('!arrFalse', !arrFalse)
+process()

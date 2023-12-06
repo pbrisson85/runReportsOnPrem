@@ -122,7 +122,11 @@ const getReportConfig = async reqBody => {
       endDate: new Date(reqBody.trendEnd?.date_end ?? defaultEnd),
       endWeek: typeof reqBody.trendEnd?.week === 'undefined' ? 0 : reqBody.trendEnd.week === '52' ? 53 : parseInt(reqBody.trendEnd.week),
       trendYears: typeof reqBody.trendYears === 'undefined' ? [] : reqBody.trendYears.map(yr => parseInt(yr)),
-      useProjection: reqBody.trendUseProjection ?? false,
+      useProjection: {
+        sl: reqBody.trendUseProjection?.includes('sales'),
+        so: reqBody.trendUseProjection?.includes('salesOrders'),
+        ps: reqBody.trendUseProjection?.includes('useRecurringProjection'),
+      },
       queryGrouping: typeof reqBody.trendQueryGrouping === 'undefined' ? false : reqBody.trendQueryGrouping[0],
     },
     totals: {
@@ -135,7 +139,11 @@ const getReportConfig = async reqBody => {
       startDateComparison: new Date(reqBody.totalsStart?.date_start ?? periodStart),
       endDateComparison: new Date(reqBody.totalsEnd?.date_end ?? defaultEnd),
       yearComparison: typeof reqBody.totalsYears === 'undefined' ? defaultYear : reqBody.totalsYears[0],
-      useProjection: reqBody.totalsUseProjection ?? false,
+      useProjection: {
+        sl: reqBody.totalsUseProjection?.includes('sales'),
+        so: reqBody.totalsUseProjection?.includes('salesOrders'),
+        ps: reqBody.totalsUseProjection?.includes('useRecurringProjection'),
+      },
     },
     userPermissions: {
       joeB,

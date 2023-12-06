@@ -6,38 +6,69 @@ const sql = require('../../../../server')
 
 // FG Species Group totals by week
 
-const l1_getSalesProjectionByWk = async (config, start, end) => {
+const l1_getSalesProjectionByWk = async config => {
   try {
     console.log(`${config.user} - level 1: query postgres to get FG sales data by week (l1_getSalesProjectionByWk) ...`)
+
+    const dummyTable = [
+      {
+        doc_num,
+        line_number,
+        item_num,
+        column,
+        lbs: 0,
+        sales: 0,
+        cogs: 0,
+        othp: 0,
+      },
+    ] // for dummy query so that all subsequent queries can have a union keyword
 
     const response = await sql
       `SELECT pj.column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, sl.week_serial || '_pj' AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
-        
-        FROM "salesReporting".sales_line_items AS sl
-
+        SELECT doc_num, line_number, item_num, column, lbs, sales, cogs, othp 
+        FROM ${sql(dummyTable)}
         WHERE
-          sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end}
+          1=2
+
+        ${config.trends.useProjection.sl ? sql`
+        UNION ALL 
+          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, ${sql(config.trends.queryGrouping)} AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+          
+          FROM "salesReporting".sales_line_items AS sl
+            LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+            ON sl.formatted_invoice_date = p.formatted_date
+
+          WHERE
+            sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate}
+          `: sql``}
         
-        UNION 
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, so.week_serial || '_pj' AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+        ${config.trends.useProjection.so ? sql`  
+        UNION ALL
+          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, ${sql(config.trends.queryGrouping)} AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
-          FROM "salesReporting".sales_orders AS so        
+          FROM "salesReporting".sales_orders AS so  
+            LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+            ON so.formatted_ship_date = p.formatted_date      
       
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
+            AND so.formatted_ship_date >= ${config.trends.startDate} AND so.formatted_ship_date <= ${config.trends.endDate}
+          `: sql``}
 
-        UNION 
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, ps.week_serial || '_pj' AS column, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        ${config.trends.useProjection.ps ? sql` 
+        UNION ALL
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, ${sql(config.trends.queryGrouping)} AS column, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         
           FROM "salesReporting".projected_sales AS ps        
-        
+            LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+            ON ps.date = p.formatted_date 
+
           WHERE 
-            ps.date >= ${start} AND ps.date <= ${end}
-          
+            ps.date >= ${config.trends.startDate} AND ps.date <= ${config.trends.endDate}
+          `: sql``}
+
           ) AS pj
           
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 

@@ -7,33 +7,13 @@ module.exports = {
   getTrendColsFiscalYear: require('../../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalYear').getTrendColsFiscalYear,
   getTrendColsSo: require('../../../../database/queries/postgres/trendColHeadings/getTrendColsSo').getTrendColsSo,
 
-  // Sales Projections
-  l0_getSalesProjectionByWk: require('../../../../database/queries/postgres/baseReport/getSalesProjection').l0_getSalesProjectionByWk,
-  l0_getSalesProjectionPeriodToDate: require('../../../../database/queries/postgres/baseReport/getSalesProjection')
-    .l0_getSalesProjectionPeriodToDate,
-  l2_getSalesProjectionByWk: require('../../../../database/queries/postgres/baseReport/getSalesProjection').l2_getSalesProjectionByWk,
-  l2_getSalesProjectionPeriodToDate: require('../../../../database/queries/postgres/baseReport/getSalesProjection')
-    .l2_getSalesProjectionPeriodToDate,
-  l1_getSalesProjectionByWk: require('../../../../database/queries/postgres/baseReport/getSalesProjection').l1_getSalesProjectionByWk,
-  l1_getSalesProjectionPeriodToDate: require('../../../../database/queries/postgres/baseReport/getSalesProjection')
-    .l1_getSalesProjectionPeriodToDate,
-  l3_getSalesProjectionByWk: require('../../../../database/queries/postgres/baseReport/getSalesProjection').l3_getSalesProjectionByWk,
-  l3_getSalesProjectionPeriodToDate: require('../../../../database/queries/postgres/baseReport/getSalesProjection')
-    .l3_getSalesProjectionPeriodToDate,
-  l4_getSalesProjectionByWk: require('../../../../database/queries/postgres/baseReport/getSalesProjection').l4_getSalesProjectionByWk,
-  l4_getSalesProjectionPeriodToDate: require('../../../../database/queries/postgres/baseReport/getSalesProjection')
-    .l4_getSalesProjectionPeriodToDate,
-  l5_getSalesProjectionByWk: require('../../../../database/queries/postgres/baseReport/getSalesProjection').l5_getSalesProjectionByWk,
-  l5_getSalesProjectionPeriodToDate: require('../../../../database/queries/postgres/baseReport/getSalesProjection')
-    .l5_getSalesProjectionPeriodToDate,
-
   // Sales Trend Primary
-  l1_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesTrend').l1_getSalesTrend,
-  l2_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesTrend').l2_getSalesTrend,
-  l3_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesTrend').l3_getSalesTrend,
-  l4_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesTrend').l4_getSalesTrend,
-  l5_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesTrend').l5_getSalesTrend,
-  l0_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesTrend').l0_getSalesTrend,
+  l1_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesProjectionTrend').l1_getSalesTrend,
+  l2_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesProjectionTrend').l2_getSalesTrend,
+  l3_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesProjectionTrend').l3_getSalesTrend,
+  l4_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesProjectionTrend').l4_getSalesTrend,
+  l5_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesProjectionTrend').l5_getSalesTrend,
+  l0_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesProjectionTrend').l0_getSalesTrend,
 
   // Sales Total Primary
   l1_getSalesTotalPrimary: require('../../../../database/queries/postgres/baseReport/getSales').l1_getSalesTotalPrimary,
