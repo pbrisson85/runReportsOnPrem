@@ -3,10 +3,10 @@ const sql = require('../../../../server')
 const l1_getSalesTrend = async config => {
   const dummyTable = [
     {
-      doc_num,
-      line_number,
-      item_num,
-      column,
+      doc_num: null,
+      line_number: null,
+      item_num: null,
+      column: null,
       lbs: 0,
       sales: 0,
       cogs: 0,
@@ -88,10 +88,10 @@ const l1_getSalesTrend = async config => {
 const l2_getSalesTrend = async config => {
   const dummyTable = [
     {
-      doc_num,
-      line_number,
-      item_num,
-      column,
+      doc_num: null,
+      line_number: null,
+      item_num: null,
+      column: null,
       lbs: 0,
       sales: 0,
       cogs: 0,
@@ -177,10 +177,10 @@ const l2_getSalesTrend = async config => {
 const l3_getSalesTrend = async config => {
   const dummyTable = [
     {
-      doc_num,
-      line_number,
-      item_num,
-      column,
+      doc_num: null,
+      line_number: null,
+      item_num: null,
+      column: null,
       lbs: 0,
       sales: 0,
       cogs: 0,
@@ -265,10 +265,10 @@ const l3_getSalesTrend = async config => {
 const l4_getSalesTrend = async config => {
   const dummyTable = [
     {
-      doc_num,
-      line_number,
-      item_num,
-      column,
+      doc_num: null,
+      line_number: null,
+      item_num: null,
+      column: null,
       lbs: 0,
       sales: 0,
       cogs: 0,
@@ -353,10 +353,10 @@ const l4_getSalesTrend = async config => {
 const l5_getSalesTrend = async config => {
   const dummyTable = [
     {
-      doc_num,
-      line_number,
-      item_num,
-      column,
+      doc_num: null,
+      line_number: null,
+      item_num: null,
+      column: null,
       lbs: 0,
       sales: 0,
       cogs: 0,
@@ -440,10 +440,10 @@ const l5_getSalesTrend = async config => {
 const l0_getSalesTrend = async config => {
   const dummyTable = [
     {
-      doc_num,
-      line_number,
-      item_num,
-      column,
+      doc_num: null,
+      line_number: null,
+      item_num: null,
+      column: null,
       lbs: 0,
       sales: 0,
       cogs: 0,
