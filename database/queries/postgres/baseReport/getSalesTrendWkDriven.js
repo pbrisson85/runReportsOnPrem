@@ -4,7 +4,7 @@ const sql = require('../../../../server')
 
 const l1_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
   try {
-    console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getSalesProjectionPeriodToDate) ...`)
+    console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getSalesWkDriven) ...`)
 
     //${config.useProjection ? sql`'SALES PROJECTION TOTAL'`: sql`'SALES TOTAL'`}
 
@@ -65,7 +65,7 @@ const l1_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
 
 const l2_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
   try {
-    console.log(`${config.user} - level 2: query postgres to get FG sales data period total (l2_getSalesProjectionPeriodToDate) ...`)
+    console.log(`${config.user} - level 2: query postgres to get FG sales data period total (l2_getSalesWkDriven) ...`)
 
     const response = await sql
       `SELECT ${sql`${colName}`} AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
@@ -124,7 +124,7 @@ const l2_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
 
 const l3_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
   try {
-    console.log(`${config.user} - level 3: query postgres to get FG sales data period total (l3_getSalesProjectionPeriodToDate) ...`)
+    console.log(`${config.user} - level 3: query postgres to get FG sales data period total (l3_getSalesWkDriven) ...`)
 
     const response = await sql
       `SELECT ${sql`${colName}`} AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
@@ -183,7 +183,7 @@ const l3_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
 
 const l4_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
   try {
-    console.log(`${config.user} - level 4: query postgres to get FG sales data period total (l4_getSalesProjectionPeriodToDate) ...`)
+    console.log(`${config.user} - level 4: query postgres to get FG sales data period total (l4_getSalesWkDriven) ...`)
 
     const response = await sql
       `SELECT ${sql`${colName}`} AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
@@ -242,7 +242,7 @@ const l4_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
 
 const l5_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
   try {
-    console.log(`${config.user} - level 5: query postgres to get FG sales data period total (l4_getSalesProjectionPeriodToDate) ...`)
+    console.log(`${config.user} - level 5: query postgres to get FG sales data period total (l5_getSalesWkDriven) ...`)
 
     const response = await sql
       `SELECT ${sql`${colName}`} AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
@@ -301,7 +301,7 @@ const l5_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
 
 const l0_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
   try {
-    console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getSalesProjectionPeriodToDate) ...`)
+    console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getSalesWkDriven) ...`)
 
     const response = await sql
       `
