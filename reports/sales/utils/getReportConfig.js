@@ -135,7 +135,7 @@ const getReportConfig = async reqBody => {
       startDateComparison: new Date(reqBody.totalsStart?.date_start ?? periodStart),
       endDateComparison: new Date(reqBody.totalsEnd?.date_end ?? defaultEnd),
       yearComparison: typeof reqBody.totalsYears === 'undefined' ? defaultYear : reqBody.totalsYears[0],
-      useProjection: typeof reqBody.totalsUseProjection === 'undefined' ? false : reqBody.totalsUseProjection[0] ?? false,
+      useProjection: reqBody.totalsUseProjection ?? false,
     },
     userPermissions: {
       joeB,
