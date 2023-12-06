@@ -124,8 +124,8 @@ const getReportConfig = async reqBody => {
       trendYears: typeof reqBody.trendYears === 'undefined' ? [] : reqBody.trendYears.map(yr => parseInt(yr)),
       useProjection: {
         sl: typeof reqBody.trendUseProjection === 'undefined' ? true : reqBody.trendUseProjection?.includes('sales'),
-        so: reqBody.trendUseProjection?.includes('salesOrders'),
-        pr: reqBody.trendUseProjection?.includes('useRecurringProjection'),
+        so: reqBody.trendUseProjection?.includes('salesOrders') ?? false,
+        pr: reqBody.trendUseProjection?.includes('useRecurringProjection') ?? false,
       },
       queryGrouping: typeof reqBody.trendQueryGrouping === 'undefined' ? false : reqBody.trendQueryGrouping[0],
     },
@@ -141,8 +141,8 @@ const getReportConfig = async reqBody => {
       yearComparison: typeof reqBody.totalsYears === 'undefined' ? defaultYear : reqBody.totalsYears[0],
       useProjection: {
         sl: typeof reqBody.totalsUseProjection === 'undefined' ? true : reqBody.totalsUseProjection?.includes('sales'),
-        so: reqBody.totalsUseProjection?.includes('salesOrders'),
-        pr: reqBody.totalsUseProjection?.includes('useRecurringProjection'),
+        so: reqBody.totalsUseProjection?.includes('salesOrders') ?? false,
+        pr: reqBody.totalsUseProjection?.includes('useRecurringProjection') ?? false,
       },
     },
     userPermissions: {
