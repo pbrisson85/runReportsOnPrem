@@ -9,7 +9,7 @@ const l1_getSalesTotalPrimary = async config => {
     console.log('config.totals.useProjection.pr', config.totals.useProjection.pr)
 
     const response = await sql
-      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp, ${config.totals.useProjection.sl ? 'TRUE' : 'FALSE' } AS slProjection, ${config.totals.useProjection.so ? 'TRUE' : 'FALSE' } AS soProjection, ${config.totals.useProjection.pr ? 'TRUE' : 'FALSE' } AS prProjection
+      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp, ${config.totals.useProjection.sl ? 'TRUE' : 'FALSE' } AS "slProjection", ${config.totals.useProjection.so ? 'TRUE' : 'FALSE' } AS "soProjection", ${config.totals.useProjection.pr ? 'TRUE' : 'FALSE' } AS "prProjection"
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
