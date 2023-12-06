@@ -125,7 +125,7 @@ const getReportConfig = async reqBody => {
       useProjection: {
         sl: typeof reqBody.trendUseProjection === 'undefined' ? true : reqBody.trendUseProjection?.includes('sales'),
         so: reqBody.trendUseProjection?.includes('salesOrders'),
-        ps: reqBody.trendUseProjection?.includes('useRecurringProjection'),
+        pr: reqBody.trendUseProjection?.includes('useRecurringProjection'),
       },
       queryGrouping: typeof reqBody.trendQueryGrouping === 'undefined' ? false : reqBody.trendQueryGrouping[0],
     },
@@ -142,7 +142,7 @@ const getReportConfig = async reqBody => {
       useProjection: {
         sl: typeof reqBody.totalsUseProjection === 'undefined' ? true : reqBody.totalsUseProjection?.includes('sales'),
         so: reqBody.totalsUseProjection?.includes('salesOrders'),
-        ps: reqBody.totalsUseProjection?.includes('useRecurringProjection'),
+        pr: reqBody.totalsUseProjection?.includes('useRecurringProjection'),
       },
     },
     userPermissions: {
