@@ -1,19 +1,6 @@
 const sql = require('../../../../server')
 
 const l1_getSalesTrend = async config => {
-  const dummyTable = [
-    {
-      doc_num: 'dummy table',
-      line_number: 'dummy table',
-      item_num: 'dummy table',
-      column: 'dummy table',
-      lbs: 0,
-      sales: 0,
-      cogs: 0,
-      othp: 0,
-    },
-  ] // for dummy query so that all subsequent queries can have a union keyword
-
   try {
     console.log(`${config.user} - level 1: query postgres to get FG sales data by week (l1_getSalesTrend) ...`)
 
@@ -21,6 +8,11 @@ const l1_getSalesTrend = async config => {
       `SELECT pj.column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
+        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        FROM "salesReporting".sales_line_items AS d
+        WHERE
+          1=2
+
         ${config.trends.useProjection.sl ? sql`
         UNION ALL 
           SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, ${sql(config.trends.queryGrouping)} AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
@@ -81,19 +73,6 @@ const l1_getSalesTrend = async config => {
 }
 
 const l2_getSalesTrend = async config => {
-  const dummyTable = [
-    {
-      doc_num: 'dummy table',
-      line_number: 'dummy table',
-      item_num: 'dummy table',
-      column: 'dummy table',
-      lbs: 0,
-      sales: 0,
-      cogs: 0,
-      othp: 0,
-    },
-  ] // for dummy query so that all subsequent queries can have a union keyword
-
   try {
     console.log(`${config.user} - level 2: query postgres to get FG sales data by week (l2_getSalesTrend) ...`)
 
@@ -101,8 +80,8 @@ const l2_getSalesTrend = async config => {
       `SELECT pj.column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT doc_num, line_number, item_num, column, lbs, sales, cogs, othp 
-        FROM ${sql(dummyTable)}
+        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        FROM "salesReporting".sales_line_items AS d
         WHERE
           1=2
 
@@ -170,19 +149,6 @@ const l2_getSalesTrend = async config => {
 }
 
 const l3_getSalesTrend = async config => {
-  const dummyTable = [
-    {
-      doc_num: 'dummy table',
-      line_number: 'dummy table',
-      item_num: 'dummy table',
-      column: 'dummy table',
-      lbs: 0,
-      sales: 0,
-      cogs: 0,
-      othp: 0,
-    },
-  ] // for dummy query so that all subsequent queries can have a union keyword
-
   try {
     console.log(`${config.user} - level 3: query postgres to get FG sales data by week (l3_getSalesTrend) ...`)
 
@@ -190,8 +156,8 @@ const l3_getSalesTrend = async config => {
       `SELECT pj.column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT doc_num, line_number, item_num, column, lbs, sales, cogs, othp 
-        FROM ${sql(dummyTable)}
+        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        FROM "salesReporting".sales_line_items AS d
         WHERE
           1=2
 
@@ -258,19 +224,6 @@ const l3_getSalesTrend = async config => {
 }
 
 const l4_getSalesTrend = async config => {
-  const dummyTable = [
-    {
-      doc_num: 'dummy table',
-      line_number: 'dummy table',
-      item_num: 'dummy table',
-      column: 'dummy table',
-      lbs: 0,
-      sales: 0,
-      cogs: 0,
-      othp: 0,
-    },
-  ] // for dummy query so that all subsequent queries can have a union keyword
-
   try {
     console.log(`${config.user} - level 4: query postgres to get FG sales data by week (l4_getSalesTrend) ...`)
 
@@ -278,8 +231,8 @@ const l4_getSalesTrend = async config => {
       `SELECT pj.column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT doc_num, line_number, item_num, column, lbs, sales, cogs, othp 
-        FROM ${sql(dummyTable)}
+        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        FROM "salesReporting".sales_line_items AS d
         WHERE
           1=2
 
@@ -346,19 +299,6 @@ const l4_getSalesTrend = async config => {
 }
 
 const l5_getSalesTrend = async config => {
-  const dummyTable = [
-    {
-      doc_num: 'dummy table',
-      line_number: 'dummy table',
-      item_num: 'dummy table',
-      column: 'dummy table',
-      lbs: 0,
-      sales: 0,
-      cogs: 0,
-      othp: 0,
-    },
-  ] // for dummy query so that all subsequent queries can have a union keyword
-
   try {
     console.log(`${config.user} - level 5: query postgres to get FG sales data by week (l4_getSalesTrend) ...`)
 
@@ -366,8 +306,8 @@ const l5_getSalesTrend = async config => {
       `SELECT pj.column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT doc_num, line_number, item_num, column, lbs, sales, cogs, othp 
-        FROM ${sql(dummyTable)}
+        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        FROM "salesReporting".sales_line_items AS d
         WHERE
           1=2
 
@@ -433,19 +373,6 @@ const l5_getSalesTrend = async config => {
 }
 
 const l0_getSalesTrend = async config => {
-  const dummyTable = [
-    {
-      doc_num: 'dummy table',
-      line_number: 'dummy table',
-      item_num: 'dummy table',
-      column: 'dummy table',
-      lbs: 0,
-      sales: 0,
-      cogs: 0,
-      othp: 0,
-    },
-  ] // for dummy query so that all subsequent queries can have a union keyword
-
   try {
     console.log(`${config.user} - level 0: query postgres to get FG sales data by week (l0_getSalesTrend) ...`)
 
@@ -454,8 +381,8 @@ const l0_getSalesTrend = async config => {
       SELECT pj.column ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT doc_num, line_number, item_num, column, lbs, sales, cogs, othp 
-        FROM ${sql(dummyTable)}
+        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        FROM "salesReporting".sales_line_items AS d
         WHERE
           1=2
 
@@ -519,8 +446,6 @@ const l0_getSalesTrend = async config => {
     return error
   }
 }
-
-// All sales col total for a program
 
 module.exports.l0_getSalesTrend = l0_getSalesTrend
 module.exports.l2_getSalesTrend = l2_getSalesTrend
