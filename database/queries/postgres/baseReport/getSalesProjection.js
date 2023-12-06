@@ -1,129 +1,48 @@
-// Get the SO+SL report for all SO ans SL for each week applicable. Meaning: look at first week of SO. Test if there are any SL in this week. Look at following week. Stop when there are no more SL in the week.
-
 const sql = require('../../../../server')
 
-/* *********************************************** Level 1 Group *********************************************** */
-
-// FG Species Group totals by week
-
-const l1_getSalesProjectionByWk = async config => {
+const l1_getSalesTotalPrimary = async config => {
   try {
-    console.log(`${config.user} - level 1: query postgres to get FG sales data by week (l1_getSalesProjectionByWk) ...`)
-
-    const dummyTable = [
-      {
-        doc_num,
-        line_number,
-        item_num,
-        column,
-        lbs: 0,
-        sales: 0,
-        cogs: 0,
-        othp: 0,
-      },
-    ] // for dummy query so that all subsequent queries can have a union keyword
+    console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getSalesTotalPrimary) ...`)
 
     const response = await sql
-      `SELECT pj.column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
+      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT doc_num, line_number, item_num, column, lbs, sales, cogs, othp 
-        FROM ${sql(dummyTable)}
+        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        FROM "salesReporting".sales_line_items AS d
         WHERE
           1=2
 
         ${config.trends.useProjection.sl ? sql`
         UNION ALL 
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, ${sql(config.trends.queryGrouping)} AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
           
-          FROM "salesReporting".sales_line_items AS sl
-            LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-            ON sl.formatted_invoice_date = p.formatted_date
-
-          WHERE
-            sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate}
-          `: sql``}
-        
-        ${config.trends.useProjection.so ? sql`  
-        UNION ALL
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, ${sql(config.trends.queryGrouping)} AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
-      
-          FROM "salesReporting".sales_orders AS so  
-            LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-            ON so.formatted_ship_date = p.formatted_date      
-      
+          FROM "salesReporting".sales_line_items AS sl 
+            
           WHERE 
-            so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${config.trends.startDate} AND so.formatted_ship_date <= ${config.trends.endDate}
-          `: sql``}
+            sl.formatted_invoice_date >= ${config.totals.startDatePrimary} AND sl.formatted_invoice_date <= ${config.totals.endDatePrimary} 
+        `: sql``}
 
-        ${config.trends.useProjection.ps ? sql` 
+        ${config.trends.useProjection.so ? sql`
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, ${sql(config.trends.queryGrouping)} AS column, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
-        
-          FROM "salesReporting".projected_sales AS ps        
-            LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-            ON ps.date = p.formatted_date 
-
-          WHERE 
-            ps.date >= ${config.trends.startDate} AND ps.date <= ${config.trends.endDate}
-          `: sql``}
-
-          ) AS pj
-          
-          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-              ON ms.item_num = pj.item_num
-
-      WHERE
-        1=1 
-        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
-
-      GROUP BY pj.column, ${sql(config.baseFormat.l1_field)} 
-      
-      ORDER BY pj.column` //prettier-ignore
-
-    return response
-  } catch (error) {
-    console.error(error)
-    return error
-  }
-}
-
-// FG Species Group col total for period
-
-const l1_getSalesProjectionPeriodToDate = async (config, start, end) => {
-  try {
-    console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getSalesProjectionPeriodToDate) ...`)
-
-    const response = await sql
-      `SELECT 'SALES PROJECTION TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
-      
-      FROM (
-        SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
-        
-        FROM "salesReporting".sales_line_items AS sl 
-          
-        WHERE 
-          sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
-          
-        UNION 
           SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
+            AND so.formatted_ship_date >= ${config.totals.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.endDatePrimary}
+        `: sql``}
 
-        UNION 
-        SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
-      
-        FROM "salesReporting".projected_sales AS ps        
-      
-        WHERE 
-          ps.date >= ${start} AND ps.date <= ${end}
+        ${config.trends.useProjection.ps ? sql` 
+        UNION ALL
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        
+          FROM "salesReporting".projected_sales AS ps        
+        
+          WHERE 
+            ps.date >= ${config.totals.startDatePrimary} AND ps.date <= ${config.totals.endDatePrimary}
+          `: sql``}
 
           ) AS pj
 
@@ -145,97 +64,49 @@ const l1_getSalesProjectionPeriodToDate = async (config, start, end) => {
   }
 }
 
-/* *********************************************** Level 2 Group *********************************************** */
-
-// FG Program row totals by week
-
-const l2_getSalesProjectionByWk = async (config, start, end) => {
+const l2_getSalesTotalPrimary = async config => {
   try {
-    console.log(`${config.user} - level 2: query postgres to get FG sales data by week (l2_getSalesProjectionByWk) ...`)
+    console.log(`${config.user} - level 2: query postgres to get FG sales data period total (l2_getSalesTotalPrimary) ...`)
 
     const response = await sql
-      `SELECT pj.column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
+      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, sl.week_serial || '_pj' AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
-        
-        FROM "salesReporting".sales_line_items AS sl
-          
+        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        FROM "salesReporting".sales_line_items AS d
         WHERE
-          sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end}
-        
-        UNION 
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, so.week_serial || '_pj' AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
-      
-          FROM "salesReporting".sales_orders AS so
-           
-          WHERE 
-            so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
+          1=2
 
-        UNION 
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, ps.week_serial || '_pj' AS column, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        ${config.trends.useProjection.sl ? sql`
+        UNION ALL 
+          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
           
-          FROM "salesReporting".projected_sales AS ps        
-          
-          WHERE 
-              ps.date >= ${start} AND ps.date <= ${end}
-
-          ) AS pj
-
-          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-              ON ms.item_num = pj.item_num
-
+          FROM "salesReporting".sales_line_items AS sl
+            
           WHERE
-          1=1 
-          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+            sl.formatted_invoice_date >= ${config.totals.startDatePrimary} AND sl.formatted_invoice_date <= ${config.totals.endDatePrimary}
+          `: sql``}
 
-      GROUP BY pj.column, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)} 
-      
-      ORDER BY pj.column` //prettier-ignore
-
-    return response
-  } catch (error) {
-    console.error(error)
-    return error
-  }
-}
-
-// FG Program col total for period
-
-const l2_getSalesProjectionPeriodToDate = async (config, start, end) => {
-  try {
-    console.log(`${config.user} - level 2: query postgres to get FG sales data period total (l2_getSalesProjectionPeriodToDate) ...`)
-
-    const response = await sql
-      `SELECT 'SALES PROJECTION TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
-      
-      FROM (
-        SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
-        
-        FROM "salesReporting".sales_line_items AS sl
-          
-        WHERE
-          sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end}
-        
-        UNION 
+        ${config.trends.useProjection.so ? sql`
+        UNION ALL
           SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
-            
-        UNION 
+            AND so.formatted_ship_date >= ${config.totals.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.endDatePrimary}
+          `: sql``}
+
+        ${config.trends.useProjection.ps ? sql` 
+        UNION ALL
           SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         
           FROM "salesReporting".projected_sales AS ps        
         
           WHERE 
-            ps.date >= ${start} AND ps.date <= ${end}
+            ps.date >= ${config.totals.startDatePrimary} AND ps.date <= ${config.totals.endDatePrimary}
+          `: sql``}
 
           ) AS pj
 
@@ -257,99 +128,49 @@ const l2_getSalesProjectionPeriodToDate = async (config, start, end) => {
   }
 }
 
-/* *********************************************** Level 3 Group *********************************************** */
-
-// FG Program row totals by week
-
-const l3_getSalesProjectionByWk = async (config, start, end) => {
+const l3_getSalesTotalPrimary = async config => {
   try {
-    console.log(`${config.user} - level 3: query postgres to get FG sales data by week (l3_getSalesProjectionByWk) ...`)
+    console.log(`${config.user} - level 3: query postgres to get FG sales data period total (l3_getSalesTotalPrimary) ...`)
 
     const response = await sql
-      `SELECT pj.column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
+      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, sl.week_serial || '_pj' AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
-        
-        FROM "salesReporting".sales_line_items AS sl
-          
+        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        FROM "salesReporting".sales_line_items AS d
         WHERE
-          sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end}
+          1=2
+
+        ${config.trends.useProjection.sl ? sql`
+        UNION ALL 
+          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
           
-        UNION 
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, so.week_serial || '_pj' AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
-      
-          FROM "salesReporting".sales_orders AS so
+          FROM "salesReporting".sales_line_items AS sl
             
-          WHERE 
-            so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
-           
-        UNION 
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, ps.week_serial || '_pj' AS column, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
-        
-          FROM "salesReporting".projected_sales AS ps        
-        
-          WHERE 
-            ps.date >= ${start} AND ps.date <= ${end}
-
-
-          ) AS pj
-
-          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-              ON ms.item_num = pj.item_num
-
           WHERE
-          1=1 
-          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+            sl.formatted_invoice_date >= ${config.totals.startDatePrimary} AND sl.formatted_invoice_date <= ${config.totals.endDatePrimary}
+          `: sql``}
 
-      GROUP BY pj.column, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}
-      
-      ORDER BY pj.column` //prettier-ignore
-
-    return response
-  } catch (error) {
-    console.error(error)
-    return error
-  }
-}
-
-// FG Program col total for period
-
-const l3_getSalesProjectionPeriodToDate = async (config, start, end) => {
-  try {
-    console.log(`${config.user} - level 3: query postgres to get FG sales data period total (l3_getSalesProjectionPeriodToDate) ...`)
-
-    const response = await sql
-      `SELECT 'SALES PROJECTION TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
-      
-      FROM (
-        SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
-        
-        FROM "salesReporting".sales_line_items AS sl
-          
-        WHERE
-          sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end}
-          
-        UNION 
+        ${config.trends.useProjection.so ? sql`
+        UNION ALL
           SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
-            
-        
-        UNION 
+            AND so.formatted_ship_date >= ${config.totals.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.endDatePrimary}
+          `: sql``}
+
+        ${config.trends.useProjection.ps ? sql` 
+        UNION ALL
           SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         
           FROM "salesReporting".projected_sales AS ps        
         
           WHERE 
-            ps.date >= ${start} AND ps.date <= ${end}
+            ps.date >= ${config.totals.startDatePrimary} AND ps.date <= ${config.totals.endDatePrimary}
+          `: sql``}
 
           ) AS pj
 
@@ -371,98 +192,49 @@ const l3_getSalesProjectionPeriodToDate = async (config, start, end) => {
   }
 }
 
-/* *********************************************** Level 4 Group *********************************************** */
-
-// FG Program row totals by week
-
-const l4_getSalesProjectionByWk = async (config, start, end) => {
+const l4_getSalesTotalPrimary = async config => {
   try {
-    console.log(`${config.user} - level 4: query postgres to get FG sales data by week (l4_getSalesProjectionByWk) ...`)
+    console.log(`${config.user} - level 4: query postgres to get FG sales data period total (l4_getSalesTotalPrimary) ...`)
 
     const response = await sql
-      `SELECT pj.column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
+      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, sl.week_serial || '_pj' AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
-        
-        FROM "salesReporting".sales_line_items AS sl
-          
+        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        FROM "salesReporting".sales_line_items AS d
         WHERE
-          sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end}
+          1=2
+
+        ${config.trends.useProjection.sl ? sql`
+        UNION ALL 
+          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
           
-        UNION 
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, so.week_serial || '_pj' AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
-      
-          FROM "salesReporting".sales_orders AS so
+          FROM "salesReporting".sales_line_items AS sl
             
-          WHERE 
-            so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
-            
-        UNION 
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, ps.week_serial || '_pj' AS column, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
-        
-          FROM "salesReporting".projected_sales AS ps        
-        
-          WHERE 
-            ps.date >= ${start} AND ps.date <= ${end}
-
-          ) AS pj
-
-          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-              ON ms.item_num = pj.item_num
-
           WHERE
-          1=1 
-          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+            sl.formatted_invoice_date >= ${config.totals.startDatePrimary} AND sl.formatted_invoice_date <= ${config.totals.endDatePrimary}
+          `: sql``}
 
-      GROUP BY pj.column, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}
-      
-      ORDER BY pj.column` //prettier-ignore
-
-    return response
-  } catch (error) {
-    console.error(error)
-    return error
-  }
-}
-
-// FG Program col total for period
-
-const l4_getSalesProjectionPeriodToDate = async (config, start, end) => {
-  try {
-    console.log(`${config.user} - level 4: query postgres to get FG sales data period total (l4_getSalesProjectionPeriodToDate) ...`)
-
-    const response = await sql
-      `SELECT 'SALES PROJECTION TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
-      
-      FROM (
-        SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
-        
-        FROM "salesReporting".sales_line_items AS sl
-          
-        WHERE
-          sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end}
-          
-        UNION 
+        ${config.trends.useProjection.so ? sql`
+        UNION ALL
           SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
-            
-        
-        UNION 
+            AND so.formatted_ship_date >= ${config.totals.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.endDatePrimary}
+          `: sql``}
+
+        ${config.trends.useProjection.ps ? sql` 
+        UNION ALL
           SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         
           FROM "salesReporting".projected_sales AS ps        
         
           WHERE 
-            ps.date >= ${start} AND ps.date <= ${end}
+            ps.date >= ${config.totals.startDatePrimary} AND ps.date <= ${config.totals.endDatePrimary}
+          `: sql``}
 
           ) AS pj
 
@@ -484,97 +256,49 @@ const l4_getSalesProjectionPeriodToDate = async (config, start, end) => {
   }
 }
 
-/* *********************************************** Level 5 Group *********************************************** */
-
-// FG Program row totals by week
-
-const l5_getSalesProjectionByWk = async (config, start, end) => {
+const l5_getSalesTotalPrimary = async config => {
   try {
-    console.log(`${config.user} - level 5: query postgres to get FG sales data by week (l4_getSalesProjectionByWk) ...`)
+    console.log(`${config.user} - level 5: query postgres to get FG sales data period total (l4_getSalesTotalPrimary) ...`)
 
     const response = await sql
-      `SELECT pj.column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
+      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, sl.week_serial || '_pj' AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
-        
-        FROM "salesReporting".sales_line_items AS sl
-          
+        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        FROM "salesReporting".sales_line_items AS d
         WHERE
-          sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end}
+          1=2
+
+        ${config.trends.useProjection.sl ? sql`
+        UNION ALL 
+          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
           
-        UNION 
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, so.week_serial || '_pj' AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
-      
-          FROM "salesReporting".sales_orders AS so
+          FROM "salesReporting".sales_line_items AS sl
             
-          WHERE 
-            so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
-            
-        UNION 
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, ps.week_serial || '_pj' AS column, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
-        
-          FROM "salesReporting".projected_sales AS ps        
-        
-          WHERE 
-          ps.date >= ${start} AND ps.date <= ${end}
-
-          ) AS pj
-
-          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-              ON ms.item_num = pj.item_num
-
           WHERE
-          1=1 
-          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+            sl.formatted_invoice_date >= ${config.totals.startDatePrimary} AND sl.formatted_invoice_date <= ${config.totals.endDatePrimary}
+          `: sql``}
 
-      GROUP BY pj.column, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)}
-      
-      ORDER BY pj.column` //prettier-ignore
-
-    return response
-  } catch (error) {
-    console.error(error)
-    return error
-  }
-}
-
-// FG Program col total for period
-
-const l5_getSalesProjectionPeriodToDate = async (config, start, end) => {
-  try {
-    console.log(`${config.user} - level 5: query postgres to get FG sales data period total (l4_getSalesProjectionPeriodToDate) ...`)
-
-    const response = await sql
-      `SELECT 'SALES PROJECTION TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
-      
-      FROM (
-        SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
-        
-        FROM "salesReporting".sales_line_items AS sl
-          
-        WHERE
-          sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end}
-          
-        UNION 
+        ${config.trends.useProjection.so ? sql`
+        UNION ALL
           SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
-            
-        UNION 
+            AND so.formatted_ship_date >= ${config.totals.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.endDatePrimary}
+          `: sql``}
+
+        ${config.trends.useProjection.ps ? sql` 
+        UNION ALL
           SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         
           FROM "salesReporting".projected_sales AS ps        
         
           WHERE 
-            ps.date >= ${start} AND ps.date <= ${end}
+            ps.date >= ${config.totals.startDatePrimary} AND ps.date <= ${config.totals.endDatePrimary}
+          `: sql``}
 
           ) AS pj
 
@@ -596,100 +320,50 @@ const l5_getSalesProjectionPeriodToDate = async (config, start, end) => {
   }
 }
 
-/* *********************************************** Totals *********************************************** */
-
-// All sales row totals by week for a program
-
-const l0_getSalesProjectionByWk = async (config, start, end) => {
+const l0_getSalesTotalPrimary = async config => {
   try {
-    console.log(`${config.user} - level 0: query postgres to get FG sales data by week (l0_getSalesProjectionByWk) ...`)
+    console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getSalesTotalPrimary) ...`)
 
     const response = await sql
       `
-      SELECT pj.column ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
+      SELECT 'SALES TOTAL' AS column ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
       
       FROM (
-        SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, sl.week_serial || '_pj' AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
-      
-        FROM "salesReporting".sales_line_items AS sl 
-          
-        WHERE 
-          sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
-          
-        UNION
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, so.week_serial || '_pj' AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
-      
-          FROM "salesReporting".sales_orders AS so 
-          
-          WHERE 
-            so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
-            AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
-         
-        UNION 
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, ps.week_serial || '_pj' AS column, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        FROM "salesReporting".sales_line_items AS d
+        WHERE
+          1=2
+
+        ${config.trends.useProjection.sl ? sql`
+        UNION ALL 
+          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
         
-          FROM "salesReporting".projected_sales AS ps        
-        
+          FROM "salesReporting".sales_line_items AS sl 
+            
           WHERE 
-            ps.date >= ${start} AND ps.date <= ${end}
+            sl.formatted_invoice_date >= ${config.totals.startDatePrimary} AND sl.formatted_invoice_date <= ${config.totals.endDatePrimary} 
+        `: sql``}
 
-          ) AS pj
-
-          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-              ON ms.item_num = pj.item_num
-
-          WHERE
-          1=1 
-          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
-
-      GROUP BY pj.column 
-      
-      ORDER BY pj.column` //prettier-ignore
-
-    return response
-  } catch (error) {
-    console.error(error)
-    return error
-  }
-}
-
-// All sales col total for a program
-
-const l0_getSalesProjectionPeriodToDate = async (config, start, end) => {
-  try {
-    console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getSalesProjectionPeriodToDate) ...`)
-
-    const response = await sql
-      `
-      SELECT 'SALES PROJECTION TOTAL' AS column ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp 
-      
-      FROM (
-        SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
-      
-        FROM "salesReporting".sales_line_items AS sl 
-          
-        WHERE 
-          sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
-          
-        UNION
+        ${config.trends.useProjection.so ? sql`
+        UNION ALL
           SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so 
          
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
-            AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
-        
+            AND so.formatted_ship_date >= ${config.totals.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.endDatePrimary}
+        `: sql``}
 
-        UNION 
+        ${config.trends.useProjection.ps ? sql` 
+        UNION ALL
           SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         
           FROM "salesReporting".projected_sales AS ps        
         
           WHERE 
-            ps.date >= ${start} AND ps.date <= ${end}
+            ps.date >= ${config.totals.startDatePrimary} AND ps.date <= ${config.totals.endDatePrimary}
+          `: sql``}
 
           ) AS pj
           
@@ -711,15 +385,9 @@ const l0_getSalesProjectionPeriodToDate = async (config, start, end) => {
   }
 }
 
-module.exports.l0_getSalesProjectionByWk = l0_getSalesProjectionByWk
-module.exports.l0_getSalesProjectionPeriodToDate = l0_getSalesProjectionPeriodToDate
-module.exports.l2_getSalesProjectionByWk = l2_getSalesProjectionByWk
-module.exports.l2_getSalesProjectionPeriodToDate = l2_getSalesProjectionPeriodToDate
-module.exports.l1_getSalesProjectionByWk = l1_getSalesProjectionByWk
-module.exports.l1_getSalesProjectionPeriodToDate = l1_getSalesProjectionPeriodToDate
-module.exports.l3_getSalesProjectionByWk = l3_getSalesProjectionByWk
-module.exports.l3_getSalesProjectionPeriodToDate = l3_getSalesProjectionPeriodToDate
-module.exports.l4_getSalesProjectionByWk = l4_getSalesProjectionByWk
-module.exports.l4_getSalesProjectionPeriodToDate = l4_getSalesProjectionPeriodToDate
-module.exports.l5_getSalesProjectionByWk = l5_getSalesProjectionByWk
-module.exports.l5_getSalesProjectionPeriodToDate = l5_getSalesProjectionPeriodToDate
+module.exports.l0_getSalesTotalPrimary = l0_getSalesTotalPrimary
+module.exports.l2_getSalesTotalPrimary = l2_getSalesTotalPrimary
+module.exports.l1_getSalesTotalPrimary = l1_getSalesTotalPrimary
+module.exports.l3_getSalesTotalPrimary = l3_getSalesTotalPrimary
+module.exports.l4_getSalesTotalPrimary = l4_getSalesTotalPrimary
+module.exports.l5_getSalesTotalPrimary = l5_getSalesTotalPrimary

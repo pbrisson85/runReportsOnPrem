@@ -8,20 +8,20 @@ module.exports = {
   getTrendColsSo: require('../../../../database/queries/postgres/trendColHeadings/getTrendColsSo').getTrendColsSo,
 
   // Sales Trend Primary
-  l1_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesProjectionTrend').l1_getSalesTrend,
-  l2_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesProjectionTrend').l2_getSalesTrend,
-  l3_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesProjectionTrend').l3_getSalesTrend,
-  l4_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesProjectionTrend').l4_getSalesTrend,
-  l5_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesProjectionTrend').l5_getSalesTrend,
-  l0_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesProjectionTrend').l0_getSalesTrend,
+  l1_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesTrendProjection').l1_getSalesTrend,
+  l2_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesTrendProjection').l2_getSalesTrend,
+  l3_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesTrendProjection').l3_getSalesTrend,
+  l4_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesTrendProjection').l4_getSalesTrend,
+  l5_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesTrendProjection').l5_getSalesTrend,
+  l0_getSalesTrend: require('../../../../database/queries/postgres/baseReport/getSalesTrendProjection').l0_getSalesTrend,
 
   // Sales Total Primary
-  l1_getSalesTotalPrimary: require('../../../../database/queries/postgres/baseReport/getSales').l1_getSalesTotalPrimary,
-  l2_getSalesTotalPrimary: require('../../../../database/queries/postgres/baseReport/getSales').l2_getSalesTotalPrimary,
-  l3_getSalesTotalPrimary: require('../../../../database/queries/postgres/baseReport/getSales').l3_getSalesTotalPrimary,
-  l4_getSalesTotalPrimary: require('../../../../database/queries/postgres/baseReport/getSales').l4_getSalesTotalPrimary,
-  l5_getSalesTotalPrimary: require('../../../../database/queries/postgres/baseReport/getSales').l5_getSalesTotalPrimary,
-  l0_getSalesTotalPrimary: require('../../../../database/queries/postgres/baseReport/getSales').l0_getSalesTotalPrimary,
+  l1_getSalesTotalPrimary: require('../../../../database/queries/postgres/baseReport/getSalesProjection').l1_getSalesTotalPrimary,
+  l2_getSalesTotalPrimary: require('../../../../database/queries/postgres/baseReport/getSalesProjection').l2_getSalesTotalPrimary,
+  l3_getSalesTotalPrimary: require('../../../../database/queries/postgres/baseReport/getSalesProjection').l3_getSalesTotalPrimary,
+  l4_getSalesTotalPrimary: require('../../../../database/queries/postgres/baseReport/getSalesProjection').l4_getSalesTotalPrimary,
+  l5_getSalesTotalPrimary: require('../../../../database/queries/postgres/baseReport/getSalesProjection').l5_getSalesTotalPrimary,
+  l0_getSalesTotalPrimary: require('../../../../database/queries/postgres/baseReport/getSalesProjection').l0_getSalesTotalPrimary,
 
   // Inv Data
   l1_getInv: require('../../../../database/queries/postgres/baseReport/getInven').l1_getInv,
