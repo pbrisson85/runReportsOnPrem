@@ -15,8 +15,7 @@ const getSalesProjection_detail = async (config, start, end, year) => {
         FROM "salesReporting".sales_line_items AS sl 
        
         WHERE 
-          sl.week >= ${start} AND sl.week <= ${end} 
-          AND sl.fiscal_year = ${year} 
+          sl.formatted_invoice_date >= ${startDate} AND sl.formatted_invoice_date <= ${endDate} 
          
         UNION 
           SELECT 'UNBILLED' AS status, so.sales_net_ext, so.gross_margin_lb, so.ave_cost_per_lb AS cost_lb, so.sales_net_lb AS net_sales_lb, so.othp_lb, so.unit_price AS gross_sales_lb, so.location, so.customer_code, so.customer_name, so.so_num AS doc_num, so.so_line AS line_number, so.formatted_ship_date AS ship_date, so.week_serial, so.item_num AS item_number, so.ext_weight AS lbs, so.ext_sales AS gross_sales_ext, so.ext_othp AS othp_ext, so.ext_cost AS cogs_ext, so.gross_margin_ext, so.out_sales_rep AS sales_rep, so.north_america, so.domestic, so.country, so.state 
@@ -25,17 +24,16 @@ const getSalesProjection_detail = async (config, start, end, year) => {
           
           WHERE 
             so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-            AND so.week >= ${start} AND so.week <= ${end} 
-            AND so.fiscal_year = ${year} 
+            so.formatted_ship_date >= ${startDate} AND so.formatted_ship_date <= ${endDate}
 
 
         UNION 
-            SELECT 'PROJECTION' AS status, 0 AS sales_net_ext, 0 AS gross_margin_lb, 0 AS ave_cost_per_lb, 0 AS net_sales_lb, 0 AS othp_lb, 0 AS gross_sales_lb, 'NA' AS location, ps.customer_code, ps.customer_name, 'PROJECTION' AS doc_num, 'NA' AS line_number, ps.date AS ship_date, ps.week_serial, ps.item_number, ps.lbs, 0 AS gross_sales_ext, 0 AS othp_ext, 0 AS cogs_ext, 0 AS gross_margin_ext, 'NEEDED' AS sales_rep, 'NEEDED' AS north_america, 'NEEDED' AS domestic, 'NEEDED' AS country, 'NEEDED' AS state
+            SELECT 'PROJECTION' AS status, 0 AS sales_net_ext, 0 AS gross_margin_lb, 0 AS ave_cost_per_lb, 0 AS net_sales_lb, 0 AS othp_lb, 0 AS gross_sales_lb, 'NA' AS location, pr.customer_code, pr.customer_name, 'PROJECTION' AS doc_num, 'NA' AS line_number, pr.date AS ship_date, pr.week_serial, pr.item_number, pr.lbs, 0 AS gross_sales_ext, 0 AS othp_ext, 0 AS cogs_ext, 0 AS gross_margin_ext, 'NEEDED' AS sales_rep, 'NEEDED' AS north_america, 'NEEDED' AS domestic, 'NEEDED' AS country, 'NEEDED' AS state
             
-            FROM "salesReporting".projected_sales AS ps        
+            FROM "salesReporting".projected_sales AS pr        
           
             WHERE 
-            ps.week >= ${start} AND ps.week <= ${end} AND ps.fiscal_year = ${year} 
+            pr.date >= ${startDate} AND pr.date <= ${endDate} 
           
         ) AS pj
 

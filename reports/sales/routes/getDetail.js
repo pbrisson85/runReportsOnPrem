@@ -19,38 +19,23 @@ const groupByOptions = require('../data/filters/detailGroupBy')
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { columnDataName, colType, reportFormat, startDate, endDate } = req.body
+  const { columnDataName, reportFormat, startDate, endDate, projection } = req.body
+  let { colType } = req.body
+
+  if (projection.sl || projection.so || projection.pr) colType = 'salesProjection' // WONKY
 
   const config = await getReportConfig(req.body)
-
-  console.log('detail:', startDate, endDate)
 
   let data = null
 
   console.log(`\n${config.user} - get detail data for ${reportFormat.dataName} route HIT...`)
 
   if (colType === 'invenFg') {
-    switch (columnDataName) {
-      case 'INVEN':
-        data = await getFgInven_detail(config)
-        break
-      case 'INV IN TRANSIT':
-        data = await getFgInTransit_detail(config)
-        break
-      case 'INV ON HAND':
-        data = await getFgAtLoc_detail(config)
-        break
-      case 'INV INV ON HAND UNTAGGED':
-        data = await getFgAtLoc_untagged_detail(config)
-        break
-      case 'INV INV ON HAND TAGGED':
-        data = await getFgAtLoc_tagged_detail(config)
-        break
-    }
+    data = await getFgInven_detail(config)
   }
 
   if (colType === 'salesOrder') {
-    data = await getSo_detail(config, startDate, endDate) // Not handling tagged vs untagged here. ******************* Might need to revisit to correct
+    data = await getSo_detail(config, startDate, endDate)
   }
 
   if (colType === 'salesInvoice') {
@@ -58,18 +43,7 @@ router.post('/', async (req, res) => {
   }
 
   if (colType === 'salesProjection') {
-    // Transform all queries to have a start week, end week, and year
-    let startWeek = config.totals.startWeekPrimary
-    let endWeek = config.totals.endWeekPrimary
-    let year = config.totals.yearPrimary
-
-    if (columnDataName.split('-')[1]?.charAt(0) === 'W') {
-      startWeek = columnDataName.split('-')[1].split('W')[1].split('_')[0]
-      endWeek = columnDataName.split('-')[1].split('W')[1].split('_')[0]
-      year = columnDataName.split('-')[0]
-    }
-
-    data = await getSalesProjection_detail(config, startWeek, endWeek, year)
+    data = await getSalesProjection_detail(config, startDate, endDate) // Should try to combine with getSales_detail
   }
 
   if (colType === 'purchaseOrder') {
