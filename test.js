@@ -1,32 +1,38 @@
-const process = async () => {
-  const promises = []
+// const process = async () => {
+//   const promises = []
 
-  const func1 = string => {
-    return [string]
-  }
+//   const func1 = string => {
+//     return [string]
+//   }
 
-  const func2 = string => {
-    return [string]
-  }
+//   const func2 = string => {
+//     return [string]
+//   }
 
-  const func3 = string => {
-    return [string]
-  }
+//   const func3 = string => {
+//     return [string]
+//   }
 
-  promises.push(func1('func1'))
-  promises.push(func2('func2'))
-  promises.push(func3('func3'))
+//   promises.push(func1('func1'))
+//   promises.push(func2('func2'))
+//   promises.push(func3('func3'))
 
-  console.log(promises)
+//   console.log(promises)
 
-  const results = await Promise.all(promises)
+//   const results = await Promise.all(promises)
 
-  let final = []
-  results.forEach(result => {
-    final = [...final, ...result]
-  })
+//   let final = []
+//   results.forEach(result => {
+//     final = [...final, ...result]
+//   })
 
-  console.log(final)
-}
+//   console.log(final)
+// }
 
-process()
+// process()
+
+const arrTrue = ['1', '2']
+const arrFalse = []
+
+console.log('arrFalse.length', arrFalse.length)
+console.log('!arrFalse', !arrFalse)
