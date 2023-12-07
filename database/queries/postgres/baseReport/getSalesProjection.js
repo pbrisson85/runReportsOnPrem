@@ -4,12 +4,8 @@ const l1_getSalesTotalPrimary = async config => {
   try {
     console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getSalesTotalPrimary) ...`)
 
-    console.log('config.totals.useProjection.sl', config.totals.useProjection.sl)
-    console.log('config.totals.useProjection.so', config.totals.useProjection.so)
-    console.log('config.totals.useProjection.pr', config.totals.useProjection.pr)
-
     const response = await sql
-      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp, ${config.totals.useProjection.sl ? 'TRUE' : 'FALSE' } AS "slProjection", ${config.totals.useProjection.so ? 'TRUE' : 'FALSE' } AS "soProjection", ${config.totals.useProjection.pr ? 'TRUE' : 'FALSE' } AS "prProjection"
+      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -73,7 +69,7 @@ const l2_getSalesTotalPrimary = async config => {
     console.log(`${config.user} - level 2: query postgres to get FG sales data period total (l2_getSalesTotalPrimary) ...`)
 
     const response = await sql
-      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp, ${config.totals.useProjection.sl ? 'TRUE' : 'FALSE' } AS slProjection, ${config.totals.useProjection.so ? 'TRUE' : 'FALSE' } AS soProjection, ${config.totals.useProjection.pr ? 'TRUE' : 'FALSE' } AS prProjection 
+      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -137,7 +133,7 @@ const l3_getSalesTotalPrimary = async config => {
     console.log(`${config.user} - level 3: query postgres to get FG sales data period total (l3_getSalesTotalPrimary) ...`)
 
     const response = await sql
-      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp, ${config.totals.useProjection.sl ? 'TRUE' : 'FALSE' } AS slProjection, ${config.totals.useProjection.so ? 'TRUE' : 'FALSE' } AS soProjection, ${config.totals.useProjection.pr ? 'TRUE' : 'FALSE' } AS prProjection 
+      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -201,7 +197,7 @@ const l4_getSalesTotalPrimary = async config => {
     console.log(`${config.user} - level 4: query postgres to get FG sales data period total (l4_getSalesTotalPrimary) ...`)
 
     const response = await sql
-      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp, ${config.totals.useProjection.sl ? 'TRUE' : 'FALSE' } AS slProjection, ${config.totals.useProjection.so ? 'TRUE' : 'FALSE' } AS soProjection, ${config.totals.useProjection.pr ? 'TRUE' : 'FALSE' } AS prProjection
+      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -265,7 +261,7 @@ const l5_getSalesTotalPrimary = async config => {
     console.log(`${config.user} - level 5: query postgres to get FG sales data period total (l4_getSalesTotalPrimary) ...`)
 
     const response = await sql
-      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp, ${config.totals.useProjection.sl ? 'TRUE' : 'FALSE' } AS slProjection, ${config.totals.useProjection.so ? 'TRUE' : 'FALSE' } AS soProjection, ${config.totals.useProjection.pr ? 'TRUE' : 'FALSE' } AS prProjection
+      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -330,7 +326,7 @@ const l0_getSalesTotalPrimary = async config => {
 
     const response = await sql
       `
-      SELECT 'SALES TOTAL' AS column ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp, ${config.totals.useProjection.sl ? 'TRUE' : 'FALSE' } AS slProjection, ${config.totals.useProjection.so ? 'TRUE' : 'FALSE' } AS soProjection, ${config.totals.useProjection.pr ? 'TRUE' : 'FALSE' } AS prProjection
+      SELECT 'SALES TOTAL' AS column ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 

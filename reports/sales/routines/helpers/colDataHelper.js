@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 // adds identifying data to the sales total col so that any detail or trend requests have relevant date and flags
 // also customize the displayname here based on parameters requested.
 
@@ -22,6 +24,7 @@ const addDataToSalesTotalCol = (config, columnConfigs) => {
     col.startDate = config.totals.startDatePrimary
     col.endDate = config.totals.endDatePrimary
     col.displayName = displayName
+    col.useProjection = config.totals.useProjection
   })
 
   return columnConfigs
@@ -53,5 +56,18 @@ const addDataToSoTotalCol = (config, columnConfigs) => {
   return columnConfigs
 }
 
+const addDataToSalesTrendCol = (config, columnConfigs) => {
+  // On right click must know if passing back projection data or not. All flags will be placed into the trend cols and the totals cols
+
+  columnConfigs.trendCol.forEach(col => {
+    // format displayName
+
+    col.useProjection = config.trends.useProjection
+  })
+
+  return columnConfigs
+}
+
 module.exports.addDataToSalesTotalCol = addDataToSalesTotalCol
 module.exports.addDataToSoTotalCol = addDataToSoTotalCol
+module.exports.addDataToSalesTrendCol = addDataToSalesTrendCol

@@ -95,6 +95,7 @@ module.exports = {
   calcInventoryAvailable: require('../../../../models/calcInventoryAvailable'),
   collapseRedundantTotalRows: require('../../../../models/collapseRedundantTotalRows'),
   sortRowTemplate: require('../../../../models/sortRowTemplate'),
-  addDataToSoTotalCol: require('../../../../models/colDataHelper').addDataToSoTotalCol,
-  addDataToSalesTotalCol: require('../../../../models/colDataHelper').addDataToSalesTotalCol,
+  addDataToSoTotalCol: require('../helpers/colDataHelper').addDataToSoTotalCol,
+  addDataToSalesTotalCol: require('../helpers/colDataHelper').addDataToSalesTotalCol,
+  addDataToSalesTrendCol: require('../helpers/colDataHelper').addDataToSalesTrendCol,
 }

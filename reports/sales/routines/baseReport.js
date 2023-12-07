@@ -559,25 +559,20 @@ const buildReport = async (config) => {
   // Call all column functions
   const [
     trendColsSales, 
-    trendColsSaByFyYtd, 
     trendColsSo, 
   ] = await Promise.all([
     trendColsSalesF(), 
-    trendColsSaByFyYtdF(), 
     trendColsSoF(), 
   ])
   
-  let columnConfigsTagged = m.addDataToSalesTotalCol(config, m.columnConfigs) // adds statDate, endDate, and displayName to the sales totals col
+  let columnConfigsTagged = m.addDataToSalesTotalCol(config, m.columnConfigs) // adds startDate, endDate, and displayName to the sales totals col
   columnConfigsTagged = m.addDataToSoTotalCol(config, m.columnConfigs) // adds statDate, endDate, and displayName to the sales orders col
-
+  columnConfigsTagged = m.addDataToSalesTrendCol(config,  m.columnConfigs) // adds useProjection data
   
-  // **** Note that this is where I should also add the identifying detail to the trend cols that is currently being handled in the trendColsAtom. *****
-
   return {
     data,
     cols: {
       trendColsSales,
-      trendColsSaByFyYtd,
       labelCols: config.labelCols,
       trendColsSo,
       columnConfigs: columnConfigsTagged,
