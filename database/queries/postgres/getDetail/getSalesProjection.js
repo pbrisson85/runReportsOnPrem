@@ -34,7 +34,7 @@ const getSalesProjection_detail = async (config, startDate, endDate, useProjecti
           
           WHERE 
             so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
-            so.formatted_ship_date >= ${startDate} AND so.formatted_ship_date <= ${endDate}
+            AND so.formatted_ship_date >= ${startDate} AND so.formatted_ship_date <= ${endDate}
           `: sql``}
 
         ${useProjection.ps ? sql`
