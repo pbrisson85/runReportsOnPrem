@@ -20,12 +20,12 @@ const buildReport = async (config) => {
 
   ///////////////////////////////// PURCHASE DATA
 
-  const l0_fgPo = () => {return m.l0_getFgPo(config)}
-  const l1_fgPo = () => {return m.l1_getFgPo(config)}
-  const l2_fgPo = () => {return m.l2_getFgPo(config)}
-  const l3_fgPo =  config.baseFormat.l3_field ? () => {return m.l3_getFgPo(config)} : skip()
-  const l4_fgPo =  config.baseFormat.l4_field ? () => {return m.l4_getFgPo(config)} : skip()
-  const l5_fgPo =  config.baseFormat.l5_field ? () => {return m.l5_getFgPo(config)} : skip()
+  const l0_OpenPo = () => {return m.l0_getOpenPo(config)}
+  const l1_OpenPo = () => {return m.l1_getOpenPo(config)}
+  const l2_OpenPo = () => {return m.l2_getOpenPo(config)}
+  const l3_OpenPo =  config.baseFormat.l3_field ? () => {return m.l3_getOpenPo(config)} : skip()
+  const l4_OpenPo =  config.baseFormat.l4_field ? () => {return m.l4_getOpenPo(config)} : skip()
+  const l5_OpenPo =  config.baseFormat.l5_field ? () => {return m.l5_getOpenPo(config)} : skip()
   
   ///////////////////////////////// SALES ORDERS
 
@@ -69,12 +69,12 @@ const buildReport = async (config) => {
     l4_InvR,
     l5_InvR,
     l0_InvR,
-    l1_fgPoR,
-    l2_fgPoR,
-    l3_fgPoR,
-    l4_fgPoR,
-    l5_fgPoR,
-    l0_fgPoR,
+    l1_OpenPoR,
+    l2_OpenPoR,
+    l3_OpenPoR,
+    l4_OpenPoR,
+    l5_OpenPoR,
+    l0_OpenPoR,
     l1_soR,
     l2_soR,
     l3_soR,
@@ -106,12 +106,12 @@ const buildReport = async (config) => {
     l4_Inv(),
     l5_Inv(),
     l0_Inv(),
-    l1_fgPo(),
-    l2_fgPo(),
-    l3_fgPo(),
-    l4_fgPo(),
-    l5_fgPo(),
-    l0_fgPo(),
+    l1_OpenPo(),
+    l2_OpenPo(),
+    l3_OpenPo(),
+    l4_OpenPo(),
+    l5_OpenPo(),
+    l0_OpenPo(),
     l1_so(),
     l2_so(),
     l3_so(),
@@ -333,12 +333,12 @@ const buildReport = async (config) => {
   const l5_weeksInvOnHand = config.baseFormat.l5_field ? m.calcWeeksInvOnHand(l5_InvR, l5_aveWeeklySales, 'weeksInvenOnHand') : [] 
   
   /* INVENTORY AVAILABLE */
-  const l0_invAvailable = m.calcInventoryAvailable(l0_InvR, l0_fgPoR, l0_soR, 'invenAvailable')
-  const l1_invAvailable = m.calcInventoryAvailable(l1_InvR, l1_fgPoR, l1_soR, 'invenAvailable')
-  const l2_invAvailable = m.calcInventoryAvailable(l2_InvR, l2_fgPoR, l2_soR, 'invenAvailable')
-  const l3_invAvailable = config.baseFormat.l3_field ? m.calcInventoryAvailable(l3_InvR, l3_fgPoR, l3_soR, 'invenAvailable') : []
-  const l4_invAvailable = config.baseFormat.l4_field ? m.calcInventoryAvailable(l4_InvR, l4_fgPoR, l4_soR, 'invenAvailable') : []
-  const l5_invAvailable = config.baseFormat.l5_field ? m.calcInventoryAvailable(l5_InvR, l5_fgPoR, l5_soR, 'invenAvailable') : []
+  const l0_invAvailable = m.calcInventoryAvailable(l0_InvR, l0_OpenPoR, l0_soR, 'invenAvailable')
+  const l1_invAvailable = m.calcInventoryAvailable(l1_InvR, l1_OpenPoR, l1_soR, 'invenAvailable')
+  const l2_invAvailable = m.calcInventoryAvailable(l2_InvR, l2_OpenPoR, l2_soR, 'invenAvailable')
+  const l3_invAvailable = config.baseFormat.l3_field ? m.calcInventoryAvailable(l3_InvR, l3_OpenPoR, l3_soR, 'invenAvailable') : []
+  const l4_invAvailable = config.baseFormat.l4_field ? m.calcInventoryAvailable(l4_InvR, l4_OpenPoR, l4_soR, 'invenAvailable') : []
+  const l5_invAvailable = config.baseFormat.l5_field ? m.calcInventoryAvailable(l5_InvR, l5_OpenPoR, l5_soR, 'invenAvailable') : []
 
   ///////////////////////////////// ROWS
   const rowsFifthLevelDetail =  config.baseFormat.l5_field ? () => {return m.getRowsFifthLevelDetail(config)} : skip() 
@@ -522,12 +522,12 @@ const buildReport = async (config) => {
       ...l4_InvR,
       ...l5_InvR,
       ...l0_InvR,
-      ...l1_fgPoR,
-      ...l2_fgPoR,
-      ...l3_fgPoR,
-      ...l4_fgPoR,
-      ...l5_fgPoR,
-      ...l0_fgPoR,
+      ...l1_OpenPoR,
+      ...l2_OpenPoR,
+      ...l3_OpenPoR,
+      ...l4_OpenPoR,
+      ...l5_OpenPoR,
+      ...l0_OpenPoR,
       ...l1_weeksInvOnHand,
       ...l2_weeksInvOnHand,
       ...l3_weeksInvOnHand,

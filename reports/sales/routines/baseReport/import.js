@@ -45,12 +45,12 @@ module.exports = {
   getSpeciesGroupTotalSales: require('../../../../database/queries/postgres/kpi/getSpeciesGroupTotalSalesFromProgram'),
 
   // PO Data
-  l1_getFgPo: require('../../../../database/queries/postgres/baseReport/getFgOpenPo').l1_getFgPo,
-  l2_getFgPo: require('../../../../database/queries/postgres/baseReport/getFgOpenPo').l2_getFgPo,
-  l3_getFgPo: require('../../../../database/queries/postgres/baseReport/getFgOpenPo').l3_getFgPo,
-  l4_getFgPo: require('../../../../database/queries/postgres/baseReport/getFgOpenPo').l4_getFgPo,
-  l5_getFgPo: require('../../../../database/queries/postgres/baseReport/getFgOpenPo').l5_getFgPo,
-  l0_getFgPo: require('../../../../database/queries/postgres/baseReport/getFgOpenPo').l0_getFgPo,
+  l1_getOpenPo: require('../../../../database/queries/postgres/baseReport/getOpenPo').l1_getOpenPo,
+  l2_getOpenPo: require('../../../../database/queries/postgres/baseReport/getOpenPo').l2_getOpenPo,
+  l3_getOpenPo: require('../../../../database/queries/postgres/baseReport/getOpenPo').l3_getOpenPo,
+  l4_getOpenPo: require('../../../../database/queries/postgres/baseReport/getOpenPo').l4_getOpenPo,
+  l5_getOpenPo: require('../../../../database/queries/postgres/baseReport/getOpenPo').l5_getOpenPo,
+  l0_getOpenPo: require('../../../../database/queries/postgres/baseReport/getOpenPo').l0_getOpenPo,
 
   // Sales Order Total Data
   l1_getSo: require('../../../../database/queries/postgres/baseReport/getSo').l1_getSo,

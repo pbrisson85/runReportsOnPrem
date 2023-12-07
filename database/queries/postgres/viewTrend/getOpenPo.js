@@ -2,7 +2,7 @@ const sql = require('../../../../server')
 
 /* *********************************************** Level 1 *********************************************** */
 
-const l1_getFgPo = async (config, trendQuery) => {
+const l1_getOpenPo = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG open PO ...`)
 
@@ -61,7 +61,7 @@ const l1_getFgPo = async (config, trendQuery) => {
 
 /* *********************************************** TOTAL *********************************************** */
 
-const l0_getFgPo = async (config, trendQuery) => {
+const l0_getOpenPo = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 0: query postgres for FG open PO ...`)
 
@@ -102,5 +102,5 @@ const l0_getFgPo = async (config, trendQuery) => {
   }
 }
 
-module.exports.l1_getFgPo = l1_getFgPo
-module.exports.l0_getFgPo = l0_getFgPo
+module.exports.l1_getOpenPo = l1_getOpenPo
+module.exports.l0_getOpenPo = l0_getOpenPo

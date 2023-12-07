@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
   const { columnDataName, reportFormat, startDate, endDate, useProjection } = req.body
   let { colType } = req.body
 
-  if (useProjection.so || useProjection.pr) colType = 'salesProjection' // WONKY
+  if (useProjection?.so || useProjection?.pr) colType = 'salesProjection' // WONKY
 
   const config = await getReportConfig(req.body)
 
