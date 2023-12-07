@@ -6,13 +6,13 @@ const getSalesProjection_detail = async (config, startDate, endDate, useProjecti
   try {
     console.log(`${config.user} - level ${config.baseFilters.queryLevel}: query postgres to get SALES PROJECTION ...`)
 
-    let today = new Date()
+    const today = new Date()
 
     const response = await sql
       `SELECT status, pj.net_sales_ext, pj.gross_margin_lb, pj.cost_lb, pj.net_sales_lb, pj.othp_lb, pj.gross_sales_lb, pj.location, pj.customer_code, pj.customer_name, pj.doc_num, pj.line_number, pj.ship_date, pj.week_serial, pj.item_number, ms.description, ms.species, ms.brand, ms.size_name, ms.fg_treatment, ms.fg_fresh_frozen, pj.lbs, pj.gross_sales_ext, pj.othp_ext, pj.cogs_ext, pj.gross_margin_ext, pj.sales_rep, pj.north_america, pj.domestic, pj.country, pj.state 
 
       FROM (
-        SELECT 'dummy' AS status, 0 AS net_sales_ext, 0 AS gross_margin_lb, 0 AS cost_lb, 0 AS net_sales_lb, 0 AS othp_lb, 0 AS gross_sales_lb, 'dummy' AS location, 'dummy' AS customer_code, 'dummy' AS customer_name, 'dummy' AS doc_num, 'dummy' AS line_number, ${sql(today)} AS ship_date, 'dummy' AS week_serial, 'dummy' AS item_number, 0 AS lbs, 0 AS gross_sales_ext, 0 AS othp_ext, 0 AS cogs_ext, 0 AS gross_margin_ext, 'dummy' AS sales_rep, 'dummy' AS north_america, 'dummy' AS domestic, 'dummy' AS country, 'dummy' AS state 
+        SELECT 'dummy' AS status, 0 AS net_sales_ext, 0 AS gross_margin_lb, 0 AS cost_lb, 0 AS net_sales_lb, 0 AS othp_lb, 0 AS gross_sales_lb, 'dummy' AS location, 'dummy' AS customer_code, 'dummy' AS customer_name, 'dummy' AS doc_num, 'dummy' AS line_number, '12-07-2023' AS ship_date, 'dummy' AS week_serial, 'dummy' AS item_number, 0 AS lbs, 0 AS gross_sales_ext, 0 AS othp_ext, 0 AS cogs_ext, 0 AS gross_margin_ext, 'dummy' AS sales_rep, 'dummy' AS north_america, 'dummy' AS domestic, 'dummy' AS country, 'dummy' AS state 
         
         FROM "salesReporting".sales_line_items
       
