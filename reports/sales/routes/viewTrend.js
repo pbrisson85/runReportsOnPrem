@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const viewTrend = require('../routines/viewTrend')
+const viewTrend = require('../routines/viewTrend/viewTrend')
 const labelCols_byItem = require('../data/trendCols/colsByItem')
 const labelCols_byCustomer = require('../data/trendCols/colsByCustomer')
 const labelCols_byCustType = require('../data/trendCols/colsByCustType')

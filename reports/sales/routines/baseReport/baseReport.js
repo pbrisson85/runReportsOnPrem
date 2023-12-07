@@ -1,4 +1,4 @@
-const m = require('./baseReport/import')
+const m = require('./import')
 
 const buildReport = async (config) => {
   // The routine and all of the queries can be the same for all reports. Going to buikd out this rpeort and then change the config manually to test.

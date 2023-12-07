@@ -1,25 +1,25 @@
 
-const { getTrendColsSo } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsSo')
+const { getTrendColsSo } = require('../../../../database/queries/postgres/trendColHeadings/getTrendColsSo')
 //const { getTrendColsCalMonths } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsCalMonths')
-const { getTrendColsWeeks } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsSales')
-const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalYear')
-const { getLatestShipWk, getEarliestShipWk } = require('../utils/configHelpers/getSoDates')
+const { getTrendColsWeeks } = require('../../../../database/queries/postgres/trendColHeadings/getTrendColsSales')
+const { getFiscalYearCols, getFiscalYearYtdCols } = require('../../../../database/queries/postgres/trendColHeadings/getTrendColsFiscalYear')
+const { getLatestShipWk, getEarliestShipWk } = require('../../utils/configHelpers/getSoDates')
 const {
   l1_getSalesByWk,
   l0_getSalesByWk,
   l1_getSalesPeriodToDate,
   l0_getSalesPeriodToDate,
-} = require('../../../database/queries/postgres/viewTrend/getSalesTrendDateDriven')
+} = require('../../../../database/queries/postgres/viewTrend/getSalesTrendDateDriven')
 const {
   l1_getSalesProjByWk,
   l0_getSalesProjByWk,
   l1_getSalesProjPeriodToDate,
   l0_getSalesProjPeriodToDate,
-} = require('../../../database/queries/postgres/viewTrend/getSalesProjection')
-const { l1_getSalesWkDriven, l0_getSalesWkDriven } = require('../../../database/queries/postgres/viewTrend/getSalesTrendWkDriven')
-const { getCompanyTotalSales } = require('../../../database/queries/postgres/kpi/getCompanyTotalSales_OLD')
-const { l0_getSalesPeriodToDate: l0_program_getSalesPeriodToDate } = require('../../../database/queries/postgres/baseReport/getSalesTrend')
-const { l1_getSalesByFyYtd, l0_getSalesByFyYtd } = require('../../../database/queries/postgres/viewTrend/getSalesTrendByFyYtd')
+} = require('../../../../database/queries/postgres/viewTrend/getSalesProjection')
+const { l1_getSalesWkDriven, l0_getSalesWkDriven } = require('../../../../database/queries/postgres/viewTrend/getSalesTrendWkDriven')
+const { getCompanyTotalSales } = require('../../../../database/queries/postgres/kpi/getCompanyTotalSales_OLD')
+const { l0_getSalesPeriodToDate: l0_program_getSalesPeriodToDate } = require('../../../../database/queries/postgres/baseReport/getSalesTrend')
+const { l1_getSalesByFyYtd, l0_getSalesByFyYtd } = require('../../../../database/queries/postgres/viewTrend/getSalesTrendByFyYtd')
 const {
   l1_getFgInven,
   l0_getFgInven,
@@ -31,26 +31,26 @@ const {
   l0_getFgAtLoc_untagged,
   l1_getFgAtLoc_tagged,
   l0_getFgAtLoc_tagged,
-} = require('../../../database/queries/postgres/viewTrend/getFgInven')
-const { l1_getFgPo, l0_getFgPo } = require('../../../database/queries/postgres/viewTrend/getFgOpenPo')
-const { l1_getSo, l0_getSo } = require('../../../database/queries/postgres/viewTrend/getSo')
+} = require('../../../../database/queries/postgres/viewTrend/getFgInven')
+const { l1_getFgPo, l0_getFgPo } = require('../../../../database/queries/postgres/viewTrend/getFgOpenPo')
+const { l1_getSo, l0_getSo } = require('../../../../database/queries/postgres/viewTrend/getSo')
 const {
   l1_getSo_byWk,
   l0_getSo_byWk,
-} = require('../../../database/queries/postgres/viewTrend/getSoByWeek')
-const { getRowsFirstLevelDetail } = require('../../../database/queries/postgres/viewTrend/getRows')
-const mapSalesToRowTemplates = require('../../../models/mapSalesToRowTemplatesOneLevel')
-const mapInvenToRowTemplates = require('../../../models/mapInvenToRowTemplatesOneLevel')
-const combineMappedRows = require('../../../models/combineMappedRows')
-const cleanLabelsForDisplay = require('../../../models/cleanLabelsForDisplay')
-const unflattenByCompositKey = require('../../../models/unflattenByCompositKey')
-const calcPercentSalesCol = require('../../../models/calcPercentSalesCol')
-const calcYoyYtdSalesCol = require('../../../models/calcYoyYtdSalesCol')
-const calcMomentum = require('../../../models/calcMomentumSalesCol')
-const calcAveWeeklySales = require('../../../models/calcAveWeeklySales')
-const calcWeeksInvOnHand = require('../../../models/calcWeeksInvOnHand')
-const calcInventoryAvailable = require('../../../models/calcInventoryAvailable')
-const columnConfigs = require('../data/baseCols/columns')
+} = require('../../../../database/queries/postgres/viewTrend/getSoByWeek')
+const { getRowsFirstLevelDetail } = require('../../../../database/queries/postgres/viewTrend/getRows')
+const mapSalesToRowTemplates = require('../../../../models/mapSalesToRowTemplatesOneLevel')
+const mapInvenToRowTemplates = require('../../../../models/mapInvenToRowTemplatesOneLevel')
+const combineMappedRows = require('../../../../models/combineMappedRows')
+const cleanLabelsForDisplay = require('../../../../models/cleanLabelsForDisplay')
+const unflattenByCompositKey = require('../../../../models/unflattenByCompositKey')
+const calcPercentSalesCol = require('../../../../models/calcPercentSalesCol')
+const calcYoyYtdSalesCol = require('../../../../models/calcYoyYtdSalesCol')
+const calcMomentum = require('../../../../models/calcMomentumSalesCol')
+const calcAveWeeklySales = require('../../../../models/calcAveWeeklySales')
+const calcWeeksInvOnHand = require('../../../../models/calcWeeksInvOnHand')
+const calcInventoryAvailable = require('../../../../models/calcInventoryAvailable')
+const columnConfigs = require('../../data/baseCols/columns')
 
 
 // Note that KPI data does not have the logic cleaned up to handle useSalesProjection like the base report does at this time.

@@ -2,7 +2,7 @@ const sql = require('../../../../server')
 
 // FG Program col total for period
 
-const getSalesProjection_detail = async (config, start, end, year) => {
+const getSalesProjection_detail = async (config, startDate, endDate, useProjection) => {
   try {
     console.log(`${config.user} - level ${config.baseFilters.queryLevel}: query postgres to get SALES PROJECTION ...`)
 
@@ -10,14 +10,24 @@ const getSalesProjection_detail = async (config, start, end, year) => {
       `SELECT status, pj.net_sales_ext, pj.gross_margin_lb, pj.cost_lb, pj.net_sales_lb, pj.othp_lb, pj.gross_sales_lb, pj.location, pj.customer_code, pj.customer_name, pj.doc_num, pj.line_number, pj.ship_date, pj.week_serial, pj.item_number, ms.description, ms.species, ms.brand, ms.size_name, ms.fg_treatment, ms.fg_fresh_frozen, pj.lbs, pj.gross_sales_ext, pj.othp_ext, pj.cogs_ext, pj.gross_margin_ext, pj.sales_rep, pj.north_america, pj.domestic, pj.country, pj.state 
 
       FROM (
-        SELECT 'BILLED' AS status, sl.net_sales_ext, sl.gross_margin_lb, sl.cost_lb, sl.net_sales_lb, sl.othp_lb, sl.gross_sales_lb, sl.location, sl.customer_code, sl.customer_name, sl.invoice_number AS doc_num, sl.line_number, sl.formatted_invoice_date AS ship_date, sl.week_serial, sl.item_number, sl.calc_gm_rept_weight AS lbs, sl.gross_sales_ext, sl.othp_ext, sl.cogs_ext_gl AS cogs_ext, sl.gross_margin_ext, sl.outside_salesperson_code AS sales_rep, sl.north_america, sl.domestic, sl.country, sl.state 
+        SELECT 'dummy' AS status, 0 AS net_sales_ext, 0 AS gross_margin_lb, 0 AS cost_lb, 0 AS net_sales_lb, 0 AS othp_lb, 0 AS gross_sales_lb, 'dummy' AS location, 'dummy' AS customer_code, 'dummy' AS customer_name, 'dummy' AS doc_num, 'dummy' AS line_number, 0 AS ship_date, 'dummy' AS week_serial, 'dummy' AS item_number, 0 AS lbs, 0 AS gross_sales_ext, 0 AS othp_ext, 0 AS cogs_ext, 0 AS gross_margin_ext, 'dummy' AS sales_rep, 'dummy' AS north_america, 'dummy' AS domestic, 'dummy' AS country, 'dummy' AS state 
+        
+        FROM "salesReporting".sales_line_items
       
-        FROM "salesReporting".sales_line_items AS sl 
-       
-        WHERE 
-          sl.formatted_invoice_date >= ${startDate} AND sl.formatted_invoice_date <= ${endDate} 
-         
-        UNION 
+        WHERE 1=2
+        
+        ${useProjection.sl ? sql`
+        UNION ALL
+          SELECT 'BILLED' AS status, sl.net_sales_ext, sl.gross_margin_lb, sl.cost_lb, sl.net_sales_lb, sl.othp_lb, sl.gross_sales_lb, sl.location, sl.customer_code, sl.customer_name, sl.invoice_number AS doc_num, sl.line_number, sl.formatted_invoice_date AS ship_date, sl.week_serial, sl.item_number, sl.calc_gm_rept_weight AS lbs, sl.gross_sales_ext, sl.othp_ext, sl.cogs_ext_gl AS cogs_ext, sl.gross_margin_ext, sl.outside_salesperson_code AS sales_rep, sl.north_america, sl.domestic, sl.country, sl.state 
+        
+          FROM "salesReporting".sales_line_items AS sl 
+        
+          WHERE 
+            sl.formatted_invoice_date >= ${startDate} AND sl.formatted_invoice_date <= ${endDate} 
+          `: sql``}
+
+        ${useProjection.so ? sql`
+        UNION ALL
           SELECT 'UNBILLED' AS status, so.sales_net_ext, so.gross_margin_lb, so.ave_cost_per_lb AS cost_lb, so.sales_net_lb AS net_sales_lb, so.othp_lb, so.unit_price AS gross_sales_lb, so.location, so.customer_code, so.customer_name, so.so_num AS doc_num, so.so_line AS line_number, so.formatted_ship_date AS ship_date, so.week_serial, so.item_num AS item_number, so.ext_weight AS lbs, so.ext_sales AS gross_sales_ext, so.ext_othp AS othp_ext, so.ext_cost AS cogs_ext, so.gross_margin_ext, so.out_sales_rep AS sales_rep, so.north_america, so.domestic, so.country, so.state 
       
           FROM "salesReporting".sales_orders AS so 
@@ -25,16 +35,18 @@ const getSalesProjection_detail = async (config, start, end, year) => {
           WHERE 
             so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders) 
             so.formatted_ship_date >= ${startDate} AND so.formatted_ship_date <= ${endDate}
+          `: sql``}
 
-
-        UNION 
+        ${useProjection.ps ? sql`
+        UNION ALL
             SELECT 'PROJECTION' AS status, 0 AS sales_net_ext, 0 AS gross_margin_lb, 0 AS ave_cost_per_lb, 0 AS net_sales_lb, 0 AS othp_lb, 0 AS gross_sales_lb, 'NA' AS location, pr.customer_code, pr.customer_name, 'PROJECTION' AS doc_num, 'NA' AS line_number, pr.date AS ship_date, pr.week_serial, pr.item_number, pr.lbs, 0 AS gross_sales_ext, 0 AS othp_ext, 0 AS cogs_ext, 0 AS gross_margin_ext, 'NEEDED' AS sales_rep, 'NEEDED' AS north_america, 'NEEDED' AS domestic, 'NEEDED' AS country, 'NEEDED' AS state
             
             FROM "salesReporting".projected_sales AS pr        
           
             WHERE 
             pr.date >= ${startDate} AND pr.date <= ${endDate} 
-          
+            `: sql``}
+
         ) AS pj
 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 

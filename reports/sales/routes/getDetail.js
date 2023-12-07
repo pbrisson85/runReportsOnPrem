@@ -19,10 +19,10 @@ const groupByOptions = require('../data/filters/detailGroupBy')
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { columnDataName, reportFormat, startDate, endDate, projection } = req.body
+  const { columnDataName, reportFormat, startDate, endDate, useProjection } = req.body
   let { colType } = req.body
 
-  if (projection.sl || projection.so || projection.pr) colType = 'salesProjection' // WONKY
+  if (useProjection.so || useProjection.pr) colType = 'salesProjection' // WONKY
 
   console.log('projection', projection)
 
@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
   }
 
   if (colType === 'salesProjection') {
-    data = await getSalesProjection_detail(config, startDate, endDate) // Should try to combine with getSales_detail
+    data = await getSalesProjection_detail(config, startDate, endDate, useProjection) // Should try to combine with getSales_detail
   }
 
   if (colType === 'purchaseOrder') {
