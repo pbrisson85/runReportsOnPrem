@@ -14,7 +14,7 @@ const labelCols_bySpecies = require('../data/trendCols/colsBySpecies')
 const labelCols_bySpeciesGroup = require('../data/trendCols/colsBySpeciesGroup')
 const getReportConfig = require('../utils/getReportConfig')
 const getViewTrendConfig = require('../utils/getViewTrendConfig')
-const addCustomerName = require('../routines/custom/trendByCustomer')
+const addCustomerName = require('../routines/helpers/trendByCustomer')
 
 // @route   POST /api/sales/drillDown/forProgBySpecSoakSize
 // @desc
