@@ -1,8 +1,7 @@
 const m = require('./import')
 
-// Note that KPI data does not have the logic cleaned up to handle useSalesProjection like the base report does at this time.
 
-const buildDrillDown = async (labelCols, config, trendQuery, useProjection) => {
+const buildDrillDown = async (labelCols, config, trendQuery, useProjection, startDate, endDate) => {
   const skip = () => {
     return () => {
       return []
@@ -10,26 +9,25 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection) => {
   }
 
   ///////////////////////////////// INVENTORY DATA
-  /* TOTAL FG (FG) */
+
   const l1_invenF = () => { return m.l1_getInven(config, trendQuery)}
   const l0_invenF = () => { return m.l0_getInven(config, trendQuery)}
  
 
-  /* PURCHASE ORDER */
+  ///////////////////////////////// PURCHASE DATA
+
   const l1_OpenPoF = () => { return m.l1_getOpenPo(config, trendQuery)}
   const l0_OpenPoF = () => { return m.l0_getOpenPo(config, trendQuery)}
 
-  // ///////////////////////////////// SALES ORDERS
-  /* ALL SO */
+  ///////////////////////////////// SALES ORDERS
+
   const l1_soF = () => { return m.l1_getSo(config, trendQuery)}
   const l0_soF = () => { return m.l0_getSo(config)}
 
   const l1_soTrendF = () => { return m.l1_getSoTrend(config, trendQuery)}
   const l0_soTrendF = () => { return m.l0_getSoTrend(config)}
 
-  // ///////////////////////////////// SALES DATA
-
-  /* SALES */
+  ///////////////////////////////// SALES DATA
 
   const l1_salesTrendF = !config.trends.queryGrouping ? skip() :  () => { return m.l1_getSalesTrend(config, trendQuery, useProjection)}
   const l0_salesTrendF = !config.trends.queryGrouping ? skip() :  () => { return m.l0_getSalesTrend(config, useProjection)}
@@ -37,7 +35,7 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection) => {
   const l1_salesF = () => { return m.l1_getSales(config, startDate, endDate, trendQuery, useProjection)}
   const l0_salesF = () => { return m.l0_getSales(config, startDate, endDate, useProjection)}
 
-  /* KPI Data */
+  ///////////////////////////////// KPI DATA
   
   const l1_trailingTwoWeekF = config.totals.endWeekPrimary < 2 ? skip() : () => { return m.l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, trendQuery, config.totals.yearPrimary, '2wk Rolling')}
   const l0_trailingTwoWeekF = config.totals.endWeekPrimary < 2 ? skip() : () => { return m.l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')}
@@ -51,7 +49,7 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection) => {
   const l1_trailingTwelveWeekF = config.totals.endWeekPrimary < 12 ? skip() : () => { return m.l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, trendQuery, config.totals.yearPrimary, '12wk Rolling')}
   const l0_trailingTwelveWeekF = config.totals.endWeekPrimary < 12 ? skip() : () => { return m.l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, config.totals.yearPrimary, '12wk Rolling')}
 
-  const companyTotalSalesF = () => { return m.getCompanyTotalSales(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
+  const companyTotalSalesF = () => { return m.getCompanyTotalSales(startDate, endDate, config)}
 
   const [
     l1_inven, 
@@ -112,7 +110,7 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection) => {
   let l1_percent_programSales = []
   let l0_percent_programSales = []
   if (config.baseFilters.program !== null) {
-    const l0_program_sales = await m.l0_program_getsales(config, config.totals.startDatePrimary, config.totals.endDatePrimary, config.baseFilters.program)
+    const l0_program_sales = await m.l0_program_getsales(config, startDate, endDate, config.baseFilters.program)
     l1_percent_programSales = m.calcPercentSalesCol(l0_program_sales[0], l1_sales, 'percentProgramSales')
     l0_percent_programSales = m.calcPercentSalesCol(l0_program_sales[0], l0_sales, 'percentProgramSales')
   }
@@ -151,7 +149,7 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection) => {
   const l0_invAvailable = !l0_inven.length ? [] : m.calcInventoryAvailable(l0_inven, l0_OpenPo, l0_so, 'invenAvailable')
 
   ///////////////////////////////// ROWS
-  const rowsFirstLevelDetail = await m.getRowsFirstLevelDetail(config, config.totals.startDatePrimary, config.totals.endDatePrimary, trendQuery)
+  const rowsFirstLevelDetail = await m.getRowsFirstLevelDetail(config, startDate, endDate, trendQuery)
 
   const totalsRow = [
     { totalRow: true, l1_label: `${config.baseFilters.itemType} SALES`, l2_label: `TOTAL`, datalevel: config.baseFilters.queryLevel, itemtype: config.baseFilters.itemType },
