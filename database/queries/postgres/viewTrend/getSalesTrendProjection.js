@@ -202,13 +202,6 @@ const l0_getSalesTrend = async (config, useProjection) => {
           'dummy' AS item_number,
           'dummy' AS customer_code,
           '01-01-23' AS column, 
-          'dummy' AS l1_label,
-          'dummy' AS l2_label, 
-          'dummy' AS l3_label, 
-          'dummy' AS l4_label, 
-          'dummy' AS l5_label, 
-          'dummy' AS l6_label, 
-          'dummy' AS l7_label,
           0 AS lbs, 
           0 AS sales, 
           0 AS cogs, 
@@ -282,13 +275,6 @@ const l0_getSalesTrend = async (config, useProjection) => {
             pr.item_number,
             pr.customer_code,
             ${sql(config.trends.queryGrouping)}  AS column, 
-            ${trendQuery.pr.l1_label ? sql`${sql(trendQuery.pr.l1_label)} AS l1_label,`: sql``} 
-            ${trendQuery.pr.l2_label ? sql`${sql(trendQuery.pr.l2_label)} AS l2_label,`: sql``} 
-            ${trendQuery.pr.l3_label ? sql`${sql(trendQuery.pr.l3_label)} AS l3_label,`: sql``} 
-            ${trendQuery.pr.l4_label ? sql`${sql(trendQuery.pr.l4_label)} AS l4_label,`: sql``} 
-            ${trendQuery.pr.l5_label ? sql`${sql(trendQuery.pr.l5_label)} AS l5_label,`: sql``} 
-            ${trendQuery.pr.l6_label ? sql`${sql(trendQuery.pr.l6_label)} AS l6_label,`: sql``} 
-            ${trendQuery.pr.l7_label ? sql`${sql(trendQuery.pr.l7_label)} AS l7_label,`: sql``} 
             COALESCE(pr.lbs,0) AS lbs, 
             0 AS sales, 
             0 AS cogs, 
