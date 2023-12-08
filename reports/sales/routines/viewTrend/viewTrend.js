@@ -246,7 +246,7 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
   })
 
   const flattenedMappedData = Object.values(mappedData)
-  let data = m.cleanLabelsForDisplay(flattenedMappedData, '')
+  let data = m.cleanLabelsForDisplay(flattenedMappedData, config)
     .sort((a, b) => {
       // if has includes total, put at config.totals.endDatePrimary
       if (a.l1_label < b.l1_label) return -1
