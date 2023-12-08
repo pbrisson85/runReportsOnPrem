@@ -175,7 +175,7 @@ const l1_getSalesTrend = async (config, trendQuery, useProjection) => {
       
       GROUP BY 
         pj.column 
-        ${trendQuery.sl.l1_label ? sql`pj.l1_label`: sql``} 
+        ${trendQuery.sl.l1_label ? sql`, pj.l1_label`: sql``} 
         ${trendQuery.sl.l2_label ? sql`, pj.l2_label`: sql``} 
         ${trendQuery.sl.l3_label ? sql`, pj.l3_label`: sql``} 
         ${trendQuery.sl.l4_label ? sql`, pj.l4_label`: sql``} 
