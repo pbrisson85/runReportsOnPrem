@@ -2,7 +2,7 @@ const m = require('./import')
 
 // Note that KPI data does not have the logic cleaned up to handle useSalesProjection like the base report does at this time.
 
-const buildDrillDown = async (labelCols, config, trendQuery) => {
+const buildDrillDown = async (labelCols, config, trendQuery, useProjection) => {
   const skip = () => {
     return () => {
       return []
@@ -31,11 +31,11 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
 
   /* SALES */
 
-  const l1_salesTrendF = !config.trends.queryGrouping ? skip() :  () => { return m.l1_getSalesTrend(config, trendQuery)}
-  const l0_salesTrendF = !config.trends.queryGrouping ? skip() :  () => { return m.l0_getSalesTrend(config)}
+  const l1_salesTrendF = !config.trends.queryGrouping ? skip() :  () => { return m.l1_getSalesTrend(config, trendQuery, useProjection)}
+  const l0_salesTrendF = !config.trends.queryGrouping ? skip() :  () => { return m.l0_getSalesTrend(config, useProjection)}
 
-  const l1_salesF = () => { return m.l1_getSales(config, startDate, endDate, trendQuery)}
-  const l0_salesF = () => { return m.l0_getSales(config, startDate, endDate)}
+  const l1_salesF = () => { return m.l1_getSales(config, startDate, endDate, trendQuery, useProjection)}
+  const l0_salesF = () => { return m.l0_getSales(config, startDate, endDate, useProjection)}
 
   /* KPI Data */
   

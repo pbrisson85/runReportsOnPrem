@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const l1_getSalesTrend = async (config, trendQuery) => {
+const l1_getSalesTrend = async (config, trendQuery, useProjection) => {
   try {
     console.log(`${config.user} - level 1: (l1_getSalesTrend) query postgres to get FG sales data by week ...`)
 
@@ -189,7 +189,7 @@ const l1_getSalesTrend = async (config, trendQuery) => {
   }
 }
 
-const l0_getSalesTrend = async config => {
+const l0_getSalesTrend = async (config, useProjection) => {
   try {
     console.log(`${config.user} - level 0: (l0_getSalesTrend) query postgres to get FG sales data by week ...`)
 

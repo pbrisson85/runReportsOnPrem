@@ -21,13 +21,11 @@ const addCustomerName = require('../routines/helpers/trendByCustomer')
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { rightMenuSelection, reportFormat } = req.body
+  const { rightMenuSelection, reportFormat, useProjection } = req.body
  
   const config = await getReportConfig(req.body)
 
   console.log(`\n${config.user} - get drilldown data for ${reportFormat.dataName} route HIT...`)
-
-  console.log('rightMenuSelection: ', rightMenuSelection)
 
   let response = null
   let cols = null
@@ -72,7 +70,7 @@ router.post('/', async (req, res) => {
       break
   }
 
-  response = await viewTrend(cols, config, trendQuery)
+  response = await viewTrend(cols, config, trendQuery, useProjection)
 
   // CUSTOM ROUTINES FOR SPECIFIC REPORTS
   if (rightMenuSelection === 'Trend By Customer') {
