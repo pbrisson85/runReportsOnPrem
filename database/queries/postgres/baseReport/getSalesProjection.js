@@ -34,7 +34,7 @@ const l1_getSalesTotalPrimary = async config => {
             AND so.formatted_ship_date >= ${config.totals.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.endDatePrimary}
         `: sql``}
 
-        ${config.totals.useProjection.ps ? sql` 
+        ${config.totals.useProjection.pr ? sql` 
         UNION ALL
           SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         
@@ -98,7 +98,7 @@ const l2_getSalesTotalPrimary = async config => {
             AND so.formatted_ship_date >= ${config.totals.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.endDatePrimary}
           `: sql``}
 
-        ${config.totals.useProjection.ps ? sql` 
+        ${config.totals.useProjection.pr ? sql` 
         UNION ALL
           SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         
@@ -162,7 +162,7 @@ const l3_getSalesTotalPrimary = async config => {
             AND so.formatted_ship_date >= ${config.totals.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.endDatePrimary}
           `: sql``}
 
-        ${config.totals.useProjection.ps ? sql` 
+        ${config.totals.useProjection.pr ? sql` 
         UNION ALL
           SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         
@@ -226,7 +226,7 @@ const l4_getSalesTotalPrimary = async config => {
             AND so.formatted_ship_date >= ${config.totals.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.endDatePrimary}
           `: sql``}
 
-        ${config.totals.useProjection.ps ? sql` 
+        ${config.totals.useProjection.pr ? sql` 
         UNION ALL
           SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         
@@ -290,7 +290,7 @@ const l5_getSalesTotalPrimary = async config => {
             AND so.formatted_ship_date >= ${config.totals.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.endDatePrimary}
           `: sql``}
 
-        ${config.totals.useProjection.ps ? sql` 
+        ${config.totals.useProjection.pr ? sql` 
         UNION ALL
           SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         
@@ -355,7 +355,7 @@ const l0_getSalesTotalPrimary = async config => {
             AND so.formatted_ship_date >= ${config.totals.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.endDatePrimary}
         `: sql``}
 
-        ${config.totals.useProjection.ps ? sql` 
+        ${config.totals.useProjection.pr ? sql` 
         UNION ALL
           SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         

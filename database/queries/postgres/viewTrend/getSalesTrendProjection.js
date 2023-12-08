@@ -1,21 +1,21 @@
 const sql = require('../../../../server')
 
-const l1_getSales = async (config, startDate, endDate, trendQuery) => {
+const l1_getSalesTrend = async (config, trendQuery) => {
   try {
-    console.log(`${config.user} - level 1: (getSalesTrend Lvl3) query postgres to get FG sales data period total ...`)
+    console.log(`${config.user} - level 1: (l1_getSalesTrend) query postgres to get FG sales data by week ...`)
 
     const response = await sql
-    `SELECT 
-      'SALES TOTAL' AS column, 
-      ${trendQuery.sl.l1_label ? sql`pj.l1_label,`: sql``} 
-      ${trendQuery.sl.l2_label ? sql`pj.l2_label,`: sql``} 
-      ${trendQuery.sl.l3_label ? sql`pj.l3_label,`: sql``}
-      ${trendQuery.sl.l4_label ? sql`pj.l4_label,`: sql``}
-      ${trendQuery.sl.l5_label ? sql`pj.l5_label,`: sql``}
-      ${trendQuery.sl.l6_label ? sql`pj.l6_label,`: sql``}
-      ${trendQuery.sl.l7_label ? sql`pj.l7_label,`: sql``}
-      SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
-    
+      `SELECT 
+        pj.column, 
+        ${trendQuery.sl.l1_label ? sql`pj.l1_label,`: sql``} 
+        ${trendQuery.sl.l2_label ? sql`pj.l2_label,`: sql``} 
+        ${trendQuery.sl.l3_label ? sql`pj.l3_label,`: sql``}
+        ${trendQuery.sl.l4_label ? sql`pj.l4_label,`: sql``}
+        ${trendQuery.sl.l5_label ? sql`pj.l5_label,`: sql``}
+        ${trendQuery.sl.l6_label ? sql`pj.l6_label,`: sql``}
+        ${trendQuery.sl.l7_label ? sql`pj.l7_label,`: sql``}
+        SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
+      
       FROM (
         SELECT
           'dummy' AS item_number,
@@ -42,6 +42,7 @@ const l1_getSales = async (config, startDate, endDate, trendQuery) => {
         SELECT
           sl.item_number,
           sl.customer_code,
+          ${sql(config.trends.queryGrouping)} AS column, 
           ${trendQuery.sl.l1_label ? sql`${sql(trendQuery.sl.l1_label)} AS l1_label,`: sql``} 
           ${trendQuery.sl.l2_label ? sql`${sql(trendQuery.sl.l2_label)} AS l2_label,`: sql``} 
           ${trendQuery.sl.l3_label ? sql`${sql(trendQuery.sl.l3_label)} AS l3_label,`: sql``} 
@@ -63,7 +64,7 @@ const l1_getSales = async (config, startDate, endDate, trendQuery) => {
             ON sl.formatted_invoice_date = p.formatted_date
 
         WHERE 
-          sl.formatted_invoice_date >= ${startDate} AND sl.formatted_invoice_date <= ${endDate} 
+          sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
           ${config.trendFilters.customer ? sql`AND sl.customer_code = ${config.trendFilters.customer}`: sql``} 
           ${config.trendFilters.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.trendFilters.salesPerson}`: sql``} 
           ${config.trendFilters.country ? sql`AND sl.country = ${config.trendFilters.country}`: sql``} 
@@ -77,6 +78,7 @@ const l1_getSales = async (config, startDate, endDate, trendQuery) => {
           SELECT 
             so.item_num AS item_number,
             so.customer_code,
+            ${sql(config.trends.queryGrouping)}  AS column, 
             ${trendQuery.so.l1_label ? sql`${sql(trendQuery.so.l1_label)} AS l1_label,`: sql``} 
             ${trendQuery.so.l2_label ? sql`${sql(trendQuery.so.l2_label)} AS l2_label,`: sql``} 
             ${trendQuery.so.l3_label ? sql`${sql(trendQuery.so.l3_label)} AS l3_label,`: sql``} 
@@ -99,7 +101,7 @@ const l1_getSales = async (config, startDate, endDate, trendQuery) => {
 
           WHERE 
             so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-            AND so.formatted_ship_date >= ${startDate} AND so.formatted_ship_date <= ${endDate}
+            AND so.formatted_ship_date >= ${config.trends.startDate} AND so.formatted_ship_date <= ${config.trends.endDate}
             ${config.trendFilters.customer ? sql`AND so.customer_code = ${config.trendFilters.customer}`: sql``} 
             ${config.trendFilters.salesPerson ? sql`AND so.out_sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
             ${config.trendFilters.country ? sql`AND so.country = ${config.trendFilters.country}`: sql``} 
@@ -112,6 +114,7 @@ const l1_getSales = async (config, startDate, endDate, trendQuery) => {
         UNION ALL
           pr.item_number,
           pr.customer_code,
+          ${sql(config.trends.queryGrouping)}  AS column, 
           ${trendQuery.pr.l1_label ? sql`${sql(trendQuery.pr.l1_label)} AS l1_label,`: sql``} 
           ${trendQuery.pr.l2_label ? sql`${sql(trendQuery.pr.l2_label)} AS l2_label,`: sql``} 
           ${trendQuery.pr.l3_label ? sql`${sql(trendQuery.pr.l3_label)} AS l3_label,`: sql``} 
@@ -133,7 +136,7 @@ const l1_getSales = async (config, startDate, endDate, trendQuery) => {
               ON pr.date = p.formatted_date
         
           WHERE 
-          pr.date >= ${startDate} AND pr.date <= ${endDate} 
+          pr.date >= ${config.trends.startDate} AND pr.date <= ${config.trends.endDate} 
           ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
           ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
           ${config.trendFilters.country ? sql`AND pr.country = ${config.trendFilters.country}`: sql``} 
@@ -168,6 +171,7 @@ const l1_getSales = async (config, startDate, endDate, trendQuery) => {
         ${config.baseFilters.queryLevel > 4 ? sql`AND ${sql(config.baseFormat.l5_field)} = ${config.baseFilters.l5_filter}` : sql``}
       
       GROUP BY 
+        pj.column 
         ${trendQuery.sl.l1_label ? sql`, pj.l1_label`: sql``} 
         ${trendQuery.sl.l2_label ? sql`, pj.l2_label`: sql``} 
         ${trendQuery.sl.l3_label ? sql`, pj.l3_label`: sql``} 
@@ -176,7 +180,7 @@ const l1_getSales = async (config, startDate, endDate, trendQuery) => {
         ${trendQuery.sl.l6_label ? sql`, pj.l6_label`: sql``} 
         ${trendQuery.sl.l7_label ? sql`, pj.l7_label`: sql``}  
       
-      ` //prettier-ignore
+      ORDER BY pj.column` //prettier-ignore
 
     return response
   } catch (error) {
@@ -185,13 +189,12 @@ const l1_getSales = async (config, startDate, endDate, trendQuery) => {
   }
 }
 
-const l0_getSales = async (config, startDate, endDate) => {
+const l0_getSalesTrend = async config => {
   try {
-    console.log(`${config.user} - level 0: (getSalesTrend Lvl3) query postgres to get FG sales data period total ...`)
+    console.log(`${config.user} - level 0: (l0_getSalesTrend) query postgres to get FG sales data by week ...`)
 
     const response = await sql
-    `SELECT 'SALES TOTAL' AS column
-    ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 
+    `SELECT pj.column ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 
     'TOTAL' AS l2_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
     
     FROM (
@@ -220,6 +223,7 @@ const l0_getSales = async (config, startDate, endDate) => {
         SELECT
           sl.item_number,
           sl.customer_code,
+          ${sql(config.trends.queryGrouping)}  AS column, 
           COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
           COALESCE(sl.gross_sales_ext,0) AS sales, 
           COALESCE(sl.cogs_ext_gl,0) AS cogs, 
@@ -234,7 +238,7 @@ const l0_getSales = async (config, startDate, endDate) => {
             ON sl.formatted_invoice_date = p.formatted_date
 
         WHERE 
-          sl.formatted_invoice_date >= ${startDate} AND sl.formatted_invoice_date <= ${endDate} 
+          sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
           ${config.trendFilters.customer ? sql`AND sl.customer_code = ${config.trendFilters.customer}`: sql``} 
           ${config.trendFilters.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.trendFilters.salesPerson}`: sql``} 
           ${config.trendFilters.country ? sql`AND sl.country = ${config.trendFilters.country}`: sql``} 
@@ -248,6 +252,7 @@ const l0_getSales = async (config, startDate, endDate) => {
         SELECT 
             so.item_num AS item_number,
             so.customer_code,
+            ${sql(config.trends.queryGrouping)}  AS column, 
             COALESCE(so.ext_weight,0) AS lbs, 
             COALESCE(so.ext_sales,0) AS sales, 
             COALESCE(so.ext_cost,0) AS cogs, 
@@ -263,7 +268,7 @@ const l0_getSales = async (config, startDate, endDate) => {
 
         WHERE 
           so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-          AND so.formatted_ship_date >= ${startDate} AND so.formatted_ship_date <= ${endDate}
+          AND so.formatted_ship_date >= ${config.trends.startDate} AND so.formatted_ship_date <= ${config.trends.endDate}
           ${config.trendFilters.customer ? sql`AND so.customer_code = ${config.trendFilters.customer}`: sql``} 
           ${config.trendFilters.salesPerson ? sql`AND so.out_sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
           ${config.trendFilters.country ? sql`AND so.country = ${config.trendFilters.country}`: sql``} 
@@ -276,6 +281,7 @@ const l0_getSales = async (config, startDate, endDate) => {
           UNION ALL
             pr.item_number,
             pr.customer_code,
+            ${sql(config.trends.queryGrouping)}  AS column, 
             ${trendQuery.pr.l1_label ? sql`${sql(trendQuery.pr.l1_label)} AS l1_label,`: sql``} 
             ${trendQuery.pr.l2_label ? sql`${sql(trendQuery.pr.l2_label)} AS l2_label,`: sql``} 
             ${trendQuery.pr.l3_label ? sql`${sql(trendQuery.pr.l3_label)} AS l3_label,`: sql``} 
@@ -297,7 +303,7 @@ const l0_getSales = async (config, startDate, endDate) => {
                 ON pr.date = p.formatted_date
           
             WHERE 
-            pr.date >= ${startDate} AND pr.date <= ${endDate} 
+            pr.date >= ${config.trends.startDate} AND pr.date <= ${config.trends.endDate} 
             ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
             ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
             ${config.trendFilters.country ? sql`AND pr.country = ${config.trendFilters.country}`: sql``} 
@@ -329,7 +335,10 @@ const l0_getSales = async (config, startDate, endDate) => {
       ${config.baseFilters.queryLevel > 3 ? sql`AND ${sql(config.baseFormat.l4_field)} = ${config.baseFilters.l4_filter}` : sql``} 
       ${config.baseFilters.queryLevel > 4 ? sql`AND ${sql(config.baseFormat.l5_field)} = ${config.baseFilters.l5_filter}` : sql``}
     
-   ` //prettier-ignore
+    GROUP BY 
+      pj.column  
+    
+    ORDER BY pj.column` //prettier-ignore
 
     return response
   } catch (error) {
@@ -338,5 +347,5 @@ const l0_getSales = async (config, startDate, endDate) => {
   }
 }
 
-module.exports.l0_getSales = l0_getSales
-module.exports.l1_getSales = l1_getSales
+module.exports.l0_getSalesTrend = l0_getSalesTrend
+module.exports.l1_getSalesTrend = l1_getSalesTrend

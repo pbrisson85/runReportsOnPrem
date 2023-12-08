@@ -6,8 +6,6 @@ const getSalesProjection_detail = async (config, startDate, endDate, useProjecti
   try {
     console.log(`${config.user} - level ${config.baseFilters.queryLevel}: query postgres to get SALES PROJECTION ...`)
 
-    const today = new Date()
-
     const response = await sql
       `SELECT status, pj.net_sales_ext, pj.gross_margin_lb, pj.cost_lb, pj.net_sales_lb, pj.othp_lb, pj.gross_sales_lb, pj.location, pj.customer_code, pj.customer_name, pj.doc_num, pj.line_number, pj.ship_date, pj.week_serial, pj.item_number, ms.description, ms.species, ms.brand, ms.size_name, ms.fg_treatment, ms.fg_fresh_frozen, pj.lbs, pj.gross_sales_ext, pj.othp_ext, pj.cogs_ext, pj.gross_margin_ext, pj.sales_rep, pj.north_america, pj.domestic, pj.country, pj.state 
 
@@ -39,7 +37,7 @@ const getSalesProjection_detail = async (config, startDate, endDate, useProjecti
             AND so.formatted_ship_date >= ${startDate} AND so.formatted_ship_date <= ${endDate}
           `: sql``}
 
-        ${useProjection.ps ? sql`
+        ${useProjection.pr ? sql`
         UNION ALL
             SELECT 'PROJECTION' AS status, 0 AS sales_net_ext, 0 AS gross_margin_lb, 0 AS ave_cost_per_lb, 0 AS net_sales_lb, 0 AS othp_lb, 0 AS gross_sales_lb, 'NA' AS location, pr.customer_code, pr.customer_name, 'PROJECTION' AS doc_num, 'NA' AS line_number, pr.date AS ship_date, pr.week_serial, pr.item_number, pr.lbs, 0 AS gross_sales_ext, 0 AS othp_ext, 0 AS cogs_ext, 0 AS gross_margin_ext, 'NEEDED' AS sales_rep, 'NEEDED' AS north_america, 'NEEDED' AS domestic, 'NEEDED' AS country, 'NEEDED' AS state
             

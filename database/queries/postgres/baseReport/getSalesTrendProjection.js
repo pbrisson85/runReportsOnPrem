@@ -40,14 +40,14 @@ const l1_getSalesTrend = async config => {
 
         ${config.trends.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, ${sql(config.trends.queryGrouping)} AS column, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, ${sql(config.trends.queryGrouping)} AS column, COALESCE(pr.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         
           FROM "salesReporting".projected_sales AS pr        
             LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-            ON ps.date = p.formatted_date 
+            ON pr.date = p.formatted_date 
 
           WHERE 
-            ps.date >= ${config.trends.startDate} AND ps.date <= ${config.trends.endDate}
+            pr.date >= ${config.trends.startDate} AND pr.date <= ${config.trends.endDate}
           `: sql``}
 
           ) AS pj
@@ -115,14 +115,14 @@ const l2_getSalesTrend = async config => {
 
         ${config.trends.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, ${sql(config.trends.queryGrouping)} AS column, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, ${sql(config.trends.queryGrouping)} AS column, COALESCE(pr.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
           
           FROM "salesReporting".projected_sales AS pr 
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-            ON ps.date = p.formatted_date       
+            ON pr.date = p.formatted_date       
           
           WHERE 
-              ps.date >= ${config.trends.startDate} AND ps.date <= ${config.trends.endDate}
+              pr.date >= ${config.trends.startDate} AND pr.date <= ${config.trends.endDate}
         `: sql``}
 
 
@@ -189,14 +189,14 @@ const l3_getSalesTrend = async config => {
 
         ${config.trends.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, ${sql(config.trends.queryGrouping)} AS column, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, ${sql(config.trends.queryGrouping)} AS column, COALESCE(pr.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         
           FROM "salesReporting".projected_sales AS pr    
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-            ON ps.date = p.formatted_date    
+            ON pr.date = p.formatted_date    
         
           WHERE 
-            ps.date >= ${config.trends.startDate} AND ps.date <= ${config.trends.endDate}
+            pr.date >= ${config.trends.startDate} AND pr.date <= ${config.trends.endDate}
         `: sql``}
 
 
@@ -265,14 +265,14 @@ const l4_getSalesTrend = async config => {
 
         ${config.trends.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, ${sql(config.trends.queryGrouping)} AS column, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, ${sql(config.trends.queryGrouping)} AS column, COALESCE(pr.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         
           FROM "salesReporting".projected_sales AS pr     
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-            ON ps.date = p.formatted_date   
+            ON pr.date = p.formatted_date   
         
           WHERE 
-            ps.date >= ${config.trends.startDate} AND ps.date <= ${config.trends.endDate}
+            pr.date >= ${config.trends.startDate} AND pr.date <= ${config.trends.endDate}
         `: sql``}
 
 
@@ -340,14 +340,14 @@ const l5_getSalesTrend = async config => {
 
         ${config.trends.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, ${sql(config.trends.queryGrouping)} AS column, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, ${sql(config.trends.queryGrouping)} AS column, COALESCE(pr.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         
           FROM "salesReporting".projected_sales AS pr   
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-            ON ps.date = p.formatted_date     
+            ON pr.date = p.formatted_date     
         
           WHERE 
-          ps.date >= ${config.trends.startDate} AND ps.date <= ${config.trends.endDate}
+          pr.date >= ${config.trends.startDate} AND pr.date <= ${config.trends.endDate}
         `: sql``}
 
           ) AS pj
@@ -415,14 +415,14 @@ const l0_getSalesTrend = async config => {
 
         ${config.trends.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, ps.item_number AS item_num, ${sql(config.trends.queryGrouping)} AS column, COALESCE(ps.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, ${sql(config.trends.queryGrouping)} AS column, COALESCE(pr.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         
           FROM "salesReporting".projected_sales AS pr  
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-            ON ps.date = p.formatted_date      
+            ON pr.date = p.formatted_date      
         
           WHERE 
-            ps.date >= ${config.trends.startDate} AND ps.date <= ${config.trends.endDate}
+            pr.date >= ${config.trends.startDate} AND pr.date <= ${config.trends.endDate}
           `: sql``}
 
           ) AS pj
