@@ -141,7 +141,6 @@ const l1_getSales = async (config, startDate, endDate, trendQuery, useProjection
           ${config.trendFilters.northAmerica ? sql`AND pr.north_america = ${config.trendFilters.northAmerica}`: sql``}
           `: sql``}
 
-
       ) AS pj
       
       LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -166,14 +165,14 @@ const l1_getSales = async (config, startDate, endDate, trendQuery, useProjection
         ${config.baseFilters.queryLevel > 3 ? sql`AND ${sql(config.baseFormat.l4_field)} = ${config.baseFilters.l4_filter}` : sql``} 
         ${config.baseFilters.queryLevel > 4 ? sql`AND ${sql(config.baseFormat.l5_field)} = ${config.baseFilters.l5_filter}` : sql``}
       
-      GROUP BY 
-        ${trendQuery.sl.l1_label ? sql`, pj.l1_label`: sql``} 
+      GROUP BY pj.l1_label, pj.l2_label, pj.l3_label, pj.l4_label, pj.l5_label, pj.l6_label
+        /* ${trendQuery.sl.l1_label ? sql` pj.l1_label`: sql``} 
         ${trendQuery.sl.l2_label ? sql`, pj.l2_label`: sql``} 
         ${trendQuery.sl.l3_label ? sql`, pj.l3_label`: sql``} 
         ${trendQuery.sl.l4_label ? sql`, pj.l4_label`: sql``} 
         ${trendQuery.sl.l5_label ? sql`, pj.l5_label`: sql``} 
         ${trendQuery.sl.l6_label ? sql`, pj.l6_label`: sql``} 
-        ${trendQuery.sl.l7_label ? sql`, pj.l7_label`: sql``}  
+        ${trendQuery.sl.l7_label ? sql`, pj.l7_label`: sql``} */
       
       ` //prettier-ignore
 
