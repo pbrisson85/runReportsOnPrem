@@ -20,7 +20,6 @@ const l1_getSales = async (config, startDate, endDate, trendQuery, useProjection
         SELECT
           'dummy' AS item_number,
           'dummy' AS customer_code,
-          '01-01-23' AS column, 
           'dummy' AS l1_label,
           'dummy' AS l2_label, 
           'dummy' AS l3_label, 
@@ -198,7 +197,6 @@ const l0_getSales = async (config, startDate, endDate, useProjection) => {
       SELECT
           'dummy' AS item_number,
           'dummy' AS customer_code,
-          '01-01-23' AS column, 
           'dummy' AS l1_label,
           'dummy' AS l2_label, 
           'dummy' AS l3_label, 
