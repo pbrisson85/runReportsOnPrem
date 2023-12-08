@@ -288,8 +288,8 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
       trendColsSo,
       columnConfigs: columnConfigsTagged,
       defaultTrend: {
-        dataName: columnConfigs.primarySalesTotalCol[0].dataName,
-        colType: columnConfigs.primarySalesTotalCol[0].colType
+        dataName: m.columnConfigs.primarySalesTotalCol[0].dataName,
+        colType: m.columnConfigs.primarySalesTotalCol[0].colType
       }
     },
   }
