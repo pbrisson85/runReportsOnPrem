@@ -179,7 +179,7 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
   const rowTemplate = [...rowsFirstLevelDetail, ...totalsRow]
 
   // map data into row template
-  const rowTemplate_unflat = unflattenByCompositKey(rowTemplate, {
+  const rowTemplate_unflat = m.unflattenByCompositKey(rowTemplate, {
     1: 'l1_label',
   })
 
