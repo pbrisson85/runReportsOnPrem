@@ -125,10 +125,7 @@ const l1_getSalesTrend = async (config, trendQuery, useProjection) => {
           ${trendQuery.pr.l5_label ? sql`${sql(trendQuery.pr.l5_label)} AS l5_label,`: sql``} 
           ${trendQuery.pr.l6_label ? sql`${sql(trendQuery.pr.l6_label)} AS l6_label,`: sql``} 
           ${trendQuery.pr.l7_label ? sql`${sql(trendQuery.pr.l7_label)} AS l7_label,`: sql``} 
-          COALESCE(pr.lbs,0) AS lbs, 
-          0 AS sales, 
-          0 AS cogs, 
-          0 AS othp 
+          COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_net,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp
             
           FROM "salesReporting".projected_sales AS pr  
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -278,10 +275,7 @@ const l0_getSalesTrend = async (config, useProjection) => {
             pr.item_number,
             pr.customer_code,
             ${sql(config.trends.queryGrouping)}  AS column, 
-            COALESCE(pr.lbs,0) AS lbs, 
-            0 AS sales, 
-            0 AS cogs, 
-            0 AS othp 
+            COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_net,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
               
             FROM "salesReporting".projected_sales AS pr  
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 

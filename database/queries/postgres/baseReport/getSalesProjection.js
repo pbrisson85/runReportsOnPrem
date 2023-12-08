@@ -36,7 +36,7 @@ const l1_getSalesTotalPrimary = async config => {
 
         ${config.totals.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_net,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
         
           FROM "salesReporting".projected_sales AS pr        
         
@@ -100,7 +100,7 @@ const l2_getSalesTotalPrimary = async config => {
 
         ${config.totals.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_net,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
         
           FROM "salesReporting".projected_sales AS pr        
         
@@ -164,7 +164,7 @@ const l3_getSalesTotalPrimary = async config => {
 
         ${config.totals.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_net,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
         
           FROM "salesReporting".projected_sales AS pr        
         
@@ -228,7 +228,7 @@ const l4_getSalesTotalPrimary = async config => {
 
         ${config.totals.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_net,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
         
           FROM "salesReporting".projected_sales AS pr        
         
@@ -292,7 +292,7 @@ const l5_getSalesTotalPrimary = async config => {
 
         ${config.totals.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_net,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
         
           FROM "salesReporting".projected_sales AS pr        
         
@@ -357,7 +357,7 @@ const l0_getSalesTotalPrimary = async config => {
 
         ${config.totals.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_net,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
         
           FROM "salesReporting".projected_sales AS pr        
         
