@@ -29,4 +29,7 @@ module.exports = {
   calcWeeksInvOnHand: require('../../../../models/calcWeeksInvOnHand'),
   calcInventoryAvailable: require('../../../../models/calcInventoryAvailable'),
   columnConfigs: require('../../data/baseCols/columns'),
+  addDataToSoTotalCol: require('../helpers/colDataHelper').addDataToSoTotalCol,
+  addDataToSalesTotalCol: require('../helpers/colDataHelper').addDataToSalesTotalCol,
+  addDataToSalesTrendCol: require('../helpers/colDataHelper').addDataToSalesTrendCol,
 }
