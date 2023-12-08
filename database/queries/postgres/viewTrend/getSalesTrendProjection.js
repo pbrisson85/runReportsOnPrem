@@ -4,6 +4,9 @@ const l1_getSalesTrend = async (config, trendQuery, useProjection) => {
   try {
     console.log(`${config.user} - level 1: (l1_getSalesTrend) query postgres to get FG sales data by week ...`)
 
+    console.log('trendQuery', trendQuery)
+    console.log('useProjection', useProjection)
+
     const response = await sql
       `SELECT 
         pj.column, 
