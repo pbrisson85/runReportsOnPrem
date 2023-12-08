@@ -20,13 +20,13 @@ const l1_getSales = async (config, startDate, endDate, trendQuery, useProjection
         SELECT
           'dummy' AS item_number,
           'dummy' AS customer_code,
-          'dummy' AS l1_label,
-          'dummy' AS l2_label, 
-          'dummy' AS l3_label, 
-          'dummy' AS l4_label, 
-          'dummy' AS l5_label, 
-          'dummy' AS l6_label, 
-          'dummy' AS l7_label,
+          ${trendQuery.sl.l1_label ? `'dummy' AS l1_label,` : sql``} 
+          ${trendQuery.sl.l2_label ? `'dummy' AS l2_label,` : sql``} 
+          ${trendQuery.sl.l3_label ? `'dummy' AS l3_label,` : sql``} 
+          ${trendQuery.sl.l4_label ? `'dummy' AS l4_label,` : sql``} 
+          ${trendQuery.sl.l5_label ? `'dummy' AS l5_label,` : sql``} 
+          ${trendQuery.sl.l6_label ? `'dummy' AS l6_label,` : sql``} 
+          ${trendQuery.sl.l7_label ? `'dummy' AS l7_label,` : sql``} 
           0 AS lbs, 
           0 AS sales, 
           0 AS cogs, 
