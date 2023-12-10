@@ -6,6 +6,7 @@ const trendTypeOptions = () => {
       label: 'Fiscal Weeks',
       dataName: 'fiscalWeeks',
       default: true,
+      trueOnNoSelection: true, // flags if this turns true when the selections are blank. Typically would mirror default flag if selection required
       onTrueSetFalse: ['fiscalPeriods', 'fiscalQuarters', 'fyYtd', 'fyFullYear', 'calMonths', 'calYtd', 'calFullYear', 'calQuarters'],
       onFalseSetTrue: [],
       periodsMap: 'weeks', // front end map to filter (appears as map in query)
