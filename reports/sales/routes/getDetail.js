@@ -19,10 +19,11 @@ const groupByOptions = require('../data/filters/detailGroupBy')
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { columnDataName, reportFormat, startDate, endDate, useProjection } = req.body
-  let { colType } = req.body
+  const { columnDataName, reportFormat, startDate, endDate, useProjection, colType } = req.body
 
   const config = await getReportConfig(req.body)
+
+  console.log('req.body', req.body)
 
   let data = null
 
@@ -39,6 +40,7 @@ router.post('/', async (req, res) => {
   if (colType === 'salesInvoice') {
     if (useProjection?.so || useProjection?.pr) {
       data = await getSalesProjection_detail(config, startDate, endDate, useProjection) // Should try to combine with getSales_detail
+      console.log('data', data)
     } else {
       data = await getSales_detail(config, startDate, endDate)
     }
