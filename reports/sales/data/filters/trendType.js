@@ -54,24 +54,24 @@ const trendTypeOptions = () => {
       totalDefault: 'fyYtd', // If current total is not included in totals allowed then this totaldataName will be selected
       totalsAllowed: ['fyYtd'],
     },
-    {
-      // Checkbox
-      label: 'Fiscal Years',
-      dataName: 'fyYtd',
-      default: false,
-      // Check Rules
-      onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fiscalQuarters', 'fyFullYear', 'calMonths', 'calYtd', 'calFullYear', 'calQuarters'],
-      onFalseSetTrue: [],
-      // Custom
-      periodsMap: 'fiscal_ytd', // front end map to filter (appears as map in query)
-      yearsMap: 'fiscal_years',
-      currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
-      ytd: true, // bool for front end to not show the start trend dropdown
-      queryPeriod: 'p.fiscal_year', // field for query used in trend group by
-      // Custom Sync Rules
-      totalDefault: 'fyYtd', // If current total is not included in totals allowed then this totaldataName will be selected
-      totalsAllowed: ['fyYtd'],
-    },
+    // {
+    //   // Checkbox
+    //   label: 'Fiscal Years',
+    //   dataName: 'fyYtd',
+    //   default: false,
+    //   // Check Rules
+    //   onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fiscalQuarters', 'fyFullYear', 'calMonths', 'calYtd', 'calFullYear', 'calQuarters'],
+    //   onFalseSetTrue: [],
+    //   // Custom
+    //   periodsMap: 'fiscal_ytd', // front end map to filter (appears as map in query)
+    //   yearsMap: 'fiscal_years',
+    //   currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
+    //   ytd: true, // bool for front end to not show the start trend dropdown
+    //   queryPeriod: 'p.fiscal_year', // field for query used in trend group by
+    //   // Custom Sync Rules
+    //   totalDefault: 'fyYtd', // If current total is not included in totals allowed then this totaldataName will be selected
+    //   totalsAllowed: ['fyYtd'],
+    // },
     {
       // Checkbox
       label: 'Calendar Months',
@@ -106,24 +106,24 @@ const trendTypeOptions = () => {
       totalDefault: 'calYtd', // If current total is not included in totals allowed then this totaldataName will be selected
       totalsAllowed: ['calYtd'],
     },
-    {
-      // Checkbox
-      label: 'Calendar Years',
-      dataName: 'calYtd',
-      default: false,
-      // Check Rules
-      onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fyYtd', 'fyFullYear', 'fiscalQuarters', 'calMonths', 'calFullYear', 'calQuarters'],
-      onFalseSetTrue: [],
-      // Custom
-      periodsMap: 'cal_ytd', // front end map to filter (appears as map in query)
-      yearsMap: 'cal_years',
-      currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
-      ytd: true, // bool for front end to not show the start trend dropdown
-      queryPeriod: 'p.cal_year', // field for query used in trend group by
-      // Custom Sync Rules
-      totalDefault: 'calYtd', // If current total is not included in totals allowed then this totaldataName will be selected
-      totalsAllowed: ['calYtd'],
-    },
+    // {
+    //   // Checkbox
+    //   label: 'Calendar Years',
+    //   dataName: 'calYtd',
+    //   default: false,
+    //   // Check Rules
+    //   onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fyYtd', 'fyFullYear', 'fiscalQuarters', 'calMonths', 'calFullYear', 'calQuarters'],
+    //   onFalseSetTrue: [],
+    //   // Custom
+    //   periodsMap: 'cal_ytd', // front end map to filter (appears as map in query)
+    //   yearsMap: 'cal_years',
+    //   currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
+    //   ytd: true, // bool for front end to not show the start trend dropdown
+    //   queryPeriod: 'p.cal_year', // field for query used in trend group by
+    //   // Custom Sync Rules
+    //   totalDefault: 'calYtd', // If current total is not included in totals allowed then this totaldataName will be selected
+    //   totalsAllowed: ['calYtd'],
+    // },
   ]
 }
 
