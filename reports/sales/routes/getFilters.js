@@ -10,14 +10,12 @@ const {
   getFiscalPeriodsMap,
   getWeeksMap,
   getFiscalYearMap,
-  getDefaultDates,
   getFiscalQuartersMap,
   getCalYearsMap,
   getCalMonthsMap,
   getCalQuartersMap,
   getFiscalYtdMap,
   getCalYtdMap,
-  getCurrentWeek,
 } = require('../../../database/queries/postgres/filters/getDateMaps')
 const getReportConfig = require('../utils/getReportConfig')
 const appSettings = require('../data/filters/appSettings')
@@ -62,17 +60,6 @@ router.get('/periodMaps', async (req, res) => {
   let cal_ytd = await getCalYtdMap()
 
   res.send({ fiscal_periods, weeks, fiscal_years, fiscal_quarters, cal_years, cal_months, cal_quarters, fiscal_ytd, cal_ytd }) // the key must match the "map" property in the query
-  console.log('get periods maps lot route COMPLETE. ')
-})
-
-// Generate Filter Data
-router.get('/defaultDates', async (req, res) => {
-  // by default get the date that corresponds to the end of the last week closed.
-  const { defaultEnd } = await getDefaults()
-  const defaultEndWeek = await getWeekForDate(defaultEnd, req.user) // Need to pass from front end
-  const defaults = await getDefaultDates(defaultEndWeek)
-
-  res.send(defaults)
   console.log('get periods maps lot route COMPLETE. ')
 })
 

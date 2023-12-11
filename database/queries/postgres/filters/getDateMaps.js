@@ -6,16 +6,19 @@ const getFiscalPeriodsMap = async () => {
   const map = await sql`
       SELECT 
         DISTINCT(p.period_serial) AS period_serial,
-        p.period,
-        p.fiscal_year,  
+        p.period AS period, -- used to default the end dropdown. Also used to sync the comparison year timeframe with primary year timeframe
+        p.fiscal_year,  -- used to filter on front end dropdown population
         MIN(p.formatted_date) AS date_start, 
         MAX(p.formatted_date) AS date_end, 
         TO_CHAR(MIN(p.formatted_date), 'mm/dd/yy') || ' (' || p.period_serial || ') ' AS display_start, 
         TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.period_serial || ') ' AS display_end, 
-        MIN(p.week) AS wk_first, 
-        MAX(p.week) AS wk_last, 
         'fiscal_periods' AS map, -- front end flag
-        FALSE AS "prevent_filterByYear" -- front end flag
+        FALSE AS "prevent_filterByYear", -- used to filter on front end dropdown population
+
+        CASE WHEN p.period = (
+          SELECT c.period
+          FROM "accountingPeriods".period_by_day AS c
+          WHERE c.formatted_date = CURRENT_DATE) THEN TRUE ELSE FALSE END AS default_end
 
       FROM "accountingPeriods".period_by_day AS p
 
@@ -38,18 +41,19 @@ const getFiscalQuartersMap = async () => {
   const map = await sql`
     SELECT 
         DISTINCT(p.quarter_serial) AS quarter_serial, 
-        p.fiscal_year, 
-        p.fiscal_quarter, 
+        p.fiscal_year, -- used to filter on front end dropdown population
+        p.fiscal_quarter AS period, -- used to default the end dropdown. Also used to sync the comparison year timeframe with primary year timeframe 
         MIN(p.formatted_date) AS date_start, 
         MAX(p.formatted_date) AS date_end, 
         TO_CHAR(MIN(p.formatted_date), 'mm/dd/yy') || ' (' || p.quarter_serial || ') ' AS display_start, 
         TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.quarter_serial || ') ' AS display_end, 
-        MIN(p.week) AS wk_first, 
-        MAX(p.week) AS wk_last, 
-        MIN(p.period) AS p_first, 
-        MAX(p.period) AS p_last, 
         'fiscal_quarters' AS map, 
-        FALSE AS "prevent_filterByYear"
+        FALSE AS "prevent_filterByYear", -- used to filter on front end dropdown population
+
+        CASE WHEN p.fiscal_quarter = (
+          SELECT c.fiscal_quarter
+          FROM "accountingPeriods".period_by_day AS c
+          WHERE c.formatted_date = CURRENT_DATE) THEN TRUE ELSE FALSE END AS default_end
 
     FROM "accountingPeriods".period_by_day AS p
 
@@ -72,17 +76,20 @@ const getWeeksMap = async () => {
   const map = await sql`
       SELECT 
         p.week_serial, 
-        p.fiscal_year, 
-        p.week, 
-        p.period_serial, 
-        p.period, 
+        p.fiscal_year,  -- used to filter on front end dropdown population
+        p.week As period, -- used to default the end dropdown. Also used to sync the comparison year timeframe with primary year timeframe 
         MIN(p.formatted_date) AS date_start, 
         MAX(p.formatted_date) AS date_end, 
         TO_CHAR(MIN(p.formatted_date), 'mm/dd/yy') || ' (' || p.week_serial || ') ' AS display_start, 
         TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.week_serial || ') ' AS display_end, 
         'weeks' AS map, 
         TRUE AS default_map, 
-        FALSE AS "prevent_filterByYear"
+        FALSE AS "prevent_filterByYear",  -- used to filter on front end dropdown population
+
+        CASE WHEN p.week = (
+          SELECT c.week
+          FROM "accountingPeriods".period_by_day AS c
+          WHERE c.formatted_date = CURRENT_DATE) THEN TRUE ELSE FALSE END AS default_end
 
       FROM "accountingPeriods".period_by_day AS p
       WHERE p.fiscal_year <= (
@@ -109,13 +116,9 @@ const getFiscalYearMap = async () => {
       TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.fiscal_year || ') ' AS display_end,
       MIN(p.formatted_date) AS date_start, 
       MAX(p.formatted_date) AS date_end, 
-      MIN(p.period) AS p_first, 
-      MAX(p.period) AS p_last, 
-      MIN(p.week) AS wk_first, 
-      MAX(p.week) AS wk_last, 
       'fiscal_years' AS map, 
 
-      TRUE AS "prevent_filterByYear",
+      TRUE AS "prevent_filterByYear",  -- used to filter on front end dropdown population
 
       CASE WHEN p.fiscal_year = (
         SELECT c.fiscal_year
@@ -148,17 +151,20 @@ const getFiscalYtdMap = async () => {
   const map = await sql`
     SELECT 
       p.week_serial, 
-      p.fiscal_year, 
-      p.week, 
-      p.period_serial, 
-      p.period, 
+      p.fiscal_year,  -- used to filter on front end dropdown population
+      p.week AS period, 
       MIN(p.formatted_date) AS date_start, 
       MAX(p.formatted_date) AS date_end, 
       TO_CHAR(MIN(p.formatted_date), 'mm/dd/yy') || ' (' || p.week_serial || ') ' AS display_start, 
       TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.week_serial || ') ' AS display_end, 
       'fiscal_ytd' AS map, 
       FALSE AS default_map, 
-      TRUE AS "prevent_filterByYear"
+      TRUE AS "prevent_filterByYear",  -- used to filter on front end dropdown population
+
+      CASE WHEN p.week = (
+        SELECT c.week
+        FROM "accountingPeriods".period_by_day AS c
+        WHERE c.formatted_date = CURRENT_DATE) THEN TRUE ELSE FALSE END AS default_end
 
     FROM "accountingPeriods".period_by_day AS p
     WHERE p.fiscal_year = (
@@ -178,13 +184,19 @@ const getCalMonthsMap = async () => {
   const map = await sql`
   SELECT 
     DISTINCT ON (p.cal_month_serial) p.cal_month AS cal_month, 
+    p.cal_month AS period, -- used to default the end dropdown. Also used to sync the comparison year timeframe with primary year timeframe
     TO_CHAR(MIN(p.formatted_date), 'mm/dd/yy') || ' (' || p.cal_month_serial || ') ' AS display_start,
     TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.cal_month_serial || ') ' AS display_end,
     MIN(p.formatted_date) AS date_start, 
     MAX(p.formatted_date) AS date_end, 
-    p.cal_year,
+    p.cal_year,  -- used to filter on front end dropdown population
     'cal_months' AS map, 
-    FALSE AS "prevent_filterByYear"
+    FALSE AS "prevent_filterByYear",  -- used to filter on front end dropdown population
+
+    CASE WHEN p.cal_month = (
+      SELECT c.cal_month
+      FROM "accountingPeriods".period_by_day AS c
+      WHERE c.formatted_date = CURRENT_DATE) THEN TRUE ELSE FALSE END AS default_end
 
   FROM "accountingPeriods".period_by_day AS p
 
@@ -203,14 +215,20 @@ const getCalQuartersMap = async () => {
 
   const map = await sql`
   SELECT 
-    DISTINCT ON (p.cal_quarter_serial) p.cal_quarter AS cal_month, 
+    DISTINCT ON (p.cal_quarter_serial) p.cal_quarter AS cal_quarter,
+    p.cal_quarter AS period, -- used to default the end dropdown. Also used to sync the comparison year timeframe with primary year timeframe
     TO_CHAR(MIN(p.formatted_date), 'mm/dd/yy') || ' (' || p.cal_quarter_serial || ') ' AS display_start,
     TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.cal_quarter_serial || ') ' AS display_end,
     MIN(formatted_date) AS date_start, 
     MAX(formatted_date) AS date_end, 
-    p.cal_year,
+    p.cal_year,  -- used to filter on front end dropdown population
     'cal_quarters' AS map, 
-    FALSE AS "prevent_filterByYear"
+    FALSE AS "prevent_filterByYear",  -- used to filter on front end dropdown population
+
+    CASE WHEN p.cal_quarter = (
+      SELECT c.cal_quarter
+      FROM "accountingPeriods".period_by_day AS c
+      WHERE c.formatted_date = CURRENT_DATE) THEN TRUE ELSE FALSE END AS default_end
 
     FROM "accountingPeriods".period_by_day AS p
 
@@ -237,7 +255,7 @@ const getCalYearsMap = async () => {
       MIN(formatted_date) AS date_start, 
       MAX(formatted_date) AS date_end,
       'cal_years' AS map, 
-      TRUE AS "prevent_filterByYear",
+      TRUE AS "prevent_filterByYear",  -- used to filter on front end dropdown population
 
       CASE WHEN p.cal_year = EXTRACT('year' FROM CURRENT_DATE) THEN TRUE ELSE FALSE END AS default,
 
@@ -245,8 +263,6 @@ const getCalYearsMap = async () => {
 
       2 AS "maxSelections"
       
-      
-
     FROM "accountingPeriods".period_by_day AS p
 
     WHERE p.cal_year <= (
@@ -266,13 +282,19 @@ const getCalYtdMap = async () => {
   const map = await sql`
       SELECT 
         DISTINCT ON (p.cal_month_serial) p.cal_month AS cal_month, 
+        p.cal_month AS period,
         TO_CHAR(MIN(p.formatted_date), 'mm/dd/yy') || ' (' || p.cal_month_serial || ') ' AS display_start,
         TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.cal_month_serial || ') ' AS display_end,
         MIN(p.formatted_date) AS date_start, 
         MAX(p.formatted_date) AS date_end, 
         p.cal_year,
         'cal_ytd' AS map, 
-        TRUE AS "prevent_filterByYear"
+        TRUE AS "prevent_filterByYear",  -- used to filter on front end dropdown population
+
+        CASE WHEN p.cal_month = (
+          SELECT c.cal_month
+          FROM "accountingPeriods".period_by_day AS c
+          WHERE c.formatted_date = CURRENT_DATE) THEN TRUE ELSE FALSE END AS default_end
 
       FROM "accountingPeriods".period_by_day AS p
 
@@ -286,56 +308,12 @@ const getCalYtdMap = async () => {
   return map
 }
 
-const getDefaultDates = async weekNum => {
-  console.log(`query postgres for getWeeksMap ...`)
-
-  const map = await sql`
-      SELECT 
-        p.week_serial, 
-        p.fiscal_year, 
-        p.week, 
-        p.period_serial, 
-        p.period, 
-        MIN(p.formatted_date) AS date_start, 
-        MAX(p.formatted_date) AS date_end, 
-        TO_CHAR(MIN(p.formatted_date), 'mm/dd/yy') || ' (' || p.week_serial || ') ' AS display_start, 
-        TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.week_serial || ') ' AS display_end,
-        'weeks' AS map
-
-      FROM "accountingPeriods".period_by_day AS p
-      WHERE p.fiscal_year = (
-        SELECT d.fiscal_year
-        FROM "accountingPeriods".period_by_day AS d
-        WHERE d.formatted_date = CURRENT_DATE
-        ) AND p.week = ${weekNum}
-      GROUP BY p.week_serial, p.fiscal_year, p.week, p.period_serial, p.period
-      ORDER BY p.week_serial ASC
-      `
-
-  return map
-}
-
-// const getCurrentWeek = async () => {
-//   const weekNum = await sql`
-//   SELECT
-//     d.fiscal_year,
-//     d.week,
-//     EXTRACT('DOW' FROM CURRENT_DATE) AS DOW
-
-//   FROM "accountingPeriods".period_by_day AS d
-//   WHERE d.formatted_date = CURRENT_DATE
-//   `
-//   return weekNum[0]
-// }
-
 module.exports.getFiscalPeriodsMap = getFiscalPeriodsMap
 module.exports.getWeeksMap = getWeeksMap
 module.exports.getFiscalYearMap = getFiscalYearMap
-module.exports.getDefaultDates = getDefaultDates
 module.exports.getFiscalQuartersMap = getFiscalQuartersMap
 module.exports.getCalMonthsMap = getCalMonthsMap
 module.exports.getCalYearsMap = getCalYearsMap
 module.exports.getCalQuartersMap = getCalQuartersMap
 module.exports.getFiscalYtdMap = getFiscalYtdMap
 module.exports.getCalYtdMap = getCalYtdMap
-// module.exports.getCurrentWeek = getCurrentWeek
