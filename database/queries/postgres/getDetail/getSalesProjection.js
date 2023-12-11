@@ -18,7 +18,7 @@ const getSalesProjection_detail = async (config, startDate, endDate, useProjecti
         
         ${useProjection.sl ? sql`
         UNION ALL
-          SELECT 'BILLED' AS status, sl.net_sales_ext, sl.gross_margin_lb, sl.cost_lb, sl.net_sales_lb, sl.othp_lb, sl.gross_sales_lb, sl.location, sl.customer_code, sl.customer_name, sl.invoice_number AS doc_num, sl.line_number, sl.formatted_invoice_date AS ship_date, sl.week_serial, sl.item_number, sl.calc_gm_rept_weight AS lbs, sl.gross_sales_ext, sl.othp_ext, sl.cogs_ext_gl AS cogs_ext, sl.gross_margin_ext, sl.outside_salesperson_code AS sales_rep, sl.north_america, sl.domestic, sl.country, sl.state 
+          SELECT 'INVOICED' AS status, sl.net_sales_ext, sl.gross_margin_lb, sl.cost_lb, sl.net_sales_lb, sl.othp_lb, sl.gross_sales_lb, sl.location, sl.customer_code, sl.customer_name, sl.invoice_number AS doc_num, sl.line_number, sl.formatted_invoice_date AS ship_date, sl.week_serial, sl.item_number, sl.calc_gm_rept_weight AS lbs, sl.gross_sales_ext, sl.othp_ext, sl.cogs_ext_gl AS cogs_ext, sl.gross_margin_ext, sl.outside_salesperson_code AS sales_rep, sl.north_america, sl.domestic, sl.country, sl.state 
         
           FROM "salesReporting".sales_line_items AS sl 
         
