@@ -23,8 +23,6 @@ router.post('/', async (req, res) => {
 
   const config = await getReportConfig(req.body)
 
-  console.log('req.body', req.body)
-
   let data = null
 
   console.log(`\n${config.user} - get detail data for ${reportFormat.dataName} route HIT...`)
