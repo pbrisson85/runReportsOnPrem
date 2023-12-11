@@ -61,7 +61,6 @@ const addDataToSalesTrendCol = (config, columnConfigs) => {
 
   columnConfigs.trendCol.forEach(col => {
     // format displayName
-
     col.useProjection = config.trends.useProjection
   })
 
