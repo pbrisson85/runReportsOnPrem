@@ -29,7 +29,7 @@ const getFiscalPeriodsMap = async () => {
         )
 
       GROUP BY p.period_serial, p.period, p.fiscal_year
-      ORDER BY fiscal_year, wk_first ASC
+      ORDER BY p.fiscal_year, p.period ASC
       `
 
   return map
@@ -64,7 +64,7 @@ const getFiscalQuartersMap = async () => {
       )
 
     GROUP BY p.quarter_serial, p.fiscal_year, p.fiscal_quarter
-    ORDER BY fiscal_year, wk_first ASC
+    ORDER BY p.fiscal_year, p.fiscal_quarter ASC
       `
 
   return map
