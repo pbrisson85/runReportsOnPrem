@@ -22,8 +22,6 @@ router.post('/', async (req, res) => {
   const { columnDataName, reportFormat, startDate, endDate, useProjection } = req.body
   let { colType } = req.body
 
-  if (useProjection?.so || useProjection?.pr) colType = 'salesProjection' // WONKY
-
   const config = await getReportConfig(req.body)
 
   let data = null
@@ -39,11 +37,11 @@ router.post('/', async (req, res) => {
   }
 
   if (colType === 'salesInvoice') {
-    data = await getSales_detail(config, startDate, endDate)
-  }
-
-  if (colType === 'salesProjection') {
-    data = await getSalesProjection_detail(config, startDate, endDate, useProjection) // Should try to combine with getSales_detail
+    if (useProjection?.so || useProjection?.pr) {
+      data = await getSalesProjection_detail(config, startDate, endDate, useProjection) // Should try to combine with getSales_detail
+    } else {
+      data = await getSales_detail(config, startDate, endDate)
+    }
   }
 
   if (colType === 'purchaseOrder') {
