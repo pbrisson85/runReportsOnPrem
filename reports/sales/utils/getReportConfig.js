@@ -6,6 +6,7 @@ const { getWeekForDate } = require('../../../database/queries/postgres/getWeekFo
 const { getEarliestSoShipDate, getLatestSoShipDate } = require('./configHelpers/getSoDates')
 const getBaseFormatDefault = require('./configHelpers/getBaseFormatDefault')
 const getlabelCols = require('./configHelpers/getLabelCols')
+const getUseProjection = require('./configHelpers/getUseProjection')
 
 const getReportConfig = async reqBody => {
   // auth filters:
@@ -123,9 +124,9 @@ const getReportConfig = async reqBody => {
       endWeek: typeof reqBody.trendEnd?.week === 'undefined' ? 0 : reqBody.trendEnd.week === '52' ? 53 : parseInt(reqBody.trendEnd.week),
       trendYears: typeof reqBody.trendYears === 'undefined' ? [] : reqBody.trendYears.map(yr => parseInt(yr)),
       useProjection: {
-        sl: typeof reqBody.trendUseProjection === 'undefined' ? true : reqBody.trendUseProjection?.includes('sales'),
-        so: reqBody.trendUseProjection?.includes('salesOrders') ?? false,
-        pr: reqBody.trendUseProjection?.includes('useRecurringProjection') ?? false,
+        sl: getUseProjection(reqBody.trendUseProjection).sl,
+        so: getUseProjection(reqBody.trendUseProjection).so,
+        pr: getUseProjection(reqBody.trendUseProjection).pr,
       },
       queryGrouping: typeof reqBody.trendQueryGrouping === 'undefined' ? false : reqBody.trendQueryGrouping[0],
     },
@@ -140,9 +141,9 @@ const getReportConfig = async reqBody => {
       endDateComparison: new Date(reqBody.totalsEnd?.date_end ?? defaultEnd),
       yearComparison: typeof reqBody.totalsYears === 'undefined' ? defaultYear : reqBody.totalsYears[0],
       useProjection: {
-        sl: typeof reqBody.totalsUseProjection === 'undefined' ? true : reqBody.totalsUseProjection?.includes('sales'),
-        so: reqBody.totalsUseProjection?.includes('salesOrders') ?? false,
-        pr: reqBody.totalsUseProjection?.includes('useRecurringProjection') ?? false,
+        sl: getUseProjection(reqBody.totalsUseProjection).sl,
+        so: getUseProjection(reqBody.totalsUseProjection).so,
+        pr: getUseProjection(reqBody.totalsUseProjection).pr,
       },
     },
     userPermissions: {

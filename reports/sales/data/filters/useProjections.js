@@ -21,17 +21,19 @@ const projectionOptions = () => {
       onTrueSetFalse: [],
       onFalseSetTrue: [],
       maxSelections: false,
+      configKey: 'sl', // maps to the config option key
     },
     {
       label: 'Sales Orders',
       dataName: 'salesOrders',
-      default: false,
+      default: true,
       trueOnNoSelection: false,
       ignoreInSelections: false,
       onTrueSetTrue: [],
       onTrueSetFalse: [],
       onFalseSetTrue: [],
       maxSelections: false,
+      configKey: 'so', // maps to the config option key
     },
     {
       label: 'Recurring Projection',
@@ -43,6 +45,7 @@ const projectionOptions = () => {
       onTrueSetFalse: [],
       onFalseSetTrue: [],
       maxSelections: false,
+      configKey: 'pr', // maps to the config option key
     },
     {
       label: 'Non Recurring Projection',
@@ -54,6 +57,7 @@ const projectionOptions = () => {
       onTrueSetFalse: [],
       onFalseSetTrue: [],
       maxSelections: false,
+      configKey: 'pn', // maps to the config option key
     },
   ]
 }
