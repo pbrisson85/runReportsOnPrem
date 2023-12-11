@@ -39,7 +39,7 @@ router.post('/', async (req, res) => {
   if (colType === 'salesInvoice') {
     if (useProjection?.so || useProjection?.pr) {
       data = await getSalesProjection_detail(config, startDate, endDate, useProjection) // Should try to combine with getSales_detail
-      colType === 'salesProjection' // for now manually determining if projeciton vs sales below. Need to override col type to projection to get correct cols
+      colType = 'salesProjection' // for now manually determining if projeciton vs sales below. Need to override col type to projection to get correct cols
     } else {
       data = await getSales_detail(config, startDate, endDate)
     }
