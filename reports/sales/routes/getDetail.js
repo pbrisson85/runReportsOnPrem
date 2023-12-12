@@ -6,11 +6,11 @@ const {
   getFgAtLoc_detail,
   getFgAtLoc_untagged_detail,
   getFgAtLoc_tagged_detail,
-} = require('../../../database/queries/postgres/getDetail/getFgInven')
-const { getFgPo_detail } = require('../../../database/queries/postgres/getDetail/getFgOpenPo')
-const { getSales_detail } = require('../../../database/queries/postgres/getDetail/getSales')
-const { getSalesProjection_detail } = require('../../../database/queries/postgres/getDetail/getSalesProjection')
-const { getSo_detail, getSoTagged_detail, getSoUntagged_detail } = require('../../../database/queries/postgres/getDetail/getSo')
+} = require('../postgres/getDetail/getFgInven')
+const { getFgPo_detail } = require('../postgres/getDetail/getFgOpenPo')
+const { getSales_detail } = require('../postgres/getDetail/getSales')
+const { getSalesProjection_detail } = require('../postgres/getDetail/getSalesProjection')
+const { getSo_detail, getSoTagged_detail, getSoUntagged_detail } = require('../postgres/getDetail/getSo')
 const detailColsMap = require('../data/detailCols/colsMap')
 const groupByOptions = require('../data/filters/detailGroupBy')
 

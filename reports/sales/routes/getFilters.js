@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const getDistinctPrograms = require('../../../database/queries/postgres/filters/getDistinctPrograms')
+const getDistinctPrograms = require('../postgres/filters/getDistinctPrograms')
 const getViewFilters = require('../data/filters/getViewFilters')
 const getReportFormats = require('../data/filters/getReportFormats')
 const trendTypeOptions = require('../data/filters/trendType')
@@ -16,12 +16,10 @@ const {
   getCalQuartersMap,
   getFiscalYtdMap,
   getCalYtdMap,
-} = require('../../../database/queries/postgres/filters/getDateMaps')
+} = require('../postgres/filters/getDateMaps')
 const getReportConfig = require('../utils/getReportConfig')
 const appSettings = require('../data/filters/appSettings')
-const getItemTypes = require('../../../database/queries/postgres/filters/getItemTypes')
-const getDefaults = require('../utils/getReportDefaults')
-const { getWeekForDate } = require('../../../database/queries/postgres/getWeekForDate')
+const getItemTypes = require('../postgres/filters/getItemTypes')
 
 // Generate Filter Data
 router.post('/programs', async (req, res) => {
