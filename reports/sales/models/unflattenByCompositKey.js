@@ -1,5 +1,3 @@
-const requestEmailNotification = require('../requests/requestEmail')
-
 const unflattenByCompositKey = (data, config) => {
   let unflat = {}
 
@@ -34,9 +32,7 @@ const unflattenByCompositKey = (data, config) => {
   })
 
   if (hasErrors)
-    requestEmailNotification(
-      `hit duplicate key in unflattenByCompositKey OVERWRITTING. This means some rows will not be mapped: ${JSON.stringify(config)}`
-    )
+    console.log(`hit duplicate key in unflattenByCompositKey OVERWRITTING. This means some rows will not be mapped: ${JSON.stringify(config)}`)
 
   return unflat
 }
