@@ -45,7 +45,6 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use('/api/reports/sales/runTests', runTests)
 app.use('/api/reports/sales/baseReport', baseReport)
 app.use('/api/reports/sales/drillDown', viewTrend)
 app.use('/api/reports/sales/detail', getDetail_baseReport)
