@@ -140,8 +140,8 @@ const buildReport = async (config) => {
 
   ///////////////////////////////// KPI DATA
 
-  const companyTotalSales = () => {return m.getCompanyTotalSales(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
-  const programTotalSales = () => {return m.getProgramTotalSales(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
+  const companyTotalSales = () => {return m.getCompanyTotalSales(config)}
+  const programTotalSales = () => {return m.getProgramTotalSales(config)}
   const speciesGroupTotalSales = () => {return m.getSpeciesGroupTotalSales(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
 
   const l0_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : () => {return m.l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')}
@@ -247,20 +247,20 @@ const buildReport = async (config) => {
   const l5_yoyYtd_companySales = !config.trends.fyYtd ? [] : config.baseFormat.l5_field ? m.calcYoyYtdSalesCol(l5_salesByFyYtdR, 'yoyYtdSales') : [] 
 
   /* % COMPANY SALES */
-  const l0_percent_companySales = m.calcPercentSalesCol(companyTotalSalesR[0], l0_reportSales, 'percentCompanySales')
-  const l1_percent_companySales = m.calcPercentSalesCol(companyTotalSalesR[0], l1_reportSales, 'percentCompanySales')
-  const l2_percent_companySales = m.calcPercentSalesCol(companyTotalSalesR[0], l2_reportSales, 'percentCompanySales')
-  const l3_percent_companySales = config.baseFormat.l3_field ? m.calcPercentSalesCol(companyTotalSalesR[0], l3_reportSales, 'percentCompanySales') : [] 
-  const l4_percent_companySales = config.baseFormat.l4_field ? m.calcPercentSalesCol(companyTotalSalesR[0], l4_reportSales, 'percentCompanySales') : [] 
-  const l5_percent_companySales = config.baseFormat.l5_field ? m.calcPercentSalesCol(companyTotalSalesR[0], l5_reportSales, 'percentCompanySales') : [] 
+  const l0_percent_companySales = m.calcPercentSalesCol(companyTotalSalesR, l0_reportSales, 'percentCompanySales')
+  const l1_percent_companySales = m.calcPercentSalesCol(companyTotalSalesR, l1_reportSales, 'percentCompanySales')
+  const l2_percent_companySales = m.calcPercentSalesCol(companyTotalSalesR, l2_reportSales, 'percentCompanySales')
+  const l3_percent_companySales = config.baseFormat.l3_field ? m.calcPercentSalesCol(companyTotalSalesR, l3_reportSales, 'percentCompanySales') : [] 
+  const l4_percent_companySales = config.baseFormat.l4_field ? m.calcPercentSalesCol(companyTotalSalesR, l4_reportSales, 'percentCompanySales') : [] 
+  const l5_percent_companySales = config.baseFormat.l5_field ? m.calcPercentSalesCol(companyTotalSalesR, l5_reportSales, 'percentCompanySales') : [] 
 
   /* % PROGRAM SALES */
-  const l0_percent_programSales = !config.baseFilters.program ? [] : m.calcPercentSalesCol(programTotalSalesR[0], l0_reportSales, 'percentProgramSales')
-  const l1_percent_programSales = !config.baseFilters.program ? [] : m.calcPercentSalesCol(programTotalSalesR[0], l1_reportSales, 'percentProgramSales')
-  const l2_percent_programSales = !config.baseFilters.program ? [] : m.calcPercentSalesCol(programTotalSalesR[0], l2_reportSales, 'percentProgramSales')
-  const l3_percent_programSales = !config.baseFilters.program || !config.baseFormat.l3_field ? [] : m.calcPercentSalesCol(programTotalSalesR[0], l3_reportSales, 'percentProgramSales')
-  const l4_percent_programSales = !config.baseFilters.program || !config.baseFormat.l4_field ? [] : m.calcPercentSalesCol(programTotalSalesR[0], l4_reportSales, 'percentProgramSales') 
-  const l5_percent_programSales = !config.baseFilters.program || !config.baseFormat.l5_field ? [] : m.calcPercentSalesCol(programTotalSalesR[0], l5_reportSales, 'percentProgramSales') 
+  const l0_percent_programSales = !config.baseFilters.program ? [] : m.calcPercentSalesCol(programTotalSalesR, l0_reportSales, 'percentProgramSales')
+  const l1_percent_programSales = !config.baseFilters.program ? [] : m.calcPercentSalesCol(programTotalSalesR, l1_reportSales, 'percentProgramSales')
+  const l2_percent_programSales = !config.baseFilters.program ? [] : m.calcPercentSalesCol(programTotalSalesR, l2_reportSales, 'percentProgramSales')
+  const l3_percent_programSales = !config.baseFilters.program || !config.baseFormat.l3_field ? [] : m.calcPercentSalesCol(programTotalSalesR, l3_reportSales, 'percentProgramSales')
+  const l4_percent_programSales = !config.baseFilters.program || !config.baseFormat.l4_field ? [] : m.calcPercentSalesCol(programTotalSalesR, l4_reportSales, 'percentProgramSales') 
+  const l5_percent_programSales = !config.baseFilters.program || !config.baseFormat.l5_field ? [] : m.calcPercentSalesCol(programTotalSalesR, l5_reportSales, 'percentProgramSales') 
 
   /* % SPECIES GROUP SALES */
   // look up species group based on program

@@ -49,7 +49,8 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
   const l1_trailingTwelveWeekF = config.totals.endWeekPrimary < 12 ? skip() : () => { return m.l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, trendQuery, config.totals.yearPrimary, '12wk Rolling')}
   const l0_trailingTwelveWeekF = config.totals.endWeekPrimary < 12 ? skip() : () => { return m.l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, config.totals.yearPrimary, '12wk Rolling')}
 
-  const companyTotalSalesF = () => { return m.getCompanyTotalSales(startDate, endDate, config)}
+  const companyTotalSalesF = () => { return m.getCompanyTotalSales(config)}
+  const programTotalSalesF = () => { return m.getProgramTotalSales(config)} 
 
   const [
     l1_inven, 
@@ -72,6 +73,7 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
     l0_trailingEightWeek, 
     l1_trailingTwelveWeek, 
     l0_trailingTwelveWeek, 
+    programTotalSales,
     companyTotalSales 
   ] = await Promise.all([
     l1_invenF(), 
@@ -94,6 +96,7 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
     l0_trailingEightWeekF(), 
     l1_trailingTwelveWeekF(), 
     l0_trailingTwelveWeekF(), 
+    programTotalSalesF(),
     companyTotalSalesF()])
 
   ///////////////////////////////// KPI DATA
@@ -103,17 +106,12 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
   //const l1_yoyYtd_companySales = !config.trends.fyYtd ? [] : calcYoyYtdSalesCol(l1_salesByFyYtd, 'yoyYtdSales')
   
   /* % COMPANY SALES */
-  const l1_percent_companySales = m.calcPercentSalesCol(companyTotalSales[0], l1_sales, 'percentCompanySales')
-  const l0_percent_companySales = m.calcPercentSalesCol(companyTotalSales[0], l0_sales, 'percentCompanySales')
+  const l1_percent_companySales = m.calcPercentSalesCol(companyTotalSales, l1_sales, 'percentCompanySales')
+  const l0_percent_companySales = m.calcPercentSalesCol(companyTotalSales, l0_sales, 'percentCompanySales')
 
   /* % PROGRAM SALES */
-  let l1_percent_programSales = []
-  let l0_percent_programSales = []
-  if (config.baseFilters.program !== null) {
-    const l0_program_sales = await m.l0_program_getsales(config, startDate, endDate, config.baseFilters.program)
-    l1_percent_programSales = m.calcPercentSalesCol(l0_program_sales[0], l1_sales, 'percentProgramSales')
-    l0_percent_programSales = m.calcPercentSalesCol(l0_program_sales[0], l0_sales, 'percentProgramSales')
-  }
+  const l1_percent_programSales = m.calcPercentSalesCol(programTotalSales, l1_sales, 'percentProgramSales')
+  const l0_percent_programSales = m.calcPercentSalesCol(programTotalSales, l0_sales, 'percentProgramSales')
 
   /* % REPORT TOTAL */
   const l1_percent_reportTotal = m.calcPercentSalesCol(l0_sales[0], l1_sales, 'percentReportTotal')
@@ -136,9 +134,9 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
   const l1_twelveWkAveSales = m.calcAveWeeklySales(l1_trailingTwelveWeek, 'twelveWkAveSales', 12)
   const l0_twelveWkAveSales = m.calcAveWeeklySales(l0_trailingTwelveWeek, 'twelveWkAveSales', 12)
 
-  /* MOMENTUM */
-  const l1_momentum = m.calcMomentum(l1_fourWkAveSales, l1_twelveWkAveSales, 'momentum')
-  const l0_momentum = m.calcMomentum(l0_fourWkAveSales, l0_twelveWkAveSales, 'momentum')
+  /* MOMENTUM 4Wk Ave Vs 12 Wk Ave */
+  const l1_momentum = m.calcMomentum(l1_fourWkAveSales, l1_twelveWkAveSales, 'momentum (4wk vs 12 wk)')
+  const l0_momentum = m.calcMomentum(l0_fourWkAveSales, l0_twelveWkAveSales, 'momentum (4wk vs 12 wk)')
 
   /* WEEKS INV ON HAND */
   const l1_weeksInvOnHand = !l1_inven.length ? [] : m.calcWeeksInvOnHand(l1_inven, l1_aveWeeklySales, 'weeksInvenOnHand')
