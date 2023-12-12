@@ -53,14 +53,14 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use('/api/sales/runTests', runTests)
-app.use('/api/sales/baseReport', baseReport)
-app.use('/api/sales/drillDown', viewTrend)
-app.use('/api/sales/detail', getDetail_baseReport)
+app.use('/api/reports/sales/runTests', runTests)
+app.use('/api/reports/sales/baseReport', baseReport)
+app.use('/api/reports/sales/drillDown', viewTrend)
+app.use('/api/reports/sales/detail', getDetail_baseReport)
+app.use('/api/reports/sales/getFilters', getFilters)
 
 app.use('/api/sales/generateSalesData', generateSalesData)
 app.use('/api/sales/generateInvAllocData', generateInvAllocFile)
-app.use('/api/sales/getFilters', getFilters)
 app.use('/api/sales/gl/revCogs', glRevCogs)
 app.use('/api/sales/gl/othp', glOthp)
 
