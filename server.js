@@ -69,4 +69,4 @@ runCronOnStartup()
 
 // start express server
 const PORT = process.env.runSales_PORT || 5037
-app.listen(PORT, () => console.log(`runSalesOnPrem running on port ${PORT} \n`))
+app.listen(PORT, () => console.log(`runReportsOnPrem running on port ${PORT} \n`))
