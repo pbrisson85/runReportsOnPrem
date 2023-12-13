@@ -14,20 +14,20 @@ module.exports = sql
 // initialize routes
 /* Reports */
 // Sales
-const baseReport = require('./reports/sales/routes/baseReport')
-const viewTrend = require('./reports/sales/routes/viewTrend')
-const getDetail_baseReport = require('./reports/sales/routes/getDetail')
-const getFilters = require('./reports/sales/routes/getFilters')
+const baseReport_sales = require('./reports/sales/routes/baseReport')
+const viewTrend_sales = require('./reports/sales/routes/viewTrend')
+const getDetail_baseReport_sales = require('./reports/sales/routes/getDetail')
+const getFilters_sales = require('./reports/sales/routes/getFilters')
 
 // GL
 const glRevCogs = require('./reports/gl/routes/glRevCogs')
 const glOthp = require('./reports/gl/routes/glOthp')
 
 // Inventory
-const baseReport = require('./reports/inven/routes/baseReport')
-const viewTrend = require('./reports/inven/routes/viewTrend')
-const getDetail_baseReport = require('./reports/inven/routes/getDetail')
-const getFilters = require('./reports/inven/routes/getFilters')
+const baseReport_inven = require('./reports/inven/routes/baseReport')
+const viewTrend_inven = require('./reports/inven/routes/viewTrend')
+const getDetail_baseReport_inven = require('./reports/inven/routes/getDetail')
+const getFilters_inven = require('./reports/inven/routes/getFilters')
 
 // error handling
 process.on('uncaughtException', ex => {
@@ -52,15 +52,15 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use('/api/reports/sales/baseReport', baseReport)
-app.use('/api/reports/sales/drillDown', viewTrend)
-app.use('/api/reports/sales/detail', getDetail_baseReport)
-app.use('/api/reports/sales/getFilters', getFilters)
+app.use('/api/reports/sales/baseReport', baseReport_sales)
+app.use('/api/reports/sales/drillDown', viewTrend_sales)
+app.use('/api/reports/sales/detail', getDetail_baseReport_sales)
+app.use('/api/reports/sales/getFilters', getFilters_sales)
 
-app.use('/api/reports/inven/baseReport', baseReport)
-app.use('/api/reports/inven/drillDown', viewTrend)
-app.use('/api/reports/inven/detail', getDetail_baseReport)
-app.use('/api/reports/inven/getFilters', getFilters)
+app.use('/api/reports/inven/baseReport', baseReport_inven)
+app.use('/api/reports/inven/drillDown', viewTrend_inven)
+app.use('/api/reports/inven/detail', getDetail_baseReport_inven)
+app.use('/api/reports/inven/getFilters', getFilters_inven)
 
 app.use('/api/reports/gl/revCogs', glRevCogs)
 app.use('/api/reports/gl/othp', glOthp)
