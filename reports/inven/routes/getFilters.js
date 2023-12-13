@@ -1,11 +1,13 @@
 const router = require('express').Router()
-const getDistinctPrograms = require('../postgres/filters/getDistinctPrograms')
+
 const getViewFilters = require('../data/filters/getViewFilters')
 const getReportFormats = require('../data/filters/getReportFormats')
 const trendTypeOptions = require('../data/filters/trendType')
 const totalTypeOptions = require('../data/filters/totalTypes')
 const projectionOptions = require('../data/filters/useProjections')
 const getPermissionFilters = require('../data/filters/getPermissionFilters')
+const appSettings = require('../data/filters/appSettings')
+
 const {
   getFiscalPeriodsMap,
   getWeeksMap,
@@ -17,31 +19,32 @@ const {
   getFiscalYtdMap,
   getCalYtdMap,
 } = require('../postgres/filters/getDateMaps')
-const getReportConfig = require('../utils/getReportConfig')
-const appSettings = require('../data/filters/appSettings')
 const getItemTypes = require('../postgres/filters/getItemTypes')
+const getDistinctPrograms = require('../postgres/filters/getDistinctPrograms')
+
+const getReportConfig = require('../utils/getReportConfig')
 
 // Generate Filter Data
 router.post('/programs', async (req, res) => {
-  console.log('get sales PROGRAMS filters lot route HIT...')
+  console.log('get inven PROGRAMS filters lot route HIT...')
   // get config for applicable filters
   const config = await getReportConfig(req.body)
-  const programs = await getDistinctPrograms(config)
+  const programs = await getDistinctPrograms(config) // Fix this to pull from the inven, so, and projections tables.
   programs.sort((a, b) => {
     if (a.label > b.label) return 1
     if (a.label < b.label) return -1
     return 0
   })
   res.send(programs)
-  console.log('get sales PROGRAMS filters lot route COMPLETE. ')
+  console.log('get inven PROGRAMS filters lot route COMPLETE. ')
 })
 
 // Generate Filter Data
 router.get('/views', async (req, res) => {
-  console.log('get sales VIEWS filters lot route HIT...')
+  console.log('get inven VIEWS filters lot route HIT...')
   const views = getViewFilters()
   res.send(views)
-  console.log('get sales VIEWS filters lot route COMPLETE. ')
+  console.log('get inven VIEWS filters lot route COMPLETE. ')
 })
 
 // Generate Filter Data
