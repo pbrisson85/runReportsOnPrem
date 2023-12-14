@@ -76,6 +76,13 @@ const buildReport = async (config) => {
     rowsFirstLevelDetail(),
   ])
 
+
+  console.log('rowsFifthLevelDetailR', rowsFifthLevelDetailR)
+  console.log('rowsFourthLevelDetailR', rowsFourthLevelDetailR)
+  console.log('rowsThirdLevelDetailR', rowsThirdLevelDetailR)
+  console.log('rowsSecondLevelDetailR', rowsSecondLevelDetailR)
+  console.log('rowsFirstLevelDetailR', rowsFirstLevelDetailR)
+
   const totalsRow = [
     {
       totalRow: true,
@@ -99,31 +106,23 @@ const buildReport = async (config) => {
 
   let mapInvenToRowTemplates = null
   let rowTemplate_unflat = null
-  let level = null
+
   if (!config.baseFormat.l3_field) {
     // 2 LEVEL REPORT
-   
     mapInvenToRowTemplates = m.mapInvenToRowTemplates_twoLevel
     rowTemplate_unflat = m.unflattenByCompositKey(rowTemplate, { 1: 'l1_label', 2: 'l2_label' }) 
-    level = 2
   } else if (!config.baseFormat.l4_field) {
     // 3 LEVEL REPORT
- 
     mapInvenToRowTemplates = m.mapInvenToRowTemplates_threeLevel
     rowTemplate_unflat = m.unflattenByCompositKey(rowTemplate, { 1: 'l1_label', 2: 'l2_label', 3: 'l3_label' }) 
-    level = 3
   } else if (!config.baseFormat.l5_field) {
     // 4 LEVEL REPORT
-
     mapInvenToRowTemplates = m.mapInvenToRowTemplates_fourLevel
     rowTemplate_unflat = m.unflattenByCompositKey(rowTemplate, { 1: 'l1_label', 2: 'l2_label', 3: 'l3_label', 4: 'l4_label' }) 
-    level = 4
   } else {
     // 5 LEVEL REPORT
-  
     mapInvenToRowTemplates = m.mapInvenToRowTemplates_fiveLevel
     rowTemplate_unflat = m.unflattenByCompositKey(rowTemplate, { 1: 'l1_label', 2: 'l2_label', 3: 'l3_label', 4: 'l4_label', 5: 'l5_label' }) 
-    level = 5
   }
 
   const mappedInven = mapInvenToRowTemplates(
