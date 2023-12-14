@@ -62,7 +62,7 @@ router.get('/periodMaps', async (req, res) => {
 })
 
 // Generate Filter Data
-router.get('/reports', async (req, res) => {
+router.get('/rowFormats', async (req, res) => {
   console.log('get report formats route HIT...')
   const reports = getReportFormats()
   res.send(reports)
