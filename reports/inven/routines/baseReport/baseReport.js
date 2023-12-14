@@ -144,7 +144,7 @@ const buildReport = async (config) => {
     rowTemplate_unflat
   )
 
-  const mappedData = m.combineMappedRows(mappedSales, mappedInven)
+  const mappedData = m.combineMappedRows([], mappedInven)
   const flattenedMappedData = Object.values(mappedData)
   const data = m.cleanLabelsForDisplay(flattenedMappedData, config)
 
