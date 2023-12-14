@@ -1,7 +1,6 @@
 const invenFgCols = require('./invenFgCols.js')
 const invenKpiCol = require('./invenKpiCols.js')
 const poCols = require('./purchaseOrderCols.js')
-const salesKpiCols = require('./salesKpiCols.js')
 const salesOrdersCol = require('./salesOrderCols.js')
 const trendCol = require('./trendColsTemplate.js')
 
