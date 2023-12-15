@@ -375,11 +375,16 @@ const buildReport = async (config) => {
 
   let keyMap = {}
   for (let i = 0; i < config.baseFilters.groupingLevel; i++) {
+    console.log('config.baseFilters.groupingLevel', config.baseFilters.groupingLevel)
+    console.log('i', i)
+    console.log('keyMap IN LOOP', keyMap)
+
+
    // build composite key for unflatten:
    keyMap[i + 1] = `l${i + 1}_label`
   }
   // { 1: 'l1_label', 2: 'l2_label' }, { 1: 'l1_label', 2: 'l2_label', 3: 'l3_label' }
-  console.log('keyMap', keyMap)
+  console.log('keyMap FINISHED', keyMap)
   const rowTemplate_unflat = m.unflattenByCompositKey(rowTemplate, keyMap) 
 
 
