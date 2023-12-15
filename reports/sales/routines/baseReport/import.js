@@ -93,7 +93,6 @@ module.exports = {
   calcMomentum: require('../../models/calcMomentumSalesCol'),
   calcWeeksInvOnHand: require('../../models/calcWeeksInvOnHand'),
   calcInventoryAvailable: require('../../models/calcInventoryAvailable'),
-  collapseRedundantTotalRows: require('../../models/collapseRedundantTotalRows'),
   sortRowTemplate: require('../../../utils/sortRowTemplate'),
   addDataToSoTotalCol: require('../helpers/colDataHelper').addDataToSoTotalCol,
   addDataToSalesTotalCol: require('../helpers/colDataHelper').addDataToSalesTotalCol,
