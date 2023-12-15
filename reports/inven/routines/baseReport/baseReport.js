@@ -76,13 +76,6 @@ const buildReport = async (config) => {
     rowsFirstLevelDetail(),
   ])
 
-
-  console.log('rowsFifthLevelDetailR', rowsFifthLevelDetailR)
-  console.log('rowsFourthLevelDetailR', rowsFourthLevelDetailR)
-  console.log('rowsThirdLevelDetailR', rowsThirdLevelDetailR)
-  console.log('rowsSecondLevelDetailR', rowsSecondLevelDetailR)
-  console.log('rowsFirstLevelDetailR', rowsFirstLevelDetailR)
-
   const totalsRow = [
     {
       totalRow: true,
@@ -124,7 +117,7 @@ const buildReport = async (config) => {
       ...l5_OpenPoR,
       ...l0_OpenPoR,
     ],
-    rowTemplate_unflat
+    rowTemplate_unflat, config, viewTrend = false
   )
 
   // const mappedData = m.combineMappedRows([], mappedInven)
