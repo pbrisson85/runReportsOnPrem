@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const getReportConfig = require('../utils/getReportConfig')
+const getReportConfig = require('../../utils/getReportConfig')
 const {
   getFgInven_detail,
   getFgInTransit_detail,

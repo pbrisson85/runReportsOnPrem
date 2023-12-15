@@ -17,7 +17,7 @@ const {
   getFiscalYtdMap,
   getCalYtdMap,
 } = require('../postgres/filters/getDateMaps')
-const getReportConfig = require('../utils/getReportConfig')
+const getReportConfig = require('../../utils/getReportConfig')
 const appSettings = require('../data/filters/appSettings')
 const getItemTypes = require('../postgres/filters/getItemTypes')
 

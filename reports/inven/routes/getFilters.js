@@ -22,7 +22,7 @@ const {
 const getItemTypes = require('../postgres/filters/getItemTypes')
 const getDistinctPrograms = require('../postgres/filters/getDistinctPrograms')
 
-const getReportConfig = require('../utils/getReportConfig')
+const getReportConfig = require('../../utils/getReportConfig')
 
 // Generate Filter Data
 router.post('/programs', async (req, res) => {

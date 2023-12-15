@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const buildReport = require('../routines/baseReport/baseReport')
-const getReportConfig = require('../utils/getReportConfig')
+const getReportConfig = require('../../utils/getReportConfig')
 
 // @route   POST /api/sales/byProgram
 // @desc
