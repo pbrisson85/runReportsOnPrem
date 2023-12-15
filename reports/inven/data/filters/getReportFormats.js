@@ -4,12 +4,13 @@ const getReportFormats = () => {
   return [
     {
       default: false, // if no report is chosen (such as on first request) this will be used to group report if true
-      label: 'type / species group / freeze', // appears in front end report options
-      dataName: 'typeSpecgroupFreeze', // passed back as "reportFormat" in the front end request. Maps to "invenReporting".master_supplement in reports/sales/utils/config/itemMasterSupplementQueryMap.js
+      label: 'type / species group / program', // appears in front end report options
+      dataName: 'typeSpecgroupProg', // passed back as "reportFormat" in the front end request. Maps to "invenReporting".master_supplement in reports/sales/utils/config/itemMasterSupplementQueryMap.js
       defaultsFallback: false, // front end uses defaults array to map a program filter to the default report format. If the program does not appear in any array (which would be a mistake) then this flag will be for the fallbackDefault
       defaults: [], //list of programs (datanames) that this is the defaultsFallback report
       optional: ['all'], // list of programs (datanames) that allow this,  or use 'any' to allow all programs EXCEPT 'all'
       forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
+      groupingLevel: 3, // how many fields are in the grouping? routine uses this in verious groupings, stored in the config upon the request.
       l1_field: 'ms.item_type', // passed back to config for queries
       l2_field: 'ms.species_group', // passed back to config for queries
       l3_field: 'ms.program', // passed back to config for queries
@@ -23,6 +24,7 @@ const getReportFormats = () => {
           filterName: 'l1_filter', // key to match up the column with the filter
           width: '100px', // css width
           left: '0px', // css positioning for sticky sum of prior col widths
+          borderRight: false, // border right on ladst frozen cell
           rightClickMenu: [], // array of options for right click menu
         },
         {
@@ -31,12 +33,69 @@ const getReportFormats = () => {
           filterName: 'l2_filter', // key to match up the column with the filter
           width: '175px', // css width
           left: '100px', // css positioning for sticky sum of prior col widths
+          borderRight: false, // border right on ladst frozen cell
           rightClickMenu: [], // array of options for right click menu
         },
         {
           displayName: 'PROGRAM', // show as column header
           dataName: 'l3_label', // key to pull data from
           filterName: 'l3_filter', // key to match up the column with the filter
+          width: '175px', // css width
+          left: '275px', // css positioning for sticky sum of prior col widths
+          borderRight: true, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+      ],
+    },
+    {
+      default: false, // if no report is chosen (such as on first request) this will be used to group report if true
+      label: 'type / species group / program / freeze', // appears in front end report options
+      dataName: 'typeSpecgroupFreeze', // passed back as "reportFormat" in the front end request. Maps to "invenReporting".master_supplement in reports/sales/utils/config/itemMasterSupplementQueryMap.js
+      defaultsFallback: false, // front end uses defaults array to map a program filter to the default report format. If the program does not appear in any array (which would be a mistake) then this flag will be for the fallbackDefault
+      defaults: [], //list of programs (datanames) that this is the defaultsFallback report
+      optional: ['all'], // list of programs (datanames) that allow this,  or use 'any' to allow all programs EXCEPT 'all'
+      forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
+      groupingLevel: 4, // how many fields are in the grouping? routine uses this in verious groupings, stored in the config upon the request.
+      l1_field: 'ms.item_type', // passed back to config for queries
+      l2_field: 'ms.species_group', // passed back to config for queries
+      l3_field: 'ms.program', // passed back to config for queries
+      l3_field: 'ms.fg_fresh_frozen', // passed back to config for queries
+      l1_name: 'item type', // only used as readable description for active filters on front end.
+      l2_name: 'species group', // only used as readable description for active filters on front end.
+      l3_name: 'program', // only used as readable description for active filters on front end.
+      l3_name: 'freeze', // only used as readable description for active filters on front end.
+      labelCols: [
+        {
+          displayName: 'ITEM TYPE', // show as column header
+          dataName: 'l1_label', // key to pull data from
+          filterName: 'l1_filter', // key to match up the column with the filter
+          width: '100px', // css width
+          left: '0px', // css positioning for sticky sum of prior col widths
+          borderRight: false, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+        {
+          displayName: 'MAJOR CATEGORY', // show as column header
+          dataName: 'l2_label', // key to pull data from
+          filterName: 'l2_filter', // key to match up the column with the filter
+          width: '175px', // css width
+          left: '100px', // css positioning for sticky sum of prior col widths
+          borderRight: false, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+        {
+          displayName: 'PROGRAM', // show as column header
+          dataName: 'l3_label', // key to pull data from
+          filterName: 'l3_filter', // key to match up the column with the filter
+          width: '175px', // css width
+          left: '275px', // css positioning for sticky sum of prior col widths
+          borderRight: false, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+        {
+          displayName: 'FREEZE', // show as column header
+          dataName: 'l4_label', // key to pull data from
+          filterName: 'l4_filter', // key to match up the column with the filter
           width: '175px', // css width
           left: '275px', // css positioning for sticky sum of prior col widths
           borderRight: true, // border right on ladst frozen cell
@@ -52,6 +111,7 @@ const getReportFormats = () => {
       defaults: ['all'],
       optional: ['all'],
       forbiddenCols: ['percentProgramSales'],
+      groupingLevel: 2,
       l1_field: 'ms.species_group',
       l2_field: 'ms.program',
       l1_name: 'species group',
@@ -83,6 +143,7 @@ const getReportFormats = () => {
       defaults: [],
       optional: ['all'],
       forbiddenCols: ['percentProgramSales'],
+      groupingLevel: 3,
       l1_field: 'ms.species_group',
       l2_field: 'ms.program',
       l3_field: 'ms.fg_fresh_frozen',
@@ -125,6 +186,7 @@ const getReportFormats = () => {
       defaults: [],
       optional: ['all'],
       forbiddenCols: ['percentProgramSales'],
+      groupingLevel: 3,
       l1_field: 'ms.species_group',
       l2_field: 'ms.program',
       l3_field: 'ms.species',
@@ -167,6 +229,7 @@ const getReportFormats = () => {
       defaults: [],
       optional: ['all'],
       forbiddenCols: ['percentProgramSales'],
+      groupingLevel: 3,
       l1_field: 'ms.species_group',
       l2_field: 'ms.brand',
       l3_field: 'ms.fish_skin',
@@ -209,6 +272,7 @@ const getReportFormats = () => {
       defaults: [],
       optional: ['all'],
       forbiddenCols: ['percentProgramSales'],
+      groupingLevel: 3,
       l1_field: 'ms.species_group',
       l2_field: 'ms.fish_skin',
       l3_field: 'ms.brand',
@@ -251,6 +315,7 @@ const getReportFormats = () => {
       defaults: [],
       optional: ['all'],
       forbiddenCols: ['percentProgramSales'],
+      groupingLevel: 2,
       l1_field: 'ms.species_group',
       l2_field: 'ms.fg_fresh_frozen',
       l1_name: 'species group',
@@ -282,6 +347,7 @@ const getReportFormats = () => {
       defaults: [],
       optional: ['any'],
       forbiddenCols: [],
+      groupingLevel: 3,
       l1_field: 'ms.fg_fresh_frozen',
       l2_field: 'ms.brand',
       l3_field: 'ms.size_name',
@@ -325,6 +391,7 @@ const getReportFormats = () => {
       defaults: ['COD USA', 'FLATFISH USA', 'HADDOCK USA', 'PERCH USA', 'POLLOCK USA', 'SCALLOPS DOMESTIC'],
       optional: ['any'],
       forbiddenCols: [],
+      groupingLevel: 4,
       l1_field: 'ms.fg_fresh_frozen',
       l2_field: 'ms.brand',
       l3_field: 'ms.fg_treatment',
@@ -379,6 +446,7 @@ const getReportFormats = () => {
       defaults: [],
       optional: ['any'],
       forbiddenCols: [],
+      groupingLevel: 3,
       l1_field: 'ms.fg_fresh_frozen',
       l2_field: 'ms.fg_treatment',
       l3_field: 'ms.size_name',
@@ -422,6 +490,7 @@ const getReportFormats = () => {
       defaults: [],
       optional: ['any'],
       forbiddenCols: [],
+      groupingLevel: 3,
       l1_field: 'ms.species',
       l2_field: 'ms.brand',
       l3_field: 'ms.size_name',
@@ -465,6 +534,7 @@ const getReportFormats = () => {
       defaults: ['COD CHN', 'FLATFISH CHN', 'FLATFISH PER', 'HADDOCK CHN', 'PERCH CHN', 'POLLOCK CHN', 'SEAFOOD OTHER', 'SCALLOPS NON DOMESTIC'],
       optional: ['any'],
       forbiddenCols: [],
+      groupingLevel: 4,
       l1_field: 'ms.species',
       l2_field: 'ms.brand',
       l3_field: 'ms.fg_treatment',
@@ -519,6 +589,7 @@ const getReportFormats = () => {
       defaults: [],
       optional: ['any'],
       forbiddenCols: [],
+      groupingLevel: 3,
       l1_field: 'ms.species',
       l2_field: 'ms.fg_treatment',
       l3_field: 'ms.size_name',
@@ -562,6 +633,7 @@ const getReportFormats = () => {
       defaults: [],
       optional: ['any'],
       forbiddenCols: [],
+      groupingLevel: 5,
       l1_field: 'ms.fg_fresh_frozen',
       l2_field: 'ms.brand',
       l3_field: 'ms.fg_treatment',
