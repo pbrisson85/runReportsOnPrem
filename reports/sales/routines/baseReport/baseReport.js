@@ -374,8 +374,8 @@ const buildReport = async (config) => {
   rowTemplate.push(...totalsRow)
 
   let keyMap = {}
-  for (let i = 0; i < config.baseFilters.groupingLevel; i++) {
-    console.log('config.baseFilters.groupingLevel', config.baseFilters.groupingLevel)
+  for (let i = 0; i < config.baseFormat.groupingLevel; i++) {
+    console.log('config.baseFormat.groupingLevel', config.baseFilters.groupingLevel)
     console.log('i', i)
     console.log('keyMap IN LOOP', keyMap)
 
