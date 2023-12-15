@@ -25,6 +25,8 @@ const mapSalesToRowTemplates = (salesLines, rowTemplate, config) => {
       keyMap = keyMap !== null ? `${keyMap}-${filter}` : `${filter}`
     }
 
+    console.log('keyMap', keyMap)
+
     let {
       sales_numerator,
       sales_denominator,
