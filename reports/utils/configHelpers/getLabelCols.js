@@ -1,4 +1,4 @@
-const getLabelColsTemplate = require('./labelColsTemplate')
+const getLabelColsTemplate = require('../labelColsTemplate')
 const getBaseFormatDefault = require('./getBaseFormatDefault')
 
 const getLabelCols = reqBody => {
