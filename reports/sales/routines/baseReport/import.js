@@ -76,14 +76,9 @@ module.exports = {
   getRowsFirstLevelDetail: require('../../postgres/baseReport/getRows').getRowsFirstLevelDetail,
 
   // Model Functions
-  mapSalesToRowTemplates_fiveLevel: require('../../../utils/mapSalesToRowTemplatesFiveLevel'),
-  mapInvenToRowTemplates_fiveLevel: require('../../../utils/mapInvenToRowTemplatesFiveLevel'),
-  mapSalesToRowTemplates_fourLevel: require('../../../utils/mapSalesToRowTemplatesFourLevel'),
-  mapInvenToRowTemplates_fourLevel: require('../../../utils/mapInvenToRowTemplatesFourLevel'),
-  mapSalesToRowTemplates_threeLevel: require('../../../utils/mapSalesToRowTemplatesThreeLevel'),
-  mapInvenToRowTemplates_threeLevel: require('../../../utils/mapInvenToRowTemplatesThreeLevel'),
-  mapSalesToRowTemplates_twoLevel: require('../../../utils/mapSalesToRowTemplatesTwoLevel'),
-  mapInvenToRowTemplates_twoLevel: require('../../../utils/mapInvenToRowTemplatesTwoLevel'),
+  mapSalesToRowTemplates: require('../../../utils/mapSalesToRowTemplates'),
+  mapInvenToRowTemplates: require('../../../utils/mapInvenToRowTemplates'),
+
   combineMappedRows: require('../../../utils/combineMappedRows'),
   cleanLabelsForDisplay: require('../../../utils/cleanLabelsForDisplay'),
   unflattenByCompositKey: require('../../../utils/unflattenByCompositKey'),

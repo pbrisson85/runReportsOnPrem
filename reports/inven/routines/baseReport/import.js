@@ -2,9 +2,6 @@ module.exports = {
   // Cols
   columnConfigs: require('../../data/baseCols/columns'),
 
-  // Trend Cols
-  // Cols will be age, location, etc. ******************************************
-
   // Inv Data
   l1_getInv: require('../../postgres/baseReport/getInven').l1_getInv,
   l2_getInv: require('../../postgres/baseReport/getInven').l2_getInv,
@@ -29,10 +26,7 @@ module.exports = {
   getRowsFirstLevelDetail: require('../../postgres/baseReport/getRows').getRowsFirstLevelDetail,
 
   // Model Functions
-  mapInvenToRowTemplates_fiveLevel: require('../../models/mapInvenToRowTemplatesFiveLevel'),
-  mapInvenToRowTemplates_fourLevel: require('../../models/mapInvenToRowTemplatesFourLevel'),
-  mapInvenToRowTemplates_threeLevel: require('../../models/mapInvenToRowTemplatesThreeLevel'),
-  mapInvenToRowTemplates_twoLevel: require('../../models/mapInvenToRowTemplatesTwoLevel'),
+  mapInvenToRowTemplates: require('../../../utils/mapInvenToRowTemplates'),
 
   combineMappedRows: require('../../models/combineMappedRows'),
   cleanLabelsForDisplay: require('../../models/cleanLabelsForDisplay'),

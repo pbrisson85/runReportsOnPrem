@@ -101,31 +101,15 @@ const buildReport = async (config) => {
   const rowTemplate = m.sortRowTemplate([...rowsFifthLevelDetailR, ...rowsFourthLevelDetailR, ...rowsThirdLevelDetailR, ...rowsSecondLevelDetailR, ...rowsFirstLevelDetailR])
   rowTemplate.push(...totalsRow)
 
-  // map data into row template
-  // Determine if 2 or 3 level report
-
-  let mapInvenToRowTemplates = null
-  let rowTemplate_unflat = null
-
-  if (!config.baseFormat.l3_field) {
-    // 2 LEVEL REPORT
-    mapInvenToRowTemplates = m.mapInvenToRowTemplates_twoLevel
-    rowTemplate_unflat = m.unflattenByCompositKey(rowTemplate, { 1: 'l1_label', 2: 'l2_label' }) 
-  } else if (!config.baseFormat.l4_field) {
-    // 3 LEVEL REPORT
-    mapInvenToRowTemplates = m.mapInvenToRowTemplates_threeLevel
-    rowTemplate_unflat = m.unflattenByCompositKey(rowTemplate, { 1: 'l1_label', 2: 'l2_label', 3: 'l3_label' }) 
-  } else if (!config.baseFormat.l5_field) {
-    // 4 LEVEL REPORT
-    mapInvenToRowTemplates = m.mapInvenToRowTemplates_fourLevel
-    rowTemplate_unflat = m.unflattenByCompositKey(rowTemplate, { 1: 'l1_label', 2: 'l2_label', 3: 'l3_label', 4: 'l4_label' }) 
-  } else {
-    // 5 LEVEL REPORT
-    mapInvenToRowTemplates = m.mapInvenToRowTemplates_fiveLevel
-    rowTemplate_unflat = m.unflattenByCompositKey(rowTemplate, { 1: 'l1_label', 2: 'l2_label', 3: 'l3_label', 4: 'l4_label', 5: 'l5_label' }) 
+  let keyMap = {}
+  for (let i = 0; i < config.baseFormat.groupingLevel; i++) {
+   // build composite key for unflatten:
+   keyMap[i + 1] = `l${i + 1}_label`
   }
+  // { 1: 'l1_label', 2: 'l2_label' }, { 1: 'l1_label', 2: 'l2_label', 3: 'l3_label' }
+  const rowTemplate_unflat = m.unflattenByCompositKey(rowTemplate, keyMap) 
 
-  const mappedInven = mapInvenToRowTemplates(
+  const mappedInven = m.mapInvenToRowTemplates(
     [
       ...l1_InvR,
       ...l2_InvR,

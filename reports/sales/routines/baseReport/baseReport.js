@@ -382,14 +382,7 @@ const buildReport = async (config) => {
   const rowTemplate_unflat = m.unflattenByCompositKey(rowTemplate, keyMap) 
 
   /* Map data to row template */
-    // map data into row template
-    let mapSalesToRowTemplates = null
-    let mapInvenToRowTemplates = null
-
-    mapInvenToRowTemplates = m.mapInvenToRowTemplates_twoLevel
-    mapSalesToRowTemplates = m.mapSalesToRowTemplates_twoLevel
-
-  const mappedSales = mapSalesToRowTemplates(
+  const mappedSales = m.mapSalesToRowTemplates(
     [
       ...l0_trailingFourWeekR,
       ...l1_trailingFourWeekR,
@@ -497,7 +490,7 @@ const buildReport = async (config) => {
     ], rowTemplate_unflat, config
   )
 
-  const mappedInven = mapInvenToRowTemplates(
+  const mappedInven = m.mapInvenToRowTemplates(
     [
       ...l1_InvR,
       ...l2_InvR,
@@ -531,9 +524,7 @@ const buildReport = async (config) => {
   const data = m.cleanLabelsForDisplay(flattenedMappedData, config)
 
   /* Trend Columns */
-  
   const trendColsSalesF = !config.trends.queryGrouping ? skip() : () => {return  m.getTrendColsSales(config)}
-  const trendColsSaByFyYtdF = !config.trends.fyYtd && !config.trends.fyFullYear ? skip() : () => {return  m.getTrendColsFiscalYear(config)}
  
   // get so by week cols
   const trendColsSoF = config.trends.queryGrouping ? () => {return  m.getTrendColsSo(config)} : skip() 
