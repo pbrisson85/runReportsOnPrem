@@ -4,20 +4,6 @@ const _ = require('lodash')
 const mapSalesToRowTemplates = (salesLines, rowTemplate, config) => {
   // build mapping key
 
-  console.log('config.baseFormat', config.baseFormat)
-
-  let keyMap = null
-  for (let i = 0; i < config.baseFormat.groupingLevel; i++) {
-    let filter = config.baseFormat[`l${i + 1}_label`]
-
-    console.log('filter', filter)
-
-    // build composite key for unflatten:
-    keyMap = keyMap !== null ? `${keyMap}-${filter}` : `${filter}`
-  }
-
-  console.log('mapSalesToRowTemplates', keyMap)
-
   const rowTemplateCache = _.cloneDeep(rowTemplate)
 
   let revenuePerLb = 0
@@ -31,6 +17,18 @@ const mapSalesToRowTemplates = (salesLines, rowTemplate, config) => {
   let grossMargin
 
   salesLines.forEach(soLine => {
+    let keyMap = null
+    for (let i = 0; i < config.baseFormat.groupingLevel; i++) {
+      let filter = soLine[`l${i + 1}_label`]
+
+      console.log('filter', filter)
+
+      // build composite key for unflatten:
+      keyMap = keyMap !== null ? `${keyMap}-${filter}` : `${filter}`
+    }
+
+    console.log('mapSalesToRowTemplates', keyMap)
+
     let {
       sales_numerator,
       sales_denominator,
