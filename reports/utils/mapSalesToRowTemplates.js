@@ -1,7 +1,7 @@
 const Decimal = require('decimal.js')
 const _ = require('lodash')
 
-const mapSalesToRowTemplates = (salesLines, rowTemplate, config) => {
+const mapSalesToRowTemplates = (salesLines, rowTemplate, config, viewTrend) => {
   // build mapping key
 
   const rowTemplateCache = _.cloneDeep(rowTemplate)
@@ -18,14 +18,20 @@ const mapSalesToRowTemplates = (salesLines, rowTemplate, config) => {
 
   salesLines.forEach(soLine => {
     let keyMap = null
-    for (let i = 0; i < config.baseFormat.groupingLevel; i++) {
-      let filter = soLine[`l${i + 1}_label`]
 
-      // build composite key for unflatten:
-      keyMap = keyMap !== null ? `${keyMap}-${filter}` : `${filter}`
+    if (viewTrend) {
+      // trend should only map by l1_label
+      keyMap = soLine.l1_label
+    } else {
+      // Build key to map
+
+      for (let i = 0; i < config.baseFormat.groupingLevel; i++) {
+        let filter = soLine[`l${i + 1}_label`]
+
+        // build composite key for unflatten:
+        keyMap = keyMap !== null ? `${keyMap}-${filter}` : `${filter}`
+      }
     }
-
-    console.log('keyMap', keyMap)
 
     let {
       sales_numerator,
