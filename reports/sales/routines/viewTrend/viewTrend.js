@@ -216,7 +216,7 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
       ...l1_momentum,
       ...l0_momentum,
     ],
-    rowTemplate_unflat
+    rowTemplate_unflat, config
   )
 
   const mappedInven = m.mapInvenToRowTemplates(
@@ -230,7 +230,7 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
       ...l1_invAvailable,
       ...l0_invAvailable,
     ],
-    rowTemplate_unflat
+    rowTemplate_unflat, config
   )
 
   const mappedData = m.combineMappedRows(mappedSales, mappedInven)
