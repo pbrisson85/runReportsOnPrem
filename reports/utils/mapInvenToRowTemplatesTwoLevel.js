@@ -2,15 +2,6 @@ const Decimal = require('decimal.js')
 const _ = require('lodash')
 
 const mapInvenToRowTemplates = (invenLines, rowTemplate, config) => {
-  // build mapping key
-  let keyMap = null
-  for (let i = 0; i < config.baseFilters.groupingLevel; i++) {
-    // build composite key for unflatten:
-    keyMap = `${keyMap !== null ? keyMap + '-' : ''}${config.baseFilters[`l${i + 1}_label`]}`
-  }
-
-  console.log('mapInvenToRowTemplates', keyMap)
-
   const rowTemplateCache = _.cloneDeep(rowTemplate)
 
   let revenuePerLb = 0
@@ -22,6 +13,14 @@ const mapInvenToRowTemplates = (invenLines, rowTemplate, config) => {
   // Note only cost and lbs for inven data.
 
   invenLines.forEach((invenLine, idx) => {
+    let keyMap = null
+    for (let i = 0; i < config.baseFormat.groupingLevel; i++) {
+      let filter = invenLine[`l${i + 1}_label`]
+
+      // build composite key for unflatten:
+      keyMap = keyMap !== null ? `${keyMap}-${filter}` : `${filter}`
+    }
+
     const revenue = parseFloat(invenLine.cogs.toFixed(2))
     const weight = parseFloat(invenLine.lbs.toFixed(2))
     const cogs = parseFloat(invenLine.cogs.toFixed(2))

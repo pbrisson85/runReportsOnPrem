@@ -386,24 +386,8 @@ const buildReport = async (config) => {
     let mapSalesToRowTemplates = null
     let mapInvenToRowTemplates = null
 
-  if (!config.baseFormat.l3_field) {
-    // 2 LEVEL REPORT
     mapInvenToRowTemplates = m.mapInvenToRowTemplates_twoLevel
     mapSalesToRowTemplates = m.mapSalesToRowTemplates_twoLevel
-  } else if (!config.baseFormat.l4_field) {
-    // 3 LEVEL REPORT
-    mapInvenToRowTemplates = m.mapInvenToRowTemplates_threeLevel
-    mapSalesToRowTemplates = m.mapSalesToRowTemplates_threeLevel
-  } else if (!config.baseFormat.l5_field) {
-    // 4 LEVEL REPORT
-    mapInvenToRowTemplates = m.mapInvenToRowTemplates_fourLevel
-    mapSalesToRowTemplates = m.mapSalesToRowTemplates_fourLevel
-  } else {
-    // 5 LEVEL REPORT
-    mapInvenToRowTemplates = m.mapInvenToRowTemplates_fiveLevel
-    mapSalesToRowTemplates = m.mapSalesToRowTemplates_fiveLevel
-  }
-
 
   const mappedSales = mapSalesToRowTemplates(
     [

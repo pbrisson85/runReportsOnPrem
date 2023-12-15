@@ -21,13 +21,9 @@ const mapSalesToRowTemplates = (salesLines, rowTemplate, config) => {
     for (let i = 0; i < config.baseFormat.groupingLevel; i++) {
       let filter = soLine[`l${i + 1}_label`]
 
-      console.log('filter', filter)
-
       // build composite key for unflatten:
       keyMap = keyMap !== null ? `${keyMap}-${filter}` : `${filter}`
     }
-
-    console.log('mapSalesToRowTemplates', keyMap)
 
     let {
       sales_numerator,
@@ -42,8 +38,6 @@ const mapSalesToRowTemplates = (salesLines, rowTemplate, config) => {
       lbs,
       cogs,
       othp,
-      l1_label,
-      l2_label,
       column,
       percentFormat,
     } = soLine
