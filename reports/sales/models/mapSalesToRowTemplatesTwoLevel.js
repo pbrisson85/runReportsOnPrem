@@ -1,7 +1,16 @@
 const Decimal = require('decimal.js')
 const _ = require('lodash')
 
-const mapSalesToRowTemplates = (salesLines, rowTemplate) => {
+const mapSalesToRowTemplates = (salesLines, rowTemplate, config) => {
+  // build mapping key
+  let keyMap = null
+  for (let i = 0; i < config.baseFilters.groupingLevel; i++) {
+    // build composite key for unflatten:
+    keyMap = `${keyMap !== null ? keyMap + '-' : ''}${config.baseFilters[`l${i + 1}_label`]}`
+  }
+
+  console.log('mapSalesToRowTemplates', keyMap)
+
   const rowTemplateCache = _.cloneDeep(rowTemplate)
 
   let revenuePerLb = 0
@@ -71,8 +80,8 @@ const mapSalesToRowTemplates = (salesLines, rowTemplate) => {
       }
     }
 
-    rowTemplateCache[`${l1_label}-${l2_label}`] = {
-      ...rowTemplateCache[`${l1_label}-${l2_label}`],
+    rowTemplateCache[keyMap] = {
+      ...rowTemplateCache[keyMap],
       [column]: {
         weight,
         revenue,

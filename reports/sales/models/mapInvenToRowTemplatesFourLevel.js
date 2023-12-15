@@ -1,7 +1,16 @@
 const Decimal = require('decimal.js')
 const _ = require('lodash')
 
-const mapInvenToRowTemplates = (invenLines, rowTemplate) => {
+const mapInvenToRowTemplates = (invenLines, rowTemplate, config) => {
+  // build mapping key
+  let keyMap = null
+  for (let i = 0; i < config.baseFilters.groupingLevel; i++) {
+    // build composite key for unflatten:
+    keyMap = `${keyMap !== null ? keyMap + '-' : ''}${config.baseFilters[`l${i + 1}_label`]}`
+  }
+
+  console.log('mapInvenToRowTemplates', keyMap)
+
   const rowTemplateCache = _.cloneDeep(rowTemplate)
 
   let revenuePerLb = 0
@@ -38,8 +47,8 @@ const mapInvenToRowTemplates = (invenLines, rowTemplate) => {
     }
 
     // Note that using index 0 on the rowTemplate because the unflattenRowTemplate function now uses an array of objects
-    rowTemplateCache[`${invenLine.l1_label}-${invenLine.l2_label}-${invenLine.l3_label}-${invenLine.l4_label}`] = {
-      ...rowTemplateCache[`${invenLine.l1_label}-${invenLine.l2_label}-${invenLine.l3_label}-${invenLine.l4_label}`],
+    rowTemplateCache[keyMap] = {
+      ...rowTemplateCache[keyMap],
       [invenLine.column]: {
         weight,
         revenue,
