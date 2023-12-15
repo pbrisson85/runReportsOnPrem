@@ -1,4 +1,4 @@
-const getReportFormats = require('../../data/filters/getReportFormats')
+const getReportFormats = require('../../filters/getReportFormats')
 
 const getBaseFormatDefault = () => {
   const reportFormats = getReportFormats()

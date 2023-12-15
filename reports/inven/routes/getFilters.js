@@ -1,12 +1,12 @@
 const router = require('express').Router()
 
-const getViewFilters = require('../data/filters/getViewFilters')
-const getReportFormats = require('../data/filters/getReportFormats')
-const trendTypeOptions = require('../data/filters/trendType')
-const totalTypeOptions = require('../data/filters/totalTypes')
-const projectionOptions = require('../data/filters/useProjections')
-const getPermissionFilters = require('../data/filters/getPermissionFilters')
-const appSettings = require('../data/filters/appSettings')
+const getViewFilters = require('../../filters/getViewFilters')
+const getReportFormats = require('../../filters/getReportFormats')
+const trendTypeOptions = require('../../filters/trendType')
+const totalTypeOptions = require('../../filters/totalTypes')
+const projectionOptions = require('../../filters/useProjections')
+const getPermissionFilters = require('../../filters/getPermissionFilters')
+const appSettings = require('../../filters/appSettings')
 
 const {
   getFiscalPeriodsMap,
@@ -18,9 +18,9 @@ const {
   getCalQuartersMap,
   getFiscalYtdMap,
   getCalYtdMap,
-} = require('../postgres/filters/getDateMaps')
-const getItemTypes = require('../postgres/filters/getItemTypes')
-const getDistinctPrograms = require('../postgres/filters/getDistinctPrograms')
+} = require('../../filters/postgres/getDateMaps')
+const getItemTypes = require('../../filters/postgres/getItemTypes')
+const getDistinctPrograms = require('../../filters/postgres/getDistinctPrograms')
 
 const getReportConfig = require('../../utils/getReportConfig')
 

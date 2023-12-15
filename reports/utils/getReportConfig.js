@@ -1,4 +1,4 @@
-const appSettings = require('../data/filters/appSettings')
+const appSettings = require('../../filters/appSettings')
 const unflattenByCompositKey = require('../models/unflattenByCompositKey')
 const getDefaults = require('./getReportDefaults')
 const { getStartOfWeek } = require('./configHelpers/getDateStartByWeek')
