@@ -4,9 +4,9 @@ const _ = require('lodash')
 const mapSalesToRowTemplates = (salesLines, rowTemplate, config) => {
   // build mapping key
   let keyMap = null
-  for (let i = 0; i < config.baseFilters.groupingLevel; i++) {
+  for (let i = 0; i < config.baseFormat.groupingLevel; i++) {
     // build composite key for unflatten:
-    keyMap = `${keyMap !== null ? keyMap + '-' : ''}${config.baseFilters[`l${i + 1}_label`]}`
+    keyMap = `${keyMap !== null ? keyMap + '-' : ''}${config.baseFormat[`l${i + 1}_label`]}`
   }
 
   console.log('mapSalesToRowTemplates', keyMap)

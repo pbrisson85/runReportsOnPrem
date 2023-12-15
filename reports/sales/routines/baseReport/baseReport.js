@@ -369,27 +369,19 @@ const buildReport = async (config) => {
   ]
 
   // COMPILE FINAL ROW TEMPLATE
-
   const rowTemplate = m.sortRowTemplate([...rowsFifthLevelDetailR, ...rowsFourthLevelDetailR, ...rowsThirdLevelDetailR, ...rowsSecondLevelDetailR, ...rowsFirstLevelDetailR])
   rowTemplate.push(...totalsRow)
 
   let keyMap = {}
   for (let i = 0; i < config.baseFormat.groupingLevel; i++) {
-    console.log('config.baseFormat.groupingLevel', config.baseFilters.groupingLevel)
-    console.log('i', i)
-    console.log('keyMap IN LOOP', keyMap)
-
-
    // build composite key for unflatten:
    keyMap[i + 1] = `l${i + 1}_label`
   }
   // { 1: 'l1_label', 2: 'l2_label' }, { 1: 'l1_label', 2: 'l2_label', 3: 'l3_label' }
-  console.log('keyMap FINISHED', keyMap)
+
   const rowTemplate_unflat = m.unflattenByCompositKey(rowTemplate, keyMap) 
 
-
   /* Map data to row template */
-
     // map data into row template
     let mapSalesToRowTemplates = null
     let mapInvenToRowTemplates = null
