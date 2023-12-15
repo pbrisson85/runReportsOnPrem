@@ -13,6 +13,8 @@ const mapInvenToRowTemplates = (invenLines, rowTemplate, config, viewTrend) => {
   // Note only cost and lbs for inven data.
 
   invenLines.forEach((invenLine, idx) => {
+    let keyMap = null
+
     if (viewTrend) {
       // trend should only map by l1_label
       keyMap = invenLine.l1_label
