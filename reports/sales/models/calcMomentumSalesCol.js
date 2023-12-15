@@ -1,4 +1,4 @@
-const unflattenByCompositKey = require('./unflattenByCompositKey')
+const unflattenByCompositKey = require('../../utils/unflattenByCompositKey')
 
 const calcMomentum = (fourWk, twelveWk, colName) => {
   // Do not know how many columns the data is grouped by

@@ -1,4 +1,4 @@
-const unflattenByCompositKey = require('./unflattenByCompositKey')
+const unflattenByCompositKey = require('../../utils/unflattenByCompositKey')
 
 const calcYoyYtdSalesCol = (eachRowData, colName) => {
   // manually filter out anything that is not 2022/2023
