@@ -5,8 +5,10 @@ const mapSalesToRowTemplates = (salesLines, rowTemplate, config) => {
   // build mapping key
   let keyMap = null
   for (let i = 0; i < config.baseFormat.groupingLevel; i++) {
+    let filter = config.baseFormat[`l${i + 1}_label`]
+
     // build composite key for unflatten:
-    keyMap = `${keyMap !== null ? keyMap + '-' : ''}${config.baseFormat[`l${i + 1}_label`]}`
+    keyMap = keyMap !== null ? `${keyMap}-${filter}` : `${filter}`
   }
 
   console.log('mapSalesToRowTemplates', keyMap)
