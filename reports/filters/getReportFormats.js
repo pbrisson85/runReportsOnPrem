@@ -47,10 +47,11 @@ const getReportFormats = () => {
         },
       ],
     },
+
     {
       default: false, // if no report is chosen (such as on first request) this will be used to group report if true
       label: 'type / species group / program / freeze', // appears in front end report options
-      dataName: 'typeSpecgroupFreeze', // passed back as "reportFormat" in the front end request. Maps to "invenReporting".master_supplement in reports/sales/utils/config/itemMasterSupplementQueryMap.js
+      dataName: 'typeSpecgroupProgFreeze', // passed back as "reportFormat" in the front end request. Maps to "invenReporting".master_supplement in reports/sales/utils/config/itemMasterSupplementQueryMap.js
       defaultsFallback: false, // front end uses defaults array to map a program filter to the default report format. If the program does not appear in any array (which would be a mistake) then this flag will be for the fallbackDefault
       defaults: [], //list of programs (datanames) that this is the defaultsFallback report
       optional: ['all'], // list of programs (datanames) that allow this,  or use 'any' to allow all programs EXCEPT 'all'
@@ -59,11 +60,11 @@ const getReportFormats = () => {
       l1_field: 'ms.item_type', // passed back to config for queries
       l2_field: 'ms.species_group', // passed back to config for queries
       l3_field: 'ms.program', // passed back to config for queries
-      l3_field: 'ms.fg_fresh_frozen', // passed back to config for queries
+      l4_field: 'ms.fg_fresh_frozen', // passed back to config for queries
       l1_name: 'item type', // only used as readable description for active filters on front end.
       l2_name: 'species group', // only used as readable description for active filters on front end.
       l3_name: 'program', // only used as readable description for active filters on front end.
-      l3_name: 'freeze', // only used as readable description for active filters on front end.
+      l4_name: 'freeze', // only used as readable description for active filters on front end.
       labelCols: [
         {
           displayName: 'ITEM TYPE', // show as column header
@@ -103,6 +104,7 @@ const getReportFormats = () => {
         },
       ],
     },
+
     {
       default: true, // if this is true then the defaults array should have "all" or else there will be a mistmatch in what the front end and back end beleive is the default
       label: 'species group / program',
