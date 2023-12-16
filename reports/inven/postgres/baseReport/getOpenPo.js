@@ -10,7 +10,9 @@ const l1_getOpenPo = async config => {
     const response = await sql
          `SELECT 'PURCHASE ORDER' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
         
-         FROM "invenReporting".perpetual_inventory AS inv LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inv.item_number 
+         FROM "invenReporting".perpetual_inventory AS inv 
+          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = inv.item_number 
          
          WHERE 
           inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) 
@@ -39,7 +41,9 @@ const l2_getOpenPo = async config => {
     const response = await sql
        `SELECT 'PURCHASE ORDER' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
        
-       FROM "invenReporting".perpetual_inventory AS inv LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inv.item_number 
+       FROM "invenReporting".perpetual_inventory AS inv 
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+          ON ms.item_num = inv.item_number 
        
        WHERE 
         inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) 
@@ -68,7 +72,9 @@ const l3_getOpenPo = async config => {
     const response = await sql
        `SELECT 'PURCHASE ORDER' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
        
-       FROM "invenReporting".perpetual_inventory AS inv LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inv.item_number 
+       FROM "invenReporting".perpetual_inventory AS inv 
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+          ON ms.item_num = inv.item_number 
        
        WHERE 
         inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) 
@@ -97,7 +103,9 @@ const l4_getOpenPo = async config => {
     const response = await sql
        `SELECT 'PURCHASE ORDER' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
        
-       FROM "invenReporting".perpetual_inventory AS inv LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inv.item_number 
+       FROM "invenReporting".perpetual_inventory AS inv 
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+          ON ms.item_num = inv.item_number 
        
        WHERE 
         inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) 
@@ -126,7 +134,9 @@ const l5_getOpenPo = async config => {
     const response = await sql
        `SELECT 'PURCHASE ORDER' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
        
-       FROM "invenReporting".perpetual_inventory AS inv LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inv.item_number 
+       FROM "invenReporting".perpetual_inventory AS inv 
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+          ON ms.item_num = inv.item_number 
        
        WHERE 
         inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) 
@@ -151,9 +161,11 @@ const l0_getOpenPo = async config => {
     console.log(`${config.user} - level 0: query postgres for FG open PO (l0_getOpenPo) ...`)
 
     const response = await sql
-         `SELECT 'PURCHASE ORDER' AS column${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
+         `SELECT 'PURCHASE ORDER' AS column, 'TOTAL' AS l1_label, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
          
-         FROM "invenReporting".perpetual_inventory AS inv LEFT OUTER JOIN "invenReporting".master_supplement AS ms ON ms.item_num = inv.item_number 
+         FROM "invenReporting".perpetual_inventory AS inv 
+          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = inv.item_number 
          
          WHERE 
           inv.version = (SELECT MAX(version) - 1 FROM "invenReporting".perpetual_inventory) 
