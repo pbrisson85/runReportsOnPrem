@@ -150,7 +150,7 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
   const rowsFirstLevelDetail = await m.getRowsFirstLevelDetail(config, startDate, endDate, trendQuery)
 
   const totalsRow = [
-    { totalRow: true, l1_label: `${config.baseFilters.itemType} SALES`, l2_label: `TOTAL`, datalevel: config.baseFilters.queryLevel, itemtype: config.baseFilters.itemType },
+    { totalRow: true, l1_label: `TOTAL`, datalevel: config.baseFilters.queryLevel, itemtype: config.baseFilters.itemType },
   ] // Need an l2_label of TOTAL for front config.totals.endDatePrimary styling
   const filterRow = [
     {

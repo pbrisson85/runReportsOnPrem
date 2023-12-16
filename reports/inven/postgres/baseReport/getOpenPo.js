@@ -161,7 +161,7 @@ const l0_getOpenPo = async config => {
     console.log(`${config.user} - level 0: query postgres for FG open PO (l0_getOpenPo) ...`)
 
     const response = await sql
-         `SELECT 'PURCHASE ORDER' AS column, 'TOTAL' AS l1_label, 'TOTAL' AS l2_label, 'TOTAL' AS l3_label, 'TOTAL' AS l4_label, 'TOTAL' AS l5_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
+         `SELECT 'PURCHASE ORDER' AS column, 'TOTAL' AS l1_label, COALESCE(SUM(inv.on_order_lbs),0) AS lbs, COALESCE(SUM(inv.on_order_extended),0) AS cogs 
          
          FROM "invenReporting".perpetual_inventory AS inv 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 

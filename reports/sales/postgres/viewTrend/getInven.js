@@ -63,7 +63,7 @@ const l0_getInven = async (config, trendQuery) => {
     // level 0 detail (TOTAL)
 
     const response = await sql
-      `SELECT 'INVEN' AS column${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 'TOTAL' AS l2_label,  COALESCE(SUM(pi.on_hand_lbs),0) AS lbs, COALESCE(SUM(pi.cost_extended),0) AS cogs 
+      `SELECT 'INVEN' AS column, 'TOTAL' AS l1_label,  COALESCE(SUM(pi.on_hand_lbs),0) AS lbs, COALESCE(SUM(pi.cost_extended),0) AS cogs 
       
       FROM "invenReporting".perpetual_inventory AS pi 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 

@@ -71,9 +71,8 @@ const l0_getSo = async config => {
 
     const response = await sql
            `SELECT 
-            'SALES ORDER' AS column
-            ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 
-            'TOTAL' AS l2_label,  
+            'SALES ORDER' AS column,
+            'TOTAL' AS l1_label,  
             COALESCE(SUM(so.ext_weight),0) AS lbs, 
             COALESCE(SUM(so.ext_sales),0) AS sales, 
             COALESCE(SUM(so.ext_cost),0) AS cogs, 

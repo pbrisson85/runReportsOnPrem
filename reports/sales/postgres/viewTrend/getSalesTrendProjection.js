@@ -194,8 +194,12 @@ const l0_getSalesTrend = async (config, useProjection) => {
     console.log(`${config.user} - level 0: (l0_getSalesTrend) query postgres to get FG sales data by week ...`)
 
     const response = await sql
-    `SELECT pj.column ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 
-    'TOTAL' AS l2_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
+    `SELECT pj.column,
+    'TOTAL' AS l1_label, 
+    SUM(pj.lbs) AS lbs, 
+    SUM(pj.sales) AS sales, 
+    SUM(pj.cogs) AS cogs, 
+    SUM(pj.othp) AS othp
     
     FROM (
       SELECT

@@ -185,9 +185,9 @@ const l0_getSales = async (config, startDate, endDate, useProjection) => {
     console.log(`${config.user} - level 0: (getSalesTrend Lvl3) query postgres to get FG sales data period total ...`)
 
     const response = await sql
-    `SELECT 'SALES TOTAL' AS column
-    ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 
-    'TOTAL' AS l2_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
+    `SELECT 'SALES TOTAL' AS column,
+    'TOTAL' AS l1_label, 
+    SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
     
     FROM (
       SELECT

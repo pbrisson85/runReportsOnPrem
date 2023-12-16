@@ -80,9 +80,8 @@ const l0_getSalesWkDriven = async (config, startWk, endWk, year, colName) => {
 
     const response = await sql
       `SELECT 
-      ${sql`${colName}`} AS column
-        ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 
-        'TOTAL' AS l2_label,  
+      ${sql`${colName}`} AS column,
+        'TOTAL' AS l1_label,  
         COALESCE(SUM(sl.calc_gm_rept_weight),0) AS lbs, 
         COALESCE(SUM(sl.gross_sales_ext),0) AS sales, 
         COALESCE(SUM(sl.cogs_ext_gl),0) AS cogs, 

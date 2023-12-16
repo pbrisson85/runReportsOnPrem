@@ -67,9 +67,8 @@ const l0_getOpenPo = async (config, trendQuery) => {
 
     const response = await sql
          `SELECT 
-          'PURCHASE ORDER' AS column
-          ${config.baseFilters.itemType ? sql`, REPLACE('${sql(config.baseFilters.itemType)} SALES','"','') AS l1_label` : sql`,'SALES' AS l1_label`}, 
-          'TOTAL' AS l2_label,  
+          'PURCHASE ORDER' AS column,
+          'TOTAL' AS l1_label,  
           COALESCE(SUM(perpetual_inventory.on_order_lbs),0) AS lbs, 
           COALESCE(SUM(perpetual_inventory.on_order_extended),0) AS cogs 
          

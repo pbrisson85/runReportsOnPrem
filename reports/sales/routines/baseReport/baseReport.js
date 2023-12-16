@@ -358,11 +358,7 @@ const buildReport = async (config) => {
   const totalsRow = [
     {
       totalRow: true,
-      l1_label: `${config.baseFilters.itemType} SALES`,
-      l2_label: 'TOTAL',
-      l3_label: 'TOTAL',
-      l4_label: 'TOTAL',
-      l5_label: 'TOTAL',
+      l1_label: `TOTAL`,
       datalevel: 0,
       itemtype: config.baseFilters.itemType,
     },
