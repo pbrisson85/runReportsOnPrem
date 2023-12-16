@@ -80,10 +80,10 @@ const buildReport = async (config) => {
     {
       totalRow: true,
       l1_label: `TOTAL`, //<-- Must map to l0_query row labels
-      l2_label: 'TOTAL',
-      l3_label: 'TOTAL',
-      l4_label: 'TOTAL',
-      l5_label: 'TOTAL',
+      // l2_label: 'TOTAL',
+      // l3_label: 'TOTAL',
+      // l4_label: 'TOTAL',
+      // l5_label: 'TOTAL',
       datalevel: 0,
       itemtype: config.baseFilters.itemType,
     },
