@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const getViewFilters = require('../data/getViewFilters')
-const getViewFilters = require('../data/getViewFilters')
 const getReportFormats = require('../data/getReportFormats')
 const trendTypeOptions = require('../data/trendType')
 const totalTypeOptions = require('../data/totalTypes')
