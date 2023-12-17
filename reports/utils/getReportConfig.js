@@ -1,4 +1,4 @@
-const appSettings = require('../filters/appSettings')
+const appSettings = require('../filters/data/appSettings')
 const unflattenByCompositKey = require('./unflattenByCompositKey')
 const getDefaults = require('./getReportDefaults')
 const { getStartOfWeek } = require('./configHelpers/getDateStartByWeek')
@@ -7,6 +7,7 @@ const { getEarliestSoShipDate, getLatestSoShipDate } = require('./configHelpers/
 const getBaseFormatDefault = require('./configHelpers/getBaseFormatDefault')
 const getlabelCols = require('./configHelpers/getLabelCols')
 const getUseProjection = require('./configHelpers/getUseProjection')
+const { getInvenReportsGrouping, getInvenReportsAging } = require('./configHelpers/getInvenColOptions')
 
 const getReportConfig = async reqBody => {
   // auth filters:
@@ -146,6 +147,10 @@ const getReportConfig = async reqBody => {
         so: getUseProjection(reqBody.totalsUseProjection).so,
         pr: getUseProjection(reqBody.totalsUseProjection).pr,
       },
+    },
+    invenReportCols: {
+      aging: getInvenReportsAging(reqBody),
+      grouping: getInvenReportsGrouping(reqBody),
     },
     userPermissions: {
       joeB,

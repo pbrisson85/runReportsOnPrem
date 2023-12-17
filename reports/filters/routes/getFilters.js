@@ -1,11 +1,14 @@
 const router = require('express').Router()
-const getDistinctPrograms = require('../../filters/postgres/getDistinctPrograms')
-const getViewFilters = require('../../filters/getViewFilters')
-const getReportFormats = require('../../filters/getReportFormats')
-const trendTypeOptions = require('../../filters/trendType')
-const totalTypeOptions = require('../../filters/totalTypes')
-const projectionOptions = require('../../filters/useProjections')
-const getPermissionFilters = require('../../filters/getPermissionFilters')
+const getViewFilters = require('../data/getViewFilters')
+const getViewFilters = require('../data/getViewFilters')
+const getReportFormats = require('../data/getReportFormats')
+const trendTypeOptions = require('../data/trendType')
+const totalTypeOptions = require('../data/totalTypes')
+const projectionOptions = require('../data/useProjections')
+const getPermissionFilters = require('../data/getPermissionFilters')
+const appSettings = require('../data/appSettings')
+const getInvenReportsOptions = require('../data/getInvenReportsOptions')
+
 const {
   getFiscalPeriodsMap,
   getWeeksMap,
@@ -16,35 +19,41 @@ const {
   getCalQuartersMap,
   getFiscalYtdMap,
   getCalYtdMap,
-} = require('../../filters/postgres/getDateMaps')
-const getReportConfig = require('../../utils/getReportConfig')
-const appSettings = require('../../filters/appSettings')
-const getItemTypes = require('../../filters/postgres/getItemTypes')
+} = require('../postgres/getDateMaps')
+const getItemTypes = require('../postgres/getItemTypes')
+const getDistinctPrograms = require('../postgres/getDistinctPrograms')
 
-// Generate Filter Data
+const getReportConfig = require('../../utils/getReportConfig')
+
+router.get('/invenOptions', async (req, res) => {
+  console.log('get INVEN OPTIONS filters lot route HIT...')
+  // get config for applicable filters
+  const options = getInvenReportsOptions()
+  res.send(options)
+  console.log('get NVEN OPTIONS filters lot route COMPLETE. ')
+})
+
 router.post('/programs', async (req, res) => {
-  console.log('get sales PROGRAMS filters lot route HIT...')
+  console.log('get PROGRAMS filters lot route HIT...')
   // get config for applicable filters
   const config = await getReportConfig(req.body)
-  const programs = await getDistinctPrograms(config)
+  const programs = await getDistinctPrograms(config) // Fix this to pull from the inven, so, and projections tables.
   programs.sort((a, b) => {
     if (a.label > b.label) return 1
     if (a.label < b.label) return -1
     return 0
   })
   res.send(programs)
-  console.log('get sales PROGRAMS filters lot route COMPLETE. ')
+  console.log('get PROGRAMS filters lot route COMPLETE. ')
 })
 
-// Generate Filter Data
 router.get('/views', async (req, res) => {
-  console.log('get sales VIEWS filters lot route HIT...')
+  console.log('get VIEWS filters lot route HIT...')
   const views = getViewFilters()
   res.send(views)
-  console.log('get sales VIEWS filters lot route COMPLETE. ')
+  console.log('get VIEWS filters lot route COMPLETE. ')
 })
 
-// Generate Filter Data
 router.get('/periodMaps', async (req, res) => {
   console.log('get period maps route HIT...')
   let fiscal_periods = await getFiscalPeriodsMap()
@@ -61,7 +70,6 @@ router.get('/periodMaps', async (req, res) => {
   console.log('get periods maps lot route COMPLETE. ')
 })
 
-// Generate Filter Data
 router.get('/rowFormats', async (req, res) => {
   console.log('get report formats route HIT...')
   const reports = getReportFormats()
@@ -69,7 +77,6 @@ router.get('/rowFormats', async (req, res) => {
   console.log('get report formats route COMPLETE. ')
 })
 
-// Generate Filter Data
 router.get('/dataFilters', async (req, res) => {
   console.log('get data filters route HIT...')
   const reports = getPermissionFilters()
@@ -77,7 +84,6 @@ router.get('/dataFilters', async (req, res) => {
   console.log('get data filters route COMPLETE. ')
 })
 
-// Generate Filter Data
 router.get('/trendFilters', async (req, res) => {
   console.log('get trend filters route HIT...')
   const reports = trendTypeOptions()
@@ -85,7 +91,6 @@ router.get('/trendFilters', async (req, res) => {
   console.log('get trend filters route COMPLETE. ')
 })
 
-// Generate Filter Data
 router.get('/totalsFilters', async (req, res) => {
   console.log('get totals filters route HIT...')
   const reports = totalTypeOptions()
@@ -93,7 +98,6 @@ router.get('/totalsFilters', async (req, res) => {
   console.log('get totals filters route COMPLETE. ')
 })
 
-// Generate Filter Data
 router.get('/projectionFilters', async (req, res) => {
   console.log('get projection filters route HIT...')
   const reports = projectionOptions()
@@ -101,7 +105,6 @@ router.get('/projectionFilters', async (req, res) => {
   console.log('get projection filters route COMPLETE. ')
 })
 
-// Generate Filter Data
 router.get('/itemTypes', async (req, res) => {
   console.log('get item types filters route HIT...')
   // get config for applicable filters
@@ -120,7 +123,6 @@ router.get('/itemTypes', async (req, res) => {
   console.log('get item types filters route COMPLETE. ')
 })
 
-// Get App Admin Settings
 router.get('/appSettings', async (req, res) => {
   console.log('get app settings route HIT...')
   const settings = appSettings()

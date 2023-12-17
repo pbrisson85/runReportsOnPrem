@@ -1,4 +1,4 @@
-const getProjectionOptions = require('../../filters/useProjections')
+const getProjectionOptions = require('../../filters/data/useProjections')
 
 const getUseProjection = reqUseProjection => {
   const projectionOptions = getProjectionOptions()

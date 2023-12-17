@@ -17,7 +17,6 @@ module.exports = sql
 const baseReport_sales = require('./reports/sales/routes/baseReport')
 const viewTrend_sales = require('./reports/sales/routes/viewTrend')
 const getDetail_baseReport_sales = require('./reports/sales/routes/getDetail')
-const getFilters_sales = require('./reports/sales/routes/getFilters')
 
 // GL
 const glRevCogs = require('./reports/gl/routes/glRevCogs')
@@ -27,7 +26,9 @@ const glOthp = require('./reports/gl/routes/glOthp')
 const baseReport_inven = require('./reports/inven/routes/baseReport')
 const viewTrend_inven = require('./reports/inven/routes/viewTrend')
 const getDetail_baseReport_inven = require('./reports/inven/routes/getDetail')
-const getFilters_inven = require('./reports/inven/routes/getFilters')
+
+// Filters
+const getFilters = require('./reports/filters/routes/getFilters')
 
 // error handling
 process.on('uncaughtException', ex => {
@@ -55,12 +56,12 @@ app.use((req, res, next) => {
 app.use('/api/reports/sales/baseReport', baseReport_sales)
 app.use('/api/reports/sales/drillDown', viewTrend_sales)
 app.use('/api/reports/sales/detail', getDetail_baseReport_sales)
-app.use('/api/reports/sales/getFilters', getFilters_sales)
 
 app.use('/api/reports/inven/baseReport', baseReport_inven)
 app.use('/api/reports/inven/drillDown', viewTrend_inven)
 app.use('/api/reports/inven/detail', getDetail_baseReport_inven)
-app.use('/api/reports/inven/getFilters', getFilters_inven)
+
+app.use('/api/reports/getFilters', getFilters)
 
 app.use('/api/reports/gl/revCogs', glRevCogs)
 app.use('/api/reports/gl/othp', glOthp)

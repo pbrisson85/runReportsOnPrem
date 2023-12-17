@@ -12,7 +12,7 @@ const { getSales_detail } = require('../postgres/getDetail/getSales')
 const { getSalesProjection_detail } = require('../postgres/getDetail/getSalesProjection')
 const { getSo_detail, getSoTagged_detail, getSoUntagged_detail } = require('../postgres/getDetail/getSo')
 const detailColsMap = require('../data/detailCols/colsMap')
-const groupByOptions = require('../../filters/detailGroupBy')
+const groupByOptions = require('../../filters/data/detailGroupBy')
 
 // @route   POST /api/sales/detail/forProgBySpecBrndSize/
 // @desc

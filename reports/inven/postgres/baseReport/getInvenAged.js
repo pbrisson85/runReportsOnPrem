@@ -4,9 +4,9 @@ const sql = require('../../../../server')
 
 // Inv on hand (includes in transit)
 
-const l1_getInv = async config => {
+const l1_getInvAged = async config => {
   try {
-    console.log(`${config.user} - level 1: query postgres for Inv on hand (l1_getInv) ...`)
+    console.log(`${config.user} - level 1: query postgres for Inv on hand (l1_getInvAged) ...`)
 
     // level 1 detail
 
@@ -18,7 +18,8 @@ const l1_getInv = async config => {
           ON ms.item_num = Inv.item_number 
       
       WHERE 
-      Inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+        Inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+        AND Inv.receipt_date 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -33,9 +34,9 @@ const l1_getInv = async config => {
 }
 
 // Inv on hand (includes in transit)
-const l2_getInv = async config => {
+const l2_getInvAged = async config => {
   try {
-    console.log(`${config.user} - level 2: query postgres for Inv on hand (l2_getInv) ...`)
+    console.log(`${config.user} - level 2: query postgres for Inv on hand (l2_getInvAged) ...`)
 
     // Level 2 detail
 
@@ -47,7 +48,7 @@ const l2_getInv = async config => {
           ON ms.item_num = Inv.item_number 
       
       WHERE 
-      Inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+        Inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
@@ -62,9 +63,9 @@ const l2_getInv = async config => {
 }
 
 // Inv on hand (includes in transit)
-const l3_getInv = async config => {
+const l3_getInvAged = async config => {
   try {
-    console.log(`${config.user} - level 3: query postgres for Inv on hand (l3_getInv) ...`)
+    console.log(`${config.user} - level 3: query postgres for Inv on hand (l3_getInvAged) ...`)
 
     const response = await sql
       `SELECT 'INVEN' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(Inv.on_hand_lbs),0) AS lbs, COALESCE(SUM(Inv.cost_extended),0) AS cogs 
@@ -74,7 +75,7 @@ const l3_getInv = async config => {
           ON ms.item_num = Inv.item_number 
       
       WHERE 
-      Inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+        Inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -88,9 +89,9 @@ const l3_getInv = async config => {
   }
 }
 
-const l4_getInv = async config => {
+const l4_getInvAged = async config => {
   try {
-    console.log(`${config.user} - level 4: query postgres for Inv on hand (l4_getInv) ...`)
+    console.log(`${config.user} - level 4: query postgres for Inv on hand (l4_getInvAged) ...`)
 
     const response = await sql
       `SELECT 'INVEN' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(Inv.on_hand_lbs),0) AS lbs, COALESCE(SUM(Inv.cost_extended),0) AS cogs 
@@ -100,7 +101,7 @@ const l4_getInv = async config => {
           ON ms.item_num = Inv.item_number 
       
       WHERE 
-      Inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+        Inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -114,9 +115,9 @@ const l4_getInv = async config => {
   }
 }
 
-const l5_getInv = async config => {
+const l5_getInvAged = async config => {
   try {
-    console.log(`${config.user} - level 5: query postgres for Inv on hand (l4_getInv) ...`)
+    console.log(`${config.user} - level 5: query postgres for Inv on hand (l4_getInvAged) ...`)
 
     const response = await sql
       `SELECT 'INVEN' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, COALESCE(SUM(Inv.on_hand_lbs),0) AS lbs, COALESCE(SUM(Inv.cost_extended),0) AS cogs 
@@ -126,7 +127,7 @@ const l5_getInv = async config => {
           AS ms ON ms.item_num = Inv.item_number 
       
       WHERE 
-      Inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+        Inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -140,9 +141,9 @@ const l5_getInv = async config => {
   }
 }
 
-const l0_getInv = async config => {
+const l0_getInvAged = async config => {
   try {
-    console.log(`${config.user} - level 0: query postgres for Inv on hand (l0_getInv) ...`)
+    console.log(`${config.user} - level 0: query postgres for Inv on hand (l0_getInvAged) ...`)
 
     // level 0 detail (TOTAL)
 
@@ -154,7 +155,7 @@ const l0_getInv = async config => {
           ON ms.item_num = Inv.item_number 
       
       WHERE 
-      Inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+        Inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}` //prettier-ignore
@@ -166,9 +167,9 @@ const l0_getInv = async config => {
   }
 }
 
-module.exports.l5_getInv = l5_getInv
-module.exports.l4_getInv = l4_getInv
-module.exports.l3_getInv = l3_getInv
-module.exports.l2_getInv = l2_getInv
-module.exports.l1_getInv = l1_getInv
-module.exports.l0_getInv = l0_getInv
+module.exports.l5_getInvAged = l5_getInvAged
+module.exports.l4_getInvAged = l4_getInvAged
+module.exports.l3_getInvAged = l3_getInvAged
+module.exports.l2_getInvAged = l2_getInvAged
+module.exports.l1_getInvAged = l1_getInvAged
+module.exports.l0_getInvAged = l0_getInvAged
