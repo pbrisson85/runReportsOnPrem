@@ -1,4 +1,4 @@
-const getInvenViews = require('../../filters/getInvenReportsOptions')
+const getInvenViews = require('../../filters/data/getInvenReportsOptions')
 
 const getInvenReportsAging = reqBody => {
   // front end selection
