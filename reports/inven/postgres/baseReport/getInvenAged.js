@@ -22,6 +22,9 @@ const l1_getInvAged = async config => {
       const start = subMonths(today, ageBucket.start)
       const end = addDays(subMonths(today, ageBucket.end), 1)
 
+      console.log('start', start)
+      console.log('end', end)
+
       const response = await sql
       `SELECT 
         '${sql(ageBucket.dataName)}' AS column, 
@@ -47,7 +50,7 @@ const l1_getInvAged = async config => {
       GROUP BY ${sql(config.baseFormat.l1_field)}
       ` //prettier-ignore
 
-      eachAging.push(response)
+      eachAging.push(...response)
 
       console.log('eachAging', eachAging)
       console.log('response', response)
