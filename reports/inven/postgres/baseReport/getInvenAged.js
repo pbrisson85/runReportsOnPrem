@@ -22,9 +22,6 @@ const l1_getInvAged = async config => {
       const start = subMonths(today, ageBucket.start)
       const end = addDays(subMonths(today, ageBucket.end), 1)
 
-      console.log('start', start)
-      console.log('end', end)
-
       const response = await sql
       `SELECT 
         '${sql(ageBucket.dataName)}' AS column, 
@@ -51,9 +48,6 @@ const l1_getInvAged = async config => {
       ` //prettier-ignore
 
       eachAging.push(...response)
-
-      console.log('eachAging', eachAging)
-      console.log('response', response)
     }
 
     return eachAging
@@ -106,7 +100,7 @@ const l2_getInvAged = async config => {
       
       GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}` //prettier-ignore
 
-      eachAging.push(response)
+      eachAging.push(...response)
     }
 
     return eachAging
@@ -157,7 +151,7 @@ const l3_getInvAged = async config => {
       
       GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}` //prettier-ignore
 
-      eachAging.push(response)
+      eachAging.push(...response)
     }
 
     return eachAging
@@ -207,7 +201,7 @@ const l4_getInvAged = async config => {
       
       GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}` //prettier-ignore
 
-      eachAging.push(response)
+      eachAging.push(...response)
     }
 
     return eachAging
@@ -257,7 +251,7 @@ const l5_getInvAged = async config => {
       
       GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)}` //prettier-ignore
 
-      eachAging.push(response)
+      eachAging.push(...response)
     }
 
     return eachAging
@@ -302,7 +296,7 @@ const l0_getInvAged = async config => {
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}` //prettier-ignore
 
-      eachAging.push(response)
+      eachAging.push(...response)
     }
 
     return eachAging
