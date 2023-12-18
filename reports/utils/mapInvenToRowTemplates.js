@@ -13,6 +13,8 @@ const mapInvenToRowTemplates = (invenLines, rowTemplate, config, viewTrend) => {
   // Note only cost and lbs for inven data.
 
   invenLines.forEach((invenLine, idx) => {
+    console.log('invenLine', invenLine)
+
     let keyMap = null
 
     if (viewTrend) {
