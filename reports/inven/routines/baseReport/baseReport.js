@@ -17,39 +17,6 @@ const buildReport = async (config) => {
 
   ///////////////////////////////// INVENTORY DATA
 
-  const aging = {
-    1: {
-      start: 0,
-      end: 3,
-      heading: '< 3 mo.',
-    },
-    2: {
-      start: 61,
-      end: 120,
-      heading: '3 - 6 mo.',
-    },
-    3: {
-      start: 61,
-      end: 90,
-      heading: '6 - 9 mo.',
-    },
-    4: {
-      start: 91,
-      end: 120,
-      heading: '9 - 12 mo.',
-    },
-    5: {
-      start: 121,
-      end: 999999999,
-      heading: '12 - 15 mo.',
-    },
-
-
-
-
-  }
-
-
   const l0_Inv = () => {return m.l0_getInv(config)} 
   const l1_Inv = () => {return m.l1_getInv(config)} 
   const l2_Inv = () => {return m.l2_getInv(config)} 
@@ -154,13 +121,16 @@ const buildReport = async (config) => {
   const data = m.cleanLabelsForDisplay(flattenedMappedData, config)
 
   /* Trend Columns */
- 
+  const columnConfigs = m.buildAgingCols(config, m.columnConfigs)
+
+  console.log('columnConfigs: ', columnConfigs)
+  console.log('m.columnConfigs: ', m.columnConfigs)
   
   return {
     data,
     cols: {
       labelCols: config.labelCols,
-      columnConfigs: m.columnConfigs
+      columnConfigs
     },
   }
 }

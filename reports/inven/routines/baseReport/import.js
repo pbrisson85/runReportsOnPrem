@@ -31,4 +31,7 @@ module.exports = {
   cleanLabelsForDisplay: require('../../../utils/cleanLabelsForDisplay'),
   unflattenByCompositKey: require('../../../utils/unflattenByCompositKey'),
   sortRowTemplate: require('../../../utils/sortRowTemplate'),
+
+  // Col Helpers
+  buildAgingCols: require('../helpers/agingColHelper'),
 }

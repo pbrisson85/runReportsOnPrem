@@ -1,4 +1,4 @@
-const trendCol = [
+const ageCol = [
   {
     unfilteredColIdx: 2,
     //displayName: 1, // array of displayNames and dataNames provided by back end. This template is applied to these in the tableColsAtom
@@ -18,8 +18,8 @@ const trendCol = [
     subColStyle: true, // styling CHANGE NAME BECAUSE ON HAND COLS OF IN TRANSIT, IN COUNTRY, OUT OF COUNTRY, ETC WILL ALSO USE THIS
     rightClickMenu: ['Get Details'], // right click option available
     drilldownRightClickMenu: ['Get Details'], // Right click options available in drilldown. Gets filtered in handleRightClickSelectorFamily based on viewingItemDrilldown and viewingCustomerDrilldown
-    trendCol: true, // flag used to determine what detail to fetch since the colType will be overwritten with the colType of the applicable total col (either )
-    colType: 'trendCols', // used as an identifier when requesting detail from back end and then used to set all the cols and filters once detail is obtained
+    ageCol: true, // flag used to determine what detail to fetch since the colType will be overwritten with the colType of the applicable total col (either )
+    colType: 'ageCols', // used as an identifier when requesting detail from back end and then used to set all the cols and filters once detail is obtained
     allowTrend: false, // double click the col headiong to show the col as a trend
     drillDownSortable: true, // used to determine what cols are sortable IN DRILLDOWN MODE
     optional: false, // flag to determine if the col is optional
@@ -27,4 +27,4 @@ const trendCol = [
   },
 ]
 
-module.exports = trendCol
+module.exports = ageCol

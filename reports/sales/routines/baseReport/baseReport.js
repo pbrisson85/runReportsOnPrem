@@ -534,6 +534,7 @@ const buildReport = async (config) => {
     trendColsSoF(), 
   ])
   
+  
   let columnConfigsTagged = m.addDataToSalesTotalCol(config, m.columnConfigs) // adds startDate, endDate, and displayName to the sales totals col
   columnConfigsTagged = m.addDataToSoTotalCol(config, m.columnConfigs) // adds statDate, endDate, and displayName to the sales orders col
   columnConfigsTagged = m.addDataToSalesTrendCol(config,  m.columnConfigs) // adds useProjection data
