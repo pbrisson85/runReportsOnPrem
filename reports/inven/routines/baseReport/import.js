@@ -25,6 +25,14 @@ module.exports = {
   l5_getOpenPo: require('../../postgres/baseReport/getOpenPo').l5_getOpenPo,
   l0_getOpenPo: require('../../postgres/baseReport/getOpenPo').l0_getOpenPo,
 
+  // Sales Order Total Data
+  l1_getSo: require('../../postgres/baseReport/getSo').l1_getSo,
+  l2_getSo: require('../../postgres/baseReport/getSo').l2_getSo,
+  l3_getSo: require('../../postgres/baseReport/getSo').l3_getSo,
+  l4_getSo: require('../../postgres/baseReport/getSo').l4_getSo,
+  l5_getSo: require('../../postgres/baseReport/getSo').l5_getSo,
+  l0_getSo: require('../../postgres/baseReport/getSo').l0_getSo,
+
   // Get Rows
   getRowsFifthLevelDetail: require('../../postgres/baseReport/getRows').getRowsFifthLevelDetail,
   getRowsFourthLevelDetail: require('../../postgres/baseReport/getRows').getRowsFourthLevelDetail,
@@ -38,6 +46,7 @@ module.exports = {
   cleanLabelsForDisplay: require('../../../utils/cleanLabelsForDisplay'),
   unflattenByCompositKey: require('../../../utils/unflattenByCompositKey'),
   sortRowTemplate: require('../../../utils/sortRowTemplate'),
+  mapSalesToRowTemplates: require('../../../utils/mapSalesToRowTemplates'),
 
   // Col Helpers
   buildAgingCols: require('../helpers/agingColHelper').buildAgingCols,

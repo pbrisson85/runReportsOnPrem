@@ -40,6 +40,15 @@ const buildReport = async (config) => {
   const l4_OpenPo =  config.baseFormat.l4_field ? () => {return m.l4_getOpenPo(config)} : skip()
   const l5_OpenPo =  config.baseFormat.l5_field ? () => {return m.l5_getOpenPo(config)} : skip()
 
+  ///////////////////////////////// SALES ORDERS
+
+  const l0_so = () => {return m.l0_getSo(config)}
+  const l1_so = () => {return m.l1_getSo(config)}
+  const l2_so = () => {return m.l2_getSo(config)}
+  const l3_so =  config.baseFormat.l3_field ? () => {return m.l3_getSo(config)} : skip()
+  const l4_so =  config.baseFormat.l4_field ? () => {return m.l4_getSo(config)} : skip()
+  const l5_so =  config.baseFormat.l5_field ? () => {return m.l5_getSo(config)} : skip()
+
   const [
     l1_InvR,
     l2_InvR,
@@ -60,6 +69,13 @@ const buildReport = async (config) => {
     l4_OpenPoR,
     l5_OpenPoR,
     l0_OpenPoR,
+
+    l1_soR,
+    l2_soR,
+    l3_soR,
+    l4_soR,
+    l5_soR,
+    l0_soR,
   ] = await Promise.all([
     l1_Inv(),
     l2_Inv(),
@@ -81,6 +97,13 @@ const buildReport = async (config) => {
     l4_OpenPo(),
     l5_OpenPo(),
     l0_OpenPo(),
+
+    l0_so(),
+    l1_so(),
+    l2_so(),
+    l3_so(),
+    l4_so(),
+    l5_so(),
   ])
 
   ///////////////////////////////// ROWS
@@ -119,7 +142,7 @@ const buildReport = async (config) => {
   }
   // { 1: 'l1_label', 2: 'l2_label' }, { 1: 'l1_label', 2: 'l2_label', 3: 'l3_label' }
   const rowTemplate_unflat = m.unflattenByCompositKey(rowTemplate, keyMap) 
-
+  
   const mappedInven = m.mapInvenToRowTemplates(
     [
       ...l1_InvR,
@@ -144,14 +167,24 @@ const buildReport = async (config) => {
     rowTemplate_unflat, config, viewTrend = false
   )
 
-  // const mappedData = m.combineMappedRows([], mappedInven)
-  const flattenedMappedData = Object.values(mappedInven)
+  /* Map data to row template */
+  const mappedSales = m.mapSalesToRowTemplates(
+    [
+      ...l1_soR,
+      ...l2_soR,
+      ...l3_soR,
+      ...l4_soR,
+      ...l5_soR,
+      ...l0_soR, 
+    ], rowTemplate_unflat, config
+  )
+
+  const mappedData = m.combineMappedRows(mappedSales, mappedInven)
+  const flattenedMappedData = Object.values(mappedData)
   const data = m.cleanLabelsForDisplay(flattenedMappedData, config)
 
   /* Trend Columns */
   const columnConfigs = m.buildAgingCols(config, m.columnConfigs)
-
-
   
   return {
     data,
