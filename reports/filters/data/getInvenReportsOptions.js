@@ -15,48 +15,48 @@ const invenViews = () => {
       aging: [
         // note that this array is used to generate cols.
         {
-          start: 0,
-          end: 3,
+          end: 0,
+          start: 3,
           displayName: '< 3 mo.', // heading becomes the displayName
         },
         {
-          start: 3,
-          end: 6,
+          end: 3,
+          start: 6,
           displayName: '3 - 6 mo.',
         },
         {
-          start: 6,
-          end: 9,
+          end: 6,
+          start: 9,
           displayName: '6 - 9 mo.',
         },
         {
-          start: 9,
-          end: 12,
+          end: 9,
+          start: 12,
           displayName: '9 - 12 mo.',
         },
         {
-          start: 12,
-          end: 15,
+          end: 12,
+          start: 15,
           displayName: '12 - 15 mo.',
         },
         {
-          start: 15,
-          end: 18,
+          end: 15,
+          start: 18,
           displayName: '15 - 18 mo.',
         },
         {
-          start: 18,
-          end: 21,
+          end: 18,
+          start: 21,
           displayName: '18 - 21 mo.',
         },
         {
-          start: 21,
-          end: 24,
+          end: 21,
+          start: 24,
           displayName: '21 - 24 mo.',
         },
         {
-          start: 24,
-          end: 99,
+          end: 24,
+          start: 99,
           displayName: '> 24 mo.',
         },
       ],
@@ -76,32 +76,32 @@ const invenViews = () => {
       aging: [
         // note that this array is used to generate cols.
         {
-          start: 0,
-          end: 6,
+          end: 0,
+          start: 6,
           displayName: '< 6 mo.', // heading becomes the displayName
           dataName: 'aged6Mo',
         },
         {
-          start: 6,
-          end: 12,
+          end: 6,
+          start: 12,
           displayName: '6 - 12 mo.',
           dataName: 'aged6to12Mo',
         },
         {
-          start: 12,
-          end: 18,
+          end: 12,
+          start: 18,
           displayName: '12 - 18 mo.',
           dataName: 'aged12to18Mo',
         },
         {
-          start: 18,
-          end: 24,
+          end: 18,
+          start: 24,
           displayName: '18 - 24 mo.',
           dataName: 'aged18to24Mo',
         },
         {
-          start: 24,
-          end: 99,
+          end: 24,
+          start: 99,
           displayName: '> 24 mo.',
           dataName: 'aged24PlusMo',
         },
