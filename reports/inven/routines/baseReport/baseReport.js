@@ -151,8 +151,7 @@ const buildReport = async (config) => {
   /* Trend Columns */
   const columnConfigs = m.buildAgingCols(config, m.columnConfigs)
 
-  console.log('columnConfigs: ', columnConfigs)
-  console.log('m.columnConfigs: ', m.columnConfigs)
+
   
   return {
     data,
