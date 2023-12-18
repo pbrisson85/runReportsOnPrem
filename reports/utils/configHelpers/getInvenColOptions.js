@@ -1,8 +1,10 @@
 const getInvenViews = require('../../filters/data/getInvenReportsOptions')
 
 const getInvenReportsAging = reqBody => {
+  console.log('reqBody.invenReportColsOption', reqBody.invenReportColsOption)
+
   // front end selection
-  const aging = typeof reqBody.invenReportColsOption?.aging !== 'undefined' ? reqBody.invenReportCols.aging : null
+  const aging = reqBody.invenReportCols?.aging ?? null
   if (aging) return aging
 
   // no aging look for default
@@ -13,7 +15,7 @@ const getInvenReportsAging = reqBody => {
 
 const getInvenReportsGrouping = reqBody => {
   // front end selection
-  const grouping = typeof reqBody.invenReportColsOption?.grouping !== 'undefined' ? reqBody.invenReportCols.grouping : null
+  const grouping = reqBody.invenReportCols?.grouping ?? null
   if (grouping) return grouping
 
   // no aging look for default
