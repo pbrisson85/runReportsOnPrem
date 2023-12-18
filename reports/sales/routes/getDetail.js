@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
 
   console.log(`\n${config.user} - get detail data for ${reportFormat.dataName} route HIT...`)
 
-  if (colType === 'invenFg') {
+  if (colType === 'invenTotal') {
     data = await getFgInven_detail(config)
   }
 

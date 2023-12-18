@@ -1,6 +1,6 @@
-// This applies to all columns with a colType: 'invenFg'
+// This applies to all columns with a colType: 'invenTotal'
 
-const invenFgCols = [
+const invenTotalCols = [
   {
     unfilteredColIdx: 99, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
     displayName: 'Item', // show as column header
@@ -24,7 +24,7 @@ const invenFgCols = [
     groupBy: ['item', 'ungrouped'], // when grouping this array determines if this table col is included or filtered out.
     groupByIncrement: false, // if true this col will be reduced when grouping
     groupedLeftSticky: ['item'], // cols are rearranged when group by is active and this instructs to make this col a left stick when grouoping by any col in the array
-    colType: 'invenFg', // corresponds to the colType in the non detail cols. This is used to determine which detail cols to use via storedDetailDataColsAtom
+    colType: 'invenTotal', // corresponds to the colType in the non detail cols. This is used to determine which detail cols to use via storedDetailDataColsAtom
     defaultSort: false, // if true this col will be the default sort col
   },
   {
@@ -50,7 +50,7 @@ const invenFgCols = [
     groupBy: ['item', 'ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: ['item'],
-    colType: 'invenFg',
+    colType: 'invenTotal',
     defaultSort: false,
   },
   {
@@ -76,7 +76,7 @@ const invenFgCols = [
     groupBy: ['ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: [],
-    colType: 'invenFg',
+    colType: 'invenTotal',
     defaultSort: false,
   },
   {
@@ -104,7 +104,7 @@ const invenFgCols = [
     groupBy: ['location', 'fresh_frozen', 'country', 'item', 'soak', 'brand', 'species', 'size', 'ungrouped'],
     groupByIncrement: true,
     groupedLeftSticky: [],
-    colType: 'invenFg',
+    colType: 'invenTotal',
     defaultSort: true,
   },
   {
@@ -135,7 +135,7 @@ const invenFgCols = [
     fractionNumerator: 'cost_ext',
     fractionDenominator: 'lbs',
     groupedLeftSticky: [],
-    colType: 'invenFg',
+    colType: 'invenTotal',
     defaultSort: false,
   },
   {
@@ -162,7 +162,7 @@ const invenFgCols = [
     groupBy: ['location', 'fresh_frozen', 'country', 'item', 'soak', 'brand', 'species', 'size', 'ungrouped'],
     groupByIncrement: true,
     groupedLeftSticky: [],
-    colType: 'invenFg',
+    colType: 'invenTotal',
     defaultSort: false,
   },
   {
@@ -188,7 +188,7 @@ const invenFgCols = [
     groupBy: ['item', 'species', 'ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: ['species'],
-    colType: 'invenFg',
+    colType: 'invenTotal',
     defaultSort: false,
   },
   {
@@ -214,7 +214,7 @@ const invenFgCols = [
     groupBy: ['brand', 'item', 'ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: ['brand'],
-    colType: 'invenFg',
+    colType: 'invenTotal',
     defaultSort: false,
   },
   {
@@ -243,7 +243,7 @@ const invenFgCols = [
     groupByIncrement: false,
     groupByCostPerLbDenominator: false,
     groupedLeftSticky: ['soak'],
-    colType: 'invenFg',
+    colType: 'invenTotal',
     defaultSort: false,
   },
   {
@@ -271,7 +271,7 @@ const invenFgCols = [
     groupBy: ['item', 'size', 'ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: ['size'],
-    colType: 'invenFg',
+    colType: 'invenTotal',
     defaultSort: false,
   },
   {
@@ -297,7 +297,7 @@ const invenFgCols = [
     groupBy: ['location', 'ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: ['location'],
-    colType: 'invenFg',
+    colType: 'invenTotal',
     defaultSort: false,
   },
   {
@@ -323,7 +323,7 @@ const invenFgCols = [
     groupBy: ['location', 'country', 'ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: ['location', 'country'],
-    colType: 'invenFg',
+    colType: 'invenTotal',
     defaultSort: false,
   },
   {
@@ -349,7 +349,7 @@ const invenFgCols = [
     groupBy: ['item', 'fresh_frozen', 'ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: ['fresh_frozen'],
-    colType: 'invenFg',
+    colType: 'invenTotal',
     defaultSort: false,
   },
   {
@@ -375,7 +375,7 @@ const invenFgCols = [
     groupBy: ['ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: [],
-    colType: 'invenFg',
+    colType: 'invenTotal',
     defaultSort: false,
   },
   {
@@ -401,7 +401,7 @@ const invenFgCols = [
     groupBy: ['ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: [],
-    colType: 'invenFg',
+    colType: 'invenTotal',
     defaultSort: false,
   },
   {
@@ -427,7 +427,7 @@ const invenFgCols = [
     groupBy: ['ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: [],
-    colType: 'invenFg',
+    colType: 'invenTotal',
     defaultSort: false,
   },
   {
@@ -453,9 +453,9 @@ const invenFgCols = [
     groupBy: ['ungrouped'],
     groupByIncrement: false,
     groupedLeftSticky: [],
-    colType: 'invenFg',
+    colType: 'invenTotal',
     defaultSort: false,
   },
 ]
 
-module.exports = invenFgCols
+module.exports = invenTotalCols

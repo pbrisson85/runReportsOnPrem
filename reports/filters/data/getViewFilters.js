@@ -9,7 +9,7 @@ const getViewFilters = () => {
         'salesInvoice',
         'salesInvoiceMo',
         'salesOrder',
-        'invenFg',
+        'invenTotal',
         'invenRm',
         'purchaseOrder',
         'salesKpi',
@@ -45,7 +45,7 @@ const getViewFilters = () => {
         'salesInvoice',
         'salesInvoiceMo',
         'salesOrder',
-        'invenFg',
+        'invenTotal',
         'invenRm',
         'purchaseOrder',
         'salesKpi',
@@ -76,7 +76,7 @@ const getViewFilters = () => {
       label: 'NET REVENUE/LB',
       dataName: 'netSalesPerLb',
       additionalData: { decimals: 2 },
-      cols: ['label', 'salesInvoice', 'salesInvoiceMo', 'salesOrder', 'salesKpi', 'salesProjection', 'invenFg', 'purchaseOrder', 'ageCols'], // No inven, only sales data
+      cols: ['label', 'salesInvoice', 'salesInvoiceMo', 'salesOrder', 'salesKpi', 'salesProjection', 'invenTotal', 'purchaseOrder', 'ageCols'], // No inven, only sales data
     },
     {
       label: 'COST/LB',
@@ -87,7 +87,7 @@ const getViewFilters = () => {
         'salesInvoice',
         'salesInvoiceMo',
         'salesOrder',
-        'invenFg',
+        'invenTotal',
         'invenRm',
         'purchaseOrder',
         'salesKpi',
