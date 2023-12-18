@@ -48,6 +48,9 @@ const l1_getInvAged = async config => {
       ` //prettier-ignore
 
       eachAging.push(response)
+
+      console.log('eachAging', eachAging)
+      console.log('response', response)
     }
 
     return eachAging
