@@ -33,5 +33,5 @@ module.exports = {
   sortRowTemplate: require('../../../utils/sortRowTemplate'),
 
   // Col Helpers
-  buildAgingCols: require('../helpers/agingColHelper'),
+  buildAgingCols: require('../helpers/agingColHelper').buildAgingCols,
 }
