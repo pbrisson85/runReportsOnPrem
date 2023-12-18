@@ -78,7 +78,7 @@ const l2_getInvAged = async config => {
 
       const response = await sql
       `SELECT 
-        '${sql(ageBucket.dataName)}' AS column, 
+       ${ageBucket.dataName} AS column, 
         COALESCE(${sql(config.baseFormat.l1_field)},'NA') AS l1_label, 
         COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
         'SUBTOTAL' AS l3_label, 
@@ -129,7 +129,7 @@ const l3_getInvAged = async config => {
 
       const response = await sql
       `SELECT 
-        '${sql(ageBucket.dataName)}' AS column, 
+       ${ageBucket.dataName} AS column, 
         COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
         COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
         COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 
@@ -179,7 +179,7 @@ const l4_getInvAged = async config => {
 
       const response = await sql
       `SELECT 
-        '${sql(ageBucket.dataName)}' AS column, 
+       ${ageBucket.dataName} AS column, 
         COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
         COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
         COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 
@@ -229,7 +229,7 @@ const l5_getInvAged = async config => {
 
       const response = await sql
       `SELECT 
-        '${sql(ageBucket.dataName)}' AS column, 
+       ${ageBucket.dataName} AS column, 
         COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
         COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
         COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 
@@ -280,7 +280,7 @@ const l0_getInvAged = async config => {
 
       const response = await sql
       `SELECT 
-        '${sql(ageBucket.dataName)}' AS column,  
+       ${ageBucket.dataName} AS column,  
         'TOTAL' AS l1_label, 
         COALESCE(SUM(Inv.on_hand_lbs),0) AS lbs, 
         COALESCE(SUM(Inv.cost_extended),0) AS cogs 
