@@ -24,7 +24,7 @@ const l1_getInvAged = async config => {
 
       const response = await sql
       `SELECT 
-        '${sql(ageBucket.dataName)}' AS column, 
+        ${ageBucket.dataName} AS column, 
         COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
         'SUBTOTAL' AS l2_label, 
         'SUBTOTAL' AS l3_label, 
