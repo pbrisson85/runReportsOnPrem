@@ -24,6 +24,13 @@ const buildReport = async (config) => {
   const l4_Inv = config.baseFormat.l4_field ? () => {return m.l4_getInv(config)}: skip() 
   const l5_Inv = config.baseFormat.l5_field ? () => {return m.l5_getInv(config)}: skip() 
 
+  const l0_invAged = () => {return m.l0_getInvAged(config)} 
+  const l1_invAged = () => {return m.l1_getInvAged(config)} 
+  const l2_invAged = () => {return m.l2_getInvAged(config)} 
+  const l3_invAged = () => {return m.l3_getInvAged(config)} 
+  const l4_invAged = () => {return m.l4_getInvAged(config)} 
+  const l5_invAged = () => {return m.l5_getInvAged(config)}
+
   ///////////////////////////////// PURCHASE DATA
 
   const l0_OpenPo = () => {return m.l0_getOpenPo(config)}
@@ -40,6 +47,13 @@ const buildReport = async (config) => {
     l4_InvR,
     l5_InvR,
     l0_InvR,
+    l0_invAgedR,
+    l1_invAgedR,
+    l2_invAgedR,
+    l3_invAgedR,
+    l4_invAgedR,
+    l5_invAgedR,
+
     l1_OpenPoR,
     l2_OpenPoR,
     l3_OpenPoR,
@@ -53,6 +67,14 @@ const buildReport = async (config) => {
     l4_Inv(),
     l5_Inv(),
     l0_Inv(),
+
+    l0_invAged(),
+    l1_invAged(),
+    l2_invAged(),
+    l3_invAged(),
+    l4_invAged(),
+    l5_invAged(),
+
     l1_OpenPo(),
     l2_OpenPo(),
     l3_OpenPo(),
@@ -106,6 +128,12 @@ const buildReport = async (config) => {
       ...l4_InvR,
       ...l5_InvR,
       ...l0_InvR,
+      ...l0_invAgedR,
+      ...l1_invAgedR,
+      ...l2_invAgedR,
+      ...l3_invAgedR,
+      ...l4_invAgedR,
+      ...l5_invAgedR,
       ...l1_OpenPoR,
       ...l2_OpenPoR,
       ...l3_OpenPoR,

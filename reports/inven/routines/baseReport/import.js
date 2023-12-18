@@ -10,6 +10,13 @@ module.exports = {
   l5_getInv: require('../../postgres/baseReport/getInven').l5_getInv,
   l0_getInv: require('../../postgres/baseReport/getInven').l0_getInv,
 
+  l5_getInvAged: require('../../postgres/baseReport/getInvenAged').l5_getInvAged,
+  l4_getInvAged: require('../../postgres/baseReport/getInvenAged').l4_getInvAged,
+  l3_getInvAged: require('../../postgres/baseReport/getInvenAged').l3_getInvAged,
+  l2_getInvAged: require('../../postgres/baseReport/getInvenAged').l2_getInvAged,
+  l1_getInvAged: require('../../postgres/baseReport/getInvenAged').l1_getInvAged,
+  l0_getInvAged: require('../../postgres/baseReport/getInvenAged').l0_getInvAged,
+
   // PO Data
   l1_getOpenPo: require('../../postgres/baseReport/getOpenPo').l1_getOpenPo,
   l2_getOpenPo: require('../../postgres/baseReport/getOpenPo').l2_getOpenPo,
