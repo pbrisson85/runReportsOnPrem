@@ -8,6 +8,6 @@ const trendCol = require('./trendColsTemplate.js')
 const salesProjectionCol = require('./salesProjectionTotalCols.js')
 
 // These are configs for the columns in the report
-const columns = { invenTotalCols, invenKpiCol, poCols, salesKpiCols, salesOrdersCol, primarySalesTotalCol, trendCol }
+const columns = { trendCol, primarySalesTotalCol, salesKpiCols, salesOrdersCol, invenTotalCols, invenKpiCol, poCols }
 
 module.exports = columns
