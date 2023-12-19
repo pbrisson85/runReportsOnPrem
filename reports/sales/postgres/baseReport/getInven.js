@@ -123,7 +123,7 @@ const l5_getInv = async config => {
       
       FROM "invenReporting".perpetual_inventory AS inv
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-          ON ms.item_num = perpetual_inventory.item_number 
+          ON ms.item_num = inv.item_number 
       
       WHERE 
         inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
