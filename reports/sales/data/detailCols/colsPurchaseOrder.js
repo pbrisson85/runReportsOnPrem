@@ -287,7 +287,7 @@ const purchaseOrderCols = [
     total: false,
     number: false,
     boolean: false,
-    date: false, // Need to change back end to have this in a date format
+    date: true, // Need to change back end to have this in a date format
     leftSticky: false,
     left: '0px',
     borderRight: false,

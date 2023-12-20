@@ -47,7 +47,6 @@ const getReportFormats = () => {
         },
       ],
     },
-
     {
       default: false, // if no report is chosen (such as on first request) this will be used to group report if true
       label: 'type / species group / program / freeze', // appears in front end report options
@@ -104,7 +103,6 @@ const getReportFormats = () => {
         },
       ],
     },
-
     {
       default: false, // if no report is chosen (such as on first request) this will be used to group report if true
       label: 'species group / program / freeze / type', // appears in front end report options
@@ -161,7 +159,6 @@ const getReportFormats = () => {
         },
       ],
     },
-
     {
       default: true, // if this is true then the defaults array should have "all" or else there will be a mistmatch in what the front end and back end beleive is the default
       label: 'species group / program',
@@ -487,7 +484,6 @@ const getReportFormats = () => {
         },
       ],
     },
-
     {
       label: 'freeze / brand / soak / size',
       dataName: 'frzBrndSoakSize',
@@ -543,7 +539,6 @@ const getReportFormats = () => {
         },
       ],
     },
-
     {
       label: 'freeze / soak / size / brand',
       dataName: 'frzSoakSizeBrnd',
@@ -599,7 +594,6 @@ const getReportFormats = () => {
         },
       ],
     },
-
     {
       label: 'freeze / soak / size / brand / item',
       dataName: 'frzSoakSizeBrndItem',
@@ -666,7 +660,6 @@ const getReportFormats = () => {
         },
       ],
     },
-
     {
       label: 'freeze / brand / soak / size / item',
       dataName: 'frzBrndSoakSizeItem',
@@ -733,7 +726,6 @@ const getReportFormats = () => {
         },
       ],
     },
-
     {
       label: 'species / brand / size',
       dataName: 'specBrndSize',
