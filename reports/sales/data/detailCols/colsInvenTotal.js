@@ -413,8 +413,8 @@ const invenTotalCols = [
     width: '100px',
     total: false,
     number: false,
-    boolean: true, // type used in formatTableData model
-    date: false,
+    boolean: false, // type used in formatTableData model
+    date: true,
     leftSticky: false,
     left: '0px',
     borderRight: false,
@@ -440,7 +440,7 @@ const invenTotalCols = [
     total: false,
     number: false,
     boolean: false,
-    date: false,
+    date: true,
     leftSticky: false,
     left: '0px',
     borderRight: false,
