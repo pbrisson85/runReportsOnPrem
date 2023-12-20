@@ -607,7 +607,7 @@ const getReportFormats = () => {
       defaults: [],
       optional: ['any'],
       forbiddenCols: [],
-      groupingLevel: 4,
+      groupingLevel: 5,
       l1_field: 'ms.fg_fresh_frozen',
       l2_field: 'ms.fg_treatment',
       l3_field: 'ms.size_name',
