@@ -509,7 +509,7 @@ const getReportFormats = () => {
           displayName: 'FRESH/FROZEN', // show as column header
           dataName: 'l1_label', // key to pull data from
           filterName: 'l1_filter', // key to match up the column with the filter
-          width: '150px', // css width
+          width: '100px', // css width
           left: '0px', // css positioning for sticky sum of prior col widths
           borderRight: false, // border right on ladst frozen cell
           rightClickMenu: [], // array of options for right click menu
@@ -519,7 +519,7 @@ const getReportFormats = () => {
           dataName: 'l2_label', // key to pull data from
           filterName: 'l2_filter', // key to match up the column with the filter
           width: '150px', // css width
-          left: '150px', // css positioning for sticky sum of prior col widths
+          left: '100px', // css positioning for sticky sum of prior col widths
           borderRight: false, // border right on ladst frozen cell
           rightClickMenu: [], // array of options for right click menu
         },
@@ -528,7 +528,7 @@ const getReportFormats = () => {
           dataName: 'l3_label', // key to pull data from
           filterName: 'l3_filter', // key to match up the column with the filter
           width: '100px', // css width
-          left: '300px', // css positioning for sticky sum of prior col widths
+          left: '250px', // css positioning for sticky sum of prior col widths
           borderRight: false, // border right on ladst frozen cell
           rightClickMenu: [], // array of options for right click menu
         },
@@ -537,7 +537,7 @@ const getReportFormats = () => {
           dataName: 'l4_label', // key to pull data from
           filterName: 'l4_filter', // key to match up the column with the filter
           width: '100px', // css width
-          left: '400px', // css positioning for sticky sum of prior col widths
+          left: '350px', // css positioning for sticky sum of prior col widths
           borderRight: true, // border right on ladst frozen cell
           rightClickMenu: [], // array of options for right click menu
         },
@@ -593,7 +593,7 @@ const getReportFormats = () => {
           dataName: 'l4_label', // key to pull data from
           filterName: 'l4_filter', // key to match up the column with the filter
           width: '135px', // css width
-          left: '335px', // css positioning for sticky sum of prior col widths
+          left: '300px', // css positioning for sticky sum of prior col widths
           borderRight: true, // border right on ladst frozen cell
           rightClickMenu: [], // array of options for right click menu
         },
@@ -623,7 +623,7 @@ const getReportFormats = () => {
           displayName: 'FRESH/FROZEN', // show as column header
           dataName: 'l1_label', // key to pull data from
           filterName: 'l1_filter', // key to match up the column with the filter
-          width: '150px', // css width
+          width: '100px', // css width
           left: '0px', // css positioning for sticky sum of prior col widths
           borderRight: false, // border right on ladst frozen cell
           rightClickMenu: [], // array of options for right click menu
@@ -632,8 +632,8 @@ const getReportFormats = () => {
           displayName: 'SOAK', // show as column header
           dataName: 'l2_label', // key to pull data from
           filterName: 'l2_filter', // key to match up the column with the filter
-          width: '150px', // css width
-          left: '150px', // css positioning for sticky sum of prior col widths
+          width: '100px', // css width
+          left: '100px', // css positioning for sticky sum of prior col widths
           borderRight: false, // border right on ladst frozen cell
           rightClickMenu: [], // array of options for right click menu
         },
@@ -642,7 +642,7 @@ const getReportFormats = () => {
           dataName: 'l3_label', // key to pull data from
           filterName: 'l3_filter', // key to match up the column with the filter
           width: '100px', // css width
-          left: '300px', // css positioning for sticky sum of prior col widths
+          left: '200px', // css positioning for sticky sum of prior col widths
           borderRight: false, // border right on ladst frozen cell
           rightClickMenu: [], // array of options for right click menu
         },
@@ -650,8 +650,8 @@ const getReportFormats = () => {
           displayName: 'BRAND', // show as column header
           dataName: 'l4_label', // key to pull data from
           filterName: 'l4_filter', // key to match up the column with the filter
-          width: '100px', // css width
-          left: '400px', // css positioning for sticky sum of prior col widths
+          width: '135px', // css width
+          left: '300px', // css positioning for sticky sum of prior col widths
           borderRight: false, // border right on ladst frozen cell
           rightClickMenu: [], // array of options for right click menu
         },
@@ -659,8 +659,8 @@ const getReportFormats = () => {
           displayName: 'ITEM', // show as column header
           dataName: 'l5_label', // key to pull data from
           filterName: 'l5_filter', // key to match up the column with the filter
-          width: '100px', // css width
-          left: '500px', // css positioning for sticky sum of prior col widths
+          width: '125px', // css width
+          left: '435px', // css positioning for sticky sum of prior col widths
           borderRight: true, // border right on ladst frozen cell
           rightClickMenu: [], // array of options for right click menu
         },
