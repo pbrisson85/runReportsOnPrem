@@ -23,4 +23,4 @@ const getWeekForDate = async (date, user) => {
 
   return week
 }
-module.exports.getWeekForDate = getWeekForDate
+module.exports = getWeekForDate
