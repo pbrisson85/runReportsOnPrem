@@ -1,6 +1,8 @@
 const sql = require('../../../../server')
 
 const l1_getSo = async config => {
+  if (!config.baseFormat.l1_field) return []
+
   try {
     console.log(`${config.user} - level 1: query postgres for FG Sales Orders (l1_getSo) ...`)
 
@@ -25,6 +27,8 @@ const l1_getSo = async config => {
 }
 
 const l2_getSo = async config => {
+  if (!config.baseFormat.l2_field) return []
+
   try {
     console.log(`${config.user} - level 2: query postgres for FG Sales Orders (l2_getSo) ...`)
 
@@ -49,6 +53,8 @@ const l2_getSo = async config => {
 }
 
 const l3_getSo = async config => {
+  if (!config.baseFormat.l3_field) return []
+
   try {
     console.log(`${config.user} - level 3: query postgres for FG Sales Orders (l3_getSo) ...`)
 
@@ -73,6 +79,8 @@ const l3_getSo = async config => {
 }
 
 const l4_getSo = async config => {
+  if (!config.baseFormat.l4_field) return []
+
   try {
     console.log(`${config.user} - level 4: query postgres for FG Sales Orders (l4_getSo) ...`)
 
@@ -97,6 +105,8 @@ const l4_getSo = async config => {
 }
 
 const l5_getSo = async config => {
+  if (!config.baseFormat.l5_field) return []
+
   try {
     console.log(`${config.user} - level 5: query postgres for FG Sales Orders (l4_getSo) ...`)
 

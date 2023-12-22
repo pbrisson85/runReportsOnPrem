@@ -5,6 +5,8 @@ const sql = require('../../../../server')
 // Inv on hand (includes in transit)
 
 const l1_getInv = async config => {
+  if (!config.baseFormat.l1_field) return []
+
   try {
     console.log(`${config.user} - level 1: query postgres for Inv on hand (l1_getInv) ...`)
 
@@ -34,6 +36,8 @@ const l1_getInv = async config => {
 
 // Inv on hand (includes in transit)
 const l2_getInv = async config => {
+  if (!config.baseFormat.l2_field) return []
+
   try {
     console.log(`${config.user} - level 2: query postgres for Inv on hand (l2_getInv) ...`)
 
@@ -63,6 +67,8 @@ const l2_getInv = async config => {
 
 // Inv on hand (includes in transit)
 const l3_getInv = async config => {
+  if (!config.baseFormat.l3_field) return []
+
   try {
     console.log(`${config.user} - level 3: query postgres for Inv on hand (l3_getInv) ...`)
 
@@ -89,6 +95,8 @@ const l3_getInv = async config => {
 }
 
 const l4_getInv = async config => {
+  if (!config.baseFormat.l4_field) return []
+
   try {
     console.log(`${config.user} - level 4: query postgres for Inv on hand (l4_getInv) ...`)
 
@@ -115,6 +123,8 @@ const l4_getInv = async config => {
 }
 
 const l5_getInv = async config => {
+  if (!config.baseFormat.l5_field) return []
+
   try {
     console.log(`${config.user} - level 5: query postgres for Inv on hand (l4_getInv) ...`)
 

@@ -23,6 +23,7 @@ router.post('/', async (req, res) => {
   let { colType } = req.body // for now manually determining if projeciton vs sales below. Need to override col type to projection to get correct cols
 
   const config = await getReportConfig(req.body)
+  console.log('detail report config:', config)
 
   let data = null
 

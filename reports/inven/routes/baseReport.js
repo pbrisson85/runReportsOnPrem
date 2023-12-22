@@ -8,6 +8,7 @@ router.post('/', async (req, res) => {
   console.log(`\nget get INVEN base report route HIT...`)
 
   const config = await getReportConfig(req.body)  
+  console.log('inven base report config:', config)
 
   const response = await buildReport(config)
 

@@ -2,7 +2,9 @@ const getWeekForDate = async (date, user) => {
   const { Client } = require('pg')
   const pgClient = new Client() // config from ENV
   await pgClient.connect()
+
   console.log(`${user} - get week for date: ${date} ...`)
+
   const response = await pgClient.query(
     `SELECT p.week
      FROM "accountingPeriods".period_by_day AS p
@@ -18,6 +20,7 @@ const getWeekForDate = async (date, user) => {
   if (week === 52) {
     week = 53
   }
+
   return week
 }
 module.exports.getWeekForDate = getWeekForDate

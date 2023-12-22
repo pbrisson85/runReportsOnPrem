@@ -1,10 +1,10 @@
 const sql = require('../../../../server')
 
-const l1_getSalesTotalPrimary = async config => {
+const l1_getSalesTotalAveWeeklyTrailing = async config => {
   if (!config.baseFormat.l1_field) return []
 
   try {
-    console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getSalesTotalPrimary) ...`)
+    console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getSalesTotalAveWeeklyTrailing) ...`)
 
     const response = await sql
       `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
@@ -22,7 +22,7 @@ const l1_getSalesTotalPrimary = async config => {
           FROM "salesReporting".sales_line_items AS sl 
             
           WHERE 
-            sl.formatted_invoice_date >= ${config.totals.startDatePrimary} AND sl.formatted_invoice_date <= ${config.totals.endDatePrimary} 
+            sl.formatted_invoice_date >= ${config.totals.startDateAveWeeklyTrailing} AND sl.formatted_invoice_date <= ${config.totals.endDateAveWeeklyTrailing} 
         `: sql``}
 
         ${config.totals.useProjection.so ? sql`
@@ -33,7 +33,7 @@ const l1_getSalesTotalPrimary = async config => {
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${config.totals.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.endDatePrimary}
+            AND so.formatted_ship_date >= ${config.totals.startDateAveWeeklyTrailing} AND so.formatted_ship_date <= ${config.totals.endDateAveWeeklyTrailing}
         `: sql``}
 
         ${config.totals.useProjection.pr ? sql` 
@@ -43,7 +43,7 @@ const l1_getSalesTotalPrimary = async config => {
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
-            pr.date >= ${config.totals.startDatePrimary} AND pr.date <= ${config.totals.endDatePrimary}
+            pr.date >= ${config.totals.startDateAveWeeklyTrailing} AND pr.date <= ${config.totals.endDateAveWeeklyTrailing}
           `: sql``}
 
           ) AS pj
@@ -66,11 +66,11 @@ const l1_getSalesTotalPrimary = async config => {
   }
 }
 
-const l2_getSalesTotalPrimary = async config => {
+const l2_getSalesTotalAveWeeklyTrailing = async config => {
   if (!config.baseFormat.l2_field) return []
 
   try {
-    console.log(`${config.user} - level 2: query postgres to get FG sales data period total (l2_getSalesTotalPrimary) ...`)
+    console.log(`${config.user} - level 2: query postgres to get FG sales data period total (l2_getSalesTotalAveWeeklyTrailing) ...`)
 
     const response = await sql
       `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
@@ -88,7 +88,7 @@ const l2_getSalesTotalPrimary = async config => {
           FROM "salesReporting".sales_line_items AS sl
             
           WHERE
-            sl.formatted_invoice_date >= ${config.totals.startDatePrimary} AND sl.formatted_invoice_date <= ${config.totals.endDatePrimary}
+            sl.formatted_invoice_date >= ${config.totals.startDateAveWeeklyTrailing} AND sl.formatted_invoice_date <= ${config.totals.endDateAveWeeklyTrailing}
           `: sql``}
 
         ${config.totals.useProjection.so ? sql`
@@ -99,7 +99,7 @@ const l2_getSalesTotalPrimary = async config => {
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${config.totals.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.endDatePrimary}
+            AND so.formatted_ship_date >= ${config.totals.startDateAveWeeklyTrailing} AND so.formatted_ship_date <= ${config.totals.endDateAveWeeklyTrailing}
           `: sql``}
 
         ${config.totals.useProjection.pr ? sql` 
@@ -109,7 +109,7 @@ const l2_getSalesTotalPrimary = async config => {
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
-            pr.date >= ${config.totals.startDatePrimary} AND pr.date <= ${config.totals.endDatePrimary}
+            pr.date >= ${config.totals.startDateAveWeeklyTrailing} AND pr.date <= ${config.totals.endDateAveWeeklyTrailing}
           `: sql``}
 
           ) AS pj
@@ -132,11 +132,11 @@ const l2_getSalesTotalPrimary = async config => {
   }
 }
 
-const l3_getSalesTotalPrimary = async config => {
+const l3_getSalesTotalAveWeeklyTrailing = async config => {
   if (!config.baseFormat.l3_field) return []
 
   try {
-    console.log(`${config.user} - level 3: query postgres to get FG sales data period total (l3_getSalesTotalPrimary) ...`)
+    console.log(`${config.user} - level 3: query postgres to get FG sales data period total (l3_getSalesTotalAveWeeklyTrailing) ...`)
 
     const response = await sql
       `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
@@ -154,7 +154,7 @@ const l3_getSalesTotalPrimary = async config => {
           FROM "salesReporting".sales_line_items AS sl
             
           WHERE
-            sl.formatted_invoice_date >= ${config.totals.startDatePrimary} AND sl.formatted_invoice_date <= ${config.totals.endDatePrimary}
+            sl.formatted_invoice_date >= ${config.totals.startDateAveWeeklyTrailing} AND sl.formatted_invoice_date <= ${config.totals.endDateAveWeeklyTrailing}
           `: sql``}
 
         ${config.totals.useProjection.so ? sql`
@@ -165,7 +165,7 @@ const l3_getSalesTotalPrimary = async config => {
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${config.totals.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.endDatePrimary}
+            AND so.formatted_ship_date >= ${config.totals.startDateAveWeeklyTrailing} AND so.formatted_ship_date <= ${config.totals.endDateAveWeeklyTrailing}
           `: sql``}
 
         ${config.totals.useProjection.pr ? sql` 
@@ -175,7 +175,7 @@ const l3_getSalesTotalPrimary = async config => {
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
-            pr.date >= ${config.totals.startDatePrimary} AND pr.date <= ${config.totals.endDatePrimary}
+            pr.date >= ${config.totals.startDateAveWeeklyTrailing} AND pr.date <= ${config.totals.endDateAveWeeklyTrailing}
           `: sql``}
 
           ) AS pj
@@ -198,11 +198,11 @@ const l3_getSalesTotalPrimary = async config => {
   }
 }
 
-const l4_getSalesTotalPrimary = async config => {
+const l4_getSalesTotalAveWeeklyTrailing = async config => {
   if (!config.baseFormat.l4_field) return []
 
   try {
-    console.log(`${config.user} - level 4: query postgres to get FG sales data period total (l4_getSalesTotalPrimary) ...`)
+    console.log(`${config.user} - level 4: query postgres to get FG sales data period total (l4_getSalesTotalAveWeeklyTrailing) ...`)
 
     const response = await sql
       `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
@@ -220,7 +220,7 @@ const l4_getSalesTotalPrimary = async config => {
           FROM "salesReporting".sales_line_items AS sl
             
           WHERE
-            sl.formatted_invoice_date >= ${config.totals.startDatePrimary} AND sl.formatted_invoice_date <= ${config.totals.endDatePrimary}
+            sl.formatted_invoice_date >= ${config.totals.startDateAveWeeklyTrailing} AND sl.formatted_invoice_date <= ${config.totals.endDateAveWeeklyTrailing}
           `: sql``}
 
         ${config.totals.useProjection.so ? sql`
@@ -231,7 +231,7 @@ const l4_getSalesTotalPrimary = async config => {
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${config.totals.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.endDatePrimary}
+            AND so.formatted_ship_date >= ${config.totals.startDateAveWeeklyTrailing} AND so.formatted_ship_date <= ${config.totals.endDateAveWeeklyTrailing}
           `: sql``}
 
         ${config.totals.useProjection.pr ? sql` 
@@ -241,7 +241,7 @@ const l4_getSalesTotalPrimary = async config => {
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
-            pr.date >= ${config.totals.startDatePrimary} AND pr.date <= ${config.totals.endDatePrimary}
+            pr.date >= ${config.totals.startDateAveWeeklyTrailing} AND pr.date <= ${config.totals.endDateAveWeeklyTrailing}
           `: sql``}
 
           ) AS pj
@@ -264,11 +264,11 @@ const l4_getSalesTotalPrimary = async config => {
   }
 }
 
-const l5_getSalesTotalPrimary = async config => {
+const l5_getSalesTotalAveWeeklyTrailing = async config => {
   if (!config.baseFormat.l5_field) return []
 
   try {
-    console.log(`${config.user} - level 5: query postgres to get FG sales data period total (l4_getSalesTotalPrimary) ...`)
+    console.log(`${config.user} - level 5: query postgres to get FG sales data period total (l4_getSalesTotalAveWeeklyTrailing) ...`)
 
     const response = await sql
       `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
@@ -286,7 +286,7 @@ const l5_getSalesTotalPrimary = async config => {
           FROM "salesReporting".sales_line_items AS sl
             
           WHERE
-            sl.formatted_invoice_date >= ${config.totals.startDatePrimary} AND sl.formatted_invoice_date <= ${config.totals.endDatePrimary}
+            sl.formatted_invoice_date >= ${config.totals.startDateAveWeeklyTrailing} AND sl.formatted_invoice_date <= ${config.totals.endDateAveWeeklyTrailing}
           `: sql``}
 
         ${config.totals.useProjection.so ? sql`
@@ -297,7 +297,7 @@ const l5_getSalesTotalPrimary = async config => {
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${config.totals.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.endDatePrimary}
+            AND so.formatted_ship_date >= ${config.totals.startDateAveWeeklyTrailing} AND so.formatted_ship_date <= ${config.totals.endDateAveWeeklyTrailing}
           `: sql``}
 
         ${config.totals.useProjection.pr ? sql` 
@@ -307,7 +307,7 @@ const l5_getSalesTotalPrimary = async config => {
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
-            pr.date >= ${config.totals.startDatePrimary} AND pr.date <= ${config.totals.endDatePrimary}
+            pr.date >= ${config.totals.startDateAveWeeklyTrailing} AND pr.date <= ${config.totals.endDateAveWeeklyTrailing}
           `: sql``}
 
           ) AS pj
@@ -330,9 +330,9 @@ const l5_getSalesTotalPrimary = async config => {
   }
 }
 
-const l0_getSalesTotalPrimary = async config => {
+const l0_getSalesTotalAveWeeklyTrailing = async config => {
   try {
-    console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getSalesTotalPrimary) ...`)
+    console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getSalesTotalAveWeeklyTrailing) ...`)
 
     const response = await sql
       `
@@ -351,7 +351,7 @@ const l0_getSalesTotalPrimary = async config => {
           FROM "salesReporting".sales_line_items AS sl 
             
           WHERE 
-            sl.formatted_invoice_date >= ${config.totals.startDatePrimary} AND sl.formatted_invoice_date <= ${config.totals.endDatePrimary} 
+            sl.formatted_invoice_date >= ${config.totals.startDateAveWeeklyTrailing} AND sl.formatted_invoice_date <= ${config.totals.endDateAveWeeklyTrailing} 
         `: sql``}
 
         ${config.totals.useProjection.so ? sql`
@@ -362,7 +362,7 @@ const l0_getSalesTotalPrimary = async config => {
          
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
-            AND so.formatted_ship_date >= ${config.totals.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.endDatePrimary}
+            AND so.formatted_ship_date >= ${config.totals.startDateAveWeeklyTrailing} AND so.formatted_ship_date <= ${config.totals.endDateAveWeeklyTrailing}
         `: sql``}
 
         ${config.totals.useProjection.pr ? sql` 
@@ -372,7 +372,7 @@ const l0_getSalesTotalPrimary = async config => {
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
-            pr.date >= ${config.totals.startDatePrimary} AND pr.date <= ${config.totals.endDatePrimary}
+            pr.date >= ${config.totals.startDateAveWeeklyTrailing} AND pr.date <= ${config.totals.endDateAveWeeklyTrailing}
           `: sql``}
 
           ) AS pj
@@ -395,9 +395,9 @@ const l0_getSalesTotalPrimary = async config => {
   }
 }
 
-module.exports.l0_getSalesTotalPrimary = l0_getSalesTotalPrimary
-module.exports.l2_getSalesTotalPrimary = l2_getSalesTotalPrimary
-module.exports.l1_getSalesTotalPrimary = l1_getSalesTotalPrimary
-module.exports.l3_getSalesTotalPrimary = l3_getSalesTotalPrimary
-module.exports.l4_getSalesTotalPrimary = l4_getSalesTotalPrimary
-module.exports.l5_getSalesTotalPrimary = l5_getSalesTotalPrimary
+module.exports.l0_getSalesTotalAveWeeklyTrailing = l0_getSalesTotalAveWeeklyTrailing
+module.exports.l2_getSalesTotalAveWeeklyTrailing = l2_getSalesTotalAveWeeklyTrailing
+module.exports.l1_getSalesTotalAveWeeklyTrailing = l1_getSalesTotalAveWeeklyTrailing
+module.exports.l3_getSalesTotalAveWeeklyTrailing = l3_getSalesTotalAveWeeklyTrailing
+module.exports.l4_getSalesTotalAveWeeklyTrailing = l4_getSalesTotalAveWeeklyTrailing
+module.exports.l5_getSalesTotalAveWeeklyTrailing = l5_getSalesTotalAveWeeklyTrailing

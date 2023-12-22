@@ -485,10 +485,10 @@ const getReportFormats = () => {
       ],
     },
     {
-      label: 'freeze / size / brand / soak',
+      label: 'freeze / size / soak / brand',
       dataName: 'frzBrndSoakSize',
       defaultsFallback: false,
-      defaults: ['COD USA', 'FLATFISH USA', 'HADDOCK USA', 'PERCH USA', 'POLLOCK USA', 'SCALLOPS DOMESTIC'],
+      defaults: [],
       optional: ['any'],
       forbiddenCols: [],
       groupingLevel: 4,

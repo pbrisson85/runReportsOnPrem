@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const getSpeciesGroupTotalSales = async (start, end, config) => {
+const getSpeciesGroupTotalSales = async config => {
   try {
     console.log(`${config.user} - look up species group for program ${config.baseFilters.program} ...`)
 
@@ -13,7 +13,7 @@ const getSpeciesGroupTotalSales = async (start, end, config) => {
         FROM "salesReporting".sales_line_items AS sl 
           
         WHERE 
-          sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
+          sl.formatted_invoice_date >= ${config.totals.startDatePrimary} AND sl.formatted_invoice_date <= ${config.totals.endDatePrimary} 
         
         ${config.useProjection ? sql`
           UNION
@@ -23,7 +23,7 @@ const getSpeciesGroupTotalSales = async (start, end, config) => {
        
             WHERE 
               so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
-              AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
+              AND so.formatted_ship_date >= ${config.totals.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.endDatePrimary}
          `: sql``} 
         
           ) AS pj

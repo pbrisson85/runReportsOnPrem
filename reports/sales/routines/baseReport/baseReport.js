@@ -14,34 +14,34 @@ const buildReport = async (config) => {
   const l0_Inv = () => {return m.l0_getInv(config)} 
   const l1_Inv = () => {return m.l1_getInv(config)} 
   const l2_Inv = () => {return m.l2_getInv(config)} 
-  const l3_Inv = config.baseFormat.l3_field ? () => {return m.l3_getInv(config)}: skip() 
-  const l4_Inv = config.baseFormat.l4_field ? () => {return m.l4_getInv(config)}: skip() 
-  const l5_Inv = config.baseFormat.l5_field ? () => {return m.l5_getInv(config)}: skip() 
+  const l3_Inv = () => {return m.l3_getInv(config)}
+  const l4_Inv = () => {return m.l4_getInv(config)}
+  const l5_Inv = () => {return m.l5_getInv(config)}
 
   ///////////////////////////////// PURCHASE DATA
 
   const l0_OpenPo = () => {return m.l0_getOpenPo(config)}
   const l1_OpenPo = () => {return m.l1_getOpenPo(config)}
   const l2_OpenPo = () => {return m.l2_getOpenPo(config)}
-  const l3_OpenPo =  config.baseFormat.l3_field ? () => {return m.l3_getOpenPo(config)} : skip()
-  const l4_OpenPo =  config.baseFormat.l4_field ? () => {return m.l4_getOpenPo(config)} : skip()
-  const l5_OpenPo =  config.baseFormat.l5_field ? () => {return m.l5_getOpenPo(config)} : skip()
+  const l3_OpenPo = () => {return m.l3_getOpenPo(config)} 
+  const l4_OpenPo = () => {return m.l4_getOpenPo(config)} 
+  const l5_OpenPo = () => {return m.l5_getOpenPo(config)} 
   
   ///////////////////////////////// SALES ORDERS
 
   const l0_so = () => {return m.l0_getSo(config)}
   const l1_so = () => {return m.l1_getSo(config)}
   const l2_so = () => {return m.l2_getSo(config)}
-  const l3_so =  config.baseFormat.l3_field ? () => {return m.l3_getSo(config)} : skip()
-  const l4_so =  config.baseFormat.l4_field ? () => {return m.l4_getSo(config)} : skip()
-  const l5_so =  config.baseFormat.l5_field ? () => {return m.l5_getSo(config)} : skip()
+  const l3_so = () => {return m.l3_getSo(config)} 
+  const l4_so = () => {return m.l4_getSo(config)} 
+  const l5_so = () => {return m.l5_getSo(config)} 
   
-  const l0_soTrend = !config.trends.queryGrouping ? skip() : () => {return m.l0_getSoTrend(config)}
-  const l1_soTrend = !config.trends.queryGrouping ? skip() : () => {return m.l1_getSoTrend(config)}
-  const l2_soTrend = !config.trends.queryGrouping ? skip() : () => {return m.l2_getSoTrend(config)}
-  const l3_soTrend = !config.trends.queryGrouping ? skip() : config.baseFormat.l3_field ? () => {return m.l3_getSoTrend(config)} : skip()
-  const l4_soTrend = !config.trends.queryGrouping ? skip() : config.baseFormat.l4_field ? () => {return m.l4_getSoTrend(config)} : skip()
-  const l5_soTrend = !config.trends.queryGrouping ? skip() : config.baseFormat.l5_field ? () => {return m.l5_getSoTrend(config)} : skip()
+  const l0_soTrend = () => {return m.l0_getSoTrend(config)}
+  const l1_soTrend = () => {return m.l1_getSoTrend(config)}
+  const l2_soTrend = () => {return m.l2_getSoTrend(config)}
+  const l3_soTrend = () => {return m.l3_getSoTrend(config)} 
+  const l4_soTrend = () => {return m.l4_getSoTrend(config)} 
+  const l5_soTrend = () => {return m.l5_getSoTrend(config)} 
 
   // ///////////////////////////////// SALES DATA
 
@@ -50,17 +50,17 @@ const buildReport = async (config) => {
   const l0_salesTotalPrimary =  () => {return m.l0_getSalesTotalPrimary(config)}
   const l1_salesTotalPrimary =  () => {return m.l1_getSalesTotalPrimary(config)}
   const l2_salesTotalPrimary =  () => {return m.l2_getSalesTotalPrimary(config)}
-  const l3_salesTotalPrimary =  config.baseFormat.l3_field ? () => {return m.l3_getSalesTotalPrimary(config)} : skip()
-  const l4_salesTotalPrimary =  config.baseFormat.l4_field ? () => {return m.l4_getSalesTotalPrimary(config)} : skip()
-  const l5_salesTotalPrimary =  config.baseFormat.l5_field ? () => {return m.l5_getSalesTotalPrimary(config)} : skip()
+  const l3_salesTotalPrimary =  () => {return m.l3_getSalesTotalPrimary(config)}
+  const l4_salesTotalPrimary =  () => {return m.l4_getSalesTotalPrimary(config)}
+  const l5_salesTotalPrimary =  () => {return m.l5_getSalesTotalPrimary(config)}
   
   // TRENDS
-  const l0_salesTrend = !config.trends.queryGrouping ? skip() : () => {return m.l0_getSalesTrend(config)}
-  const l1_salesTrend = !config.trends.queryGrouping ? skip() : () => {return m.l1_getSalesTrend(config)}
-  const l2_salesTrend = !config.trends.queryGrouping ? skip() : () => {return m.l2_getSalesTrend(config)}
-  const l3_salesTrend = !config.trends.queryGrouping ? skip() : config.baseFormat.l3_field ? () => {return m.l3_getSalesTrend(config)} : skip()
-  const l4_salesTrend = !config.trends.queryGrouping ? skip() : config.baseFormat.l4_field ? () => {return m.l4_getSalesTrend(config)} : skip()
-  const l5_salesTrend = !config.trends.queryGrouping ? skip() : config.baseFormat.l5_field ? () => {return m.l5_getSalesTrend(config)} : skip()
+  const l0_salesTrend = () => {return m.l0_getSalesTrend(config)}
+  const l1_salesTrend = () => {return m.l1_getSalesTrend(config)}
+  const l2_salesTrend = () => {return m.l2_getSalesTrend(config)}
+  const l3_salesTrend = () => {return m.l3_getSalesTrend(config)}
+  const l4_salesTrend = () => {return m.l4_getSalesTrend(config)}
+  const l5_salesTrend = () => {return m.l5_getSalesTrend(config)}
 
   const [
     l1_InvR,
@@ -142,9 +142,16 @@ const buildReport = async (config) => {
 
   const companyTotalSales = () => {return m.getCompanyTotalSales(config)}
   const programTotalSales = () => {return m.getProgramTotalSales(config)}
-  const speciesGroupTotalSales = () => {return m.getSpeciesGroupTotalSales(config.totals.startDatePrimary, config.totals.endDatePrimary, config)}
+  const speciesGroupTotalSales = () => {return m.getSpeciesGroupTotalSales(config)}
 
-  const l0_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : () => {return m.l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')}
+
+  const trailingKpiConfig = {
+
+  }
+
+  // calc ave weekly sales here instead of total sales with a date range
+
+  const l0_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : () => {return m.l0_getSalesTrend(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')}
   const l1_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : () => {return m.l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')}
   const l2_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : () => {return m.l2_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')}
   const l3_trailingTwoWeek = config.totals.endWeekPrimary < 2 ? skip() : config.baseFormat.l3_field ? () => {return m.l3_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')} : skip() 

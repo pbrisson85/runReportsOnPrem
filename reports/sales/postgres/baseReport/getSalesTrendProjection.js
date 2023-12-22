@@ -1,6 +1,9 @@
 const sql = require('../../../../server')
 
 const l1_getSalesTrend = async config => {
+  if (!config.trends.queryGrouping) return []
+  if (!config.baseFormat.l1_field) return []
+
   try {
     console.log(`${config.user} - level 1: query postgres to get FG sales data by week (l1_getSalesTrend) ...`)
 
@@ -73,6 +76,9 @@ const l1_getSalesTrend = async config => {
 }
 
 const l2_getSalesTrend = async config => {
+  if (!config.trends.queryGrouping) return []
+  if (!config.baseFormat.l2_field) return []
+
   try {
     console.log(`${config.user} - level 2: query postgres to get FG sales data by week (l2_getSalesTrend) ...`)
 
@@ -149,6 +155,9 @@ const l2_getSalesTrend = async config => {
 }
 
 const l3_getSalesTrend = async config => {
+  if (!config.trends.queryGrouping) return []
+  if (!config.baseFormat.l3_field) return []
+
   try {
     console.log(`${config.user} - level 3: query postgres to get FG sales data by week (l3_getSalesTrend) ...`)
 
@@ -224,6 +233,9 @@ const l3_getSalesTrend = async config => {
 }
 
 const l4_getSalesTrend = async config => {
+  if (!config.trends.queryGrouping) return []
+  if (!config.baseFormat.l4_field) return []
+
   try {
     console.log(`${config.user} - level 4: query postgres to get FG sales data by week (l4_getSalesTrend) ...`)
 
@@ -299,6 +311,9 @@ const l4_getSalesTrend = async config => {
 }
 
 const l5_getSalesTrend = async config => {
+  if (!config.trends.queryGrouping) return []
+  if (!config.baseFormat.l5_field) return []
+
   try {
     console.log(`${config.user} - level 5: query postgres to get FG sales data by week (l4_getSalesTrend) ...`)
 
@@ -373,6 +388,8 @@ const l5_getSalesTrend = async config => {
 }
 
 const l0_getSalesTrend = async config => {
+  if (!config.trends.queryGrouping) return []
+
   try {
     console.log(`${config.user} - level 0: query postgres to get FG sales data by week (l0_getSalesTrend) ...`)
 

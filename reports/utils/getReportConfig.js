@@ -8,6 +8,7 @@ const getBaseFormatDefault = require('./configHelpers/getBaseFormatDefault')
 const getlabelCols = require('./configHelpers/getLabelCols')
 const getUseProjection = require('./configHelpers/getUseProjection')
 const { getInvenReportsGrouping, getInvenReportsAging } = require('./configHelpers/getInvenColOptions')
+const getTrailingWeeks = require('./configHelpers/getTrailingWeeks')
 
 const getReportConfig = async reqBody => {
   // auth filters:
@@ -136,18 +137,15 @@ const getReportConfig = async reqBody => {
       // For now just going to assume that we are only getting the current year. Will need to determine the actual start and end based on the years in the array and the weeks, period, month, etc.
       startDatePrimary: new Date(reqBody.totalsStart?.date_start ?? periodStart),
       endDatePrimary: new Date(reqBody.totalsEnd?.date_end ?? defaultEnd),
-      startWeekPrimary: defaultStartWeek,
-      endWeekPrimary: defaultEndWeek,
-      yearPrimary: typeof reqBody.totalsYears === 'undefined' ? defaultYear : reqBody.totalsYears[0],
       startDateComparison: new Date(reqBody.totalsStart?.date_start ?? periodStart),
       endDateComparison: new Date(reqBody.totalsEnd?.date_end ?? defaultEnd),
-      yearComparison: typeof reqBody.totalsYears === 'undefined' ? defaultYear : reqBody.totalsYears[0],
       useProjection: {
         sl: getUseProjection(reqBody.totalsUseProjection).sl,
         so: getUseProjection(reqBody.totalsUseProjection).so,
         pr: getUseProjection(reqBody.totalsUseProjection).pr,
       },
     },
+    trailingWeeks: await getTrailingWeeks(reqBody.totalsStart?.date_start ?? periodStart, reqBody.totalsEnd?.date_end ?? defaultEnd), // returns array that is used to generate trailing weeks kpi
     invenReportCols: {
       aging: getInvenReportsAging(reqBody),
       grouping: getInvenReportsGrouping(reqBody),
@@ -163,8 +161,6 @@ const getReportConfig = async reqBody => {
       subtotalLabelInSubtotals: reqBody.appSettings?.subtotalLabelInSubtotals ?? appSettings_unflat['subtotalLabelInSubtotals'].default,
     },
   }
-
-  console.log('config', config)
 
   return config
 }
