@@ -25,19 +25,19 @@ const getTrailingWeeks = async (totalsStartDate, totalsEndDate) => {
     },
     {
       weeks: 4,
-      start: getTrailingWeeksStartDate(4, new Date(reqBody.totalsEnd?.date_end ?? defaultEnd)),
+      start: getTrailingWeeksStartDate(4, closestYtdWeekEndDate),
       end: new Date(closestYtdWeekEndDate),
       dataName: 'fourWkAveSales', // matches kpi columns
     },
     {
       weeks: 8,
-      start: getTrailingWeeksStartDate(8, new Date(reqBody.totalsEnd?.date_end ?? defaultEnd)),
+      start: getTrailingWeeksStartDate(8, closestYtdWeekEndDate),
       end: new Date(closestYtdWeekEndDate),
       dataName: 'eightWkAveSales', // matches kpi columns
     },
     {
       weeks: 12,
-      start: getTrailingWeeksStartDate(12, new Date(reqBody.totalsEnd?.date_end ?? defaultEnd)),
+      start: getTrailingWeeksStartDate(12, closestYtdWeekEndDate),
       end: new Date(closestYtdWeekEndDate),
       dataName: 'twelveWkAveSales', // matches kpi columnse
     },
