@@ -1,6 +1,8 @@
 const sql = require('../../../../server')
 
 const getTrendColsSo = async config => {
+  if (!config.trends.queryGrouping) return []
+
   console.log(
     `${config.user} - getDateEndPerWeekByRange_so, query postgres for accounting period ends by week serial for ${new Date(
       config.salesOrders.startDate

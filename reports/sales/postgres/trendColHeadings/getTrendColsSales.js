@@ -1,6 +1,8 @@
 const sql = require('../../../../server')
 
 const getTrendColsSales = async config => {
+  if (!config.trends.queryGrouping) return []
+
   console.log(
     `${config.user} - getTrendColsWeeks, query postgres for column periods ${new Date(
       config.trends.startDate

@@ -5,6 +5,7 @@ const buildReport = async (config) => {
   const salesDataPromises = [] // has sales price and margin
   const invenDataPromises = [] // has only cost
   const rowDataPromises = [] // labels only
+  const trendColumnPromises = []
 
   ///////////////////////////////// INVENTORY DATA
 
@@ -78,6 +79,56 @@ const buildReport = async (config) => {
   rowDataPromises.push(m.l4_getRowLabels(config))
   rowDataPromises.push(m.l5_getRowLabels(config))
 
+  ///////////////////////////////// TREND COLUMNS
+  trendColumnPromises.push(m.getTrendColsSales(config))
+  trendColumnPromises.push(m.getTrendColsSo(config))
+
+  /* RUN DATA */
+
+  const salesDataResults = await Promise.all(salesDataPromises)
+  const salesData = salesDataResults.reduce((acc, cur) => {
+    return acc.concat(cur)
+  }, [])
+
+  const invenDataResults = await Promise.all(invenDataPromises)
+  const invenData = invenDataResults.reduce((acc, cur) => {
+    return acc.concat(cur)
+  }, [])
+
+  const rowDataResults = await Promise.all(rowDataPromises)
+  const rowData = rowDataResults.reduce((acc, cur) => {
+    return acc.concat(cur)
+  }, [])
+
+  const trendColumnResults = await Promise.all(trendColumnPromises)
+  const trendColumns = trendColumnResults.reduce((acc, cur) => {
+    return acc.concat(cur)
+  })
+
+   /* BUILD ROW MAP */
+
+   const rowTemplate = m.sortRowTemplate(rowData)
+   let keyMap = {}
+   for (let i = 0; i < config.baseFormat.groupingLevel; i++) {
+    // build composite key for unflatten:
+    keyMap[i + 1] = `l${i + 1}_label`
+   }
+   // { 1: 'l1_label', 2: 'l2_label' }, { 1: 'l1_label', 2: 'l2_label', 3: 'l3_label' }
+   const rowTemplate_unflat = m.unflattenByCompositKey(rowTemplate, keyMap) 
+
+
+    /* MAP DATA TO ROWS */
+
+    const mappedSales = m.mapSalesToRowTemplates(salesData, rowTemplate_unflat, config)
+    const mappedInven = m.mapInvenToRowTemplates(invenData, rowTemplate_unflat, config)
+    const mappedData = m.combineMappedRows(mappedSales, mappedInven)
+    const flattenedMappedData = Object.values(mappedData)
+    const data = m.cleanLabelsForDisplay(flattenedMappedData, config)
+
+// Add data to hardcoded columns
+let columnConfigsTagged = m.addDataToSalesTotalCol(config, m.columnConfigs) // adds startDate, endDate, and displayName to the sales totals col
+columnConfigsTagged = m.addDataToSoTotalCol(config, m.columnConfigs) // adds statDate, endDate, and displayName to the sales orders col
+columnConfigsTagged = m.addDataToSalesTrendCol(config,  m.columnConfigs) // adds useProjection data
 
   // % COMPANY SALES
 
@@ -164,73 +215,12 @@ const buildReport = async (config) => {
   */
 
 
-
-  // COMPILE FINAL ROW TEMPLATE
-
-  const rowDataResults = await Promise.all(rowDataPromises)
-  const rowData = rowDataResults.reduce((acc, cur) => {
-    return acc.concat(cur)
-  }, [])
-
-  const rowTemplate = m.sortRowTemplate(rowData)
-
-
-  let keyMap = {}
-  for (let i = 0; i < config.baseFormat.groupingLevel; i++) {
-   // build composite key for unflatten:
-   keyMap[i + 1] = `l${i + 1}_label`
-  }
-  // { 1: 'l1_label', 2: 'l2_label' }, { 1: 'l1_label', 2: 'l2_label', 3: 'l3_label' }
-
-  const rowTemplate_unflat = m.unflattenByCompositKey(rowTemplate, keyMap) 
-
-  /* Map data to row template */
-
-  const salesDataResults = await Promise.all(salesDataPromises)
-  const salesData = salesDataResults.reduce((acc, cur) => {
-    return acc.concat(cur)
-  }, [])
-  const mappedSales = m.mapSalesToRowTemplates(salesData, rowTemplate_unflat, config)
-
-  const invenDataResults = await Promise.all(invenDataPromises)
-  const invenData = invenDataResults.reduce((acc, cur) => {
-    return acc.concat(cur)
-  }, [])
-  const mappedInven = m.mapInvenToRowTemplates(invenData, rowTemplate_unflat, config)
-
-  const mappedData = m.combineMappedRows(mappedSales, mappedInven)
-  const flattenedMappedData = Object.values(mappedData)
-  const data = m.cleanLabelsForDisplay(flattenedMappedData, config)
-
-  /* Trend Columns */
-  const trendColsSalesF = !config.trends.queryGrouping ? skip() : () => {return  m.getTrendColsSales(config)}
-  const trendColsSoF = config.trends.queryGrouping ? () => {return  m.getTrendColsSo(config)} : skip() 
- 
-  // Call all column functions
-  const [
-    trendColsSales, 
-    trendColsSo, 
-  ] = await Promise.all([
-    trendColsSalesF(), 
-    trendColsSoF(), 
-  ])
-  
-  
-  let columnConfigsTagged = m.addDataToSalesTotalCol(config, m.columnConfigs) // adds startDate, endDate, and displayName to the sales totals col
-  columnConfigsTagged = m.addDataToSoTotalCol(config, m.columnConfigs) // adds statDate, endDate, and displayName to the sales orders col
-  columnConfigsTagged = m.addDataToSalesTrendCol(config,  m.columnConfigs) // adds useProjection data
-  
   return {
     data,
     cols: {
-      trendColsSales,
+      trendColumns,
       labelCols: config.labelCols,
-      trendColsSo,
       columnConfigs: columnConfigsTagged,
-      defaultTrend: {
-        dataName: m.columnConfigs.primarySalesTotalCol[0].dataName,
-        colType: m.columnConfigs.primarySalesTotalCol[0].colType
-      }
     },
   }
 }
