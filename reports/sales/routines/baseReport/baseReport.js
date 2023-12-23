@@ -167,9 +167,11 @@ const buildReport = async (config) => {
 
   // COMPILE FINAL ROW TEMPLATE
 
-  const rowData = await Promise.all(rowDataPromises).reduce((acc, cur) => {
+  const rowDataResults = await Promise.all(rowDataPromises)
+  const rowData = rowDataResults.reduce((acc, cur) => {
     return acc.concat(cur)
   }, [])
+
   const rowTemplate = m.sortRowTemplate(rowData)
 
 
@@ -184,12 +186,14 @@ const buildReport = async (config) => {
 
   /* Map data to row template */
 
-  const salesData = await Promise.all(salesDataPromises).reduce((acc, cur) => {
+  const salesDataResults = await Promise.all(salesDataPromises)
+  const salesData = salesDataResults.reduce((acc, cur) => {
     return acc.concat(cur)
   }, [])
   const mappedSales = m.mapSalesToRowTemplates(salesData, rowTemplate_unflat, config)
 
-  const invenData = await Promise.all(invenDataPromises).reduce((acc, cur) => {
+  const invenDataResults = await Promise.all(invenDataPromises)
+  const invenData = invenDataResults.reduce((acc, cur) => {
     return acc.concat(cur)
   }, [])
   const mappedInven = m.mapInvenToRowTemplates(invenData, rowTemplate_unflat, config)
