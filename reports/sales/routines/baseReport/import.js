@@ -68,12 +68,13 @@ module.exports = {
   l5_getSoTrend: require('../../postgres/baseReport/getSoTrend').l5_getSoTrend,
   l0_getSoTrend: require('../../postgres/baseReport/getSoTrend').l0_getSoTrend,
 
-  // Get Rows
-  getRowsFifthLevelDetail: require('../../postgres/baseReport/getRows').getRowsFifthLevelDetail,
-  getRowsFourthLevelDetail: require('../../postgres/baseReport/getRows').getRowsFourthLevelDetail,
-  getRowsThirdLevelDetail: require('../../postgres/baseReport/getRows').getRowsThirdLevelDetail,
-  getRowsSecondLevelDetail: require('../../postgres/baseReport/getRows').getRowsSecondLevelDetail,
-  getRowsFirstLevelDetail: require('../../postgres/baseReport/getRows').getRowsFirstLevelDetail,
+  // Get Row Labels
+  l0_getRowLabels: require('../../postgres/baseReport/getRowLabels').l0_getRowLabels,
+  l1_getRowLabels: require('../../postgres/baseReport/getRowLabels').l1_getRowLabels,
+  l2_getRowLabels: require('../../postgres/baseReport/getRowLabels').l2_getRowLabels,
+  l3_getRowLabels: require('../../postgres/baseReport/getRowLabels').l3_getRowLabels,
+  l4_getRowLabels: require('../../postgres/baseReport/getRowLabels').l4_getRowLabels,
+  l5_getRowLabels: require('../../postgres/baseReport/getRowLabels').l5_getRowLabels,
 
   // Model Functions
   mapSalesToRowTemplates: require('../../../utils/mapSalesToRowTemplates'),

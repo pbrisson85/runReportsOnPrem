@@ -14,36 +14,34 @@ const getTrailingWeeks = async (totalsStartDate, totalsEndDate) => {
     {
       weeks: await getWeekForDate(closestYtdWeekEndDate),
       start: closestYtdWeekStartDate,
-      end: new Date(closestYtdWeekEndDate),
+      end: closestYtdWeekEndDate,
       dataName: 'aveWeeklySales', // matches kpi columns
     },
     {
       weeks: 2,
       start: getTrailingWeeksStartDate(2, closestYtdWeekEndDate),
-      end: new Date(closestYtdWeekEndDate),
+      end: closestYtdWeekEndDate,
       dataName: 'twoWkAveSales', // matches kpi columns
     },
     {
       weeks: 4,
       start: getTrailingWeeksStartDate(4, closestYtdWeekEndDate),
-      end: new Date(closestYtdWeekEndDate),
+      end: closestYtdWeekEndDate,
       dataName: 'fourWkAveSales', // matches kpi columns
     },
     {
       weeks: 8,
       start: getTrailingWeeksStartDate(8, closestYtdWeekEndDate),
-      end: new Date(closestYtdWeekEndDate),
+      end: closestYtdWeekEndDate,
       dataName: 'eightWkAveSales', // matches kpi columns
     },
     {
       weeks: 12,
       start: getTrailingWeeksStartDate(12, closestYtdWeekEndDate),
-      end: new Date(closestYtdWeekEndDate),
+      end: closestYtdWeekEndDate,
       dataName: 'twelveWkAveSales', // matches kpi columnse
     },
   ]
-
-  console.log('trailingWeeksConfig', trailingWeeksConfig)
 
   return trailingWeeksConfig
 }
