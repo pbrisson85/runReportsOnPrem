@@ -214,6 +214,7 @@ columnConfigsTagged = m.addDataToSalesTrendCol(config,  m.columnConfigs) // adds
   const l5_invAvailable = config.baseFormat.l5_field ? m.calcInventoryAvailable(l5_InvR, l5_OpenPoR, l5_soR, 'invenAvailable') : []
   */
 
+  console.log('data', data)
   console.log('trendColumns', trendColumns)
 
   return {
