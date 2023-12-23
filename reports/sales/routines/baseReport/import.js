@@ -1,6 +1,7 @@
 module.exports = {
   // Cols
   columnConfigs: require('../../data/baseCols/columns'),
+  trendColsTemplate: require('../../data/baseCols/trendColsTemplate'),
 
   // Trend Cols
   getTrendColsSales: require('../../postgres/trendColHeadings/getTrendColsSales').getTrendColsSales,

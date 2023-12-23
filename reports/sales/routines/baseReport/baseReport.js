@@ -130,6 +130,14 @@ let columnConfigsTagged = m.addDataToSalesTotalCol(config, m.columnConfigs) // a
 columnConfigsTagged = m.addDataToSoTotalCol(config, m.columnConfigs) // adds statDate, endDate, and displayName to the sales orders col
 columnConfigsTagged = m.addDataToSalesTrendCol(config,  m.columnConfigs) // adds useProjection data
 
+// Add template to trend cols:
+trendColumnsTagged = trendColumns.map(col => {
+  return {
+    ...col,
+    ...m.trendColsTemplate
+  }
+})
+
   // % COMPANY SALES
 
   /* 
@@ -215,12 +223,12 @@ columnConfigsTagged = m.addDataToSalesTrendCol(config,  m.columnConfigs) // adds
   */
 
   console.log('data', data)
-  console.log('trendColumns', trendColumns)
+  console.log('trendColumns', trendColumnsTagged)
 
   return {
     data,
     cols: {
-      trendColumns, //<-- FRONT END NOT HANDLING THIS YET. *********************************
+      trendColumns: trendColumnsTagged, //<-- FRONT END NOT HANDLING THIS YET. *********************************
       labelCols: config.labelCols,
       columnConfigs: columnConfigsTagged,
     },

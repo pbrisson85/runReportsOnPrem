@@ -14,7 +14,8 @@ const getTrendColsSo = async config => {
       ${sql(config.trends.queryGrouping)} || '_so' AS dataName, 
         TO_CHAR(MAX(p.formatted_date),'MM/DD/YY') AS displayName, 
         MIN(p.formatted_date) AS start_date,  
-        MAX(p.formatted_date) AS end_date
+        MAX(p.formatted_date) AS end_date,
+        'salesOrder' AS "colType" -- should match the colType as the col that drives what is seen on front end via double click
     
     FROM "accountingPeriods".period_by_day AS p
     
