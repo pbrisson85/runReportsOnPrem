@@ -76,6 +76,14 @@ module.exports = {
   l4_getRowLabels: require('../../postgres/baseReport/getRowLabels').l4_getRowLabels,
   l5_getRowLabels: require('../../postgres/baseReport/getRowLabels').l5_getRowLabels,
 
+  // Get Row Labels
+  l0_getAveSales: require('../../postgres/baseReport/getAveSales').l0_getAveSales,
+  l1_getAveSales: require('../../postgres/baseReport/getAveSales').l1_getAveSales,
+  l2_getAveSales: require('../../postgres/baseReport/getAveSales').l2_getAveSales,
+  l3_getAveSales: require('../../postgres/baseReport/getAveSales').l3_getAveSales,
+  l4_getAveSales: require('../../postgres/baseReport/getAveSales').l4_getAveSales,
+  l5_getAveSales: require('../../postgres/baseReport/getAveSales').l5_getAveSales,
+
   // Model Functions
   mapSalesToRowTemplates: require('../../../utils/mapSalesToRowTemplates'),
   mapInvenToRowTemplates: require('../../../utils/mapInvenToRowTemplates'),
