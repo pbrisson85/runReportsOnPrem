@@ -17,11 +17,10 @@ const getClosestWeekEndDate = async totalsEndDate => {
             ) 
             AND t.fiscal_year = (
                 SELECT 
-                    tt.fiscal_year 
-                FROM "accountingPeriods".period_by_day AS tt 
-                WHERE tt.formatted_date = ${totalsStartDate}
+                    ttt.fiscal_year 
+                FROM "accountingPeriods".period_by_day AS ttt 
+                WHERE ttt.formatted_date = ${totalsStartDate}
                 )
-            )
         `
 
   return closestWeekEndDate[0]?.date
