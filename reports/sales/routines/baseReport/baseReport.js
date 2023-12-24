@@ -222,13 +222,12 @@ const trendColumnsTagged = trendColumns.map(col => {
   const l5_invAvailable = config.baseFormat.l5_field ? m.calcInventoryAvailable(l5_InvR, l5_OpenPoR, l5_soR, 'invenAvailable') : []
   */
 
-  console.log('data', data)
-  console.log('trendColumns', trendColumnsTagged)
+
 
   return {
     data,
     cols: {
-      trendColumns: trendColumnsTagged, //<-- FRONT END NOT HANDLING THIS YET. *********************************
+      trendColumns: trendColumnsTagged, 
       labelCols: config.labelCols,
       columnConfigs: columnConfigsTagged,
     },
