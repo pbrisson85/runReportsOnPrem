@@ -8,9 +8,9 @@ const l1_getAveSales = async config => {
   try {
     console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getAveSales) ...`)
 
-    const trailingWeeks = []
+    const promises = []
     for (trailingWeek of config.trailingWeeks) {
-      const response = await sql
+      promises.push(sql
         `SELECT ${trailingWeek.dataName} AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs)/${trailingWeek.weeks} AS lbs, SUM(pj.sales)/${trailingWeek.weeks} AS sales, SUM(pj.cogs)/${trailingWeek.weeks} AS cogs, SUM(pj.othp)/${trailingWeek.weeks} AS othp
         
         FROM (
@@ -61,11 +61,15 @@ const l1_getAveSales = async config => {
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
   
-            GROUP BY ${sql(config.baseFormat.l1_field)} ` //prettier-ignore
-
-      trailingWeeks.push(...response)
+            GROUP BY ${sql(config.baseFormat.l1_field)} `) //prettier-ignore
     }
-    return trailingWeeks
+    const results = await Promise.all(promises)
+
+    const reduced = results.reduce((acc, cur) => {
+      return acc.concat(cur)
+    }, [])
+
+    return reduced
   } catch (error) {
     console.error(error)
     return error
@@ -78,9 +82,9 @@ const l2_getAveSales = async config => {
   try {
     console.log(`${config.user} - level 2: query postgres to get FG sales data period total (l2_getAveSales) ...`)
 
-    const trailingWeeks = []
+    const promises = []
     for (trailingWeek of config.trailingWeeks) {
-      const response = await sql
+      promises.push(sql
       `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, SUM(pj.lbs)/${trailingWeek.weeks} AS lbs, SUM(pj.sales)/${trailingWeek.weeks} AS sales, SUM(pj.cogs)/${trailingWeek.weeks} AS cogs, SUM(pj.othp)/${trailingWeek.weeks} AS othp
       
       FROM (
@@ -131,11 +135,15 @@ const l2_getAveSales = async config => {
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
-      GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}` //prettier-ignore
-
-      trailingWeeks.push(...response)
+      GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}`) //prettier-ignore
     }
-    return trailingWeeks
+    const results = await Promise.all(promises)
+
+    const reduced = results.reduce((acc, cur) => {
+      return acc.concat(cur)
+    }, [])
+
+    return reduced
   } catch (error) {
     console.error(error)
     return error
