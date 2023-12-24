@@ -79,6 +79,8 @@ const l1_getAveSales = async config => {
 const l2_getAveSales = async config => {
   if (!config.baseFormat.l2_field) return []
 
+  console.log('THERE IS l2 FIELD !!!!!!!!!!!!!!')
+
   try {
     console.log(`${config.user} - level 2: query postgres to get FG sales data period total (l2_getAveSales) ...`)
 
@@ -142,6 +144,8 @@ const l2_getAveSales = async config => {
     const reduced = results.reduce((acc, cur) => {
       return acc.concat(cur)
     }, [])
+
+    console.log('reduced', reduced)
 
     return reduced
   } catch (error) {
