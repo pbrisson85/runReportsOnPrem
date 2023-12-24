@@ -50,6 +50,7 @@ const salesOrdersCol = [
     ],
     colType: 'salesOrder', // Make sure to update the getViewFilter on the back end to allow this colType in the view
     allowTrend: true,
+    trendDefault: false, // will be the default trend col if true
     drillDownSortable: true,
     optional: true, // flag to determine if the col is optional
     showByDefault: true, // flag to determine if optional col is shown by default
