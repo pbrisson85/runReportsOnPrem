@@ -33,13 +33,13 @@ const mapSalesToRowTemplates = (salesLines, rowTemplate, config, viewTrend) => {
       }
     }
 
-    let { sales, lbs, cogs, othp, column, percentFormat, sales_net, gross_margin } = soLine
+    let { sales, lbs, cogs, othp, column, percentFormat, net_sales, gross_margin } = soLine
 
     // For percent cols
     if (percentFormat) {
       weight = lbs
       revenue = sales
-      netSales = sales_net
+      netSales = net_sales
       grossMargin = gross_margin
 
       // Still want it to show the % even if viewing per lb metric in the data
