@@ -5,6 +5,7 @@ const buildReport = async config => {
   const invenDataPromises = [] // has only cost
   const rowDataPromises = [] // labels only
   const trendColumnPromises = []
+  const kpiHelperPromises = []
 
   ///////////////////////////////// INVENTORY DATA
 
@@ -62,6 +63,14 @@ const buildReport = async config => {
 
   ///////////////////////////////// SALES KPIS
 
+  // KPI HELPERS
+
+  kpiHelperPromises.push(m.getCompanyTotalSales(config))
+  kpiHelperPromises.push(m.getProgramTotalSales(config))
+  kpiHelperPromises.push(m.getSpeciesGroupTotalSales(config))
+
+  const [companyTotalSales, programTotalSales, speciesGroupTotalSales] = await Promise.all(kpiHelperPromises)
+
   // AVE WEEKLY SALES
   salesDataPromises.push(m.l0_getAveSales(config))
   salesDataPromises.push(m.l1_getAveSales(config))
@@ -71,13 +80,12 @@ const buildReport = async config => {
   salesDataPromises.push(m.l5_getAveSales(config))
 
   // % COMPANY SALES
-
-  salesDataPromises.push(m.l0_getPercentOfCompanySales(config))
-  salesDataPromises.push(m.l1_getPercentOfCompanySales(config))
-  salesDataPromises.push(m.l2_getPercentOfCompanySales(config))
-  salesDataPromises.push(m.l3_getPercentOfCompanySales(config))
-  salesDataPromises.push(m.l4_getPercentOfCompanySales(config))
-  salesDataPromises.push(m.l5_getPercentOfCompanySales(config))
+  salesDataPromises.push(m.l0_getPercentOfCompanySales(config, companyTotalSales))
+  salesDataPromises.push(m.l1_getPercentOfCompanySales(config, companyTotalSales))
+  salesDataPromises.push(m.l2_getPercentOfCompanySales(config, companyTotalSales))
+  salesDataPromises.push(m.l3_getPercentOfCompanySales(config, companyTotalSales))
+  salesDataPromises.push(m.l4_getPercentOfCompanySales(config, companyTotalSales))
+  salesDataPromises.push(m.l5_getPercentOfCompanySales(config, companyTotalSales))
 
   ///////////////////////////////// ROW LABELS
   rowDataPromises.push(m.l0_getRowLabels(config))
