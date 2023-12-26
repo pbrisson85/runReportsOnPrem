@@ -7,7 +7,7 @@ const l1_getPercentSales = async (config, denominator, colName) => {
     console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getPercentSales: ${colName}) ...`)
 
     const response = await sql
-      `SELECT ${colName} AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${(denominator.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(denominator.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(denominator.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(denominator.othp)},0) AS othp
+      `SELECT ${`colName`} AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${(denominator.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(denominator.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(denominator.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(denominator.othp)},0) AS othp
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -333,6 +333,8 @@ const l5_getPercentSales = async (config, denominator, colName) => {
 const l0_getPercentSales = async (config, denominator, colName) => {
   try {
     console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getPercentSales: ${colName}) ...`)
+
+    console.log('denominator', denominator)
 
     const response = await sql
       `
