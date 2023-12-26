@@ -1,3 +1,5 @@
+const sql = require('../../../../server')
+
 const l0_getReportTotalSales = async config => {
   try {
     console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getSalesTotalPrimary) ...`)
