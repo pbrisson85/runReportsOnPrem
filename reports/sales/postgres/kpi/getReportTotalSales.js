@@ -6,7 +6,7 @@ const l0_getReportTotalSales = async config => {
 
     const response = await sql
         `
-        SELECT 'SALES TOTAL' AS column, 'TOTAL' AS l1_label, SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
+        SELECT SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
         
         FROM (
           SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
