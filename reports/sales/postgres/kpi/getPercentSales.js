@@ -334,7 +334,7 @@ const l0_getPercentSales = async (config, denominator, colName) => {
   try {
     console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getPercentSales: ${colName}) ...`)
 
-    console.log('denominator', denominator)
+    console.log(`denominator: ${colName}`, denominator)
 
     const response = await sql
       `
