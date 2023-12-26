@@ -68,8 +68,9 @@ const buildReport = async config => {
   kpiHelperPromises.push(m.getCompanyTotalSales(config))
   kpiHelperPromises.push(m.getProgramTotalSales(config))
   kpiHelperPromises.push(m.getSpeciesGroupTotalSales(config))
+  kpiHelperPromises.push(m.getReportTotalSales(config))
 
-  const [companyTotalSales, programTotalSales, speciesGroupTotalSales] = await Promise.all(kpiHelperPromises)
+  const [companyTotalSales, programTotalSales, speciesGroupTotalSales, reportTotalSales] = await Promise.all(kpiHelperPromises)
 
   // AVE WEEKLY SALES
   salesDataPromises.push(m.l0_getAveSales(config))
@@ -80,12 +81,36 @@ const buildReport = async config => {
   salesDataPromises.push(m.l5_getAveSales(config))
 
   // % COMPANY SALES
-  salesDataPromises.push(m.l0_getPercentOfCompanySales(config, companyTotalSales))
-  salesDataPromises.push(m.l1_getPercentOfCompanySales(config, companyTotalSales))
-  salesDataPromises.push(m.l2_getPercentOfCompanySales(config, companyTotalSales))
-  salesDataPromises.push(m.l3_getPercentOfCompanySales(config, companyTotalSales))
-  salesDataPromises.push(m.l4_getPercentOfCompanySales(config, companyTotalSales))
-  salesDataPromises.push(m.l5_getPercentOfCompanySales(config, companyTotalSales))
+  salesDataPromises.push(m.l0_getPercentSales(config, companyTotalSales, 'percentCompanySales'))
+  salesDataPromises.push(m.l1_getPercentSales(config, companyTotalSales, 'percentCompanySales'))
+  salesDataPromises.push(m.l2_getPercentSales(config, companyTotalSales, 'percentCompanySales'))
+  salesDataPromises.push(m.l3_getPercentSales(config, companyTotalSales, 'percentCompanySales'))
+  salesDataPromises.push(m.l4_getPercentSales(config, companyTotalSales, 'percentCompanySales'))
+  salesDataPromises.push(m.l5_getPercentSales(config, companyTotalSales, 'percentCompanySales'))
+
+  // % PROGRAM SALES
+  salesDataPromises.push(m.l0_getPercentSales(config, programTotalSales, 'percentProgramSales'))
+  salesDataPromises.push(m.l1_getPercentSales(config, programTotalSales, 'percentProgramSales'))
+  salesDataPromises.push(m.l2_getPercentSales(config, programTotalSales, 'percentProgramSales'))
+  salesDataPromises.push(m.l3_getPercentSales(config, programTotalSales, 'percentProgramSales'))
+  salesDataPromises.push(m.l4_getPercentSales(config, programTotalSales, 'percentProgramSales'))
+  salesDataPromises.push(m.l5_getPercentSales(config, programTotalSales, 'percentProgramSales'))
+
+  // % SPECIES GROUP SALES
+  salesDataPromises.push(m.l0_getPercentSales(config, speciesGroupTotalSales, 'percentSpeciesGroupSales'))
+  salesDataPromises.push(m.l1_getPercentSales(config, speciesGroupTotalSales, 'percentSpeciesGroupSales'))
+  salesDataPromises.push(m.l2_getPercentSales(config, speciesGroupTotalSales, 'percentSpeciesGroupSales'))
+  salesDataPromises.push(m.l3_getPercentSales(config, speciesGroupTotalSales, 'percentSpeciesGroupSales'))
+  salesDataPromises.push(m.l4_getPercentSales(config, speciesGroupTotalSales, 'percentSpeciesGroupSales'))
+  salesDataPromises.push(m.l5_getPercentSales(config, speciesGroupTotalSales, 'percentSpeciesGroupSales'))
+
+  // % REPORT SALES
+  salesDataPromises.push(m.l0_getPercentSales(config, reportTotalSales, 'percentReportTotal'))
+  salesDataPromises.push(m.l1_getPercentSales(config, reportTotalSales, 'percentReportTotal'))
+  salesDataPromises.push(m.l2_getPercentSales(config, reportTotalSales, 'percentReportTotal'))
+  salesDataPromises.push(m.l3_getPercentSales(config, reportTotalSales, 'percentReportTotal'))
+  salesDataPromises.push(m.l4_getPercentSales(config, reportTotalSales, 'percentReportTotal'))
+  salesDataPromises.push(m.l5_getPercentSales(config, reportTotalSales, 'percentReportTotal'))
 
   ///////////////////////////////// ROW LABELS
   rowDataPromises.push(m.l0_getRowLabels(config))
@@ -155,20 +180,6 @@ const buildReport = async config => {
 
   /* 
 
- 
-
-  const companyTotalSales = () => {return m.getCompanyTotalSales(config)}
-  const programTotalSales = () => {return m.getProgramTotalSales(config)}
-  const speciesGroupTotalSales = () => {return m.getSpeciesGroupTotalSales(config)}  
-
-  // Define numerators and denominators to use
-  let l0_reportSales = l0_salesPeriodToDateR
-  let l1_reportSales = l1_salesPeriodToDateR
-  let l2_reportSales = l2_salesPeriodToDateR
-  let l3_reportSales = l3_salesPeriodToDateR
-  let l4_reportSales = l4_salesPeriodToDateR
-  let l5_reportSales = l5_salesPeriodToDateR
-
   // % YoY YTD SALES
   const l0_yoyYtd_companySales = !config.trends.fyYtd ? [] : m.calcYoyYtdSalesCol(l0_salesByFyYtdR, 'yoyYtdSales')
   const l1_yoyYtd_companySales = !config.trends.fyYtd ? [] : m.calcYoyYtdSalesCol(l1_salesByFyYtdR, 'yoyYtdSales')
@@ -176,34 +187,7 @@ const buildReport = async config => {
   const l3_yoyYtd_companySales = !config.trends.fyYtd ? [] : config.baseFormat.l3_field ? m.calcYoyYtdSalesCol(l3_salesByFyYtdR, 'yoyYtdSales') : [] 
   const l4_yoyYtd_companySales = !config.trends.fyYtd ? [] : config.baseFormat.l4_field ? m.calcYoyYtdSalesCol(l4_salesByFyYtdR, 'yoyYtdSales') : [] 
   const l5_yoyYtd_companySales = !config.trends.fyYtd ? [] : config.baseFormat.l5_field ? m.calcYoyYtdSalesCol(l5_salesByFyYtdR, 'yoyYtdSales') : [] 
-
-  
-
-  // % PROGRAM SALES 
-  const l0_percent_programSales = !config.baseFilters.program ? [] : m.calcPercentSalesCol(programTotalSalesR, l0_reportSales, 'percentProgramSales')
-  const l1_percent_programSales = !config.baseFilters.program ? [] : m.calcPercentSalesCol(programTotalSalesR, l1_reportSales, 'percentProgramSales')
-  const l2_percent_programSales = !config.baseFilters.program ? [] : m.calcPercentSalesCol(programTotalSalesR, l2_reportSales, 'percentProgramSales')
-  const l3_percent_programSales = !config.baseFilters.program || !config.baseFormat.l3_field ? [] : m.calcPercentSalesCol(programTotalSalesR, l3_reportSales, 'percentProgramSales')
-  const l4_percent_programSales = !config.baseFilters.program || !config.baseFormat.l4_field ? [] : m.calcPercentSalesCol(programTotalSalesR, l4_reportSales, 'percentProgramSales') 
-  const l5_percent_programSales = !config.baseFilters.program || !config.baseFormat.l5_field ? [] : m.calcPercentSalesCol(programTotalSalesR, l5_reportSales, 'percentProgramSales') 
-
-  // % SPECIES GROUP SALES 
-  // look up species group based on program
-  const l0_percent_speciesGroupSales = !config.baseFilters.program ? [] : m.calcPercentSalesCol(speciesGroupTotalSalesR[0], l0_reportSales, 'percentSpeciesGroupSales')
-  const l1_percent_speciesGroupSales = !config.baseFilters.program ? [] : m.calcPercentSalesCol(speciesGroupTotalSalesR[0], l1_reportSales, 'percentSpeciesGroupSales') 
-  const l2_percent_speciesGroupSales = !config.baseFilters.program ? [] : m.calcPercentSalesCol(speciesGroupTotalSalesR[0], l2_reportSales, 'percentSpeciesGroupSales') 
-  const l3_percent_speciesGroupSales = !config.baseFilters.program || !config.baseFormat.l3_field ? [] : m.calcPercentSalesCol(speciesGroupTotalSalesR[0], l3_reportSales, 'percentSpeciesGroupSales')
-  const l4_percent_speciesGroupSales = !config.baseFilters.program || !config.baseFormat.l4_field ? [] : m.calcPercentSalesCol(speciesGroupTotalSalesR[0], l4_reportSales, 'percentSpeciesGroupSales')
-  const l5_percent_speciesGroupSales = !config.baseFilters.program || !config.baseFormat.l5_field ? [] : m.calcPercentSalesCol(speciesGroupTotalSalesR[0], l5_reportSales, 'percentSpeciesGroupSales')
- 
-  // % REPORT TOTAL 
-  const l0_percent_reportTotal = m.calcPercentSalesCol(l0_reportSales[0], l0_reportSales, 'percentReportTotal')
-  const l1_percent_reportTotal = m.calcPercentSalesCol(l0_reportSales[0], l1_reportSales, 'percentReportTotal')
-  const l2_percent_reportTotal = m.calcPercentSalesCol(l0_reportSales[0], l2_reportSales, 'percentReportTotal')
-  const l3_percent_reportTotal = config.baseFormat.l3_field ? m.calcPercentSalesCol(l0_reportSales[0], l3_reportSales, 'percentReportTota') : [] 
-  const l4_percent_reportTotal = config.baseFormat.l4_field ? m.calcPercentSalesCol(l0_reportSales[0], l4_reportSales, 'percentReportTota') : [] 
-  const l5_percent_reportTotal = config.baseFormat.l5_field ? m.calcPercentSalesCol(l0_reportSales[0], l5_reportSales, 'percentReportTota') : [] 
-  
+    
   // MOMENTUM 
   const l0_momentum = m.calcMomentum(l0_fourWkAveSales, l0_twelveWkAveSales, 'momentum')
   const l1_momentum = m.calcMomentum(l1_fourWkAveSales, l1_twelveWkAveSales, 'momentum')

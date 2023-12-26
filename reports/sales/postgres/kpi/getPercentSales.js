@@ -1,15 +1,13 @@
 const sql = require('../../../../server')
 
-const l1_getPercentOfCompanySales = async (config, companyTotalSales) => {
+const l1_getPercentSales = async (config, denominator, colName) => {
   if (!config.baseFormat.l1_field) return []
 
-  console.log('companyTotalSales', companyTotalSales)
-
   try {
-    console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getPercentOfCompanySales) ...`)
+    console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getPercentSales) ...`)
 
     const response = await sql
-      `SELECT 'percentCompanySales' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${(companyTotalSales.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(companyTotalSales.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(companyTotalSales.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(companyTotalSales.othp)},0) AS othp
+      `SELECT ${colName} AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${(denominator.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(denominator.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(denominator.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(denominator.othp)},0) AS othp
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -68,14 +66,14 @@ const l1_getPercentOfCompanySales = async (config, companyTotalSales) => {
   }
 }
 
-const l2_getPercentOfCompanySales = async (config, companyTotalSales) => {
+const l2_getPercentSales = async (config, denominator, colName) => {
   if (!config.baseFormat.l2_field) return []
 
   try {
-    console.log(`${config.user} - level 2: query postgres to get FG sales data period total (l2_getPercentOfCompanySales) ...`)
+    console.log(`${config.user} - level 2: query postgres to get FG sales data period total (l2_getPercentSales) ...`)
 
     const response = await sql
-      `SELECT 'percentCompanySales' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${(companyTotalSales.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(companyTotalSales.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(companyTotalSales.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(companyTotalSales.othp)},0) AS othp
+      `SELECT ${colName} AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${(denominator.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(denominator.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(denominator.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(denominator.othp)},0) AS othp
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -134,14 +132,14 @@ const l2_getPercentOfCompanySales = async (config, companyTotalSales) => {
   }
 }
 
-const l3_getPercentOfCompanySales = async (config, companyTotalSales) => {
+const l3_getPercentSales = async (config, denominator, colName) => {
   if (!config.baseFormat.l3_field) return []
 
   try {
-    console.log(`${config.user} - level 3: query postgres to get FG sales data period total (l3_getPercentOfCompanySales) ...`)
+    console.log(`${config.user} - level 3: query postgres to get FG sales data period total (l3_getPercentSales) ...`)
 
     const response = await sql
-      `SELECT 'percentCompanySales' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${(companyTotalSales.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(companyTotalSales.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(companyTotalSales.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(companyTotalSales.othp)},0) AS othp
+      `SELECT ${colName} AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${(denominator.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(denominator.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(denominator.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(denominator.othp)},0) AS othp
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -200,14 +198,14 @@ const l3_getPercentOfCompanySales = async (config, companyTotalSales) => {
   }
 }
 
-const l4_getPercentOfCompanySales = async (config, companyTotalSales) => {
+const l4_getPercentSales = async (config, denominator, colName) => {
   if (!config.baseFormat.l4_field) return []
 
   try {
-    console.log(`${config.user} - level 4: query postgres to get FG sales data period total (l4_getPercentOfCompanySales) ...`)
+    console.log(`${config.user} - level 4: query postgres to get FG sales data period total (l4_getPercentSales) ...`)
 
     const response = await sql
-      `SELECT 'percentCompanySales' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${(companyTotalSales.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(companyTotalSales.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(companyTotalSales.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(companyTotalSales.othp)},0) AS othp
+      `SELECT ${colName} AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${(denominator.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(denominator.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(denominator.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(denominator.othp)},0) AS othp
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -266,14 +264,14 @@ const l4_getPercentOfCompanySales = async (config, companyTotalSales) => {
   }
 }
 
-const l5_getPercentOfCompanySales = async (config, companyTotalSales) => {
+const l5_getPercentSales = async (config, denominator, colName) => {
   if (!config.baseFormat.l5_field) return []
 
   try {
-    console.log(`${config.user} - level 5: query postgres to get FG sales data period total (l4_getPercentOfCompanySales) ...`)
+    console.log(`${config.user} - level 5: query postgres to get FG sales data period total (l4_getPercentSales) ...`)
 
     const response = await sql
-      `SELECT 'percentCompanySales' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, COALESCE(SUM(pj.lbs)/${(companyTotalSales.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(companyTotalSales.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(companyTotalSales.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(companyTotalSales.othp)},0) AS othp
+      `SELECT ${colName} AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, COALESCE(SUM(pj.lbs)/${(denominator.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(denominator.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(denominator.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(denominator.othp)},0) AS othp
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -332,13 +330,13 @@ const l5_getPercentOfCompanySales = async (config, companyTotalSales) => {
   }
 }
 
-const l0_getPercentOfCompanySales = async (config, companyTotalSales) => {
+const l0_getPercentSales = async (config, denominator, colName) => {
   try {
-    console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getPercentOfCompanySales) ...`)
+    console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getPercentSales) ...`)
 
     const response = await sql
       `
-      SELECT 'percentCompanySales' AS column, 'TOTAL' AS l1_label, COALESCE(SUM(pj.lbs)/${(companyTotalSales.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(companyTotalSales.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(companyTotalSales.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(companyTotalSales.othp)},0) AS othp
+      SELECT ${colName} AS column, 'TOTAL' AS l1_label, COALESCE(SUM(pj.lbs)/${(denominator.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(denominator.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(denominator.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(denominator.othp)},0) AS othp
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -397,9 +395,9 @@ const l0_getPercentOfCompanySales = async (config, companyTotalSales) => {
   }
 }
 
-module.exports.l0_getPercentOfCompanySales = l0_getPercentOfCompanySales
-module.exports.l2_getPercentOfCompanySales = l2_getPercentOfCompanySales
-module.exports.l1_getPercentOfCompanySales = l1_getPercentOfCompanySales
-module.exports.l3_getPercentOfCompanySales = l3_getPercentOfCompanySales
-module.exports.l4_getPercentOfCompanySales = l4_getPercentOfCompanySales
-module.exports.l5_getPercentOfCompanySales = l5_getPercentOfCompanySales
+module.exports.l0_getPercentSales = l0_getPercentSales
+module.exports.l2_getPercentSales = l2_getPercentSales
+module.exports.l1_getPercentSales = l1_getPercentSales
+module.exports.l3_getPercentSales = l3_getPercentSales
+module.exports.l4_getPercentSales = l4_getPercentSales
+module.exports.l5_getPercentSales = l5_getPercentSales

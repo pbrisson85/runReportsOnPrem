@@ -395,9 +395,11 @@ const l0_getSalesTotalPrimary = async config => {
   }
 }
 
-module.exports.l0_getSalesTotalPrimary = l0_getSalesTotalPrimary
-module.exports.l2_getSalesTotalPrimary = l2_getSalesTotalPrimary
-module.exports.l1_getSalesTotalPrimary = l1_getSalesTotalPrimary
-module.exports.l3_getSalesTotalPrimary = l3_getSalesTotalPrimary
-module.exports.l4_getSalesTotalPrimary = l4_getSalesTotalPrimary
-module.exports.l5_getSalesTotalPrimary = l5_getSalesTotalPrimary
+module.exports = {
+  l0_getSalesTotalPrimary,
+  l1_getSalesTotalPrimary,
+  l2_getSalesTotalPrimary,
+  l3_getSalesTotalPrimary,
+  l4_getSalesTotalPrimary,
+  l5_getSalesTotalPrimary,
+}

@@ -40,16 +40,17 @@ module.exports = {
   l4_getAveSales: require('../../postgres/kpi/getAveSales').l4_getAveSales,
   l5_getAveSales: require('../../postgres/kpi/getAveSales').l5_getAveSales,
 
-  l0_getPercentOfCompanySales: require('../../postgres/kpi/getPercentCompanySales').l0_getPercentOfCompanySales,
-  l1_getPercentOfCompanySales: require('../../postgres/kpi/getPercentCompanySales').l1_getPercentOfCompanySales,
-  l2_getPercentOfCompanySales: require('../../postgres/kpi/getPercentCompanySales').l2_getPercentOfCompanySales,
-  l3_getPercentOfCompanySales: require('../../postgres/kpi/getPercentCompanySales').l3_getPercentOfCompanySales,
-  l4_getPercentOfCompanySales: require('../../postgres/kpi/getPercentCompanySales').l4_getPercentOfCompanySales,
-  l5_getPercentOfCompanySales: require('../../postgres/kpi/getPercentCompanySales').l5_getPercentOfCompanySales,
+  l0_getPercentSales: require('../../postgres/kpi/getPercentSales').l0_getPercentSales,
+  l1_getPercentSales: require('../../postgres/kpi/getPercentSales').l1_getPercentSales,
+  l2_getPercentSales: require('../../postgres/kpi/getPercentSales').l2_getPercentSales,
+  l3_getPercentSales: require('../../postgres/kpi/getPercentSales').l3_getPercentSales,
+  l4_getPercentSales: require('../../postgres/kpi/getPercentSales').l4_getPercentSales,
+  l5_getPercentSales: require('../../postgres/kpi/getPercentSales').l5_getPercentSales,
 
   getCompanyTotalSales: require('../../postgres/kpi/getCompanyTotalSales'),
   getSpeciesGroupTotalSales: require('../../postgres/kpi/getSpeciesGroupTotalSales'),
   getProgramTotalSales: require('../../postgres/kpi/getProgramTotalSales'),
+  getReportTotalSales: require('../../postgres/kpi/getReportTotalSales'),
 
   // PO Data
   l1_getOpenPo: require('../../postgres/baseReport/getOpenPo').l1_getOpenPo,
