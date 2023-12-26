@@ -3,6 +3,8 @@ const sql = require('../../../../server')
 const l1_getPercentOfCompanySales = async (config, companyTotalSales) => {
   if (!config.baseFormat.l1_field) return []
 
+  console.log('companyTotalSales', companyTotalSales)
+
   try {
     console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getPercentOfCompanySales) ...`)
 
