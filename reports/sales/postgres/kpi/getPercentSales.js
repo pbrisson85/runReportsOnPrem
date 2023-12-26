@@ -2,6 +2,7 @@ const sql = require('../../../../server')
 
 const l1_getPercentSales = async (config, denominator, colName) => {
   if (!config.baseFormat.l1_field) return []
+  if (denominator === null) return []
 
   try {
     console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getPercentSales: ${colName}) ...`)
@@ -68,6 +69,7 @@ const l1_getPercentSales = async (config, denominator, colName) => {
 
 const l2_getPercentSales = async (config, denominator, colName) => {
   if (!config.baseFormat.l2_field) return []
+  if (denominator === null) return []
 
   try {
     console.log(`${config.user} - level 2: query postgres to get FG sales data period total (l2_getPercentSales: ${colName}) ...`)
@@ -134,6 +136,7 @@ const l2_getPercentSales = async (config, denominator, colName) => {
 
 const l3_getPercentSales = async (config, denominator, colName) => {
   if (!config.baseFormat.l3_field) return []
+  if (denominator === null) return []
 
   try {
     console.log(`${config.user} - level 3: query postgres to get FG sales data period total (l3_getPercentSales: ${colName}) ...`)
@@ -200,6 +203,7 @@ const l3_getPercentSales = async (config, denominator, colName) => {
 
 const l4_getPercentSales = async (config, denominator, colName) => {
   if (!config.baseFormat.l4_field) return []
+  if (denominator === null) return []
 
   try {
     console.log(`${config.user} - level 4: query postgres to get FG sales data period total (l4_getPercentSales: ${colName}) ...`)
@@ -266,6 +270,7 @@ const l4_getPercentSales = async (config, denominator, colName) => {
 
 const l5_getPercentSales = async (config, denominator, colName) => {
   if (!config.baseFormat.l5_field) return []
+  if (denominator === null) return []
 
   try {
     console.log(`${config.user} - level 5: query postgres to get FG sales data period total (l4_getPercentSales: ${colName}) ...`)
@@ -331,6 +336,8 @@ const l5_getPercentSales = async (config, denominator, colName) => {
 }
 
 const l0_getPercentSales = async (config, denominator, colName) => {
+  if (denominator === null) return []
+
   try {
     console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getPercentSales: ${colName}) ...`)
 
