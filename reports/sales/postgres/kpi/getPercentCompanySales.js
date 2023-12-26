@@ -120,7 +120,9 @@ const l1_getPercentOfCompanySales = async config => {
             'percentCompanySales' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/SUM(totalSales.lbs),0) AS lbs, COALESCE(SUM(pj.sales)/SUM(totalSales.sales),0) AS sales, COALESCE(SUM(pj.cogs)/SUM(totalSales.cogs),0) AS cogs, COALESCE(SUM(pj.othp)/SUM(totalSales.othp),0) AS othp
         
         FROM pj, totalSales
-      
+            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = pj.item_num
+
         GROUP BY ${sql(config.baseFormat.l1_field)} ` //prettier-ignore
 
     return response
@@ -251,6 +253,8 @@ const l2_getPercentOfCompanySales = async config => {
       SELECT 'percentCompanySales' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/SUM(totalSales.lbs),0) AS lbs, COALESCE(SUM(pj.sales)/SUM(totalSales.sales),0) AS sales, COALESCE(SUM(pj.cogs)/SUM(totalSales.cogs),0) AS cogs, COALESCE(SUM(pj.othp)/SUM(totalSales.othp),0) AS othp
       
       FROM pj, totalSales
+      LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = pj.item_num
 
       GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}` //prettier-ignore
 
@@ -380,6 +384,8 @@ const l3_getPercentOfCompanySales = async config => {
       SELECT 'percentCompanySales' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/SUM(totalSales.lbs),0) AS lbs, COALESCE(SUM(pj.sales)/SUM(totalSales.sales),0) AS sales, COALESCE(SUM(pj.cogs)/SUM(totalSales.cogs),0) AS cogs, COALESCE(SUM(pj.othp)/SUM(totalSales.othp),0) AS othp
           
       FROM pj, totalSales
+      LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = pj.item_num
 
       GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}` //prettier-ignore
 
@@ -509,6 +515,8 @@ const l4_getPercentOfCompanySales = async config => {
       SELECT 'percentCompanySales' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/SUM(totalSales.lbs),0) AS lbs, COALESCE(SUM(pj.sales)/SUM(totalSales.sales),0) AS sales, COALESCE(SUM(pj.cogs)/SUM(totalSales.cogs),0) AS cogs, COALESCE(SUM(pj.othp)/SUM(totalSales.othp),0) AS othp
          
       FROM pj, totalSales
+      LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = pj.item_num
 
       GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}` //prettier-ignore
 
@@ -638,6 +646,8 @@ const l5_getPercentOfCompanySales = async config => {
       SELECT 'percentCompanySales' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, COALESCE(SUM(pj.lbs)/SUM(totalSales.lbs),0) AS lbs, COALESCE(SUM(pj.sales)/SUM(totalSales.sales),0) AS sales, COALESCE(SUM(pj.cogs)/SUM(totalSales.cogs),0) AS cogs, COALESCE(SUM(pj.othp)/SUM(totalSales.othp),0) AS othp
              
       FROM pj, totalSales
+      LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = pj.item_num
 
       GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)}` //prettier-ignore
 
