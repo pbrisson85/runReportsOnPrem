@@ -1,8 +1,6 @@
 const sql = require('../../../../server')
 
 const getProgramTotalSales = async config => {
-  if (!config.baseFilters.program) return []
-
   try {
     console.log(`${config.user} - getProgramTotalSales ...`)
 

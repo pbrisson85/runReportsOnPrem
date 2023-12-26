@@ -1,8 +1,6 @@
 const sql = require('../../../../server')
 
 const getSpeciesGroupTotalSales = async config => {
-  if (!config.baseFilters.program) return []
-
   try {
     console.log(`${config.user} - look up species group for program ${config.baseFilters.program} ...`)
 
