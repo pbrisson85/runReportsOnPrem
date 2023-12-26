@@ -48,6 +48,8 @@ module.exports = {
   l5_getPercentOfCompanySales: require('../../postgres/kpi/getPercentCompanySales').l5_getPercentOfCompanySales,
 
   getCompanyTotalSales: require('../../postgres/kpi/getCompanyTotalSales'),
+  getSpeciesGroupTotalSales: require('../../postgres/kpi/getSpeciesGroupTotalSales'),
+  getProgramTotalSales: require('../../postgres/kpi/getProgramTotalSales'),
 
   // PO Data
   l1_getOpenPo: require('../../postgres/baseReport/getOpenPo').l1_getOpenPo,
