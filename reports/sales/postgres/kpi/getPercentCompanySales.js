@@ -60,7 +60,7 @@ const l1_getPercentOfCompanySales = async config => {
            
           `: sql``}
       ),
-      WITH pj AS (
+    pj AS (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         FROM "salesReporting".sales_line_items AS d
         WHERE
@@ -190,7 +190,7 @@ const l2_getPercentOfCompanySales = async config => {
            
           `: sql``}
       ),
-      WITH pj AS (
+       pj AS (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         FROM "salesReporting".sales_line_items AS d
         WHERE
@@ -321,7 +321,7 @@ const l3_getPercentOfCompanySales = async config => {
            
           `: sql``}
       ),
-      WITH pj AS (
+       pj AS (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         FROM "salesReporting".sales_line_items AS d
         WHERE
@@ -450,7 +450,7 @@ const l4_getPercentOfCompanySales = async config => {
            
           `: sql``}
       ),
-      WITH pj AS (
+       pj AS (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         FROM "salesReporting".sales_line_items AS d
         WHERE
@@ -579,7 +579,7 @@ const l5_getPercentOfCompanySales = async config => {
            
           `: sql``}
       ),
-      WITH pj AS (
+       pj AS (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         FROM "salesReporting".sales_line_items AS d
         WHERE
@@ -706,7 +706,7 @@ const l0_getPercentOfCompanySales = async config => {
            
           `: sql``}
       ),
-      WITH pj AS (
+       pj AS (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
         FROM "salesReporting".sales_line_items AS d
         WHERE
@@ -765,7 +765,7 @@ const l0_getPercentOfCompanySales = async config => {
       SELECT 'percentCompanySales' AS column, 'TOTAL' AS l1_label, COALESCE(SUM(pj.lbs)/SUM(totalSales.lbs),0) AS lbs, COALESCE(SUM(pj.sales)/SUM(totalSales.sales),0) AS sales, COALESCE(SUM(pj.cogs)/SUM(totalSales.cogs),0) AS cogs, COALESCE(SUM(pj.othp)/SUM(totalSales.othp),0) AS othp
       
       FROM pj, totalSales
-      
+
         
             ` //prettier-ignore
 
