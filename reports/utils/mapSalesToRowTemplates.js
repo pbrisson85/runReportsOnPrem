@@ -33,35 +33,14 @@ const mapSalesToRowTemplates = (salesLines, rowTemplate, config, viewTrend) => {
       }
     }
 
-    let {
-      sales_numerator,
-      sales_denominator,
-      lbs_numerator,
-      lbs_denominator,
-      cogs_numerator,
-      cogs_denominator,
-      othp_numerator,
-      othp_denominator,
-      sales,
-      lbs,
-      cogs,
-      othp,
-      column,
-      percentFormat,
-    } = soLine
+    let { sales, lbs, cogs, othp, column, percentFormat, sales_net, gross_margin } = soLine
 
     // For percent cols
     if (percentFormat) {
-      revenue = parseFloat(new Decimal(sales_numerator).dividedBy(sales_denominator).toFixed(2))
-      weight = parseFloat(new Decimal(lbs_numerator).dividedBy(lbs_denominator).toFixed(2))
-      cogs = parseFloat(new Decimal(cogs_numerator).dividedBy(cogs_denominator).toFixed(2))
-      othp = parseFloat(new Decimal(othp_numerator).dividedBy(othp_denominator).toFixed(2))
-      const netSales_numerator = parseFloat(new Decimal(sales_numerator).minus(othp_numerator).toFixed(2))
-      const netSales_denominator = parseFloat(new Decimal(sales_denominator).minus(othp_denominator).toFixed(2))
-      netSales = parseFloat(new Decimal(netSales_numerator).dividedBy(netSales_denominator).toFixed(2))
-      const grossMargin_numerator = parseFloat(new Decimal(sales_numerator).minus(cogs_numerator).minus(othp_numerator).toFixed(2))
-      const grossMargin_denominator = parseFloat(new Decimal(sales_denominator).minus(cogs_denominator).minus(othp_denominator).toFixed(2))
-      grossMargin = parseFloat(new Decimal(grossMargin_numerator).dividedBy(grossMargin_denominator).toFixed(2))
+      weight = lbs
+      revenue = sales
+      netSales = sales_net
+      grossMargin = gross_margin
 
       // Still want it to show the % even if viewing per lb metric in the data
       revenuePerLb = revenue
@@ -107,25 +86,5 @@ const mapSalesToRowTemplates = (salesLines, rowTemplate, config, viewTrend) => {
 
   return rowTemplateCache
 }
-
-/*
-  mappedSales
-  "PROCESSED": {
-            "row": "PROCESSED",
-            "2022-W01": {
-                "lbs": -3660,
-                "sales": -17245,
-                "net_sales": -17144.73, <-- Calculated
-                "cogs": -13828.28,
-                "othp": 100.26999999999998
-            },
-            "2022-W06": {
-                "lbs": -3660,
-                "sales": -17245,
-                "net_sales": -17144.73, <-- Calculated
-                "cogs": -13828.28,
-                "othp": 100.26999999999998
-            },
-  */
 
 module.exports = mapSalesToRowTemplates

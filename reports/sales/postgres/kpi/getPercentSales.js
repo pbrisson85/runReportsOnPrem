@@ -8,17 +8,17 @@ const l1_getPercentSales = async (config, denominator, colName) => {
     console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getPercentSales: ${colName}) ...`)
 
     const response = await sql
-      `SELECT ${`colName`} AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${(denominator.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(denominator.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(denominator.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(denominator.othp)},0) AS othp
+      `SELECT TRUE AS "percentFormat", ${`colName`} AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${(denominator.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(denominator.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(denominator.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(denominator.othp)},0) AS othp, COALESCE(SUM(pj.gross_margin)/${(denominator.gross_margin)},0) AS gross_margin, COALESCE(SUM(pj.net_sales)/${(denominator.net_sales)},0) AS net_sales
       
       FROM (
-        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp, 0 AS gross_margin, 0 AS net_sales 
         FROM "salesReporting".sales_line_items AS d
         WHERE
           1=2
 
         ${config.totals.useProjection.sl ? sql`
         UNION ALL 
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp, COALESCE(SUM(sl.gross_sales_ext)-SUM(sl.cogs_ext_gl)-SUM(sl.othp_ext),0) AS gross_margin, COALESCE(SUM(sl.gross_sales_ext)-SUM(sl.othp_ext),0) AS net_sales 
           
           FROM "salesReporting".sales_line_items AS sl 
             
@@ -28,7 +28,7 @@ const l1_getPercentSales = async (config, denominator, colName) => {
 
         ${config.totals.useProjection.so ? sql`
         UNION ALL
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp, COALESCE(SUM(so.ext_sales)-SUM(so.ext_cost)-SUM(so.ext_othp),0) AS gross_margin, COALESCE(SUM(so.ext_sales)-SUM(so.ext_othp),0) AS net_sales 
       
           FROM "salesReporting".sales_orders AS so
             
@@ -39,7 +39,7 @@ const l1_getPercentSales = async (config, denominator, colName) => {
 
         ${config.totals.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_net,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_gross,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp, COALESCE(SUM(pr.sales_gross)-SUM(pr.cogs)-SUM(pr.othp),0) AS gross_margin, COALESCE(SUM(pr.sales_gross)-SUM(pr.othp),0) AS net_sales 
         
           FROM "salesReporting".projected_sales AS pr        
         
@@ -75,17 +75,17 @@ const l2_getPercentSales = async (config, denominator, colName) => {
     console.log(`${config.user} - level 2: query postgres to get FG sales data period total (l2_getPercentSales: ${colName}) ...`)
 
     const response = await sql
-      `SELECT ${colName} AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${(denominator.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(denominator.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(denominator.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(denominator.othp)},0) AS othp
+      `SELECT TRUE AS "percentFormat", ${colName} AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${(denominator.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(denominator.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(denominator.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(denominator.othp)},0) AS othp, COALESCE(SUM(pj.gross_margin)/${(denominator.gross_margin)},0) AS gross_margin, COALESCE(SUM(pj.net_sales)/${(denominator.net_sales)},0) AS net_sales
       
       FROM (
-        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp , 0 AS gross_margin, 0 AS net_sales 
         FROM "salesReporting".sales_line_items AS d
         WHERE
           1=2
 
         ${config.totals.useProjection.sl ? sql`
         UNION ALL 
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp, COALESCE(SUM(sl.gross_sales_ext)-SUM(sl.cogs_ext_gl)-SUM(sl.othp_ext),0) AS gross_margin, COALESCE(SUM(sl.gross_sales_ext)-SUM(sl.othp_ext),0) AS net_sales  
           
           FROM "salesReporting".sales_line_items AS sl
             
@@ -95,7 +95,7 @@ const l2_getPercentSales = async (config, denominator, colName) => {
 
         ${config.totals.useProjection.so ? sql`
         UNION ALL
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp, COALESCE(SUM(so.ext_sales)-SUM(so.ext_cost)-SUM(so.ext_othp),0) AS gross_margin, COALESCE(SUM(so.ext_sales)-SUM(so.ext_othp),0) AS net_sales 
       
           FROM "salesReporting".sales_orders AS so
             
@@ -106,7 +106,7 @@ const l2_getPercentSales = async (config, denominator, colName) => {
 
         ${config.totals.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_net,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_gross,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp, COALESCE(SUM(pr.sales_gross)-SUM(pr.cogs)-SUM(pr.othp),0) AS gross_margin, COALESCE(SUM(pr.sales_gross)-SUM(pr.othp),0) AS net_sales 
         
           FROM "salesReporting".projected_sales AS pr        
         
@@ -142,17 +142,17 @@ const l3_getPercentSales = async (config, denominator, colName) => {
     console.log(`${config.user} - level 3: query postgres to get FG sales data period total (l3_getPercentSales: ${colName}) ...`)
 
     const response = await sql
-      `SELECT ${colName} AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${(denominator.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(denominator.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(denominator.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(denominator.othp)},0) AS othp
+      `SELECT TRUE AS "percentFormat", ${colName} AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${(denominator.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(denominator.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(denominator.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(denominator.othp)},0) AS othp, COALESCE(SUM(pj.gross_margin)/${(denominator.gross_margin)},0) AS gross_margin, COALESCE(SUM(pj.net_sales)/${(denominator.net_sales)},0) AS net_sales
       
       FROM (
-        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp, 0 AS gross_margin, 0 AS net_sales  
         FROM "salesReporting".sales_line_items AS d
         WHERE
           1=2
 
         ${config.totals.useProjection.sl ? sql`
         UNION ALL 
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp, COALESCE(SUM(sl.gross_sales_ext)-SUM(sl.cogs_ext_gl)-SUM(sl.othp_ext),0) AS gross_margin, COALESCE(SUM(sl.gross_sales_ext)-SUM(sl.othp_ext),0) AS net_sales  
           
           FROM "salesReporting".sales_line_items AS sl
             
@@ -162,7 +162,7 @@ const l3_getPercentSales = async (config, denominator, colName) => {
 
         ${config.totals.useProjection.so ? sql`
         UNION ALL
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp, COALESCE(SUM(so.ext_sales)-SUM(so.ext_cost)-SUM(so.ext_othp),0) AS gross_margin, COALESCE(SUM(so.ext_sales)-SUM(so.ext_othp),0) AS net_sales 
       
           FROM "salesReporting".sales_orders AS so
             
@@ -173,7 +173,7 @@ const l3_getPercentSales = async (config, denominator, colName) => {
 
         ${config.totals.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_net,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_gross,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp, COALESCE(SUM(pr.sales_gross)-SUM(pr.cogs)-SUM(pr.othp),0) AS gross_margin, COALESCE(SUM(pr.sales_gross)-SUM(pr.othp),0) AS net_sales 
         
           FROM "salesReporting".projected_sales AS pr        
         
@@ -209,17 +209,17 @@ const l4_getPercentSales = async (config, denominator, colName) => {
     console.log(`${config.user} - level 4: query postgres to get FG sales data period total (l4_getPercentSales: ${colName}) ...`)
 
     const response = await sql
-      `SELECT ${colName} AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${(denominator.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(denominator.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(denominator.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(denominator.othp)},0) AS othp
+      `SELECT TRUE AS "percentFormat", ${colName} AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${(denominator.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(denominator.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(denominator.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(denominator.othp)},0) AS othp, COALESCE(SUM(pj.gross_margin)/${(denominator.gross_margin)},0) AS gross_margin, COALESCE(SUM(pj.net_sales)/${(denominator.net_sales)},0) AS net_sales
       
       FROM (
-        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp, 0 AS gross_margin, 0 AS net_sales  
         FROM "salesReporting".sales_line_items AS d
         WHERE
           1=2
 
         ${config.totals.useProjection.sl ? sql`
         UNION ALL 
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp, COALESCE(SUM(sl.gross_sales_ext)-SUM(sl.cogs_ext_gl)-SUM(sl.othp_ext),0) AS gross_margin, COALESCE(SUM(sl.gross_sales_ext)-SUM(sl.othp_ext),0) AS net_sales  
           
           FROM "salesReporting".sales_line_items AS sl
             
@@ -229,7 +229,7 @@ const l4_getPercentSales = async (config, denominator, colName) => {
 
         ${config.totals.useProjection.so ? sql`
         UNION ALL
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp, COALESCE(SUM(so.ext_sales)-SUM(so.ext_cost)-SUM(so.ext_othp),0) AS gross_margin, COALESCE(SUM(so.ext_sales)-SUM(so.ext_othp),0) AS net_sales 
       
           FROM "salesReporting".sales_orders AS so
             
@@ -240,7 +240,7 @@ const l4_getPercentSales = async (config, denominator, colName) => {
 
         ${config.totals.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_net,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_gross,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp, COALESCE(SUM(pr.sales_gross)-SUM(pr.cogs)-SUM(pr.othp),0) AS gross_margin, COALESCE(SUM(pr.sales_gross)-SUM(pr.othp),0) AS net_sales 
         
           FROM "salesReporting".projected_sales AS pr        
         
@@ -276,17 +276,17 @@ const l5_getPercentSales = async (config, denominator, colName) => {
     console.log(`${config.user} - level 5: query postgres to get FG sales data period total (l4_getPercentSales: ${colName}) ...`)
 
     const response = await sql
-      `SELECT ${colName} AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, COALESCE(SUM(pj.lbs)/${(denominator.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(denominator.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(denominator.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(denominator.othp)},0) AS othp
+      `SELECT TRUE AS "percentFormat", ${colName} AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, COALESCE(SUM(pj.lbs)/${(denominator.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(denominator.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(denominator.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(denominator.othp)},0) AS othp, COALESCE(SUM(pj.gross_margin)/${(denominator.gross_margin)},0) AS gross_margin, COALESCE(SUM(pj.net_sales)/${(denominator.net_sales)},0) AS net_sales
       
       FROM (
-        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp, 0 AS gross_margin, 0 AS net_sales  
         FROM "salesReporting".sales_line_items AS d
         WHERE
           1=2
 
         ${config.totals.useProjection.sl ? sql`
         UNION ALL 
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp, COALESCE(SUM(sl.gross_sales_ext)-SUM(sl.cogs_ext_gl)-SUM(sl.othp_ext),0) AS gross_margin, COALESCE(SUM(sl.gross_sales_ext)-SUM(sl.othp_ext),0) AS net_sales  
           
           FROM "salesReporting".sales_line_items AS sl
             
@@ -296,7 +296,7 @@ const l5_getPercentSales = async (config, denominator, colName) => {
 
         ${config.totals.useProjection.so ? sql`
         UNION ALL
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp, COALESCE(SUM(so.ext_sales)-SUM(so.ext_cost)-SUM(so.ext_othp),0) AS gross_margin, COALESCE(SUM(so.ext_sales)-SUM(so.ext_othp),0) AS net_sales 
       
           FROM "salesReporting".sales_orders AS so
             
@@ -307,7 +307,7 @@ const l5_getPercentSales = async (config, denominator, colName) => {
 
         ${config.totals.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_net,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_gross,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp, COALESCE(SUM(pr.sales_gross)-SUM(pr.cogs)-SUM(pr.othp),0) AS gross_margin, COALESCE(SUM(pr.sales_gross)-SUM(pr.othp),0) AS net_sales 
         
           FROM "salesReporting".projected_sales AS pr        
         
@@ -341,21 +341,19 @@ const l0_getPercentSales = async (config, denominator, colName) => {
   try {
     console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getPercentSales: ${colName}) ...`)
 
-    console.log(`denominator: ${colName}`, denominator)
-
     const response = await sql
       `
-      SELECT ${colName} AS column, 'TOTAL' AS l1_label, COALESCE(SUM(pj.lbs)/${(denominator.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(denominator.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(denominator.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(denominator.othp)},0) AS othp
+      SELECT TRUE AS "percentFormat", ${colName} AS column, 'TOTAL' AS l1_label, COALESCE(SUM(pj.lbs)/${(denominator.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(denominator.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(denominator.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(denominator.othp)},0) AS othp, COALESCE(SUM(pj.gross_margin)/${(denominator.gross_margin)},0) AS gross_margin, COALESCE(SUM(pj.net_sales)/${(denominator.net_sales)},0) AS net_sales
       
       FROM (
-        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
+        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp, 0 AS gross_margin, 0 AS net_sales  
         FROM "salesReporting".sales_line_items AS d
         WHERE
           1=2
 
         ${config.totals.useProjection.sl ? sql`
         UNION ALL 
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp, COALESCE(SUM(sl.gross_sales_ext)-SUM(sl.cogs_ext_gl)-SUM(sl.othp_ext),0) AS gross_margin, COALESCE(SUM(sl.gross_sales_ext)-SUM(sl.othp_ext),0) AS net_sales  
         
           FROM "salesReporting".sales_line_items AS sl 
             
@@ -365,7 +363,7 @@ const l0_getPercentSales = async (config, denominator, colName) => {
 
         ${config.totals.useProjection.so ? sql`
         UNION ALL
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp, COALESCE(SUM(so.ext_sales)-SUM(so.ext_cost)-SUM(so.ext_othp),0) AS gross_margin, COALESCE(SUM(so.ext_sales)-SUM(so.ext_othp),0) AS net_sales 
       
           FROM "salesReporting".sales_orders AS so 
          
@@ -376,7 +374,7 @@ const l0_getPercentSales = async (config, denominator, colName) => {
 
         ${config.totals.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_net,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_gross,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp, COALESCE(SUM(pr.sales_gross)-SUM(pr.cogs)-SUM(pr.othp),0) AS gross_margin, COALESCE(SUM(pr.sales_gross)-SUM(pr.othp),0) AS net_sales 
         
           FROM "salesReporting".projected_sales AS pr        
         

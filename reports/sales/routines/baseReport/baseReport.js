@@ -146,6 +146,24 @@ const buildReport = async config => {
     return acc.concat(cur)
   })
 
+  // KPI CALCULATIONS
+
+  // // WEEKS INV ON HAND
+  // const l0_weeksInvOnHand = m.calcWeeksInvOnHand(l0_InvR, l0_aveWeeklySales, 'weeksInvenOnHand')
+  // const l1_weeksInvOnHand = m.calcWeeksInvOnHand(l1_InvR, l1_aveWeeklySales, 'weeksInvenOnHand')
+  // const l2_weeksInvOnHand = m.calcWeeksInvOnHand(l2_InvR, l2_aveWeeklySales, 'weeksInvenOnHand')
+  // const l3_weeksInvOnHand = config.baseFormat.l3_field ? m.calcWeeksInvOnHand(l3_InvR, l3_aveWeeklySales, 'weeksInvenOnHand') : []
+  // const l4_weeksInvOnHand = config.baseFormat.l4_field ? m.calcWeeksInvOnHand(l4_InvR, l4_aveWeeklySales, 'weeksInvenOnHand') : []
+  // const l5_weeksInvOnHand = config.baseFormat.l5_field ? m.calcWeeksInvOnHand(l5_InvR, l5_aveWeeklySales, 'weeksInvenOnHand') : []
+
+  // // INVENTORY AVAILABLE
+  // const l0_invAvailable = m.calcInventoryAvailable(l0_InvR, l0_OpenPoR, l0_soR, 'invenAvailable')
+  // const l1_invAvailable = m.calcInventoryAvailable(l1_InvR, l1_OpenPoR, l1_soR, 'invenAvailable')
+  // const l2_invAvailable = m.calcInventoryAvailable(l2_InvR, l2_OpenPoR, l2_soR, 'invenAvailable')
+  // const l3_invAvailable = config.baseFormat.l3_field ? m.calcInventoryAvailable(l3_InvR, l3_OpenPoR, l3_soR, 'invenAvailable') : []
+  // const l4_invAvailable = config.baseFormat.l4_field ? m.calcInventoryAvailable(l4_InvR, l4_OpenPoR, l4_soR, 'invenAvailable') : []
+  // const l5_invAvailable = config.baseFormat.l5_field ? m.calcInventoryAvailable(l5_InvR, l5_OpenPoR, l5_soR, 'invenAvailable') : []
+
   /* BUILD ROW MAP */
 
   const rowTemplate = m.sortRowTemplate(rowData)
@@ -188,14 +206,6 @@ const buildReport = async config => {
   const l4_yoyYtd_companySales = !config.trends.fyYtd ? [] : config.baseFormat.l4_field ? m.calcYoyYtdSalesCol(l4_salesByFyYtdR, 'yoyYtdSales') : [] 
   const l5_yoyYtd_companySales = !config.trends.fyYtd ? [] : config.baseFormat.l5_field ? m.calcYoyYtdSalesCol(l5_salesByFyYtdR, 'yoyYtdSales') : [] 
     
-  // MOMENTUM 
-  const l0_momentum = m.calcMomentum(l0_fourWkAveSales, l0_twelveWkAveSales, 'momentum')
-  const l1_momentum = m.calcMomentum(l1_fourWkAveSales, l1_twelveWkAveSales, 'momentum')
-  const l2_momentum = m.calcMomentum(l2_fourWkAveSales, l2_twelveWkAveSales, 'momentum')
-  const l3_momentum = m.calcMomentum(l3_fourWkAveSales, l3_twelveWkAveSales, 'momentum')
-  const l4_momentum = m.calcMomentum(l4_fourWkAveSales, l4_twelveWkAveSales, 'momentum')
-  const l5_momentum = m.calcMomentum(l5_fourWkAveSales, l5_twelveWkAveSales, 'momentum')
-
   // WEEKS INV ON HAND 
   const l0_weeksInvOnHand = m.calcWeeksInvOnHand(l0_InvR, l0_aveWeeklySales, 'weeksInvenOnHand')
   const l1_weeksInvOnHand = m.calcWeeksInvOnHand(l1_InvR, l1_aveWeeklySales, 'weeksInvenOnHand')
