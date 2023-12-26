@@ -1,7 +1,6 @@
 const m = require('./import')
 
-const buildReport = async (config) => {
- 
+const buildReport = async config => {
   const salesDataPromises = [] // has sales price and margin
   const invenDataPromises = [] // has only cost
   const rowDataPromises = [] // labels only
@@ -24,7 +23,7 @@ const buildReport = async (config) => {
   invenDataPromises.push(m.l3_getOpenPo(config))
   invenDataPromises.push(m.l4_getOpenPo(config))
   invenDataPromises.push(m.l5_getOpenPo(config))
-  
+
   ///////////////////////////////// SALES ORDERS
 
   // SO TOTAL
@@ -34,7 +33,7 @@ const buildReport = async (config) => {
   salesDataPromises.push(m.l3_getSo(config))
   salesDataPromises.push(m.l4_getSo(config))
   salesDataPromises.push(m.l5_getSo(config))
-  
+
   // SO TREND
   salesDataPromises.push(m.l0_getSoTrend(config))
   salesDataPromises.push(m.l1_getSoTrend(config))
@@ -52,7 +51,7 @@ const buildReport = async (config) => {
   salesDataPromises.push(m.l3_getSalesTotalPrimary(config))
   salesDataPromises.push(m.l4_getSalesTotalPrimary(config))
   salesDataPromises.push(m.l5_getSalesTotalPrimary(config))
-  
+
   // TRENDS
   salesDataPromises.push(m.l0_getSalesTrend(config))
   salesDataPromises.push(m.l1_getSalesTrend(config))
@@ -70,6 +69,15 @@ const buildReport = async (config) => {
   salesDataPromises.push(m.l3_getAveSales(config))
   salesDataPromises.push(m.l4_getAveSales(config))
   salesDataPromises.push(m.l5_getAveSales(config))
+
+  // % COMPANY SALES
+
+  salesDataPromises.push(m.l0_getPercentOfCompanySales(config))
+  salesDataPromises.push(m.l1_getPercentOfCompanySales(config))
+  salesDataPromises.push(m.l2_getPercentOfCompanySales(config))
+  salesDataPromises.push(m.l3_getPercentOfCompanySales(config))
+  salesDataPromises.push(m.l4_getPercentOfCompanySales(config))
+  salesDataPromises.push(m.l5_getPercentOfCompanySales(config))
 
   ///////////////////////////////// ROW LABELS
   rowDataPromises.push(m.l0_getRowLabels(config))
@@ -105,49 +113,40 @@ const buildReport = async (config) => {
     return acc.concat(cur)
   })
 
-   /* BUILD ROW MAP */
+  /* BUILD ROW MAP */
 
-   const rowTemplate = m.sortRowTemplate(rowData)
-   let keyMap = {}
-   for (let i = 0; i < config.baseFormat.groupingLevel; i++) {
+  const rowTemplate = m.sortRowTemplate(rowData)
+  let keyMap = {}
+  for (let i = 0; i < config.baseFormat.groupingLevel; i++) {
     // build composite key for unflatten:
     keyMap[i + 1] = `l${i + 1}_label`
-   }
-   // { 1: 'l1_label', 2: 'l2_label' }, { 1: 'l1_label', 2: 'l2_label', 3: 'l3_label' }
-   const rowTemplate_unflat = m.unflattenByCompositKey(rowTemplate, keyMap) 
-
-
-    /* MAP DATA TO ROWS */
-
-    const mappedSales = m.mapSalesToRowTemplates(salesData, rowTemplate_unflat, config)
-    const mappedInven = m.mapInvenToRowTemplates(invenData, rowTemplate_unflat, config)
-    const mappedData = m.combineMappedRows(mappedSales, mappedInven)
-    const flattenedMappedData = Object.values(mappedData)
-    const data = m.cleanLabelsForDisplay(flattenedMappedData, config)
-
-// Add data to hardcoded columns
-let columnConfigsTagged = m.addDataToSalesTotalCol(config, m.columnConfigs) // adds startDate, endDate, and displayName to the sales totals col
-columnConfigsTagged = m.addDataToSoTotalCol(config, m.columnConfigs) // adds statDate, endDate, and displayName to the sales orders col
-
-// Add template to trend cols:
-const trendColumnsTagged = trendColumns.map(col => {
-  return {
-    ...col,
-    ...m.trendColsTemplate,
-    useProjection: config.trends.useProjection
   }
-})
+  // { 1: 'l1_label', 2: 'l2_label' }, { 1: 'l1_label', 2: 'l2_label', 3: 'l3_label' }
+  const rowTemplate_unflat = m.unflattenByCompositKey(rowTemplate, keyMap)
 
-  // % COMPANY SALES
+  /* MAP DATA TO ROWS */
+
+  const mappedSales = m.mapSalesToRowTemplates(salesData, rowTemplate_unflat, config)
+  const mappedInven = m.mapInvenToRowTemplates(invenData, rowTemplate_unflat, config)
+  const mappedData = m.combineMappedRows(mappedSales, mappedInven)
+  const flattenedMappedData = Object.values(mappedData)
+  const data = m.cleanLabelsForDisplay(flattenedMappedData, config)
+
+  // Add data to hardcoded columns
+  let columnConfigsTagged = m.addDataToSalesTotalCol(config, m.columnConfigs) // adds startDate, endDate, and displayName to the sales totals col
+  columnConfigsTagged = m.addDataToSoTotalCol(config, m.columnConfigs) // adds statDate, endDate, and displayName to the sales orders col
+
+  // Add template to trend cols:
+  const trendColumnsTagged = trendColumns.map(col => {
+    return {
+      ...col,
+      ...m.trendColsTemplate,
+      useProjection: config.trends.useProjection,
+    }
+  })
 
   /* 
 
-  const l0_percent_companySales = m.calcPercentSalesCol(companyTotalSalesR, l0_reportSales, 'percentCompanySales')
-  const l1_percent_companySales = m.calcPercentSalesCol(companyTotalSalesR, l1_reportSales, 'percentCompanySales')
-  const l2_percent_companySales = m.calcPercentSalesCol(companyTotalSalesR, l2_reportSales, 'percentCompanySales')
-  const l3_percent_companySales = config.baseFormat.l3_field ? m.calcPercentSalesCol(companyTotalSalesR, l3_reportSales, 'percentCompanySales') : [] 
-  const l4_percent_companySales = config.baseFormat.l4_field ? m.calcPercentSalesCol(companyTotalSalesR, l4_reportSales, 'percentCompanySales') : [] 
-  const l5_percent_companySales = config.baseFormat.l5_field ? m.calcPercentSalesCol(companyTotalSalesR, l5_reportSales, 'percentCompanySales') : [] 
  
 
   const companyTotalSales = () => {return m.getCompanyTotalSales(config)}
@@ -222,12 +221,10 @@ const trendColumnsTagged = trendColumns.map(col => {
   const l5_invAvailable = config.baseFormat.l5_field ? m.calcInventoryAvailable(l5_InvR, l5_OpenPoR, l5_soR, 'invenAvailable') : []
   */
 
-
-
   return {
     data,
     cols: {
-      trendColumns: trendColumnsTagged, 
+      trendColumns: trendColumnsTagged,
       labelCols: config.labelCols,
       columnConfigs: columnConfigsTagged,
     },
