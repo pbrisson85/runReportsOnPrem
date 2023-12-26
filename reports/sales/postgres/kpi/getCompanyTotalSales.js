@@ -63,4 +63,4 @@ const getCompanyTotalSales = async config => {
   }
 }
 
-module.exports.getCompanyTotalSales = getCompanyTotalSales
+module.exports = getCompanyTotalSales
