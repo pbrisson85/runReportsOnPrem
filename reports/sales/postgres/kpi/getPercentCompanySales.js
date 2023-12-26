@@ -9,7 +9,7 @@ const l1_getPercentOfCompanySales = async (config, companyTotalSales) => {
     console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getPercentOfCompanySales) ...`)
 
     const response = await sql
-      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${sql(companyTotalSales.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${sql(companyTotalSales.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${sql(companyTotalSales.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${sql(companyTotalSales.othp)},0) AS othp
+      `SELECT 'percentCompanySales' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${(companyTotalSales.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(companyTotalSales.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(companyTotalSales.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(companyTotalSales.othp)},0) AS othp
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -75,7 +75,7 @@ const l2_getPercentOfCompanySales = async (config, companyTotalSales) => {
     console.log(`${config.user} - level 2: query postgres to get FG sales data period total (l2_getPercentOfCompanySales) ...`)
 
     const response = await sql
-      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${sql(companyTotalSales.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${sql(companyTotalSales.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${sql(companyTotalSales.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${sql(companyTotalSales.othp)},0) AS othp
+      `SELECT 'percentCompanySales' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${(companyTotalSales.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(companyTotalSales.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(companyTotalSales.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(companyTotalSales.othp)},0) AS othp
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -141,7 +141,7 @@ const l3_getPercentOfCompanySales = async (config, companyTotalSales) => {
     console.log(`${config.user} - level 3: query postgres to get FG sales data period total (l3_getPercentOfCompanySales) ...`)
 
     const response = await sql
-      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${sql(companyTotalSales.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${sql(companyTotalSales.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${sql(companyTotalSales.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${sql(companyTotalSales.othp)},0) AS othp
+      `SELECT 'percentCompanySales' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${(companyTotalSales.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(companyTotalSales.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(companyTotalSales.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(companyTotalSales.othp)},0) AS othp
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -207,7 +207,7 @@ const l4_getPercentOfCompanySales = async (config, companyTotalSales) => {
     console.log(`${config.user} - level 4: query postgres to get FG sales data period total (l4_getPercentOfCompanySales) ...`)
 
     const response = await sql
-      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${sql(companyTotalSales.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${sql(companyTotalSales.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${sql(companyTotalSales.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${sql(companyTotalSales.othp)},0) AS othp
+      `SELECT 'percentCompanySales' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(pj.lbs)/${(companyTotalSales.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(companyTotalSales.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(companyTotalSales.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(companyTotalSales.othp)},0) AS othp
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -273,7 +273,7 @@ const l5_getPercentOfCompanySales = async (config, companyTotalSales) => {
     console.log(`${config.user} - level 5: query postgres to get FG sales data period total (l4_getPercentOfCompanySales) ...`)
 
     const response = await sql
-      `SELECT 'SALES TOTAL' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, COALESCE(SUM(pj.lbs)/${sql(companyTotalSales.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${sql(companyTotalSales.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${sql(companyTotalSales.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${sql(companyTotalSales.othp)},0) AS othp
+      `SELECT 'percentCompanySales' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, COALESCE(SUM(pj.lbs)/${(companyTotalSales.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(companyTotalSales.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(companyTotalSales.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(companyTotalSales.othp)},0) AS othp
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -338,7 +338,7 @@ const l0_getPercentOfCompanySales = async (config, companyTotalSales) => {
 
     const response = await sql
       `
-      SELECT 'SALES TOTAL' AS column, 'TOTAL' AS l1_label, COALESCE(SUM(pj.lbs)/${sql(companyTotalSales.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${sql(companyTotalSales.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${sql(companyTotalSales.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${sql(companyTotalSales.othp)},0) AS othp
+      SELECT 'percentCompanySales' AS column, 'TOTAL' AS l1_label, COALESCE(SUM(pj.lbs)/${(companyTotalSales.lbs)},0) AS lbs, COALESCE(SUM(pj.sales)/${(companyTotalSales.sales)},0) AS sales, COALESCE(SUM(pj.cogs)/${(companyTotalSales.cogs)},0) AS cogs, COALESCE(SUM(pj.othp)/${(companyTotalSales.othp)},0) AS othp
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
