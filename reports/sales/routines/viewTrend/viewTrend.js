@@ -1,18 +1,16 @@
 const m = require('./import')
 
-
 const buildDrillDown = async (labelCols, config, trendQuery, useProjection, startDate, endDate) => {
   const queryDataPromises = []
   const rowDataPromises = []
   const trendColumnPromises = []
   const kpiHelperPromises = []
 
-
   ///////////////////////////////// INVENTORY DATA
 
   queryDataPromises.push(m.l1_getInven(config, trendQuery))
   queryDataPromises.push(m.l0_getInven(config, trendQuery))
- 
+
   ///////////////////////////////// PURCHASE DATA
 
   queryDataPromises.push(m.l1_getOpenPo(config, trendQuery))
@@ -47,29 +45,15 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
   // kpiHelperPromises.push(m.getReportTotalSales(config))
 
   const [companyTotalSales, programTotalSales, speciesGroupTotalSales, reportTotalSales] = await Promise.all(kpiHelperPromises)
-  
+
   ///////////////////////////////// KPI DATA
-  
-  m.l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, trendQuery, config.totals.yearPrimary, '2wk Rolling')}
-  m.l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')}
-
-  m.l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, trendQuery, config.totals.yearPrimary, '4wk Rolling')}
-  m.l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, config.totals.yearPrimary, '4wk Rolling')}
-
-  m.l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, trendQuery, config.totals.yearPrimary, '8wk Rolling')}
-  m.l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, config.totals.yearPrimary, '8wk Rolling')}
-
-  m.l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, trendQuery, config.totals.yearPrimary, '12wk Rolling')}
-  m.l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, config.totals.yearPrimary, '12wk Rolling')}
-
-
 
   ///////////////////////////////// KPI DATA
 
   /* % YoY YTD SALES */
   //m.calcYoyYtdSalesCol(l0_salesByFyYtd, 'yoyYtdSales')
   //m.calcYoyYtdSalesCol(l1_salesByFyYtd, 'yoyYtdSales')
-  
+
   /* % COMPANY SALES */
   m.calcPercentSalesCol(companyTotalSales, l1_sales, 'percentCompanySales')
   m.calcPercentSalesCol(companyTotalSales, l0_sales, 'percentCompanySales')
@@ -114,9 +98,7 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
   ///////////////////////////////// ROWS
   m.getRowsFirstLevelDetail(config, startDate, endDate, trendQuery)
 
-  const totalsRow = [
-    { totalRow: true, l1_label: `TOTAL`, datalevel: config.baseFilters.queryLevel, itemtype: config.baseFilters.itemType },
-  ] // Need an l2_label of TOTAL for front config.totals.endDatePrimary styling
+  const totalsRow = [{ totalRow: true, l1_label: `TOTAL`, datalevel: config.baseFilters.queryLevel, itemtype: config.baseFilters.itemType }] // Need an l2_label of TOTAL for front config.totals.endDatePrimary styling
   const filterRow = [
     {
       filterRow: true,
@@ -146,7 +128,7 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
     1: 'l1_label',
   })
 
-  const mappedSales = m.mapSalesToRowTemplates( [],rowTemplate_unflat, config, viewTrend = true)
+  const mappedSales = m.mapSalesToRowTemplates([], rowTemplate_unflat, config, (viewTrend = true))
 
   const mappedData = m.combineMappedRows(mappedSales, mappedInven)
 
@@ -159,7 +141,8 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
   })
 
   const flattenedMappedData = Object.values(mappedData)
-  let data = m.cleanLabelsForDisplay(flattenedMappedData, config)
+  let data = m
+    .cleanLabelsForDisplay(flattenedMappedData, config)
     .sort((a, b) => {
       // if has includes total, put at config.totals.endDatePrimary
       if (a.l1_label < b.l1_label) return -1
@@ -174,23 +157,14 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
     }) // no label in total row, first col
   data = [...filterRow, ...data]
 
-
   m.getTrendColsSales(config)
   m.getTrendColsSo(config)
-
 
   let columnConfigsTagged = m.addDataToSalesTotalCol(config, m.columnConfigs) // adds startDate, endDate, and displayName to the sales totals col
   columnConfigsTagged = m.addDataToSoTotalCol(config, m.columnConfigs) // adds statDate, endDate, and displayName to the sales orders col
   columnConfigsTagged = m.addDataToSalesTrendCol(config, m.columnConfigs) // adds useProjection data
 
-  const [
-    trendColsSales, 
-    trendColsSo
-  ] = await Promise.all
-      ([
-        trendColsSalesF(), 
-        trendColsSoF()
-      ])
+  const [trendColsSales, trendColsSo] = await Promise.all([trendColsSalesF(), trendColsSoF()])
 
   // return
   return {
@@ -202,14 +176,10 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
       columnConfigs: columnConfigsTagged,
       defaultTrend: {
         dataName: m.columnConfigs.primarySalesTotalCol[0].dataName,
-        colType: m.columnConfigs.primarySalesTotalCol[0].colType
-      }
+        colType: m.columnConfigs.primarySalesTotalCol[0].colType,
+      },
     },
   }
 }
-
-
-
-
 
 module.exports = buildDrillDown
