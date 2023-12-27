@@ -63,7 +63,7 @@ const getViewFilters = () => {
     {
       label: 'GROSS MARGIN %',
       dataName: 'grossMarginPercent',
-      additionalData: { decimals: 0 },
+      additionalData: { decimals: 2 },
       cols: ['label', 'salesInvoice', 'salesInvoiceMo', 'salesOrder', 'salesKpi', 'salesProjection'], // No inven, only sales data
     },
     // {
