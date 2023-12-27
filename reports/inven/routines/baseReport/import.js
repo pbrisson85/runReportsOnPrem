@@ -42,7 +42,6 @@ module.exports = {
 
   // Model Functions
   mapInvenToRowTemplates: require('../../../utils/mapInvenToRowTemplates'),
-  combineMappedRows: require('../../../utils/combineMappedRows'),
   cleanLabelsForDisplay: require('../../../utils/cleanLabelsForDisplay'),
   unflattenByCompositKey: require('../../../utils/unflattenByCompositKey'),
   sortRowTemplate: require('../../../utils/sortRowTemplate'),
