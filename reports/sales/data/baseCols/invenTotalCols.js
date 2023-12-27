@@ -13,7 +13,7 @@ const invenTotalCols = [
     right: '400px',
     borderLeft: true,
     hidden: false,
-    view: 'weight',
+    view: 'lbs',
     valueFallback: 0,
     data: true,
     popoverMsg: 'FINISHD GOOD INVENTORY - All FG inventory not including any byproducts or RM',
@@ -38,7 +38,7 @@ const invenTotalCols = [
   //   right: '300px',
   //   borderLeft: false,
   //   hidden: false,
-  //   view: 'weight',
+  //   view: 'lbs',
   //   valueFallback: 0,
   //   data: true,
   //   subColStyle: true, // styling CHANGE NAME BECAUSE ON HAND COLS OF IN TRANSIT, IN COUNTRY, OUT OF COUNTRY, ETC WILL ALSO USE THIS
@@ -64,7 +64,7 @@ const invenTotalCols = [
   //   right: '200px',
   //   borderLeft: false,
   //   hidden: false,
-  //   view: 'weight',
+  //   view: 'lbs',
   //   valueFallback: 0,
   //   data: true,
   //   subColStyle: true, // styling CHANGE NAME BECAUSE ON HAND COLS OF IN TRANSIT, IN COUNTRY, OUT OF COUNTRY, ETC WILL ALSO USE THIS
@@ -90,7 +90,7 @@ const invenTotalCols = [
   //   right: '200px',
   //   borderLeft: false,
   //   hidden: false,
-  //   view: 'weight',
+  //   view: 'lbs',
   //   valueFallback: 0,
   //   data: true,
   //   subColStyle: true, // styling CHANGE NAME BECAUSE ON HAND COLS OF IN TRANSIT, IN COUNTRY, OUT OF COUNTRY, ETC WILL ALSO USE THIS
@@ -116,7 +116,7 @@ const invenTotalCols = [
   //   right: '100px',
   //   borderLeft: false,
   //   hidden: false,
-  //   view: 'weight',
+  //   view: 'lbs',
   //   valueFallback: 0,
   //   data: true,
   //   subColStyle: true, // styling CHANGE NAME BECAUSE ON HAND COLS OF IN TRANSIT, IN COUNTRY, OUT OF COUNTRY, ETC WILL ALSO USE THIS

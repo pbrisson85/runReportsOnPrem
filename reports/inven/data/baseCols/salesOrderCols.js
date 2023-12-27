@@ -13,7 +13,7 @@ const salesOrdersCol = [
     rightSticky: true,
     right: '600px',
     hidden: false,
-    view: 'weight',
+    view: 'lbs',
     data: true,
     valueFallback: 0,
     borderLeft: true,

@@ -14,7 +14,7 @@ const invenKpiCol = [
     rightSticky: true, // css sticky
     right: '800px', // css positioning for sticky sum of prior col widths
     hidden: false, // flag to hide column.
-    view: 'weight', // dataset to show for the column (extended_cost, weight, cost_per_lb)
+    view: 'lbs', // dataset to show for the column (extended_cost, weight, cost_per_lb)
     data: true,
     valueFallback: 0,
     borderLeft: false, // border right on ladst frozen cell
@@ -42,7 +42,7 @@ const invenKpiCol = [
     rightSticky: true, // css sticky
     right: '800px', // css positioning for sticky sum of prior col widths
     hidden: false, // flag to hide column.
-    view: 'weight', // dataset to show for the column (extended_cost, weight, cost_per_lb)
+    view: 'lbs', // dataset to show for the column (extended_cost, weight, cost_per_lb)
     data: true,
     valueFallback: 0,
     borderLeft: false, // border right on ladst frozen cell

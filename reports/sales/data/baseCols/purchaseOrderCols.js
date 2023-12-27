@@ -13,7 +13,7 @@ const poCols = [
     right: '0px',
     borderLeft: true,
     hidden: false,
-    view: 'weight',
+    view: 'lbs',
     valueFallback: 0,
     data: true,
     popoverMsg: 'FINISHED GOODS ON PURCHASE ORDERS (UNRECEIVED) - Note: see RM Purchase Planning report for RM On order by program.',
