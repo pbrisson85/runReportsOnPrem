@@ -28,7 +28,7 @@ const l1_getAveSales = async config => {
         COALESCE((SUM(pj.cogs)/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "cogsPerLb", 
         COALESCE((SUM(pj.othp)/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "othpPerLb", 
         COALESCE(((SUM(pj.sales)-SUM(pj.othp))/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "netSalesPerLb", 
-        COALESCE(((SUM(pj.sales)-SUM(pj.othp)-SUM(pj.cogs))/${trailingWeek.weeks})//NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "grossMarginPerLb"
+        COALESCE(((SUM(pj.sales)-SUM(pj.othp)-SUM(pj.cogs))/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "grossMarginPerLb"
       
         FROM (
           SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -120,7 +120,7 @@ const l2_getAveSales = async config => {
       COALESCE((SUM(pj.cogs)/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "cogsPerLb", 
       COALESCE((SUM(pj.othp)/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "othpPerLb", 
       COALESCE(((SUM(pj.sales)-SUM(pj.othp))/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "netSalesPerLb", 
-      COALESCE(((SUM(pj.sales)-SUM(pj.othp)-SUM(pj.cogs))/${trailingWeek.weeks})//NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "grossMarginPerLb"
+      COALESCE(((SUM(pj.sales)-SUM(pj.othp)-SUM(pj.cogs))/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "grossMarginPerLb"
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -212,7 +212,7 @@ const l3_getAveSales = async config => {
       COALESCE((SUM(pj.cogs)/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "cogsPerLb", 
       COALESCE((SUM(pj.othp)/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "othpPerLb", 
       COALESCE(((SUM(pj.sales)-SUM(pj.othp))/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "netSalesPerLb", 
-      COALESCE(((SUM(pj.sales)-SUM(pj.othp)-SUM(pj.cogs))/${trailingWeek.weeks})//NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "grossMarginPerLb"
+      COALESCE(((SUM(pj.sales)-SUM(pj.othp)-SUM(pj.cogs))/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "grossMarginPerLb"
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -300,7 +300,7 @@ const l4_getAveSales = async config => {
       COALESCE((SUM(pj.cogs)/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "cogsPerLb", 
       COALESCE((SUM(pj.othp)/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "othpPerLb", 
       COALESCE(((SUM(pj.sales)-SUM(pj.othp))/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "netSalesPerLb", 
-      COALESCE(((SUM(pj.sales)-SUM(pj.othp)-SUM(pj.cogs))/${trailingWeek.weeks})//NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "grossMarginPerLb"
+      COALESCE(((SUM(pj.sales)-SUM(pj.othp)-SUM(pj.cogs))/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "grossMarginPerLb"
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -388,7 +388,7 @@ const l5_getAveSales = async config => {
       COALESCE((SUM(pj.cogs)/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "cogsPerLb", 
       COALESCE((SUM(pj.othp)/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "othpPerLb", 
       COALESCE(((SUM(pj.sales)-SUM(pj.othp))/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "netSalesPerLb", 
-      COALESCE(((SUM(pj.sales)-SUM(pj.othp)-SUM(pj.cogs))/${trailingWeek.weeks})//NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "grossMarginPerLb"
+      COALESCE(((SUM(pj.sales)-SUM(pj.othp)-SUM(pj.cogs))/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "grossMarginPerLb"
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
@@ -471,7 +471,7 @@ const l0_getAveSales = async config => {
       COALESCE((SUM(pj.cogs)/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "cogsPerLb", 
       COALESCE((SUM(pj.othp)/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "othpPerLb", 
       COALESCE(((SUM(pj.sales)-SUM(pj.othp))/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "netSalesPerLb", 
-      COALESCE(((SUM(pj.sales)-SUM(pj.othp)-SUM(pj.cogs))/${trailingWeek.weeks})//NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "grossMarginPerLb"
+      COALESCE(((SUM(pj.sales)-SUM(pj.othp)-SUM(pj.cogs))/${trailingWeek.weeks})/NULLIF((SUM(pj.lbs)/${trailingWeek.weeks}),0),0) AS "grossMarginPerLb"
       
       FROM (
         SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
