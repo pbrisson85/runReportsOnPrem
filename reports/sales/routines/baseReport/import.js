@@ -85,10 +85,8 @@ module.exports = {
   l5_getRowLabels: require('../../postgres/baseReport/getRowLabels').l5_getRowLabels,
 
   // Model Functions
-  mapSalesToRowTemplates: require('../../../utils/mapSalesToRowTemplates'),
-  mapInvenToRowTemplates: require('../../../utils/mapInvenToRowTemplates'),
+  mapDataToRowTemplates: require('../../../utils/mapDataToRowTemplates'),
 
-  combineMappedRows: require('../../../utils/combineMappedRows'),
   cleanLabelsForDisplay: require('../../../utils/cleanLabelsForDisplay'),
   unflattenByCompositKey: require('../../../utils/unflattenByCompositKey'),
   calcPercentSalesCol: require('../../models/calcPercentSalesCol'),

@@ -18,7 +18,7 @@ module.exports = {
   l0_getSoTrend: require('../../postgres/viewTrend/getSoTrend').l0_getSoTrend,
   l1_getSoTrend: require('../../postgres/viewTrend/getSoTrend').l1_getSoTrend,
   getRowsFirstLevelDetail: require('../../postgres/viewTrend/getRows').getRowsFirstLevelDetail,
-  mapSalesToRowTemplates: require('../../../utils/mapSalesToRowTemplates'),
+  mapSalesToRowTemplates: require('../../../utils/mapDataToRowTemplates'),
   mapInvenToRowTemplates: require('../../../utils/mapInvenToRowTemplates'),
   combineMappedRows: require('../../../utils/combineMappedRows'),
   cleanLabelsForDisplay: require('../../../utils/cleanLabelsForDisplay'),

@@ -46,7 +46,7 @@ module.exports = {
   cleanLabelsForDisplay: require('../../../utils/cleanLabelsForDisplay'),
   unflattenByCompositKey: require('../../../utils/unflattenByCompositKey'),
   sortRowTemplate: require('../../../utils/sortRowTemplate'),
-  mapSalesToRowTemplates: require('../../../utils/mapSalesToRowTemplates'),
+  mapSalesToRowTemplates: require('../../../utils/mapDataToRowTemplates'),
 
   // Col Helpers
   buildAgingCols: require('../helpers/agingColHelper').buildAgingCols,

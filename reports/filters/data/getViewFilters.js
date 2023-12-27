@@ -2,7 +2,7 @@ const getViewFilters = () => {
   return [
     {
       label: 'WEIGHT (lbs)',
-      dataName: 'weight',
+      dataName: 'lbs',
       additionalData: { decimals: 0 },
       cols: [
         'label',
@@ -20,7 +20,7 @@ const getViewFilters = () => {
     },
     {
       label: 'REVENUE $',
-      dataName: 'revenue',
+      dataName: 'grossSales',
       additionalData: { decimals: 0 },
       cols: ['label', 'salesInvoice', 'salesInvoiceMo', 'salesOrder', 'salesKpi', 'salesProjection', 'ageCols'], // No inven, only sales data
     },
@@ -28,13 +28,13 @@ const getViewFilters = () => {
       label: 'OTHP $',
       dataName: 'othp',
       additionalData: { decimals: 0 },
-      cols: ['label', 'salesInvoice', 'salesInvoiceMo', 'salesOrder', 'salesKpi', 'salesProjection', 'ageCols'], // No inven, only sales data
+      cols: ['label', 'salesInvoice', 'salesInvoiceMo', 'salesOrder', 'salesKpi', 'salesProjection'], // No inven, only sales data
     },
     {
       label: 'NET REVENUE',
       dataName: 'netSales',
       additionalData: { decimals: 0 },
-      cols: ['label', 'salesInvoice', 'salesInvoiceMo', 'salesOrder', 'salesKpi', 'salesProjection', 'ageCols'], // No inven, only sales data
+      cols: ['label', 'salesInvoice', 'salesInvoiceMo', 'salesOrder', 'salesKpi', 'salesProjection'], // No inven, only sales data
     },
     {
       label: 'COST',
@@ -58,11 +58,17 @@ const getViewFilters = () => {
       label: 'GROSS MARGIN',
       dataName: 'grossMargin',
       additionalData: { decimals: 0 },
-      cols: ['label', 'salesInvoice', 'salesInvoiceMo', 'salesOrder', 'salesKpi', 'salesProjection', 'ageCols'], // No inven, only sales data
+      cols: ['label', 'salesInvoice', 'salesInvoiceMo', 'salesOrder', 'salesKpi', 'salesProjection'], // No inven, only sales data
+    },
+    {
+      label: 'GROSS MARGIN %',
+      dataName: 'grossMarginPercent',
+      additionalData: { decimals: 0 },
+      cols: ['label', 'salesInvoice', 'salesInvoiceMo', 'salesOrder', 'salesKpi', 'salesProjection'], // No inven, only sales data
     },
     // {
     //   label: 'REVENUE $/LB',
-    //   dataName: 'revenuePerLb',
+    //   dataName: 'grossSalesPerLb',
     //   additionalData: { decimals: 2 },
     //   cols: ['label',  'salesInvoice', 'salesInvoiceMo', 'salesOrder', 'salesKpi', 'salesProjection'], // No inven, only sales data
     // },
@@ -76,7 +82,7 @@ const getViewFilters = () => {
       label: 'NET REVENUE/LB',
       dataName: 'netSalesPerLb',
       additionalData: { decimals: 2 },
-      cols: ['label', 'salesInvoice', 'salesInvoiceMo', 'salesOrder', 'salesKpi', 'salesProjection', 'invenTotal', 'purchaseOrder', 'ageCols'], // No inven, only sales data
+      cols: ['label', 'salesInvoice', 'salesInvoiceMo', 'salesOrder', 'salesKpi', 'salesProjection', 'invenTotal', 'purchaseOrder'], // No inven, only sales data
     },
     {
       label: 'COST/LB',
@@ -100,7 +106,7 @@ const getViewFilters = () => {
       label: 'GROSS MARGIN/LB',
       dataName: 'grossMarginPerLb',
       additionalData: { decimals: 2 },
-      cols: ['label', 'salesInvoice', 'salesInvoiceMo', 'salesOrder', 'salesKpi', 'salesProjection', 'ageCols'], // No inven, only sales data
+      cols: ['label', 'salesInvoice', 'salesInvoiceMo', 'salesOrder', 'salesKpi', 'salesProjection'], // No inven, only sales data
     },
   ]
 }

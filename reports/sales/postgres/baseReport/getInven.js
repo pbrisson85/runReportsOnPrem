@@ -13,7 +13,7 @@ const l1_getInv = async config => {
     // level 1 detail
 
     const response = await sql
-      `SELECT 'INVEN' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(inv.on_hand_lbs),0) AS lbs, COALESCE(SUM(inv.cost_extended),0) AS cogs 
+      `SELECT 'INVEN' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(inv.on_hand_lbs),0) AS lbs, COALESCE(SUM(inv.cost_extended),0) AS cogs, COALESCE(SUM(inv.cost_extended),0) AS othp, COALESCE(SUM(inv.cost_extended),0) AS "grossSales", COALESCE(SUM(inv.cost_extended),0) AS "netSales", COALESCE(SUM(inv.cost_extended),0) AS "grossMargin", 0 AS "grossMarginPercent", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "grossSalesPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "cogsPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "othpPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "netSalesPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "grossMarginPerLb"
       
       FROM "invenReporting".perpetual_inventory AS inv
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -44,7 +44,7 @@ const l2_getInv = async config => {
     // Level 2 detail
 
     const response = await sql
-      `SELECT 'INVEN' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'NA') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(inv.on_hand_lbs),0) AS lbs, COALESCE(SUM(inv.cost_extended),0) AS cogs 
+      `SELECT 'INVEN' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'NA') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(inv.on_hand_lbs),0) AS lbs, COALESCE(SUM(inv.cost_extended),0) AS cogs, COALESCE(SUM(inv.cost_extended),0) AS othp, COALESCE(SUM(inv.cost_extended),0) AS "grossSales", COALESCE(SUM(inv.cost_extended),0) AS "netSales", COALESCE(SUM(inv.cost_extended),0) AS "grossMargin", 0 AS "grossMarginPercent", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "grossSalesPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "cogsPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "othpPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "netSalesPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "grossMarginPerLb"
       
       FROM "invenReporting".perpetual_inventory AS inv
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -73,7 +73,7 @@ const l3_getInv = async config => {
     console.log(`${config.user} - level 3: query postgres for Inv on hand (l3_getInv) ...`)
 
     const response = await sql
-      `SELECT 'INVEN' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(inv.on_hand_lbs),0) AS lbs, COALESCE(SUM(inv.cost_extended),0) AS cogs 
+      `SELECT 'INVEN' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(inv.on_hand_lbs),0) AS lbs, COALESCE(SUM(inv.cost_extended),0) AS cogs, COALESCE(SUM(inv.cost_extended),0) AS othp, COALESCE(SUM(inv.cost_extended),0) AS "grossSales", COALESCE(SUM(inv.cost_extended),0) AS "netSales", COALESCE(SUM(inv.cost_extended),0) AS "grossMargin", 0 AS "grossMarginPercent", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "grossSalesPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "cogsPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "othpPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "netSalesPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "grossMarginPerLb" 
       
       FROM "invenReporting".perpetual_inventory AS inv
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -101,7 +101,7 @@ const l4_getInv = async config => {
     console.log(`${config.user} - level 4: query postgres for Inv on hand (l4_getInv) ...`)
 
     const response = await sql
-      `SELECT 'INVEN' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(inv.on_hand_lbs),0) AS lbs, COALESCE(SUM(inv.cost_extended),0) AS cogs 
+      `SELECT 'INVEN' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(inv.on_hand_lbs),0) AS lbs, COALESCE(SUM(inv.cost_extended),0) AS cogs, COALESCE(SUM(inv.cost_extended),0) AS othp, COALESCE(SUM(inv.cost_extended),0) AS "grossSales", COALESCE(SUM(inv.cost_extended),0) AS "netSales", COALESCE(SUM(inv.cost_extended),0) AS "grossMargin", 0 AS "grossMarginPercent", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "grossSalesPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "cogsPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "othpPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "netSalesPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "grossMarginPerLb" 
       
       FROM "invenReporting".perpetual_inventory AS inv
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -129,7 +129,7 @@ const l5_getInv = async config => {
     console.log(`${config.user} - level 5: query postgres for Inv on hand (l4_getInv) ...`)
 
     const response = await sql
-      `SELECT 'INVEN' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, COALESCE(SUM(inv.on_hand_lbs),0) AS lbs, COALESCE(SUM(inv.cost_extended),0) AS cogs 
+      `SELECT 'INVEN' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, COALESCE(SUM(inv.on_hand_lbs),0) AS lbs, COALESCE(SUM(inv.cost_extended),0) AS cogs, COALESCE(SUM(inv.cost_extended),0) AS othp, COALESCE(SUM(inv.cost_extended),0) AS "grossSales", COALESCE(SUM(inv.cost_extended),0) AS "netSales", COALESCE(SUM(inv.cost_extended),0) AS "grossMargin", 0 AS "grossMarginPercent", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "grossSalesPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "cogsPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "othpPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "netSalesPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "grossMarginPerLb"
       
       FROM "invenReporting".perpetual_inventory AS inv
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -157,7 +157,7 @@ const l0_getInv = async config => {
     // level 0 detail (TOTAL)
 
     const response = await sql
-      `SELECT 'INVEN' AS column, 'TOTAL' AS l1_label, COALESCE(SUM(inv.on_hand_lbs),0) AS lbs, COALESCE(SUM(inv.cost_extended),0) AS cogs 
+      `SELECT 'INVEN' AS column, 'TOTAL' AS l1_label, COALESCE(SUM(inv.on_hand_lbs),0) AS lbs, COALESCE(SUM(inv.cost_extended),0) AS cogs, COALESCE(SUM(inv.cost_extended),0) AS othp, COALESCE(SUM(inv.cost_extended),0) AS "grossSales", COALESCE(SUM(inv.cost_extended),0) AS "netSales", COALESCE(SUM(inv.cost_extended),0) AS "grossMargin", 0 AS "grossMarginPercent", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "grossSalesPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "cogsPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "othpPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "netSalesPerLb", COALESCE(SUM(inv.cost_extended)/SUM(inv.on_hand_lbs),0) AS "grossMarginPerLb" 
       
       FROM "invenReporting".perpetual_inventory AS inv
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -176,9 +176,4 @@ const l0_getInv = async config => {
   }
 }
 
-module.exports.l5_getInv = l5_getInv
-module.exports.l4_getInv = l4_getInv
-module.exports.l3_getInv = l3_getInv
-module.exports.l2_getInv = l2_getInv
-module.exports.l1_getInv = l1_getInv
-module.exports.l0_getInv = l0_getInv
+module.exports = { l0_getInv, l1_getInv, l2_getInv, l3_getInv, l4_getInv, l5_getInv }
