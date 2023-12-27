@@ -2,152 +2,117 @@ const m = require('./import')
 
 
 const buildDrillDown = async (labelCols, config, trendQuery, useProjection, startDate, endDate) => {
-  const skip = () => {
-    return () => {
-      return []
-    }
-  }
+  const queryDataPromises = []
+  const rowDataPromises = []
+  const trendColumnPromises = []
+  const kpiHelperPromises = []
+
 
   ///////////////////////////////// INVENTORY DATA
 
-  const l1_invenF = () => { return m.l1_getInven(config, trendQuery)}
-  const l0_invenF = () => { return m.l0_getInven(config, trendQuery)}
+  queryDataPromises.push(m.l1_getInven(config, trendQuery))
+  queryDataPromises.push(m.l0_getInven(config, trendQuery))
  
-
   ///////////////////////////////// PURCHASE DATA
 
-  const l1_OpenPoF = () => { return m.l1_getOpenPo(config, trendQuery)}
-  const l0_OpenPoF = () => { return m.l0_getOpenPo(config, trendQuery)}
+  queryDataPromises.push(m.l1_getOpenPo(config, trendQuery))
+  queryDataPromises.push(m.l0_getOpenPo(config, trendQuery))
 
   ///////////////////////////////// SALES ORDERS
 
-  const l1_soF = () => { return m.l1_getSo(config, trendQuery)}
-  const l0_soF = () => { return m.l0_getSo(config)}
+  // SO TOTAL
+  queryDataPromises.push(m.l1_getSo(config, trendQuery))
+  queryDataPromises.push(m.l0_getSo(config))
 
-  const l1_soTrendF = () => { return m.l1_getSoTrend(config, trendQuery)}
-  const l0_soTrendF = () => { return m.l0_getSoTrend(config)}
+  // SO TREND
+  queryDataPromises.push(m.l1_getSoTrend(config, trendQuery))
+  queryDataPromises.push(m.l0_getSoTrend(config))
 
   ///////////////////////////////// SALES DATA
 
-  const l1_salesTrendF = !config.trends.queryGrouping ? skip() :  () => { return m.l1_getSalesTrend(config, trendQuery, useProjection)}
-  const l0_salesTrendF = !config.trends.queryGrouping ? skip() :  () => { return m.l0_getSalesTrend(config, useProjection)}
+  // SALES YTD
+  queryDataPromises.push(m.l1_getSales(config, startDate, endDate, trendQuery, useProjection))
+  queryDataPromises.push(m.l0_getSales(config, startDate, endDate, useProjection))
 
-  const l1_salesF = () => { return m.l1_getSales(config, startDate, endDate, trendQuery, useProjection)}
-  const l0_salesF = () => { return m.l0_getSales(config, startDate, endDate, useProjection)}
+  // TRENDS
+  queryDataPromises.push(m.l1_getSalesTrend(config, trendQuery, useProjection))
+  queryDataPromises.push(m.l0_getSalesTrend(config, useProjection))
 
+  ///////////////////////////////// SALES KPIS
+
+  // KPI HELPERS
+  kpiHelperPromises.push(m.getCompanyTotalSales(config))
+  kpiHelperPromises.push(m.getProgramTotalSales(config))
+  // kpiHelperPromises.push(m.getSpeciesGroupTotalSales(config))
+  // kpiHelperPromises.push(m.getReportTotalSales(config))
+
+  const [companyTotalSales, programTotalSales, speciesGroupTotalSales, reportTotalSales] = await Promise.all(kpiHelperPromises)
+  
   ///////////////////////////////// KPI DATA
   
-  const l1_trailingTwoWeekF = config.totals.endWeekPrimary < 2 ? skip() : () => { return m.l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, trendQuery, config.totals.yearPrimary, '2wk Rolling')}
-  const l0_trailingTwoWeekF = config.totals.endWeekPrimary < 2 ? skip() : () => { return m.l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')}
+  m.l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, trendQuery, config.totals.yearPrimary, '2wk Rolling')}
+  m.l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 1, config.totals.endWeekPrimary, config.totals.yearPrimary, '2wk Rolling')}
 
-  const l1_trailingFourWeekF = config.totals.endWeekPrimary < 4 ? skip() : () => { return m.l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, trendQuery, config.totals.yearPrimary, '4wk Rolling')}
-  const l0_trailingFourWeekF = config.totals.endWeekPrimary < 4 ? skip() : () => { return m.l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, config.totals.yearPrimary, '4wk Rolling')}
+  m.l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, trendQuery, config.totals.yearPrimary, '4wk Rolling')}
+  m.l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 3, config.totals.endWeekPrimary, config.totals.yearPrimary, '4wk Rolling')}
 
-  const l1_trailingEightWeekF = config.totals.endWeekPrimary < 8 ? skip() : () => { return m.l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, trendQuery, config.totals.yearPrimary, '8wk Rolling')}
-  const l0_trailingEightWeekF = config.totals.endWeekPrimary < 8 ? skip() : () => { return m.l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, config.totals.yearPrimary, '8wk Rolling')}
+  m.l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, trendQuery, config.totals.yearPrimary, '8wk Rolling')}
+  m.l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 7, config.totals.endWeekPrimary, config.totals.yearPrimary, '8wk Rolling')}
 
-  const l1_trailingTwelveWeekF = config.totals.endWeekPrimary < 12 ? skip() : () => { return m.l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, trendQuery, config.totals.yearPrimary, '12wk Rolling')}
-  const l0_trailingTwelveWeekF = config.totals.endWeekPrimary < 12 ? skip() : () => { return m.l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, config.totals.yearPrimary, '12wk Rolling')}
+  m.l1_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, trendQuery, config.totals.yearPrimary, '12wk Rolling')}
+  m.l0_getSalesWkDriven(config, config.totals.endWeekPrimary - 11, config.totals.endWeekPrimary, config.totals.yearPrimary, '12wk Rolling')}
 
-  const companyTotalSalesF = () => { return m.getCompanyTotalSales(config)}
-  const programTotalSalesF = () => { return m.getProgramTotalSales(config)} 
 
-  const [
-    l1_inven, 
-    l0_inven, 
-    l1_OpenPo, 
-    l0_OpenPo, 
-    l1_so, 
-    l0_so, 
-    l1_soTrend, 
-    l0_soTrend, 
-    l1_salesTrend, 
-    l0_salesTrend, 
-    l1_sales, 
-    l0_sales, 
-    l1_trailingTwoWeek, 
-    l0_trailingTwoWeek, 
-    l1_trailingFourWeek, 
-    l0_trailingFourWeek, 
-    l1_trailingEightWeek, 
-    l0_trailingEightWeek, 
-    l1_trailingTwelveWeek, 
-    l0_trailingTwelveWeek, 
-    programTotalSales,
-    companyTotalSales 
-  ] = await Promise.all([
-    l1_invenF(), 
-    l0_invenF(), 
-    l1_OpenPoF(), 
-    l0_OpenPoF(), 
-    l1_soF(), 
-    l0_soF(), 
-    l1_soTrendF(), 
-    l0_soTrendF(), 
-    l1_salesTrendF(), 
-    l0_salesTrendF(), 
-    l1_salesF(), 
-    l0_salesF(), 
-    l1_trailingTwoWeekF(), 
-    l0_trailingTwoWeekF(), 
-    l1_trailingFourWeekF(), 
-    l0_trailingFourWeekF(), 
-    l1_trailingEightWeekF(), 
-    l0_trailingEightWeekF(), 
-    l1_trailingTwelveWeekF(), 
-    l0_trailingTwelveWeekF(), 
-    programTotalSalesF(),
-    companyTotalSalesF()])
 
   ///////////////////////////////// KPI DATA
 
   /* % YoY YTD SALES */
-  //const l0_yoyYtd_companySales = !config.trends.fyYtd ? [] : calcYoyYtdSalesCol(l0_salesByFyYtd, 'yoyYtdSales')
-  //const l1_yoyYtd_companySales = !config.trends.fyYtd ? [] : calcYoyYtdSalesCol(l1_salesByFyYtd, 'yoyYtdSales')
+  //m.calcYoyYtdSalesCol(l0_salesByFyYtd, 'yoyYtdSales')
+  //m.calcYoyYtdSalesCol(l1_salesByFyYtd, 'yoyYtdSales')
   
   /* % COMPANY SALES */
-  const l1_percent_companySales = m.calcPercentSalesCol(companyTotalSales, l1_sales, 'percentCompanySales')
-  const l0_percent_companySales = m.calcPercentSalesCol(companyTotalSales, l0_sales, 'percentCompanySales')
+  m.calcPercentSalesCol(companyTotalSales, l1_sales, 'percentCompanySales')
+  m.calcPercentSalesCol(companyTotalSales, l0_sales, 'percentCompanySales')
 
   /* % PROGRAM SALES */
-  const l1_percent_programSales = m.calcPercentSalesCol(programTotalSales, l1_sales, 'percentProgramSales')
-  const l0_percent_programSales = m.calcPercentSalesCol(programTotalSales, l0_sales, 'percentProgramSales')
+  m.calcPercentSalesCol(programTotalSales, l1_sales, 'percentProgramSales')
+  m.calcPercentSalesCol(programTotalSales, l0_sales, 'percentProgramSales')
 
   /* % REPORT TOTAL */
-  const l1_percent_reportTotal = m.calcPercentSalesCol(l0_sales[0], l1_sales, 'percentReportTotal')
-  const l0_percent_reportTotal = m.calcPercentSalesCol(l0_sales[0], l0_sales, 'percentReportTotal')
+  m.calcPercentSalesCol(l0_sales[0], l1_sales, 'percentReportTotal')
+  m.calcPercentSalesCol(l0_sales[0], l0_sales, 'percentReportTotal')
 
   /* AVE WEEKLY SALES */
-  const weeks = config.totals.endWeekPrimary - config.totals.startWeekPrimary + 1
-  const l1_aveWeeklySales = m.calcAveWeeklySales(l1_sales, 'aveWeeklySales', weeks)
-  const l0_aveWeeklySales = m.calcAveWeeklySales(l0_sales, 'aveWeeklySales', weeks)
 
-  const l1_twoWkAveSales = m.calcAveWeeklySales(l1_trailingTwoWeek, 'twoWkAveSales', 2)
-  const l0_twoWkAveSales = m.calcAveWeeklySales(l0_trailingTwoWeek, 'twoWkAveSales', 2)
+  m.calcAveWeeklySales(l1_sales, 'aveWeeklySales', weeks)
+  m.calcAveWeeklySales(l0_sales, 'aveWeeklySales', weeks)
 
-  const l1_fourWkAveSales = m.calcAveWeeklySales(l1_trailingFourWeek, 'fourWkAveSales', 4)
-  const l0_fourWkAveSales = m.calcAveWeeklySales(l0_trailingFourWeek, 'fourWkAveSales', 4)
+  m.calcAveWeeklySales(l1_trailingTwoWeek, 'twoWkAveSales', 2)
+  m.calcAveWeeklySales(l0_trailingTwoWeek, 'twoWkAveSales', 2)
 
-  const l1_eightWkAveSales = m.calcAveWeeklySales(l1_trailingEightWeek, 'eightWkAveSales', 8)
-  const l0_eightWkAveSales = m.calcAveWeeklySales(l0_trailingEightWeek, 'eightWkAveSales', 8)
+  m.calcAveWeeklySales(l1_trailingFourWeek, 'fourWkAveSales', 4)
+  m.calcAveWeeklySales(l0_trailingFourWeek, 'fourWkAveSales', 4)
 
-  const l1_twelveWkAveSales = m.calcAveWeeklySales(l1_trailingTwelveWeek, 'twelveWkAveSales', 12)
-  const l0_twelveWkAveSales = m.calcAveWeeklySales(l0_trailingTwelveWeek, 'twelveWkAveSales', 12)
+  m.calcAveWeeklySales(l1_trailingEightWeek, 'eightWkAveSales', 8)
+  m.calcAveWeeklySales(l0_trailingEightWeek, 'eightWkAveSales', 8)
+
+  m.calcAveWeeklySales(l1_trailingTwelveWeek, 'twelveWkAveSales', 12)
+  m.calcAveWeeklySales(l0_trailingTwelveWeek, 'twelveWkAveSales', 12)
 
   /* MOMENTUM 4Wk Ave Vs 12 Wk Ave */
-  const l1_momentum = m.calcMomentum(l1_fourWkAveSales, l1_twelveWkAveSales, 'momentum (4wk vs 12 wk)')
-  const l0_momentum = m.calcMomentum(l0_fourWkAveSales, l0_twelveWkAveSales, 'momentum (4wk vs 12 wk)')
+  m.calcMomentum(l1_fourWkAveSales, l1_twelveWkAveSales, 'momentum (4wk vs 12 wk)')
+  m.calcMomentum(l0_fourWkAveSales, l0_twelveWkAveSales, 'momentum (4wk vs 12 wk)')
 
   /* WEEKS INV ON HAND */
-  const l1_weeksInvOnHand = !l1_inven.length ? [] : m.calcWeeksInvOnHand(l1_inven, l1_aveWeeklySales, 'weeksInvenOnHand')
-  const l0_weeksInvOnHand = !l0_inven.length ? [] : m.calcWeeksInvOnHand(l0_inven, l0_aveWeeklySales, 'weeksInvenOnHand')
+  m.calcWeeksInvOnHand(l1_inven, l1_aveWeeklySales, 'weeksInvenOnHand')
+  m.calcWeeksInvOnHand(l0_inven, l0_aveWeeklySales, 'weeksInvenOnHand')
 
   /* INVENTORY AVAILABLE */
-  const l1_invAvailable = !l1_inven.length ? [] : m.calcInventoryAvailable(l1_inven, l1_OpenPo, l1_so, 'invenAvailable')
-  const l0_invAvailable = !l0_inven.length ? [] : m.calcInventoryAvailable(l0_inven, l0_OpenPo, l0_so, 'invenAvailable')
+  m.calcInventoryAvailable(l1_inven, l1_OpenPo, l1_so, 'invenAvailable')
+  m.calcInventoryAvailable(l0_inven, l0_OpenPo, l0_so, 'invenAvailable')
 
   ///////////////////////////////// ROWS
-  const rowsFirstLevelDetail = await m.getRowsFirstLevelDetail(config, startDate, endDate, trendQuery)
+  m.getRowsFirstLevelDetail(config, startDate, endDate, trendQuery)
 
   const totalsRow = [
     { totalRow: true, l1_label: `TOTAL`, datalevel: config.baseFilters.queryLevel, itemtype: config.baseFilters.itemType },
@@ -181,57 +146,7 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
     1: 'l1_label',
   })
 
-  const mappedSales = m.mapSalesToRowTemplates(
-    [
-      ...l0_trailingFourWeek,
-      ...l1_trailingFourWeek,
-      ...l0_trailingTwelveWeek,
-      ...l1_trailingTwelveWeek,
-      ...l1_salesTrend,
-      ...l0_salesTrend,
-      ...l1_sales,
-      ...l0_sales,
-      ...l1_so,
-      ...l0_so,
-      ...l1_soTrend,
-      ...l0_soTrend,
-      ...l1_percent_companySales,
-      ...l0_percent_companySales,
-      ...l1_percent_programSales,
-      ...l0_percent_programSales,
-      ...l1_percent_reportTotal,
-      ...l0_percent_reportTotal,
-      ...l1_aveWeeklySales,
-      ...l0_aveWeeklySales,
-      ...l1_twoWkAveSales,
-      ...l0_twoWkAveSales,
-      ...l1_fourWkAveSales,
-      ...l0_fourWkAveSales,
-      ...l1_eightWkAveSales,
-      ...l0_eightWkAveSales,
-      ...l1_twelveWkAveSales,
-      ...l0_twelveWkAveSales,
-      // ...l0_yoyYtd_companySales,
-      // ...l1_yoyYtd_companySales,
-      ...l1_momentum,
-      ...l0_momentum,
-    ],
-    rowTemplate_unflat, config, viewTrend = true
-  )
-
-  const mappedInven = m.mapInvenToRowTemplates(
-    [
-      ...l1_inven,
-      ...l0_inven,
-      ...l1_OpenPo,
-      ...l0_OpenPo,
-      ...l1_weeksInvOnHand,
-      ...l0_weeksInvOnHand,
-      ...l1_invAvailable,
-      ...l0_invAvailable,
-    ],
-    rowTemplate_unflat, config, viewTrend = true
-  )
+  const mappedSales = m.mapSalesToRowTemplates( [],rowTemplate_unflat, config, viewTrend = true)
 
   const mappedData = m.combineMappedRows(mappedSales, mappedInven)
 
@@ -260,8 +175,8 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
   data = [...filterRow, ...data]
 
 
-  const trendColsSalesF = !config.trends.queryGrouping ? skip() : () => {return  m.getTrendColsSales(config)} 
-  const trendColsSoF = config.trends.queryGrouping ? () => {return  m.getTrendColsSo(config)} : skip()
+  m.getTrendColsSales(config)
+  m.getTrendColsSo(config)
 
 
   let columnConfigsTagged = m.addDataToSalesTotalCol(config, m.columnConfigs) // adds startDate, endDate, and displayName to the sales totals col

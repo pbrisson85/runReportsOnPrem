@@ -20,7 +20,6 @@ module.exports = {
   getRowsFirstLevelDetail: require('../../postgres/viewTrend/getRows').getRowsFirstLevelDetail,
   mapSalesToRowTemplates: require('../../../utils/mapDataToRowTemplates'),
   mapInvenToRowTemplates: require('../../../utils/mapInvenToRowTemplates'),
-  combineMappedRows: require('../../../utils/combineMappedRows'),
   cleanLabelsForDisplay: require('../../../utils/cleanLabelsForDisplay'),
   unflattenByCompositKey: require('../../../utils/unflattenByCompositKey'),
   calcPercentSalesCol: require('../../models/calcPercentSalesCol'),
