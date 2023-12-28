@@ -7,7 +7,7 @@ const getQueryGrouping = reqArr => {
   const trendTypes = trendTypeOptions()
   const defaultType = trendTypes.filter(type => type.default)
 
-  return defaultType[0].dataName
+  return defaultType[0].queryPeriod
 }
 
 module.exports = getQueryGrouping
