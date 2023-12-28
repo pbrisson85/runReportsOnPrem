@@ -5,7 +5,6 @@ module.exports = {
 
   // Trend Cols
   getTrendColsSales: require('../../postgres/trendColHeadings/getTrendColsSales').getTrendColsSales,
-  getTrendColsFiscalYear: require('../../postgres/trendColHeadings/getTrendColsFiscalYear').getTrendColsFiscalYear, // NOT IN USE
   getTrendColsSo: require('../../postgres/trendColHeadings/getTrendColsSo').getTrendColsSo,
 
   // Sales Trend Primary

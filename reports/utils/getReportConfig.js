@@ -1,8 +1,5 @@
 const appSettings = require('../filters/data/appSettings')
 const unflattenByCompositKey = require('./unflattenByCompositKey')
-const getDefaults = require('./getReportDefaults')
-const { getStartOfWeek } = require('./configHelpers/getDateStartByWeek')
-const getWeekForDate = require('./configHelpers/getWeekForDate')
 const { getEarliestSoShipDate, getLatestSoShipDate } = require('./configHelpers/getSoDates')
 const getBaseFormatDefault = require('./configHelpers/getBaseFormatDefault')
 const getlabelCols = require('./configHelpers/getLabelCols')
@@ -10,19 +7,13 @@ const getUseProjection = require('./configHelpers/getUseProjection')
 const { getInvenReportsGrouping, getInvenReportsAging } = require('./configHelpers/getInvenColOptions')
 const getTrailingWeeks = require('./configHelpers/getTrailingWeeks')
 const getQueryGrouping = require('./configHelpers/getQueryGrouping')
+const getTrendDates = require('./configHelpers/getTrendDates')
+const getDatesTotalsComparison = require('./configHelpers/getDatesTotalsComparison')
+const getDatesTotalsPrimary = require('./configHelpers/getDatesTotalsPrimary')
+const getRowDates = require('./configHelpers/getRowDates')
+const getUserPermissions = require('./configHelpers/getUserPermissions')
 
 const getReportConfig = async reqBody => {
-  // auth filters:
-  let joeB = false
-
-  const hasAuthFilters = reqBody.creds?.filters?.length > 0
-  if (hasAuthFilters) {
-    joeB = reqBody.creds.filters.find(f => f.dataName === 'jbBuyer').mandatory
-  } else {
-    // check for front end option
-    if (reqBody.dataFilters === 'jbBuyer') joeB = true
-  }
-
   // get subtotalRowFormats defaults
   const appSettingsData = appSettings()
   const appSettings_unflat = unflattenByCompositKey(appSettingsData, { 1: 'dataName' })
@@ -32,37 +23,6 @@ const getReportConfig = async reqBody => {
     reqBody.itemType = [...reqBody.itemType.replace(/""/g, '').replace(/"\[/g, '').replace(/\]"/g, '').split(',')]
   }
 
-  const { defaultStart, defaultEnd, defaultYear } = await getDefaults()
-  const startOfWeek = await getStartOfWeek(defaultStart)
-  const periodStart = startOfWeek[0].formatted_date_start
-
-  // determine earliest start date for rows.
-  const trendStart = new Date(reqBody.trendStart?.date_start ?? periodStart)
-  const totalsStart = new Date(reqBody.totalsStart?.date_start ?? periodStart)
-
-  let rowStart
-  if (new Date(trendStart).getTime() <= new Date(totalsStart).getTime()) {
-    rowStart = trendStart
-  } else {
-    rowStart = totalsStart
-  }
-
-  // determine latest end date for rows.
-  const trendEnd = new Date(reqBody.trendEnd?.date_end ?? defaultEnd)
-  const totalsEnd = new Date(reqBody.totalsEnd?.date_end ?? defaultEnd)
-
-  let rowEnd
-  if (new Date(trendEnd).getTime() >= new Date(totalsEnd).getTime()) {
-    rowEnd = trendEnd
-  } else {
-    rowEnd = totalsEnd
-  }
-
-  // get so dates
-  const start_so = await getEarliestSoShipDate(reqBody.user)
-  const end_so = await getLatestSoShipDate(reqBody.user) // NEED A MAX RANGE HERE !!!!!!!!!! SLS PERSON ACCIDENTALLY ENTERED 2031 INTO A SO AN FRONT END CRASHED
-
-  // define config object
   let config = {
     labelCols: getlabelCols(reqBody),
     baseFormat: {
@@ -80,7 +40,7 @@ const getReportConfig = async reqBody => {
     },
     baseFilters: {
       queryLevel: reqBody.queryLevel ?? null,
-      itemType: reqBody.itemType ?? ['FG', 'SECONDS'], //<--- should put these defaults in the filter option and call here
+      itemType: reqBody.itemType ?? ['FG', 'SECONDS'],
       program: typeof reqBody.program === 'undefined' ? null : reqBody.program === 'all' ? null : reqBody.program,
       l1_filter: reqBody.l1_filter ?? null,
       l2_filter: reqBody.l2_filter ?? null,
@@ -89,7 +49,6 @@ const getReportConfig = async reqBody => {
       l5_filter: reqBody.l5_filter ?? null,
     },
     trendFilters: {
-      // Note that these filters must be updated on the front end and in the right click menu array in baseCols
       customer: reqBody.customer ?? null,
       item: reqBody.item ?? null,
       salesPerson: reqBody.salesPerson ?? null,
@@ -104,13 +63,12 @@ const getReportConfig = async reqBody => {
       program: reqBody.programDrilldown ?? null,
     },
     rows: {
-      // Rows need to use the widest date range since the totals cols and the trend could differ in range
-      startDate: rowStart,
-      endDate: rowEnd,
+      startDate: await getRowDates(reqBody).startDate,
+      endDate: await getRowDates(reqBody).endDate,
     },
     salesOrders: {
-      startDate: start_so,
-      endDate: end_so,
+      startDate: await getEarliestSoShipDate(reqBody.user),
+      endDate: await getLatestSoShipDate(reqBody.user),
     },
     trends: {
       fiscalWeeks: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'fiscalWeeks' ?? false,
@@ -120,9 +78,8 @@ const getReportConfig = async reqBody => {
       calMonths: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'calMonths' ?? false,
       calQuarters: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'calQuarters' ?? false,
       calYtd: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'calYtd' ?? false,
-      startDate: new Date(reqBody.trendStart?.date_start ?? periodStart),
-      endDate: new Date(reqBody.trendEnd?.date_end ?? defaultEnd),
-      endWeek: typeof reqBody.trendEnd?.week === 'undefined' ? 0 : reqBody.trendEnd.week === '52' ? 53 : parseInt(reqBody.trendEnd.week),
+      startDate: getTrendDates(reqBody).startDate,
+      endDate: getTrendDates(reqBody).endDate,
       trendYears: typeof reqBody.trendYears === 'undefined' ? [] : reqBody.trendYears.map(yr => parseInt(yr)),
       useProjection: {
         sl: getUseProjection(reqBody.trendUseProjection).sl,
@@ -132,25 +89,22 @@ const getReportConfig = async reqBody => {
       queryGrouping: getQueryGrouping(reqBody.trendQueryGrouping),
     },
     totals: {
-      // For now just going to assume that we are only getting the current year. Will need to determine the actual start and end based on the years in the array and the weeks, period, month, etc.
-      startDatePrimary: new Date(reqBody.totalsStart?.date_start ?? periodStart),
-      endDatePrimary: new Date(reqBody.totalsEnd?.date_end ?? defaultEnd),
-      startDateComparison: new Date(reqBody.totalsStart?.date_start ?? periodStart),
-      endDateComparison: new Date(reqBody.totalsEnd?.date_end ?? defaultEnd),
+      startDatePrimary: await getDatesTotalsPrimary(reqBody).startDate,
+      endDatePrimary: await getDatesTotalsPrimary(reqBody).endDate,
+      startDateComparison: await getDatesTotalsComparison(reqBody).startDate,
+      endDateComparison: await getDatesTotalsComparison(reqBody).endDate,
       useProjection: {
         sl: getUseProjection(reqBody.totalsUseProjection).sl,
         so: getUseProjection(reqBody.totalsUseProjection).so,
         pr: getUseProjection(reqBody.totalsUseProjection).pr,
       },
     },
-    trailingWeeks: await getTrailingWeeks(reqBody.totalsStart?.date_start ?? periodStart, reqBody.totalsEnd?.date_end ?? defaultEnd), // returns array that is used to generate trailing weeks kpi
+    trailingWeeks: await getTrailingWeeks(reqBody),
     invenReportCols: {
       aging: getInvenReportsAging(reqBody),
       grouping: getInvenReportsGrouping(reqBody),
     },
-    userPermissions: {
-      joeB,
-    },
+    userPermissions: getUserPermissions(reqBody),
     user: reqBody.user ?? null,
     subtotalRowFormats: {
       shiftTotals: reqBody.appSettings?.shiftTotals ?? appSettings_unflat['shiftTotals'].default,
