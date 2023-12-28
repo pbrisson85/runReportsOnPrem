@@ -134,7 +134,7 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
     data,
     cols: {
       trendColumns: trendColumnsTagged,
-      labelCols: config.labelCols,
+      labelCols,
       columnConfigs: columnConfigsTagged,
     },
   }
