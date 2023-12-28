@@ -78,7 +78,7 @@ const l1_getAveSales = async (config, trendQuery, useProjection) => {
               ON sl.formatted_invoice_date = p.formatted_date
   
           WHERE 
-            sl.formatted_invoice_date >= ${startDate} AND sl.formatted_invoice_date <= ${endDate} 
+            sl.formatted_invoice_date >= ${trailingWeek.start} AND sl.formatted_invoice_date <= ${trailingWeek.end} 
             ${config.trendFilters.customer ? sql`AND sl.customer_code = ${config.trendFilters.customer}`: sql``} 
             ${config.trendFilters.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.trendFilters.salesPerson}`: sql``} 
             ${config.trendFilters.country ? sql`AND sl.country = ${config.trendFilters.country}`: sql``} 
@@ -114,7 +114,7 @@ const l1_getAveSales = async (config, trendQuery, useProjection) => {
   
             WHERE 
               so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-              AND so.formatted_ship_date >= ${startDate} AND so.formatted_ship_date <= ${endDate}
+              AND so.formatted_ship_date >= ${trailingWeek.start} AND so.formatted_ship_date <= ${trailingWeek.end}
               ${config.trendFilters.customer ? sql`AND so.customer_code = ${config.trendFilters.customer}`: sql``} 
               ${config.trendFilters.salesPerson ? sql`AND so.out_sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
               ${config.trendFilters.country ? sql`AND so.country = ${config.trendFilters.country}`: sql``} 
@@ -145,7 +145,7 @@ const l1_getAveSales = async (config, trendQuery, useProjection) => {
                 ON pr.date = p.formatted_date
           
             WHERE 
-            pr.date >= ${startDate} AND pr.date <= ${endDate} 
+            pr.date >= ${trailingWeek.start} AND pr.date <= ${trailingWeek.end} 
             ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
             ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
             ${config.trendFilters.country ? sql`AND pr.country = ${config.trendFilters.country}`: sql``} 
@@ -258,7 +258,7 @@ const l0_getAveSales = async (config, useProjection) => {
               ON sl.formatted_invoice_date = p.formatted_date
   
           WHERE 
-            sl.formatted_invoice_date >= ${startDate} AND sl.formatted_invoice_date <= ${endDate} 
+            sl.formatted_invoice_date >= ${trailingWeek.start} AND sl.formatted_invoice_date <= ${trailingWeek.end}  
             ${config.trendFilters.customer ? sql`AND sl.customer_code = ${config.trendFilters.customer}`: sql``} 
             ${config.trendFilters.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.trendFilters.salesPerson}`: sql``} 
             ${config.trendFilters.country ? sql`AND sl.country = ${config.trendFilters.country}`: sql``} 
@@ -287,7 +287,7 @@ const l0_getAveSales = async (config, useProjection) => {
   
           WHERE 
             so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-            AND so.formatted_ship_date >= ${startDate} AND so.formatted_ship_date <= ${endDate}
+            AND so.formatted_ship_date >= ${trailingWeek.start} AND so.formatted_ship_date <= ${trailingWeek.end}
             ${config.trendFilters.customer ? sql`AND so.customer_code = ${config.trendFilters.customer}`: sql``} 
             ${config.trendFilters.salesPerson ? sql`AND so.out_sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
             ${config.trendFilters.country ? sql`AND so.country = ${config.trendFilters.country}`: sql``} 
@@ -311,7 +311,7 @@ const l0_getAveSales = async (config, useProjection) => {
                   ON pr.date = p.formatted_date
             
               WHERE 
-              pr.date >= ${startDate} AND pr.date <= ${endDate} 
+              pr.date >= ${trailingWeek.start} AND pr.date <= ${trailingWeek.end} 
               ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
               ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
               ${config.trendFilters.country ? sql`AND pr.country = ${config.trendFilters.country}`: sql``} 
