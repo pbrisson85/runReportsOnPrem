@@ -354,4 +354,4 @@ const l0_getAveSales = async (config, useProjection) => {
   }
 }
 
-module.exports = { l0_getAveSales, l1_getAveSales, l2_getAveSales, l3_getAveSales, l4_getAveSales, l5_getAveSales }
+module.exports = { l0_getAveSales, l1_getAveSales }
