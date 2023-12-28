@@ -53,6 +53,7 @@ module.exports = {
 
   // Model Functions
 
+  sortRowTemplate: require('../../../utils/sortRowTemplate'),
   mapDataToRowTemplates: require('../../../utils/mapDataToRowTemplates'),
   cleanLabelsForDisplay: require('../../../utils/cleanLabelsForDisplay'),
   unflattenByCompositKey: require('../../../utils/unflattenByCompositKey'),

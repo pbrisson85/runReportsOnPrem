@@ -44,7 +44,9 @@ const l1_getPercentSales = async (config, startDate, endDate, trendQuery, usePro
           0 AS lbs, 
           0 AS sales, 
           0 AS cogs, 
-          0 AS othp 
+          0 AS othp,
+          0 AS gross_margin, 
+          0 AS net_sales
 
         FROM "salesReporting".sales_line_items AS sl
 
@@ -65,7 +67,9 @@ const l1_getPercentSales = async (config, startDate, endDate, trendQuery, usePro
           COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
           COALESCE(sl.gross_sales_ext,0) AS sales, 
           COALESCE(sl.cogs_ext_gl,0) AS cogs, 
-          COALESCE(sl.othp_ext,0) AS othp 
+          COALESCE(sl.othp_ext,0) AS othp,
+          COALESCE(sl.gross_sales_ext-sl.cogs_ext_gl-sl.othp_ext,0) AS gross_margin, 
+          COALESCE(sl.gross_sales_ext-sl.othp_ext,0) AS net_sales 
 
         FROM "salesReporting".sales_line_items AS sl
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -100,7 +104,9 @@ const l1_getPercentSales = async (config, startDate, endDate, trendQuery, usePro
             COALESCE(so.ext_weight,0) AS lbs, 
             COALESCE(so.ext_sales,0) AS sales, 
             COALESCE(so.ext_cost,0) AS cogs, 
-            COALESCE(so.ext_othp,0) AS othp 
+            COALESCE(so.ext_othp,0) AS othp, 
+            COALESCE(so.ext_sales-so.ext_cost-so.ext_othp,0) AS gross_margin, 
+            COALESCE(so.ext_sales-so.ext_othp,0) AS net_sales 
          
           FROM "salesReporting".sales_orders AS so
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -132,7 +138,12 @@ const l1_getPercentSales = async (config, startDate, endDate, trendQuery, usePro
           ${trendQuery.pr.l5_label ? sql`${sql(trendQuery.pr.l5_label)} AS l5_label,`: sql``} 
           ${trendQuery.pr.l6_label ? sql`${sql(trendQuery.pr.l6_label)} AS l6_label,`: sql``} 
           ${trendQuery.pr.l7_label ? sql`${sql(trendQuery.pr.l7_label)} AS l7_label,`: sql``} 
-          COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_gross,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
+          COALESCE(pr.lbs,0) AS lbs, 
+          COALESCE(pr.sales_gross,0) AS sales, 
+          COALESCE(pr.cogs,0) AS cogs, 
+          COALESCE(pr.othp,0) AS othp, 
+          COALESCE(pr.sales_gross-pr.cogs-pr.othp,0) AS gross_margin, 
+          COALESCE(pr.sales_gross-pr.othp,0) AS net_sales 
             
           FROM "salesReporting".projected_sales AS pr  
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -223,7 +234,9 @@ const l0_getPercentSales = async (config, startDate, endDate, useProjection, den
           0 AS lbs, 
           0 AS sales, 
           0 AS cogs, 
-          0 AS othp 
+          0 AS othp,
+          0 AS gross_margin, 
+          0 AS net_sales 
 
         FROM "salesReporting".sales_line_items AS sl
 
@@ -237,7 +250,9 @@ const l0_getPercentSales = async (config, startDate, endDate, useProjection, den
           COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
           COALESCE(sl.gross_sales_ext,0) AS sales, 
           COALESCE(sl.cogs_ext_gl,0) AS cogs, 
-          COALESCE(sl.othp_ext,0) AS othp 
+          COALESCE(sl.othp_ext,0) AS othp,
+          COALESCE(sl.gross_sales_ext-sl.cogs_ext_gl-sl.othp_ext,0) AS gross_margin, 
+          COALESCE(sl.gross_sales_ext-sl.othp_ext,0) AS net_sales 
 
         FROM "salesReporting".sales_line_items AS sl
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -265,7 +280,9 @@ const l0_getPercentSales = async (config, startDate, endDate, useProjection, den
             COALESCE(so.ext_weight,0) AS lbs, 
             COALESCE(so.ext_sales,0) AS sales, 
             COALESCE(so.ext_cost,0) AS cogs, 
-            COALESCE(so.ext_othp,0) AS othp 
+            COALESCE(so.ext_othp,0) AS othp, 
+            COALESCE(so.ext_sales-so.ext_cost-so.ext_othp,0) AS gross_margin, 
+            COALESCE(so.ext_sales-so.ext_othp,0) AS net_sales 
        
         FROM "salesReporting".sales_orders AS so
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -290,7 +307,12 @@ const l0_getPercentSales = async (config, startDate, endDate, useProjection, den
           UNION ALL
             pr.item_number,
             pr.customer_code,
-            COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_gross,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
+            COALESCE(pr.lbs,0) AS lbs, 
+            COALESCE(pr.sales_gross,0) AS sales, 
+            COALESCE(pr.cogs,0) AS cogs, 
+            COALESCE(pr.othp,0) AS othp, 
+            COALESCE(pr.sales_gross-pr.cogs-pr.othp,0) AS gross_margin, 
+            COALESCE(pr.sales_gross-pr.othp,0) AS net_sales 
               
             FROM "salesReporting".projected_sales AS pr  
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
