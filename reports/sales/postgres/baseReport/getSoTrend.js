@@ -8,7 +8,25 @@ const l1_getSoTrend = async config => {
     console.log(`${config.user} - level 1: query postgres for FG Sales Orders By Week (l1_getSoTrend) ...`)
 
     const response = await sql
-      `SELECT ${sql(config.trends.queryGrouping)} || '_so' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 'SUBTOTAL' AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(so.ext_weight),0) AS lbs, COALESCE(SUM(so.ext_sales),0) AS "grossSales", COALESCE(SUM(so.ext_cost),0) AS cogs, COALESCE(SUM(so.ext_othp),0) AS othp, COALESCE(SUM(so.ext_sales) - SUM(so.ext_othp),0) AS "netSales", COALESCE(SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp),0) AS "grossMargin", COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp)) / SUM(so.ext_sales),0) AS "grossMarginPercent", COALESCE(SUM(so.ext_sales)/SUM(so.ext_weight),0) AS "grossSalesPerLb", COALESCE((SUM(so.ext_sales) - SUM(so.ext_othp))/SUM(so.ext_weight),0) AS "netSalesPerLb", COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp))/SUM(so.ext_weight),0) AS "grossMarginPerLb", COALESCE(SUM(so.ext_cost)/SUM(so.ext_weight),0) AS "cogsPerLb", COALESCE(SUM(so.ext_othp)/SUM(so.ext_weight),0) AS "othpPerLb" 
+      `SELECT 
+      ${sql(config.trends.queryGrouping)} || '_so' AS column, 
+      COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
+      'SUBTOTAL' AS l2_label, 
+      'SUBTOTAL' AS l3_label, 
+      'SUBTOTAL' AS l4_label, 
+      'SUBTOTAL' AS l5_label, 
+      COALESCE(SUM(so.ext_weight),0) AS lbs, 
+      COALESCE(SUM(so.ext_sales),0) AS "grossSales", 
+      COALESCE(SUM(so.ext_cost),0) AS cogs, 
+      COALESCE(SUM(so.ext_othp),0) AS othp, 
+      COALESCE(SUM(so.ext_sales) - SUM(so.ext_othp),0) AS "netSales", 
+      COALESCE(SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp),0) AS "grossMargin", 
+      COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp)) / NULLIF(SUM(so.ext_sales),0),0) AS "grossMarginPercent", 
+      COALESCE(SUM(so.ext_sales)/NULLIF(SUM(so.ext_weight),0),0) AS "grossSalesPerLb", 
+      COALESCE((SUM(so.ext_sales) - SUM(so.ext_othp))/NULLIF(SUM(so.ext_weight),0),0) AS "netSalesPerLb", 
+      COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp))/NULLIF(SUM(so.ext_weight),0),0) AS "grossMarginPerLb", 
+      COALESCE(SUM(so.ext_cost)/NULLIF(SUM(so.ext_weight),0),0) AS "cogsPerLb", 
+      COALESCE(SUM(so.ext_othp)/NULLIF(SUM(so.ext_weight),0),0) AS "othpPerLb" 
       
       FROM "salesReporting".sales_orders AS so
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -41,7 +59,25 @@ const l2_getSoTrend = async config => {
     console.log(`${config.user} - level 2: query postgres for FG Sales Orders By Week (l2_getSoTrend) ...`)
 
     const response = await sql
-      `SELECT ${sql(config.trends.queryGrouping)} || '_so' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 'SUBTOTAL' AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(so.ext_weight),0) AS lbs, COALESCE(SUM(so.ext_sales),0) AS "grossSales", COALESCE(SUM(so.ext_cost),0) AS cogs, COALESCE(SUM(so.ext_othp),0) AS othp, COALESCE(SUM(so.ext_sales) - SUM(so.ext_othp),0) AS "netSales", COALESCE(SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp),0) AS "grossMargin", COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp)) / SUM(so.ext_sales),0) AS "grossMarginPercent", COALESCE(SUM(so.ext_sales)/SUM(so.ext_weight),0) AS "grossSalesPerLb", COALESCE((SUM(so.ext_sales) - SUM(so.ext_othp))/SUM(so.ext_weight),0) AS "netSalesPerLb", COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp))/SUM(so.ext_weight),0) AS "grossMarginPerLb", COALESCE(SUM(so.ext_cost)/SUM(so.ext_weight),0) AS "cogsPerLb", COALESCE(SUM(so.ext_othp)/SUM(so.ext_weight),0) AS "othpPerLb" 
+      `SELECT 
+      ${sql(config.trends.queryGrouping)} || '_so' AS column, 
+      COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
+      COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
+      'SUBTOTAL' AS l3_label, 
+      'SUBTOTAL' AS l4_label, 
+      'SUBTOTAL' AS l5_label, 
+      COALESCE(SUM(so.ext_weight),0) AS lbs, 
+      COALESCE(SUM(so.ext_sales),0) AS "grossSales", 
+      COALESCE(SUM(so.ext_cost),0) AS cogs, 
+      COALESCE(SUM(so.ext_othp),0) AS othp, 
+      COALESCE(SUM(so.ext_sales) - SUM(so.ext_othp),0) AS "netSales", 
+      COALESCE(SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp),0) AS "grossMargin", 
+      COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp)) / NULLIF(SUM(so.ext_sales),0),0) AS "grossMarginPercent", 
+      COALESCE(SUM(so.ext_sales)/NULLIF(SUM(so.ext_weight),0),0) AS "grossSalesPerLb", 
+      COALESCE((SUM(so.ext_sales) - SUM(so.ext_othp))/NULLIF(SUM(so.ext_weight),0),0) AS "netSalesPerLb", 
+      COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp))/NULLIF(SUM(so.ext_weight),0),0) AS "grossMarginPerLb", 
+      COALESCE(SUM(so.ext_cost)/NULLIF(SUM(so.ext_weight),0),0) AS "cogsPerLb", 
+      COALESCE(SUM(so.ext_othp)/NULLIF(SUM(so.ext_weight),0),0) AS "othpPerLb" 
       
       FROM "salesReporting".sales_orders AS so
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -74,7 +110,25 @@ const l3_getSoTrend = async config => {
     console.log(`${config.user} - level 3: query postgres for FG Sales Orders By Week (l3_getSoTrend) ...`)
 
     const response = await sql
-      `SELECT ${sql(config.trends.queryGrouping)} || '_so' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 'SUBTOTAL' AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(so.ext_weight),0) AS lbs, COALESCE(SUM(so.ext_sales),0) AS "grossSales", COALESCE(SUM(so.ext_cost),0) AS cogs, COALESCE(SUM(so.ext_othp),0) AS othp, COALESCE(SUM(so.ext_sales) - SUM(so.ext_othp),0) AS "netSales", COALESCE(SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp),0) AS "grossMargin", COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp)) / SUM(so.ext_sales),0) AS "grossMarginPercent", COALESCE(SUM(so.ext_sales)/SUM(so.ext_weight),0) AS "grossSalesPerLb", COALESCE((SUM(so.ext_sales) - SUM(so.ext_othp))/SUM(so.ext_weight),0) AS "netSalesPerLb", COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp))/SUM(so.ext_weight),0) AS "grossMarginPerLb", COALESCE(SUM(so.ext_cost)/SUM(so.ext_weight),0) AS "cogsPerLb", COALESCE(SUM(so.ext_othp)/SUM(so.ext_weight),0) AS "othpPerLb" 
+      `SELECT 
+      ${sql(config.trends.queryGrouping)} || '_so' AS column, 
+      COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
+      COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
+      COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 
+      'SUBTOTAL' AS l4_label, 
+      'SUBTOTAL' AS l5_label, 
+      COALESCE(SUM(so.ext_weight),0) AS lbs, 
+      COALESCE(SUM(so.ext_sales),0) AS "grossSales", 
+      COALESCE(SUM(so.ext_cost),0) AS cogs, 
+      COALESCE(SUM(so.ext_othp),0) AS othp, 
+      COALESCE(SUM(so.ext_sales) - SUM(so.ext_othp),0) AS "netSales", 
+      COALESCE(SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp),0) AS "grossMargin", 
+      COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp)) / NULLIF(SUM(so.ext_sales),0),0) AS "grossMarginPercent", 
+      COALESCE(SUM(so.ext_sales)/NULLIF(SUM(so.ext_weight),0),0) AS "grossSalesPerLb", 
+      COALESCE((SUM(so.ext_sales) - SUM(so.ext_othp))/NULLIF(SUM(so.ext_weight),0),0) AS "netSalesPerLb", 
+      COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp))/NULLIF(SUM(so.ext_weight),0),0) AS "grossMarginPerLb", 
+      COALESCE(SUM(so.ext_cost)/NULLIF(SUM(so.ext_weight),0),0) AS "cogsPerLb", 
+      COALESCE(SUM(so.ext_othp)/NULLIF(SUM(so.ext_weight),0),0) AS "othpPerLb" 
       
       FROM "salesReporting".sales_orders AS so
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -107,7 +161,25 @@ const l4_getSoTrend = async config => {
     console.log(`${config.user} - level 4: query postgres for FG Sales Orders By Week (l4_getSoTrend) ...`)
 
     const response = await sql
-      `SELECT ${sql(config.trends.queryGrouping)} || '_so' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 'SUBTOTAL' AS l5_label, COALESCE(SUM(so.ext_weight),0) AS lbs, COALESCE(SUM(so.ext_sales),0) AS "grossSales", COALESCE(SUM(so.ext_cost),0) AS cogs, COALESCE(SUM(so.ext_othp),0) AS othp, COALESCE(SUM(so.ext_sales) - SUM(so.ext_othp),0) AS "netSales", COALESCE(SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp),0) AS "grossMargin", COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp)) / SUM(so.ext_sales),0) AS "grossMarginPercent", COALESCE(SUM(so.ext_sales)/SUM(so.ext_weight),0) AS "grossSalesPerLb", COALESCE((SUM(so.ext_sales) - SUM(so.ext_othp))/SUM(so.ext_weight),0) AS "netSalesPerLb", COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp))/SUM(so.ext_weight),0) AS "grossMarginPerLb", COALESCE(SUM(so.ext_cost)/SUM(so.ext_weight),0) AS "cogsPerLb", COALESCE(SUM(so.ext_othp)/SUM(so.ext_weight),0) AS "othpPerLb" 
+      `SELECT 
+      ${sql(config.trends.queryGrouping)} || '_so' AS column, 
+      COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
+      COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
+      COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 
+      COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 
+      'SUBTOTAL' AS l5_label, 
+      COALESCE(SUM(so.ext_weight),0) AS lbs, 
+      COALESCE(SUM(so.ext_sales),0) AS "grossSales", 
+      COALESCE(SUM(so.ext_cost),0) AS cogs, 
+      COALESCE(SUM(so.ext_othp),0) AS othp, 
+      COALESCE(SUM(so.ext_sales) - SUM(so.ext_othp),0) AS "netSales", 
+      COALESCE(SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp),0) AS "grossMargin", 
+      COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp)) / NULLIF(SUM(so.ext_sales),0),0) AS "grossMarginPercent", 
+      COALESCE(SUM(so.ext_sales)/NULLIF(SUM(so.ext_weight),0),0) AS "grossSalesPerLb", 
+      COALESCE((SUM(so.ext_sales) - SUM(so.ext_othp))/NULLIF(SUM(so.ext_weight),0),0) AS "netSalesPerLb", 
+      COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp))/NULLIF(SUM(so.ext_weight),0),0) AS "grossMarginPerLb", 
+      COALESCE(SUM(so.ext_cost)/NULLIF(SUM(so.ext_weight),0),0) AS "cogsPerLb", 
+      COALESCE(SUM(so.ext_othp)/NULLIF(SUM(so.ext_weight),0),0) AS "othpPerLb" 
       
       FROM "salesReporting".sales_orders AS so
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -140,7 +212,25 @@ const l5_getSoTrend = async config => {
     console.log(`${config.user} - level 5: query postgres for FG Sales Orders By Week (l4_getSoTrend) ...`)
 
     const response = await sql
-      `SELECT ${sql(config.trends.queryGrouping)} || '_so' AS column, COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, COALESCE(SUM(so.ext_weight),0) AS lbs, COALESCE(SUM(so.ext_sales),0) AS "grossSales", COALESCE(SUM(so.ext_cost),0) AS cogs, COALESCE(SUM(so.ext_othp),0) AS othp, COALESCE(SUM(so.ext_sales) - SUM(so.ext_othp),0) AS "netSales", COALESCE(SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp),0) AS "grossMargin", COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp)) / SUM(so.ext_sales),0) AS "grossMarginPercent", COALESCE(SUM(so.ext_sales)/SUM(so.ext_weight),0) AS "grossSalesPerLb", COALESCE((SUM(so.ext_sales) - SUM(so.ext_othp))/SUM(so.ext_weight),0) AS "netSalesPerLb", COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp))/SUM(so.ext_weight),0) AS "grossMarginPerLb", COALESCE(SUM(so.ext_cost)/SUM(so.ext_weight),0) AS "cogsPerLb", COALESCE(SUM(so.ext_othp)/SUM(so.ext_weight),0) AS "othpPerLb" 
+      `SELECT 
+      ${sql(config.trends.queryGrouping)} || '_so' AS column, 
+      COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
+      COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
+      COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 
+      COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 
+      COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, 
+      COALESCE(SUM(so.ext_weight),0) AS lbs, 
+      COALESCE(SUM(so.ext_sales),0) AS "grossSales", 
+      COALESCE(SUM(so.ext_cost),0) AS cogs, 
+      COALESCE(SUM(so.ext_othp),0) AS othp, 
+      COALESCE(SUM(so.ext_sales) - SUM(so.ext_othp),0) AS "netSales", 
+      COALESCE(SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp),0) AS "grossMargin", 
+      COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp)) / NULLIF(SUM(so.ext_sales),0),0) AS "grossMarginPercent", 
+      COALESCE(SUM(so.ext_sales)/NULLIF(SUM(so.ext_weight),0),0) AS "grossSalesPerLb", 
+      COALESCE((SUM(so.ext_sales) - SUM(so.ext_othp))/NULLIF(SUM(so.ext_weight),0),0) AS "netSalesPerLb", 
+      COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp))/NULLIF(SUM(so.ext_weight),0),0) AS "grossMarginPerLb", 
+      COALESCE(SUM(so.ext_cost)/NULLIF(SUM(so.ext_weight),0),0) AS "cogsPerLb", 
+      COALESCE(SUM(so.ext_othp)/NULLIF(SUM(so.ext_weight),0),0) AS "othpPerLb" 
       
       FROM "salesReporting".sales_orders AS so
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -172,7 +262,21 @@ const l0_getSoTrend = async config => {
     console.log(`${config.user} - level 0: query postgres for FG Sales Orders By Week (l0_getSoTrend) ...`)
 
     const response = await sql
-      `SELECT ${sql(config.trends.queryGrouping)} || '_so' AS column, 'TOTAL' AS l1_label, COALESCE(SUM(so.ext_weight),0) AS lbs, COALESCE(SUM(so.ext_sales),0) AS "grossSales", COALESCE(SUM(so.ext_cost),0) AS cogs, COALESCE(SUM(so.ext_othp),0) AS othp, COALESCE(SUM(so.ext_sales) - SUM(so.ext_othp),0) AS "netSales", COALESCE(SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp),0) AS "grossMargin", COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp)) / SUM(so.ext_sales),0) AS "grossMarginPercent", COALESCE(SUM(so.ext_sales)/SUM(so.ext_weight),0) AS "grossSalesPerLb", COALESCE((SUM(so.ext_sales) - SUM(so.ext_othp))/SUM(so.ext_weight),0) AS "netSalesPerLb", COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp))/SUM(so.ext_weight),0) AS "grossMarginPerLb", COALESCE(SUM(so.ext_cost)/SUM(so.ext_weight),0) AS "cogsPerLb", COALESCE(SUM(so.ext_othp)/SUM(so.ext_weight),0) AS "othpPerLb" 
+      `SELECT 
+      ${sql(config.trends.queryGrouping)} || '_so' AS column, 
+      'TOTAL' AS l1_label, 
+      COALESCE(SUM(so.ext_weight),0) AS lbs, 
+      COALESCE(SUM(so.ext_sales),0) AS "grossSales", 
+      COALESCE(SUM(so.ext_cost),0) AS cogs, 
+      COALESCE(SUM(so.ext_othp),0) AS othp, 
+      COALESCE(SUM(so.ext_sales) - SUM(so.ext_othp),0) AS "netSales", 
+      COALESCE(SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp),0) AS "grossMargin", 
+      COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp)) / NULLIF(SUM(so.ext_sales),0),0) AS "grossMarginPercent", 
+      COALESCE(SUM(so.ext_sales)/NULLIF(SUM(so.ext_weight),0),0) AS "grossSalesPerLb", 
+      COALESCE((SUM(so.ext_sales) - SUM(so.ext_othp))/NULLIF(SUM(so.ext_weight),0),0) AS "netSalesPerLb", 
+      COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp))/NULLIF(SUM(so.ext_weight),0),0) AS "grossMarginPerLb", 
+      COALESCE(SUM(so.ext_cost)/NULLIF(SUM(so.ext_weight),0),0) AS "cogsPerLb", 
+      COALESCE(SUM(so.ext_othp)/NULLIF(SUM(so.ext_weight),0),0) AS "othpPerLb" 
       
       FROM "salesReporting".sales_orders AS so
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -197,9 +301,4 @@ const l0_getSoTrend = async config => {
   }
 }
 
-module.exports.l5_getSoTrend = l5_getSoTrend
-module.exports.l4_getSoTrend = l4_getSoTrend
-module.exports.l3_getSoTrend = l3_getSoTrend
-module.exports.l0_getSoTrend = l0_getSoTrend
-module.exports.l2_getSoTrend = l2_getSoTrend
-module.exports.l1_getSoTrend = l1_getSoTrend
+module.exports = { l5_getSoTrend, l4_getSoTrend, l3_getSoTrend, l2_getSoTrend, l1_getSoTrend, l0_getSoTrend }

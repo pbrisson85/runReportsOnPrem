@@ -1,11 +1,11 @@
 const sql = require('../../../../server')
 
 const l1_getSalesTrend = async (config, trendQuery, useProjection) => {
+  if (!config.trends.queryGrouping) return []
+  if (!trendQuery.sl.l1_label) return []
+
   try {
     console.log(`${config.user} - level 1: (l1_getSalesTrend) query postgres to get FG sales data by week ...`)
-
-    console.log('trendQuery', trendQuery)
-    console.log('useProjection', useProjection)
 
     const response = await sql
       `SELECT 
@@ -17,7 +17,18 @@ const l1_getSalesTrend = async (config, trendQuery, useProjection) => {
         ${trendQuery.sl.l5_label ? sql`pj.l5_label,`: sql``}
         ${trendQuery.sl.l6_label ? sql`pj.l6_label,`: sql``}
         ${trendQuery.sl.l7_label ? sql`pj.l7_label,`: sql``}
-        SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
+        SUM(pj.lbs) AS lbs, 
+        SUM(pj.sales) AS "grossSales", 
+        SUM(pj.cogs) AS cogs, 
+        SUM(pj.othp) AS othp, 
+        SUM(pj.sales) - SUM(pj.othp) AS "netSales", 
+        SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp) AS "grossMargin", 
+        COALESCE((SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp))/NULLIF(SUM(pj.sales),0),0) AS "grossMarginPercent", 
+        COALESCE(SUM(pj.sales)/NULLIF(SUM(pj.lbs),0),0) AS "grossSalesPerLb", 
+        COALESCE((SUM(pj.sales) - SUM(pj.othp))/NULLIF(SUM(pj.lbs),0),0) AS "netSalesPerLb", 
+        COALESCE((SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp))/NULLIF(SUM(pj.lbs),0),0) AS "grossMarginPerLb", 
+        COALESCE(SUM(pj.cogs)/NULLIF(SUM(pj.lbs),0),0) AS "cogsPerLb", 
+        COALESCE(SUM(pj.othp)/NULLIF(SUM(pj.lbs),0),0) AS "othpPerLb"
       
       FROM (
         SELECT
@@ -190,6 +201,8 @@ const l1_getSalesTrend = async (config, trendQuery, useProjection) => {
 }
 
 const l0_getSalesTrend = async (config, useProjection) => {
+  if (!config.trends.queryGrouping) return []
+
   try {
     console.log(`${config.user} - level 0: (l0_getSalesTrend) query postgres to get FG sales data by week ...`)
 
@@ -197,9 +210,17 @@ const l0_getSalesTrend = async (config, useProjection) => {
     `SELECT pj.column,
     'TOTAL' AS l1_label, 
     SUM(pj.lbs) AS lbs, 
-    SUM(pj.sales) AS sales, 
+    SUM(pj.sales) AS "grossSales", 
     SUM(pj.cogs) AS cogs, 
-    SUM(pj.othp) AS othp
+    SUM(pj.othp) AS othp, 
+    SUM(pj.sales) - SUM(pj.othp) AS "netSales", 
+    SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp) AS "grossMargin", 
+    COALESCE((SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp))/NULLIF(SUM(pj.sales),0),0) AS "grossMarginPercent", 
+    COALESCE(SUM(pj.sales)/NULLIF(SUM(pj.lbs),0),0) AS "grossSalesPerLb", 
+    COALESCE((SUM(pj.sales) - SUM(pj.othp))/NULLIF(SUM(pj.lbs),0),0) AS "netSalesPerLb", 
+    COALESCE((SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp))/NULLIF(SUM(pj.lbs),0),0) AS "grossMarginPerLb", 
+    COALESCE(SUM(pj.cogs)/NULLIF(SUM(pj.lbs),0),0) AS "cogsPerLb", 
+    COALESCE(SUM(pj.othp)/NULLIF(SUM(pj.lbs),0),0) AS "othpPerLb"
     
     FROM (
       SELECT

@@ -16,15 +16,24 @@ const l1_getInven = async (config, trendQuery) => {
       ${trendQuery.inv.l5_label ? sql`${sql(trendQuery.inv.l5_label)} AS l5_label,`: sql``} 
       ${trendQuery.inv.l6_label ? sql`${sql(trendQuery.inv.l6_label)} AS l6_label,`: sql``} 
       ${trendQuery.inv.l7_label ? sql`${sql(trendQuery.inv.l7_label)} AS l7_label,`: sql``} 
-      COALESCE(SUM(pi.on_hand_lbs),0) AS lbs, 
-      COALESCE(SUM(pi.cost_extended),0) AS cogs 
+      COALESCE(SUM(inv.on_hand_lbs),0) AS lbs, 
+      COALESCE(SUM(inv.cost_extended),0) AS cogs, 
+      COALESCE(SUM(inv.cost_extended),0) AS othp, 
+      COALESCE(SUM(inv.cost_extended),0) AS "grossSales", 
+      COALESCE(SUM(inv.cost_extended),0) AS "netSales", 
+      COALESCE(SUM(inv.cost_extended),0) AS "grossMargin", 0 AS "grossMarginPercent", 
+      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "grossSalesPerLb", 
+      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "cogsPerLb", 
+      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "othpPerLb", 
+      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "netSalesPerLb", 
+      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "grossMarginPerLb"
       
-      FROM "invenReporting".perpetual_inventory AS pi 
+      FROM "invenReporting".perpetual_inventory AS inv 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-          ON ms.item_num = pi.item_number 
+          ON ms.item_num = inv.item_number 
       
       WHERE 
-        pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+        inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
@@ -63,14 +72,27 @@ const l0_getInven = async (config, trendQuery) => {
     // level 0 detail (TOTAL)
 
     const response = await sql
-      `SELECT 'INVEN' AS column, 'TOTAL' AS l1_label,  COALESCE(SUM(pi.on_hand_lbs),0) AS lbs, COALESCE(SUM(pi.cost_extended),0) AS cogs 
+      `SELECT 
+      'INVEN' AS column, 
+      'TOTAL' AS l1_label,  
+      COALESCE(SUM(inv.on_hand_lbs),0) AS lbs, 
+      COALESCE(SUM(inv.cost_extended),0) AS cogs, 
+      COALESCE(SUM(inv.cost_extended),0) AS othp, 
+      COALESCE(SUM(inv.cost_extended),0) AS "grossSales", 
+      COALESCE(SUM(inv.cost_extended),0) AS "netSales", 
+      COALESCE(SUM(inv.cost_extended),0) AS "grossMargin", 0 AS "grossMarginPercent", 
+      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "grossSalesPerLb", 
+      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "cogsPerLb", 
+      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "othpPerLb", 
+      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "netSalesPerLb", 
+      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "grossMarginPerLb"
       
-      FROM "invenReporting".perpetual_inventory AS pi 
+      FROM "invenReporting".perpetual_inventory AS inv 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-          ON ms.item_num = pi.item_number 
+          ON ms.item_num = inv.item_number 
       
       WHERE 
-        pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+        inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}

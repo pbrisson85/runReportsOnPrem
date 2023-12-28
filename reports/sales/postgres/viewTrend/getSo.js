@@ -1,6 +1,8 @@
 const sql = require('../../../../server')
 
 const l1_getSo = async (config, trendQuery) => {
+  if (!trendQuery.so.l1_label) return []
+
   try {
     console.log(`${config.user} - level 1: query postgres for FG Sales Orders ...`)
 
@@ -15,9 +17,17 @@ const l1_getSo = async (config, trendQuery) => {
           ${trendQuery.so.l6_label ? sql`${sql(trendQuery.so.l6_label)} AS l6_label,`: sql``} 
           ${trendQuery.so.l7_label ? sql`${sql(trendQuery.so.l7_label)} AS l7_label,`: sql``} 
           COALESCE(SUM(so.ext_weight),0) AS lbs, 
-          COALESCE(SUM(so.ext_sales),0) AS sales, 
+          COALESCE(SUM(so.ext_sales),0) AS "grossSales", 
           COALESCE(SUM(so.ext_cost),0) AS cogs, 
-          COALESCE(SUM(so.ext_othp),0) AS othp 
+          COALESCE(SUM(so.ext_othp),0) AS othp, 
+          COALESCE(SUM(so.ext_sales) - SUM(so.ext_othp),0) AS "netSales", 
+          COALESCE(SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp),0) AS "grossMargin", 
+          COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp)) / NULLIF(SUM(so.ext_sales),0),0) AS "grossMarginPercent", 
+          COALESCE(SUM(so.ext_sales)/NULLIF(SUM(so.ext_weight),0),0) AS "grossSalesPerLb", 
+          COALESCE((SUM(so.ext_sales) - SUM(so.ext_othp))/NULLIF(SUM(so.ext_weight),0),0) AS "netSalesPerLb", 
+          COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp))/NULLIF(SUM(so.ext_weight),0),0) AS "grossMarginPerLb", 
+          COALESCE(SUM(so.ext_cost)/NULLIF(SUM(so.ext_weight),0),0) AS "cogsPerLb", 
+          COALESCE(SUM(so.ext_othp)/NULLIF(SUM(so.ext_weight),0),0) AS "othpPerLb" 
          
          FROM "salesReporting".sales_orders AS so
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -74,9 +84,17 @@ const l0_getSo = async config => {
             'SALES ORDER' AS column,
             'TOTAL' AS l1_label,  
             COALESCE(SUM(so.ext_weight),0) AS lbs, 
-            COALESCE(SUM(so.ext_sales),0) AS sales, 
+            COALESCE(SUM(so.ext_sales),0) AS "grossSales", 
             COALESCE(SUM(so.ext_cost),0) AS cogs, 
-            COALESCE(SUM(so.ext_othp),0) AS othp 
+            COALESCE(SUM(so.ext_othp),0) AS othp, 
+            COALESCE(SUM(so.ext_sales) - SUM(so.ext_othp),0) AS "netSales", 
+            COALESCE(SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp),0) AS "grossMargin", 
+            COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp)) / NULLIF(SUM(so.ext_sales),0),0) AS "grossMarginPercent", 
+            COALESCE(SUM(so.ext_sales)/NULLIF(SUM(so.ext_weight),0),0) AS "grossSalesPerLb", 
+            COALESCE((SUM(so.ext_sales) - SUM(so.ext_othp))/NULLIF(SUM(so.ext_weight),0),0) AS "netSalesPerLb", 
+            COALESCE((SUM(so.ext_sales) - SUM(so.ext_cost) - SUM(so.ext_othp))/NULLIF(SUM(so.ext_weight),0),0) AS "grossMarginPerLb", 
+            COALESCE(SUM(so.ext_cost)/NULLIF(SUM(so.ext_weight),0),0) AS "cogsPerLb", 
+            COALESCE(SUM(so.ext_othp)/NULLIF(SUM(so.ext_weight),0),0) AS "othpPerLb" 
            
            FROM "salesReporting".sales_orders AS so 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 

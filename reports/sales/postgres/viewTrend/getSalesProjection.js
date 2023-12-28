@@ -1,6 +1,8 @@
 const sql = require('../../../../server')
 
 const l1_getSales = async (config, startDate, endDate, trendQuery, useProjection) => {
+  if (!trendQuery.sl.l1_label) return []
+
   try {
     console.log(`${config.user} - level 1: (getSalesTrend Lvl3) query postgres to get FG sales data period total ...`)
 
@@ -14,7 +16,18 @@ const l1_getSales = async (config, startDate, endDate, trendQuery, useProjection
       ${trendQuery.sl.l5_label ? sql`pj.l5_label,`: sql``}
       ${trendQuery.sl.l6_label ? sql`pj.l6_label,`: sql``}
       ${trendQuery.sl.l7_label ? sql`pj.l7_label,`: sql``}
-      SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
+      SUM(pj.lbs) AS lbs, 
+      SUM(pj.sales) AS "grossSales", 
+      SUM(pj.cogs) AS cogs, 
+      SUM(pj.othp) AS othp, 
+      SUM(pj.sales) - SUM(pj.othp) AS "netSales", 
+      SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp) AS "grossMargin", 
+      COALESCE((SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp))/NULLIF(SUM(pj.sales),0),0) AS "grossMarginPercent", 
+      COALESCE(SUM(pj.sales)/NULLIF(SUM(pj.lbs),0),0) AS "grossSalesPerLb", 
+      COALESCE((SUM(pj.sales) - SUM(pj.othp))/NULLIF(SUM(pj.lbs),0),0) AS "netSalesPerLb", 
+      COALESCE((SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp))/NULLIF(SUM(pj.lbs),0),0) AS "grossMarginPerLb", 
+      COALESCE(SUM(pj.cogs)/NULLIF(SUM(pj.lbs),0),0) AS "cogsPerLb", 
+      COALESCE(SUM(pj.othp)/NULLIF(SUM(pj.lbs),0),0) AS "othpPerLb"
     
       FROM (
         SELECT
@@ -187,7 +200,18 @@ const l0_getSales = async (config, startDate, endDate, useProjection) => {
     const response = await sql
     `SELECT 'SALES TOTAL' AS column,
     'TOTAL' AS l1_label, 
-    SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp
+    SUM(pj.lbs) AS lbs, 
+    SUM(pj.sales) AS "grossSales", 
+    SUM(pj.cogs) AS cogs, 
+    SUM(pj.othp) AS othp, 
+    SUM(pj.sales) - SUM(pj.othp) AS "netSales", 
+    SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp) AS "grossMargin", 
+    COALESCE((SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp))/NULLIF(SUM(pj.sales),0),0) AS "grossMarginPercent", 
+    COALESCE(SUM(pj.sales)/NULLIF(SUM(pj.lbs),0),0) AS "grossSalesPerLb", 
+    COALESCE((SUM(pj.sales) - SUM(pj.othp))/NULLIF(SUM(pj.lbs),0),0) AS "netSalesPerLb", 
+    COALESCE((SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp))/NULLIF(SUM(pj.lbs),0),0) AS "grossMarginPerLb", 
+    COALESCE(SUM(pj.cogs)/NULLIF(SUM(pj.lbs),0),0) AS "cogsPerLb", 
+    COALESCE(SUM(pj.othp)/NULLIF(SUM(pj.lbs),0),0) AS "othpPerLb"
     
     FROM (
       SELECT
