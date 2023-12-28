@@ -9,6 +9,7 @@ const getlabelCols = require('./configHelpers/getLabelCols')
 const getUseProjection = require('./configHelpers/getUseProjection')
 const { getInvenReportsGrouping, getInvenReportsAging } = require('./configHelpers/getInvenColOptions')
 const getTrailingWeeks = require('./configHelpers/getTrailingWeeks')
+const getQueryGrouping = require('./configHelpers/getQueryGrouping')
 
 const getReportConfig = async reqBody => {
   // auth filters:
@@ -34,9 +35,6 @@ const getReportConfig = async reqBody => {
   const { defaultStart, defaultEnd, defaultYear } = await getDefaults()
   const startOfWeek = await getStartOfWeek(defaultStart)
   const periodStart = startOfWeek[0].formatted_date_start
-
-  const defaultStartWeek = await getWeekForDate(periodStart, reqBody.user) // Need to pass from front end
-  const defaultEndWeek = await getWeekForDate(defaultEnd, reqBody.user) // Need to pass from front end
 
   // determine earliest start date for rows.
   const trendStart = new Date(reqBody.trendStart?.date_start ?? periodStart)
@@ -131,7 +129,7 @@ const getReportConfig = async reqBody => {
         so: getUseProjection(reqBody.trendUseProjection).so,
         pr: getUseProjection(reqBody.trendUseProjection).pr,
       },
-      queryGrouping: typeof reqBody.trendQueryGrouping === 'undefined' ? false : reqBody.trendQueryGrouping[0],
+      queryGrouping: getQueryGrouping(reqBody.trendQueryGrouping),
     },
     totals: {
       // For now just going to assume that we are only getting the current year. Will need to determine the actual start and end based on the years in the array and the weeks, period, month, etc.
