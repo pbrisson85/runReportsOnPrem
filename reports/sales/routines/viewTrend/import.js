@@ -5,8 +5,6 @@ module.exports = {
   l0_getSalesTrend: require('../../postgres/viewTrend/getSalesTrendProjection').l0_getSalesTrend,
   l1_getSales: require('../../postgres/viewTrend/getSalesProjection').l1_getSales,
   l0_getSales: require('../../postgres/viewTrend/getSalesProjection').l0_getSales,
-  l1_getSalesWkDriven: require('../../postgres/viewTrend/getSalesTrendWkDriven').l1_getSalesWkDriven,
-  l0_getSalesWkDriven: require('../../postgres/viewTrend/getSalesTrendWkDriven').l0_getSalesWkDriven,
   getCompanyTotalSales: require('../../postgres/kpi/getCompanyTotalSales').getCompanyTotalSales,
   getProgramTotalSales: require('../../postgres/kpi/getProgramTotalSales').getProgramTotalSales,
   l1_getInven: require('../../postgres/viewTrend/getInven').l1_getInven,
