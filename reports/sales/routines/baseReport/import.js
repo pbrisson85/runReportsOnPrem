@@ -5,7 +5,7 @@ module.exports = {
 
   // Trend Cols
   getTrendColsSales: require('../../postgres/trendColHeadings/getTrendColsSales').getTrendColsSales,
-  getTrendColsFiscalYear: require('../../postgres/trendColHeadings/getTrendColsFiscalYear').getTrendColsFiscalYear,
+  getTrendColsFiscalYear: require('../../postgres/trendColHeadings/getTrendColsFiscalYear').getTrendColsFiscalYear, // NOT IN USE
   getTrendColsSo: require('../../postgres/trendColHeadings/getTrendColsSo').getTrendColsSo,
 
   // Sales Trend Primary
@@ -33,19 +33,19 @@ module.exports = {
   l0_getInv: require('../../postgres/baseReport/getInven').l0_getInv,
 
   // KPI
-  l0_getAveSales: require('../../postgres/kpi/getAveSales').l0_getAveSales,
-  l1_getAveSales: require('../../postgres/kpi/getAveSales').l1_getAveSales,
-  l2_getAveSales: require('../../postgres/kpi/getAveSales').l2_getAveSales,
-  l3_getAveSales: require('../../postgres/kpi/getAveSales').l3_getAveSales,
-  l4_getAveSales: require('../../postgres/kpi/getAveSales').l4_getAveSales,
-  l5_getAveSales: require('../../postgres/kpi/getAveSales').l5_getAveSales,
+  l0_getAveSales: require('../../postgres/kpi/getAveSales_base').l0_getAveSales,
+  l1_getAveSales: require('../../postgres/kpi/getAveSales_base').l1_getAveSales,
+  l2_getAveSales: require('../../postgres/kpi/getAveSales_base').l2_getAveSales,
+  l3_getAveSales: require('../../postgres/kpi/getAveSales_base').l3_getAveSales,
+  l4_getAveSales: require('../../postgres/kpi/getAveSales_base').l4_getAveSales,
+  l5_getAveSales: require('../../postgres/kpi/getAveSales_base').l5_getAveSales,
 
-  l0_getPercentSales: require('../../postgres/kpi/getPercentSales').l0_getPercentSales,
-  l1_getPercentSales: require('../../postgres/kpi/getPercentSales').l1_getPercentSales,
-  l2_getPercentSales: require('../../postgres/kpi/getPercentSales').l2_getPercentSales,
-  l3_getPercentSales: require('../../postgres/kpi/getPercentSales').l3_getPercentSales,
-  l4_getPercentSales: require('../../postgres/kpi/getPercentSales').l4_getPercentSales,
-  l5_getPercentSales: require('../../postgres/kpi/getPercentSales').l5_getPercentSales,
+  l0_getPercentSales: require('../../postgres/kpi/getPercentSales_base').l0_getPercentSales,
+  l1_getPercentSales: require('../../postgres/kpi/getPercentSales_base').l1_getPercentSales,
+  l2_getPercentSales: require('../../postgres/kpi/getPercentSales_base').l2_getPercentSales,
+  l3_getPercentSales: require('../../postgres/kpi/getPercentSales_base').l3_getPercentSales,
+  l4_getPercentSales: require('../../postgres/kpi/getPercentSales_base').l4_getPercentSales,
+  l5_getPercentSales: require('../../postgres/kpi/getPercentSales_base').l5_getPercentSales,
 
   getCompanyTotalSales: require('../../postgres/kpi/getCompanyTotalSales'),
   getSpeciesGroupTotalSales: require('../../postgres/kpi/getSpeciesGroupTotalSales'),

@@ -179,7 +179,7 @@ const buildReport = async config => {
 
   /* MAP DATA TO ROWS */
 
-  const mappedData = m.mapDataToRowTemplates(queryData, rowTemplate_unflat, config)
+  const mappedData = m.mapDataToRowTemplates(queryData, rowTemplate_unflat, config, (viewTrend = false))
   const flattenedMappedData = Object.values(mappedData)
   const data = m.cleanLabelsForDisplay(flattenedMappedData, config)
 

@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const getRowsFirstLevelDetail = async (config, start, end, trendQuery) => {
+const l1_getRowLabels = async (config, start, end, trendQuery) => {
   const itemTypeArray = JSON.stringify(config.baseFilters.itemType)
 
   try {
@@ -157,4 +157,17 @@ const getRowsFirstLevelDetail = async (config, start, end, trendQuery) => {
   }
 }
 
-module.exports.getRowsFirstLevelDetail = getRowsFirstLevelDetail
+const l0_getRowLabels = async config => {
+  const totalsRow = [
+    {
+      totalRow: true,
+      l1_label: `TOTAL`,
+      datalevel: 0,
+      itemtype: config.baseFilters.itemType,
+    },
+  ]
+
+  return totalsRow
+}
+
+module.exports = { l0_getRowLabels, l1_getRowLabels }
