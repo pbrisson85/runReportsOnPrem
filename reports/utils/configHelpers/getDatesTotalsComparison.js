@@ -7,7 +7,7 @@ const getDatesTotalsComparison = async reqBody => {
   }
 
   // Defaults
-  const endDate = await getClosestWeekEndDate(new Date())
+  const endDate = await getClosestWeekEndDate(new Date(), 'getDatesTotalsComparison')
   const startDate = await getStartOfFiscalYear() // beginning of fiscal year
 
   return { startDate, endDate }

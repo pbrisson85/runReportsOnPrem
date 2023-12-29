@@ -7,7 +7,7 @@ const getTrendDates = async reqBody => {
   }
 
   // Defaults
-  const endDate = await getClosestWeekEndDate(new Date())
+  const endDate = await getClosestWeekEndDate(new Date(), 'getTrendDates')
   const startDate = getTrailingWeeksStartDate(5, endDate)
 
   return { startDate, endDate }
