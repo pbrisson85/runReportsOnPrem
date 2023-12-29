@@ -34,11 +34,13 @@ module.exports = {
   l0_getSo: require('../../postgres/baseReport/getSo').l0_getSo,
 
   // Get Rows
-  getRowsFifthLevelDetail: require('../../postgres/baseReport/getRows').getRowsFifthLevelDetail,
-  getRowsFourthLevelDetail: require('../../postgres/baseReport/getRows').getRowsFourthLevelDetail,
-  getRowsThirdLevelDetail: require('../../postgres/baseReport/getRows').getRowsThirdLevelDetail,
-  getRowsSecondLevelDetail: require('../../postgres/baseReport/getRows').getRowsSecondLevelDetail,
-  getRowsFirstLevelDetail: require('../../postgres/baseReport/getRows').getRowsFirstLevelDetail,
+
+  l5_getRowLabels: require('../../postgres/baseReport/getRowsLabels').l5_getRowLabels,
+  l4_getRowLabels: require('../../postgres/baseReport/getRowsLabels').l4_getRowLabels,
+  l3_getRowLabels: require('../../postgres/baseReport/getRowsLabels').l3_getRowLabels,
+  l2_getRowLabels: require('../../postgres/baseReport/getRowsLabels').l2_getRowLabels,
+  l1_getRowLabels: require('../../postgres/baseReport/getRowsLabels').l1_getRowLabels,
+  l0_getRowLabels: require('../../postgres/baseReport/getRowsLabels').l0_getRowLabels,
 
   // Model Functions
   cleanLabelsForDisplay: require('../../../utils/cleanLabelsForDisplay'),

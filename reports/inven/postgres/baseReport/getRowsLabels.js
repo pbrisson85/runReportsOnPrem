@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const getRowsFifthLevelDetail = async config => {
+const l5_getRowLabels = async config => {
   // config.trends.fyYtd || config.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
   const itemTypeArray = JSON.stringify(config.baseFilters.itemType)
@@ -59,7 +59,7 @@ const getRowsFifthLevelDetail = async config => {
   }
 }
 
-const getRowsFourthLevelDetail = async config => {
+const l4_getRowLabels = async config => {
   // config.trends.fyYtd || config.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
   const itemTypeArray = JSON.stringify(config.baseFilters.itemType)
@@ -118,7 +118,7 @@ const getRowsFourthLevelDetail = async config => {
   }
 }
 
-const getRowsThirdLevelDetail = async config => {
+const l3_getRowLabels = async config => {
   // config.trends.fyYtd || config.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
   let itemTypeArray = JSON.stringify(config.baseFilters.itemType)
@@ -176,7 +176,7 @@ const getRowsThirdLevelDetail = async config => {
   }
 }
 
-const getRowsSecondLevelDetail = async config => {
+const l2_getRowLabels = async config => {
   // config.trends.fyYtd || config.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
   const itemTypeArray = JSON.stringify(config.baseFilters.itemType)
@@ -234,7 +234,7 @@ const getRowsSecondLevelDetail = async config => {
   }
 }
 
-const getRowsFirstLevelDetail = async config => {
+const l1_getRowLabels = async config => {
   // config.trends.fyYtd || config.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
   const itemTypeArray = JSON.stringify(config.baseFilters.itemType)
@@ -292,8 +292,17 @@ const getRowsFirstLevelDetail = async config => {
   }
 }
 
-module.exports.getRowsFirstLevelDetail = getRowsFirstLevelDetail
-module.exports.getRowsSecondLevelDetail = getRowsSecondLevelDetail
-module.exports.getRowsThirdLevelDetail = getRowsThirdLevelDetail
-module.exports.getRowsFourthLevelDetail = getRowsFourthLevelDetail
-module.exports.getRowsFifthLevelDetail = getRowsFifthLevelDetail
+const l0_getRowLabels = async config => {
+  const totalsRow = [
+    {
+      totalRow: true,
+      l1_label: `TOTAL`,
+      datalevel: 0,
+      itemtype: config.baseFilters.itemType,
+    },
+  ]
+
+  return totalsRow
+}
+
+module.exports = { l0_getRowLabels, l1_getRowLabels, l2_getRowLabels, l3_getRowLabels, l4_getRowLabels, l5_getRowLabels }
