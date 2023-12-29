@@ -41,11 +41,10 @@ module.exports = {
   getRowsFirstLevelDetail: require('../../postgres/baseReport/getRows').getRowsFirstLevelDetail,
 
   // Model Functions
-  mapInvenToRowTemplates: require('../../../utils/mapInvenToRowTemplates'),
   cleanLabelsForDisplay: require('../../../utils/cleanLabelsForDisplay'),
   unflattenByCompositKey: require('../../../utils/unflattenByCompositKey'),
   sortRowTemplate: require('../../../utils/sortRowTemplate'),
-  mapSalesToRowTemplates: require('../../../utils/mapDataToRowTemplates'),
+  mapDataToRowTemplates: require('../../../utils/mapDataToRowTemplates'),
 
   // Col Helpers
   buildAgingCols: require('../helpers/agingColHelper').buildAgingCols,
