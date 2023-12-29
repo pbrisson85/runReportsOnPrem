@@ -41,7 +41,7 @@ const l1_getPercentSales = async (config, denominator, colName) => {
           FROM "salesReporting".sales_line_items AS sl 
             
           WHERE 
-            sl.formatted_invoice_date >= ${config.totals.primary.startDatePrimary} AND sl.formatted_invoice_date <= ${config.totals.primary.endDatePrimary} 
+            sl.formatted_invoice_date >= ${config.totals.primary.startDate} AND sl.formatted_invoice_date <= ${config.totals.primary.endDate} 
         `: sql``}
 
         ${config.totals.useProjection.so ? sql`
@@ -52,7 +52,7 @@ const l1_getPercentSales = async (config, denominator, colName) => {
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${config.totals.primary.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.primary.endDatePrimary}
+            AND so.formatted_ship_date >= ${config.totals.primary.startDate} AND so.formatted_ship_date <= ${config.totals.primary.endDate}
         `: sql``}
 
         ${config.totals.useProjection.pr ? sql` 
@@ -62,7 +62,7 @@ const l1_getPercentSales = async (config, denominator, colName) => {
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
-            pr.date >= ${config.totals.primary.startDatePrimary} AND pr.date <= ${config.totals.primary.endDatePrimary}
+            pr.date >= ${config.totals.primary.startDate} AND pr.date <= ${config.totals.primary.endDate}
           `: sql``}
 
           ) AS pj
@@ -126,7 +126,7 @@ const l2_getPercentSales = async (config, denominator, colName) => {
           FROM "salesReporting".sales_line_items AS sl
             
           WHERE
-            sl.formatted_invoice_date >= ${config.totals.primary.startDatePrimary} AND sl.formatted_invoice_date <= ${config.totals.primary.endDatePrimary}
+            sl.formatted_invoice_date >= ${config.totals.primary.startDate} AND sl.formatted_invoice_date <= ${config.totals.primary.endDate}
           `: sql``}
 
         ${config.totals.useProjection.so ? sql`
@@ -137,7 +137,7 @@ const l2_getPercentSales = async (config, denominator, colName) => {
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${config.totals.primary.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.primary.endDatePrimary}
+            AND so.formatted_ship_date >= ${config.totals.primary.startDate} AND so.formatted_ship_date <= ${config.totals.primary.endDate}
           `: sql``}
 
         ${config.totals.useProjection.pr ? sql` 
@@ -147,7 +147,7 @@ const l2_getPercentSales = async (config, denominator, colName) => {
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
-            pr.date >= ${config.totals.primary.startDatePrimary} AND pr.date <= ${config.totals.primary.endDatePrimary}
+            pr.date >= ${config.totals.primary.startDate} AND pr.date <= ${config.totals.primary.endDate}
           `: sql``}
 
           ) AS pj
@@ -211,7 +211,7 @@ const l3_getPercentSales = async (config, denominator, colName) => {
           FROM "salesReporting".sales_line_items AS sl
             
           WHERE
-            sl.formatted_invoice_date >= ${config.totals.primary.startDatePrimary} AND sl.formatted_invoice_date <= ${config.totals.primary.endDatePrimary}
+            sl.formatted_invoice_date >= ${config.totals.primary.startDate} AND sl.formatted_invoice_date <= ${config.totals.primary.endDate}
           `: sql``}
 
         ${config.totals.useProjection.so ? sql`
@@ -222,7 +222,7 @@ const l3_getPercentSales = async (config, denominator, colName) => {
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${config.totals.primary.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.primary.endDatePrimary}
+            AND so.formatted_ship_date >= ${config.totals.primary.startDate} AND so.formatted_ship_date <= ${config.totals.primary.endDate}
           `: sql``}
 
         ${config.totals.useProjection.pr ? sql` 
@@ -232,7 +232,7 @@ const l3_getPercentSales = async (config, denominator, colName) => {
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
-            pr.date >= ${config.totals.primary.startDatePrimary} AND pr.date <= ${config.totals.primary.endDatePrimary}
+            pr.date >= ${config.totals.primary.startDate} AND pr.date <= ${config.totals.primary.endDate}
           `: sql``}
 
           ) AS pj
@@ -296,7 +296,7 @@ const l4_getPercentSales = async (config, denominator, colName) => {
           FROM "salesReporting".sales_line_items AS sl
             
           WHERE
-            sl.formatted_invoice_date >= ${config.totals.primary.startDatePrimary} AND sl.formatted_invoice_date <= ${config.totals.primary.endDatePrimary}
+            sl.formatted_invoice_date >= ${config.totals.primary.startDate} AND sl.formatted_invoice_date <= ${config.totals.primary.endDate}
           `: sql``}
 
         ${config.totals.useProjection.so ? sql`
@@ -307,7 +307,7 @@ const l4_getPercentSales = async (config, denominator, colName) => {
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${config.totals.primary.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.primary.endDatePrimary}
+            AND so.formatted_ship_date >= ${config.totals.primary.startDate} AND so.formatted_ship_date <= ${config.totals.primary.endDate}
           `: sql``}
 
         ${config.totals.useProjection.pr ? sql` 
@@ -317,7 +317,7 @@ const l4_getPercentSales = async (config, denominator, colName) => {
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
-            pr.date >= ${config.totals.primary.startDatePrimary} AND pr.date <= ${config.totals.primary.endDatePrimary}
+            pr.date >= ${config.totals.primary.startDate} AND pr.date <= ${config.totals.primary.endDate}
           `: sql``}
 
           ) AS pj
@@ -381,7 +381,7 @@ const l5_getPercentSales = async (config, denominator, colName) => {
           FROM "salesReporting".sales_line_items AS sl
             
           WHERE
-            sl.formatted_invoice_date >= ${config.totals.primary.startDatePrimary} AND sl.formatted_invoice_date <= ${config.totals.primary.endDatePrimary}
+            sl.formatted_invoice_date >= ${config.totals.primary.startDate} AND sl.formatted_invoice_date <= ${config.totals.primary.endDate}
           `: sql``}
 
         ${config.totals.useProjection.so ? sql`
@@ -392,7 +392,7 @@ const l5_getPercentSales = async (config, denominator, colName) => {
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${config.totals.primary.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.primary.endDatePrimary}
+            AND so.formatted_ship_date >= ${config.totals.primary.startDate} AND so.formatted_ship_date <= ${config.totals.primary.endDate}
           `: sql``}
 
         ${config.totals.useProjection.pr ? sql` 
@@ -402,7 +402,7 @@ const l5_getPercentSales = async (config, denominator, colName) => {
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
-            pr.date >= ${config.totals.primary.startDatePrimary} AND pr.date <= ${config.totals.primary.endDatePrimary}
+            pr.date >= ${config.totals.primary.startDate} AND pr.date <= ${config.totals.primary.endDate}
           `: sql``}
 
           ) AS pj
@@ -462,7 +462,7 @@ const l0_getPercentSales = async (config, denominator, colName) => {
           FROM "salesReporting".sales_line_items AS sl 
             
           WHERE 
-            sl.formatted_invoice_date >= ${config.totals.primary.startDatePrimary} AND sl.formatted_invoice_date <= ${config.totals.primary.endDatePrimary} 
+            sl.formatted_invoice_date >= ${config.totals.primary.startDate} AND sl.formatted_invoice_date <= ${config.totals.primary.endDate} 
         `: sql``}
 
         ${config.totals.useProjection.so ? sql`
@@ -473,7 +473,7 @@ const l0_getPercentSales = async (config, denominator, colName) => {
          
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
-            AND so.formatted_ship_date >= ${config.totals.primary.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.primary.endDatePrimary}
+            AND so.formatted_ship_date >= ${config.totals.primary.startDate} AND so.formatted_ship_date <= ${config.totals.primary.endDate}
         `: sql``}
 
         ${config.totals.useProjection.pr ? sql` 
@@ -483,7 +483,7 @@ const l0_getPercentSales = async (config, denominator, colName) => {
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
-            pr.date >= ${config.totals.primary.startDatePrimary} AND pr.date <= ${config.totals.primary.endDatePrimary}
+            pr.date >= ${config.totals.primary.startDate} AND pr.date <= ${config.totals.primary.endDate}
           `: sql``}
 
           ) AS pj

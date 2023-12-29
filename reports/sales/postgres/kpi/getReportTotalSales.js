@@ -21,7 +21,7 @@ const l0_getReportTotalSales = async config => {
             FROM "salesReporting".sales_line_items AS sl 
               
             WHERE 
-              sl.formatted_invoice_date >= ${config.totals.primary.startDatePrimary} AND sl.formatted_invoice_date <= ${config.totals.primary.endDatePrimary} 
+              sl.formatted_invoice_date >= ${config.totals.primary.startDate} AND sl.formatted_invoice_date <= ${config.totals.primary.endDate} 
           `: sql``}
   
           ${config.totals.useProjection.so ? sql`
@@ -32,7 +32,7 @@ const l0_getReportTotalSales = async config => {
            
             WHERE 
               so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
-              AND so.formatted_ship_date >= ${config.totals.primary.startDatePrimary} AND so.formatted_ship_date <= ${config.totals.primary.endDatePrimary}
+              AND so.formatted_ship_date >= ${config.totals.primary.startDate} AND so.formatted_ship_date <= ${config.totals.primary.endDate}
           `: sql``}
   
           ${config.totals.useProjection.pr ? sql` 
@@ -42,7 +42,7 @@ const l0_getReportTotalSales = async config => {
             FROM "salesReporting".projected_sales AS pr        
           
             WHERE 
-              pr.date >= ${config.totals.primary.startDatePrimary} AND pr.date <= ${config.totals.primary.endDatePrimary}
+              pr.date >= ${config.totals.primary.startDate} AND pr.date <= ${config.totals.primary.endDate}
             `: sql``}
   
             ) AS pj
