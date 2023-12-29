@@ -24,8 +24,6 @@ const getClosestWeekStartDate = async (totalsStartDate, log) => {
                 )
         `
 
-  console.log(`closestWeekStartDate (${log}): ${JSON.stringify(closestWeekStartDate)}`)
-
   return closestWeekStartDate[0]?.date
 }
 
