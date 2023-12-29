@@ -2,6 +2,7 @@ const getClosestWeekEndDate = require('./getClosestWeekEndDate')
 const getClosestWeekStartDate = require('./getClosestWeekStartDate')
 const getTrailingWeeksStartDate = require('./getTrailingWeeksStartDate')
 const getWeekForDate = require('./getWeekForDate')
+const getStartOfFiscalYear = require('./getStartOfFiscalYear')
 
 // Since totalsStart and totalsEnd could be on a fiscal or calendar period, need to convert both to the last completed week
 
