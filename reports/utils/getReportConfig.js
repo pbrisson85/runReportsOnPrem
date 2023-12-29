@@ -86,8 +86,8 @@ const getReportConfig = async reqBody => {
       queryGrouping: getQueryGrouping(reqBody.trendQueryGrouping),
     },
     totals: {
-      ...(await getDatesTotalsPrimary(reqBody)),
-      ...(await getDatesTotalsComparison(reqBody)),
+      primary: await getDatesTotalsPrimary(reqBody),
+      comparison: await getDatesTotalsComparison(reqBody),
       useProjection: {
         sl: getUseProjection(reqBody.totalsUseProjection).sl,
         so: getUseProjection(reqBody.totalsUseProjection).so,
