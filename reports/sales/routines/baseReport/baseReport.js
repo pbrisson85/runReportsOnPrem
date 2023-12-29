@@ -127,6 +127,8 @@ const buildReport = async config => {
 
   const queryDataResults = await Promise.all(queryDataPromises)
   const queryData = queryDataResults.reduce((acc, cur) => {
+    console.log('cur', cur)
+
     return acc.concat(cur)
   }, [])
 
