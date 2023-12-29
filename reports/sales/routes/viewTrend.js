@@ -24,7 +24,6 @@ router.post('/', async (req, res) => {
   const { rightMenuSelection, reportFormat, useProjection, startDate, endDate } = req.body
 
   const config = await getReportConfig(req.body)
-  console.log('slice report config:', config)
 
   console.log(`\n${config.user} - get drilldown data for ${reportFormat.dataName} route HIT...`)
 

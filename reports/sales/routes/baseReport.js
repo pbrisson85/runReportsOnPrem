@@ -10,9 +10,7 @@ const getReportConfig = require('../../utils/getReportConfig')
 router.post('/', async (req, res) => {
   console.log(`\nget get SALES base report route HIT...`)
 
-
-  const config = await getReportConfig(req.body)  
-  console.log('sales base report config:', config)
+  const config = await getReportConfig(req.body)
 
   const response = await buildReport(config)
 

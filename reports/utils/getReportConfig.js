@@ -14,8 +14,6 @@ const getRowDates = require('./configHelpers/getRowDates')
 const getUserPermissions = require('./configHelpers/getUserPermissions')
 
 const getReportConfig = async reqBody => {
-  console.log('reqBody', reqBody)
-
   // get subtotalRowFormats defaults
   const appSettingsData = appSettings()
   const appSettings_unflat = unflattenByCompositKey(appSettingsData, { 1: 'dataName' })
@@ -109,6 +107,8 @@ const getReportConfig = async reqBody => {
       subtotalLabelInSubtotals: reqBody.appSettings?.subtotalLabelInSubtotals ?? appSettings_unflat['subtotalLabelInSubtotals'].default,
     },
   }
+
+  console.log('config: ', config)
 
   return config
 }
