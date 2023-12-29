@@ -19,4 +19,4 @@ const getStartOfFiscalYear = async () => {
   return periodsByWeek[0]?.date
 }
 
-export default getStartOfFiscalYear
+module.exports = getStartOfFiscalYear
