@@ -3,6 +3,8 @@ const sql = require('../../../../server')
 const l5_getRowLabels = async config => {
   // config.trends.fyYtd || config.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
+  if (!config.baseFormat.l5_field) return []
+
   const itemTypeArray = JSON.stringify(config.baseFilters.itemType)
 
   try {
@@ -61,6 +63,8 @@ const l5_getRowLabels = async config => {
 
 const l4_getRowLabels = async config => {
   // config.trends.fyYtd || config.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
+
+  if (!config.baseFormat.l4_field) return []
 
   const itemTypeArray = JSON.stringify(config.baseFilters.itemType)
 
@@ -121,6 +125,8 @@ const l4_getRowLabels = async config => {
 const l3_getRowLabels = async config => {
   // config.trends.fyYtd || config.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
+  if (!config.baseFormat.l3_field) return []
+
   let itemTypeArray = JSON.stringify(config.baseFilters.itemType)
 
   try {
@@ -179,6 +185,8 @@ const l3_getRowLabels = async config => {
 const l2_getRowLabels = async config => {
   // config.trends.fyYtd || config.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
+  if (!config.baseFormat.l2_field) return []
+
   const itemTypeArray = JSON.stringify(config.baseFilters.itemType)
 
   try {
@@ -236,6 +244,8 @@ const l2_getRowLabels = async config => {
 
 const l1_getRowLabels = async config => {
   // config.trends.fyYtd || config.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
+
+  if (!config.baseFormat.l1_field) return []
 
   const itemTypeArray = JSON.stringify(config.baseFilters.itemType)
 
