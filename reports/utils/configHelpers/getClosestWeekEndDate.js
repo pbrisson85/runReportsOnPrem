@@ -2,7 +2,7 @@ const sql = require('../../../server')
 const { startOfDay } = require('date-fns')
 
 const getClosestWeekEndDate = async (totalsEndDate, log) => {
-  console.log(`query postgres getClosestWeekEndDate (${log}) for totals end date: ${startOfDay(totalsEndDate)} ...`)
+  console.log(`query postgres getClosestWeekEndDate (${log}) for totals end date: ${startOfDay(new Date(totalsEndDate))} ...`)
 
   const closestWeekEndDate = await sql`
         SELECT 
