@@ -6,37 +6,37 @@ const buildReport = async config => {
 
   ///////////////////////////////// INVENTORY DATA
 
-  queryDataPromises(m.l0_getInv(config))
-  queryDataPromises(m.l1_getInv(config))
-  queryDataPromises(m.l2_getInv(config))
-  queryDataPromises(m.l3_getInv(config))
-  queryDataPromises(m.l4_getInv(config))
-  queryDataPromises(m.l5_getInv(config))
+  queryDataPromises.push(m.l0_getInv(config))
+  queryDataPromises.push(m.l1_getInv(config))
+  queryDataPromises.push(m.l2_getInv(config))
+  queryDataPromises.push(m.l3_getInv(config))
+  queryDataPromises.push(m.l4_getInv(config))
+  queryDataPromises.push(m.l5_getInv(config))
 
-  queryDataPromises(m.l0_getInvAged(config))
-  queryDataPromises(m.l1_getInvAged(config))
-  queryDataPromises(m.l2_getInvAged(config))
-  queryDataPromises(m.l3_getInvAged(config))
-  queryDataPromises(m.l4_getInvAged(config))
-  queryDataPromises(m.l5_getInvAged(config))
+  queryDataPromises.push(m.l0_getInvAged(config))
+  queryDataPromises.push(m.l1_getInvAged(config))
+  queryDataPromises.push(m.l2_getInvAged(config))
+  queryDataPromises.push(m.l3_getInvAged(config))
+  queryDataPromises.push(m.l4_getInvAged(config))
+  queryDataPromises.push(m.l5_getInvAged(config))
 
   ///////////////////////////////// PURCHASE DATA
 
-  queryDataPromises(m.l0_getOpenPo(config))
-  queryDataPromises(m.l1_getOpenPo(config))
-  queryDataPromises(m.l2_getOpenPo(config))
-  queryDataPromises(m.l3_getOpenPo(config))
-  queryDataPromises(m.l4_getOpenPo(config))
-  queryDataPromises(m.l5_getOpenPo(config))
+  queryDataPromises.push(m.l0_getOpenPo(config))
+  queryDataPromises.push(m.l1_getOpenPo(config))
+  queryDataPromises.push(m.l2_getOpenPo(config))
+  queryDataPromises.push(m.l3_getOpenPo(config))
+  queryDataPromises.push(m.l4_getOpenPo(config))
+  queryDataPromises.push(m.l5_getOpenPo(config))
 
   ///////////////////////////////// SALES ORDERS
 
-  queryDataPromises(m.l0_getSo(config))
-  queryDataPromises(m.l1_getSo(config))
-  queryDataPromises(m.l2_getSo(config))
-  queryDataPromises(m.l3_getSo(config))
-  queryDataPromises(m.l4_getSo(config))
-  queryDataPromises(m.l5_getSo(config))
+  queryDataPromises.push(m.l0_getSo(config))
+  queryDataPromises.push(m.l1_getSo(config))
+  queryDataPromises.push(m.l2_getSo(config))
+  queryDataPromises.push(m.l3_getSo(config))
+  queryDataPromises.push(m.l4_getSo(config))
+  queryDataPromises.push(m.l5_getSo(config))
 
   ///////////////////////////////// ROW LABELS
 
