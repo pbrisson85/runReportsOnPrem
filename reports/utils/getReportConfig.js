@@ -62,10 +62,7 @@ const getReportConfig = async reqBody => {
       species: reqBody.species ?? null,
       program: reqBody.programDrilldown ?? null,
     },
-    rows: {
-      startDate: await getRowDates(reqBody).startDate,
-      endDate: await getRowDates(reqBody).endDate,
-    },
+    rows: await getRowDates(reqBody),
     salesOrders: {
       startDate: await getEarliestSoShipDate(reqBody.user),
       endDate: await getLatestSoShipDate(reqBody.user),
@@ -89,10 +86,8 @@ const getReportConfig = async reqBody => {
       queryGrouping: getQueryGrouping(reqBody.trendQueryGrouping),
     },
     totals: {
-      startDatePrimary: await getDatesTotalsPrimary(reqBody).startDate,
-      endDatePrimary: await getDatesTotalsPrimary(reqBody).endDate,
-      startDateComparison: await getDatesTotalsComparison(reqBody).startDate,
-      endDateComparison: await getDatesTotalsComparison(reqBody).endDate,
+      ...(await getDatesTotalsPrimary(reqBody)),
+      ...(await getDatesTotalsComparison(reqBody)),
       useProjection: {
         sl: getUseProjection(reqBody.totalsUseProjection).sl,
         so: getUseProjection(reqBody.totalsUseProjection).so,
