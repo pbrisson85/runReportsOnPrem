@@ -1,8 +1,6 @@
 const trendTypeOptions = require('../../filters/data/trendType')
 
 const getQueryGrouping = reqArr => {
-  console.log('reqArr', reqArr)
-
   if (typeof reqArr !== 'undefined') return reqArr[0]
 
   // get default
