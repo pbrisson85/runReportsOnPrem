@@ -10,6 +10,9 @@ const getTrailingWeeks = async reqBody => {
   const totalsStartDate = reqBody.totalsStart?.date_start ?? (await getStartOfFiscalYear())
   const totalsEndDate = reqBody.totalsEnd?.date_end ?? (await getClosestWeekEndDate(new Date()))
 
+  console.log('debug: totalsEndDate: ', totalsEndDate)
+  console.log('debug: reqBody.totalsEnd?.date_end', reqBody.totalsEnd?.date_end)
+
   // Runs specific KPIs for trailing weeks
   const closestYtdWeekStartDate = await getClosestWeekStartDate(totalsStartDate)
   const closestYtdWeekEndDate = await getClosestWeekEndDate(totalsEndDate)
