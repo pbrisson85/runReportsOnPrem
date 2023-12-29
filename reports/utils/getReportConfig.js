@@ -75,8 +75,7 @@ const getReportConfig = async reqBody => {
       calMonths: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'calMonths' ?? false,
       calQuarters: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'calQuarters' ?? false,
       calYtd: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'calYtd' ?? false,
-      startDate: getTrendDates(reqBody).startDate,
-      endDate: getTrendDates(reqBody).endDate,
+      ...(await getTrendDates(reqBody)),
       trendYears: typeof reqBody.trendYears === 'undefined' ? [] : reqBody.trendYears.map(yr => parseInt(yr)),
       useProjection: {
         sl: getUseProjection(reqBody.trendUseProjection).sl,

@@ -10,8 +10,6 @@ const getTrendDates = async reqBody => {
   const endDate = await getClosestWeekEndDate(new Date(), 'getTrendDates')
   const startDate = getTrailingWeeksStartDate(5, endDate)
 
-  console.log('getTrendDates: ', startDate, endDate)
-
   return { startDate, endDate }
 }
 
