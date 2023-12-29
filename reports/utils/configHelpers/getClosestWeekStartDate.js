@@ -1,7 +1,7 @@
 const sql = require('../../../server')
 
 const getClosestWeekStartDate = async (totalsStartDate, log) => {
-  console.log(`${log} - query postgres getClosestWeekStartDate for totals start date: ${totalsStartDate} ...`)
+  console.log(`query postgres getClosestWeekStartDate (${log}) for totals start date: ${totalsStartDate} ...`)
 
   const periodsByWeek = await sql`
         SELECT 
