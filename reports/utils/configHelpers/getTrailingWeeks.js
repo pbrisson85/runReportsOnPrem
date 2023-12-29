@@ -7,13 +7,17 @@ const getStartOfFiscalYear = require('./getStartOfFiscalYear')
 // Since totalsStart and totalsEnd could be on a fiscal or calendar period, need to convert both to the last completed week
 
 const getTrailingWeeks = async reqBody => {
-  const today = new Date()
+  const closestWeekEndDate = await getClosestWeekEndDate(new Date())
+  console.log('debug: forced date:', closestWeekEndDate)
 
   const totalsStartDate = reqBody.totalsStart?.date_start ?? (await getStartOfFiscalYear())
-  const totalsEndDate = reqBody.totalsEnd?.date_end ?? (await getClosestWeekEndDate(today))
+  const totalsEndDate = reqBody.totalsEnd?.date_end ?? (await getClosestWeekEndDate(new Date()))
 
   console.log('debug: totalsEndDate: ', totalsEndDate)
   console.log('debug: reqBody.totalsEnd?.date_end', reqBody.totalsEnd?.date_end)
+
+  console.log('debug: totalsStartDate', totalsStartDate)
+  console.log('debug: reqBody.totalsStart?.date_start', reqBody.totalsStart?.date_start)
 
   // Runs specific KPIs for trailing weeks
   const closestYtdWeekStartDate = await getClosestWeekStartDate(totalsStartDate)
