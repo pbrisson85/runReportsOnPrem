@@ -14,9 +14,12 @@ const getTrailingWeeks = async reqBody => {
   const closestYtdWeekStartDate = await getClosestWeekStartDate(totalsStartDate)
   const closestYtdWeekEndDate = await getClosestWeekEndDate(totalsEndDate)
 
+  console.log('debug: closestYtdWeekStartDate', closestYtdWeekStartDate)
+  console.log('debug: closestYtdWeekEndDate', closestYtdWeekEndDate)
+
   const trailingWeeksConfig = [
     {
-      weeks: await getWeekForDate(closestYtdWeekEndDate),
+      weeks: await getWeekForDate(closestYtdWeekEndDate, reqBody.user),
       start: closestYtdWeekStartDate,
       end: closestYtdWeekEndDate,
       dataName: 'aveWeeklySales', // matches kpi columns

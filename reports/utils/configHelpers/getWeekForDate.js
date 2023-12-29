@@ -17,9 +17,9 @@ const getWeekForDate = async (date, user) => {
 
   let week = parseInt(response.rows[0].week)
 
-  if (week === 52) {
-    week = 53
-  }
+  // if (week === 52) {
+  //   week = 53
+  // }
 
   return week
 }
