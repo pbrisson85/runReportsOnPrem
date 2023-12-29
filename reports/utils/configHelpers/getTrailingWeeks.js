@@ -20,7 +20,7 @@ const getTrailingWeeks = async reqBody => {
   console.log('debug: reqBody.totalsStart?.date_start', reqBody.totalsStart?.date_start)
 
   // Runs specific KPIs for trailing weeks
-  const closestYtdWeekStartDate = await getClosestWeekStartDate(totalsStartDate)
+  const closestYtdWeekStartDate = await getClosestWeekStartDate(totalsStartDate, 'getTrailingWeeks')
   const closestYtdWeekEndDate = await getClosestWeekEndDate(totalsEndDate, 'getTrailingWeeks')
 
   console.log('debug: closestYtdWeekStartDate', closestYtdWeekStartDate)
