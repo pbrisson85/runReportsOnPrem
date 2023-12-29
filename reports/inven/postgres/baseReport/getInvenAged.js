@@ -5,7 +5,7 @@ const { subMonths, startOfDay, addDays } = require('date-fns')
 
 // inv on hand (includes in transit)
 
-const l1_getinvAged = async config => {
+const l1_getInvAged = async config => {
   if (!config.invenReportCols?.aging) return []
   if (!config.baseFormat?.l1_field) return []
 
@@ -14,7 +14,7 @@ const l1_getinvAged = async config => {
 
   const eachAging = []
   try {
-    console.log(`${config.user} - level 1: query postgres for inv on hand (l1_getinvAged) ...`)
+    console.log(`${config.user} - level 1: query postgres for inv on hand (l1_getInvAged) ...`)
 
     // level 1 detail
 
@@ -67,7 +67,7 @@ const l1_getinvAged = async config => {
 }
 
 // inv on hand (includes in transit)
-const l2_getinvAged = async config => {
+const l2_getInvAged = async config => {
   if (!config.invenReportCols?.aging) return []
   if (!config.baseFormat?.l2_field) return []
 
@@ -77,7 +77,7 @@ const l2_getinvAged = async config => {
   const eachAging = []
 
   try {
-    console.log(`${config.user} - level 2: query postgres for inv on hand (l2_getinvAged) ...`)
+    console.log(`${config.user} - level 2: query postgres for inv on hand (l2_getInvAged) ...`)
 
     // Level 2 detail
 
@@ -129,7 +129,7 @@ const l2_getinvAged = async config => {
 }
 
 // inv on hand (includes in transit)
-const l3_getinvAged = async config => {
+const l3_getInvAged = async config => {
   if (!config.invenReportCols?.aging) return []
   if (!config.baseFormat?.l3_field) return []
 
@@ -139,7 +139,7 @@ const l3_getinvAged = async config => {
   const eachAging = []
 
   try {
-    console.log(`${config.user} - level 3: query postgres for inv on hand (l3_getinvAged) ...`)
+    console.log(`${config.user} - level 3: query postgres for inv on hand (l3_getInvAged) ...`)
 
     for (ageBucket of aging) {
       const start = subMonths(today, ageBucket.start)
@@ -188,7 +188,7 @@ const l3_getinvAged = async config => {
   }
 }
 
-const l4_getinvAged = async config => {
+const l4_getInvAged = async config => {
   if (!config.invenReportCols?.aging) return []
   if (!config.baseFormat?.l4_field) return []
 
@@ -198,7 +198,7 @@ const l4_getinvAged = async config => {
   const eachAging = []
 
   try {
-    console.log(`${config.user} - level 4: query postgres for inv on hand (l4_getinvAged) ...`)
+    console.log(`${config.user} - level 4: query postgres for inv on hand (l4_getInvAged) ...`)
 
     for (ageBucket of aging) {
       const start = subMonths(today, ageBucket.start)
@@ -247,7 +247,7 @@ const l4_getinvAged = async config => {
   }
 }
 
-const l5_getinvAged = async config => {
+const l5_getInvAged = async config => {
   if (!config.invenReportCols?.aging) return []
   if (!config.baseFormat?.l5_field) return []
 
@@ -257,7 +257,7 @@ const l5_getinvAged = async config => {
   const eachAging = []
 
   try {
-    console.log(`${config.user} - level 5: query postgres for inv on hand (l4_getinvAged) ...`)
+    console.log(`${config.user} - level 5: query postgres for inv on hand (l4_getInvAged) ...`)
 
     for (ageBucket of aging) {
       const start = subMonths(today, ageBucket.start)
@@ -306,7 +306,7 @@ const l5_getinvAged = async config => {
   }
 }
 
-const l0_getinvAged = async config => {
+const l0_getInvAged = async config => {
   if (!config.invenReportCols?.aging) return []
 
   const aging = config.invenReportCols.aging
@@ -315,7 +315,7 @@ const l0_getinvAged = async config => {
   const eachAging = []
 
   try {
-    console.log(`${config.user} - level 0: query postgres for inv on hand (l0_getinvAged) ...`)
+    console.log(`${config.user} - level 0: query postgres for inv on hand (l0_getInvAged) ...`)
 
     // level 0 detail (TOTAL)
 
@@ -360,4 +360,4 @@ const l0_getinvAged = async config => {
   }
 }
 
-module.exports = { l5_getinvAged, l4_getinvAged, l3_getinvAged, l2_getinvAged, l1_getinvAged, l0_getinvAged }
+module.exports = { l5_getInvAged, l4_getInvAged, l3_getInvAged, l2_getInvAged, l1_getInvAged, l0_getInvAged }
