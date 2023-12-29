@@ -8,7 +8,7 @@ const getStartOfFiscalYear = async () => {
     FROM "accountingPeriods".period_by_day AS t 
     
     WHERE 
-        AND t.fiscal_year = (
+        t.fiscal_year = (
             SELECT 
                 ttt.fiscal_year 
             FROM "accountingPeriods".period_by_day AS ttt 
