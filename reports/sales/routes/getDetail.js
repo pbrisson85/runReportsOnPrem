@@ -19,7 +19,9 @@ const groupByOptions = require('../../filters/data/detailGroupBy')
 // @access  Private
 
 router.post('/', async (req, res) => {
-  const { columnDataName, reportFormat, startDate, endDate, useProjection } = req.body
+  console.log('get detail request', req.body)
+
+  const { reportFormat, startDate, endDate, useProjection } = req.body
   let { colType } = req.body // for now manually determining if projeciton vs sales below. Need to override col type to projection to get correct cols
 
   const config = await getReportConfig(req.body)
