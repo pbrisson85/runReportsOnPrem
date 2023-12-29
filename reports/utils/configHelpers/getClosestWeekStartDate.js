@@ -3,7 +3,7 @@ const sql = require('../../../server')
 const getClosestWeekStartDate = async (totalsStartDate, log) => {
   console.log(`query postgres getClosestWeekStartDate (${log}) for totals start date: ${totalsStartDate} ...`)
 
-  const periodsByWeek = await sql`
+  const closestWeekStartDate = await sql`
         SELECT 
             min(t.formatted_date) As date
         
@@ -24,7 +24,9 @@ const getClosestWeekStartDate = async (totalsStartDate, log) => {
                 )
         `
 
-  return periodsByWeek[0]?.date
+  console.log(`closestWeekStartDate (${log}): ${closestWeekStartDate}`)
+
+  return closestWeekStartDate[0]?.date
 }
 
 module.exports = getClosestWeekStartDate
