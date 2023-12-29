@@ -14,13 +14,13 @@ const getClosestWeekEndDate = async (totalsEndDate, log) => {
             SELECT 
                 tt.week 
             FROM "accountingPeriods".period_by_day AS tt 
-            WHERE tt.formatted_date = ${startOfDay(totalsEndDate)}
+            WHERE tt.formatted_date = ${startOfDay(new Date(totalsEndDate))}
             ) 
             AND t.fiscal_year = (
                 SELECT 
                     ttt.fiscal_year 
                 FROM "accountingPeriods".period_by_day AS ttt 
-                WHERE ttt.formatted_date = ${startOfDay(totalsEndDate)}
+                WHERE ttt.formatted_date = ${startOfDay(new Date(totalsEndDate))}
                 )
         `
 

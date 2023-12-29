@@ -10,8 +10,8 @@ const buildAgingCols = (config, columnConfigs) => {
 
   let ageCols = []
   for (ageBucket of aging) {
-    const startDate = subMonths(today, ageBucket.start)
-    const endDate = addDays(subMonths(today, ageBucket.end), 1)
+    const startDate = subMonths(new Date(today), ageBucket.start)
+    const endDate = addDays(subMonths(new Date(today), ageBucket.end), 1)
 
     ageCols.push({
       ...columnConfigs.ageCol[0],
