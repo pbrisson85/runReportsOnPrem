@@ -162,7 +162,7 @@ const l0_getRowLabels = async config => {
     {
       totalRow: true,
       l1_label: `TOTAL`,
-      datalevel: 0,
+      datalevel: config.baseFilters.queryLevel,
       itemtype: config.baseFilters.itemType,
     },
   ]
