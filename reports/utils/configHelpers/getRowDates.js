@@ -18,6 +18,8 @@ const getRowDates = async reqBody => {
   const eachEndDateArr = [trendDates.endDate, totalsPrimaryDates.endDate, totalsComparisonDates.endDate, latestSoShipDate]
   const endDate = findLatestDate(eachEndDateArr)
 
+  console.log('getRowDates: ', startDate, endDate)
+
   return {
     startDate,
     endDate,

@@ -10,6 +10,8 @@ const getDatesTotalsPrimary = async reqBody => {
   const endDate = await getClosestWeekEndDate(new Date(), 'getDatesTotalsPrimary')
   const startDate = await getStartOfFiscalYear() // beginning of fiscal year
 
+  console.log('getDatesTotalsPrimary: ', startDate, endDate)
+
   return { startDate, endDate }
 }
 
