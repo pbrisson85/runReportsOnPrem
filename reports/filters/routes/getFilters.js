@@ -84,7 +84,7 @@ router.get('/rowFormats', async (req, res) => {
   console.log('get report formats route COMPLETE. ')
 })
 
-router.get('/dataFilters', async (req, res) => {
+router.get('/dataPermissions', async (req, res) => {
   console.log('get data filters route HIT...')
   const reports = getPermissionFilters()
   res.send(reports)
