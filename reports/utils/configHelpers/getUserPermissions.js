@@ -7,7 +7,7 @@ const getUserPermissions = reqBody => {
     joeB = reqBody.creds.filters.find(f => f.dataName === 'jbBuyer').mandatory
   } else {
     // check for front end option
-    if (reqBody.dataFilters === 'jbBuyer') joeB = true
+    if (reqBody.dataPermissions === 'jbBuyer') joeB = true
   }
 
   return {

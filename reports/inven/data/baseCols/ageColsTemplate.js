@@ -10,9 +10,7 @@ const ageCol = [
     percent: false, // flag to use formatTableData model
     date: false, // flag to use formatTableData model
     boolean: false, // flag to use formatTableData model
-    decimals: 0, // flag to use formatTableData model
     hidden: false, // flag to filter out col
-    view: 'lbs',
     valueFallback: 0, // If data provided is not the col default to zero (each row only has one col of data)
     data: true, // flag maps the value in the row to the view (weight, extended_cost, cost_per_lb)
     subColStyle: true, // styling CHANGE NAME BECAUSE ON HAND COLS OF IN TRANSIT, IN COUNTRY, OUT OF COUNTRY, ETC WILL ALSO USE THIS

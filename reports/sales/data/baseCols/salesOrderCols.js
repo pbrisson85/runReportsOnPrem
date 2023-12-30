@@ -9,11 +9,9 @@ const salesOrdersCol = [
     width: '100px',
     number: true,
     boolean: false,
-    decimals: 0,
     rightSticky: true,
     right: '600px',
     hidden: false,
-    view: 'lbs',
     data: true,
     valueFallback: 0,
     borderLeft: true,
@@ -48,7 +46,7 @@ const salesOrdersCol = [
       'Trend By Species',
       'Trend By Program',
     ],
-    colType: 'salesOrder', // Make sure to update the getViewFilter on the back end to allow this colType in the view
+    colType: 'salesOrder',
     allowTrend: true,
     trendDefault: false, // will be the default trend col if true
     drillDownSortable: true,
@@ -64,11 +62,9 @@ const salesOrdersCol = [
   //   width: '100px',
   //   number: true,
   //   boolean: false,
-  //   decimals: 0,
   //   rightSticky: true,
   //   right: '700px',
   //   hidden: false,
-  //   view: 'lbs',
   //   data: true,
   //   valueFallback: 0,
   //   borderLeft: false,
@@ -76,7 +72,7 @@ const salesOrdersCol = [
   //   popoverMsg: 'TAGGED SALES ORDERS - All Sales Orders that DO have a specific inventory allocation',
   //   rightClickMenu: ['Get Details'],
   //   drilldownRightClickMenu: ['Get Details'],
-  //   colType: 'salesOrder', // Make sure to update the getViewFilter on the back end to allow this colType in the view
+  //   colType: 'salesOrder',
   //   allowTrend: true,
   //   optional: true, // flag to determine if the col is optional
   //   showByDefault: false, // flag to determine if optional col is shown by default
@@ -90,11 +86,9 @@ const salesOrdersCol = [
   //   width: '100px',
   //   number: true,
   //   boolean: false,
-  //   decimals: 0,
   //   rightSticky: true,
   //   right: '500px',
   //   hidden: false,
-  //   view: 'lbs',
   //   data: true,
   //   valueFallback: 0,
   //   borderLeft: false,
@@ -102,7 +96,7 @@ const salesOrdersCol = [
   //   popoverMsg: 'UNTAGGED SALES ORDERS - All Sales Orders that DO NOT have a specific inventory allocation',
   //   rightClickMenu: ['Get Details'],
   //   drilldownRightClickMenu: ['Get Details'],
-  //   colType: 'salesOrder', // Make sure to update the getViewFilter on the back end to allow this colType in the view
+  //   colType: 'salesOrder',
   //   allowTrend: true,
   //   drillDownSortable: true,
   //   optional: true, // flag to determine if the col is optional
