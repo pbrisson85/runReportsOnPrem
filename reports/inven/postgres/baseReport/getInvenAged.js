@@ -22,6 +22,10 @@ const l1_getInvAged = async config => {
       const start = subMonths(today, ageBucket.start)
       const end = addDays(subMonths(today, ageBucket.end), 1)
 
+      console.log('start: ', start)
+      console.log('end: ', end)
+      console.log('ageBucket: ', ageBucket.displayName)
+
       const response = await sql
       `SELECT 
         ${ageBucket.dataName} AS column, 
