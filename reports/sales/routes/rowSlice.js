@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const viewTrend = require('../routines/viewSlice/viewSlice')
+const viewTrend = require('../routines/rowSlice/rowSlice')
 const labelCols_byItem = require('../data/sliceCols/colsByItem')
 const labelCols_byCustomer = require('../data/sliceCols/colsByCustomer')
 const labelCols_byCustType = require('../data/sliceCols/colsByCustType')

@@ -15,7 +15,7 @@ module.exports = sql
 /* Reports */
 // Sales
 const baseReport_sales = require('./reports/sales/routes/baseReport')
-const viewTrend_sales = require('./reports/sales/routes/viewSlice')
+const rowSlice_sales = require('./reports/sales/routes/rowSlice')
 const getDetail_baseReport_sales = require('./reports/sales/routes/getDetail')
 
 // GL
@@ -24,7 +24,7 @@ const glOthp = require('./reports/gl/routes/glOthp')
 
 // Inventory
 const baseReport_inven = require('./reports/inven/routes/baseReport')
-const viewTrend_inven = require('./reports/inven/routes/viewTrend')
+const rowSlice_inven = require('./reports/inven/routes/rowSlice')
 const getDetail_baseReport_inven = require('./reports/inven/routes/getDetail')
 
 // Filters
@@ -54,11 +54,11 @@ app.use((req, res, next) => {
 })
 
 app.use('/api/reports/sales/baseReport', baseReport_sales)
-app.use('/api/reports/sales/drillDown', viewTrend_sales)
+app.use('/api/reports/sales/rowSlice', rowSlice_sales)
 app.use('/api/reports/sales/detail', getDetail_baseReport_sales)
 
 app.use('/api/reports/inven/baseReport', baseReport_inven)
-app.use('/api/reports/inven/drillDown', viewTrend_inven)
+app.use('/api/reports/inven/rowSlice', rowSlice_inven)
 app.use('/api/reports/inven/detail', getDetail_baseReport_inven)
 
 app.use('/api/reports/getFilters', getFilters)

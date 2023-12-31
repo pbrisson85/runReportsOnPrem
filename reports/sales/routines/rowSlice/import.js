@@ -8,16 +8,16 @@ module.exports = {
   getTrendColsSales: require('../../postgres/timeSeriesColHeadings/getTimeSeriesColsSales').getTrendColsSales,
 
   // Sales Trend Primary
-  l1_getSalesTrend: require('../../postgres/viewSlice/getSalesTrendProjection').l1_getSalesTrend,
-  l0_getSalesTrend: require('../../postgres/viewSlice/getSalesTrendProjection').l0_getSalesTrend,
+  l1_getSalesTrend: require('../../postgres/rowSlice/getSalesTrendProjection').l1_getSalesTrend,
+  l0_getSalesTrend: require('../../postgres/rowSlice/getSalesTrendProjection').l0_getSalesTrend,
 
   // Sales Total Primary
-  l1_getSales: require('../../postgres/viewSlice/getSalesProjection').l1_getSales,
-  l0_getSales: require('../../postgres/viewSlice/getSalesProjection').l0_getSales,
+  l1_getSales: require('../../postgres/rowSlice/getSalesProjection').l1_getSales,
+  l0_getSales: require('../../postgres/rowSlice/getSalesProjection').l0_getSales,
 
   // Inv Data
-  l1_getInven: require('../../postgres/viewSlice/getInven').l1_getInven,
-  l0_getInven: require('../../postgres/viewSlice/getInven').l0_getInven,
+  l1_getInven: require('../../postgres/rowSlice/getInven').l1_getInven,
+  l0_getInven: require('../../postgres/rowSlice/getInven').l0_getInven,
 
   // KPI
   l0_getAveSales: require('../../postgres/kpi/getAveSales_trend').l0_getAveSales,
@@ -33,23 +33,23 @@ module.exports = {
 
   // PO Data
 
-  l0_getOpenPo: require('../../postgres/viewSlice/getOpenPo').l0_getOpenPo,
-  l1_getOpenPo: require('../../postgres/viewSlice/getOpenPo').l1_getOpenPo,
+  l0_getOpenPo: require('../../postgres/rowSlice/getOpenPo').l0_getOpenPo,
+  l1_getOpenPo: require('../../postgres/rowSlice/getOpenPo').l1_getOpenPo,
 
   // Sales Order Total Data
 
-  l0_getSo: require('../../postgres/viewSlice/getSo').l0_getSo,
-  l1_getSo: require('../../postgres/viewSlice/getSo').l1_getSo,
+  l0_getSo: require('../../postgres/rowSlice/getSo').l0_getSo,
+  l1_getSo: require('../../postgres/rowSlice/getSo').l1_getSo,
 
   // Sales Order Trend Data
 
-  l0_getSoTrend: require('../../postgres/viewSlice/getSoTrend').l0_getSoTrend,
-  l1_getSoTrend: require('../../postgres/viewSlice/getSoTrend').l1_getSoTrend,
+  l0_getSoTrend: require('../../postgres/rowSlice/getSoTrend').l0_getSoTrend,
+  l1_getSoTrend: require('../../postgres/rowSlice/getSoTrend').l1_getSoTrend,
 
   // Get Row Labels
 
-  l0_getRowLabels: require('../../postgres/viewSlice/getRowLabels').l0_getRowLabels,
-  l1_getRowLabels: require('../../postgres/viewSlice/getRowLabels').l1_getRowLabels,
+  l0_getRowLabels: require('../../postgres/rowSlice/getRowLabels').l0_getRowLabels,
+  l1_getRowLabels: require('../../postgres/rowSlice/getRowLabels').l1_getRowLabels,
 
   // Model Functions
 

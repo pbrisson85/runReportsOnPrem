@@ -22,10 +22,6 @@ const l1_getInvAged = async config => {
       const start = addDays(subMonths(today, ageBucket.start), 1)
       const end = subMonths(today, ageBucket.end)
 
-      console.log('start: ', start)
-      console.log('end: ', end)
-      console.log('ageBucket: ', ageBucket.displayName)
-
       const response = await sql
       `SELECT 
         ${ageBucket.dataName} AS column, 
@@ -330,7 +326,7 @@ const l0_getInvAged = async config => {
       const response = await sql
       `SELECT 
        ${ageBucket.dataName} AS column,  
-        'TOTAL' AS l1_label, 
+        'TOTAL' AS l1_label,
         COALESCE(SUM(inv.on_hand_lbs),0) AS lbs, 
         COALESCE(SUM(inv.cost_extended),0) AS cogs, 
         COALESCE(SUM(inv.cost_extended),0) AS othp, 
