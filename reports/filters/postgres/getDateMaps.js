@@ -91,8 +91,8 @@ const getWeeksMap = async () => {
           FROM "accountingPeriods".period_by_day AS c
           WHERE c.formatted_date = CURRENT_DATE) THEN TRUE ELSE FALSE END AS default_end,
 
-        CASE WHEN p.week - 5 = (
-          SELECT c.week
+        CASE WHEN p.week = (
+          SELECT c.week - 5
           FROM "accountingPeriods".period_by_day AS c
           WHERE c.formatted_date = CURRENT_DATE) THEN TRUE ELSE FALSE END AS default_start
 
