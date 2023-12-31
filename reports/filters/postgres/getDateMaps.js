@@ -106,8 +106,6 @@ const getWeeksMap = async () => {
       ORDER BY p.week_serial ASC
       `
 
-  console.log('map', map)
-
   return map
 }
 
