@@ -4,8 +4,8 @@ module.exports = {
   trendColsTemplate: require('../../data/baseCols/trendColsTemplate'),
 
   // Trend Cols
-  getTrendColsSales: require('../../postgres/trendColHeadings/getTrendColsSales').getTrendColsSales,
-  getTrendColsSo: require('../../postgres/trendColHeadings/getTrendColsSo').getTrendColsSo,
+  getTrendColsSales: require('../../postgres/timeSeriesColHeadings/getTimeSeriesColsSales').getTrendColsSales,
+  getTrendColsSo: require('../../postgres/timeSeriesColHeadings/getTimeSeriesColsSo').getTrendColsSo,
 
   // Sales Trend Primary
   l1_getSalesTrend: require('../../postgres/baseReport/getSalesTrendProjection').l1_getSalesTrend,

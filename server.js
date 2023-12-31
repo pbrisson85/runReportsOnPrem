@@ -15,7 +15,7 @@ module.exports = sql
 /* Reports */
 // Sales
 const baseReport_sales = require('./reports/sales/routes/baseReport')
-const viewTrend_sales = require('./reports/sales/routes/viewTrend')
+const viewTrend_sales = require('./reports/sales/routes/viewSlice')
 const getDetail_baseReport_sales = require('./reports/sales/routes/getDetail')
 
 // GL
