@@ -1,5 +1,5 @@
 const sql = require('../../../../server')
-const { subMonths, startOfDay, addDays } = require('date-fns')
+const { subMonths, startOfDay, addDays, subDays } = require('date-fns')
 
 /* *********************************************** Level 1 *********************************************** */
 
@@ -19,8 +19,8 @@ const l1_getInvAged = async config => {
     // level 1 detail
 
     for (ageBucket of aging) {
-      const start = subMonths(today, ageBucket.start)
-      const end = addDays(subMonths(today, ageBucket.end), 1)
+      const start = subDays(subMonths(today, ageBucket.start), 1)
+      const end = subMonths(today, ageBucket.end)
 
       console.log('start: ', start)
       console.log('end: ', end)
