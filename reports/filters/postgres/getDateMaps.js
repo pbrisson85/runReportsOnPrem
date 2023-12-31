@@ -91,6 +91,11 @@ const getWeeksMap = async () => {
           FROM "accountingPeriods".period_by_day AS c
           WHERE c.formatted_date = CURRENT_DATE) THEN TRUE ELSE FALSE END AS default_end
 
+        CASE WHEN p.week - 5 = (
+          SELECT c.week
+          FROM "accountingPeriods".period_by_day AS c
+          WHERE c.formatted_date = CURRENT_DATE) THEN TRUE ELSE FALSE END AS default_start
+
       FROM "accountingPeriods".period_by_day AS p
       WHERE p.fiscal_year <= (
         SELECT d.fiscal_year
@@ -100,6 +105,8 @@ const getWeeksMap = async () => {
       GROUP BY p.week_serial, p.fiscal_year, p.week, p.period_serial, p.period
       ORDER BY p.week_serial ASC
       `
+
+  console.log('map', map)
 
   return map
 }
