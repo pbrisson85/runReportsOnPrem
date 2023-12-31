@@ -1,6 +1,76 @@
 const invenViews = () => {
   return [
     {
+      label: 'Aged, 18mo Monitor',
+      dataName: 'aged18MoMonitor',
+      default: false,
+      // Check Rules
+      trueOnNoSelection: false, // flags if this turns true when the selections are blank. Typically would mirror default flag if selection required
+      ignoreInSelections: false, // rules will be applied but this box will never turn true
+      onTrueSetTrue: [],
+      onTrueSetFalse: [],
+      onFalseSetTrue: [], // note that cant have an onFalse rule because of the ignoreInSelections rule. Can never be true
+      maxSelections: 1, // limits the number of selections and sets all false if exceeded
+      // data
+      aging: [
+        // note that this array is used to generate cols.
+        {
+          end: 0,
+          start: 6,
+          displayName: '< 6 mo.', // heading becomes the displayName
+          dataName: 'aged6Mo',
+        },
+        {
+          end: 6,
+          start: 12,
+          displayName: '6 - 12 mo.',
+          dataName: 'aged6to12Mo',
+        },
+        {
+          end: 12,
+          start: 13,
+          displayName: '12 - 13 mo.',
+          dataName: 'aged12to13Mo',
+        },
+        {
+          end: 13,
+          start: 14,
+          displayName: '13 - 14 mo.',
+          dataName: 'aged13to14Mo',
+        },
+        {
+          end: 14,
+          start: 15,
+          displayName: '14 - 15 mo.',
+          dataName: 'aged14to15Mo',
+        },
+        {
+          end: 15,
+          start: 16,
+          displayName: '15 - 16 mo.',
+          dataName: 'aged15to16Mo',
+        },
+        {
+          end: 16,
+          start: 17,
+          displayName: '16 - 17 mo.',
+          dataName: 'aged16to17Mo',
+        },
+        {
+          end: 17,
+          start: 18,
+          displayName: '17 - 18 mo.',
+          dataName: 'aged17to18Mo',
+        },
+        {
+          end: 18,
+          start: 99,
+          displayName: '> 18 mo.',
+          dataName: 'aged18PlusMo',
+        },
+      ],
+    },
+    {
       label: 'Aged, 1mo Intervals',
       dataName: 'aged1Mo',
       default: false,
