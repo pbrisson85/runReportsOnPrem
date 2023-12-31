@@ -19,7 +19,7 @@ const l1_getInvAged = async config => {
     // level 1 detail
 
     for (ageBucket of aging) {
-      const start = subDays(subMonths(today, ageBucket.start), 1)
+      const start = addDays(subMonths(today, ageBucket.start), 1)
       const end = subMonths(today, ageBucket.end)
 
       console.log('start: ', start)
@@ -86,8 +86,8 @@ const l2_getInvAged = async config => {
     // Level 2 detail
 
     for (ageBucket of aging) {
-      const start = subMonths(today, ageBucket.start)
-      const end = addDays(subMonths(today, ageBucket.end), 1)
+      const start = addDays(subMonths(today, ageBucket.start), 1)
+      const end = subMonths(today, ageBucket.end)
 
       const response = await sql
       `SELECT 
@@ -146,8 +146,8 @@ const l3_getInvAged = async config => {
     console.log(`${config.user} - level 3: query postgres for inv on hand (l3_getInvAged) ...`)
 
     for (ageBucket of aging) {
-      const start = subMonths(today, ageBucket.start)
-      const end = addDays(subMonths(today, ageBucket.end), 1)
+      const start = addDays(subMonths(today, ageBucket.start), 1)
+      const end = subMonths(today, ageBucket.end)
 
       const response = await sql
       `SELECT 
@@ -205,8 +205,8 @@ const l4_getInvAged = async config => {
     console.log(`${config.user} - level 4: query postgres for inv on hand (l4_getInvAged) ...`)
 
     for (ageBucket of aging) {
-      const start = subMonths(today, ageBucket.start)
-      const end = addDays(subMonths(today, ageBucket.end), 1)
+      const start = addDays(subMonths(today, ageBucket.start), 1)
+      const end = subMonths(today, ageBucket.end)
 
       const response = await sql
       `SELECT 
@@ -264,8 +264,8 @@ const l5_getInvAged = async config => {
     console.log(`${config.user} - level 5: query postgres for inv on hand (l4_getInvAged) ...`)
 
     for (ageBucket of aging) {
-      const start = subMonths(today, ageBucket.start)
-      const end = addDays(subMonths(today, ageBucket.end), 1)
+      const start = addDays(subMonths(today, ageBucket.start), 1)
+      const end = subMonths(today, ageBucket.end)
 
       const response = await sql
       `SELECT 
@@ -324,8 +324,8 @@ const l0_getInvAged = async config => {
     // level 0 detail (TOTAL)
 
     for (ageBucket of aging) {
-      const start = subMonths(today, ageBucket.start)
-      const end = addDays(subMonths(today, ageBucket.end), 1)
+      const start = addDays(subMonths(today, ageBucket.start), 1)
+      const end = subMonths(today, ageBucket.end)
 
       const response = await sql
       `SELECT 
