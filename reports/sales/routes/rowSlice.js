@@ -16,10 +16,6 @@ const getReportConfig = require('../../utils/getReportConfig')
 const getViewTrendConfig = require('../../utils/getViewTrendConfig')
 const addCustomerName = require('../routines/helpers/trendByCustomer')
 
-// @route   POST /api/sales/drillDown/forProgBySpecSoakSize
-// @desc
-// @access  Private
-
 router.post('/', async (req, res) => {
   const { rightMenuSelection, reportFormat, useProjection, startDate, endDate } = req.body
 

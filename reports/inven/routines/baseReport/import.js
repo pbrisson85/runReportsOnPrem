@@ -34,7 +34,6 @@ module.exports = {
   l0_getSo: require('../../postgres/baseReport/getSo').l0_getSo,
 
   // Get Rows
-
   l5_getRowLabels: require('../../postgres/baseReport/getRowsLabels').l5_getRowLabels,
   l4_getRowLabels: require('../../postgres/baseReport/getRowsLabels').l4_getRowLabels,
   l3_getRowLabels: require('../../postgres/baseReport/getRowsLabels').l3_getRowLabels,
