@@ -18,8 +18,8 @@ module.exports = {
   l0_getSo: require('../../postgres/rowSlice/getSo').l0_getSo,
 
   // Get Rows
-  l1_getRowLabels: require('../../postgres/rowSlice/getRowsLabels').l1_getRowLabels,
-  l0_getRowLabels: require('../../postgres/rowSlice/getRowsLabels').l0_getRowLabels,
+  l1_getRowLabels: require('../../postgres/rowSlice/getRowLabels').l1_getRowLabels,
+  l0_getRowLabels: require('../../postgres/rowSlice/getRowLabels').l0_getRowLabels,
 
   // Model Functions
   cleanLabelsForDisplay: require('../../../utils/cleanLabelsForDisplay'),
