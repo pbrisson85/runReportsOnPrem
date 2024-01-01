@@ -1,7 +1,7 @@
 const groupByOptions = {
   // Note that the key of this map matches the colType of the col
 
-  invenTotal: [
+  inven: [
     { label: 'Item', dataName: 'item', default: true },
     { label: 'Species', dataName: 'species', default: false },
     { label: 'Brand', dataName: 'brand', default: false },

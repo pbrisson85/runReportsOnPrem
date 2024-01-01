@@ -1,6 +1,6 @@
 // This applies to all columns with a colType: 'invenTotal'
 
-const invenTotalCols = [
+const invenCols = [
   {
     unfilteredColIdx: 99, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
     displayName: 'Item', // show as column header
@@ -458,4 +458,4 @@ const invenTotalCols = [
   },
 ]
 
-module.exports = invenTotalCols
+module.exports = invenCols

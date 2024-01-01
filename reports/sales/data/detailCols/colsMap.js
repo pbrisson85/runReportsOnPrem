@@ -1,4 +1,4 @@
-const invenTotalCols = require('./colsinvenTotal')
+const invenTotalCols = require('./colsInven')
 const purchaseOrderCols = require('./colsPurchaseOrder')
 const salesOrderCols = require('./colsSalesOrder')
 const salesInvoiceCols = require('./colsSalesInvoice')

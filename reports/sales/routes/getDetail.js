@@ -1,16 +1,10 @@
 const router = require('express').Router()
 const getReportConfig = require('../../utils/getReportConfig')
-const {
-  getFgInven_detail,
-  getFgInTransit_detail,
-  getFgAtLoc_detail,
-  getFgAtLoc_untagged_detail,
-  getFgAtLoc_tagged_detail,
-} = require('../postgres/getDetail/getFgInven')
-const { getFgPo_detail } = require('../postgres/getDetail/getFgOpenPo')
+const { getInven_detail } = require('../postgres/getDetail/getInven')
+const { getPo_detail } = require('../postgres/getDetail/getOpenPo')
 const { getSales_detail } = require('../postgres/getDetail/getSales')
 const { getSalesProjection_detail } = require('../postgres/getDetail/getSalesProjection')
-const { getSo_detail, getSoTagged_detail, getSoUntagged_detail } = require('../postgres/getDetail/getSo')
+const { getSo_detail } = require('../postgres/getDetail/getSo')
 const detailColsMap = require('../data/detailCols/colsMap')
 const groupByOptions = require('../../filters/data/detailGroupBy')
 
@@ -30,8 +24,8 @@ router.post('/', async (req, res) => {
 
   console.log(`\n${config.user} - get detail data for ${reportFormat.dataName} route HIT...`)
 
-  if (colType === 'invenTotal') {
-    data = await getFgInven_detail(config)
+  if (colType === 'inven') {
+    data = await getInven_detail(config)
   }
 
   if (colType === 'salesOrder') {
@@ -48,7 +42,7 @@ router.post('/', async (req, res) => {
   }
 
   if (colType === 'purchaseOrder') {
-    data = await getFgPo_detail(config)
+    data = await getPo_detail(config)
   }
 
   // Assign columns and menu

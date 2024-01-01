@@ -1,7 +1,7 @@
 const sql = require('../../../../server')
 
 // FG on hand (includes in transit)
-const getFgInven_detail = async config => {
+const getInven_detail = async config => {
   try {
     console.log(`${config.user} - level ${config.baseFilters.queryLevel} Detail: query postgres for FG on hand ...`)
 
@@ -226,7 +226,7 @@ const getFgAtLoc_tagged_detail = async config => {
   }
 }
 
-module.exports.getFgInven_detail = getFgInven_detail
+module.exports.getInven_detail = getInven_detail
 module.exports.getFgInTransit_detail = getFgInTransit_detail
 module.exports.getFgAtLoc_detail = getFgAtLoc_detail
 module.exports.getFgAtLoc_untagged_detail = getFgAtLoc_untagged_detail

@@ -2,7 +2,7 @@ const sql = require('../../../../server')
 
 // FG open PO grouped by program (includes in transit)
 
-const getFgPo_detail = async config => {
+const getPo_detail = async config => {
   try {
     console.log(`${config.user} - level ${config.baseFilters.queryLevel}: query postgres for FG open PO ...`)
 
@@ -38,4 +38,4 @@ const getFgPo_detail = async config => {
   }
 }
 
-module.exports.getFgPo_detail = getFgPo_detail
+module.exports.getPo_detail = getPo_detail
