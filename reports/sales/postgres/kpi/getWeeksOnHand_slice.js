@@ -33,9 +33,7 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
             ${trendQuery.sl.l6_label ? sql`'dummy' AS l6_label,` : sql``} 
             ${trendQuery.sl.l7_label ? sql`'dummy' AS l7_label,` : sql``} 
             0 AS lbs
-  
           FROM "salesReporting".sales_line_items AS sl
-  
           WHERE 1=2
   
           ${useProjection.sl ? sql`
@@ -51,7 +49,6 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
             ${trendQuery.sl.l6_label ? sql`${sql(trendQuery.sl.l6_label)} AS l6_label,`: sql``} 
             ${trendQuery.sl.l7_label ? sql`${sql(trendQuery.sl.l7_label)} AS l7_label,`: sql``}
             COALESCE(sl.calc_gm_rept_weight,0) AS lbs
-  
           FROM "salesReporting".sales_line_items AS sl
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = sl.item_number 
@@ -59,7 +56,6 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
               ON cs.customer_code = sl.customer_code
             LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
               ON sl.formatted_invoice_date = p.formatted_date
-  
           WHERE 
             sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
             ${config.trendFilters.customer ? sql`AND sl.customer_code = ${config.trendFilters.customer}`: sql``} 
@@ -82,8 +78,7 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
               ${trendQuery.so.l5_label ? sql`${sql(trendQuery.so.l5_label)} AS l5_label,`: sql``} 
               ${trendQuery.so.l6_label ? sql`${sql(trendQuery.so.l6_label)} AS l6_label,`: sql``} 
               ${trendQuery.so.l7_label ? sql`${sql(trendQuery.so.l7_label)} AS l7_label,`: sql``} 
-              COALESCE(so.ext_weight,0) AS lbs
-           
+              COALESCE(so.ext_weight,0) AS lbs  
             FROM "salesReporting".sales_orders AS so
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                 ON ms.item_num = so.item_num 
@@ -91,7 +86,6 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
                 ON cs.customer_code = so.customer_code
               LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
                 ON so.formatted_ship_date = p.formatted_date
-  
             WHERE 
               so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
               AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
@@ -105,17 +99,17 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
   
           ${useProjection.pr ? sql`
           UNION ALL
-            pr.item_number,
-            pr.customer_code,
-            ${trendQuery.pr.l1_label ? sql`${sql(trendQuery.pr.l1_label)} AS l1_label,`: sql``} 
-            ${trendQuery.pr.l2_label ? sql`${sql(trendQuery.pr.l2_label)} AS l2_label,`: sql``} 
-            ${trendQuery.pr.l3_label ? sql`${sql(trendQuery.pr.l3_label)} AS l3_label,`: sql``} 
-            ${trendQuery.pr.l4_label ? sql`${sql(trendQuery.pr.l4_label)} AS l4_label,`: sql``} 
-            ${trendQuery.pr.l5_label ? sql`${sql(trendQuery.pr.l5_label)} AS l5_label,`: sql``} 
-            ${trendQuery.pr.l6_label ? sql`${sql(trendQuery.pr.l6_label)} AS l6_label,`: sql``} 
-            ${trendQuery.pr.l7_label ? sql`${sql(trendQuery.pr.l7_label)} AS l7_label,`: sql``} 
-            COALESCE(pr.lbs,0) AS lbs
-            
+            SELECT
+              pr.item_number,
+              pr.customer_code,
+              ${trendQuery.pr.l1_label ? sql`${sql(trendQuery.pr.l1_label)} AS l1_label,`: sql``} 
+              ${trendQuery.pr.l2_label ? sql`${sql(trendQuery.pr.l2_label)} AS l2_label,`: sql``} 
+              ${trendQuery.pr.l3_label ? sql`${sql(trendQuery.pr.l3_label)} AS l3_label,`: sql``} 
+              ${trendQuery.pr.l4_label ? sql`${sql(trendQuery.pr.l4_label)} AS l4_label,`: sql``} 
+              ${trendQuery.pr.l5_label ? sql`${sql(trendQuery.pr.l5_label)} AS l5_label,`: sql``} 
+              ${trendQuery.pr.l6_label ? sql`${sql(trendQuery.pr.l6_label)} AS l6_label,`: sql``} 
+              ${trendQuery.pr.l7_label ? sql`${sql(trendQuery.pr.l7_label)} AS l7_label,`: sql``} 
+              COALESCE(pr.lbs,0) AS lbs
             FROM "salesReporting".projected_sales AS pr  
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                 ON ms.item_num = pr.item_number 
@@ -123,16 +117,15 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
                 ON cs.customer_code = pr.customer_code 
               LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
                 ON pr.date = p.formatted_date
-          
             WHERE 
-            pr.date >= ${start} AND pr.date <= ${end} 
-            ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
-            ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
-            ${config.trendFilters.country ? sql`AND pr.country = ${config.trendFilters.country}`: sql``} 
-            ${config.trendFilters.state ? sql`AND pr.state = ${config.trendFilters.state}`: sql``} 
-            ${config.trendFilters.export ? sql`AND pr.domestic = ${config.trendFilters.export}`: sql``} 
-            ${config.trendFilters.northAmerica ? sql`AND pr.north_america = ${config.trendFilters.northAmerica}`: sql``}
-            `: sql``}
+              pr.date >= ${start} AND pr.date <= ${end} 
+              ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
+              ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
+              ${config.trendFilters.country ? sql`AND pr.country = ${config.trendFilters.country}`: sql``} 
+              ${config.trendFilters.state ? sql`AND pr.state = ${config.trendFilters.state}`: sql``} 
+              ${config.trendFilters.export ? sql`AND pr.domestic = ${config.trendFilters.export}`: sql``} 
+              ${config.trendFilters.northAmerica ? sql`AND pr.north_america = ${config.trendFilters.northAmerica}`: sql``}
+              `: sql``}
         ) AS pj
         
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -177,11 +170,9 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
                 ${trendQuery.inv.l6_label ? sql`${sql(trendQuery.inv.l6_label)} AS l6_label,`: sql``} 
                 ${trendQuery.inv.l7_label ? sql`${sql(trendQuery.inv.l7_label)} AS l7_label,`: sql``} 
                 COALESCE(SUM(inv.on_hand_lbs),0) AS lbs
-            
             FROM "invenReporting".perpetual_inventory AS inv 
                 LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                 ON ms.item_num = inv.item_number 
-            
             WHERE 
                 inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
                 ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
@@ -206,10 +197,8 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
             ${trendQuery.inv.l5_label ? sql`, ${sql(trendQuery.inv.l5_label)}`: sql``} 
             ${trendQuery.inv.l6_label ? sql`, ${sql(trendQuery.inv.l6_label)}`: sql``} 
             ${trendQuery.inv.l7_label ? sql`, ${sql(trendQuery.inv.l7_label)}`: sql``}  
-            ))
+            )
                 
-                
-
             SELECT 
             ${dataName} AS column, 
             s.l1_label,
@@ -258,9 +247,7 @@ const l0_getWeeksOnHand = async (config, useProjection) => {
         'dummy' AS item_number,
         'dummy' AS customer_code,
         0 AS lbs
-
       FROM "salesReporting".sales_line_items AS sl
-
       WHERE 1=2
 
       ${useProjection.sl ? sql`
@@ -269,7 +256,6 @@ const l0_getWeeksOnHand = async (config, useProjection) => {
         sl.item_number,
         sl.customer_code,
         COALESCE(sl.calc_gm_rept_weight,0) AS lbs
-
       FROM "salesReporting".sales_line_items AS sl
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
@@ -277,7 +263,6 @@ const l0_getWeeksOnHand = async (config, useProjection) => {
           ON cs.customer_code = sl.customer_code
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
           ON sl.formatted_invoice_date = p.formatted_date
-
       WHERE 
         sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
         ${config.trendFilters.customer ? sql`AND sl.customer_code = ${config.trendFilters.customer}`: sql``} 
@@ -294,7 +279,6 @@ const l0_getWeeksOnHand = async (config, useProjection) => {
           so.item_num AS item_number,
           so.customer_code,
           COALESCE(so.ext_weight,0) AS lbs
-       
         FROM "salesReporting".sales_orders AS so
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = so.item_num 
@@ -302,7 +286,6 @@ const l0_getWeeksOnHand = async (config, useProjection) => {
             ON cs.customer_code = so.customer_code
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
             ON so.formatted_ship_date = p.formatted_date
-
         WHERE 
           so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
           AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
@@ -316,10 +299,10 @@ const l0_getWeeksOnHand = async (config, useProjection) => {
 
       ${useProjection.pr ? sql`
       UNION ALL
-        pr.item_number,
-        pr.customer_code,
-        COALESCE(pr.lbs,0) AS lbs
-          
+        SELECT
+          pr.item_number,
+          pr.customer_code,
+          COALESCE(pr.lbs,0) AS lbs
         FROM "salesReporting".projected_sales AS pr  
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = pr.item_number 
@@ -327,17 +310,15 @@ const l0_getWeeksOnHand = async (config, useProjection) => {
             ON cs.customer_code = pr.customer_code 
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
             ON pr.date = p.formatted_date
-      
         WHERE 
-        pr.date >= ${start} AND pr.date <= ${end} 
-        ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
-        ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
-        ${config.trendFilters.country ? sql`AND pr.country = ${config.trendFilters.country}`: sql``} 
-        ${config.trendFilters.state ? sql`AND pr.state = ${config.trendFilters.state}`: sql``} 
-        ${config.trendFilters.export ? sql`AND pr.domestic = ${config.trendFilters.export}`: sql``} 
-        ${config.trendFilters.northAmerica ? sql`AND pr.north_america = ${config.trendFilters.northAmerica}`: sql``}
-        `: sql``}
-
+          pr.date >= ${start} AND pr.date <= ${end} 
+          ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
+          ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
+          ${config.trendFilters.country ? sql`AND pr.country = ${config.trendFilters.country}`: sql``} 
+          ${config.trendFilters.state ? sql`AND pr.state = ${config.trendFilters.state}`: sql``} 
+          ${config.trendFilters.export ? sql`AND pr.domestic = ${config.trendFilters.export}`: sql``} 
+          ${config.trendFilters.northAmerica ? sql`AND pr.north_america = ${config.trendFilters.northAmerica}`: sql``}
+          `: sql``}
     ) AS pj
     
     LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -369,11 +350,9 @@ const l0_getWeeksOnHand = async (config, useProjection) => {
         SELECT 
             'TOTAL' AS l1_label,
             COALESCE(SUM(inv.on_hand_lbs),0) AS lbs
-        
         FROM "invenReporting".perpetual_inventory AS inv 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = inv.item_number 
-        
         WHERE 
             inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 

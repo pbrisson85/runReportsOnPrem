@@ -125,6 +125,7 @@ const l1_getAveSales = async (config, trendQuery, useProjection) => {
   
           ${useProjection.pr ? sql`
           UNION ALL
+            SELECT
             pr.item_number,
             pr.customer_code,
             ${trendQuery.pr.l1_label ? sql`${sql(trendQuery.pr.l1_label)} AS l1_label,`: sql``} 
@@ -298,6 +299,7 @@ const l0_getAveSales = async (config, useProjection) => {
   
             ${useProjection.pr ? sql`
             UNION ALL
+              SELECT
               pr.item_number,
               pr.customer_code,
               COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_gross,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
