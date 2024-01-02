@@ -198,7 +198,7 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
             ${trendQuery.inv.l5_label ? sql`, ${sql(trendQuery.inv.l5_label)}`: sql``} 
             ${trendQuery.inv.l6_label ? sql`, ${sql(trendQuery.inv.l6_label)}`: sql``} 
             ${trendQuery.inv.l7_label ? sql`, ${sql(trendQuery.inv.l7_label)}`: sql``}  
-            )`: sql`(SELECT 0 AS lbs) `}
+            )`: sql`(SELECT 0 AS lbs, 'NA' AS l1_label)`}
                 
             SELECT 
             ${dataName} AS column, 
@@ -212,7 +212,7 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
             CASE WHEN s.lbs <= 0 THEN 99999 ELSE COALESCE(i.lbs/NULLIF(s.lbs,0),0) END AS lbs
             
             FROM ave_sales s
-            ${trendQuery.inv.l1_label ? sql`LEFT OUTER JOIN i
+              LEFT OUTER JOIN i
               ON 
                 i.l1_label = s.l1_label
                 ${trendQuery.inv.l2_label ? sql`AND i.l2_label = s.l2_label`: sql``}
@@ -221,7 +221,7 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
                 ${trendQuery.inv.l5_label ? sql`AND i.l5_label = s.l5_label`: sql``}
                 ${trendQuery.inv.l6_label ? sql`AND i.l6_label = s.l6_label`: sql``}
                 ${trendQuery.inv.l7_label ? sql`AND i.l7_label = s.l7_label`: sql``}
-            `: sql``}
+           
             ` //prettier-ignore
 
     return response
