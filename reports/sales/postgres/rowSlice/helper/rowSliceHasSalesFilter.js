@@ -2,11 +2,11 @@
 
 const rowSliceHasSalesFilter = config => {
   return (
-    config.baseFilters.customerNum ||
-    config.baseFilters.customerName ||
-    config.baseFilters.salesOrderNum ||
-    config.baseFilters.salesOrderDate ||
-    config.baseFilters.sales
+    config.trendFilters.customerNum ||
+    config.trendFilters.customerName ||
+    config.trendFilters.salesOrderNum ||
+    config.trendFilters.salesOrderDate ||
+    config.trendFilters.sales
   )
 }
 
