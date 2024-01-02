@@ -4,15 +4,11 @@ const getInvenReportsAging = reqBody => {
   // front end selection
   const aging = reqBody.invenReportCols?.aging ?? null
 
-  console.log('aging', aging)
-
   if (aging) return aging
 
   // no aging look for default
   const invenViews = getInvenViews()
   const d = invenViews.find(option => option.default)
-
-  console.log('d.aging', d.aging)
 
   return d?.aging ?? null
 }
