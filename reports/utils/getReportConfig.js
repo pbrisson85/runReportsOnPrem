@@ -12,6 +12,7 @@ const getDatesTotalsComparison = require('./configHelpers/getDatesTotalsComparis
 const getDatesTotalsPrimary = require('./configHelpers/getDatesTotalsPrimary')
 const getRowDates = require('./configHelpers/getRowDates')
 const getUserPermissions = require('./configHelpers/getUserPermissions')
+const getTrailingWeeksForWeeksInven = require('./configHelpers/getTrailingWeeksForWeeksInven')
 
 const getReportConfig = async reqBody => {
   // get subtotalRowFormats defaults
@@ -94,6 +95,7 @@ const getReportConfig = async reqBody => {
       },
     },
     trailingWeeks: await getTrailingWeeks(reqBody),
+    trailingWeeksForWeeksInven: await getTrailingWeeksForWeeksInven(reqBody),
     invenReportCols: {
       aging: getInvenReportsAging(reqBody),
       grouping: getInvenReportsGrouping(reqBody),

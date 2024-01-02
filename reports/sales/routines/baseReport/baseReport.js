@@ -111,6 +111,16 @@ const buildReport = async config => {
   queryDataPromises.push(m.l4_getPercentSales(config, reportTotalSales, 'percentReportTotal'))
   queryDataPromises.push(m.l5_getPercentSales(config, reportTotalSales, 'percentReportTotal'))
 
+  ///////////////////////////////// INVEN KPIS
+
+  // WEEKS INV ON HAND
+  queryDataPromises.push(m.l0_getWeeksOnHand(config))
+  queryDataPromises.push(m.l1_getWeeksOnHand(config))
+  queryDataPromises.push(m.l2_getWeeksOnHand(config))
+  queryDataPromises.push(m.l3_getWeeksOnHand(config))
+  queryDataPromises.push(m.l4_getWeeksOnHand(config))
+  queryDataPromises.push(m.l5_getWeeksOnHand(config))
+
   ///////////////////////////////// ROW LABELS
   rowDataPromises.push(m.l0_getRowLabels(config))
   rowDataPromises.push(m.l1_getRowLabels(config))
@@ -141,14 +151,6 @@ const buildReport = async config => {
   })
 
   // KPI CALCULATIONS
-
-  // // WEEKS INV ON HAND
-  // queryDataPromises.push(m.calcWeeksInvOnHand(l0_InvR, l0_aveWeeklySales, 'weeksInvenOnHand'))
-  // queryDataPromises.push(m.calcWeeksInvOnHand(l1_InvR, l1_aveWeeklySales, 'weeksInvenOnHand'))
-  // queryDataPromises.push(m.calcWeeksInvOnHand(l2_InvR, l2_aveWeeklySales, 'weeksInvenOnHand'))
-  // queryDataPromises.push(m.calcWeeksInvOnHand(l3_InvR, l3_aveWeeklySales, 'weeksInvenOnHand'))
-  // queryDataPromises.push(m.calcWeeksInvOnHand(l4_InvR, l4_aveWeeklySales, 'weeksInvenOnHand'))
-  // queryDataPromises.push(m.calcWeeksInvOnHand(l5_InvR, l5_aveWeeklySales, 'weeksInvenOnHand'))
 
   // // INVENTORY AVAILABLE
   // queryDataPromises.push(m.calcInventoryAvailable(l0_InvR, l0_OpenPoR, l0_soR, 'invenAvailable'))

@@ -51,6 +51,13 @@ module.exports = {
   getProgramTotalSales: require('../../postgres/kpi/getProgramTotalSales'),
   getReportTotalSales: require('../../postgres/kpi/getReportTotalSales'),
 
+  l0_getWeeksOnHand: require('../../postgres/kpi/getWeeksOnHand_base').l0_getWeeksOnHand,
+  l1_getWeeksOnHand: require('../../postgres/kpi/getWeeksOnHand_base').l1_getWeeksOnHand,
+  l2_getWeeksOnHand: require('../../postgres/kpi/getWeeksOnHand_base').l2_getWeeksOnHand,
+  l3_getWeeksOnHand: require('../../postgres/kpi/getWeeksOnHand_base').l3_getWeeksOnHand,
+  l4_getWeeksOnHand: require('../../postgres/kpi/getWeeksOnHand_base').l4_getWeeksOnHand,
+  l5_getWeeksOnHand: require('../../postgres/kpi/getWeeksOnHand_base').l5_getWeeksOnHand,
+
   // PO Data
   l1_getOpenPo: require('../../postgres/baseReport/getOpenPo').l1_getOpenPo,
   l2_getOpenPo: require('../../postgres/baseReport/getOpenPo').l2_getOpenPo,
