@@ -213,7 +213,7 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
             FROM ave_sales s
             LEFT OUTER JOIN i
             ON 
-                i.l1_label = s.l1_label
+                ${trendQuery.inv.l1_label ? sql`AND i.l1_label = s.l1_label`: sql``}
                 ${trendQuery.inv.l2_label ? sql`AND i.l2_label = s.l2_label`: sql``}
                 ${trendQuery.inv.l3_label ? sql`AND i.l3_label = s.l3_label`: sql``}
                 ${trendQuery.inv.l4_label ? sql`AND i.l4_label = s.l4_label`: sql``}
