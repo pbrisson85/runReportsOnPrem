@@ -1,17 +1,4 @@
-#### To do: add the inven options to the options panels on front end. add to request to back end
+### To do.
 
-#### Add the inven options to the config.
-
-#### Get data to pull and return to frint end.
-
----
-
-##### Currently used to both generate the sales data table and to run various reports on prem. Will be seperating into seperate apps.
-
-### Need to set up all filter routes for inven. Should these just be in a shared filters route?
-
-### Need to set up the main routine and just pull the on hand inventory
-
-### Need to update front end state as needed
-
-### Need to
+- Get rows in base and slice should include the sales projections tables as well in addition to the existing sales and sales orders in the query
+- Need to be able to identify if there are any sales specific filters to know whether to exclude inventory items from rows in a slice (see l1_getRowLabels in slice: getRowLabels for the helper I created but is inadequate because needs a config to maintain this concept.)

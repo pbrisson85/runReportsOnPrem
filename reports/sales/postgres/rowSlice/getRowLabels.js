@@ -1,7 +1,10 @@
 const sql = require('../../../../server')
+const rowSliceHasSalesFilter = require('./helper/rowSliceHasSalesFilter')
 
 const l1_getRowLabels = async (config, start, end, trendQuery) => {
   const itemTypeArray = JSON.stringify(config.baseFilters.itemType)
+
+  const hasSalesFilter = rowSliceHasSalesFilter(config)
 
   try {
     console.log(`${config.user} - query postgres to get row labels ...`)
@@ -105,7 +108,8 @@ const l1_getRowLabels = async (config, start, end, trendQuery) => {
           ${trendQuery.so.l6_label ? sql`, ${sql(trendQuery.so.l6_label)}`: sql``} 
           ${trendQuery.so.l7_label ? sql`, ${sql(trendQuery.so.l7_label)}`: sql``}
           
-        ${trendQuery.inv.l1_label ? sql`
+        -- If there is ANY sales filter then only include rows with sales or sales order data (any filter not on inventory table or item master)
+        ${trendQuery.inv.l1_label && !hasSalesFilter ? sql`
 
         UNION SELECT 
           ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)} AS l1_label,`: sql``} 
