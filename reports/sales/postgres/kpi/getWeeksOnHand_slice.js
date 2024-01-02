@@ -206,8 +206,7 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
             ${trendQuery.inv.l5_label ? sql`, ${sql(trendQuery.inv.l5_label)}`: sql``} 
             ${trendQuery.inv.l6_label ? sql`, ${sql(trendQuery.inv.l6_label)}`: sql``} 
             ${trendQuery.inv.l7_label ? sql`, ${sql(trendQuery.inv.l7_label)}`: sql``}  
-            x
-            )
+            ))
                 
                 
 
