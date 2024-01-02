@@ -49,7 +49,6 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
   // AVE WEEKLY SALES
   queryDataPromises.push(m.l0_getAveSales(config, useProjection))
   queryDataPromises.push(m.l1_getAveSales(config, trendQuery, useProjection))
-
   // % COMPANY SALES
   queryDataPromises.push(m.l0_getPercentSales(config, startDate, endDate, useProjection, companyTotalSales, 'percentCompanySales'))
   queryDataPromises.push(m.l1_getPercentSales(config, startDate, endDate, trendQuery, useProjection, companyTotalSales, 'percentCompanySales'))
@@ -63,6 +62,13 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
   // % REPORT SALES
   queryDataPromises.push(m.l0_getPercentSales(config, startDate, endDate, useProjection, reportTotalSales, 'percentReportTotal'))
   queryDataPromises.push(m.l1_getPercentSales(config, startDate, endDate, trendQuery, useProjection, reportTotalSales, 'percentReportTotal'))
+
+  ///////////////////////////////// INVEN KPIS
+
+  // WEEKS INV ON HAND
+
+  queryDataPromises.push(m.l0_getWeeksOnHand(config, useProjection))
+  queryDataPromises.push(m.l1_getWeeksOnHand(config, trendQuery, useProjection))
 
   ///////////////////////////////// ROW LABELS
 
@@ -96,10 +102,6 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
   // // % YoY YTD SALES
   //m.calcYoyYtdSalesCol(l0_salesByFyYtd, 'yoyYtdSales')
   //m.calcYoyYtdSalesCol(l1_salesByFyYtd, 'yoyYtdSales')
-
-  // // WEEKS INV ON HAND
-  // m.calcWeeksInvOnHand(l1_inven, l1_aveWeeklySales, 'weeksInvenOnHand')
-  // m.calcWeeksInvOnHand(l0_inven, l0_aveWeeklySales, 'weeksInvenOnHand')
 
   // // INVENTORY AVAILABLE
   // m.calcInventoryAvailable(l1_inven, l1_OpenPo, l1_so, 'invenAvailable')

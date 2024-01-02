@@ -13,12 +13,12 @@ const l1_getAveSales = async (config, trendQuery, useProjection) => {
         `SELECT 
         ${trailingWeek.dataName} AS column, 
         ${trendQuery.sl.l1_label ? sql`pj.l1_label,`: sql``} 
-      ${trendQuery.sl.l2_label ? sql`pj.l2_label,`: sql``} 
-      ${trendQuery.sl.l3_label ? sql`pj.l3_label,`: sql``}
-      ${trendQuery.sl.l4_label ? sql`pj.l4_label,`: sql``}
-      ${trendQuery.sl.l5_label ? sql`pj.l5_label,`: sql``}
-      ${trendQuery.sl.l6_label ? sql`pj.l6_label,`: sql``}
-      ${trendQuery.sl.l7_label ? sql`pj.l7_label,`: sql``}
+        ${trendQuery.sl.l2_label ? sql`pj.l2_label,`: sql``} 
+        ${trendQuery.sl.l3_label ? sql`pj.l3_label,`: sql``}
+        ${trendQuery.sl.l4_label ? sql`pj.l4_label,`: sql``}
+        ${trendQuery.sl.l5_label ? sql`pj.l5_label,`: sql``}
+        ${trendQuery.sl.l6_label ? sql`pj.l6_label,`: sql``}
+        ${trendQuery.sl.l7_label ? sql`pj.l7_label,`: sql``}
         SUM(pj.lbs)/${trailingWeek.weeks} AS lbs, 
         SUM(pj.sales)/${trailingWeek.weeks} AS "grossSales", 
         SUM(pj.cogs)/${trailingWeek.weeks} AS cogs, 
