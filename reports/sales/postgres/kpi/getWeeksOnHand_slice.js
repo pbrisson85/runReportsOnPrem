@@ -166,7 +166,7 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
           ${trendQuery.sl.l5_label ? sql`, pj.l5_label`: sql``} 
           ${trendQuery.sl.l6_label ? sql`, pj.l6_label`: sql``} 
           ${trendQuery.sl.l7_label ? sql`, pj.l7_label`: sql``}
-        ), --end sales
+        ), 
             
         inv AS (
             SELECT 
@@ -207,7 +207,7 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
             ${trendQuery.inv.l5_label ? sql`, ${sql(trendQuery.inv.l5_label)}`: sql``} 
             ${trendQuery.inv.l6_label ? sql`, ${sql(trendQuery.inv.l6_label)}`: sql``} 
             ${trendQuery.inv.l7_label ? sql`, ${sql(trendQuery.inv.l7_label)}`: sql``}  
-            ) --end inv
+            )
                 
                 
 
@@ -363,7 +363,7 @@ const l0_getWeeksOnHand = async (config, useProjection) => {
       ${config.baseFilters.queryLevel > 4 ? sql`AND ${sql(config.baseFormat.l5_field)} = ${config.baseFilters.l5_filter}` : sql``}
     
     
-    ), --end sales
+    ), 
         
     inv AS (
         SELECT 
@@ -391,7 +391,7 @@ const l0_getWeeksOnHand = async (config, useProjection) => {
             ${config.baseFilters.queryLevel > 4 ? sql`AND ${sql(config.baseFormat.l5_field)} = ${config.baseFilters.l5_filter}` : sql``}
             
        
-        ) --end inv
+        ) 
             
             
 
