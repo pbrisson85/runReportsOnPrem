@@ -7,7 +7,7 @@ const l1_getWeeksOnHand = async config => {
   try {
     console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getWeeksOnHand) ...`)
 
-    const { dataName, weeks, start, end } = config.trailingWeeksForWeeksInven
+    const { dataName, weeks, start, end } = config.trailingWeeksForWeeksInven[0]
 
     const response = await sql`
         WITH ave_sales AS (
@@ -126,7 +126,7 @@ const l2_getWeeksOnHand = async config => {
   try {
     console.log(`${config.user} - level 2: query postgres to get FG sales data period total (l2_getWeeksOnHand) ...`)
 
-    const { dataName, weeks, start, end } = config.trailingWeeksForWeeksInven
+    const { dataName, weeks, start, end } = config.trailingWeeksForWeeksInven[0]
 
     const response = await sql`
         WITH ave_sales AS (
@@ -245,7 +245,7 @@ const l3_getWeeksOnHand = async config => {
   try {
     console.log(`${config.user} - level 3: query postgres to get FG sales data period total (l3_getWeeksOnHand) ...`)
 
-    const { dataName, weeks, start, end } = config.trailingWeeksForWeeksInven
+    const { dataName, weeks, start, end } = config.trailingWeeksForWeeksInven[0]
 
     const response = await sql`
         WITH ave_sales AS (
@@ -364,7 +364,7 @@ const l4_getWeeksOnHand = async config => {
   try {
     console.log(`${config.user} - level 4: query postgres to get FG sales data period total (l4_getWeeksOnHand) ...`)
 
-    const { dataName, weeks, start, end } = config.trailingWeeksForWeeksInven
+    const { dataName, weeks, start, end } = config.trailingWeeksForWeeksInven[0]
 
     const response = await sql`
         WITH ave_sales AS (
@@ -483,7 +483,7 @@ const l5_getWeeksOnHand = async config => {
   try {
     console.log(`${config.user} - level 5: query postgres to get FG sales data period total (l4_getWeeksOnHand) ...`)
 
-    const { dataName, weeks, start, end } = config.trailingWeeksForWeeksInven
+    const { dataName, weeks, start, end } = config.trailingWeeksForWeeksInven[0]
 
     const response = await sql`
         WITH ave_sales AS (
@@ -600,7 +600,7 @@ const l0_getWeeksOnHand = async config => {
   try {
     console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getWeeksOnHand) ...`)
 
-    const { dataName, weeks, start, end } = config.trailingWeeksForWeeksInven
+    const { dataName, weeks, start, end } = config.trailingWeeksForWeeksInven[0]
 
     const response = await sql`
         WITH ave_sales AS (
