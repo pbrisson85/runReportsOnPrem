@@ -102,7 +102,7 @@ const l1_getWeeksOnHand = async config => {
             s.l3_label,
             s.l4_label,
             s.l5_label,
-            CASE WHEN s.lbs >= 0 THEN 99999 ELSE COALESCE(s.lbs/NULLIF(i.lbs,0),0) END AS lbs
+            CASE WHEN s.lbs <= 0 THEN 99999 ELSE COALESCE(s.lbs/NULLIF(i.lbs,0),0) END AS lbs
             
             FROM ave_sales s
             LEFT OUTER JOIN inv i
@@ -221,7 +221,7 @@ const l2_getWeeksOnHand = async config => {
             s.l3_label,
             s.l4_label,
             s.l5_label,
-            CASE WHEN s.lbs >= 0 THEN 99999 ELSE COALESCE(s.lbs/NULLIF(i.lbs,0),0) END AS lbs
+            CASE WHEN s.lbs <= 0 THEN 99999 ELSE COALESCE(s.lbs/NULLIF(i.lbs,0),0) END AS lbs
             
             FROM ave_sales s
             LEFT OUTER JOIN inv i
@@ -340,7 +340,7 @@ const l3_getWeeksOnHand = async config => {
             s.l3_label,
             s.l4_label,
             s.l5_label,
-            CASE WHEN s.lbs >= 0 THEN 99999 ELSE COALESCE(s.lbs/NULLIF(i.lbs,0),0) END AS lbs
+            CASE WHEN s.lbs <= 0 THEN 99999 ELSE COALESCE(s.lbs/NULLIF(i.lbs,0),0) END AS lbs
             
             FROM ave_sales s
             LEFT OUTER JOIN inv i
@@ -459,7 +459,7 @@ const l4_getWeeksOnHand = async config => {
             s.l3_label,
             s.l4_label,
             s.l5_label,
-            CASE WHEN s.lbs >= 0 THEN 99999 ELSE COALESCE(s.lbs/NULLIF(i.lbs,0),0) END AS lbs
+            CASE WHEN s.lbs <= 0 THEN 99999 ELSE COALESCE(s.lbs/NULLIF(i.lbs,0),0) END AS lbs
             
             FROM ave_sales s
             LEFT OUTER JOIN inv i
@@ -578,7 +578,7 @@ const l5_getWeeksOnHand = async config => {
             s.l3_label,
             s.l4_label,
             s.l5_label,
-            CASE WHEN s.lbs >= 0 THEN 99999 ELSE COALESCE(s.lbs/NULLIF(i.lbs,0),0) END AS lbs
+            CASE WHEN s.lbs <= 0 THEN 99999 ELSE COALESCE(s.lbs/NULLIF(i.lbs,0),0) END AS lbs
             
             FROM ave_sales s
             LEFT OUTER JOIN inv i
@@ -682,11 +682,7 @@ const l0_getWeeksOnHand = async config => {
             SELECT 
             ${dataName} AS column, 
             s.l1_label,
-            s.l2_label,
-            s.l3_label,
-            s.l4_label,
-            s.l5_label,
-            CASE WHEN s.lbs >= 0 THEN 99999 ELSE COALESCE(s.lbs/NULLIF(i.lbs,0),0) END AS lbs
+            CASE WHEN s.lbs <= 0 THEN 99999 ELSE COALESCE(s.lbs/NULLIF(i.lbs,0),0) END AS lbs
             
             FROM ave_sales s
             LEFT OUTER JOIN inv i
