@@ -133,7 +133,6 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
             ${config.trendFilters.export ? sql`AND pr.domestic = ${config.trendFilters.export}`: sql``} 
             ${config.trendFilters.northAmerica ? sql`AND pr.north_america = ${config.trendFilters.northAmerica}`: sql``}
             `: sql``}
-  
         ) AS pj
         
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -168,7 +167,7 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
           ${trendQuery.sl.l7_label ? sql`, pj.l7_label`: sql``}
         ), 
             
-        inv AS (
+        i AS (
             SELECT 
                 ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)} AS l1_label,`: sql``} 
                 ${trendQuery.inv.l2_label ? sql`${sql(trendQuery.inv.l2_label)} AS l2_label,`: sql``} 
@@ -223,7 +222,7 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
             CASE WHEN s.lbs <= 0 THEN 99999 ELSE COALESCE(i.lbs/NULLIF(s.lbs,0),0) END AS lbs
             
             FROM ave_sales s
-            LEFT OUTER JOIN inv i
+            LEFT OUTER JOIN i
             ON 
                 i.l1_label = s.l1_label
                 ${trendQuery.inv.l2_label ? sql`AND i.l2_label = s.l2_label`: sql``}
