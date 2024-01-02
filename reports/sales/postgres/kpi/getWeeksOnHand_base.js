@@ -7,7 +7,7 @@ const l1_getWeeksOnHand = async config => {
   try {
     console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getWeeksOnHand) ...`)
 
-    console.log('config.trailingWeeksForWeeksInven[0]', config.trailingWeeksForWeeksInven[0])
+    const { dataName, weeks, start, end } = config.trailingWeeksForWeeksInven[0]
 
     const response = await sql`
         WITH ave_sales AS (
