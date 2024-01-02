@@ -158,10 +158,10 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
           ${trendQuery.sl.l5_label ? sql`, pj.l5_label`: sql``} 
           ${trendQuery.sl.l6_label ? sql`, pj.l6_label`: sql``} 
           ${trendQuery.sl.l7_label ? sql`, pj.l7_label`: sql``}
-        )
-        
+        ), 
+        i AS
         ${trendQuery.inv.l1_label ? sql`
-        ,i AS (
+         (
             SELECT 
                 ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)} AS l1_label,`: sql``} 
                 ${trendQuery.inv.l2_label ? sql`${sql(trendQuery.inv.l2_label)} AS l2_label,`: sql``} 
@@ -198,7 +198,7 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
             ${trendQuery.inv.l5_label ? sql`, ${sql(trendQuery.inv.l5_label)}`: sql``} 
             ${trendQuery.inv.l6_label ? sql`, ${sql(trendQuery.inv.l6_label)}`: sql``} 
             ${trendQuery.inv.l7_label ? sql`, ${sql(trendQuery.inv.l7_label)}`: sql``}  
-            )`: sql``}
+            )`: sql`SELECT 0 AS lbs `}
                 
             SELECT 
             ${dataName} AS column, 
