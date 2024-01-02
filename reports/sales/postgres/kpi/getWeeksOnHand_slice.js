@@ -236,7 +236,7 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
     return response
   } catch (error) {
     console.error(error)
-    console.log(error)
+    console.log(error.query)
     return error
   }
 }
