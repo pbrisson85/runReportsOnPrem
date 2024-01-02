@@ -662,7 +662,7 @@ const l0_getWeeksOnHand = async config => {
             
         inv AS (
             SELECT 
-                'TOTAL' AS l1_label
+                'TOTAL' AS l1_label,
                 COALESCE(SUM(inv.on_hand_lbs),0) AS lbs
                 
             FROM "invenReporting".perpetual_inventory AS inv
