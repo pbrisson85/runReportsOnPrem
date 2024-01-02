@@ -115,9 +115,6 @@ const buildReport = async config => {
 
   // WEEKS INV ON HAND
 
-  const response = await m.l0_getWeeksOnHand(config)
-  console.log('weeks on hand test', response)
-
   queryDataPromises.push(m.l0_getWeeksOnHand(config))
   queryDataPromises.push(m.l1_getWeeksOnHand(config))
   queryDataPromises.push(m.l2_getWeeksOnHand(config))
