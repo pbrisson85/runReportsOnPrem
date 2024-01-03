@@ -110,6 +110,8 @@ const getReportConfig = async reqBody => {
     },
   }
 
+  console.log('config', config)
+
   return config
 }
 
