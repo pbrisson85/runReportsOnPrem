@@ -939,7 +939,7 @@ const getReportFormats = () => {
       l1_name: 'species',
       l2_name: 'soak',
       l3_name: 'size',
-      l3_name: 'brand',
+      l4_name: 'brand',
       labelCols: [
         {
           displayName: 'SPECIES', // show as column header
