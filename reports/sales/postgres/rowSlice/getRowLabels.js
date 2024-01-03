@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const l1_getRowLabels = async (config, start, end, trendQuery) => {
+const l1_getRowLabels = async (config, start, end, trendQuery, useProjection) => {
   const itemTypeArray = JSON.stringify(config.baseFilters.itemType)
 
   try {

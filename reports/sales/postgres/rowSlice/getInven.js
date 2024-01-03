@@ -12,7 +12,7 @@ const l1_getInven = async (config, startDate, endDate, trendQuery, useProjection
 
       WITH sales_filters AS (
           SELECT
-            0 AS item_number
+            '0' AS item_number
           WHERE 1=2
   
           ${useProjection.sl ? sql`
@@ -152,7 +152,7 @@ const l0_getInven = async (config, startDate, endDate, useProjection) => {
 
       WITH sales_filters AS (
           SELECT
-            0 AS item_number
+            '0' AS item_number
           WHERE 1=2
   
           ${useProjection.sl ? sql`

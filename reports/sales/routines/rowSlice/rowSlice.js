@@ -73,7 +73,7 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
   ///////////////////////////////// ROW LABELS
 
   rowDataPromises.push(m.l0_getRowLabels(config))
-  rowDataPromises.push(m.l1_getRowLabels(config, startDate, endDate, trendQuery))
+  rowDataPromises.push(m.l1_getRowLabels(config, startDate, endDate, trendQuery, useProjection))
 
   ///////////////////////////////// TREND COLUMNS
 
