@@ -970,8 +970,8 @@ const getReportFormats = () => {
         },
         {
           displayName: 'BRAND', // show as column header
-          dataName: 'l3_label', // key to pull data from
-          filterName: 'l3_filter', // key to match up the column with the filter
+          dataName: 'l4_label', // key to pull data from
+          filterName: 'l4_filter', // key to match up the column with the filter
           width: '100px', // css width
           left: '475px', // css positioning for sticky sum of prior col widths
           borderRight: true, // border right on ladst frozen cell
