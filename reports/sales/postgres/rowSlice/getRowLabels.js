@@ -276,6 +276,7 @@ const l1_getRowLabels = async (config, start, end, trendQuery, useProjection) =>
     return response
   } catch (error) {
     console.error(error)
+    console.log(error.query)
     return error
   }
 }
