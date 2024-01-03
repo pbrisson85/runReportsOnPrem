@@ -931,7 +931,7 @@ const getReportFormats = () => {
       defaults: [],
       optional: ['any'],
       forbiddenCols: [],
-      groupingLevel: 3,
+      groupingLevel: 4,
       l1_field: 'ms.species',
       l2_field: 'ms.fg_treatment',
       l3_field: 'ms.size_name',
