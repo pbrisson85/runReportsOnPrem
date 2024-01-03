@@ -51,22 +51,11 @@ const addDataToSoTotalCol = (config, columnConfigs) => {
     col.startDate = config.salesOrders.startDate
     col.endDate = config.salesOrders.endDate
     col.displayName = displayName
+    col.useProjection = config.totals.useProjection
   })
 
   return columnConfigs
 }
 
-// const addDataToSalesTrendCol = (config, columnConfigs) => {
-//   // On right click must know if passing back projection data or not. All flags will be placed into the trend cols and the totals cols
-
-//   columnConfigs.trendCol.forEach(col => {
-//     // format displayName
-//     col.useProjection = config.trends.useProjection
-//   })
-
-//   return columnConfigs
-// }
-
 module.exports.addDataToSalesTotalCol = addDataToSalesTotalCol
 module.exports.addDataToSoTotalCol = addDataToSoTotalCol
-// module.exports.addDataToSalesTrendCol = addDataToSalesTrendCol
