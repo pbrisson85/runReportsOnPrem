@@ -129,6 +129,7 @@ const l1_getPercentSales = async (config, startDate, endDate, trendQuery, usePro
 
         ${useProjection.pr ? sql`
         UNION ALL
+          SELECT
           pr.item_number,
           pr.customer_code,
           ${trendQuery.pr.l1_label ? sql`${sql(trendQuery.pr.l1_label)} AS l1_label,`: sql``} 
@@ -305,6 +306,7 @@ const l0_getPercentSales = async (config, startDate, endDate, useProjection, den
 
           ${useProjection.pr ? sql`
           UNION ALL
+            SELECT
             pr.item_number,
             pr.customer_code,
             COALESCE(pr.lbs,0) AS lbs, 
@@ -324,7 +326,7 @@ const l0_getPercentSales = async (config, startDate, endDate, useProjection, den
           
             WHERE 
             pr.date >= ${startDate} AND pr.date <= ${endDate} 
-            ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
+            ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``}  
             ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
             ${config.trendFilters.country ? sql`AND pr.country = ${config.trendFilters.country}`: sql``} 
             ${config.trendFilters.state ? sql`AND pr.state = ${config.trendFilters.state}`: sql``} 

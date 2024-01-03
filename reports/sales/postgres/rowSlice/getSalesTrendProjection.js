@@ -126,6 +126,7 @@ const l1_getSalesTrend = async (config, trendQuery, useProjection) => {
 
         ${useProjection.pr ? sql`
         UNION ALL
+          SELECT
           pr.item_number,
           pr.customer_code,
           ${sql(config.trends.queryGrouping)}  AS column, 
@@ -297,6 +298,7 @@ const l0_getSalesTrend = async (config, useProjection) => {
 
           ${useProjection.pr ? sql`
           UNION ALL
+            SELECT
             pr.item_number,
             pr.customer_code,
             ${sql(config.trends.queryGrouping)}  AS column, 
