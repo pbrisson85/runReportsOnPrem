@@ -239,12 +239,12 @@ const l1_getRowLabels = async (config, start, end, trendQuery, useProjection) =>
           ${trendQuery.inv.l7_label ? sql`${sql(trendQuery.inv.l7_label)} AS l7_label,`: sql``}
           ${config.baseFilters.queryLevel} AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``} 
         
-        FROM "invenReporting".perpetual_inventory 
+        FROM "invenReporting".perpetual_inventory AS inv
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-              ON ms.item_num = perpetual_inventory.item_number 
+              ON ms.item_num = inv.item_number 
               
         WHERE 
-            perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+        inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
