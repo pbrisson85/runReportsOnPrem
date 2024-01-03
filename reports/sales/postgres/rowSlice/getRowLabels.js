@@ -29,7 +29,7 @@ const l1_getRowLabels = async (config, start, end, trendQuery, useProjection) =>
             LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
               ON sl.formatted_invoice_date = p.formatted_date
           WHERE 
-            sl.formatted_invoice_date >= ${startDate} AND sl.formatted_invoice_date <= ${endDate} 
+            sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
             ${config.trendFilters.customer ? sql`AND sl.customer_code = ${config.trendFilters.customer}`: sql``} 
             ${config.trendFilters.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.trendFilters.salesPerson}`: sql``} 
             ${config.trendFilters.country ? sql`AND sl.country = ${config.trendFilters.country}`: sql``} 
@@ -52,7 +52,7 @@ const l1_getRowLabels = async (config, start, end, trendQuery, useProjection) =>
   
             WHERE 
               so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-              AND so.formatted_ship_date >= ${startDate} AND so.formatted_ship_date <= ${endDate}
+              AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
               ${config.trendFilters.customer ? sql`AND so.customer_code = ${config.trendFilters.customer}`: sql``} 
               ${config.trendFilters.salesPerson ? sql`AND so.out_sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
               ${config.trendFilters.country ? sql`AND so.country = ${config.trendFilters.country}`: sql``} 
@@ -73,7 +73,7 @@ const l1_getRowLabels = async (config, start, end, trendQuery, useProjection) =>
               LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
                 ON pr.date = p.formatted_date
             WHERE 
-            pr.date >= ${startDate} AND pr.date <= ${endDate} 
+            pr.date >= ${start} AND pr.date <= ${end} 
             ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
             ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
             ${config.trendFilters.country ? sql`AND pr.country = ${config.trendFilters.country}`: sql``} 
@@ -198,7 +198,7 @@ const l1_getRowLabels = async (config, start, end, trendQuery, useProjection) =>
             LEFT OUTER JOIN "masters".customer_supplement AS cs 
               ON cs.customer_code = pr.customer_code 
           WHERE 
-            pr.date >= ${startDate} AND pr.date <= ${endDate} 
+            pr.date >= ${start} AND pr.date <= ${end} 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
