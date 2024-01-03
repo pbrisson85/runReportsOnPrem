@@ -14,7 +14,7 @@ const l1_getRowLabels = async (config, start, end, trendQuery, useProjection) =>
 
       WITH sales_filters AS (
           SELECT
-            0 AS item_number
+            '0' AS item_number
           WHERE 1=2
   
           ${useProjection.sl ? sql`
