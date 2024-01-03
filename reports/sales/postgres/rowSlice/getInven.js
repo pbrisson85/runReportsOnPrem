@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const l1_getInven = async (config, trendQuery) => {
+const l1_getInven = async (config, startDate, endDate, trendQuery, useProjection) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG on hand ...`)
 
@@ -140,7 +140,7 @@ const l1_getInven = async (config, trendQuery) => {
   }
 }
 
-const l0_getInven = async (config, trendQuery) => {
+const l0_getInven = async (config, startDate, endDate, useProjection) => {
   try {
     console.log(`${config.user} - level 0: query postgres for FG on hand ...`)
 

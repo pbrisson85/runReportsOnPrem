@@ -8,13 +8,13 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
 
   ///////////////////////////////// INVENTORY DATA
 
-  queryDataPromises.push(m.l1_getInven(config, trendQuery))
-  queryDataPromises.push(m.l0_getInven(config, trendQuery))
+  queryDataPromises.push(m.l1_getInven(config, startDate, endDate, trendQuery, useProjection))
+  queryDataPromises.push(m.l0_getInven(config, startDate, endDate, useProjection))
 
   ///////////////////////////////// PURCHASE DATA
 
-  queryDataPromises.push(m.l1_getOpenPo(config, trendQuery))
-  queryDataPromises.push(m.l0_getOpenPo(config, trendQuery))
+  queryDataPromises.push(m.l1_getOpenPo(config, startDate, endDate, trendQuery, useProjection))
+  queryDataPromises.push(m.l0_getOpenPo(config, startDate, endDate, useProjection))
 
   ///////////////////////////////// SALES ORDERS
 

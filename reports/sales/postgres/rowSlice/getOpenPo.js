@@ -2,7 +2,7 @@ const sql = require('../../../../server')
 
 /* *********************************************** Level 1 *********************************************** */
 
-const l1_getOpenPo = async (config, trendQuery) => {
+const l1_getOpenPo = async (config, startDate, endDate, trendQuery, useProjection) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG open PO ...`)
 
@@ -146,7 +146,7 @@ const l1_getOpenPo = async (config, trendQuery) => {
 
 /* *********************************************** TOTAL *********************************************** */
 
-const l0_getOpenPo = async (config, trendQuery) => {
+const l0_getOpenPo = async (config, startDate, endDate, useProjection) => {
   try {
     console.log(`${config.user} - level 0: query postgres for FG open PO ...`)
 
