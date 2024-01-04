@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
   const { rightMenuSelection } = req.body
   const config = await getReportConfig(req.body)
 
-  console.log(`\n${config.user} - get drilldown data for ${config.reportFormat.dataName} route HIT...`)
+  console.log(`\n${config.user} - get drilldown data for ${config.baseFormat.dataName} route HIT...`)
 
   let response = null
   let cols = null
@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
 
   response = await viewTrend(cols, config, trendQuery)
 
-  console.log(`${config.user} - get drilldown data for ${config.reportFormat.dataName} route COMPLETE. \n`)
+  console.log(`${config.user} - get drilldown data for ${config.baseFormat.dataName} route COMPLETE. \n`)
   res.send(response)
 })
 
