@@ -26,6 +26,7 @@ const getInven_detail = async config => {
             pi.cost_lb,  
             pi.cost_extended AS cost_ext, 
             pi.location_name AS location, 
+            pi.location_code AS location_code,
             pi.location_country as country, 
             ms.fg_fresh_frozen AS fresh_frozen 
           
@@ -35,7 +36,7 @@ const getInven_detail = async config => {
             LEFT OUTER JOIN "salesReporting".tagged_inventory AS ti
               ON ti.item_num = pi.item_number 
                 AND ti.lot = pi.lot
-                AND ti.location = pi.location_name
+                AND ti.location = pi.location_code
               
           WHERE 
             pi.on_hand_lbs <> 0 
