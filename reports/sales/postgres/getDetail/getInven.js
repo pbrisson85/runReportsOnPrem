@@ -80,6 +80,7 @@ const getInven_detail = async config => {
     return response
   } catch (error) {
     console.error(error)
+    console.log(error.query)
     return error
   }
 }
