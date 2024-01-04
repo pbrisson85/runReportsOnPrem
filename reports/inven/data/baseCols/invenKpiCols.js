@@ -22,7 +22,7 @@ const invenKpiCol = [
     colType: 'invenKpi',
     allowTrend: false,
     drillDownSortable: true,
-    optional: true, // flag to determine if the col is optional
+    optional: false, // flag to determine if the col is optional
     showByDefault: false, // flag to determine if optional col is shown by default
   },
   {
