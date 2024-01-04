@@ -72,6 +72,7 @@ const getInven_detail = async config => {
               pi.cost_lb,  
               pi.cost_extended, 
               pi.location_name, 
+              pi.location_code,
               pi.location_country, 
               ms.fg_fresh_frozen  
             
