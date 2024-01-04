@@ -30,8 +30,8 @@ const getInven_detail = async config => {
 
           
           SELECT 
-            ti.tagged_lbs,
-            pi.on_hand_lbs - ti.tagged_lbs AS untagged_lbs,
+            COALESCE(ti.tagged_lbs,0) AS tagged_lbs,
+            pi.on_hand_lbs - COALESCE(ti.tagged_lbs,0) AS untagged_lbs,
             pi.receipt_date, 
             pi.location_date, 
             pi.lot_text, 
