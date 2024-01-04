@@ -24,9 +24,6 @@ const getReportConfig = async reqBody => {
     reqBody.itemType = [...reqBody.itemType.replace(/""/g, '').replace(/"\[/g, '').replace(/\]"/g, '').split(',')]
   }
 
-  console.log('reqBody', reqBody)
-  console.log('reqBody.itemType', reqBody.itemType)
-
   let config = {
     baseConfig: reqBody, // pass back for slice and detail reports
     labelCols: getlabelCols(reqBody),
@@ -114,8 +111,6 @@ const getReportConfig = async reqBody => {
       subtotalLabelInSubtotals: reqBody.appSettings?.subtotalLabelInSubtotals ?? appSettings_unflat['subtotalLabelInSubtotals'].default,
     },
   }
-
-  console.log('config', config)
 
   return config
 }
