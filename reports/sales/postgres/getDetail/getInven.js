@@ -33,7 +33,7 @@ const getInven_detail = async config => {
           FROM "invenReporting".perpetual_inventory AS pi 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = pi.item_number 
-            LEFT OUTER JOIN "salesReporting".tagged_inventory AS ti
+            FULL OUTER JOIN "salesReporting".tagged_inventory AS ti
               ON ti.item_num = pi.item_number 
                 AND ti.lot = pi.lot
                 AND ti.location = pi.location_code
