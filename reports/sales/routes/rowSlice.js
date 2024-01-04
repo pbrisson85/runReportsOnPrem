@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
 
   const config = await getReportConfig(req.body)
 
-  console.log(`\n${config.user} - get drilldown data for ${req.body.reportFormat.dataName} route HIT...`)
+  console.log(`\n${config.user} - get drilldown data for ${config.baseFormat.dataName} route HIT...`)
 
   let response = null
   let cols = null
@@ -77,7 +77,7 @@ router.post('/', async (req, res) => {
     }
   }
 
-  console.log(`${config.user} - get drilldown data for ${req.body.reportFormat.dataName} route COMPLETE. \n`)
+  console.log(`${config.user} - get drilldown data for ${config.baseFormat.dataName} route COMPLETE. \n`)
   res.send(response)
 })
 

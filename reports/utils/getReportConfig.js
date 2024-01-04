@@ -42,6 +42,7 @@ const getReportConfig = async reqBody => {
       l4_name: reqBody.reportFormat?.l4_name ?? getBaseFormatDefault().l4_name ?? null,
       l5_name: reqBody.reportFormat?.l5_name ?? getBaseFormatDefault().l5_name ?? null,
       groupingLevel: reqBody.reportFormat?.groupingLevel ?? getBaseFormatDefault().groupingLevel ?? null,
+      dataName: reqBody.reportFormat?.dataName ?? getBaseFormatDefault().dataName ?? null,
     },
     baseFilters: {
       queryLevel: reqBody.queryLevel ?? null,
