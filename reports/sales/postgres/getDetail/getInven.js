@@ -11,27 +11,27 @@ const getInven_detail = async config => {
           `
           WITH tagged_inven AS (
             SELECT
-            SUM(ti.weight) AS tagged_lbs,
-            ti.lot,
-            ti.item_num,
-            ti.location
+            SUM(t.weight) AS tagged_lbs,
+            t.lot,
+            t.item_num,
+            t.location
 
             FROM
-              "salesReporting".tagged_inventory AS ti
+              "salesReporting".tagged_inventory AS t
 
             WHERE
-              ti.version = (SELECT MAX(version) FROM "salesReporting".tagged_inventory)
+              t.version = (SELECT MAX(version) FROM "salesReporting".tagged_inventory)
 
             GROUP BY
-              ti.lot,
-              ti.item_num,
-              ti.location
+              t.lot,
+              t.item_num,
+              t.location
           )
 
           
           SELECT 
-            ti.weight AS tagged_lbs,
-            pi.on_hand_lbs - ti.weight AS untagged_lbs,
+            ti.tagged_lbs,
+            pi.on_hand_lbs - ti.tagged_lbs AS untagged_lbs,
             pi.receipt_date, 
             pi.location_date, 
             pi.lot_text, 
