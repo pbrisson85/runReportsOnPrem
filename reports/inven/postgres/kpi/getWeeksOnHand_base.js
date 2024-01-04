@@ -113,8 +113,6 @@ const l1_getWeeksOnHand = async config => {
                 
             ` //prettier-ignore
 
-    console.log('response', response)
-
     return response
   } catch (error) {
     console.error(error)
@@ -233,6 +231,8 @@ const l2_getWeeksOnHand = async config => {
                 AND i.l5_label = s.l5_label
                 
             ` //prettier-ignore
+
+    console.log('response', response)
 
     return response
   } catch (error) {
