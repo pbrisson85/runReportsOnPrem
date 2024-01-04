@@ -33,6 +33,14 @@ module.exports = {
   l5_getSo: require('../../postgres/baseReport/getSo').l5_getSo,
   l0_getSo: require('../../postgres/baseReport/getSo').l0_getSo,
 
+  // KPI
+  l0_getWeeksOnHand: require('../../postgres/kpi/getWeeksOnHand_base').l0_getWeeksOnHand,
+  l1_getWeeksOnHand: require('../../postgres/kpi/getWeeksOnHand_base').l1_getWeeksOnHand,
+  l2_getWeeksOnHand: require('../../postgres/kpi/getWeeksOnHand_base').l2_getWeeksOnHand,
+  l3_getWeeksOnHand: require('../../postgres/kpi/getWeeksOnHand_base').l3_getWeeksOnHand,
+  l4_getWeeksOnHand: require('../../postgres/kpi/getWeeksOnHand_base').l4_getWeeksOnHand,
+  l5_getWeeksOnHand: require('../../postgres/kpi/getWeeksOnHand_base').l5_getWeeksOnHand,
+
   // Get Rows
   l5_getRowLabels: require('../../postgres/baseReport/getRowsLabels').l5_getRowLabels,
   l4_getRowLabels: require('../../postgres/baseReport/getRowsLabels').l4_getRowLabels,

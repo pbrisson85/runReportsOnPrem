@@ -66,7 +66,6 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
   ///////////////////////////////// INVEN KPIS
 
   // WEEKS INV ON HAND
-
   queryDataPromises.push(m.l0_getWeeksOnHand(config))
   queryDataPromises.push(m.l1_getWeeksOnHand(config, trendQuery))
 

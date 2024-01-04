@@ -21,6 +21,10 @@ module.exports = {
   l1_getRowLabels: require('../../postgres/rowSlice/getRowLabels').l1_getRowLabels,
   l0_getRowLabels: require('../../postgres/rowSlice/getRowLabels').l0_getRowLabels,
 
+  // KPI
+  l0_getWeeksOnHand: require('../../postgres/kpi/getWeeksOnHand_slice').l0_getWeeksOnHand,
+  l1_getWeeksOnHand: require('../../postgres/kpi/getWeeksOnHand_slice').l1_getWeeksOnHand,
+
   // Model Functions
   cleanLabelsForDisplay: require('../../../utils/cleanLabelsForDisplay'),
   unflattenByCompositKey: require('../../../utils/unflattenByCompositKey'),

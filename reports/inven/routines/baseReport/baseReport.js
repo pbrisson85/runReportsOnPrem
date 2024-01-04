@@ -38,6 +38,16 @@ const buildReport = async config => {
   queryDataPromises.push(m.l4_getSo(config))
   queryDataPromises.push(m.l5_getSo(config))
 
+  ///////////////////////////////// INVEN KPIS
+
+  // WEEKS INV ON HAND
+  queryDataPromises.push(m.l0_getWeeksOnHand(config))
+  queryDataPromises.push(m.l1_getWeeksOnHand(config))
+  queryDataPromises.push(m.l2_getWeeksOnHand(config))
+  queryDataPromises.push(m.l3_getWeeksOnHand(config))
+  queryDataPromises.push(m.l4_getWeeksOnHand(config))
+  queryDataPromises.push(m.l5_getWeeksOnHand(config))
+
   ///////////////////////////////// ROW LABELS
 
   rowDataPromises.push(m.l0_getRowLabels(config))
