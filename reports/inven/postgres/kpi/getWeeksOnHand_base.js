@@ -103,7 +103,7 @@ const l1_getWeeksOnHand = async config => {
             CASE WHEN s.lbs <= 0 THEN 99999 ELSE COALESCE(i.lbs/NULLIF(s.lbs,0),0) END AS lbs
             
             FROM inv i
-            LEFT OUTER JOIN ave_sales s -- Note that left and right table is opposite from the sales module query
+            INNER JOIN ave_sales s -- Note this join differs from the same datapoint in the sales report
             ON 
                 i.l1_label = s.l1_label
                 AND i.l2_label = s.l2_label
@@ -222,7 +222,7 @@ const l2_getWeeksOnHand = async config => {
             CASE WHEN s.lbs <= 0 THEN 99999 ELSE COALESCE(i.lbs/NULLIF(s.lbs,0),0) END AS lbs
             
             FROM inv i
-            LEFT OUTER JOIN ave_sales s -- Note that left and right table is opposite from the sales module query
+            INNER JOIN ave_sales s -- Note this join differs from the same datapoint in the sales report
             ON 
                 i.l1_label = s.l1_label
                 AND i.l2_label = s.l2_label
@@ -343,7 +343,7 @@ const l3_getWeeksOnHand = async config => {
             CASE WHEN s.lbs <= 0 THEN 99999 ELSE COALESCE(i.lbs/NULLIF(s.lbs,0),0) END AS lbs
             
             FROM inv i
-            LEFT OUTER JOIN ave_sales s -- Note that left and right table is opposite from the sales module query
+            INNER JOIN ave_sales s -- Note this join differs from the same datapoint in the sales report
             ON 
                 i.l1_label = s.l1_label
                 AND i.l2_label = s.l2_label
@@ -462,7 +462,7 @@ const l4_getWeeksOnHand = async config => {
             CASE WHEN s.lbs <= 0 THEN 99999 ELSE COALESCE(i.lbs/NULLIF(s.lbs,0),0) END AS lbs
             
             FROM inv i
-            LEFT OUTER JOIN ave_sales s -- Note that left and right table is opposite from the sales module query
+            INNER JOIN ave_sales s -- Note this join differs from the same datapoint in the sales report
             ON 
                 i.l1_label = s.l1_label
                 AND i.l2_label = s.l2_label
@@ -581,7 +581,7 @@ const l5_getWeeksOnHand = async config => {
             CASE WHEN s.lbs <= 0 THEN 99999 ELSE COALESCE(i.lbs/NULLIF(s.lbs,0),0) END AS lbs
             
             FROM inv i
-            LEFT OUTER JOIN ave_sales s -- Note that left and right table is opposite from the sales module query
+            INNER JOIN ave_sales s -- Note this join differs from the same datapoint in the sales report
             ON 
                 i.l1_label = s.l1_label
                 AND i.l2_label = s.l2_label
@@ -685,7 +685,7 @@ const l0_getWeeksOnHand = async config => {
             CASE WHEN s.lbs <= 0 THEN 99999 ELSE COALESCE(i.lbs/NULLIF(s.lbs,0),0) END AS lbs
             
             FROM inv i
-            LEFT OUTER JOIN ave_sales s -- Note that left and right table is opposite from the sales module query
+            INNER JOIN ave_sales s -- Note this join differs from the same datapoint in the sales report
             ON 
                 i.l1_label = s.l1_label
                
