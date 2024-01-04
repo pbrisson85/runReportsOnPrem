@@ -211,8 +211,8 @@ const l1_getWeeksOnHand = async (config, trendQuery) => {
             ${trendQuery.inv.l7_label ? sql`s.l7_label,`: sql``}
             CASE WHEN s.lbs <= 0 THEN 99999 ELSE COALESCE(i.lbs/NULLIF(s.lbs,0),0) END AS lbs
             
-            FROM ave_sales s
-              LEFT OUTER JOIN i
+            FROM i
+              LEFT OUTER JOIN ave_sales s -- Note that left and right table is opposite from the sales module query
               ON 
                 i.l1_label = s.l1_label
                 ${trendQuery.inv.l2_label ? sql`AND i.l2_label = s.l2_label`: sql``}
