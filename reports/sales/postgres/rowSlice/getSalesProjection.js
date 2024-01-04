@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const l1_getSales = async (config, startDate, endDate, trendQuery, useProjection) => {
+const l1_getSales = async (config, trendQuery) => {
   if (!trendQuery.sl.l1_label) return []
 
   try {
@@ -49,7 +49,7 @@ const l1_getSales = async (config, startDate, endDate, trendQuery, useProjection
 
         WHERE 1=2
 
-        ${useProjection.sl ? sql`
+        ${config.totals.useProjection.sl ? sql`
         UNION ALL
         SELECT
           sl.item_number,
@@ -75,7 +75,7 @@ const l1_getSales = async (config, startDate, endDate, trendQuery, useProjection
             ON sl.formatted_invoice_date = p.formatted_date
 
         WHERE 
-          sl.formatted_invoice_date >= ${startDate} AND sl.formatted_invoice_date <= ${endDate} 
+          sl.formatted_invoice_date >= ${config.totals.primary.startDate} AND sl.formatted_invoice_date <= ${config.totals.primary.endDate} 
           ${config.trendFilters.customer ? sql`AND sl.customer_code = ${config.trendFilters.customer}`: sql``} 
           ${config.trendFilters.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.trendFilters.salesPerson}`: sql``} 
           ${config.trendFilters.country ? sql`AND sl.country = ${config.trendFilters.country}`: sql``} 
@@ -84,7 +84,7 @@ const l1_getSales = async (config, startDate, endDate, trendQuery, useProjection
           ${config.trendFilters.northAmerica ? sql`AND sl.north_america = ${config.trendFilters.northAmerica}`: sql``} 
           `: sql``}
 
-        ${useProjection.so ? sql`
+        ${config.totals.useProjection.so ? sql`
         UNION ALL
           SELECT 
             so.item_num AS item_number,
@@ -111,7 +111,7 @@ const l1_getSales = async (config, startDate, endDate, trendQuery, useProjection
 
           WHERE 
             so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-            AND so.formatted_ship_date >= ${startDate} AND so.formatted_ship_date <= ${endDate}
+            AND so.formatted_ship_date >= ${config.totals.primary.startDate} AND so.formatted_ship_date <= ${config.totals.primary.endDate}
             ${config.trendFilters.customer ? sql`AND so.customer_code = ${config.trendFilters.customer}`: sql``} 
             ${config.trendFilters.salesPerson ? sql`AND so.out_sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
             ${config.trendFilters.country ? sql`AND so.country = ${config.trendFilters.country}`: sql``} 
@@ -120,7 +120,7 @@ const l1_getSales = async (config, startDate, endDate, trendQuery, useProjection
             ${config.trendFilters.northAmerica ? sql`AND so.north_america = ${config.trendFilters.northAmerica}`: sql``} 
             `: sql``}
 
-        ${useProjection.pr ? sql`
+        ${config.totals.useProjection.pr ? sql`
         UNION ALL
           SELECT
           pr.item_number,
@@ -143,7 +143,7 @@ const l1_getSales = async (config, startDate, endDate, trendQuery, useProjection
               ON pr.date = p.formatted_date
         
           WHERE 
-          pr.date >= ${startDate} AND pr.date <= ${endDate} 
+          pr.date >= ${config.totals.primary.startDate} AND pr.date <= ${config.totals.primary.endDate} 
           ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
           ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
           ${config.trendFilters.country ? sql`AND pr.country = ${config.trendFilters.country}`: sql``} 
@@ -194,7 +194,7 @@ const l1_getSales = async (config, startDate, endDate, trendQuery, useProjection
   }
 }
 
-const l0_getSales = async (config, startDate, endDate, useProjection) => {
+const l0_getSales = async config => {
   try {
     console.log(`${config.user} - level 0: (getSalesTrend Lvl3) query postgres to get FG sales data period total ...`)
 
@@ -227,7 +227,7 @@ const l0_getSales = async (config, startDate, endDate, useProjection) => {
 
         WHERE 1=2
 
-      ${useProjection.sl ? sql`
+      ${config.totals.useProjection.sl ? sql`
       UNION ALL
         SELECT
           sl.item_number,
@@ -246,7 +246,7 @@ const l0_getSales = async (config, startDate, endDate, useProjection) => {
             ON sl.formatted_invoice_date = p.formatted_date
 
         WHERE 
-          sl.formatted_invoice_date >= ${startDate} AND sl.formatted_invoice_date <= ${endDate} 
+          sl.formatted_invoice_date >= ${config.totals.primary.startDate} AND sl.formatted_invoice_date <= ${config.totals.primary.endDate} 
           ${config.trendFilters.customer ? sql`AND sl.customer_code = ${config.trendFilters.customer}`: sql``} 
           ${config.trendFilters.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.trendFilters.salesPerson}`: sql``} 
           ${config.trendFilters.country ? sql`AND sl.country = ${config.trendFilters.country}`: sql``} 
@@ -255,7 +255,7 @@ const l0_getSales = async (config, startDate, endDate, useProjection) => {
           ${config.trendFilters.northAmerica ? sql`AND sl.north_america = ${config.trendFilters.northAmerica}`: sql``} 
           `: sql``}
 
-      ${useProjection.so ? sql`
+      ${config.totals.useProjection.so ? sql`
       UNION ALL
         SELECT 
             so.item_num AS item_number,
@@ -275,7 +275,7 @@ const l0_getSales = async (config, startDate, endDate, useProjection) => {
 
         WHERE 
           so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-          AND so.formatted_ship_date >= ${startDate} AND so.formatted_ship_date <= ${endDate}
+          AND so.formatted_ship_date >= ${config.totals.primary.startDate} AND so.formatted_ship_date <= ${config.totals.primary.endDate}
           ${config.trendFilters.customer ? sql`AND so.customer_code = ${config.trendFilters.customer}`: sql``} 
           ${config.trendFilters.salesPerson ? sql`AND so.out_sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
           ${config.trendFilters.country ? sql`AND so.country = ${config.trendFilters.country}`: sql``} 
@@ -284,7 +284,7 @@ const l0_getSales = async (config, startDate, endDate, useProjection) => {
           ${config.trendFilters.northAmerica ? sql`AND so.north_america = ${config.trendFilters.northAmerica}`: sql``} 
           `: sql``}
 
-          ${useProjection.pr ? sql`
+          ${config.totals.useProjection.pr ? sql`
           UNION ALL
             SELECT
             pr.item_number,
@@ -300,7 +300,7 @@ const l0_getSales = async (config, startDate, endDate, useProjection) => {
                 ON pr.date = p.formatted_date
           
             WHERE 
-            pr.date >= ${startDate} AND pr.date <= ${endDate} 
+            pr.date >= ${config.totals.primary.startDate} AND pr.date <= ${config.totals.primary.endDate} 
             ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
             ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
             ${config.trendFilters.country ? sql`AND pr.country = ${config.trendFilters.country}`: sql``} 

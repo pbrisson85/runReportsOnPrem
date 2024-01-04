@@ -15,29 +15,42 @@ const groupByOptions = require('../../filters/data/detailGroupBy')
 router.post('/', async (req, res) => {
   console.log('get detail request', req.body)
 
-  const { reportFormat, startDate, endDate, useProjection } = req.body
+  const { colStartDate, colEndDate } = req.body
   let { colType } = req.body // for now manually determining if projeciton vs sales below. Need to override col type to projection to get correct cols
 
   const config = await getReportConfig(req.body)
 
   let data = null
 
-  console.log(`\n${config.user} - get detail data for ${reportFormat.dataName} route HIT...`)
+  console.log(`\n${config.user} - get detail data for ${config.reportFormat.dataName} route HIT...`)
 
   if (colType === 'inven') {
     data = await getInven_detail(config)
   }
 
-  if (colType === 'salesOrder') {
-    data = await getSo_detail(config, startDate, endDate)
+  if (colType === 'salesOrder' && !timeSeriesCol) {
+    data = await getSo_detail(config, config.salesOrders.startDate, config.salesOrders.endDate)
   }
 
-  if (colType === 'salesInvoice') {
-    if (useProjection?.so || useProjection?.pr) {
-      data = await getSalesProjection_detail(config, startDate, endDate, useProjection) // Should try to combine with getSales_detail
+  if (colType === 'salesOrder' && timeSeriesCol) {
+    data = await getSo_detail(config, colStartDate, colEndDate)
+  }
+
+  if (colType === 'salesInvoice' && !timeSeriesCol) {
+    if (config.totals.useProjection?.so || config.totals.useProjection?.pr) {
+      data = await getSalesProjection_detail(config, config.totals.primary.startDate, config.totals.primary.endDate, config.totals.useProjection) // Should try to combine with getSales_detail
       colType = 'salesProjection' // for now manually determining if projeciton vs sales below. Need to override col type to projection to get correct cols
     } else {
-      data = await getSales_detail(config, startDate, endDate)
+      data = await getSales_detail(config, config.totals.primary.startDate, config.totals.primary.endDate)
+    }
+  }
+
+  if (colType === 'salesInvoice' && timeSeriesCol) {
+    if (config.totals.useProjection?.so || config.totals.useProjection?.pr) {
+      data = await getSalesProjection_detail(config, colStartDate, colEndDate, config.totals.useProjection) // Should try to combine with getSales_detail
+      colType = 'salesProjection' // for now manually determining if projeciton vs sales below. Need to override col type to projection to get correct cols
+    } else {
+      data = await getSales_detail(config, colStartDate, colEndDate)
     }
   }
 
@@ -49,7 +62,7 @@ router.post('/', async (req, res) => {
   const cols = detailColsMap[colType]
   const menu = groupByOptions[colType]
 
-  console.log(`${config.user} - get detail data for ${reportFormat.dataName} route COMPLETE. \n`)
+  console.log(`${config.user} - get detail data for ${config.reportFormat.dataName} route COMPLETE. \n`)
   res.send({ data, cols, menu })
 })
 

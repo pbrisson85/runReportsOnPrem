@@ -66,7 +66,7 @@ router.post('/', async (req, res) => {
       break
   }
 
-  response = await viewTrend(cols, config, trendQuery, useProjection, startDate, endDate)
+  response = await viewTrend(cols, config, trendQuery)
 
   // CUSTOM ROUTINES FOR SPECIFIC REPORTS
   if (rightMenuSelection === 'Trend By Customer') {

@@ -13,17 +13,15 @@ const groupByOptions = require('../../filters/data/detailGroupBy')
 router.post('/', async (req, res) => {
   console.log(`\nget detail route HIT...`)
 
-  const { reportFormat, startDateInven, endDateInven } = req.body
-  let { colType } = req.body // for now manually determining if projeciton vs sales below. Need to override col type to projection to get correct cols
-
+  const { reportFormat, colStartDate, colEndDate, colType } = req.body
   const config = await getReportConfig(req.body)
 
   let data = null
 
-  console.log(`\n${config.user} - get detail data for ${reportFormat.dataName} route HIT...`)
+  console.log(`\n${config.user} - get detail data for ${config.reportFormat.dataName} route HIT...`)
 
   if (colType === 'inven') {
-    data = await getInven_detail(config, startDateInven, endDateInven)
+    data = await getInven_detail(config, colStartDate, colEndDate)
   }
 
   if (colType === 'salesOrder') {
@@ -38,7 +36,7 @@ router.post('/', async (req, res) => {
   const cols = detailColsMap[colType]
   const menu = groupByOptions[colType]
 
-  console.log(`${config.user} - get detail data for ${reportFormat.dataName} route COMPLETE. \n`)
+  console.log(`${config.user} - get detail data for ${config.reportFormat.dataName} route COMPLETE. \n`)
   res.send({ data, cols, menu })
 })
 

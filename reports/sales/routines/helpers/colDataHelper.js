@@ -21,11 +21,7 @@ const addDataToSalesTotalCol = (config, columnConfigs) => {
 
     const displayName = `${startDisplayClean} - ${endDisplayClean} ${col.displayName_original}`
 
-    col.startDate = config.totals.primary.startDate
-    col.endDate = config.totals.primary.endDate
     col.displayName = displayName
-    col.useProjection = config.totals.useProjection
-    col.baseConfig = config.baseConfig
   })
 
   return columnConfigs
@@ -49,11 +45,7 @@ const addDataToSoTotalCol = (config, columnConfigs) => {
 
     const displayName = `${startDisplayClean} - ${endDisplayClean} ${col.displayName_original}`
 
-    col.startDate = config.salesOrders.startDate
-    col.endDate = config.salesOrders.endDate
     col.displayName = displayName
-    col.useProjection = config.totals.useProjection
-    col.baseConfig = config.baseConfig
   })
 
   return columnConfigs

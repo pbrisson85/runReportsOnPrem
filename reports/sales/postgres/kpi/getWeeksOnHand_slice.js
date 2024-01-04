@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
+const l1_getWeeksOnHand = async (config, trendQuery) => {
   if (!config.baseFormat.l1_field) return []
   // loop through config trailing weeks for date ranges and denominators to get ave.
 
@@ -36,7 +36,7 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
           FROM "salesReporting".sales_line_items AS sl
           WHERE 1=2
   
-          ${useProjection.sl ? sql`
+          ${config.totals.useProjection.sl ? sql`
           UNION ALL
           SELECT
             sl.item_number,
@@ -66,7 +66,7 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
             ${config.trendFilters.northAmerica ? sql`AND sl.north_america = ${config.trendFilters.northAmerica}`: sql``} 
             `: sql``}
   
-          ${useProjection.so ? sql`
+          ${config.totals.useProjection.so ? sql`
           UNION ALL
             SELECT 
               so.item_num AS item_number,
@@ -97,7 +97,7 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
               ${config.trendFilters.northAmerica ? sql`AND so.north_america = ${config.trendFilters.northAmerica}`: sql``} 
               `: sql``}
   
-          ${useProjection.pr ? sql`
+          ${config.totals.useProjection.pr ? sql`
           UNION ALL
             SELECT
               pr.item_number,
@@ -232,7 +232,7 @@ const l1_getWeeksOnHand = async (config, trendQuery, useProjection) => {
   }
 }
 
-const l0_getWeeksOnHand = async (config, useProjection) => {
+const l0_getWeeksOnHand = async config => {
   try {
     console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getWeeksOnHand) ...`)
 
@@ -252,7 +252,7 @@ const l0_getWeeksOnHand = async (config, useProjection) => {
       FROM "salesReporting".sales_line_items AS sl
       WHERE 1=2
 
-      ${useProjection.sl ? sql`
+      ${config.totals.useProjection.sl ? sql`
       UNION ALL
       SELECT
         sl.item_number,
@@ -275,7 +275,7 @@ const l0_getWeeksOnHand = async (config, useProjection) => {
         ${config.trendFilters.northAmerica ? sql`AND sl.north_america = ${config.trendFilters.northAmerica}`: sql``} 
         `: sql``}
 
-      ${useProjection.so ? sql`
+      ${config.totals.useProjection.so ? sql`
       UNION ALL
         SELECT 
           so.item_num AS item_number,
@@ -299,7 +299,7 @@ const l0_getWeeksOnHand = async (config, useProjection) => {
           ${config.trendFilters.northAmerica ? sql`AND so.north_america = ${config.trendFilters.northAmerica}`: sql``} 
           `: sql``}
 
-      ${useProjection.pr ? sql`
+      ${config.totals.useProjection.pr ? sql`
       UNION ALL
         SELECT
           pr.item_number,

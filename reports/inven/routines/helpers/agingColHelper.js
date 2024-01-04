@@ -17,8 +17,8 @@ const buildAgingCols = (config, columnConfigs) => {
       ...columnConfigs.ageCol[0],
       dataName: ageBucket.dataName,
       displayName: ageBucket.displayName,
-      startDateInven: start,
-      endDateInven: end,
+      colStartDate: start,
+      colEndDate: end,
     })
   }
 

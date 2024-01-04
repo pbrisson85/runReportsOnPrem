@@ -9,11 +9,10 @@ const getReportConfig = require('../../utils/getReportConfig')
 const getViewTrendConfig = require('../../utils/getViewTrendConfig')
 
 router.post('/', async (req, res) => {
-  const { rightMenuSelection, reportFormat } = req.body
-
+  const { rightMenuSelection } = req.body
   const config = await getReportConfig(req.body)
 
-  console.log(`\n${config.user} - get drilldown data for ${reportFormat.dataName} route HIT...`)
+  console.log(`\n${config.user} - get drilldown data for ${config.reportFormat.dataName} route HIT...`)
 
   let response = null
   let cols = null
@@ -39,7 +38,7 @@ router.post('/', async (req, res) => {
 
   response = await viewTrend(cols, config, trendQuery)
 
-  console.log(`${config.user} - get drilldown data for ${reportFormat.dataName} route COMPLETE. \n`)
+  console.log(`${config.user} - get drilldown data for ${config.reportFormat.dataName} route COMPLETE. \n`)
   res.send(response)
 })
 

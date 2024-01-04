@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const l1_getSalesTrend = async (config, trendQuery, useProjection) => {
+const l1_getSalesTrend = async (config, trendQuery) => {
   if (!config.trends.queryGrouping) return []
   if (!trendQuery.sl.l1_label) return []
 
@@ -51,7 +51,7 @@ const l1_getSalesTrend = async (config, trendQuery, useProjection) => {
 
         WHERE 1=2
 
-        ${useProjection.sl ? sql`
+        ${config.totals.useProjection.sl ? sql`
         UNION ALL
         SELECT
           sl.item_number,
@@ -87,7 +87,7 @@ const l1_getSalesTrend = async (config, trendQuery, useProjection) => {
           ${config.trendFilters.northAmerica ? sql`AND sl.north_america = ${config.trendFilters.northAmerica}`: sql``} 
           `: sql``}
 
-        ${useProjection.so ? sql`
+        ${config.totals.useProjection.so ? sql`
         UNION ALL
           SELECT 
             so.item_num AS item_number,
@@ -124,7 +124,7 @@ const l1_getSalesTrend = async (config, trendQuery, useProjection) => {
             ${config.trendFilters.northAmerica ? sql`AND so.north_america = ${config.trendFilters.northAmerica}`: sql``} 
             `: sql``}
 
-        ${useProjection.pr ? sql`
+        ${config.totals.useProjection.pr ? sql`
         UNION ALL
           SELECT
           pr.item_number,
@@ -201,7 +201,7 @@ const l1_getSalesTrend = async (config, trendQuery, useProjection) => {
   }
 }
 
-const l0_getSalesTrend = async (config, useProjection) => {
+const l0_getSalesTrend = async config => {
   if (!config.trends.queryGrouping) return []
 
   try {
@@ -237,7 +237,7 @@ const l0_getSalesTrend = async (config, useProjection) => {
 
         WHERE 1=2
 
-      ${useProjection.sl ? sql`
+      ${config.totals.useProjection.sl ? sql`
       UNION ALL
         SELECT
           sl.item_number,
@@ -266,7 +266,7 @@ const l0_getSalesTrend = async (config, useProjection) => {
           ${config.trendFilters.northAmerica ? sql`AND sl.north_america = ${config.trendFilters.northAmerica}`: sql``} 
           `: sql``}
 
-      ${useProjection.so ? sql`
+      ${config.totals.useProjection.so ? sql`
       UNION ALL
         SELECT 
             so.item_num AS item_number,
@@ -296,7 +296,7 @@ const l0_getSalesTrend = async (config, useProjection) => {
           ${config.trendFilters.northAmerica ? sql`AND so.north_america = ${config.trendFilters.northAmerica}`: sql``} 
           `: sql``}
 
-          ${useProjection.pr ? sql`
+          ${config.totals.useProjection.pr ? sql`
           UNION ALL
             SELECT
             pr.item_number,

@@ -1,8 +1,6 @@
 const sql = require('../../../../server')
 
-const l1_getRowLabels = async (config, start, end, trendQuery, useProjection) => {
-  const itemTypeArray = JSON.stringify(config.baseFilters.itemType)
-
+const l1_getRowLabels = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - query postgres to get row labels ...`)
 
@@ -17,7 +15,7 @@ const l1_getRowLabels = async (config, start, end, trendQuery, useProjection) =>
             '0' AS item_number
           WHERE 1=2
   
-          ${useProjection.sl ? sql`
+          ${config.totals.useProjection.sl ? sql`
           UNION
           SELECT
             DISTINCT(sl.item_number) AS item_number
@@ -29,7 +27,7 @@ const l1_getRowLabels = async (config, start, end, trendQuery, useProjection) =>
             LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
               ON sl.formatted_invoice_date = p.formatted_date
           WHERE 
-            sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
+            sl.formatted_invoice_date >= ${config.rows.startDate} AND sl.formatted_invoice_date <= ${config.rows.endDate} 
             ${config.trendFilters.customer ? sql`AND sl.customer_code = ${config.trendFilters.customer}`: sql``} 
             ${config.trendFilters.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.trendFilters.salesPerson}`: sql``} 
             ${config.trendFilters.country ? sql`AND sl.country = ${config.trendFilters.country}`: sql``} 
@@ -38,7 +36,7 @@ const l1_getRowLabels = async (config, start, end, trendQuery, useProjection) =>
             ${config.trendFilters.northAmerica ? sql`AND sl.north_america = ${config.trendFilters.northAmerica}`: sql``} 
             `: sql``}
   
-          ${useProjection.so ? sql`
+          ${config.totals.useProjection.so ? sql`
           UNION
             SELECT 
               DISTINCT(so.item_num) AS item_number
@@ -52,7 +50,7 @@ const l1_getRowLabels = async (config, start, end, trendQuery, useProjection) =>
   
             WHERE 
               so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-              AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
+              AND so.formatted_ship_date >= ${config.rows.startDate} AND so.formatted_ship_date <= ${config.rows.endDate}
               ${config.trendFilters.customer ? sql`AND so.customer_code = ${config.trendFilters.customer}`: sql``} 
               ${config.trendFilters.salesPerson ? sql`AND so.out_sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
               ${config.trendFilters.country ? sql`AND so.country = ${config.trendFilters.country}`: sql``} 
@@ -61,7 +59,7 @@ const l1_getRowLabels = async (config, start, end, trendQuery, useProjection) =>
               ${config.trendFilters.northAmerica ? sql`AND so.north_america = ${config.trendFilters.northAmerica}`: sql``} 
               `: sql``}
   
-          ${useProjection.pr ? sql`
+          ${config.totals.useProjection.pr ? sql`
           UNION
             SELECT
               DISTINCT(pr.item_number) AS item_number
@@ -73,7 +71,7 @@ const l1_getRowLabels = async (config, start, end, trendQuery, useProjection) =>
               LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
                 ON pr.date = p.formatted_date
             WHERE 
-            pr.date >= ${start} AND pr.date <= ${end} 
+            pr.date >= ${config.rows.startDate} AND pr.date <= ${config.rows.endDate} 
             ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
             ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
             ${config.trendFilters.country ? sql`AND pr.country = ${config.trendFilters.country}`: sql``} 
@@ -92,7 +90,7 @@ const l1_getRowLabels = async (config, start, end, trendQuery, useProjection) =>
           ${trendQuery.sl.l6_label ? sql`${sql(trendQuery.sl.l6_label)} AS l6_label,`: sql``} 
           ${trendQuery.sl.l7_label ? sql`${sql(trendQuery.sl.l7_label)} AS l7_label,`: sql``} 
           ${config.baseFilters.queryLevel} AS datalevel 
-          ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``} 
+           
         
         FROM "salesReporting".sales_line_items AS sl
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -102,7 +100,7 @@ const l1_getRowLabels = async (config, start, end, trendQuery, useProjection) =>
               
         WHERE 
             ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-            ${!config.trends.fyYtd && !config.trends.fyFullYear ? sql`AND sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} ` : sql``} 
+            ${!config.trends.fyYtd && !config.trends.fyFullYear ? sql`AND sl.formatted_invoice_date >= ${config.rows.startDate} AND sl.formatted_invoice_date <= ${config.rows.endDate} ` : sql``} 
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
             ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
@@ -141,7 +139,7 @@ const l1_getRowLabels = async (config, start, end, trendQuery, useProjection) =>
           ${trendQuery.so.l6_label ? sql`${sql(trendQuery.so.l6_label)} AS l6_label,`: sql``} 
           ${trendQuery.so.l7_label ? sql`${sql(trendQuery.so.l7_label)} AS l7_label,`: sql``} 
           ${config.baseFilters.queryLevel} AS datalevel 
-          ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``} 
+          
         
         FROM "salesReporting".sales_orders AS so
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -191,14 +189,13 @@ const l1_getRowLabels = async (config, start, end, trendQuery, useProjection) =>
             ${trendQuery.pr.l6_label ? sql`${sql(trendQuery.pr.l6_label)} AS l6_label,`: sql``} 
             ${trendQuery.pr.l7_label ? sql`${sql(trendQuery.pr.l7_label)} AS l7_label,`: sql``} 
             ${config.baseFilters.queryLevel} AS datalevel 
-            ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``} 
           FROM "salesReporting".projected_sales AS pr  
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = pr.item_number 
             LEFT OUTER JOIN "masters".customer_supplement AS cs 
               ON cs.customer_code = pr.customer_code 
           WHERE 
-            pr.date >= ${start} AND pr.date <= ${end} 
+            pr.date >= ${config.rows.startDate} AND pr.date <= ${config.rows.endDate} 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
@@ -237,7 +234,7 @@ const l1_getRowLabels = async (config, start, end, trendQuery, useProjection) =>
           ${trendQuery.inv.l5_label ? sql`${sql(trendQuery.inv.l5_label)} AS l5_label,`: sql``} 
           ${trendQuery.inv.l6_label ? sql`${sql(trendQuery.inv.l6_label)} AS l6_label,`: sql``} 
           ${trendQuery.inv.l7_label ? sql`${sql(trendQuery.inv.l7_label)} AS l7_label,`: sql``}
-          ${config.baseFilters.queryLevel} AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``} 
+          ${config.baseFilters.queryLevel} AS datalevel  
         
         FROM "invenReporting".perpetual_inventory AS inv
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 

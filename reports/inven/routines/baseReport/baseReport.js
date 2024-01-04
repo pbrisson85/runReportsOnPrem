@@ -85,6 +85,7 @@ const buildReport = async config => {
       labelCols: config.labelCols,
       columnConfigs,
     },
+    baseConfig: config.baseConfig,
   }
 }
 

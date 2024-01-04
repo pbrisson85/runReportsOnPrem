@@ -195,7 +195,6 @@ const buildReport = async config => {
     return {
       ...col,
       ...m.trendColsTemplate,
-      useProjection: config.trends.useProjection,
     }
   })
 
@@ -206,6 +205,7 @@ const buildReport = async config => {
       labelCols: config.labelCols,
       columnConfigs: columnConfigsTagged,
     },
+    baseConfig: config.baseConfig, // pass back for slice and detail reports
   }
 }
 

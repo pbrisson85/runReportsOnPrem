@@ -1,8 +1,6 @@
 const sql = require('../../../../server')
 
 const l1_getRowLabels = async (config, trendQuery) => {
-  const itemTypeArray = JSON.stringify(config.baseFilters.itemType)
-
   try {
     console.log(`${config.user} - query postgres to get row labels ...`)
 
@@ -17,7 +15,7 @@ const l1_getRowLabels = async (config, trendQuery) => {
           ${trendQuery.so.l5_label ? sql`${sql(trendQuery.so.l5_label)} AS l5_label,`: sql``} 
           ${trendQuery.so.l6_label ? sql`${sql(trendQuery.so.l6_label)} AS l6_label,`: sql``} 
           ${trendQuery.so.l7_label ? sql`${sql(trendQuery.so.l7_label)} AS l7_label,`: sql``} 
-          ${config.baseFilters.queryLevel} AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``} 
+          ${config.baseFilters.queryLevel} AS datalevel 
         
         FROM "salesReporting".sales_orders AS so
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -67,7 +65,7 @@ const l1_getRowLabels = async (config, trendQuery) => {
           ${trendQuery.inv.l5_label ? sql`${sql(trendQuery.inv.l5_label)} AS l5_label,`: sql``} 
           ${trendQuery.inv.l6_label ? sql`${sql(trendQuery.inv.l6_label)} AS l6_label,`: sql``} 
           ${trendQuery.inv.l7_label ? sql`${sql(trendQuery.inv.l7_label)} AS l7_label,`: sql``}
-          ${config.baseFilters.queryLevel} AS datalevel ${config.baseFilters.itemType ? sql`, '${sql(itemTypeArray)}' AS itemtype` : sql``} 
+          ${config.baseFilters.queryLevel} AS datalevel  
         
         FROM "invenReporting".perpetual_inventory 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 

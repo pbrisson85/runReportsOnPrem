@@ -1,6 +1,6 @@
 const m = require('./import')
 
-const buildDrillDown = async (labelCols, config, trendQuery, useProjection, startDate, endDate) => {
+const buildDrillDown = async (labelCols, config, trendQuery) => {
   const queryDataPromises = []
   const rowDataPromises = []
   const trendColumnPromises = []
@@ -8,13 +8,13 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
 
   ///////////////////////////////// INVENTORY DATA
 
-  queryDataPromises.push(m.l1_getInven(config, startDate, endDate, trendQuery, useProjection))
-  queryDataPromises.push(m.l0_getInven(config, startDate, endDate, useProjection))
+  queryDataPromises.push(m.l1_getInven(config, trendQuery))
+  queryDataPromises.push(m.l0_getInven(config))
 
   ///////////////////////////////// PURCHASE DATA
 
-  queryDataPromises.push(m.l1_getOpenPo(config, startDate, endDate, trendQuery, useProjection))
-  queryDataPromises.push(m.l0_getOpenPo(config, startDate, endDate, useProjection))
+  queryDataPromises.push(m.l1_getOpenPo(config, trendQuery))
+  queryDataPromises.push(m.l0_getOpenPo(config))
 
   ///////////////////////////////// SALES ORDERS
 
@@ -29,12 +29,12 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
   ///////////////////////////////// SALES DATA
 
   // SALES YTD
-  queryDataPromises.push(m.l1_getSales(config, startDate, endDate, trendQuery, useProjection))
-  queryDataPromises.push(m.l0_getSales(config, startDate, endDate, useProjection))
+  queryDataPromises.push(m.l1_getSales(config, trendQuery))
+  queryDataPromises.push(m.l0_getSales(config))
 
   // TRENDS
-  queryDataPromises.push(m.l1_getSalesTrend(config, trendQuery, useProjection))
-  queryDataPromises.push(m.l0_getSalesTrend(config, useProjection))
+  queryDataPromises.push(m.l1_getSalesTrend(config, trendQuery))
+  queryDataPromises.push(m.l0_getSalesTrend(config))
 
   ///////////////////////////////// SALES KPIS
 
@@ -47,33 +47,33 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
   const [companyTotalSales, programTotalSales, speciesGroupTotalSales, reportTotalSales] = await Promise.all(kpiHelperPromises)
 
   // AVE WEEKLY SALES
-  queryDataPromises.push(m.l0_getAveSales(config, useProjection))
-  queryDataPromises.push(m.l1_getAveSales(config, trendQuery, useProjection))
+  queryDataPromises.push(m.l0_getAveSales(config))
+  queryDataPromises.push(m.l1_getAveSales(config, trendQuery))
   // % COMPANY SALES
-  queryDataPromises.push(m.l0_getPercentSales(config, startDate, endDate, useProjection, companyTotalSales, 'percentCompanySales'))
-  queryDataPromises.push(m.l1_getPercentSales(config, startDate, endDate, trendQuery, useProjection, companyTotalSales, 'percentCompanySales'))
+  queryDataPromises.push(m.l0_getPercentSales(config, companyTotalSales, 'percentCompanySales'))
+  queryDataPromises.push(m.l1_getPercentSales(config, trendQuery, companyTotalSales, 'percentCompanySales'))
   // % PROGRAM SALES
-  queryDataPromises.push(m.l0_getPercentSales(config, startDate, endDate, useProjection, programTotalSales, 'percentProgramSales'))
-  queryDataPromises.push(m.l1_getPercentSales(config, startDate, endDate, trendQuery, useProjection, programTotalSales, 'percentProgramSales'))
+  queryDataPromises.push(m.l0_getPercentSales(config, programTotalSales, 'percentProgramSales'))
+  queryDataPromises.push(m.l1_getPercentSales(config, trendQuery, programTotalSales, 'percentProgramSales'))
   // % SPECIES GROUP SALES
-  const pctSpecGrpSalesInputs = [config, startDate, endDate, trendQuery, useProjection, speciesGroupTotalSales, 'percentSpeciesGroupSales']
-  queryDataPromises.push(m.l0_getPercentSales(config, startDate, endDate, useProjection, speciesGroupTotalSales, 'percentSpeciesGroupSales'))
+  const pctSpecGrpSalesInputs = [config, trendQuery, speciesGroupTotalSales, 'percentSpeciesGroupSales']
+  queryDataPromises.push(m.l0_getPercentSales(config, speciesGroupTotalSales, 'percentSpeciesGroupSales'))
   queryDataPromises.push(m.l1_getPercentSales(...pctSpecGrpSalesInputs))
   // % REPORT SALES
-  queryDataPromises.push(m.l0_getPercentSales(config, startDate, endDate, useProjection, reportTotalSales, 'percentReportTotal'))
-  queryDataPromises.push(m.l1_getPercentSales(config, startDate, endDate, trendQuery, useProjection, reportTotalSales, 'percentReportTotal'))
+  queryDataPromises.push(m.l0_getPercentSales(config, reportTotalSales, 'percentReportTotal'))
+  queryDataPromises.push(m.l1_getPercentSales(config, trendQuery, reportTotalSales, 'percentReportTotal'))
 
   ///////////////////////////////// INVEN KPIS
 
   // WEEKS INV ON HAND
 
-  queryDataPromises.push(m.l0_getWeeksOnHand(config, useProjection))
-  queryDataPromises.push(m.l1_getWeeksOnHand(config, trendQuery, useProjection))
+  queryDataPromises.push(m.l0_getWeeksOnHand(config))
+  queryDataPromises.push(m.l1_getWeeksOnHand(config, trendQuery))
 
   ///////////////////////////////// ROW LABELS
 
   rowDataPromises.push(m.l0_getRowLabels(config))
-  rowDataPromises.push(m.l1_getRowLabels(config, startDate, endDate, trendQuery, useProjection))
+  rowDataPromises.push(m.l1_getRowLabels(config, trendQuery))
 
   ///////////////////////////////// TREND COLUMNS
 
@@ -128,7 +128,6 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
     return {
       ...col,
       ...m.trendColsTemplate,
-      useProjection: config.trends.useProjection,
     }
   })
 
