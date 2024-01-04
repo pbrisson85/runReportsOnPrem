@@ -17,11 +17,11 @@ const getViewTrendConfig = require('../../utils/getViewTrendConfig')
 const addCustomerName = require('../routines/helpers/trendByCustomer')
 
 router.post('/', async (req, res) => {
-  const { rightMenuSelection, reportFormat, useProjection, startDate, endDate } = req.body
+  const { rightMenuSelection } = req.body
 
   const config = await getReportConfig(req.body)
 
-  console.log(`\n${config.user} - get drilldown data for ${reportFormat.dataName} route HIT...`)
+  console.log(`\n${config.user} - get drilldown data for ${req.body.reportFormat.dataName} route HIT...`)
 
   let response = null
   let cols = null
@@ -77,7 +77,7 @@ router.post('/', async (req, res) => {
     }
   }
 
-  console.log(`${config.user} - get drilldown data for ${reportFormat.dataName} route COMPLETE. \n`)
+  console.log(`${config.user} - get drilldown data for ${req.body.reportFormat.dataName} route COMPLETE. \n`)
   res.send(response)
 })
 
