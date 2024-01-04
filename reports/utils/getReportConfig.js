@@ -24,7 +24,12 @@ const getReportConfig = async reqBody => {
     reqBody.itemType = [...reqBody.itemType.replace(/""/g, '').replace(/"\[/g, '').replace(/\]"/g, '').split(',')]
   }
 
+  console.log('reqBody', reqBody)
+
+  console.log('reqBody.itemType', reqBody.itemType)
+
   let config = {
+    baseConfig: reqBody, // pass back for slice and detail reports
     labelCols: getlabelCols(reqBody),
     baseFormat: {
       l1_field: reqBody.reportFormat?.l1_field ?? getBaseFormatDefault().l1_field ?? null,

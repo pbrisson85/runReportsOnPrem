@@ -5,3 +5,6 @@
 
 - FIX everywhere i have the word dummy to not have a FROM clause.
 - Add the sales filters to the PO col in a slice.
+
+- PRIORITY:
+- when slicing a row (calendar year), the time periods get fugged. The query is correct but the trend defaults to current year ytd and the total defaults to fiscal ytd? Also the colDataHelper.js functions use the primary start and end dates from config instead of the query dates sent with the slice. Same must be true for the queries for sales by period. Best solution is probably to get the slice query to use the actual config correctly.

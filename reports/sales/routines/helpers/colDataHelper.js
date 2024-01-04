@@ -25,6 +25,7 @@ const addDataToSalesTotalCol = (config, columnConfigs) => {
     col.endDate = config.totals.primary.endDate
     col.displayName = displayName
     col.useProjection = config.totals.useProjection
+    col.baseConfig = config.baseConfig
   })
 
   return columnConfigs
@@ -52,6 +53,7 @@ const addDataToSoTotalCol = (config, columnConfigs) => {
     col.endDate = config.salesOrders.endDate
     col.displayName = displayName
     col.useProjection = config.totals.useProjection
+    col.baseConfig = config.baseConfig
   })
 
   return columnConfigs
