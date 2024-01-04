@@ -232,8 +232,6 @@ const l2_getWeeksOnHand = async config => {
                 
             ` //prettier-ignore
 
-    console.log('response', response)
-
     return response
   } catch (error) {
     console.error(error)
