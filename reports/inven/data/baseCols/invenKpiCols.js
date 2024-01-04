@@ -1,8 +1,8 @@
 const invenKpiCol = [
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
-    displayName: 'WEEKS INV', // show as column header
-    dataName: 'weeksInvenOnHand', // key to pull data from
+    displayName: 'WEEKS INV (12 wk sls)', // show as column header
+    dataName: 'WeeksInventoryBasedOn12WkSales', // key to pull data from
     justifyData: 'end', // css justify content
     justifyHeading: 'center', // css justify content
     width: '100px', // css width
