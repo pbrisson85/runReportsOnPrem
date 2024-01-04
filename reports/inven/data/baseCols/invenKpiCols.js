@@ -22,8 +22,8 @@ const invenKpiCol = [
     colType: 'invenKpi',
     allowTrend: false,
     drillDownSortable: true,
-    optional: false, // flag to determine if the col is optional
-    showByDefault: false, // flag to determine if optional col is shown by default
+    optional: true, // flag to determine if the col is optional
+    showByDefault: true, // flag to determine if optional col is shown by default
   },
   {
     unfilteredColIdx: 0, // index of col in original data GETS RENUMBERED ON INITIALIZATION OF SELECTOR
