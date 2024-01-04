@@ -8,9 +8,30 @@ const getInven_detail = async config => {
     // Level 2 detail
 
     const response = await sql
-          `SELECT 
+          `
+          WITH tagged_inven AS (
+            SELECT
             SUM(ti.weight) AS tagged_lbs,
-            pi.on_hand_lbs - SUM(ti.weight) AS untagged_lbs,
+            ti.lot,
+            ti.item_num,
+            ti.location
+
+            FROM
+              "salesReporting".tagged_inventory AS ti
+
+            WHERE
+              ti.version = (SELECT MAX(version) FROM "salesReporting".tagged_inventory)
+
+            GROUP BY
+              ti.lot,
+              ti.item_num,
+              ti.location
+          )
+
+          
+          SELECT 
+            ti.weight AS tagged_lbs,
+            pi.on_hand_lbs - ti.weight AS untagged_lbs,
             pi.receipt_date, 
             pi.location_date, 
             pi.lot_text, 
@@ -33,7 +54,7 @@ const getInven_detail = async config => {
           FROM "invenReporting".perpetual_inventory AS pi 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = pi.item_number 
-            LEFT OUTER JOIN "salesReporting".tagged_inventory AS ti
+            LEFT OUTER JOIN tagged_inven AS ti
               ON pi.item_number = ti.item_num
                 AND pi.lot = ti.lot
                 AND pi.location_code = ti.location
@@ -41,7 +62,6 @@ const getInven_detail = async config => {
           WHERE 
             pi.on_hand_lbs <> 0 
             AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
-            AND ti.version = (SELECT MAX(tagged_inventory.version) - 1 FROM "salesReporting".tagged_inventory) 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``}
             ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
@@ -56,25 +76,7 @@ const getInven_detail = async config => {
             ${config.baseFilters.queryLevel > 3 ? sql`AND ${sql(config.baseFormat.l4_field)} = ${config.baseFilters.l4_filter}` : sql``}
             ${config.baseFilters.queryLevel > 4 ? sql`AND ${sql(config.baseFormat.l5_field)} = ${config.baseFilters.l5_filter}` : sql``}
             
-            GROUP BY
-              pi.receipt_date, 
-              pi.location_date, 
-              pi.lot_text, 
-              pi.msc_cert_bool, 
-              pi.item_number, 
-              pi.description, 
-              pi.lot, 
-              ms.species, 
-              ms.brand, 
-              ms.size_name, 
-              ms.fg_treatment, 
-              pi.on_hand_lbs, 
-              pi.cost_lb,  
-              pi.cost_extended, 
-              pi.location_name, 
-              pi.location_code,
-              pi.location_country, 
-              ms.fg_fresh_frozen  
+            
             
             
             ` //prettier-ignore
