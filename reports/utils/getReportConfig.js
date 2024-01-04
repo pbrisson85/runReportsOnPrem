@@ -25,7 +25,6 @@ const getReportConfig = async reqBody => {
   }
 
   console.log('reqBody', reqBody)
-
   console.log('reqBody.itemType', reqBody.itemType)
 
   let config = {
@@ -114,8 +113,6 @@ const getReportConfig = async reqBody => {
       subtotalLabelInSubtotals: reqBody.appSettings?.subtotalLabelInSubtotals ?? appSettings_unflat['subtotalLabelInSubtotals'].default,
     },
   }
-
-  console.log('config', config)
 
   return config
 }

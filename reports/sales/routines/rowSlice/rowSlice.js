@@ -123,8 +123,6 @@ const buildDrillDown = async (labelCols, config, trendQuery, useProjection, star
   let columnConfigsTagged = m.addDataToSalesTotalCol(config, m.columnConfigs) // adds startDate, endDate, and displayName to the sales totals col
   columnConfigsTagged = m.addDataToSoTotalCol(config, m.columnConfigs) // adds statDate, endDate, and displayName to the sales orders col
 
-  console.log('columnConfigsTagged (should have start and end dates... )', columnConfigsTagged)
-
   // Add template to trend cols:
   const trendColumnsTagged = trendColumns.map(col => {
     return {
