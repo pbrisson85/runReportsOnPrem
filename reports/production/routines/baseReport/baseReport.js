@@ -4,6 +4,22 @@ const buildReport = async config => {
   const queryDataPromises = []
   const rowDataPromises = []
 
+  ///////////////////////////////// WORK ORDER DATA
+
+  queryDataPromises.push(m.l0_getProduction(config))
+  queryDataPromises.push(m.l1_getProduction(config))
+  queryDataPromises.push(m.l2_getProduction(config))
+  queryDataPromises.push(m.l3_getProduction(config))
+  queryDataPromises.push(m.l4_getProduction(config))
+  queryDataPromises.push(m.l5_getProduction(config))
+
+  queryDataPromises.push(m.l0_getProductionTrend(config))
+  queryDataPromises.push(m.l1_getProductionTrend(config))
+  queryDataPromises.push(m.l2_getProductionTrend(config))
+  queryDataPromises.push(m.l3_getProductionTrend(config))
+  queryDataPromises.push(m.l4_getProductionTrend(config))
+  queryDataPromises.push(m.l5_getProductionTrend(config))
+
   ///////////////////////////////// INVENTORY DATA
 
   queryDataPromises.push(m.l0_getInv(config))
