@@ -10,9 +10,9 @@ const getViewFilters = () => {
     {
       label: 'YIELD',
       dataName: 'yield',
-      decimals: 1,
+      decimals: 2,
       cols: [],
-      default: true,
+      default: false,
     },
     {
       label: 'COST',
