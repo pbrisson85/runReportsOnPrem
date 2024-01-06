@@ -22,15 +22,7 @@ const l1_getInv = async config => {
       'SUBTOTAL' AS l5_label, 
       COALESCE(SUM(inv.on_hand_lbs),0) AS lbs, 
       COALESCE(SUM(inv.cost_extended),0) AS cogs, 
-      COALESCE(SUM(inv.cost_extended),0) AS othp, 
-      COALESCE(SUM(inv.cost_extended),0) AS "grossSales", 
-      COALESCE(SUM(inv.cost_extended),0) AS "netSales", 
-      COALESCE(SUM(inv.cost_extended),0) AS "grossMargin", 0 AS "grossMarginPercent", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "grossSalesPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "cogsPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "othpPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "netSalesPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "grossMarginPerLb"
+      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "cogsPerLb"
       
       FROM "invenReporting".perpetual_inventory AS inv
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -70,15 +62,7 @@ const l2_getInv = async config => {
       'SUBTOTAL' AS l5_label,
       COALESCE(SUM(inv.on_hand_lbs),0) AS lbs, 
       COALESCE(SUM(inv.cost_extended),0) AS cogs, 
-      COALESCE(SUM(inv.cost_extended),0) AS othp, 
-      COALESCE(SUM(inv.cost_extended),0) AS "grossSales", 
-      COALESCE(SUM(inv.cost_extended),0) AS "netSales", 
-      COALESCE(SUM(inv.cost_extended),0) AS "grossMargin", 0 AS "grossMarginPercent", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "grossSalesPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "cogsPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "othpPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "netSalesPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "grossMarginPerLb"
+      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "cogsPerLb"
 
       FROM "invenReporting".perpetual_inventory AS inv
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -116,15 +100,7 @@ const l3_getInv = async config => {
       'SUBTOTAL' AS l5_label, 
       COALESCE(SUM(inv.on_hand_lbs),0) AS lbs, 
       COALESCE(SUM(inv.cost_extended),0) AS cogs, 
-      COALESCE(SUM(inv.cost_extended),0) AS othp, 
-      COALESCE(SUM(inv.cost_extended),0) AS "grossSales", 
-      COALESCE(SUM(inv.cost_extended),0) AS "netSales", 
-      COALESCE(SUM(inv.cost_extended),0) AS "grossMargin", 0 AS "grossMarginPercent", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "grossSalesPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "cogsPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "othpPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "netSalesPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "grossMarginPerLb" 
+      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "cogsPerLb"
       
       FROM "invenReporting".perpetual_inventory AS inv
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -161,15 +137,7 @@ const l4_getInv = async config => {
       'SUBTOTAL' AS l5_label, 
       COALESCE(SUM(inv.on_hand_lbs),0) AS lbs, 
       COALESCE(SUM(inv.cost_extended),0) AS cogs, 
-      COALESCE(SUM(inv.cost_extended),0) AS othp, 
-      COALESCE(SUM(inv.cost_extended),0) AS "grossSales", 
-      COALESCE(SUM(inv.cost_extended),0) AS "netSales", 
-      COALESCE(SUM(inv.cost_extended),0) AS "grossMargin", 0 AS "grossMarginPercent", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "grossSalesPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "cogsPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "othpPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "netSalesPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "grossMarginPerLb"
+      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "cogsPerLb"
       
       FROM "invenReporting".perpetual_inventory AS inv
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -206,15 +174,7 @@ const l5_getInv = async config => {
       COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, 
       COALESCE(SUM(inv.on_hand_lbs),0) AS lbs, 
       COALESCE(SUM(inv.cost_extended),0) AS cogs, 
-      COALESCE(SUM(inv.cost_extended),0) AS othp, 
-      COALESCE(SUM(inv.cost_extended),0) AS "grossSales", 
-      COALESCE(SUM(inv.cost_extended),0) AS "netSales", 
-      COALESCE(SUM(inv.cost_extended),0) AS "grossMargin", 0 AS "grossMarginPercent", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "grossSalesPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "cogsPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "othpPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "netSalesPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "grossMarginPerLb"
+      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "cogsPerLb"
       
       FROM "invenReporting".perpetual_inventory AS inv
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -247,15 +207,7 @@ const l0_getInv = async config => {
       'TOTAL' AS l1_label, 
       COALESCE(SUM(inv.on_hand_lbs),0) AS lbs, 
       COALESCE(SUM(inv.cost_extended),0) AS cogs, 
-      COALESCE(SUM(inv.cost_extended),0) AS othp, 
-      COALESCE(SUM(inv.cost_extended),0) AS "grossSales", 
-      COALESCE(SUM(inv.cost_extended),0) AS "netSales", 
-      COALESCE(SUM(inv.cost_extended),0) AS "grossMargin", 0 AS "grossMarginPercent", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "grossSalesPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "cogsPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "othpPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "netSalesPerLb", 
-      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "grossMarginPerLb"
+      COALESCE(SUM(inv.cost_extended)/NULLIF(SUM(inv.on_hand_lbs),0),0) AS "cogsPerLb"
       
       FROM "invenReporting".perpetual_inventory AS inv
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
