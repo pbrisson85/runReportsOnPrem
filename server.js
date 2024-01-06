@@ -16,7 +16,7 @@ module.exports = sql
 // Sales
 const baseReport_sales = require('./reports/sales/routes/baseReport')
 const rowSlice_sales = require('./reports/sales/routes/rowSlice')
-const getDetail_baseReport_sales = require('./reports/sales/routes/getDetail')
+const getDetail_sales = require('./reports/sales/routes/getDetail')
 
 // GL
 const glRevCogs = require('./reports/gl/routes/glRevCogs')
@@ -25,7 +25,12 @@ const glOthp = require('./reports/gl/routes/glOthp')
 // Inventory
 const baseReport_inven = require('./reports/inven/routes/baseReport')
 const rowSlice_inven = require('./reports/inven/routes/rowSlice')
-const getDetail_baseReport_inven = require('./reports/inven/routes/getDetail')
+const getDetail_inven = require('./reports/inven/routes/getDetail')
+
+// Production
+const baseReport_production = require('./reports/production/routes/baseReport')
+const rowSlice_production = require('./reports/production/routes/rowSlice')
+const getDetail_production = require('./reports/production/routes/getDetail')
 
 // Filters
 const getFilters = require('./reports/filters/routes/getFilters')
@@ -55,11 +60,15 @@ app.use((req, res, next) => {
 
 app.use('/api/reports/sales/baseReport', baseReport_sales)
 app.use('/api/reports/sales/rowSlice', rowSlice_sales)
-app.use('/api/reports/sales/detail', getDetail_baseReport_sales)
+app.use('/api/reports/sales/detail', getDetail_sales)
 
 app.use('/api/reports/inven/baseReport', baseReport_inven)
 app.use('/api/reports/inven/rowSlice', rowSlice_inven)
-app.use('/api/reports/inven/detail', getDetail_baseReport_inven)
+app.use('/api/reports/inven/detail', getDetail_inven)
+
+app.use('/api/reports/production/baseReport', baseReport_production)
+app.use('/api/reports/production/rowSlice', rowSlice_production)
+app.use('/api/reports/production/detail', getDetail_production)
 
 app.use('/api/reports/getFilters', getFilters)
 
