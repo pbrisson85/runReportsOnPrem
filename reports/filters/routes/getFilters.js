@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const getViewFilters_sales = require('../data/getViewFilters_sales')
 const getViewFilters_inven = require('../data/getViewFilters_inven')
+const getViewFilters_production = require('../data/getViewFilters_production')
 const getReportFormats = require('../data/getReportFormats')
 const trendTypeOptions = require('../data/trendType')
 const totalTypeOptions = require('../data/totalTypes')
@@ -57,6 +58,13 @@ router.get('/salesViews', async (req, res) => {
 router.get('/invenViews', async (req, res) => {
   console.log('get VIEWS filters lot route HIT...')
   const views = getViewFilters_inven()
+  res.send(views)
+  console.log('get VIEWS filters lot route COMPLETE. ')
+})
+
+router.get('/productionViews', async (req, res) => {
+  console.log('get VIEWS filters lot route HIT...')
+  const views = getViewFilters_production()
   res.send(views)
   console.log('get VIEWS filters lot route COMPLETE. ')
 })
