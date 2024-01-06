@@ -165,7 +165,7 @@ const l3_getProduction = async config => {
       COALESCE(SUM(wo.mfg_fg_line_ext_overhead_pool)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "ohPerLb",
       COALESCE(SUM(wo.mfg_fg_line_ext_packaging)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "packagingPerLb", 
       COALESCE(SUM(wo.chem_fg_line_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "chemPerLb",
-      COALESCE(SUM(wo.mfg_fg_line_ext_processing_fee)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "processingFeePerLb",
+      COALESCE(SUM(wo.mfg_fg_line_ext_processing_fee)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "processingFeePerLb"
       
       FROM "woReporting".wo_detail_by_fg AS wo
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
