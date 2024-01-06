@@ -104,5 +104,4 @@ module.exports = {
   sortRowTemplate: require('../../../utils/sortRowTemplate'),
   addDataToSoTotalCol: require('../helpers/colDataHelper').addDataToSoTotalCol,
   addDataToSalesTotalCol: require('../helpers/colDataHelper').addDataToSalesTotalCol,
-  addDataToSalesTrendCol: require('../helpers/colDataHelper').addDataToSalesTrendCol,
 }

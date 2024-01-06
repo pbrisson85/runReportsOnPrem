@@ -104,6 +104,9 @@ const buildReport = async config => {
   const flattenedMappedData = Object.values(mappedData)
   const data = m.cleanLabelsForDisplay(flattenedMappedData, config)
 
+  // Add data to hardcoded columns
+  let columnConfigsTagged = m.addDataToProductionTotalCol(config, m.columnConfigs) // adds startDate, endDate, and displayName
+
   // Add template to trend cols:
   const trendColumnsTagged = trendColumns.map(col => {
     return {
@@ -117,7 +120,7 @@ const buildReport = async config => {
     cols: {
       trendColumns: trendColumnsTagged,
       labelCols: config.labelCols,
-      columnConfigs: m.columnConfigs,
+      columnConfigs: columnConfigsTagged,
     },
     baseConfig: config.baseConfig,
   }

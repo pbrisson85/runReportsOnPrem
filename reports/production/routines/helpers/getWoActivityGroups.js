@@ -6,11 +6,9 @@ const getWoActivityGroups = async () => {
 
     const response = await sql`
         SELECT 
-            MIN(sales_orders.formatted_ship_date) AS formatted_ship_date 
-    
-        FROM "salesReporting".sales_orders 
-        
-        WHERE sales_orders.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
+            DISTINCT(ms.wo_group) AS wo_group 
+        FROM "invenReporting".master_supplement AS ms 
+        WHERE ms.wo_group IS NOT NULL
       ` //prettier-ignore
 
     return response
