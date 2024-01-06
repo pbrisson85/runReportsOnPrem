@@ -7,7 +7,7 @@ module.exports = {
   getTrendColsWo: require('../../postgres/timeSeriesColHeadings/getTimeSeriesColsWo').getTrendColsWo,
 
   // Col Helpers
-  addDataToProductionTotalCol: require('./helpers/colDataHelper').addDataToProductionTotalCol,
+  addDataToProductionTotalCol: require('../helpers/colDataHelper').addDataToProductionTotalCol,
 
   // Production Data
   l1_getProduction: require('../../postgres/baseReport/getProduction').l1_getProduction,
