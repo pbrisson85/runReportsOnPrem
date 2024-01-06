@@ -3,6 +3,7 @@ const m = require('./import')
 const buildReport = async config => {
   const queryDataPromises = []
   const rowDataPromises = []
+  const trendColumnPromises = []
 
   ///////////////////////////////// WORK ORDER DATA
 
@@ -66,6 +67,9 @@ const buildReport = async config => {
   rowDataPromises.push(m.l4_getRowLabels(config))
   rowDataPromises.push(m.l5_getRowLabels(config))
 
+  ///////////////////////////////// TREND COLUMNS
+  trendColumnPromises.push(m.getTrendColsWo(config))
+
   /* RUN DATA */
 
   const queryDataResults = await Promise.all(queryDataPromises)
@@ -77,6 +81,11 @@ const buildReport = async config => {
   const rowData = rowDataResults.reduce((acc, cur) => {
     return acc.concat(cur)
   }, [])
+
+  const trendColumnResults = await Promise.all(trendColumnPromises)
+  const trendColumns = trendColumnResults.reduce((acc, cur) => {
+    return acc.concat(cur)
+  })
 
   /* BUILD ROW MAP */
 
@@ -95,9 +104,18 @@ const buildReport = async config => {
   const flattenedMappedData = Object.values(mappedData)
   const data = m.cleanLabelsForDisplay(flattenedMappedData, config)
 
+  // Add template to trend cols:
+  const trendColumnsTagged = trendColumns.map(col => {
+    return {
+      ...col,
+      ...m.trendColsTemplate,
+    }
+  })
+
   return {
     data,
     cols: {
+      trendColumns: trendColumnsTagged,
       labelCols: config.labelCols,
       columnConfigs: m.columnConfigs,
     },

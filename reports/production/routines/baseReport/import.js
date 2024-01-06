@@ -1,6 +1,10 @@
 module.exports = {
   // Cols
   columnConfigs: require('../../data/baseCols/columns'),
+  trendColsTemplate: require('../../data/baseCols/trendColsTemplate'),
+
+  // Trend Cols
+  getTrendColsWo: require('../../postgres/timeSeriesColHeadings/getTimeSeriesColsWo').getTrendColsWo,
 
   // Production Data
   l1_getProduction: require('../../postgres/baseReport/getProduction').l1_getProduction,
