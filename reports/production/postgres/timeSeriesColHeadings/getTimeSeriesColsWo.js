@@ -25,4 +25,4 @@ const getTrendColsWo = async config => {
   return periods
 }
 
-module.exports = getTrendColsWo
+module.exports = { getTrendColsWo }
