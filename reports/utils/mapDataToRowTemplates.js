@@ -26,18 +26,7 @@ const mapDataToRowTemplates = (data, rowTemplate, config, viewTrend) => {
     rowTemplateCache[keyMap] = {
       ...rowTemplateCache[keyMap],
       [line.column]: {
-        lbs: line.lbs, // was called weight
-        grossSales: line.grossSales, // was called revenue
-        cogs: line.cogs,
-        othp: line.othp,
-        netSales: line.netSales,
-        grossMargin: line.grossMargin,
-        grossMarginPercent: line.grossMarginPercent,
-        grossSalesPerLb: line.grossSalesPerLb,
-        cogsPerLb: line.cogsPerLb,
-        othpPerLb: line.othpPerLb,
-        netSalesPerLb: line.netSalesPerLb,
-        grossMarginPerLb: line.grossMarginPerLb,
+        ...line,
       },
     }
   })
