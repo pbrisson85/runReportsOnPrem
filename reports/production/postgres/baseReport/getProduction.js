@@ -31,11 +31,11 @@ const l1_getProduction = async config => {
       COALESCE(SUM(wo.mfg_fg_line_ext_packaging),0) AS packaging, 
       COALESCE(SUM(wo.chem_fg_line_cost),0) AS chem, 
       COALESCE(SUM(wo.mfg_fg_line_ext_processing_fee),0) AS processingFee, 
-      COALESCE(SUM(wo.fg_line_extended_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "costPerLb"
-      COALESCE(SUM(wo.mfg_fg_line_ext_direct_labor)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "laborPerLb"
-      COALESCE(SUM(wo.mfg_fg_line_ext_overhead_pool)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "ohPerLb"
-      COALESCE(SUM(wo.mfg_fg_line_ext_packaging)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "packagingPerLb" 
-      COALESCE(SUM(wo.chem_fg_line_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "chemPerLb" 
+      COALESCE(SUM(wo.fg_line_extended_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "costPerLb",
+      COALESCE(SUM(wo.mfg_fg_line_ext_direct_labor)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "laborPerLb",
+      COALESCE(SUM(wo.mfg_fg_line_ext_overhead_pool)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "ohPerLb",
+      COALESCE(SUM(wo.mfg_fg_line_ext_packaging)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "packagingPerLb",
+      COALESCE(SUM(wo.chem_fg_line_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "chemPerLb", 
       COALESCE(SUM(wo.mfg_fg_line_ext_processing_fee)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "processingFeePerLb" 
       
       FROM "woReporting".wo_detail_by_fg AS wo
@@ -95,12 +95,12 @@ const l2_getProduction = async config => {
       COALESCE(SUM(wo.mfg_fg_line_ext_packaging),0) AS packaging, 
       COALESCE(SUM(wo.chem_fg_line_cost),0) AS chem, 
       COALESCE(SUM(wo.mfg_fg_line_ext_processing_fee),0) AS processingFee, 
-      COALESCE(SUM(wo.fg_line_extended_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "costPerLb"
-      COALESCE(SUM(wo.mfg_fg_line_ext_direct_labor)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "laborPerLb"
-      COALESCE(SUM(wo.mfg_fg_line_ext_overhead_pool)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "ohPerLb"
-      COALESCE(SUM(wo.mfg_fg_line_ext_packaging)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "packagingPerLb" 
-      COALESCE(SUM(wo.chem_fg_line_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "chemPerLb" 
-      COALESCE(SUM(wo.mfg_fg_line_ext_processing_fee)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "processingFeePerLb" 
+      COALESCE(SUM(wo.fg_line_extended_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "costPerLb",
+      COALESCE(SUM(wo.mfg_fg_line_ext_direct_labor)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "laborPerLb",
+      COALESCE(SUM(wo.mfg_fg_line_ext_overhead_pool)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "ohPerLb",
+      COALESCE(SUM(wo.mfg_fg_line_ext_packaging)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "packagingPerLb",
+      COALESCE(SUM(wo.chem_fg_line_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "chemPerLb",
+      COALESCE(SUM(wo.mfg_fg_line_ext_processing_fee)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "processingFeePerLb"
       
       FROM "woReporting".wo_detail_by_fg AS wo
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -157,12 +157,12 @@ const l3_getProduction = async config => {
       COALESCE(SUM(wo.mfg_fg_line_ext_packaging),0) AS packaging, 
       COALESCE(SUM(wo.chem_fg_line_cost),0) AS chem, 
       COALESCE(SUM(wo.mfg_fg_line_ext_processing_fee),0) AS processingFee, 
-      COALESCE(SUM(wo.fg_line_extended_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "costPerLb"
-      COALESCE(SUM(wo.mfg_fg_line_ext_direct_labor)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "laborPerLb"
-      COALESCE(SUM(wo.mfg_fg_line_ext_overhead_pool)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "ohPerLb"
-      COALESCE(SUM(wo.mfg_fg_line_ext_packaging)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "packagingPerLb" 
-      COALESCE(SUM(wo.chem_fg_line_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "chemPerLb" 
-      COALESCE(SUM(wo.mfg_fg_line_ext_processing_fee)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "processingFeePerLb" 
+      COALESCE(SUM(wo.fg_line_extended_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "costPerLb",
+      COALESCE(SUM(wo.mfg_fg_line_ext_direct_labor)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "laborPerLb",
+      COALESCE(SUM(wo.mfg_fg_line_ext_overhead_pool)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "ohPerLb",
+      COALESCE(SUM(wo.mfg_fg_line_ext_packaging)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "packagingPerLb", 
+      COALESCE(SUM(wo.chem_fg_line_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "chemPerLb",
+      COALESCE(SUM(wo.mfg_fg_line_ext_processing_fee)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "processingFeePerLb",
       
       FROM "woReporting".wo_detail_by_fg AS wo
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -219,12 +219,12 @@ const l4_getProduction = async config => {
       COALESCE(SUM(wo.mfg_fg_line_ext_packaging),0) AS packaging, 
       COALESCE(SUM(wo.chem_fg_line_cost),0) AS chem, 
       COALESCE(SUM(wo.mfg_fg_line_ext_processing_fee),0) AS processingFee, 
-      COALESCE(SUM(wo.fg_line_extended_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "costPerLb"
-      COALESCE(SUM(wo.mfg_fg_line_ext_direct_labor)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "laborPerLb"
-      COALESCE(SUM(wo.mfg_fg_line_ext_overhead_pool)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "ohPerLb"
-      COALESCE(SUM(wo.mfg_fg_line_ext_packaging)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "packagingPerLb" 
-      COALESCE(SUM(wo.chem_fg_line_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "chemPerLb" 
-      COALESCE(SUM(wo.mfg_fg_line_ext_processing_fee)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "processingFeePerLb" 
+      COALESCE(SUM(wo.fg_line_extended_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "costPerLb",
+      COALESCE(SUM(wo.mfg_fg_line_ext_direct_labor)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "laborPerLb",
+      COALESCE(SUM(wo.mfg_fg_line_ext_overhead_pool)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "ohPerLb",
+      COALESCE(SUM(wo.mfg_fg_line_ext_packaging)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "packagingPerLb",
+      COALESCE(SUM(wo.chem_fg_line_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "chemPerLb",
+      COALESCE(SUM(wo.mfg_fg_line_ext_processing_fee)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "processingFeePerLb"
       
       FROM "woReporting".wo_detail_by_fg AS wo
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -281,11 +281,11 @@ const l5_getProduction = async config => {
       COALESCE(SUM(wo.mfg_fg_line_ext_packaging),0) AS packaging, 
       COALESCE(SUM(wo.chem_fg_line_cost),0) AS chem, 
       COALESCE(SUM(wo.mfg_fg_line_ext_processing_fee),0) AS processingFee, 
-      COALESCE(SUM(wo.fg_line_extended_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "costPerLb"
-      COALESCE(SUM(wo.mfg_fg_line_ext_direct_labor)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "laborPerLb"
-      COALESCE(SUM(wo.mfg_fg_line_ext_overhead_pool)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "ohPerLb"
-      COALESCE(SUM(wo.mfg_fg_line_ext_packaging)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "packagingPerLb" 
-      COALESCE(SUM(wo.chem_fg_line_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "chemPerLb" 
+      COALESCE(SUM(wo.fg_line_extended_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "costPerLb",
+      COALESCE(SUM(wo.mfg_fg_line_ext_direct_labor)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "laborPerLb",
+      COALESCE(SUM(wo.mfg_fg_line_ext_overhead_pool)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "ohPerLb",
+      COALESCE(SUM(wo.mfg_fg_line_ext_packaging)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "packagingPerLb",
+      COALESCE(SUM(wo.chem_fg_line_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "chemPerLb",
       COALESCE(SUM(wo.mfg_fg_line_ext_processing_fee)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "processingFeePerLb" 
       
       FROM "woReporting".wo_detail_by_fg AS wo
@@ -339,11 +339,11 @@ const l0_getProduction = async config => {
       COALESCE(SUM(wo.mfg_fg_line_ext_packaging),0) AS packaging, 
       COALESCE(SUM(wo.chem_fg_line_cost),0) AS chem, 
       COALESCE(SUM(wo.mfg_fg_line_ext_processing_fee),0) AS processingFee, 
-      COALESCE(SUM(wo.fg_line_extended_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "costPerLb"
-      COALESCE(SUM(wo.mfg_fg_line_ext_direct_labor)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "laborPerLb"
-      COALESCE(SUM(wo.mfg_fg_line_ext_overhead_pool)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "ohPerLb"
-      COALESCE(SUM(wo.mfg_fg_line_ext_packaging)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "packagingPerLb" 
-      COALESCE(SUM(wo.chem_fg_line_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "chemPerLb" 
+      COALESCE(SUM(wo.fg_line_extended_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "costPerLb",
+      COALESCE(SUM(wo.mfg_fg_line_ext_direct_labor)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "laborPerLb",
+      COALESCE(SUM(wo.mfg_fg_line_ext_overhead_pool)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "ohPerLb",
+      COALESCE(SUM(wo.mfg_fg_line_ext_packaging)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "packagingPerLb",
+      COALESCE(SUM(wo.chem_fg_line_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "chemPerLb",
       COALESCE(SUM(wo.mfg_fg_line_ext_processing_fee)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "processingFeePerLb" 
       
       FROM "woReporting".wo_detail_by_fg AS wo
