@@ -5,21 +5,26 @@ const buildReport = async config => {
   const rowDataPromises = []
   const trendColumnPromises = []
 
+  ///////////////////////////////// CONFIG
+  const woActivityGroups = await m.getWoActivityGroups()
+
+  console.log('woActivityGroups', woActivityGroups)
+
   ///////////////////////////////// WORK ORDER DATA
 
-  queryDataPromises.push(m.l0_getProduction(config))
-  queryDataPromises.push(m.l1_getProduction(config))
-  queryDataPromises.push(m.l2_getProduction(config))
-  queryDataPromises.push(m.l3_getProduction(config))
-  queryDataPromises.push(m.l4_getProduction(config))
-  queryDataPromises.push(m.l5_getProduction(config))
+  queryDataPromises.push(m.l0_getProduction(config, woActivityGroups))
+  queryDataPromises.push(m.l1_getProduction(config, woActivityGroups))
+  queryDataPromises.push(m.l2_getProduction(config, woActivityGroups))
+  queryDataPromises.push(m.l3_getProduction(config, woActivityGroups))
+  queryDataPromises.push(m.l4_getProduction(config, woActivityGroups))
+  queryDataPromises.push(m.l5_getProduction(config, woActivityGroups))
 
-  queryDataPromises.push(m.l0_getProductionTrend(config))
-  queryDataPromises.push(m.l1_getProductionTrend(config))
-  queryDataPromises.push(m.l2_getProductionTrend(config))
-  queryDataPromises.push(m.l3_getProductionTrend(config))
-  queryDataPromises.push(m.l4_getProductionTrend(config))
-  queryDataPromises.push(m.l5_getProductionTrend(config))
+  queryDataPromises.push(m.l0_getProductionTrend(config, woActivityGroups))
+  queryDataPromises.push(m.l1_getProductionTrend(config, woActivityGroups))
+  queryDataPromises.push(m.l2_getProductionTrend(config, woActivityGroups))
+  queryDataPromises.push(m.l3_getProductionTrend(config, woActivityGroups))
+  queryDataPromises.push(m.l4_getProductionTrend(config, woActivityGroups))
+  queryDataPromises.push(m.l5_getProductionTrend(config, woActivityGroups))
 
   ///////////////////////////////// INVENTORY DATA
 

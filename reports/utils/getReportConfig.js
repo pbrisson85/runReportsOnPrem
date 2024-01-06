@@ -98,8 +98,8 @@ const getReportConfig = async reqBody => {
         pr: getUseProjection(reqBody.totalsUseProjection).pr,
       },
     },
-    trailingWeeks: await getTrailingWeeks(reqBody),
-    trailingWeeksForWeeksInven: await getTrailingWeeksForWeeksInven(reqBody),
+    trailingWeeks: await getTrailingWeeks(reqBody), // all trailing weeks kpi's
+    trailingWeeksForWeeksInven: await getTrailingWeeksForWeeksInven(reqBody), // only weeks on hand which is hardcoded 12 weeks
     invenReportCols: {
       aging: getInvenReportsAging(reqBody),
       grouping: getInvenReportsGrouping(reqBody),
@@ -113,8 +113,6 @@ const getReportConfig = async reqBody => {
       subtotalLabelInSubtotals: reqBody.appSettings?.subtotalLabelInSubtotals ?? appSettings_unflat['subtotalLabelInSubtotals'].default,
     },
   }
-
-  console.log('config:  ', config)
 
   return config
 }
