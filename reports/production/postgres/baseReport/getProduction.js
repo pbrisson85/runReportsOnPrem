@@ -49,7 +49,7 @@ const l1_getProduction = async config => {
       WHERE 
         wo.by_prod_fg_line_bool = false
         AND act.wo_group = 'CUTTING' -- NEEDS TO BE A DYNAMIC FILTER OR LOOP THROUGH ALL WO_GROUPS AND MAKE A TREND FOR EACH
-        AND p.formatted_date >= ${config.trends.startDate} AND p.formatted_date <= ${config.trends.endDate}
+        AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -114,7 +114,7 @@ const l2_getProduction = async config => {
       WHERE 
         wo.by_prod_fg_line_bool = false
         AND act.wo_group = 'CUTTING' -- NEEDS TO BE A DYNAMIC FILTER OR LOOP THROUGH ALL WO_GROUPS AND MAKE A TREND FOR EACH
-        AND p.formatted_date >= ${config.trends.startDate} AND p.formatted_date <= ${config.trends.endDate}
+        AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
@@ -178,7 +178,7 @@ const l3_getProduction = async config => {
       WHERE 
         wo.by_prod_fg_line_bool = false
         AND act.wo_group = 'CUTTING' -- NEEDS TO BE A DYNAMIC FILTER OR LOOP THROUGH ALL WO_GROUPS AND MAKE A TREND FOR EACH
-        AND p.formatted_date >= ${config.trends.startDate} AND p.formatted_date <= ${config.trends.endDate}
+        AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -243,7 +243,7 @@ const l4_getProduction = async config => {
       WHERE 
         wo.by_prod_fg_line_bool = false
         AND act.wo_group = 'CUTTING' -- NEEDS TO BE A DYNAMIC FILTER OR LOOP THROUGH ALL WO_GROUPS AND MAKE A TREND FOR EACH
-        AND p.formatted_date >= ${config.trends.startDate} AND p.formatted_date <= ${config.trends.endDate}
+        AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -309,7 +309,7 @@ const l5_getProduction = async config => {
       WHERE 
         wo.by_prod_fg_line_bool = false
         AND act.wo_group = 'CUTTING' -- NEEDS TO BE A DYNAMIC FILTER OR LOOP THROUGH ALL WO_GROUPS AND MAKE A TREND FOR EACH
-        AND p.formatted_date >= ${config.trends.startDate} AND p.formatted_date <= ${config.trends.endDate}
+        AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -372,7 +372,7 @@ const l0_getProduction = async config => {
       WHERE 
         wo.by_prod_fg_line_bool = false
         AND act.wo_group = 'CUTTING' -- NEEDS TO BE A DYNAMIC FILTER OR LOOP THROUGH ALL WO_GROUPS AND MAKE A TREND FOR EACH
-        AND p.formatted_date >= ${config.trends.startDate} AND p.formatted_date <= ${config.trends.endDate}
+        AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
