@@ -54,7 +54,9 @@ const l1_getProductionTrend = async config => {
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
-      GROUP BY column, l1_label
+      GROUP BY 
+        ${sql(config.trends.queryGrouping)}, 
+        ${sql(config.baseFormat.l1_field)}
       
       ORDER BY column
       ` //prettier-ignore
@@ -120,7 +122,10 @@ const l2_getProductionTrend = async config => {
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
       
-      GROUP BY column, l1_label, l2_label
+      GROUP BY 
+        ${sql(config.trends.queryGrouping)}, 
+        ${sql(config.baseFormat.l1_field)}, 
+        ${sql(config.baseFormat.l2_field)}
       
       ORDER BY column
       ` //prettier-ignore
@@ -184,7 +189,11 @@ const l3_getProductionTrend = async config => {
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
-      GROUP BY column, l1_label, l2_label, l3_label
+      GROUP BY 
+        ${sql(config.trends.queryGrouping)}, 
+        ${sql(config.baseFormat.l1_field)}, 
+        ${sql(config.baseFormat.l2_field)}, 
+        ${sql(config.baseFormat.l3_field)}
       
       ORDER BY column
       ` //prettier-ignore
@@ -248,7 +257,12 @@ const l4_getProductionTrend = async config => {
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
-      GROUP BY column, l1_label, l2_label, l3_label, l4_label
+      GROUP BY 
+        ${sql(config.trends.queryGrouping)}, 
+        ${sql(config.baseFormat.l1_field)}, 
+        ${sql(config.baseFormat.l2_field)}, 
+        ${sql(config.baseFormat.l3_field)}, 
+        ${sql(config.baseFormat.l4_field)} 
       
       ORDER BY column
       ` //prettier-ignore
@@ -312,7 +326,13 @@ const l5_getProductionTrend = async config => {
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
-      GROUP BY column, l1_label, l2_label, l3_label, l4_label, l5_label
+      GROUP BY 
+        ${sql(config.trends.queryGrouping)}, 
+        ${sql(config.baseFormat.l1_field)}, 
+        ${sql(config.baseFormat.l2_field)}, 
+        ${sql(config.baseFormat.l3_field)}, 
+        ${sql(config.baseFormat.l4_field)}, 
+        ${sql(config.baseFormat.l5_field)}
       
       ORDER BY column
       ` //prettier-ignore
@@ -372,7 +392,7 @@ const l0_getProductionTrend = async config => {
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
         
-    GROUP BY column
+    GROUP BY ${sql(config.trends.queryGrouping)}
 
       ORDER BY column 
       ` //prettier-ignore

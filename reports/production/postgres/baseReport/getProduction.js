@@ -54,7 +54,8 @@ const l1_getProduction = async config => {
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
-      GROUP BY l1_label
+      GROUP BY 
+      ${sql(config.baseFormat.l1_field)}
       ` //prettier-ignore
 
     return response
@@ -118,7 +119,9 @@ const l2_getProduction = async config => {
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
       
-      GROUP BY l1_label, l2_label
+      GROUP BY 
+      ${sql(config.baseFormat.l1_field)}, 
+      ${sql(config.baseFormat.l2_field)}
       ` //prettier-ignore
 
     return response
@@ -180,7 +183,10 @@ const l3_getProduction = async config => {
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
-      GROUP BY l1_label, l2_label, l3_label
+      GROUP BY 
+        ${sql(config.baseFormat.l1_field)}, 
+        ${sql(config.baseFormat.l2_field)}, 
+        ${sql(config.baseFormat.l3_field)}
       ` //prettier-ignore
 
     return response
@@ -242,7 +248,11 @@ const l4_getProduction = async config => {
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
-      GROUP BY l1_label, l2_label, l3_label, l4_label
+      GROUP BY 
+        ${sql(config.baseFormat.l1_field)}, 
+        ${sql(config.baseFormat.l2_field)}, 
+        ${sql(config.baseFormat.l3_field)}, 
+        ${sql(config.baseFormat.l4_field)}
       ` //prettier-ignore
 
     return response
@@ -304,7 +314,12 @@ const l5_getProduction = async config => {
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
-      GROUP BY l1_label, l2_label, l3_label, l4_label, l5_label
+      GROUP BY 
+        ${sql(config.baseFormat.l1_field)}, 
+        ${sql(config.baseFormat.l2_field)}, 
+        ${sql(config.baseFormat.l3_field)}, 
+        ${sql(config.baseFormat.l4_field)}, 
+        ${sql(config.baseFormat.l5_field)}
       ` //prettier-ignore
 
     return response
