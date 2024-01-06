@@ -19,6 +19,8 @@ const woCols = [
     drilldownRightClickMenu: ['Get Details'],
     colType: 'cuttingWo',
     drillDownSortable: true,
+    allowTrend: true,
+    trendDefault: true, // will be the default trend col if true
     optional: false, // flag to determine if the col is optional
     showByDefault: true, // flag to determine if optional col is shown by default
   },
@@ -42,6 +44,7 @@ const woCols = [
     drilldownRightClickMenu: ['Get Details'],
     colType: 'packingWo',
     drillDownSortable: true,
+    allowTrend: true,
     optional: false, // flag to determine if the col is optional
     showByDefault: true, // flag to determine if optional col is shown by default
   },
