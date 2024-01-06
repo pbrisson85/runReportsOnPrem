@@ -58,7 +58,7 @@ const l1_getProductionTrend = async config => {
         ${sql(config.trends.queryGrouping)}, 
         ${sql(config.baseFormat.l1_field)}
       
-      ORDER BY column
+      ORDER BY ${sql(config.trends.queryGrouping)}
       ` //prettier-ignore
 
     return response
@@ -127,7 +127,7 @@ const l2_getProductionTrend = async config => {
         ${sql(config.baseFormat.l1_field)}, 
         ${sql(config.baseFormat.l2_field)}
       
-      ORDER BY column
+      ORDER BY ${sql(config.trends.queryGrouping)}
       ` //prettier-ignore
 
     return response
@@ -195,7 +195,7 @@ const l3_getProductionTrend = async config => {
         ${sql(config.baseFormat.l2_field)}, 
         ${sql(config.baseFormat.l3_field)}
       
-      ORDER BY column
+      ORDER BY ${sql(config.trends.queryGrouping)}
       ` //prettier-ignore
 
     return response
@@ -264,7 +264,7 @@ const l4_getProductionTrend = async config => {
         ${sql(config.baseFormat.l3_field)}, 
         ${sql(config.baseFormat.l4_field)} 
       
-      ORDER BY column
+      ORDER BY ${sql(config.trends.queryGrouping)}
       ` //prettier-ignore
 
     return response
@@ -334,7 +334,7 @@ const l5_getProductionTrend = async config => {
         ${sql(config.baseFormat.l4_field)}, 
         ${sql(config.baseFormat.l5_field)}
       
-      ORDER BY column
+      ORDER BY ${sql(config.trends.queryGrouping)}
       ` //prettier-ignore
 
     return response
@@ -394,7 +394,7 @@ const l0_getProductionTrend = async config => {
         
     GROUP BY ${sql(config.trends.queryGrouping)}
 
-      ORDER BY column 
+      ORDER BY ${sql(config.trends.queryGrouping)} 
       ` //prettier-ignore
 
     return response
