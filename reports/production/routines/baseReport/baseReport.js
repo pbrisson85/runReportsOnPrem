@@ -6,7 +6,7 @@ const buildReport = async config => {
   const trendColumnPromises = []
 
   ///////////////////////////////// CONFIG
-  const woActivityGroups = await m.getWoActivityGroups()
+  const woActivityGroups = await m.getWoActivityGroups(config)
 
   console.log('woActivityGroups', woActivityGroups)
 
