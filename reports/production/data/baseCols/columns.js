@@ -4,6 +4,6 @@ const poCols = require('./purchaseOrderCols.js')
 const salesOrdersCol = require('./salesOrderCols.js')
 
 // These are configs for the columns in the report
-const columns = { salesOrdersCol, invenTotalCols, invenKpiCol, poCols }
+const columns = { invenTotalCols, invenKpiCol, poCols, salesOrdersCol }
 
 module.exports = columns
