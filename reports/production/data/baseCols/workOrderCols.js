@@ -2,6 +2,7 @@ const woCols = [
   {
     unfilteredColIdx: 1,
     displayName: 'CUTTING',
+    displayName_original: 'CUTTING',
     dataName: 'CUTTING',
     justifyData: 'end',
     justifyHeading: 'center',
@@ -27,6 +28,7 @@ const woCols = [
   {
     unfilteredColIdx: 1,
     displayName: 'PACKING',
+    displayName_original: 'PACKING',
     dataName: 'PACKING',
     justifyData: 'end',
     justifyHeading: 'center',
