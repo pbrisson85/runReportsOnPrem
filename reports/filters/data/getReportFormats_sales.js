@@ -3,7 +3,7 @@
 const getReportFormats = () => {
   return [
     {
-      default: false, // if no report is chosen (such as on first request) this will be used to group report if true
+      default: false, // if this is true then the defaults array should have "all" or else there will be a mistmatch in what the front end and back end beleive is the default
       label: 'type / species group / program', // appears in front end report options
       dataName: 'typeSpecgroupProg', // passed back as "reportFormat" in the front end request. Maps to "invenReporting".master_supplement in reports/sales/utils/config/itemMasterSupplementQueryMap.js
       defaultsFallback: false, // front end uses defaults array to map a program filter to the default report format. If the program does not appear in any array (which would be a mistake) then this flag will be for the fallbackDefault

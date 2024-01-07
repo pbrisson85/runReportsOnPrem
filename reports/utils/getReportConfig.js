@@ -13,6 +13,7 @@ const getDatesTotalsPrimary = require('./configHelpers/getDatesTotalsPrimary')
 const getRowDates = require('./configHelpers/getRowDates')
 const getUserPermissions = require('./configHelpers/getUserPermissions')
 const getTrailingWeeksForWeeksInven = require('./configHelpers/getTrailingWeeksForWeeksInven')
+const getItemTypeDefaults = require('./configHelpers/getItemTypeDefaults')
 
 const getReportConfig = async reqBody => {
   console.log('getReportConfig request:   ', reqBody)
@@ -30,22 +31,22 @@ const getReportConfig = async reqBody => {
     baseConfig: reqBody, // pass back for slice and detail reports
     labelCols: getlabelCols(reqBody),
     baseFormat: {
-      l1_field: reqBody.reportFormat?.l1_field ?? getBaseFormatDefault().l1_field ?? null,
-      l2_field: reqBody.reportFormat?.l2_field ?? getBaseFormatDefault().l2_field ?? null,
-      l3_field: reqBody.reportFormat?.l3_field ?? getBaseFormatDefault().l3_field ?? null,
-      l4_field: reqBody.reportFormat?.l4_field ?? getBaseFormatDefault().l4_field ?? null,
-      l5_field: reqBody.reportFormat?.l5_field ?? getBaseFormatDefault().l5_field ?? null,
-      l1_name: reqBody.reportFormat?.l1_name ?? getBaseFormatDefault().l1_name ?? null,
-      l2_name: reqBody.reportFormat?.l2_name ?? getBaseFormatDefault().l2_name ?? null,
-      l3_name: reqBody.reportFormat?.l3_name ?? getBaseFormatDefault().l3_name ?? null,
-      l4_name: reqBody.reportFormat?.l4_name ?? getBaseFormatDefault().l4_name ?? null,
-      l5_name: reqBody.reportFormat?.l5_name ?? getBaseFormatDefault().l5_name ?? null,
-      groupingLevel: reqBody.reportFormat?.groupingLevel ?? getBaseFormatDefault().groupingLevel ?? null,
-      dataName: reqBody.reportFormat?.dataName ?? getBaseFormatDefault().dataName ?? null,
+      l1_field: reqBody.reportFormat?.l1_field ?? getBaseFormatDefault(reqBody.module).l1_field ?? null,
+      l2_field: reqBody.reportFormat?.l2_field ?? getBaseFormatDefault(reqBody.module).l2_field ?? null,
+      l3_field: reqBody.reportFormat?.l3_field ?? getBaseFormatDefault(reqBody.module).l3_field ?? null,
+      l4_field: reqBody.reportFormat?.l4_field ?? getBaseFormatDefault(reqBody.module).l4_field ?? null,
+      l5_field: reqBody.reportFormat?.l5_field ?? getBaseFormatDefault(reqBody.module).l5_field ?? null,
+      l1_name: reqBody.reportFormat?.l1_name ?? getBaseFormatDefault(reqBody.module).l1_name ?? null,
+      l2_name: reqBody.reportFormat?.l2_name ?? getBaseFormatDefault(reqBody.module).l2_name ?? null,
+      l3_name: reqBody.reportFormat?.l3_name ?? getBaseFormatDefault(reqBody.module).l3_name ?? null,
+      l4_name: reqBody.reportFormat?.l4_name ?? getBaseFormatDefault(reqBody.module).l4_name ?? null,
+      l5_name: reqBody.reportFormat?.l5_name ?? getBaseFormatDefault(reqBody.module).l5_name ?? null,
+      groupingLevel: reqBody.reportFormat?.groupingLevel ?? getBaseFormatDefault(reqBody.module).groupingLevel ?? null,
+      dataName: reqBody.reportFormat?.dataName ?? getBaseFormatDefault(reqBody.module).dataName ?? null,
     },
     baseFilters: {
       queryLevel: reqBody.queryLevel ?? null,
-      itemType: reqBody.itemType ?? ['FG', 'SECONDS'],
+      itemType: reqBody.itemType ?? getItemTypeDefaults(reqBody.module),
       program: typeof reqBody.program === 'undefined' ? null : reqBody.program === 'all' ? null : reqBody.program,
       l1_filter: reqBody.l1_filter ?? null,
       l2_filter: reqBody.l2_filter ?? null,

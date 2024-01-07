@@ -11,7 +11,9 @@ const projectionOptions = require('../data/useProjections')
 const getPermissionFilters = require('../data/getPermissionFilters')
 const appSettings = require('../data/appSettings')
 const getInvenReportsOptions = require('../data/getInvenReportsOptions')
-
+const getItemTypeDefaults_inven = require('../data/getItemTypeDefaults_inven')
+const getItemTypeDefaults_sales = require('../data/getItemTypeDefaults_sales')
+const getItemTypeDefaults_production = require('../data/getItemTypeDefaults_production')
 const {
   getFiscalPeriodsMap,
   getWeeksMap,
@@ -25,7 +27,6 @@ const {
 } = require('../postgres/getDateMaps')
 const getItemTypes = require('../postgres/getItemTypes')
 const getDistinctPrograms = require('../postgres/getDistinctPrograms')
-
 const getReportConfig = require('../../utils/getReportConfig')
 
 router.get('/invenOptions', async (req, res) => {
@@ -136,17 +137,53 @@ router.get('/projectionFilters', async (req, res) => {
   console.log('get projection filters route COMPLETE. ')
 })
 
-router.get('/itemTypes', async (req, res) => {
+router.get('/invenItemTypes', async (req, res) => {
   console.log('get item types filters route HIT...')
   // get config for applicable filters
   const config = await getReportConfig(req.body)
-  let types = await getItemTypes('2023', config) // Add the year to get defaults because right now it is hardcoded into the front end.
+  let types = await getItemTypes(config)
+  const defaults = getItemTypeDefaults_inven()
 
-  // Add default manually ************ add this to getDefaults ******************************
   types = types.map(type => {
     return {
       ...type,
-      default: type.dataName === 'FG' || type.dataName === 'SECONDS',
+      default: defaults.includes(type.dataName),
+    }
+  })
+
+  res.send(types)
+  console.log('get item types filters route COMPLETE. ')
+})
+
+router.get('/salesItemTypes', async (req, res) => {
+  console.log('get item types filters route HIT...')
+  // get config for applicable filters
+  const config = await getReportConfig(req.body)
+  let types = await getItemTypes(config)
+  const defaults = getItemTypeDefaults_sales()
+
+  types = types.map(type => {
+    return {
+      ...type,
+      default: defaults.includes(type.dataName),
+    }
+  })
+
+  res.send(types)
+  console.log('get item types filters route COMPLETE. ')
+})
+
+router.get('/productionItemTypes', async (req, res) => {
+  console.log('get item types filters route HIT...')
+  // get config for applicable filters
+  const config = await getReportConfig(req.body)
+  let types = await getItemTypes(config)
+  const defaults = getItemTypeDefaults_production()
+
+  types = types.map(type => {
+    return {
+      ...type,
+      default: defaults.includes(type.dataName),
     }
   })
 
