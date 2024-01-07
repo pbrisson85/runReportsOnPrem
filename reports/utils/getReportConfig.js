@@ -28,6 +28,7 @@ const getReportConfig = async reqBody => {
   }
 
   let config = {
+    module: reqBody.module, // note only sending this on initial request right now but want to use this to optionally create the config going forward
     baseConfig: reqBody, // pass back for slice and detail reports
     labelCols: getlabelCols(reqBody),
     baseFormat: {
