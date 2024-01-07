@@ -11,12 +11,12 @@ const getTrendColsWo = async (config, woActivityGroups) => {
     for (woActivity of woActivityGroups) {
       const response = await sql`
       SELECT 
-          ${sql(config.trends.queryGrouping)} || ${sql`'_${sql`${woActivity}`}`} AS "dataName", 
+          ${sql(config.trends.queryGrouping)} || ${sql`'_${sql`${sql(woActivity)}`}'`} AS "dataName", 
           TO_CHAR(MAX(p.formatted_date),'MM/DD/YY') AS "displayName", 
           MIN(p.formatted_date) AS "colStartDate",  
           MAX(p.formatted_date) AS "colEndDate",
           TRUE AS "timeSeriesCol",
-          'wo_' || ${sql(woActivity)} AS "colType" -- should match the colType as the col that drives what is seen on front end via double click
+          'wo_' || ${sql`'_${sql`${sql(woActivity)}`}'`} AS "colType" -- should match the colType as the col that drives what is seen on front end via double click
       
       FROM "accountingPeriods".period_by_day AS p
       
@@ -24,7 +24,7 @@ const getTrendColsWo = async (config, woActivityGroups) => {
       
       GROUP BY ${sql(config.trends.queryGrouping)} 
   
-      ORDER BY ${sql(config.trends.queryGrouping)} ASC`
+      ORDER BY ${sql(config.trends.queryGrouping)} ASC` //prettier-ignore
 
       eachTimeSeries.push(...response)
     }
