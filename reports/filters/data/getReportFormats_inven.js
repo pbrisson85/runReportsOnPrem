@@ -3,11 +3,11 @@
 const getReportFormats = () => {
   return [
     {
-      default: false, // if no report is chosen (such as on first request) this will be used to group report if true
+      default: true, // if no report is chosen (such as on first request) this will be used to group report if true
       label: 'type / species group / program', // appears in front end report options
       dataName: 'typeSpecgroupProg', // passed back as "reportFormat" in the front end request. Maps to "invenReporting".master_supplement in reports/sales/utils/config/itemMasterSupplementQueryMap.js
       defaultsFallback: false, // front end uses defaults array to map a program filter to the default report format. If the program does not appear in any array (which would be a mistake) then this flag will be for the fallbackDefault
-      defaults: [], //list of programs (datanames) that this is the defaultsFallback report
+      defaults: ['all'], //list of programs (datanames) that this is the defaultsFallback report
       optional: ['all'], // list of programs (datanames) that allow this,  or use 'any' to allow all programs EXCEPT 'all'
       forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
       groupingLevel: 3, // how many fields are in the grouping? routine uses this in verious groupings, stored in the config upon the request.
@@ -261,11 +261,11 @@ const getReportFormats = () => {
       ],
     },
     {
-      default: true, // if this is true then the defaults array should have "all" or else there will be a mistmatch in what the front end and back end beleive is the default
+      default: false, // if this is true then the defaults array should have "all" or else there will be a mistmatch in what the front end and back end beleive is the default
       label: 'species group / program',
       dataName: 'speciesgroupProg',
       defaultsFallback: false,
-      defaults: ['all'],
+      defaults: [],
       optional: ['all'],
       forbiddenCols: ['percentProgramSales'],
       groupingLevel: 2,
