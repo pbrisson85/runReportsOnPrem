@@ -3,9 +3,9 @@ const invenViews = () => {
     {
       label: 'Aged, 18mo Monitor',
       dataName: 'aged18MoMonitor',
-      default: false,
+      default: true,
       // Check Rules
-      trueOnNoSelection: false, // flags if this turns true when the selections are blank. Typically would mirror default flag if selection required
+      trueOnNoSelection: true, // flags if this turns true when the selections are blank. Typically would mirror default flag if selection required
       ignoreInSelections: false, // rules will be applied but this box will never turn true
       onTrueSetTrue: [],
       onTrueSetFalse: [],
@@ -309,9 +309,9 @@ const invenViews = () => {
     {
       label: 'Aged, 6mo Intervals',
       dataName: 'aged6Mo',
-      default: true,
+      default: false,
       // Check Rules
-      trueOnNoSelection: true,
+      trueOnNoSelection: false,
       ignoreInSelections: false,
       onTrueSetTrue: [],
       onTrueSetFalse: [],
