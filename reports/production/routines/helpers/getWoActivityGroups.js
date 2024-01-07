@@ -18,7 +18,9 @@ const getWoActivityGroups = async config => {
           
       ` //prettier-ignore
 
-    return response
+    const wo_groups = response.map(wo => wo.wo_group)
+
+    return wo_groups
   } catch (error) {
     console.error(error)
     return error
