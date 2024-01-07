@@ -5,7 +5,7 @@ const getReportFormats = () => {
     {
       default: true, // if this is true then the defaults array should have "all" or else there will be a mistmatch in what the front end and back end beleive is the default
       label: 'species group / program / type', // appears in front end report options
-      dataName: 'pecgroupProgType', // passed back as "reportFormat" in the front end request. Maps to "invenReporting".master_supplement in reports/sales/utils/config/itemMasterSupplementQueryMap.js
+      dataName: 'specgroupProgType', // passed back as "reportFormat" in the front end request. Maps to "invenReporting".master_supplement in reports/sales/utils/config/itemMasterSupplementQueryMap.js
       defaultsFallback: false, // front end uses defaults array to map a program filter to the default report format. If the program does not appear in any array (which would be a mistake) then this flag will be for the fallbackDefault
       defaults: ['all'], //list of programs (datanames) that this is the defaultsFallback report
       optional: ['all'], // list of programs (datanames) that allow this,  or use 'any' to allow all programs EXCEPT 'all'
@@ -41,7 +41,7 @@ const getReportFormats = () => {
           dataName: 'l3_label', // key to pull data from
           filterName: 'l3_filter', // key to match up the column with the filter
           width: '100px', // css width
-          left: '250px', // css positioning for sticky sum of prior col widths
+          left: '300px', // css positioning for sticky sum of prior col widths
           borderRight: true, // border right on ladst frozen cell
           rightClickMenu: [], // array of options for right click menu
         },
