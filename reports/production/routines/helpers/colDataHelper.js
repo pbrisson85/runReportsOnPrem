@@ -25,10 +25,10 @@ const addDataToProductionTotalCol = (config, columnConfigs, woActivityGroups) =>
     const displayName = `${startDisplayClean} - ${endDisplayClean} ${activity}`
 
     woTotalsCols.push({
+      ...columnConfigs.woCols[0],
       trendDefault,
       displayName,
       dataName: activity,
-      ...columnConfigs.woCols[0],
       colType: `wo_${activity}`,
     })
   }
