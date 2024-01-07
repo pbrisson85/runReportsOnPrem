@@ -11,7 +11,7 @@ const getTrendColsWo = async (config, woActivityGroups) => {
     for (woActivity of woActivityGroups) {
       const response = await sql`
       SELECT 
-          ${sql(config.trends.queryGrouping)} || ${sql`_${woActivity}`} AS "dataName", 
+          ${sql(config.trends.queryGrouping)} || ${sql`_${sql(woActivity)}`} AS "dataName", 
           TO_CHAR(MAX(p.formatted_date),'MM/DD/YY') AS "displayName", 
           MIN(p.formatted_date) AS "colStartDate",  
           MAX(p.formatted_date) AS "colEndDate",
