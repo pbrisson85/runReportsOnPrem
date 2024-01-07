@@ -94,8 +94,8 @@ const l4_getRowLabels = async config => {
           COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
           COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label, 
           COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label 
-          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 
-          4 AS datalevel 
+          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``} 
+          ,4 AS datalevel 
         FROM "invenReporting".perpetual_inventory 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = perpetual_inventory.item_number 
@@ -115,8 +115,8 @@ const l4_getRowLabels = async config => {
           COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
           COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label, 
           COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label 
-          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 
-          4 AS datalevel 
+          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``} 
+          ,4 AS datalevel 
         FROM "salesReporting".sales_orders 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = sales_orders.item_num 
@@ -136,8 +136,8 @@ const l4_getRowLabels = async config => {
           COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
           COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label, 
           COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label 
-          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 
-          4 AS datalevel 
+          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``} 
+          ,4 AS datalevel 
         FROM "woReporting".wo_detail_by_fg AS wo
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = wo.fg_line_item 
@@ -172,8 +172,8 @@ const l3_getRowLabels = async config => {
           COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
           COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label 
           ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
-          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 
-          3 AS datalevel 
+          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``} 
+          ,3 AS datalevel 
         FROM "invenReporting".perpetual_inventory 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = perpetual_inventory.item_number 
@@ -192,8 +192,8 @@ const l3_getRowLabels = async config => {
           COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
           COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label 
           ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
-          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 
-          3 AS datalevel 
+          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``} 
+          ,3 AS datalevel 
         FROM "salesReporting".sales_orders 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = sales_orders.item_num 
@@ -212,8 +212,8 @@ const l3_getRowLabels = async config => {
           COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
           COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label 
           ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
-          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 
-          3 AS datalevel 
+          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``} 
+          ,3 AS datalevel 
         FROM "woReporting".wo_detail_by_fg AS wo
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = wo.fg_line_item 
@@ -248,8 +248,8 @@ const l2_getRowLabels = async config => {
           COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label 
           ${config.baseFormat.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} 
           ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
-          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 
-          2 AS datalevel 
+          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``} 
+          ,2 AS datalevel 
         FROM "invenReporting".perpetual_inventory 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = perpetual_inventory.item_number
@@ -267,8 +267,8 @@ const l2_getRowLabels = async config => {
           COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label 
           ${config.baseFormat.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} 
           ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
-          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 
-          2 AS datalevel 
+          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``} 
+          ,2 AS datalevel 
         FROM "salesReporting".sales_orders 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = sales_orders.item_num 
@@ -286,8 +286,8 @@ const l2_getRowLabels = async config => {
           COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label 
           ${config.baseFormat.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} 
           ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
-          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 
-          2 AS datalevel 
+          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``} 
+          ,2 AS datalevel 
         FROM "woReporting".wo_detail_by_fg AS wo
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = wo.fg_line_item
@@ -316,7 +316,7 @@ const l1_getRowLabels = async config => {
 
     const response = await sql
         `SELECT 
-          COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
+          COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label 
           ${config.baseFormat.l2_field ? sql`, 'SUBTOTAL' AS l2_label`: sql``} 
           ${config.baseFormat.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} 
           ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
@@ -333,7 +333,7 @@ const l1_getRowLabels = async config => {
         GROUP BY ${sql(config.baseFormat.l1_field)} 
         
         UNION SELECT 
-          COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
+          COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label 
           ${config.baseFormat.l2_field ? sql`, 'SUBTOTAL' AS l2_label`: sql``} 
           ${config.baseFormat.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} 
           ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
@@ -350,7 +350,7 @@ const l1_getRowLabels = async config => {
         GROUP BY ${sql(config.baseFormat.l1_field)}
           
       UNION SELECT 
-        COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
+        COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label 
         ${config.baseFormat.l2_field ? sql`, 'SUBTOTAL' AS l2_label`: sql``} 
         ${config.baseFormat.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} 
         ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
