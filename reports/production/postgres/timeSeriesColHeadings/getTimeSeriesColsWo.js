@@ -18,7 +18,7 @@ const getTrendColsWo = async (config, woActivityGroups) => {
           MIN(p.formatted_date) AS "colStartDate",  
           MAX(p.formatted_date) AS "colEndDate",
           TRUE AS "timeSeriesCol",
-          'wo_' || ${sql`REPLACE('_${sql(woActivity)}','"', '')`} AS "colType" -- should match the colType as the col that drives what is seen on front end via double click
+          'wo' || ${sql`REPLACE('_${sql(woActivity)}','"', '')`} AS "colType" -- should match the colType as the col that drives what is seen on front end via double click
       
       FROM "accountingPeriods".period_by_day AS p
       
