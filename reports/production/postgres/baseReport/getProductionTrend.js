@@ -20,7 +20,7 @@ const l1_getProductionTrend = async (config, woActivityGroups) => {
       )
       
       SELECT 
-      ${sql(config.trends.queryGrouping)} || ${sql`'_REPLACE(${sql(woActivity)}','"', '''')`} AS column, 
+      ${sql(config.trends.queryGrouping)} REPLACE(${sql`'_${sql(woActivity)}'`},'"', '''') AS column, 
       COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
       'SUBTOTAL' AS l2_label, 
       'SUBTOTAL' AS l3_label, 
@@ -94,7 +94,7 @@ const l2_getProductionTrend = async (config, woActivityGroups) => {
       )
       
       SELECT 
-      ${sql(config.trends.queryGrouping)} || ${sql`'_REPLACE(${sql(woActivity)}','"', '''')`} AS column,  
+      ${sql(config.trends.queryGrouping)} REPLACE(${sql`'_${sql(woActivity)}'`},'"', '''') AS column,  
       COALESCE(${sql(config.baseFormat.l1_field)},'NA') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
       'SUBTOTAL' AS l3_label, 
@@ -167,7 +167,7 @@ const l3_getProductionTrend = async (config, woActivityGroups) => {
       )
       
       SELECT 
-      ${sql(config.trends.queryGrouping)} || ${sql`'_REPLACE(${sql(woActivity)}','"', '''')`} AS column,  
+      ${sql(config.trends.queryGrouping)} REPLACE(${sql`'_${sql(woActivity)}'`},'"', '''') AS column,  
       COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
       COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 
@@ -241,7 +241,7 @@ const l4_getProductionTrend = async (config, woActivityGroups) => {
       )
       
       SELECT 
-      ${sql(config.trends.queryGrouping)} || ${sql`'_REPLACE(${sql(woActivity)}','"', '''')`} AS column,  
+      ${sql(config.trends.queryGrouping)} REPLACE(${sql`'_${sql(woActivity)}'`},'"', '''') AS column,  
       COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
       COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 
@@ -316,7 +316,7 @@ const l5_getProductionTrend = async (config, woActivityGroups) => {
       )
       
       SELECT 
-      ${sql(config.trends.queryGrouping)} || ${sql`'_REPLACE(${sql(woActivity)}','"', '''')`} AS column,  
+      ${sql(config.trends.queryGrouping)} REPLACE(${sql`'_${sql(woActivity)}'`},'"', '''') AS column,  
       COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
       COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 
@@ -392,7 +392,7 @@ const l0_getProductionTrend = async (config, woActivityGroups) => {
       )
       
       SELECT 
-      ${sql(config.trends.queryGrouping)} || ${sql`'_REPLACE(${sql(woActivity)}','"', '''')`} AS column,  
+      ${sql(config.trends.queryGrouping)} REPLACE(${sql`'_${sql(woActivity)}'`},'"', '''') AS column,  
       'TOTAL' AS l1_label, 
       COALESCE(SUM(wo.fg_line_weight),0) AS lbs, 
       COALESCE(NULLIF(SUM(wo.fg_line_weight),0)/NULLIF(SUM(wo.rm_fg_line_weight),0),0) AS yield,
