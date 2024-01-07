@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const l1_getProduction = async config => {
+const l1_getProduction = async (config, woActivityGroups) => {
   if (!config.baseFormat.l1_field) return []
 
   try {
@@ -8,7 +8,10 @@ const l1_getProduction = async config => {
 
     // level 1 detail
 
-    const response = await sql
+    const eachWoActivity = []
+
+    for (woActivity of woActivityGroups) {
+      const response = await sql
       `
       WITH wo_activity AS (
         SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group 
@@ -17,7 +20,7 @@ const l1_getProduction = async config => {
       )
       
       SELECT 
-      'CUTTING' AS column, 
+      ${woActivity} AS column, 
       COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
       'SUBTOTAL' AS l2_label, 
       'SUBTOTAL' AS l3_label, 
@@ -48,7 +51,7 @@ const l1_getProduction = async config => {
         
       WHERE 
         wo.by_prod_fg_line_bool = false
-        AND act.wo_group = 'CUTTING' -- NEEDS TO BE A DYNAMIC FILTER OR LOOP THROUGH ALL WO_GROUPS AND MAKE A TREND FOR EACH
+        AND act.wo_group = ${woActivity}
         AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
@@ -58,14 +61,17 @@ const l1_getProduction = async config => {
       ${sql(config.baseFormat.l1_field)}
       ` //prettier-ignore
 
-    return response
+      eachWoActivity.push(...response)
+    }
+
+    return eachWoActivity
   } catch (error) {
     console.error(error)
     return error
   }
 }
 
-const l2_getProduction = async config => {
+const l2_getProduction = async (config, woActivityGroups) => {
   if (!config.baseFormat.l2_field) return []
 
   try {
@@ -73,7 +79,10 @@ const l2_getProduction = async config => {
 
     // Level 2 detail
 
-    const response = await sql
+    const eachWoActivity = []
+
+    for (woActivity of woActivityGroups) {
+      const response = await sql
       `
       WITH wo_activity AS (
         SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group 
@@ -82,7 +91,7 @@ const l2_getProduction = async config => {
       )
       
       SELECT 
-      'CUTTING' AS column,  
+      ${woActivity} AS column,  
       COALESCE(${sql(config.baseFormat.l1_field)},'NA') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
       'SUBTOTAL' AS l3_label, 
@@ -113,7 +122,7 @@ const l2_getProduction = async config => {
         
       WHERE 
         wo.by_prod_fg_line_bool = false
-        AND act.wo_group = 'CUTTING' -- NEEDS TO BE A DYNAMIC FILTER OR LOOP THROUGH ALL WO_GROUPS AND MAKE A TREND FOR EACH
+        AND act.wo_group = ${woActivity}
         AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
@@ -124,20 +133,26 @@ const l2_getProduction = async config => {
       ${sql(config.baseFormat.l2_field)}
       ` //prettier-ignore
 
-    return response
+      eachWoActivity.push(...response)
+    }
+
+    return eachWoActivity
   } catch (error) {
     console.error(error)
     return error
   }
 }
 
-const l3_getProduction = async config => {
+const l3_getProduction = async (config, woActivityGroups) => {
   if (!config.baseFormat.l3_field) return []
 
   try {
     console.log(`${config.user} - level 3: query postgres for Inv on hand (l3_getProduction) ...`)
 
-    const response = await sql
+    const eachWoActivity = []
+
+    for (woActivity of woActivityGroups) {
+      const response = await sql
       `
       WITH wo_activity AS (
         SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group 
@@ -146,7 +161,7 @@ const l3_getProduction = async config => {
       )
       
       SELECT 
-      'CUTTING' AS column,  
+      ${woActivity} AS column,  
       COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
       COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 
@@ -177,7 +192,7 @@ const l3_getProduction = async config => {
         
       WHERE 
         wo.by_prod_fg_line_bool = false
-        AND act.wo_group = 'CUTTING' -- NEEDS TO BE A DYNAMIC FILTER OR LOOP THROUGH ALL WO_GROUPS AND MAKE A TREND FOR EACH
+        AND act.wo_group = ${woActivity}
         AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
@@ -189,20 +204,26 @@ const l3_getProduction = async config => {
         ${sql(config.baseFormat.l3_field)}
       ` //prettier-ignore
 
-    return response
+      eachWoActivity.push(...response)
+    }
+
+    return eachWoActivity
   } catch (error) {
     console.error(error)
     return error
   }
 }
 
-const l4_getProduction = async config => {
+const l4_getProduction = async (config, woActivityGroups) => {
   if (!config.baseFormat.l4_field) return []
 
   try {
     console.log(`${config.user} - level 4: query postgres for Inv on hand (l4_getProduction) ...`)
 
-    const response = await sql
+    const eachWoActivity = []
+
+    for (woActivity of woActivityGroups) {
+      const response = await sql
       `
       WITH wo_activity AS (
         SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group 
@@ -211,7 +232,7 @@ const l4_getProduction = async config => {
       )
       
       SELECT 
-      'CUTTING' AS column,  
+      ${woActivity} AS column,  
       COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
       COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 
@@ -242,7 +263,7 @@ const l4_getProduction = async config => {
         
       WHERE 
         wo.by_prod_fg_line_bool = false
-        AND act.wo_group = 'CUTTING' -- NEEDS TO BE A DYNAMIC FILTER OR LOOP THROUGH ALL WO_GROUPS AND MAKE A TREND FOR EACH
+        AND act.wo_group = ${woActivity}
         AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
@@ -255,20 +276,26 @@ const l4_getProduction = async config => {
         ${sql(config.baseFormat.l4_field)}
       ` //prettier-ignore
 
-    return response
+      eachWoActivity.push(...response)
+    }
+
+    return eachWoActivity
   } catch (error) {
     console.error(error)
     return error
   }
 }
 
-const l5_getProduction = async config => {
+const l5_getProduction = async (config, woActivityGroups) => {
   if (!config.baseFormat.l5_field) return []
 
   try {
     console.log(`${config.user} - level 5: query postgres for Inv on hand (l4_getProduction) ...`)
 
-    const response = await sql
+    const eachWoActivity = []
+
+    for (woActivity of woActivityGroups) {
+      const response = await sql
       `
       WITH wo_activity AS (
         SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group 
@@ -277,7 +304,7 @@ const l5_getProduction = async config => {
       )
       
       SELECT 
-      'CUTTING' AS column,  
+      ${woActivity} AS column,  
       COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
       COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 
@@ -308,7 +335,7 @@ const l5_getProduction = async config => {
         
       WHERE 
         wo.by_prod_fg_line_bool = false
-        AND act.wo_group = 'CUTTING' -- NEEDS TO BE A DYNAMIC FILTER OR LOOP THROUGH ALL WO_GROUPS AND MAKE A TREND FOR EACH
+        AND act.wo_group = ${woActivity}
         AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
@@ -322,20 +349,26 @@ const l5_getProduction = async config => {
         ${sql(config.baseFormat.l5_field)}
       ` //prettier-ignore
 
-    return response
+      eachWoActivity.push(...response)
+    }
+
+    return eachWoActivity
   } catch (error) {
     console.error(error)
     return error
   }
 }
 
-const l0_getProduction = async config => {
+const l0_getProduction = async (config, woActivityGroups) => {
   try {
     console.log(`${config.user} - level 0: query postgres for Inv on hand (l0_getProduction) ...`)
 
     // level 0 detail (TOTAL)
 
-    const response = await sql
+    const eachWoActivity = []
+
+    for (woActivity of woActivityGroups) {
+      const response = await sql
       `
       WITH wo_activity AS (
         SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group 
@@ -344,7 +377,7 @@ const l0_getProduction = async config => {
       )
       
       SELECT 
-      'CUTTING' AS column,  
+      ${woActivity} AS column,  
       'TOTAL' AS l1_label, 
       COALESCE(SUM(wo.fg_line_weight),0) AS lbs, 
       COALESCE(NULLIF(SUM(wo.fg_line_weight),0)/NULLIF(SUM(wo.rm_fg_line_weight),0),0) AS yield,
@@ -371,7 +404,7 @@ const l0_getProduction = async config => {
         
       WHERE 
         wo.by_prod_fg_line_bool = false
-        AND act.wo_group = 'CUTTING' -- NEEDS TO BE A DYNAMIC FILTER OR LOOP THROUGH ALL WO_GROUPS AND MAKE A TREND FOR EACH
+        AND act.wo_group = ${woActivity}
         AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
@@ -380,7 +413,10 @@ const l0_getProduction = async config => {
     
       ` //prettier-ignore
 
-    return response
+      eachWoActivity.push(...response)
+    }
+
+    return eachWoActivity
   } catch (error) {
     console.error(error)
     return error

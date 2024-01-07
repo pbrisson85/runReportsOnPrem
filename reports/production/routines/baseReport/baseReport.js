@@ -8,8 +8,6 @@ const buildReport = async config => {
   ///////////////////////////////// CONFIG
   const woActivityGroups = await m.getWoActivityGroups(config)
 
-  console.log('woActivityGroups', woActivityGroups)
-
   ///////////////////////////////// WORK ORDER DATA
 
   queryDataPromises.push(m.l0_getProduction(config, woActivityGroups))
@@ -73,7 +71,7 @@ const buildReport = async config => {
   rowDataPromises.push(m.l5_getRowLabels(config))
 
   ///////////////////////////////// TREND COLUMNS
-  trendColumnPromises.push(m.getTrendColsWo(config))
+  trendColumnPromises.push(m.getTrendColsWo(config, woActivityGroups))
 
   /* RUN DATA */
 
@@ -110,7 +108,7 @@ const buildReport = async config => {
   const data = m.cleanLabelsForDisplay(flattenedMappedData, config)
 
   // Add data to hardcoded columns
-  let columnConfigsTagged = m.addDataToProductionTotalCol(config, m.columnConfigs) // adds startDate, endDate, and displayName
+  let columnConfigsTagged = m.addDataToProductionTotalCol(config, m.columnConfigs, woActivityGroups) // adds startDate, endDate, and displayName
 
   // Add template to trend cols:
   const trendColumnsTagged = trendColumns.map(col => {

@@ -1,18 +1,21 @@
 const sql = require('../../../../server')
 
-const getTrendColsWo = async config => {
+const getTrendColsWo = async (config, woActivityGroups) => {
   if (!config.trends.queryGrouping) return []
 
   console.log(`${config.user} - getTrendColsWo`)
 
-  const periods = await sql`
+  const eachTimeSeries = []
+
+  for (woActivity of woActivityGroups) {
+    const response = await sql`
     SELECT 
-      ${sql(config.trends.queryGrouping)} AS "dataName", 
+      ${sql(config.trends.queryGrouping)} || '_' || ${sql(woActivity)} AS "dataName", 
         TO_CHAR(MAX(p.formatted_date),'MM/DD/YY') AS "displayName", 
         MIN(p.formatted_date) AS "colStartDate",  
         MAX(p.formatted_date) AS "colEndDate",
         TRUE AS "timeSeriesCol",
-        'cuttingWo' AS "colType" -- should match the colType as the col that drives what is seen on front end via double click
+        'wo_' || ${sql(woActivity)} AS "colType" -- should match the colType as the col that drives what is seen on front end via double click
     
     FROM "accountingPeriods".period_by_day AS p
     
@@ -22,7 +25,10 @@ const getTrendColsWo = async config => {
 
     ORDER BY ${sql(config.trends.queryGrouping)} ASC`
 
-  return periods
+    eachTimeSeries.push(...response)
+  }
+
+  return eachTimeSeries
 }
 
 module.exports = { getTrendColsWo }
