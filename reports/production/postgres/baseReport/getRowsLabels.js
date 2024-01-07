@@ -14,17 +14,14 @@ const l5_getRowLabels = async config => {
           COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label, 
           COALESCE(${sql(config.baseFormat.l5_field)},'NO VALUE') AS l5_label, 
           5 AS datalevel   
-        
         FROM "invenReporting".perpetual_inventory 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = perpetual_inventory.item_number 
-      
         WHERE 
           perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory)
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``}  
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
-        
         GROUP BY 
           ${sql(config.baseFormat.l1_field)}, 
           ${sql(config.baseFormat.l2_field)}, 
@@ -39,17 +36,14 @@ const l5_getRowLabels = async config => {
           COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label, 
           COALESCE(${sql(config.baseFormat.l5_field)},'NO VALUE') AS l5_label, 
           5 AS datalevel 
-        
         FROM "salesReporting".sales_orders 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = sales_orders.item_num 
-      
         WHERE 
           sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-        
         GROUP BY 
           ${sql(config.baseFormat.l1_field)}, 
           ${sql(config.baseFormat.l2_field)}, 
@@ -65,17 +59,14 @@ const l5_getRowLabels = async config => {
           COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label, 
           COALESCE(${sql(config.baseFormat.l5_field)},'NO VALUE') AS l5_label, 
           5 AS datalevel 
-        
         FROM "woReporting".wo_detail_by_fg AS wo
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = wo.fg_line_item 
-      
         WHERE 
           sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-        
         GROUP BY 
           ${sql(config.baseFormat.l1_field)}, 
           ${sql(config.baseFormat.l2_field)}, 
@@ -105,22 +96,19 @@ const l4_getRowLabels = async config => {
           COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label 
           ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 
           4 AS datalevel 
-        
-          FROM "invenReporting".perpetual_inventory 
-            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-              ON ms.item_num = perpetual_inventory.item_number 
-        
-          WHERE 
-            perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory)
-            ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``}  
-            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-            ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
-          
-          GROUP BY 
-            ${sql(config.baseFormat.l1_field)}, 
-            ${sql(config.baseFormat.l2_field)}, 
-            ${sql(config.baseFormat.l3_field)}, 
-            ${sql(config.baseFormat.l4_field)} 
+        FROM "invenReporting".perpetual_inventory 
+          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = perpetual_inventory.item_number 
+        WHERE 
+          perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory)
+          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``}  
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+        GROUP BY 
+          ${sql(config.baseFormat.l1_field)}, 
+          ${sql(config.baseFormat.l2_field)}, 
+          ${sql(config.baseFormat.l3_field)}, 
+          ${sql(config.baseFormat.l4_field)} 
         
         UNION SELECT 
           COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
@@ -129,22 +117,40 @@ const l4_getRowLabels = async config => {
           COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label 
           ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 
           4 AS datalevel 
-        
-          FROM "salesReporting".sales_orders 
-            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-              ON ms.item_num = sales_orders.item_num 
-        
-          WHERE 
-            sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
-            ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-            ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-          
-          GROUP BY 
-            ${sql(config.baseFormat.l1_field)}, 
-            ${sql(config.baseFormat.l2_field)}, 
-            ${sql(config.baseFormat.l3_field)}, 
-            ${sql(config.baseFormat.l4_field)}
+        FROM "salesReporting".sales_orders 
+          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = sales_orders.item_num 
+        WHERE 
+          sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
+          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        GROUP BY 
+          ${sql(config.baseFormat.l1_field)}, 
+          ${sql(config.baseFormat.l2_field)}, 
+          ${sql(config.baseFormat.l3_field)}, 
+          ${sql(config.baseFormat.l4_field)}
+
+        UNION SELECT 
+          COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
+          COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
+          COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label, 
+          COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label 
+          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 
+          4 AS datalevel 
+        FROM "woReporting".wo_detail_by_fg AS wo
+          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = wo.fg_line_item 
+        WHERE 
+          sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
+          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        GROUP BY 
+          ${sql(config.baseFormat.l1_field)}, 
+          ${sql(config.baseFormat.l2_field)}, 
+          ${sql(config.baseFormat.l3_field)}, 
+          ${sql(config.baseFormat.l4_field)}
           ` //prettier-ignore
 
     return response
@@ -168,21 +174,18 @@ const l3_getRowLabels = async config => {
           ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
           ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 
           3 AS datalevel 
-        
-          FROM "invenReporting".perpetual_inventory 
-            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-              ON ms.item_num = perpetual_inventory.item_number 
-        
-          WHERE 
-            perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
-            ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-            ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
-          
-          GROUP BY 
-            ${sql(config.baseFormat.l1_field)}, 
-            ${sql(config.baseFormat.l2_field)}, 
-            ${sql(config.baseFormat.l3_field)} 
+        FROM "invenReporting".perpetual_inventory 
+          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = perpetual_inventory.item_number 
+        WHERE 
+          perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+        GROUP BY 
+          ${sql(config.baseFormat.l1_field)}, 
+          ${sql(config.baseFormat.l2_field)}, 
+          ${sql(config.baseFormat.l3_field)} 
         
         UNION SELECT 
           COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
@@ -191,21 +194,40 @@ const l3_getRowLabels = async config => {
           ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
           ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 
           3 AS datalevel 
-        
-          FROM "salesReporting".sales_orders 
-            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-              ON ms.item_num = sales_orders.item_num 
-        
-          WHERE 
-            sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
-            ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-            ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-          
-          GROUP BY 
-            ${sql(config.baseFormat.l1_field)}, 
-            ${sql(config.baseFormat.l2_field)}, 
-            ${sql(config.baseFormat.l3_field)}` //prettier-ignore
+        FROM "salesReporting".sales_orders 
+          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = sales_orders.item_num 
+        WHERE 
+          sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
+          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        GROUP BY 
+          ${sql(config.baseFormat.l1_field)}, 
+          ${sql(config.baseFormat.l2_field)}, 
+          ${sql(config.baseFormat.l3_field)}
+            
+        UNION SELECT 
+          COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
+          COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
+          COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label 
+          ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
+          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 
+          3 AS datalevel 
+        FROM "woReporting".wo_detail_by_fg AS wo
+          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = wo.fg_line_item 
+        WHERE 
+          sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
+          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        GROUP BY 
+          ${sql(config.baseFormat.l1_field)}, 
+          ${sql(config.baseFormat.l2_field)}, 
+          ${sql(config.baseFormat.l3_field)}
+           
+            ` //prettier-ignore
 
     return response
   } catch (error) {
@@ -228,20 +250,17 @@ const l2_getRowLabels = async config => {
           ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
           ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 
           2 AS datalevel 
-        
-          FROM "invenReporting".perpetual_inventory 
-            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-              ON ms.item_num = perpetual_inventory.item_number 
-        
-          WHERE 
-            perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
-            ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-            ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-          
-          GROUP BY 
-            ${sql(config.baseFormat.l1_field)}, 
-            ${sql(config.baseFormat.l2_field)} 
+        FROM "invenReporting".perpetual_inventory 
+          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = perpetual_inventory.item_number
+        WHERE 
+          perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        GROUP BY 
+          ${sql(config.baseFormat.l1_field)}, 
+          ${sql(config.baseFormat.l2_field)} 
         
         UNION SELECT 
           COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
@@ -250,20 +269,37 @@ const l2_getRowLabels = async config => {
           ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
           ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 
           2 AS datalevel 
-        
-          FROM "salesReporting".sales_orders 
-            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-              ON ms.item_num = sales_orders.item_num 
-        
-          WHERE 
-            sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
-            ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-            ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-          
-          GROUP BY 
-            ${sql(config.baseFormat.l1_field)}, 
-            ${sql(config.baseFormat.l2_field)}` //prettier-ignore
+        FROM "salesReporting".sales_orders 
+          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = sales_orders.item_num 
+        WHERE 
+          sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
+          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        GROUP BY 
+          ${sql(config.baseFormat.l1_field)}, 
+          ${sql(config.baseFormat.l2_field)}
+            
+        UNION SELECT 
+          COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
+          COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label 
+          ${config.baseFormat.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} 
+          ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
+          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 
+          2 AS datalevel 
+        FROM "woReporting".wo_detail_by_fg AS wo
+          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = wo.fg_line_item
+        WHERE 
+          sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
+          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        GROUP BY 
+          ${sql(config.baseFormat.l1_field)}, 
+          ${sql(config.baseFormat.l2_field)}    
+        ` //prettier-ignore
 
     return response
   } catch (error) {
@@ -285,19 +321,16 @@ const l1_getRowLabels = async config => {
           ${config.baseFormat.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} 
           ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
           ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 
-          1 AS datalevel  
-        
-          FROM "invenReporting".perpetual_inventory 
-            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-              ON ms.item_num = perpetual_inventory.item_number 
-          
-          WHERE 
-            perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
-            ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-            ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-          
-          GROUP BY ${sql(config.baseFormat.l1_field)} 
+          1 AS datalevel 
+        FROM "invenReporting".perpetual_inventory 
+          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = perpetual_inventory.item_number 
+        WHERE 
+          perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
+          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        GROUP BY ${sql(config.baseFormat.l1_field)} 
         
         UNION SELECT 
           COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
@@ -306,18 +339,34 @@ const l1_getRowLabels = async config => {
           ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
           ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 
           1 AS datalevel   
-        
-          FROM "salesReporting".sales_orders 
-            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-              ON ms.item_num = sales_orders.item_num 
+        FROM "salesReporting".sales_orders 
+          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = sales_orders.item_num 
+        WHERE 
+          sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
+          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        GROUP BY ${sql(config.baseFormat.l1_field)}
           
-          WHERE 
-            sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
-            ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-            ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-            ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-          
-          GROUP BY ${sql(config.baseFormat.l1_field)}` //prettier-ignore
+      UNION SELECT 
+        COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
+        ${config.baseFormat.l2_field ? sql`, 'SUBTOTAL' AS l2_label`: sql``} 
+        ${config.baseFormat.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} 
+        ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
+        ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``}, 
+        1 AS datalevel   
+      FROM "woReporting".wo_detail_by_fg AS wo
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+          ON ms.item_num = wo.fg_line_item
+      WHERE 
+        sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+      GROUP BY ${sql(config.baseFormat.l1_field)}
+             
+      ` //prettier-ignore
 
     return response
   } catch (error) {
