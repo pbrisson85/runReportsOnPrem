@@ -2,7 +2,9 @@ const router = require('express').Router()
 const getViewFilters_sales = require('../data/getViewFilters_sales')
 const getViewFilters_inven = require('../data/getViewFilters_inven')
 const getViewFilters_production = require('../data/getViewFilters_production')
-const getReportFormats = require('../data/getReportFormats')
+const getReportFormats_sales = require('../data/getReportFormats_sales')
+const getReportFormats_production = require('../data/getReportFormats_production')
+const getReportFormats_inven = require('../data/getReportFormats_inven')
 const trendTypeOptions = require('../data/trendType')
 const totalTypeOptions = require('../data/totalTypes')
 const projectionOptions = require('../data/useProjections')
@@ -85,9 +87,23 @@ router.get('/periodMaps', async (req, res) => {
   console.log('get periods maps lot route COMPLETE. ')
 })
 
-router.get('/rowFormats', async (req, res) => {
+router.get('/invenRowFormats', async (req, res) => {
   console.log('get report formats route HIT...')
-  const reports = getReportFormats()
+  const reports = getReportFormats_inven()
+  res.send(reports)
+  console.log('get report formats route COMPLETE. ')
+})
+
+router.get('/salesRowFormats', async (req, res) => {
+  console.log('get report formats route HIT...')
+  const reports = getReportFormats_sales()
+  res.send(reports)
+  console.log('get report formats route COMPLETE. ')
+})
+
+router.get('/productionRowFormats', async (req, res) => {
+  console.log('get report formats route HIT...')
+  const reports = getReportFormats_production()
   res.send(reports)
   console.log('get report formats route COMPLETE. ')
 })
