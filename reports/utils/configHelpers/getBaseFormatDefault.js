@@ -15,6 +15,9 @@ const getBaseFormatDefault = module => {
     case 'production':
       reportFormats = getReportFormats_production()
       break
+    default:
+      reportFormats = getReportFormats_sales()
+      break
   }
 
   const defaultFormat = reportFormats.filter(format => format.default)
