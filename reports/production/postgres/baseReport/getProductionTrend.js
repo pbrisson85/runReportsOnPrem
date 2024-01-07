@@ -20,7 +20,7 @@ const l1_getProductionTrend = async (config, woActivityGroups) => {
       )
       
       SELECT 
-      ${sql(config.trends.queryGrouping)} || '_' || ${sql(woActivity)} AS column, 
+      ${sql(config.trends.queryGrouping)} || '_' || ${woActivity} AS column, 
       COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
       'SUBTOTAL' AS l2_label, 
       'SUBTOTAL' AS l3_label, 
@@ -58,7 +58,7 @@ const l1_getProductionTrend = async (config, woActivityGroups) => {
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY 
-        ${sql(config.trends.queryGrouping)} || '_' || ${sql(woActivity)}, 
+        ${sql(config.trends.queryGrouping)} || '_' || ${woActivity}, 
         ${sql(config.baseFormat.l1_field)}
       
       ORDER BY ${sql(config.trends.queryGrouping)} ASC
@@ -94,7 +94,7 @@ const l2_getProductionTrend = async (config, woActivityGroups) => {
       )
       
       SELECT 
-      ${sql(config.trends.queryGrouping)} || '_' || ${sql(woActivity)} AS column,  
+      ${sql(config.trends.queryGrouping)} || '_' || ${woActivity} AS column,  
       COALESCE(${sql(config.baseFormat.l1_field)},'NA') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
       'SUBTOTAL' AS l3_label, 
@@ -132,7 +132,7 @@ const l2_getProductionTrend = async (config, woActivityGroups) => {
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
       
       GROUP BY 
-        ${sql(config.trends.queryGrouping)} || '_' || ${sql(woActivity)}, 
+        ${sql(config.trends.queryGrouping)} || '_' || ${woActivity}, 
         ${sql(config.baseFormat.l1_field)}, 
         ${sql(config.baseFormat.l2_field)}
       
@@ -167,7 +167,7 @@ const l3_getProductionTrend = async (config, woActivityGroups) => {
       )
       
       SELECT 
-      ${sql(config.trends.queryGrouping)} || '_' || ${sql(woActivity)} AS column,  
+      ${sql(config.trends.queryGrouping)} || '_' || ${woActivity} AS column,  
       COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
       COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 
@@ -205,7 +205,7 @@ const l3_getProductionTrend = async (config, woActivityGroups) => {
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY 
-        ${sql(config.trends.queryGrouping)} || '_' || ${sql(woActivity)}, 
+        ${sql(config.trends.queryGrouping)} || '_' || ${woActivity}, 
         ${sql(config.baseFormat.l1_field)}, 
         ${sql(config.baseFormat.l2_field)}, 
         ${sql(config.baseFormat.l3_field)}
@@ -241,7 +241,7 @@ const l4_getProductionTrend = async (config, woActivityGroups) => {
       )
       
       SELECT 
-      ${sql(config.trends.queryGrouping)} || '_' || ${sql(woActivity)} AS column,  
+      ${sql(config.trends.queryGrouping)} || '_' || ${woActivity} AS column,  
       COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
       COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 
@@ -279,7 +279,7 @@ const l4_getProductionTrend = async (config, woActivityGroups) => {
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY 
-        ${sql(config.trends.queryGrouping)} || '_' || ${sql(woActivity)}, 
+        ${sql(config.trends.queryGrouping)} || '_' || ${woActivity}, 
         ${sql(config.baseFormat.l1_field)}, 
         ${sql(config.baseFormat.l2_field)}, 
         ${sql(config.baseFormat.l3_field)}, 
@@ -316,7 +316,7 @@ const l5_getProductionTrend = async (config, woActivityGroups) => {
       )
       
       SELECT 
-      ${sql(config.trends.queryGrouping)} || '_' || ${sql(woActivity)} AS column,  
+      ${sql(config.trends.queryGrouping)} || '_' || ${woActivity} AS column,  
       COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
       COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 
@@ -354,7 +354,7 @@ const l5_getProductionTrend = async (config, woActivityGroups) => {
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY 
-        ${sql(config.trends.queryGrouping)} || '_' || ${sql(woActivity)}, 
+        ${sql(config.trends.queryGrouping)} || '_' || ${woActivity}, 
         ${sql(config.baseFormat.l1_field)}, 
         ${sql(config.baseFormat.l2_field)}, 
         ${sql(config.baseFormat.l3_field)}, 
@@ -392,7 +392,7 @@ const l0_getProductionTrend = async (config, woActivityGroups) => {
       )
       
       SELECT 
-      ${sql(config.trends.queryGrouping)} || '_' || ${sql(woActivity)} AS column,  
+      ${sql(config.trends.queryGrouping)} || '_' || ${woActivity} AS column,  
       'TOTAL' AS l1_label, 
       COALESCE(SUM(wo.fg_line_weight),0) AS lbs, 
       COALESCE(NULLIF(SUM(wo.fg_line_weight),0)/NULLIF(SUM(wo.rm_fg_line_weight),0),0) AS yield,
@@ -425,7 +425,7 @@ const l0_getProductionTrend = async (config, woActivityGroups) => {
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
         
-    GROUP BY ${sql(config.trends.queryGrouping)} || '_' || ${sql(woActivity)}
+    GROUP BY ${sql(config.trends.queryGrouping)} || '_' || ${woActivity}
 
       ORDER BY ${sql(config.trends.queryGrouping)} ASC
       ` //prettier-ignore
