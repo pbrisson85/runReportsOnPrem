@@ -416,7 +416,7 @@ const workOrderCols = [
       'soak',
       'fresh_frozen',
     ], // when grouping this array determines if this table col is included or filtered out.
-    groupByIncrement: false,
+    groupByIncrement: true,
     groupedLeftSticky: [],
     colType: 'wo',
     defaultSort: true,
@@ -459,7 +459,7 @@ const workOrderCols = [
       'soak',
       'fresh_frozen',
     ], // when grouping this array determines if this table col is included or filtered out.
-    groupByIncrement: false,
+    groupByIncrement: true,
     groupedLeftSticky: [],
     colType: 'wo',
     defaultSort: false,
@@ -502,7 +502,7 @@ const workOrderCols = [
       'soak',
       'fresh_frozen',
     ], // when grouping this array determines if this table col is included or filtered out.
-    groupByIncrement: false,
+    groupByIncrement: true,
     groupedLeftSticky: [],
     colType: 'wo',
     defaultSort: false,
@@ -545,7 +545,7 @@ const workOrderCols = [
       'soak',
       'fresh_frozen',
     ], // when grouping this array determines if this table col is included or filtered out.
-    groupByIncrement: false,
+    groupByIncrement: true,
     groupedLeftSticky: [],
     colType: 'wo',
     defaultSort: false,
@@ -588,7 +588,7 @@ const workOrderCols = [
       'soak',
       'fresh_frozen',
     ], // when grouping this array determines if this table col is included or filtered out.
-    groupByIncrement: false,
+    groupByIncrement: true,
     groupedLeftSticky: [],
     colType: 'wo',
     defaultSort: false,
@@ -631,7 +631,7 @@ const workOrderCols = [
       'soak',
       'fresh_frozen',
     ], // when grouping this array determines if this table col is included or filtered out.
-    groupByIncrement: false,
+    groupByIncrement: true,
     groupedLeftSticky: [],
     colType: 'wo',
     defaultSort: false,
@@ -674,7 +674,7 @@ const workOrderCols = [
       'soak',
       'fresh_frozen',
     ], // when grouping this array determines if this table col is included or filtered out.
-    groupByIncrement: false,
+    groupByIncrement: true,
     groupedLeftSticky: [],
     colType: 'wo',
     defaultSort: false,
@@ -717,7 +717,7 @@ const workOrderCols = [
       'soak',
       'fresh_frozen',
     ], // when grouping this array determines if this table col is included or filtered out.
-    groupByIncrement: false,
+    groupByIncrement: true,
     groupedLeftSticky: [],
     colType: 'wo',
     defaultSort: false,
@@ -761,7 +761,7 @@ const workOrderCols = [
       'soak',
       'fresh_frozen',
     ], // when grouping this array determines if this table col is included or filtered out.
-    groupByIncrement: false,
+    groupByIncrement: true,
     groupedLeftSticky: [],
     colType: 'wo',
     defaultSort: false,
@@ -805,7 +805,7 @@ const workOrderCols = [
       'soak',
       'fresh_frozen',
     ], // when grouping this array determines if this table col is included or filtered out.
-    groupByIncrement: false,
+    groupByIncrement: true,
     groupedLeftSticky: [],
     colType: 'wo',
     defaultSort: false,
@@ -849,7 +849,7 @@ const workOrderCols = [
       'soak',
       'fresh_frozen',
     ], // when grouping this array determines if this table col is included or filtered out.
-    groupByIncrement: false,
+    groupByIncrement: true,
     groupedLeftSticky: [],
     colType: 'wo',
     defaultSort: false,
@@ -893,7 +893,7 @@ const workOrderCols = [
       'soak',
       'fresh_frozen',
     ], // when grouping this array determines if this table col is included or filtered out.
-    groupByIncrement: false,
+    groupByIncrement: true,
     groupedLeftSticky: [],
     colType: 'wo',
     defaultSort: false,
@@ -937,7 +937,7 @@ const workOrderCols = [
       'soak',
       'fresh_frozen',
     ], // when grouping this array determines if this table col is included or filtered out.
-    groupByIncrement: false,
+    groupByIncrement: true,
     groupedLeftSticky: [],
     colType: 'wo',
     defaultSort: false,
@@ -981,7 +981,7 @@ const workOrderCols = [
       'soak',
       'fresh_frozen',
     ], // when grouping this array determines if this table col is included or filtered out.
-    groupByIncrement: false,
+    groupByIncrement: true,
     groupedLeftSticky: [],
     colType: 'wo',
     defaultSort: false,
@@ -1025,7 +1025,7 @@ const workOrderCols = [
       'soak',
       'fresh_frozen',
     ], // when grouping this array determines if this table col is included or filtered out.
-    groupByIncrement: false,
+    groupByIncrement: true,
     groupedLeftSticky: [],
     colType: 'wo',
     defaultSort: false,
