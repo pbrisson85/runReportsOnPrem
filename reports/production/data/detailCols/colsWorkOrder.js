@@ -1053,7 +1053,7 @@ const workOrderCols = [
     fraction: false,
     fractionNumerator: null,
     fractionDenominator: null,
-    groupBy: ['ungrouped', 'item', 'species'], // when grouping this array determines if this table col is included or filtered out.
+    groupBy: ['ungrouped', 'item', 'species', 'wo_num'], // when grouping this array determines if this table col is included or filtered out.
     groupByIncrement: false,
     groupedLeftSticky: ['species'],
     colType: 'wo',
@@ -1140,7 +1140,7 @@ const workOrderCols = [
     fraction: false,
     fractionNumerator: null,
     fractionDenominator: null,
-    groupBy: ['ungrouped', 'item', 'soak'], // when grouping this array determines if this table col is included or filtered out.
+    groupBy: ['ungrouped', 'item', 'soak', 'wo_num'], // when grouping this array determines if this table col is included or filtered out.
     groupByIncrement: false,
     groupedLeftSticky: ['soak'],
     colType: 'wo',
@@ -1169,7 +1169,7 @@ const workOrderCols = [
     fraction: false,
     fractionNumerator: null,
     fractionDenominator: null,
-    groupBy: ['ungrouped', 'item', 'fresh_frozen'], // when grouping this array determines if this table col is included or filtered out.
+    groupBy: ['ungrouped', 'item', 'fresh_frozen', 'wo_num'], // when grouping this array determines if this table col is included or filtered out.
     groupByIncrement: false,
     groupedLeftSticky: ['fresh_frozen'],
     colType: 'wo',
