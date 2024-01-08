@@ -30,7 +30,7 @@ const getProduction_detail = async (config, startDate, endDate, woActivity) => {
       ms.brand, 
       ms.size_name AS size, 
       ms.fg_treatment AS soak, 
-      ms.fg_fresh_frozen AS fresh_frozen  
+      ms.fg_fresh_frozen AS fresh_frozen,  
       COALESCE(wo.fg_line_weight,0) AS lbs, 
       COALESCE(wo.rm_fg_line_weight,0) AS rm_lbs, 
       COALESCE(NULLIF(wo.fg_line_weight,0)/NULLIF(wo.rm_fg_line_weight,0),0) AS yield,
