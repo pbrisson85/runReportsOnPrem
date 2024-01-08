@@ -353,7 +353,7 @@ const workOrderCols = [
     unfilteredColIdx: 99,
     displayName: 'Date',
     dataName: 'posting_date',
-    justifyData: 'start',
+    justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
     total: false, // if total is true this col will be reduced into the total row, if not it will be blank in the total row

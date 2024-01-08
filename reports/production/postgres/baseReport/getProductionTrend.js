@@ -21,7 +21,7 @@ const l1_getProductionTrend = async (config, woActivityGroups) => {
       
       SELECT 
       ${sql(config.trends.queryGrouping)} || ${sql`REPLACE('_${sql(woActivity)}','"', '')`} AS column, 
-      COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
+      COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
       'SUBTOTAL' AS l2_label, 
       'SUBTOTAL' AS l3_label, 
       'SUBTOTAL' AS l4_label, 
@@ -95,8 +95,8 @@ const l2_getProductionTrend = async (config, woActivityGroups) => {
       
       SELECT 
       ${sql(config.trends.queryGrouping)} || ${sql`REPLACE('_${sql(woActivity)}','"', '')`} AS column,  
-      COALESCE(${sql(config.baseFormat.l1_field)},'NA') AS l1_label, 
-      COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
+      COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
+      COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
       'SUBTOTAL' AS l3_label, 
       'SUBTOTAL' AS l4_label, 
       'SUBTOTAL' AS l5_label,
@@ -168,9 +168,9 @@ const l3_getProductionTrend = async (config, woActivityGroups) => {
       
       SELECT 
       ${sql(config.trends.queryGrouping)} || ${sql`REPLACE('_${sql(woActivity)}','"', '')`} AS column,  
-      COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
-      COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
-      COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 
+      COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
+      COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
+      COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label, 
       'SUBTOTAL' AS l4_label, 
       'SUBTOTAL' AS l5_label, 
       COALESCE(SUM(wo.fg_line_weight),0) AS lbs, 
@@ -242,10 +242,10 @@ const l4_getProductionTrend = async (config, woActivityGroups) => {
       
       SELECT 
       ${sql(config.trends.queryGrouping)} || ${sql`REPLACE('_${sql(woActivity)}','"', '')`} AS column,  
-      COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
-      COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
-      COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 
-      COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 
+      COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
+      COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
+      COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label, 
+      COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label, 
       'SUBTOTAL' AS l5_label, 
       COALESCE(SUM(wo.fg_line_weight),0) AS lbs, 
       COALESCE(NULLIF(SUM(wo.fg_line_weight),0)/NULLIF(SUM(wo.rm_fg_line_weight),0),0) AS yield,
@@ -317,11 +317,11 @@ const l5_getProductionTrend = async (config, woActivityGroups) => {
       
       SELECT 
       ${sql(config.trends.queryGrouping)} || ${sql`REPLACE('_${sql(woActivity)}','"', '')`} AS column,  
-      COALESCE(${sql(config.baseFormat.l1_field)},'BLANK') AS l1_label, 
-      COALESCE(${sql(config.baseFormat.l2_field)},'NA') AS l2_label, 
-      COALESCE(${sql(config.baseFormat.l3_field)},'NA') AS l3_label, 
-      COALESCE(${sql(config.baseFormat.l4_field)},'NA') AS l4_label, 
-      COALESCE(${sql(config.baseFormat.l5_field)},'NA') AS l5_label, 
+      COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
+      COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
+      COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label, 
+      COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label, 
+      COALESCE(${sql(config.baseFormat.l5_field)},'NO VALUE') AS l5_label, 
       COALESCE(SUM(wo.fg_line_weight),0) AS lbs, 
       COALESCE(NULLIF(SUM(wo.fg_line_weight),0)/NULLIF(SUM(wo.rm_fg_line_weight),0),0) AS yield,
       COALESCE(SUM(wo.fg_line_extended_cost),0) AS cost, 
