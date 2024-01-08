@@ -64,6 +64,8 @@ const getProduction_detail = async (config, startDate, endDate, woActivity) => {
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       ` //prettier-ignore
 
+    console.log(response)
+
     return response
   } catch (error) {
     console.error(error)
