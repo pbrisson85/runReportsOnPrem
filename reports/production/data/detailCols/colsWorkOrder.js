@@ -418,7 +418,7 @@ const workOrderCols = [
     groupByIncrement: false,
     groupedLeftSticky: [],
     colType: 'wo',
-    defaultSort: false,
+    defaultSort: true,
   },
   {
     unfilteredColIdx: 99,
