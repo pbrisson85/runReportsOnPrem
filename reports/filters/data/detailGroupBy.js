@@ -75,6 +75,21 @@ const groupByOptions = {
     { label: 'Vendor', dataName: 'po_vendor', default: false },
     { label: 'PO Line Item', dataName: 'ungrouped', default: false },
   ],
+
+  production: [
+    { label: 'Item', dataName: 'item', default: false },
+    { label: 'Species', dataName: 'species', default: false },
+    { label: 'Brand', dataName: 'brand', default: false },
+    { label: 'Size', dataName: 'size', default: false },
+    { label: 'Soak', dataName: 'soak', default: false },
+    { label: 'Freeze', dataName: 'fresh_frozen', default: false },
+    { label: 'WO Number', dataName: 'wo_num', default: true },
+    { label: 'Posting Date', dataName: 'posting_date', default: false },
+    { label: 'Wo Classification', dataName: 'classification', default: false },
+    { label: 'Wo Entity', dataName: 'entity', default: false },
+    { label: 'Wo Country', dataName: 'country', default: false },
+    { label: 'Wo Line (full detail)', dataName: 'ungrouped', default: false },
+  ],
 }
 
 module.exports = groupByOptions

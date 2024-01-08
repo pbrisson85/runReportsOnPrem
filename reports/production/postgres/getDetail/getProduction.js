@@ -19,6 +19,7 @@ const getProduction_detail = async (config, startDate, endDate, woActivity) => {
       wo.wo_activity_entity AS entity,
       wo.wo_activity_country AS country,
       wo.fg_line_item AS item,
+      ms.description,
       wo.fg_line_lot_text AS lot_text,
       wo.fg_line_location AS location,
       wo.header_classification AS classification,
@@ -31,6 +32,7 @@ const getProduction_detail = async (config, startDate, endDate, woActivity) => {
       ms.fg_treatment AS soak, 
       ms.fg_fresh_frozen AS fresh_frozen  
       COALESCE(wo.fg_line_weight,0) AS lbs, 
+      COALESCE(wo.rm_fg_line_weight,0) AS rm_lbs, 
       COALESCE(NULLIF(wo.fg_line_weight,0)/NULLIF(wo.rm_fg_line_weight,0),0) AS yield,
       COALESCE(wo.fg_line_extended_cost,0) AS cost,
       COALESCE(wo.mfg_fg_line_ext_direct_labor,0) AS labor, 

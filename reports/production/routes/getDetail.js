@@ -37,6 +37,18 @@ router.post('/', async (req, res) => {
     data = await getPo_detail(config)
   }
 
+  if (colType.substring(0, 2) === 'wo') {
+    const woActivity = colType.split('_')[1]
+
+    if (timeSeriesCol) {
+      data = await getProduction_detail(config, colStartDate, colEndDate, woActivity)
+    } else {
+      data = await getProduction_detail(config, config.totals.primary.startDate, config.totals.primary.endDate, woActivity)
+    }
+
+    colType = 'production'
+  }
+
   // Assign columns and menu
   const cols = detailColsMap[colType]
   const menu = groupByOptions[colType]
