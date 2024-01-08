@@ -723,6 +723,7 @@ const workOrderCols = [
     width: '100px',
     total: true, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
     number: true,
+    decimals: 2,
     boolean: false,
     date: false,
     leftSticky: false,
@@ -765,6 +766,7 @@ const workOrderCols = [
     width: '100px',
     total: true, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
     number: true,
+    decimals: 2,
     boolean: false,
     date: false,
     leftSticky: false,
@@ -807,6 +809,7 @@ const workOrderCols = [
     width: '100px',
     total: true, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
     number: true,
+    decimals: 2,
     boolean: false,
     date: false,
     leftSticky: false,
@@ -849,6 +852,7 @@ const workOrderCols = [
     width: '100px',
     total: true, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
     number: true,
+    decimals: 2,
     boolean: false,
     date: false,
     leftSticky: false,
@@ -891,6 +895,7 @@ const workOrderCols = [
     width: '100px',
     total: true, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
     number: true,
+    decimals: 2,
     boolean: false,
     date: false,
     leftSticky: false,
@@ -933,6 +938,7 @@ const workOrderCols = [
     width: '100px',
     total: true, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
     number: true,
+    decimals: 2,
     boolean: false,
     date: false,
     leftSticky: false,
@@ -975,6 +981,7 @@ const workOrderCols = [
     width: '100px',
     total: true, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
     number: true,
+    decimals: 2,
     boolean: false,
     date: false,
     leftSticky: false,
