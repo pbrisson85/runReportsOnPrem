@@ -39,7 +39,7 @@ const getProduction_detail = async (config, startDate, endDate, woActivity) => {
       COALESCE(wo.mfg_fg_line_ext_overhead_pool,0) AS oh, 
       COALESCE(wo.mfg_fg_line_ext_packaging,0) AS packaging, 
       COALESCE(wo.chem_fg_line_cost,0) AS chem, 
-      COALESCE(wo.mfg_fg_line_ext_processing_fee,0) AS processingFee, 
+      COALESCE(wo.mfg_fg_line_ext_processing_fee,0) AS "processingFee", 
       COALESCE(wo.fg_line_extended_cost/NULLIF(wo.fg_line_weight,0),0) AS "costPerLb",
       COALESCE(wo.mfg_fg_line_ext_direct_labor/NULLIF(wo.fg_line_weight,0),0) AS "laborPerLb",
       COALESCE(wo.mfg_fg_line_ext_overhead_pool/NULLIF(wo.fg_line_weight,0),0) AS "ohPerLb",
