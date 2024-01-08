@@ -382,7 +382,7 @@ const workOrderCols = [
     unfilteredColIdx: 99,
     displayName: 'FG Lbs',
     dataName: 'lbs',
-    justifyData: 'start',
+    justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
     total: true, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
@@ -425,7 +425,7 @@ const workOrderCols = [
     unfilteredColIdx: 99,
     displayName: 'RM Lbs',
     dataName: 'rm_lbs',
-    justifyData: 'start',
+    justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
     total: true, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
@@ -468,7 +468,7 @@ const workOrderCols = [
     unfilteredColIdx: 99,
     displayName: 'Cost',
     dataName: 'cost',
-    justifyData: 'start',
+    justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
     total: true, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
@@ -511,7 +511,7 @@ const workOrderCols = [
     unfilteredColIdx: 99,
     displayName: 'Labor',
     dataName: 'labor',
-    justifyData: 'start',
+    justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
     total: true, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
@@ -554,7 +554,7 @@ const workOrderCols = [
     unfilteredColIdx: 99,
     displayName: 'OH',
     dataName: 'oh',
-    justifyData: 'start',
+    justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
     total: true, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
@@ -597,7 +597,7 @@ const workOrderCols = [
     unfilteredColIdx: 99,
     displayName: 'Packaging',
     dataName: 'packaging',
-    justifyData: 'start',
+    justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
     total: true, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
@@ -640,7 +640,7 @@ const workOrderCols = [
     unfilteredColIdx: 99,
     displayName: 'Chem',
     dataName: 'chem',
-    justifyData: 'start',
+    justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
     total: true, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
@@ -683,7 +683,7 @@ const workOrderCols = [
     unfilteredColIdx: 99,
     displayName: 'Processing Fee',
     dataName: 'processingFee',
-    justifyData: 'start',
+    justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
     total: true, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
@@ -726,7 +726,7 @@ const workOrderCols = [
     unfilteredColIdx: 99,
     displayName: 'Yield',
     dataName: 'yield',
-    justifyData: 'start',
+    justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
     total: true, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
@@ -770,7 +770,7 @@ const workOrderCols = [
     unfilteredColIdx: 99,
     displayName: 'FG $/Lb',
     dataName: 'costPerLb',
-    justifyData: 'start',
+    justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
     total: true, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
@@ -814,7 +814,7 @@ const workOrderCols = [
     unfilteredColIdx: 99,
     displayName: 'Labor $/Lb',
     dataName: 'laborPerLb',
-    justifyData: 'start',
+    justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
     total: true, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
@@ -858,7 +858,7 @@ const workOrderCols = [
     unfilteredColIdx: 99,
     displayName: 'OH $/Lb',
     dataName: 'ohPerLb',
-    justifyData: 'start',
+    justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
     total: true, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
@@ -902,7 +902,7 @@ const workOrderCols = [
     unfilteredColIdx: 99,
     displayName: 'PKG $/Lb',
     dataName: 'packagingPerLb',
-    justifyData: 'start',
+    justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
     total: true, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
@@ -946,7 +946,7 @@ const workOrderCols = [
     unfilteredColIdx: 99,
     displayName: 'Chem $/Lb',
     dataName: 'chemPerLb',
-    justifyData: 'start',
+    justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
     total: true, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
@@ -990,7 +990,7 @@ const workOrderCols = [
     unfilteredColIdx: 99,
     displayName: 'Proc Fee $/Lb',
     dataName: 'processingFeePerLb',
-    justifyData: 'start',
+    justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
     total: true, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
