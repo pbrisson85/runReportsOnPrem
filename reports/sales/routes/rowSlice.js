@@ -19,6 +19,8 @@ const addCustomerName = require('../routines/helpers/trendByCustomer')
 router.post('/', async (req, res) => {
   const { rightMenuSelection } = req.body
 
+  req.body.module = 'sales'
+
   const config = await getReportConfig(req.body)
 
   console.log(`\n${config.user} - get drilldown data for ${config.baseFormat.dataName} route HIT...`)

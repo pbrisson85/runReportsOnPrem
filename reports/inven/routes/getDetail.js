@@ -14,6 +14,9 @@ router.post('/', async (req, res) => {
   console.log(`\nget detail route HIT...`)
 
   const { colStartDate, colEndDate, colType } = req.body
+
+  req.body.module = 'inven'
+
   const config = await getReportConfig(req.body)
 
   let data = null

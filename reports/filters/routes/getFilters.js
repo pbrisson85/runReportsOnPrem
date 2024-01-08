@@ -140,6 +140,8 @@ router.get('/projectionFilters', async (req, res) => {
 router.get('/invenItemTypes', async (req, res) => {
   console.log('get item types filters route HIT...')
   // get config for applicable filters
+  req.body.module = 'inven'
+
   const config = await getReportConfig(req.body)
   let types = await getItemTypes(config)
   const defaults = getItemTypeDefaults_inven()
@@ -158,6 +160,9 @@ router.get('/invenItemTypes', async (req, res) => {
 router.get('/salesItemTypes', async (req, res) => {
   console.log('get item types filters route HIT...')
   // get config for applicable filters
+
+  req.body.module = 'sales'
+
   const config = await getReportConfig(req.body)
   let types = await getItemTypes(config)
   const defaults = getItemTypeDefaults_sales()
@@ -176,6 +181,9 @@ router.get('/salesItemTypes', async (req, res) => {
 router.get('/productionItemTypes', async (req, res) => {
   console.log('get item types filters route HIT...')
   // get config for applicable filters
+
+  req.body.module = 'production'
+
   const config = await getReportConfig(req.body)
   let types = await getItemTypes(config)
   const defaults = getItemTypeDefaults_production()

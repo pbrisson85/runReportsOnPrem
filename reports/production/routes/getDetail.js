@@ -16,6 +16,8 @@ router.post('/', async (req, res) => {
   const { colStartDate, colEndDate, timeSeriesCol } = req.body
   let { colType } = req.body // for now manually determining if projeciton vs sales below. Need to override col type to projection to get correct cols
 
+  req.body.module = 'production'
+
   const config = await getReportConfig(req.body)
 
   let data = null

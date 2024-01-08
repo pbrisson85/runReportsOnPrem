@@ -10,6 +10,9 @@ const getViewTrendConfig = require('../../utils/getViewTrendConfig')
 
 router.post('/', async (req, res) => {
   const { rightMenuSelection } = req.body
+
+  req.body.module = 'production'
+
   const config = await getReportConfig(req.body)
 
   console.log(`\n${config.user} - get drilldown data for ${config.baseFormat.dataName} route HIT...`)

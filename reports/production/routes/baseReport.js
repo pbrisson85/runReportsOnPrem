@@ -10,6 +10,8 @@ const getReportConfig = require('../../utils/getReportConfig')
 router.post('/', async (req, res) => {
   console.log(`\nget get PRODUCTION base report route HIT...`)
 
+  req.body.module = 'production'
+
   const config = await getReportConfig(req.body)
 
   const response = await buildReport(config)
