@@ -74,8 +74,6 @@ const getProduction_detail = async (config, startDate, endDate, woActivity) => {
         ${config.baseFilters.queryLevel > 4 ? sql`AND ${sql(config.baseFormat.l5_field)} = ${config.baseFilters.l5_filter}` : sql``} 
       ` //prettier-ignore
 
-    console.log('response', response)
-
     return response
   } catch (error) {
     console.error(error)
