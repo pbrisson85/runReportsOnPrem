@@ -15,6 +15,8 @@ const getProductionCountryFilters = async config => {
       
     `
 
+  console.log('filters: ', filters)
+
   return filters
 }
 
