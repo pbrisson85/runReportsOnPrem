@@ -47,9 +47,6 @@ const l1_getAveSales = async (config, trendQuery) => {
             0 AS sales, 
             0 AS cogs, 
             0 AS othp 
-  
-          FROM "salesReporting".sales_line_items AS sl
-  
           WHERE 1=2
   
           ${config.totals.useProjection.sl ? sql`
@@ -235,9 +232,6 @@ const l0_getAveSales = async config => {
             0 AS sales, 
             0 AS cogs, 
             0 AS othp 
-  
-          FROM "salesReporting".sales_line_items AS sl
-  
           WHERE 1=2
   
         ${config.totals.useProjection.sl ? sql`

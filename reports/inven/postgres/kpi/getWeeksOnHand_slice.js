@@ -33,7 +33,6 @@ const l1_getWeeksOnHand = async (config, trendQuery) => {
             ${trendQuery.sl.l6_label ? sql`'dummy' AS l6_label,` : sql``} 
             ${trendQuery.sl.l7_label ? sql`'dummy' AS l7_label,` : sql``} 
             0 AS lbs
-          FROM "salesReporting".sales_line_items AS sl
           WHERE 1=2
   
           ${config.totals.useProjection.sl ? sql`

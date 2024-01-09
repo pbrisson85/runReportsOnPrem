@@ -29,14 +29,31 @@ const l1_getPercentSales = async (config, denominator, colName) => {
       COALESCE(SUM(pj.net_sales)/${(denominator.net_sales)},0) AS "netSalesPerLb"
 
       FROM (
-        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp, 0 AS gross_margin, 0 AS net_sales 
-        FROM "salesReporting".sales_line_items AS d
+        SELECT 
+          'dummy' AS doc_num, 
+          'dummy' AS line_number, 
+          'dummy' AS item_num, 
+          0 AS lbs, 
+          0 AS sales, 
+          0 AS cogs, 
+          0 AS othp, 
+          0 AS gross_margin, 
+          0 AS net_sales 
         WHERE
           1=2
 
         ${config.totals.useProjection.sl ? sql`
         UNION ALL 
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp, COALESCE(sl.gross_sales_ext-sl.cogs_ext_gl-sl.othp_ext,0) AS gross_margin, COALESCE(sl.gross_sales_ext-sl.othp_ext,0) AS net_sales 
+          SELECT 
+            sl.invoice_number AS doc_num, 
+            sl.line_number, 
+            sl.item_number AS item_num, 
+            COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
+            COALESCE(sl.gross_sales_ext,0) AS sales, 
+            COALESCE(sl.cogs_ext_gl,0) AS cogs, 
+            COALESCE(sl.othp_ext,0) AS othp, 
+            COALESCE(sl.gross_sales_ext-sl.cogs_ext_gl-sl.othp_ext,0) AS gross_margin, 
+            COALESCE(sl.gross_sales_ext-sl.othp_ext,0) AS net_sales 
           
           FROM "salesReporting".sales_line_items AS sl 
             
@@ -46,7 +63,16 @@ const l1_getPercentSales = async (config, denominator, colName) => {
 
         ${config.totals.useProjection.so ? sql`
         UNION ALL
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp, COALESCE(so.ext_sales-so.ext_cost-so.ext_othp,0) AS gross_margin, COALESCE(so.ext_sales-so.ext_othp,0) AS net_sales 
+          SELECT 
+            so.so_num AS doc_num, 
+            so.so_line AS line_number, 
+            so.item_num AS item_num, 
+            COALESCE(so.ext_weight,0) AS lbs, 
+            COALESCE(so.ext_sales,0) AS sales, 
+            COALESCE(so.ext_cost,0) AS cogs, 
+            COALESCE(so.ext_othp,0) AS othp, 
+            COALESCE(so.ext_sales-so.ext_cost-so.ext_othp,0) AS gross_margin, 
+            COALESCE(so.ext_sales-so.ext_othp,0) AS net_sales 
       
           FROM "salesReporting".sales_orders AS so
             
@@ -57,7 +83,16 @@ const l1_getPercentSales = async (config, denominator, colName) => {
 
         ${config.totals.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_gross,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp, COALESCE(pr.sales_gross-pr.cogs-pr.othp,0) AS gross_margin, COALESCE(pr.sales_gross-pr.othp,0) AS net_sales 
+          SELECT 
+            'PROJECTION' AS doc_num, 
+            'PROJECTION' AS line_number, 
+            pr.item_number AS item_num, 
+            COALESCE(pr.lbs,0) AS lbs, 
+            COALESCE(pr.sales_gross,0) AS sales, 
+            COALESCE(pr.cogs,0) AS cogs, 
+            COALESCE(pr.othp,0) AS othp, 
+            COALESCE(pr.sales_gross-pr.cogs-pr.othp,0) AS gross_margin, 
+            COALESCE(pr.sales_gross-pr.othp,0) AS net_sales 
         
           FROM "salesReporting".projected_sales AS pr        
         
@@ -114,14 +149,31 @@ const l2_getPercentSales = async (config, denominator, colName) => {
       COALESCE(SUM(pj.net_sales)/${(denominator.net_sales)},0) AS "netSalesPerLb"
       
       FROM (
-        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp , 0 AS gross_margin, 0 AS net_sales 
-        FROM "salesReporting".sales_line_items AS d
+        SELECT 
+          'dummy' AS doc_num, 
+          'dummy' AS line_number, 
+          'dummy' AS item_num, 
+          0 AS lbs, 
+          0 AS sales, 
+          0 AS cogs, 
+          0 AS othp , 
+          0 AS gross_margin, 
+          0 AS net_sales 
         WHERE
           1=2
 
         ${config.totals.useProjection.sl ? sql`
         UNION ALL 
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp, COALESCE(sl.gross_sales_ext-sl.cogs_ext_gl-sl.othp_ext,0) AS gross_margin, COALESCE(sl.gross_sales_ext-sl.othp_ext,0) AS net_sales  
+          SELECT 
+            sl.invoice_number AS doc_num, 
+            sl.line_number, 
+            sl.item_number AS item_num, 
+            COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
+            COALESCE(sl.gross_sales_ext,0) AS sales, 
+            COALESCE(sl.cogs_ext_gl,0) AS cogs, 
+            COALESCE(sl.othp_ext,0) AS othp, 
+            COALESCE(sl.gross_sales_ext-sl.cogs_ext_gl-sl.othp_ext,0) AS gross_margin, 
+            COALESCE(sl.gross_sales_ext-sl.othp_ext,0) AS net_sales  
           
           FROM "salesReporting".sales_line_items AS sl
             
@@ -131,7 +183,16 @@ const l2_getPercentSales = async (config, denominator, colName) => {
 
         ${config.totals.useProjection.so ? sql`
         UNION ALL
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp, COALESCE(so.ext_sales-so.ext_cost-so.ext_othp,0) AS gross_margin, COALESCE(so.ext_sales-so.ext_othp,0) AS net_sales 
+          SELECT 
+            so.so_num AS doc_num, 
+            so.so_line AS line_number, 
+            so.item_num AS item_num, 
+            COALESCE(so.ext_weight,0) AS lbs, 
+            COALESCE(so.ext_sales,0) AS sales, 
+            COALESCE(so.ext_cost,0) AS cogs, 
+            COALESCE(so.ext_othp,0) AS othp, 
+            COALESCE(so.ext_sales-so.ext_cost-so.ext_othp,0) AS gross_margin, 
+            COALESCE(so.ext_sales-so.ext_othp,0) AS net_sales 
       
           FROM "salesReporting".sales_orders AS so
             
@@ -142,7 +203,16 @@ const l2_getPercentSales = async (config, denominator, colName) => {
 
         ${config.totals.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_gross,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp, COALESCE(pr.sales_gross-pr.cogs-pr.othp,0) AS gross_margin, COALESCE(pr.sales_gross-pr.othp,0) AS net_sales 
+          SELECT '
+            PROJECTION' AS doc_num, 
+            'PROJECTION' AS line_number, 
+            pr.item_number AS item_num, 
+            COALESCE(pr.lbs,0) AS lbs,
+            COALESCE(pr.sales_gross,0) AS sales, 
+            COALESCE(pr.cogs,0) AS cogs, 
+            COALESCE(pr.othp,0) AS othp, 
+            COALESCE(pr.sales_gross-pr.cogs-pr.othp,0) AS gross_margin, 
+            COALESCE(pr.sales_gross-pr.othp,0) AS net_sales 
         
           FROM "salesReporting".projected_sales AS pr        
         
@@ -199,14 +269,31 @@ const l3_getPercentSales = async (config, denominator, colName) => {
       COALESCE(SUM(pj.net_sales)/${(denominator.net_sales)},0) AS "netSalesPerLb"
       
       FROM (
-        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp, 0 AS gross_margin, 0 AS net_sales  
-        FROM "salesReporting".sales_line_items AS d
+        SELECT 
+          'dummy' AS doc_num, 
+          'dummy' AS line_number, 
+          'dummy' AS item_num, 
+          0 AS lbs, 
+          0 AS sales, 
+          0 AS cogs, 
+          0 AS othp, 
+          0 AS gross_margin, 
+          0 AS net_sales  
         WHERE
           1=2
 
         ${config.totals.useProjection.sl ? sql`
         UNION ALL 
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp, COALESCE(sl.gross_sales_ext-sl.cogs_ext_gl-sl.othp_ext,0) AS gross_margin, COALESCE(sl.gross_sales_ext-sl.othp_ext,0) AS net_sales  
+          SELECT 
+            sl.invoice_number AS doc_num, 
+            sl.line_number, 
+            sl.item_number AS item_num, 
+            COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
+            COALESCE(sl.gross_sales_ext,0) AS sales, 
+            COALESCE(sl.cogs_ext_gl,0) AS cogs, 
+            COALESCE(sl.othp_ext,0) AS othp, 
+            COALESCE(sl.gross_sales_ext-sl.cogs_ext_gl-sl.othp_ext,0) AS gross_margin, 
+            COALESCE(sl.gross_sales_ext-sl.othp_ext,0) AS net_sales  
           
           FROM "salesReporting".sales_line_items AS sl
             
@@ -216,7 +303,16 @@ const l3_getPercentSales = async (config, denominator, colName) => {
 
         ${config.totals.useProjection.so ? sql`
         UNION ALL
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp, COALESCE(so.ext_sales-so.ext_cost-so.ext_othp,0) AS gross_margin, COALESCE(so.ext_sales-so.ext_othp,0) AS net_sales 
+          SELECT 
+            so.so_num AS doc_num, 
+            so.so_line AS line_number, 
+            so.item_num AS item_num, 
+            COALESCE(so.ext_weight,0) AS lbs, 
+            COALESCE(so.ext_sales,0) AS sales, 
+            COALESCE(so.ext_cost,0) AS cogs, 
+            COALESCE(so.ext_othp,0) AS othp, 
+            COALESCE(so.ext_sales-so.ext_cost-so.ext_othp,0) AS gross_margin, 
+            COALESCE(so.ext_sales-so.ext_othp,0) AS net_sales 
       
           FROM "salesReporting".sales_orders AS so
             
@@ -227,7 +323,16 @@ const l3_getPercentSales = async (config, denominator, colName) => {
 
         ${config.totals.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_gross,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp, COALESCE(pr.sales_gross-pr.cogs-pr.othp,0) AS gross_margin, COALESCE(pr.sales_gross-pr.othp,0) AS net_sales 
+          SELECT 
+            'PROJECTION' AS doc_num, 
+            'PROJECTION' AS line_number, 
+            pr.item_number AS item_num, 
+            COALESCE(pr.lbs,0) AS lbs, 
+            COALESCE(pr.sales_gross,0) AS sales, 
+            COALESCE(pr.cogs,0) AS cogs, 
+            COALESCE(pr.othp,0) AS othp, 
+            COALESCE(pr.sales_gross-pr.cogs-pr.othp,0) AS gross_margin, 
+            COALESCE(pr.sales_gross-pr.othp,0) AS net_sales 
         
           FROM "salesReporting".projected_sales AS pr        
         
@@ -284,14 +389,31 @@ const l4_getPercentSales = async (config, denominator, colName) => {
       COALESCE(SUM(pj.net_sales)/${(denominator.net_sales)},0) AS "netSalesPerLb"
       
       FROM (
-        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp, 0 AS gross_margin, 0 AS net_sales  
-        FROM "salesReporting".sales_line_items AS d
+        SELECT 
+          'dummy' AS doc_num, 
+          'dummy' AS line_number, 
+          'dummy' AS item_num, 
+          0 AS lbs, 
+          0 AS sales, 
+          0 AS cogs, 
+          0 AS othp, 
+          0 AS gross_margin, 
+          0 AS net_sales  
         WHERE
           1=2
 
         ${config.totals.useProjection.sl ? sql`
         UNION ALL 
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp, COALESCE(sl.gross_sales_ext-sl.cogs_ext_gl-sl.othp_ext,0) AS gross_margin, COALESCE(sl.gross_sales_ext-sl.othp_ext,0) AS net_sales  
+          SELECT 
+            sl.invoice_number AS doc_num, 
+            sl.line_number, 
+            sl.item_number AS item_num, 
+            COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
+            COALESCE(sl.gross_sales_ext,0) AS sales, 
+            COALESCE(sl.cogs_ext_gl,0) AS cogs, 
+            COALESCE(sl.othp_ext,0) AS othp, 
+            COALESCE(sl.gross_sales_ext-sl.cogs_ext_gl-sl.othp_ext,0) AS gross_margin, 
+            COALESCE(sl.gross_sales_ext-sl.othp_ext,0) AS net_sales  
           
           FROM "salesReporting".sales_line_items AS sl
             
@@ -301,7 +423,16 @@ const l4_getPercentSales = async (config, denominator, colName) => {
 
         ${config.totals.useProjection.so ? sql`
         UNION ALL
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp, COALESCE(so.ext_sales-so.ext_cost-so.ext_othp,0) AS gross_margin, COALESCE(so.ext_sales-so.ext_othp,0) AS net_sales 
+          SELECT 
+            so.so_num AS doc_num, 
+            so.so_line AS line_number, 
+            so.item_num AS item_num, 
+            COALESCE(so.ext_weight,0) AS lbs, 
+            COALESCE(so.ext_sales,0) AS sales, 
+            COALESCE(so.ext_cost,0) AS cogs, 
+            COALESCE(so.ext_othp,0) AS othp, 
+            COALESCE(so.ext_sales-so.ext_cost-so.ext_othp,0) AS gross_margin, 
+            COALESCE(so.ext_sales-so.ext_othp,0) AS net_sales 
       
           FROM "salesReporting".sales_orders AS so
             
@@ -312,7 +443,16 @@ const l4_getPercentSales = async (config, denominator, colName) => {
 
         ${config.totals.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_gross,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp, COALESCE(pr.sales_gross-pr.cogs-pr.othp,0) AS gross_margin, COALESCE(pr.sales_gross-pr.othp,0) AS net_sales 
+          SELECT 
+            'PROJECTION' AS doc_num, 
+            'PROJECTION' AS line_number, 
+            pr.item_number AS item_num, 
+            COALESCE(pr.lbs,0) AS lbs, 
+            COALESCE(pr.sales_gross,0) AS sales, 
+            COALESCE(pr.cogs,0) AS cogs, 
+            COALESCE(pr.othp,0) AS othp, 
+            COALESCE(pr.sales_gross-pr.cogs-pr.othp,0) AS gross_margin, 
+            COALESCE(pr.sales_gross-pr.othp,0) AS net_sales 
         
           FROM "salesReporting".projected_sales AS pr        
         
@@ -369,8 +509,16 @@ const l5_getPercentSales = async (config, denominator, colName) => {
       COALESCE(SUM(pj.net_sales)/${(denominator.net_sales)},0) AS "netSalesPerLb"
       
       FROM (
-        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp, 0 AS gross_margin, 0 AS net_sales  
-        FROM "salesReporting".sales_line_items AS d
+        SELECT 
+          'dummy' AS doc_num, 
+          'dummy' AS line_number, 
+          'dummy' AS item_num, 
+          0 AS lbs, 
+          0 AS sales, 
+          0 AS cogs, 
+          0 AS othp, 
+          0 AS gross_margin, 
+          0 AS net_sales  
         WHERE
           1=2
 
@@ -450,8 +598,16 @@ const l0_getPercentSales = async (config, denominator, colName) => {
       COALESCE(SUM(pj.net_sales)/${(denominator.net_sales)},0) AS "netSalesPerLb"
       
       FROM (
-        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp, 0 AS gross_margin, 0 AS net_sales  
-        FROM "salesReporting".sales_line_items AS d
+        SELECT 
+          'dummy' AS doc_num, 
+          'dummy' AS line_number, 
+          'dummy' AS item_num, 
+          0 AS lbs, 
+          0 AS sales, 
+          0 AS cogs, 
+          0 AS othp, 
+          0 AS gross_margin, 
+          0 AS net_sales  
         WHERE
           1=2
 

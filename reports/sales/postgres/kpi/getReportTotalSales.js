@@ -9,8 +9,16 @@ const l0_getReportTotalSales = async config => {
         SELECT SUM(pj.lbs) AS lbs, SUM(pj.sales) AS sales, SUM(pj.cogs) AS cogs, SUM(pj.othp) AS othp, SUM(pj.net_sales) AS net_sales, SUM(pj.gross_margin) AS gross_margin
         
         FROM (
-          SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp, 0 AS gross_margin, 0 AS net_sales 
-          FROM "salesReporting".sales_line_items AS d
+          SELECT 
+            'dummy' AS doc_num, 
+            'dummy' AS line_number, 
+            'dummy' AS item_num, 
+            0 AS lbs, 
+            0 AS sales, 
+            0 AS cogs, 
+            0 AS othp, 
+            0 AS gross_margin, 
+            0 AS net_sales 
           WHERE
             1=2
   

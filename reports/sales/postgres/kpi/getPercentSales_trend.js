@@ -47,9 +47,6 @@ const l1_getPercentSales = async (config, trendQuery, denominator, colName) => {
           0 AS othp,
           0 AS gross_margin, 
           0 AS net_sales
-
-        FROM "salesReporting".sales_line_items AS sl
-
         WHERE 1=2
 
         ${config.totals.useProjection.sl ? sql`
@@ -238,9 +235,6 @@ const l0_getPercentSales = async (config, denominator, colName) => {
           0 AS othp,
           0 AS gross_margin, 
           0 AS net_sales 
-
-        FROM "salesReporting".sales_line_items AS sl
-
         WHERE 1=2
 
       ${config.totals.useProjection.sl ? sql`

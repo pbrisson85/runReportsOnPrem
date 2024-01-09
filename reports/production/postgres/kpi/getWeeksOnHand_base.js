@@ -21,7 +21,6 @@ const l1_getWeeksOnHand = async config => {
         
             FROM (
             SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs 
-            FROM "salesReporting".sales_line_items AS d
             WHERE
                 1=2
     
@@ -140,7 +139,6 @@ const l2_getWeeksOnHand = async config => {
         
             FROM (
             SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs 
-            FROM "salesReporting".sales_line_items AS d
             WHERE
                 1=2
     
@@ -259,7 +257,6 @@ const l3_getWeeksOnHand = async config => {
         
             FROM (
             SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs 
-            FROM "salesReporting".sales_line_items AS d
             WHERE
                 1=2
     
@@ -378,7 +375,6 @@ const l4_getWeeksOnHand = async config => {
         
             FROM (
             SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs 
-            FROM "salesReporting".sales_line_items AS d
             WHERE
                 1=2
     
@@ -497,7 +493,6 @@ const l5_getWeeksOnHand = async config => {
         
             FROM (
             SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs 
-            FROM "salesReporting".sales_line_items AS d
             WHERE
                 1=2
     
@@ -610,7 +605,6 @@ const l0_getWeeksOnHand = async config => {
         
             FROM (
             SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 0 AS lbs 
-            FROM "salesReporting".sales_line_items AS d
             WHERE
                 1=2
     
