@@ -30,17 +30,16 @@ const getItemTypes = require('../postgres/getItemTypes')
 const getDistinctPrograms = require('../postgres/getDistinctPrograms')
 const getReportConfig = require('../../utils/getReportConfig')
 
-router.get('/productionCountry', async (req, res) => {
+router.post('/productionCountry', async (req, res) => {
   console.log('get PRODUCTION COUNTRY filters lot route HIT...')
-  // get config for applicable filters
-  const options = getProductionCountryFilters()
+  const config = await getReportConfig(req.body)
+  const options = getProductionCountryFilters(config)
   res.send(options)
   console.log('get PRODUCTION COUNTRY filters lot route COMPLETE. ')
 })
 
 router.get('/invenOptions', async (req, res) => {
   console.log('get INVEN OPTIONS filters lot route HIT...')
-  // get config for applicable filters
   const options = getInvenReportsOptions()
   res.send(options)
   console.log('get NVEN OPTIONS filters lot route COMPLETE. ')
@@ -48,7 +47,6 @@ router.get('/invenOptions', async (req, res) => {
 
 router.post('/programs', async (req, res) => {
   console.log('get PROGRAMS filters lot route HIT...')
-  // get config for applicable filters
   const config = await getReportConfig(req.body)
   const programs = await getDistinctPrograms(config) // Fix this to pull from the inven, so, and projections tables.
   programs.sort((a, b) => {
@@ -148,7 +146,6 @@ router.get('/projectionFilters', async (req, res) => {
 
 router.get('/invenItemTypes', async (req, res) => {
   console.log('get item types filters route HIT...')
-  // get config for applicable filters
   req.body.module = 'inven'
 
   const config = await getReportConfig(req.body)
@@ -168,8 +165,6 @@ router.get('/invenItemTypes', async (req, res) => {
 
 router.get('/salesItemTypes', async (req, res) => {
   console.log('get item types filters route HIT...')
-  // get config for applicable filters
-
   req.body.module = 'sales'
 
   const config = await getReportConfig(req.body)
@@ -189,7 +184,6 @@ router.get('/salesItemTypes', async (req, res) => {
 
 router.get('/productionItemTypes', async (req, res) => {
   console.log('get item types filters route HIT...')
-  // get config for applicable filters
 
   req.body.module = 'production'
 

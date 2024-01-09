@@ -1,6 +1,6 @@
 const sql = require('../../../server')
 
-const getProductionCountryFilters = async () => {
+const getProductionCountryFilters = async config => {
   console.log(`query postgres for getProductionCountryFilters ...`)
 
   const filters = await sql` 
