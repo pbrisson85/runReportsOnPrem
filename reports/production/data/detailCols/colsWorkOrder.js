@@ -65,7 +65,7 @@ const workOrderCols = [
     dataName: 'description',
     justifyData: 'start',
     justifyHeading: 'center',
-    width: '200px',
+    width: '225px',
     total: false, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
     number: false,
     boolean: false,
@@ -297,7 +297,7 @@ const workOrderCols = [
     dataName: 'notes',
     justifyData: 'start',
     justifyHeading: 'center',
-    width: '150px',
+    width: '250px',
     total: false, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
     number: false,
     boolean: false,
