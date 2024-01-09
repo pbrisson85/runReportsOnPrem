@@ -11,6 +11,7 @@ const projectionOptions = require('../data/useProjections')
 const getPermissionFilters = require('../data/getPermissionFilters')
 const appSettings = require('../data/appSettings')
 const getInvenReportsOptions = require('../data/getInvenReportsOptions')
+const getProductionCountryFilters = require('../data/getProductionCountryFilters')
 const getItemTypeDefaults_inven = require('../data/getItemTypeDefaults_inven')
 const getItemTypeDefaults_sales = require('../data/getItemTypeDefaults_sales')
 const getItemTypeDefaults_production = require('../data/getItemTypeDefaults_production')
@@ -28,6 +29,14 @@ const {
 const getItemTypes = require('../postgres/getItemTypes')
 const getDistinctPrograms = require('../postgres/getDistinctPrograms')
 const getReportConfig = require('../../utils/getReportConfig')
+
+router.get('/productionCountry', async (req, res) => {
+  console.log('get PRODUCTION COUNTRY filters lot route HIT...')
+  // get config for applicable filters
+  const options = getProductionCountryFilters()
+  res.send(options)
+  console.log('get PRODUCTION COUNTRY filters lot route COMPLETE. ')
+})
 
 router.get('/invenOptions', async (req, res) => {
   console.log('get INVEN OPTIONS filters lot route HIT...')
