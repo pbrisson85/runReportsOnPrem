@@ -7,7 +7,7 @@ const getProduction_detail = async (config, startDate, endDate, woActivity) => {
     const response = await sql
       `
       WITH wo_activity AS (
-        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group 
+        SELECT ms2.item_num, ms2.description, ms2.wo_activity, ms2.wo_group 
         FROM "invenReporting".master_supplement AS ms2 
         WHERE item_type = 'WO_ACTIVITY'
       )
@@ -16,6 +16,7 @@ const getProduction_detail = async (config, startDate, endDate, woActivity) => {
       wo.wo_num,
       ${woActivity} AS wo_activity, 
       wo.wo_activity_code AS wo_activity_code,
+      act.description AS wo_activity_description,
       wo.wo_activity_entity AS entity,
       wo.wo_activity_country AS country,
       wo.fg_line_item AS item,
