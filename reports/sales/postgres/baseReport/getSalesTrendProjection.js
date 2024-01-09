@@ -154,8 +154,14 @@ const l2_getSalesTrend = async config => {
       
       FROM (
         SELECT 
-          'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
-        FROM "salesReporting".sales_line_items AS d
+          'dummy' AS doc_num,
+          'dummy' AS line_number, 
+          'dummy' AS item_num, 
+          'dummy' AS column, 
+          0 AS lbs, 
+          0 AS sales, 
+          0 AS cogs, 
+          0 AS othp 
         WHERE
           1=2
 
@@ -251,8 +257,15 @@ const l3_getSalesTrend = async config => {
       COALESCE(SUM(pj.othp)/NULLIF(SUM(pj.lbs),0),0) AS "othpPerLb"
       
       FROM (
-        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
-        FROM "salesReporting".sales_line_items AS d
+        SELECT 
+          'dummy' AS doc_num, 
+          'dummy' AS line_number, 
+          'dummy' AS item_num, 
+          'dummy' AS column, 
+          0 AS lbs, 
+          0 AS sales, 
+          0 AS cogs, 
+          0 AS othp 
         WHERE
           1=2
 
@@ -348,8 +361,15 @@ const l4_getSalesTrend = async config => {
       
       
       FROM (
-        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
-        FROM "salesReporting".sales_line_items AS d
+        SELECT 
+          'dummy' AS doc_num, 
+          'dummy' AS line_number, 
+          'dummy' AS item_num, 
+          'dummy' AS column, 
+          0 AS lbs, 
+          0 AS sales, 
+          0 AS cogs, 
+          0 AS othp 
         WHERE
           1=2
 
@@ -444,8 +464,15 @@ const l5_getSalesTrend = async config => {
       COALESCE(SUM(pj.othp)/NULLIF(SUM(pj.lbs),0),0) AS "othpPerLb"
       
       FROM (
-        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
-        FROM "salesReporting".sales_line_items AS d
+        SELECT 
+          'dummy' AS doc_num, 
+          'dummy' AS line_number, 
+          'dummy' AS item_num, 
+          'dummy' AS column, 
+          0 AS lbs, 
+          0 AS sales, 
+          0 AS cogs, 
+          0 AS othp 
         WHERE
           1=2
 
@@ -535,8 +562,15 @@ const l0_getSalesTrend = async config => {
       COALESCE(SUM(pj.othp)/NULLIF(SUM(pj.lbs),0),0) AS "othpPerLb"
       
       FROM (
-        SELECT 'dummy' AS doc_num, 'dummy' AS line_number, 'dummy' AS item_num, 'dummy' AS column, 0 AS lbs, 0 AS sales, 0 AS cogs, 0 AS othp 
-        FROM "salesReporting".sales_line_items AS d
+        SELECT 
+          'dummy' AS doc_num, 
+          'dummy' AS line_number, 
+          'dummy' AS item_num, 
+          'dummy' AS column, 
+          0 AS lbs, 
+          0 AS sales, 
+          0 AS cogs, 
+          0 AS othp 
         WHERE
           1=2
 
