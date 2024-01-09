@@ -1224,7 +1224,7 @@ const workOrderCols = [
     dataName: 'species',
     justifyData: 'start',
     justifyHeading: 'center',
-    width: '75px',
+    width: '150px',
     total: false, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
     number: false,
     boolean: false,
