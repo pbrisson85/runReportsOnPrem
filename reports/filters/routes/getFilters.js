@@ -33,7 +33,7 @@ const getReportConfig = require('../../utils/getReportConfig')
 router.post('/productionCountry', async (req, res) => {
   console.log('get PRODUCTION COUNTRY filters lot route HIT...')
   const config = await getReportConfig(req.body)
-  const options = getProductionCountryFilters(config)
+  const options = await getProductionCountryFilters(config)
   res.send(options)
   console.log('get PRODUCTION COUNTRY filters lot route COMPLETE. ')
 })
