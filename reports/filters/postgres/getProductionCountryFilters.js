@@ -7,7 +7,8 @@ const getProductionCountryFilters = async config => {
     SELECT 
         DISTINCT(TRIM(ms.program_country)) AS label, 
         (TRIM(ms.program_country)) AS "dataName",
-        TRUE AS default 
+        TRUE AS default,
+        TRUE AS "trueOnNoSelection" 
     FROM "invenReporting".master_supplement AS ms 
     WHERE 
       ms.program_country IS NOT NULL 
