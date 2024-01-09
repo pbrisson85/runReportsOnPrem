@@ -72,7 +72,7 @@ const workOrderCols = [
     date: false,
     leftSticky: true,
     left: '175px',
-    borderRight: false,
+    borderRight: true,
     hidden: false,
     view: null,
     data: false,
