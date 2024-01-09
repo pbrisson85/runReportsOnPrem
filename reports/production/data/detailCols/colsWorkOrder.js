@@ -7,7 +7,7 @@ const workOrderCols = [
     dataName: 'wo_num',
     justifyData: 'start',
     justifyHeading: 'center',
-    width: '50px',
+    width: '75px',
     total: false, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
     number: false,
     boolean: false,
@@ -36,7 +36,7 @@ const workOrderCols = [
     dataName: 'wo_activity',
     justifyData: 'start',
     justifyHeading: 'center',
-    width: '75px',
+    width: '100px',
     total: false, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
     number: false,
     boolean: false,
@@ -94,7 +94,7 @@ const workOrderCols = [
     dataName: 'entity',
     justifyData: 'start',
     justifyHeading: 'center',
-    width: '100px',
+    width: '125px',
     total: false, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
     number: false,
     boolean: false,
@@ -181,7 +181,7 @@ const workOrderCols = [
     dataName: 'description',
     justifyData: 'start',
     justifyHeading: 'center',
-    width: '100px',
+    width: '150px',
     total: false, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
     number: false,
     boolean: false,
@@ -210,7 +210,7 @@ const workOrderCols = [
     dataName: 'lot_text',
     justifyData: 'start',
     justifyHeading: 'center',
-    width: '100px',
+    width: '200px',
     total: false, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
     number: false,
     boolean: false,
@@ -297,7 +297,7 @@ const workOrderCols = [
     dataName: 'notes',
     justifyData: 'start',
     justifyHeading: 'center',
-    width: '100px',
+    width: '150px',
     total: false, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
     number: false,
     boolean: false,
@@ -734,6 +734,7 @@ const workOrderCols = [
     number: true,
     decimals: 2,
     boolean: false,
+    percent: true,
     date: false,
     leftSticky: false,
     left: '0px',
@@ -1066,7 +1067,7 @@ const workOrderCols = [
     dataName: 'brand',
     justifyData: 'start',
     justifyHeading: 'center',
-    width: '75px',
+    width: '125px',
     total: false, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
     number: false,
     boolean: false,
@@ -1095,7 +1096,7 @@ const workOrderCols = [
     dataName: 'size',
     justifyData: 'start',
     justifyHeading: 'center',
-    width: '75px',
+    width: '100px',
     total: false, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
     number: false,
     boolean: false,
@@ -1124,7 +1125,7 @@ const workOrderCols = [
     dataName: 'soak',
     justifyData: 'start',
     justifyHeading: 'center',
-    width: '75px',
+    width: '100px',
     total: false, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
     number: false,
     boolean: false,
@@ -1153,7 +1154,7 @@ const workOrderCols = [
     dataName: 'fresh_frozen',
     justifyData: 'start',
     justifyHeading: 'center',
-    width: '75px',
+    width: '80px',
     total: false, // if total is true this col will be reduced into the total row, if not it will be blank in the total row
     number: false,
     boolean: false,
