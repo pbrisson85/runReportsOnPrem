@@ -12,7 +12,7 @@ const getViewFilters = () => {
       dataName: 'rm_lbs',
       decimals: 0,
       cols: [], // list of colTypes that are NOT shown in this view
-      default: true,
+      default: false,
     },
     {
       label: 'YIELD',
