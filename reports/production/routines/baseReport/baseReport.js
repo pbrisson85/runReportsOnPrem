@@ -42,6 +42,13 @@ const buildReport = async config => {
   queryDataPromises.push(m.l4_getOpenPo(config))
   queryDataPromises.push(m.l5_getOpenPo(config))
 
+  queryDataPromises.push(m.l0_getReceivedPo(config))
+  queryDataPromises.push(m.l1_getReceivedPo(config))
+  queryDataPromises.push(m.l2_getReceivedPo(config))
+  queryDataPromises.push(m.l3_getReceivedPo(config))
+  queryDataPromises.push(m.l4_getReceivedPo(config))
+  queryDataPromises.push(m.l5_getReceivedPo(config))
+
   ///////////////////////////////// SALES ORDERS
 
   queryDataPromises.push(m.l0_getSo(config))
@@ -118,6 +125,7 @@ const buildReport = async config => {
   // Add data to hardcoded columns
   let columnConfigsTagged = m.addDataToProductionTotalCol(config, m.columnConfigs, woActivityGroups) // adds startDate, endDate, and displayName
   columnConfigsTagged = m.addDataToSalesTotalCol(config, m.columnConfigs)
+  columnConfigsTagged = m.addDataToPoReceiptsTotalCol(config, m.columnConfigs)
 
   // Add template to trend cols:
   const trendColumnsTagged = trendColumns.map(col => {

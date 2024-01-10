@@ -16,13 +16,13 @@ const primarySalesTotalCol = [
     valueFallback: 0,
     borderLeft: true, // border right on ladst frozen cell
     popoverMsg: 'Sum of all sales invoices (FG, no RM or byproduct) for the period specific per filter (YTD by default).',
-    rightClickMenu: ['Get Details'],
-    drilldownRightClickMenu: ['Get Details'],
+    rightClickMenu: [], // no detail route yet
+    drilldownRightClickMenu: [], // no detail route yet
     colType: 'salesInvoice',
     allowTrend: false,
     trendDefault: false, // will be the default trend col if true
     drillDownSortable: true,
-    optional: false, // flag to determine if the col is optional
+    optional: true, // flag to determine if the col is optional
     showByDefault: true, // flag to determine if optional col is shown by default
   },
 ]

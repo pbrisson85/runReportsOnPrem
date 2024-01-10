@@ -9,6 +9,7 @@ module.exports = {
   // Col Helpers
   addDataToProductionTotalCol: require('../helpers/colDataHelper').addDataToProductionTotalCol,
   addDataToSalesTotalCol: require('../helpers/colDataHelper').addDataToSalesTotalCol,
+  addDataToPoReceiptsTotalCol: require('../helpers/colDataHelper').addDataToPoReceiptsTotalCol,
 
   // Config Helpers
   getWoActivityGroups: require('../helpers/getWoActivityGroups'),
@@ -43,6 +44,13 @@ module.exports = {
   l4_getOpenPo: require('../../postgres/baseReport/getOpenPo').l4_getOpenPo,
   l5_getOpenPo: require('../../postgres/baseReport/getOpenPo').l5_getOpenPo,
   l0_getOpenPo: require('../../postgres/baseReport/getOpenPo').l0_getOpenPo,
+
+  l1_getReceivedPo: require('../../postgres/baseReport/getReceivedPo').l1_getReceivedPo,
+  l2_getReceivedPo: require('../../postgres/baseReport/getReceivedPo').l2_getReceivedPo,
+  l3_getReceivedPo: require('../../postgres/baseReport/getReceivedPo').l3_getReceivedPo,
+  l4_getReceivedPo: require('../../postgres/baseReport/getReceivedPo').l4_getReceivedPo,
+  l5_getReceivedPo: require('../../postgres/baseReport/getReceivedPo').l5_getReceivedPo,
+  l0_getReceivedPo: require('../../postgres/baseReport/getReceivedPo').l0_getReceivedPo,
 
   // Sales Order Total Data
   l1_getSo: require('../../postgres/baseReport/getSo').l1_getSo,
