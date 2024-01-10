@@ -17,7 +17,7 @@ const l5_getRowLabels = async config => {
 
           WHERE 
             ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-            ${!config.trends.fyYtd && !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${config.rows.startDate} AND sales_line_items.formatted_invoice_date <= ${config.rows.endDate}` : sql``} 
+            ${sql`AND sales_line_items.formatted_invoice_date >= ${config.rows.startDate} AND sales_line_items.formatted_invoice_date <= ${config.rows.endDate}`} 
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
@@ -76,7 +76,7 @@ const l4_getRowLabels = async config => {
 
           WHERE 
             ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-            ${!config.trends.fyYtd && !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${config.rows.startDate} AND sales_line_items.formatted_invoice_date <= ${config.rows.endDate}` : sql``} 
+            ${sql`AND sales_line_items.formatted_invoice_date >= ${config.rows.startDate} AND sales_line_items.formatted_invoice_date <= ${config.rows.endDate}`}
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
@@ -135,7 +135,7 @@ const l3_getRowLabels = async config => {
         
           WHERE 
             ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-            ${!config.trends.fyYtd && !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${config.rows.startDate} AND sales_line_items.formatted_invoice_date <= ${config.rows.endDate} ` : sql``} 
+            ${sql`AND sales_line_items.formatted_invoice_date >= ${config.rows.startDate} AND sales_line_items.formatted_invoice_date <= ${config.rows.endDate}`}
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
@@ -193,7 +193,7 @@ const l2_getRowLabels = async config => {
         
           WHERE 
             ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-            ${!config.trends.fyYtd && !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${config.rows.startDate} AND sales_line_items.formatted_invoice_date <= ${config.rows.endDate} ` : sql``} 
+            ${sql`AND sales_line_items.formatted_invoice_date >= ${config.rows.startDate} AND sales_line_items.formatted_invoice_date <= ${config.rows.endDate}`}
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
@@ -251,7 +251,7 @@ const l1_getRowLabels = async config => {
           
           WHERE 
             ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-            ${!config.trends.fyYtd && !config.trends.fyFullYear ? sql`AND sales_line_items.formatted_invoice_date >= ${config.rows.startDate} AND sales_line_items.formatted_invoice_date <= ${config.rows.endDate} ` : sql``} 
+            ${sql`AND sales_line_items.formatted_invoice_date >= ${config.rows.startDate} AND sales_line_items.formatted_invoice_date <= ${config.rows.endDate}`}
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
