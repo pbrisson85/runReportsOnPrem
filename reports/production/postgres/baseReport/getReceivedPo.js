@@ -22,7 +22,7 @@ const l1_getReceivedPo = async config => {
          COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "cogsPerLb"
         
          FROM "purchaseReporting".po_data AS po 
-          LEFT OUTER JOIN "purchaseReporting".master_supplement AS ms 
+          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = po.item_number 
          
          WHERE 
@@ -64,7 +64,7 @@ const l2_getReceivedPo = async config => {
       COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "cogsPerLb"
        
        FROM "purchaseReporting".po_data AS po 
-        LEFT OUTER JOIN "purchaseReporting".master_supplement AS ms 
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = po.item_number 
        
        WHERE 
@@ -106,7 +106,7 @@ const l3_getReceivedPo = async config => {
         COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "cogsPerLb"
        
        FROM "purchaseReporting".po_data AS po 
-        LEFT OUTER JOIN "purchaseReporting".master_supplement AS ms 
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = po.item_number 
        
        WHERE 
@@ -148,7 +148,7 @@ const l4_getReceivedPo = async config => {
         COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "cogsPerLb"
        
        FROM "purchaseReporting".po_data AS po 
-        LEFT OUTER JOIN "purchaseReporting".master_supplement AS ms 
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = po.item_number 
        
        WHERE 
@@ -190,7 +190,7 @@ const l5_getReceivedPo = async config => {
         COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "cogsPerLb"
        
        FROM "purchaseReporting".po_data AS po 
-        LEFT OUTER JOIN "purchaseReporting".master_supplement AS ms 
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = po.item_number 
        
        WHERE 
@@ -224,7 +224,7 @@ const l0_getReceivedPo = async config => {
          COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "cogsPerLb"
          
          FROM "purchaseReporting".po_data AS po 
-          LEFT OUTER JOIN "purchaseReporting".master_supplement AS ms 
+          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = po.item_number 
          
          WHERE 
