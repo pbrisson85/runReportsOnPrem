@@ -387,6 +387,7 @@ const l1_getRowLabels = async config => {
     return response
   } catch (error) {
     console.error(error)
+    console.log(error.query)
     return error
   }
 }

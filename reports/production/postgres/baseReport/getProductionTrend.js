@@ -14,7 +14,7 @@ const l1_getProductionTrend = async (config, woActivityGroups) => {
       const response = await sql
       `
       WITH wo_activity AS (
-        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group 
+        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group, ms2.program_country 
         FROM "invenReporting".master_supplement AS ms2 
         WHERE item_type = 'WO_ACTIVITY'
       )
@@ -89,7 +89,7 @@ const l2_getProductionTrend = async (config, woActivityGroups) => {
       const response = await sql
       `
       WITH wo_activity AS (
-        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group 
+        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group, ms2.program_country 
         FROM "invenReporting".master_supplement AS ms2 
         WHERE item_type = 'WO_ACTIVITY'
       )
@@ -163,7 +163,7 @@ const l3_getProductionTrend = async (config, woActivityGroups) => {
       const response = await sql
       `
       WITH wo_activity AS (
-        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group 
+        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group, ms2.program_country 
         FROM "invenReporting".master_supplement AS ms2 
         WHERE item_type = 'WO_ACTIVITY'
       )
@@ -238,7 +238,7 @@ const l4_getProductionTrend = async (config, woActivityGroups) => {
       const response = await sql
       `
       WITH wo_activity AS (
-        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group 
+        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group, ms2.program_country 
         FROM "invenReporting".master_supplement AS ms2 
         WHERE item_type = 'WO_ACTIVITY'
       )
@@ -314,7 +314,7 @@ const l5_getProductionTrend = async (config, woActivityGroups) => {
       const response = await sql
       `
       WITH wo_activity AS (
-        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group 
+        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group, ms2.program_country 
         FROM "invenReporting".master_supplement AS ms2 
         WHERE item_type = 'WO_ACTIVITY'
       )
@@ -391,7 +391,7 @@ const l0_getProductionTrend = async (config, woActivityGroups) => {
       const response = await sql
       `
       WITH wo_activity AS (
-        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group 
+        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group, ms2.program_country
         FROM "invenReporting".master_supplement AS ms2 
         WHERE item_type = 'WO_ACTIVITY'
       )
@@ -430,7 +430,7 @@ const l0_getProductionTrend = async (config, woActivityGroups) => {
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
         ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``} 
-        
+
     GROUP BY ${sql(config.trends.queryGrouping)}
 
       ORDER BY ${sql(config.trends.queryGrouping)} ASC
