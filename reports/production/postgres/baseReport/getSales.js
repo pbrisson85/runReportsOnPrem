@@ -14,8 +14,8 @@ const l1_getSalesTotalPrimary = async config => {
         'SUBTOTAL' AS l3_label, 
         'SUBTOTAL' AS l4_label, 
         'SUBTOTAL' AS l5_label, 
-        COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
-        COALESCE(sl.cogs_ext_gl,0) AS cost,
+        SUM(COALESCE(sl.calc_gm_rept_weight,0)) AS lbs, 
+        SUM(COALESCE(sl.cogs_ext_gl,0)) AS cost,
         COALESCE(SUM(sl.cogs_ext_gl)/NULLIF(SUM(sl.calc_gm_rept_weight),0),0) AS "costPerLb"
     
       FROM "salesReporting".sales_line_items AS sl 
@@ -51,8 +51,8 @@ const l2_getSalesTotalPrimary = async config => {
         'SUBTOTAL' AS l3_label, 
         'SUBTOTAL' AS l4_label, 
         'SUBTOTAL' AS l5_label, 
-        COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
-        COALESCE(sl.cogs_ext_gl,0) AS cost,
+        SUM(COALESCE(sl.calc_gm_rept_weight,0)) AS lbs, 
+        SUM(COALESCE(sl.cogs_ext_gl,0)) AS cost,
         COALESCE(SUM(sl.cogs_ext_gl)/NULLIF(SUM(sl.calc_gm_rept_weight),0),0) AS "costPerLb"
   
       FROM "salesReporting".sales_line_items AS sl 
@@ -88,8 +88,8 @@ const l3_getSalesTotalPrimary = async config => {
         COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label, 
         'SUBTOTAL' AS l4_label, 
         'SUBTOTAL' AS l5_label, 
-        COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
-        COALESCE(sl.cogs_ext_gl,0) AS cost,
+        SUM(COALESCE(sl.calc_gm_rept_weight,0)) AS lbs, 
+        SUM(COALESCE(sl.cogs_ext_gl,0)) AS cost,
         COALESCE(SUM(sl.cogs_ext_gl)/NULLIF(SUM(sl.calc_gm_rept_weight),0),0) AS "costPerLb"
     
       FROM "salesReporting".sales_line_items AS sl 
@@ -125,8 +125,8 @@ const l4_getSalesTotalPrimary = async config => {
         COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label, 
         COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label, 
         'SUBTOTAL' AS l5_label, 
-        COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
-        COALESCE(sl.cogs_ext_gl,0) AS cost,
+        SUM(COALESCE(sl.calc_gm_rept_weight,0)) AS lbs, 
+        SUM(COALESCE(sl.cogs_ext_gl,0)) AS cost,
         COALESCE(SUM(sl.cogs_ext_gl)/NULLIF(SUM(sl.calc_gm_rept_weight),0),0) AS "costPerLb"
     
       FROM "salesReporting".sales_line_items AS sl 
@@ -168,8 +168,8 @@ const l5_getSalesTotalPrimary = async config => {
       COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label, 
       COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label, 
       COALESCE(${sql(config.baseFormat.l5_field)},'NO VALUE') AS l5_label, 
-      COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
-      COALESCE(sl.cogs_ext_gl,0) AS cost,
+      SUM(COALESCE(sl.calc_gm_rept_weight,0)) AS lbs, 
+      SUM(COALESCE(sl.cogs_ext_gl,0)) AS cost,
       COALESCE(SUM(sl.cogs_ext_gl)/NULLIF(SUM(sl.calc_gm_rept_weight),0),0) AS "costPerLb"
     
       FROM "salesReporting".sales_line_items AS sl 
@@ -200,8 +200,8 @@ const l0_getSalesTotalPrimary = async config => {
       SELECT 
         'SALES TOTAL' AS column, 
         'TOTAL' AS l1_label,
-        COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
-        COALESCE(sl.cogs_ext_gl,0) AS cost,
+        SUM(COALESCE(sl.calc_gm_rept_weight,0)) AS lbs, 
+        SUM(COALESCE(sl.cogs_ext_gl,0)) AS cost,
         COALESCE(SUM(sl.cogs_ext_gl)/NULLIF(SUM(sl.calc_gm_rept_weight),0),0) AS "costPerLb"
     
       FROM "salesReporting".sales_line_items AS sl 
