@@ -53,12 +53,12 @@ module.exports = {
   l0_getSo: require('../../postgres/baseReport/getSo').l0_getSo,
 
   // Sales Total Primary
-  l1_getSalesTotalPrimary: require('../../postgres/baseReport/getSalesProjection').l1_getSalesTotalPrimary,
-  l2_getSalesTotalPrimary: require('../../postgres/baseReport/getSalesProjection').l2_getSalesTotalPrimary,
-  l3_getSalesTotalPrimary: require('../../postgres/baseReport/getSalesProjection').l3_getSalesTotalPrimary,
-  l4_getSalesTotalPrimary: require('../../postgres/baseReport/getSalesProjection').l4_getSalesTotalPrimary,
-  l5_getSalesTotalPrimary: require('../../postgres/baseReport/getSalesProjection').l5_getSalesTotalPrimary,
-  l0_getSalesTotalPrimary: require('../../postgres/baseReport/getSalesProjection').l0_getSalesTotalPrimary,
+  l1_getSalesTotalPrimary: require('../../postgres/baseReport/getSales').l1_getSalesTotalPrimary,
+  l2_getSalesTotalPrimary: require('../../postgres/baseReport/getSales').l2_getSalesTotalPrimary,
+  l3_getSalesTotalPrimary: require('../../postgres/baseReport/getSales').l3_getSalesTotalPrimary,
+  l4_getSalesTotalPrimary: require('../../postgres/baseReport/getSales').l4_getSalesTotalPrimary,
+  l5_getSalesTotalPrimary: require('../../postgres/baseReport/getSales').l5_getSalesTotalPrimary,
+  l0_getSalesTotalPrimary: require('../../postgres/baseReport/getSales').l0_getSalesTotalPrimary,
 
   // KPI
   l0_getWeeksOnHand: require('../../postgres/kpi/getWeeksOnHand_base').l0_getWeeksOnHand,
