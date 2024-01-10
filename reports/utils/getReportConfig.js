@@ -55,6 +55,11 @@ const getReportConfig = async reqBody => {
       l3_filter: reqBody.l3_filter ?? null,
       l4_filter: reqBody.l4_filter ?? null,
       l5_filter: reqBody.l5_filter ?? null,
+      l1_filter_isNull: reqBody.l1_filter === 'NO VALUE' ? true : null,
+      l2_filter_isNull: reqBody.l2_filter === 'NO VALUE' ? true : null,
+      l3_filter_isNull: reqBody.l3_filter === 'NO VALUE' ? true : null,
+      l4_filter_isNull: reqBody.l4_filter === 'NO VALUE' ? true : null,
+      l5_filter_isNull: reqBody.l5_filter === 'NO VALUE' ? true : null,
     },
     trendFilters: {
       customer: reqBody.customer ?? null,
