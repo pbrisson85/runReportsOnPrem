@@ -33,7 +33,7 @@ const l1_getInv = async config => {
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-      
+
       GROUP BY ${sql(config.baseFormat.l1_field)}` //prettier-ignore
 
     return response

@@ -62,11 +62,15 @@ const l5_getRowLabels = async config => {
         FROM "woReporting".wo_detail_by_fg AS wo
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = wo.fg_line_item 
+          LEFT OUTER JOIN "invenReporting".master_supplement AS act
+            ON act.item_num = wo.wo_activity_code
+
         WHERE 
           1=1
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+          ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``}
         GROUP BY 
           ${sql(config.baseFormat.l1_field)}, 
           ${sql(config.baseFormat.l2_field)}, 
@@ -141,11 +145,14 @@ const l4_getRowLabels = async config => {
         FROM "woReporting".wo_detail_by_fg AS wo
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = wo.fg_line_item 
+          LEFT OUTER JOIN "invenReporting".master_supplement AS act
+            ON act.item_num = wo.wo_activity_code
         WHERE 
           1=1
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+          ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``}
         GROUP BY 
           ${sql(config.baseFormat.l1_field)}, 
           ${sql(config.baseFormat.l2_field)}, 
@@ -216,12 +223,15 @@ const l3_getRowLabels = async config => {
           ,3 AS datalevel 
         FROM "woReporting".wo_detail_by_fg AS wo
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-            ON ms.item_num = wo.fg_line_item 
+            ON ms.item_num = wo.fg_line_item
+          LEFT OUTER JOIN "invenReporting".master_supplement AS act
+            ON act.item_num = wo.wo_activity_code
         WHERE 
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+          ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``}
         GROUP BY 
           ${sql(config.baseFormat.l1_field)}, 
           ${sql(config.baseFormat.l2_field)}, 
@@ -291,11 +301,14 @@ const l2_getRowLabels = async config => {
         FROM "woReporting".wo_detail_by_fg AS wo
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = wo.fg_line_item
+          LEFT OUTER JOIN "invenReporting".master_supplement AS act
+            ON act.item_num = wo.wo_activity_code
         WHERE 
           1=1
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+          ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``}
         GROUP BY 
           ${sql(config.baseFormat.l1_field)}, 
           ${sql(config.baseFormat.l2_field)}    
@@ -359,11 +372,14 @@ const l1_getRowLabels = async config => {
       FROM "woReporting".wo_detail_by_fg AS wo
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = wo.fg_line_item
+        LEFT OUTER JOIN "invenReporting".master_supplement AS act
+          ON act.item_num = wo.wo_activity_code
       WHERE 
         1=1 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``}
       GROUP BY ${sql(config.baseFormat.l1_field)}
              
       ` //prettier-ignore
