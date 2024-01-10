@@ -19,8 +19,8 @@ const primarySalesTotalCol = [
     rightClickMenu: ['Get Details'],
     drilldownRightClickMenu: ['Get Details'],
     colType: 'salesInvoice',
-    allowTrend: true,
-    trendDefault: true, // will be the default trend col if true
+    allowTrend: false,
+    trendDefault: false, // will be the default trend col if true
     drillDownSortable: true,
     optional: false, // flag to determine if the col is optional
     showByDefault: true, // flag to determine if optional col is shown by default
