@@ -8,6 +8,7 @@ module.exports = {
 
   // Col Helpers
   addDataToProductionTotalCol: require('../helpers/colDataHelper').addDataToProductionTotalCol,
+  addDataToSalesTotalCol: require('../helpers/colDataHelper').addDataToSalesTotalCol,
 
   // Config Helpers
   getWoActivityGroups: require('../helpers/getWoActivityGroups'),
@@ -50,6 +51,14 @@ module.exports = {
   l4_getSo: require('../../postgres/baseReport/getSo').l4_getSo,
   l5_getSo: require('../../postgres/baseReport/getSo').l5_getSo,
   l0_getSo: require('../../postgres/baseReport/getSo').l0_getSo,
+
+  // Sales Total Primary
+  l1_getSalesTotalPrimary: require('../../postgres/baseReport/getSalesProjection').l1_getSalesTotalPrimary,
+  l2_getSalesTotalPrimary: require('../../postgres/baseReport/getSalesProjection').l2_getSalesTotalPrimary,
+  l3_getSalesTotalPrimary: require('../../postgres/baseReport/getSalesProjection').l3_getSalesTotalPrimary,
+  l4_getSalesTotalPrimary: require('../../postgres/baseReport/getSalesProjection').l4_getSalesTotalPrimary,
+  l5_getSalesTotalPrimary: require('../../postgres/baseReport/getSalesProjection').l5_getSalesTotalPrimary,
+  l0_getSalesTotalPrimary: require('../../postgres/baseReport/getSalesProjection').l0_getSalesTotalPrimary,
 
   // KPI
   l0_getWeeksOnHand: require('../../postgres/kpi/getWeeksOnHand_base').l0_getWeeksOnHand,

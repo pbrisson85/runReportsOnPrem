@@ -51,6 +51,14 @@ const buildReport = async config => {
   queryDataPromises.push(m.l4_getSo(config))
   queryDataPromises.push(m.l5_getSo(config))
 
+  ///////////////////////////////// SALES
+  queryDataPromises.push(m.l0_getSalesTotalPrimary(config))
+  queryDataPromises.push(m.l1_getSalesTotalPrimary(config))
+  queryDataPromises.push(m.l2_getSalesTotalPrimary(config))
+  queryDataPromises.push(m.l3_getSalesTotalPrimary(config))
+  queryDataPromises.push(m.l4_getSalesTotalPrimary(config))
+  queryDataPromises.push(m.l5_getSalesTotalPrimary(config))
+
   ///////////////////////////////// INVEN KPIS
 
   // WEEKS INV ON HAND
@@ -109,6 +117,7 @@ const buildReport = async config => {
 
   // Add data to hardcoded columns
   let columnConfigsTagged = m.addDataToProductionTotalCol(config, m.columnConfigs, woActivityGroups) // adds startDate, endDate, and displayName
+  columnConfigsTagged = m.addDataToSalesTotalCol(config, m.columnConfigs)
 
   // Add template to trend cols:
   const trendColumnsTagged = trendColumns.map(col => {
