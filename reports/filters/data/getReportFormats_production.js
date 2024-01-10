@@ -655,6 +655,50 @@ const getReportFormats = () => {
         },
       ],
     },
+    {
+      label: 'type / species / soak',
+      dataName: 'typeSpecSoak',
+      defaultsFallback: false,
+      defaults: [],
+      optional: ['any'],
+      forbiddenCols: [],
+      groupingLevel: 3,
+      l1_field: 'ms.item_type',
+      l2_field: 'ms.species',
+      l3_field: 'ms.fg_treatment',
+      l1_name: 'type',
+      l2_name: 'species',
+      l3_name: 'soak',
+      labelCols: [
+        {
+          displayName: 'TYPE', // show as column header
+          dataName: 'l1_label', // key to pull data from
+          filterName: 'l1_filter', // key to match up the column with the filter
+          width: '100px', // css width
+          left: '0px', // css positioning for sticky sum of prior col widths
+          borderRight: false, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+        {
+          displayName: 'SPECIES', // show as column header
+          dataName: 'l2_label', // key to pull data from
+          filterName: 'l2_filter', // key to match up the column with the filter
+          width: '100px', // css width
+          left: '100px', // css positioning for sticky sum of prior col widths
+          borderRight: false, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+        {
+          displayName: 'SOAK', // show as column header
+          dataName: 'l3_label', // key to pull data from
+          filterName: 'l3_filter', // key to match up the column with the filter
+          width: '150px', // css width
+          left: '200px', // css positioning for sticky sum of prior col widths
+          borderRight: true, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+      ],
+    },
   ]
 }
 
