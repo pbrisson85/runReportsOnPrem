@@ -16,6 +16,8 @@ const getTrailingWeeksForWeeksInven = require('./configHelpers/getTrailingWeeksF
 const getItemTypeDefaults = require('./configHelpers/getItemTypeDefaults')
 
 const getReportConfig = async reqBody => {
+  console.log('reqBody', reqBody)
+
   // get subtotalRowFormats defaults
   const appSettingsData = appSettings()
   const appSettings_unflat = unflattenByCompositKey(appSettingsData, { 1: 'dataName' })
