@@ -14,7 +14,7 @@ const l1_getProduction = async (config, woActivityGroups) => {
       const response = await sql
       `
       WITH wo_activity AS (
-        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group 
+        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group, ms2.program_country 
         FROM "invenReporting".master_supplement AS ms2 
         WHERE item_type = 'WO_ACTIVITY'
       )
@@ -86,7 +86,7 @@ const l2_getProduction = async (config, woActivityGroups) => {
       const response = await sql
       `
       WITH wo_activity AS (
-        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group 
+        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group, ms2.program_country 
         FROM "invenReporting".master_supplement AS ms2 
         WHERE item_type = 'WO_ACTIVITY'
       )
@@ -157,7 +157,7 @@ const l3_getProduction = async (config, woActivityGroups) => {
       const response = await sql
       `
       WITH wo_activity AS (
-        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group 
+        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group, ms2.program_country 
         FROM "invenReporting".master_supplement AS ms2 
         WHERE item_type = 'WO_ACTIVITY'
       )
@@ -229,7 +229,7 @@ const l4_getProduction = async (config, woActivityGroups) => {
       const response = await sql
       `
       WITH wo_activity AS (
-        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group 
+        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group, ms2.program_country 
         FROM "invenReporting".master_supplement AS ms2 
         WHERE item_type = 'WO_ACTIVITY'
       )
@@ -302,7 +302,7 @@ const l5_getProduction = async (config, woActivityGroups) => {
       const response = await sql
       `
       WITH wo_activity AS (
-        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group 
+        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group, ms2.program_country 
         FROM "invenReporting".master_supplement AS ms2 
         WHERE item_type = 'WO_ACTIVITY'
       )
@@ -376,7 +376,7 @@ const l0_getProduction = async (config, woActivityGroups) => {
       const response = await sql
       `
       WITH wo_activity AS (
-        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group 
+        SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group, ms2.program_country 
         FROM "invenReporting".master_supplement AS ms2 
         WHERE item_type = 'WO_ACTIVITY'
       )
