@@ -8,6 +8,13 @@ const getViewFilters = () => {
       default: true,
     },
     {
+      label: 'RM WEIGHT (lbs)',
+      dataName: 'rm_lbs',
+      decimals: 0,
+      cols: [], // list of colTypes that are NOT shown in this view
+      default: true,
+    },
+    {
       label: 'YIELD',
       dataName: 'yield',
       decimals: 2,
@@ -59,13 +66,6 @@ const getViewFilters = () => {
     {
       label: 'COST/LB',
       dataName: 'cogsPerLb',
-      decimals: 2,
-      cols: [],
-      default: false,
-    },
-    {
-      label: 'LABOR/LB',
-      dataName: 'laborPerLb',
       decimals: 2,
       cols: [],
       default: false,
