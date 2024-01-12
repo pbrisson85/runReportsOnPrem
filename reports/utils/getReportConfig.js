@@ -14,6 +14,7 @@ const getRowDates = require('./configHelpers/getRowDates')
 const getUserPermissions = require('./configHelpers/getUserPermissions')
 const getTrailingWeeksForWeeksInven = require('./configHelpers/getTrailingWeeksForWeeksInven')
 const getItemTypeDefaults = require('./configHelpers/getItemTypeDefaults')
+const getYearTrend = require('./configHelpers/getYearTrend')
 
 const getReportConfig = async reqBody => {
   console.log('reqBody', reqBody)
@@ -55,11 +56,6 @@ const getReportConfig = async reqBody => {
       l3_filter: reqBody.l3_filter ?? null,
       l4_filter: reqBody.l4_filter ?? null,
       l5_filter: reqBody.l5_filter ?? null,
-      l1_filter_isNull: reqBody.l1_filter === 'NO VALUE' ? true : null,
-      l2_filter_isNull: reqBody.l2_filter === 'NO VALUE' ? true : null,
-      l3_filter_isNull: reqBody.l3_filter === 'NO VALUE' ? true : null,
-      l4_filter_isNull: reqBody.l4_filter === 'NO VALUE' ? true : null,
-      l5_filter_isNull: reqBody.l5_filter === 'NO VALUE' ? true : null,
     },
     trendFilters: {
       customer: reqBody.customer ?? null,
@@ -81,21 +77,14 @@ const getReportConfig = async reqBody => {
       endDate: await getLatestSoShipDate(reqBody.user),
     },
     trends: {
-      fiscalWeeks: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'fiscalWeeks' ?? false,
-      fiscalPeriods: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'fiscalPeriods' ?? false,
-      fiscalQuarters: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'fiscalQuarters' ?? false,
-      fyYtd: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'fyYtd' ?? false,
-      calMonths: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'calMonths' ?? false,
-      calQuarters: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'calQuarters' ?? false,
-      calYtd: typeof reqBody.trendOption === 'undefined' ? false : reqBody.trendOption[0].dataName === 'calYtd' ?? false,
+      yearTrend: getYearTrend(reqBody), // applicable for YTD trend only. Also will supress having a totals col
       ...(await getTrendDates(reqBody)),
-      trendYears: typeof reqBody.trendYears === 'undefined' ? [] : reqBody.trendYears.map(yr => parseInt(yr)),
       useProjection: {
         sl: getUseProjection(reqBody.trendUseProjection).sl,
         so: getUseProjection(reqBody.trendUseProjection).so,
         pr: getUseProjection(reqBody.trendUseProjection).pr,
       },
-      queryGrouping: getQueryGrouping(reqBody.trendQueryGrouping),
+      queryGrouping: getQueryGrouping(reqBody),
     },
     totals: {
       primary: await getDatesTotalsPrimary(reqBody),

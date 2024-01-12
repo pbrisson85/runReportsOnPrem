@@ -9,16 +9,16 @@ const trendTypeOptions = () => {
       default: true,
       // Check Rules
       trueOnNoSelection: true, // flags if this turns true when the selections are blank. Typically would mirror default flag if selection required
-      onTrueSetFalse: ['fiscalPeriods', 'fiscalQuarters', 'fyYtd', 'fyFullYear', 'calMonths', 'calYtd', 'calFullYear', 'calQuarters'],
+      onTrueSetFalse: ['fiscalPeriods', 'fiscalQuarters', 'fiscalYears', 'calMonths', 'calYears', 'calQuarters'],
       onFalseSetTrue: [],
       // Custom
       periodsMap: 'weeks', // front end map to filter (appears as map in query)
       yearsMap: 'fiscal_years', // determines what map to use for the years menu. (dont show years, show fiscal, show calendar)
       currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
-      queryPeriod: 'p.week_serial', // field for query used in trend group by
+      groupByPeriod: 'p.week_serial', // field for query used in trend group by
       // Custom Sync Rules
-      totalDefault: 'fyYtd', // If current total is not included in totals allowed then this totaldataName will be selected
-      totalsAllowed: ['fyYtd'],
+      totalDefault: 'fiscalYears', // If current total is not included in totals allowed then this totaldataName will be selected
+      totalsAllowed: ['fiscalYears'],
     },
     {
       // Checkbox
@@ -26,16 +26,16 @@ const trendTypeOptions = () => {
       dataName: 'fiscalPeriods',
       default: false,
       // Check Rules
-      onTrueSetFalse: ['fiscalWeeks', 'fiscalQuarters', 'fyYtd', 'fyFullYear', 'calMonths', 'calYtd', 'calFullYear', 'calQuarters'],
+      onTrueSetFalse: ['fiscalWeeks', 'fiscalQuarters', 'fiscalYears', 'calMonths', 'calYears', 'calQuarters'],
       onFalseSetTrue: [],
       // Custom
       periodsMap: 'fiscal_periods', // front end map to filter (appears as map in query)
       yearsMap: 'fiscal_years',
       currentDateMap: 'period', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
-      queryPeriod: 'p.period_serial', // field for query used in trend group by
+      groupByPeriod: 'p.period_serial', // field for query used in trend group by
       // Custom Sync Rules
-      totalDefault: 'fyYtd', // If current total is not included in totals allowed then this totaldataName will be selected
-      totalsAllowed: ['fyYtd'],
+      totalDefault: 'fiscalYears', // If current total is not included in totals allowed then this totaldataName will be selected
+      totalsAllowed: ['fiscalYears'],
     },
     {
       // Checkbox
@@ -43,51 +43,52 @@ const trendTypeOptions = () => {
       dataName: 'fiscalQuarters',
       default: false,
       // Check Rules
-      onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fyYtd', 'fyFullYear', 'calMonths', 'calYtd', 'calFullYear', 'calQuarters'],
+      onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fiscalYears', 'calMonths', 'calYears', 'calQuarters'],
       onFalseSetTrue: [],
       // Custom
       periodsMap: 'fiscal_quarters', // front end map to filter (appears as map in query)
       yearsMap: 'fiscal_years',
       currentDateMap: 'fiscal_quarter', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
-      queryPeriod: 'p.quarter_serial', // field for query used in trend group by
+      groupByPeriod: 'p.quarter_serial', // field for query used in trend group by
       // Custom Sync Rules
-      totalDefault: 'fyYtd', // If current total is not included in totals allowed then this totaldataName will be selected
-      totalsAllowed: ['fyYtd'],
+      totalDefault: 'fiscalYears', // If current total is not included in totals allowed then this totaldataName will be selected
+      totalsAllowed: ['fiscalYears'],
     },
-    // {
-    //   // Checkbox
-    //   label: 'Fiscal Years',
-    //   dataName: 'fyYtd',
-    //   default: false,
-    //   // Check Rules
-    //   onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fiscalQuarters', 'fyFullYear', 'calMonths', 'calYtd', 'calFullYear', 'calQuarters'],
-    //   onFalseSetTrue: [],
-    //   // Custom
-    //   periodsMap: 'fiscal_ytd', // front end map to filter (appears as map in query)
-    //   yearsMap: 'fiscal_years',
-    //   currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
-    //   ytd: true, // bool for front end to not show the start trend dropdown
-    //   queryPeriod: 'p.fiscal_year', // field for query used in trend group by
-    //   // Custom Sync Rules
-    //   totalDefault: 'fyYtd', // If current total is not included in totals allowed then this totaldataName will be selected
-    //   totalsAllowed: ['fyYtd'],
-    // },
+    {
+      // Checkbox
+      label: 'Fiscal Years',
+      dataName: 'fiscalYears',
+      default: false,
+      // Check Rules
+      onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fiscalQuarters', 'calMonths', 'calYears', 'calQuarters'],
+      onFalseSetTrue: [],
+      // Custom
+      periodsMap: 'fiscal_ytd', // front end map to filter (appears as map in query)
+      yearsMap: 'fiscal_years',
+      currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
+      ytd: true, // bool for front end to not show the start trend dropdown
+      groupByPeriod: 'p.fiscal_year', // field for query used in trend group by
+      ytdPeriodField: 'p.week',
+      // Custom Sync Rules
+      totalDefault: 'fiscalYears', // If current total is not included in totals allowed then this totaldataName will be selected
+      totalsAllowed: ['fiscalYears'],
+    },
     {
       // Checkbox
       label: 'Calendar Months',
       dataName: 'calMonths',
       default: false,
       // Check Rules
-      onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fyYtd', 'fyFullYear', 'fiscalQuarters', 'calYtd', 'calFullYear', 'calQuarters'],
+      onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fiscalYears', 'fiscalQuarters', 'calYears', 'calQuarters'],
       onFalseSetTrue: [],
       // Custom
       periodsMap: 'cal_months', // front end map to filter (appears as map in query)
       yearsMap: 'cal_years',
       currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
-      queryPeriod: 'p.cal_month_serial', // field for query used in trend group by
+      groupByPeriod: 'p.cal_month_serial', // field for query used in trend group by
       // Custom Sync Rules
-      totalDefault: 'calYtd', // If current total is not included in totals allowed then this totaldataName will be selected
-      totalsAllowed: ['calYtd'],
+      totalDefault: 'calYears', // If current total is not included in totals allowed then this totaldataName will be selected
+      totalsAllowed: ['calYears'],
     },
     {
       // Checkbox
@@ -95,35 +96,36 @@ const trendTypeOptions = () => {
       dataName: 'calQuarters',
       default: false,
       // Check Rules
-      onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fyYtd', 'fyFullYear', 'fiscalQuarters', 'calYtd', 'calFullYear', 'calMonths'],
+      onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fiscalYears', 'fiscalQuarters', 'calYears', 'calMonths'],
       onFalseSetTrue: [],
       // Custom
       periodsMap: 'cal_quarters', // front end map to filter (appears as map in query)
       yearsMap: 'cal_years', // front end map to years (appears as map in query)
       currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
-      queryPeriod: 'p.cal_quarter_serial', // field for query used in trend group by
+      groupByPeriod: 'p.cal_quarter_serial', // field for query used in trend group by
       // Custom Sync Rules
-      totalDefault: 'calYtd', // If current total is not included in totals allowed then this totaldataName will be selected
-      totalsAllowed: ['calYtd'],
+      totalDefault: 'calYears', // If current total is not included in totals allowed then this totaldataName will be selected
+      totalsAllowed: ['calYears'],
     },
-    // {
-    //   // Checkbox
-    //   label: 'Calendar Years',
-    //   dataName: 'calYtd',
-    //   default: false,
-    //   // Check Rules
-    //   onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fyYtd', 'fyFullYear', 'fiscalQuarters', 'calMonths', 'calFullYear', 'calQuarters'],
-    //   onFalseSetTrue: [],
-    //   // Custom
-    //   periodsMap: 'cal_ytd', // front end map to filter (appears as map in query)
-    //   yearsMap: 'cal_years',
-    //   currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
-    //   ytd: true, // bool for front end to not show the start trend dropdown
-    //   queryPeriod: 'p.cal_year', // field for query used in trend group by
-    //   // Custom Sync Rules
-    //   totalDefault: 'calYtd', // If current total is not included in totals allowed then this totaldataName will be selected
-    //   totalsAllowed: ['calYtd'],
-    // },
+    {
+      // Checkbox
+      label: 'Calendar Years',
+      dataName: 'calYears',
+      default: false,
+      // Check Rules
+      onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fiscalYears', 'fiscalQuarters', 'calMonths', 'calQuarters'],
+      onFalseSetTrue: [],
+      // Custom
+      periodsMap: 'cal_months', // front end map to filter (appears as map in query)
+      yearsMap: 'cal_years',
+      currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
+      ytd: true, // bool for front end to not show the start trend dropdown
+      groupByPeriod: 'p.cal_year', // field for query used in trend group by
+      ytdPeriodField: 'p.cal_month',
+      // Custom Sync Rules
+      totalDefault: 'calYears', // If current total is not included in totals allowed then this totaldataName will be selected
+      totalsAllowed: ['calYears'],
+    },
   ]
 }
 
