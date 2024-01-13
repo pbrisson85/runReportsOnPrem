@@ -13,7 +13,6 @@ const getFiscalPeriodsMap = async () => {
         TO_CHAR(MIN(p.formatted_date), 'mm/dd/yy') || ' (' || p.period_serial || ') ' AS display_start, 
         TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.period_serial || ') ' AS display_end, 
         'fiscal_periods' AS map, -- front end flag
-        FALSE AS "prevent_filterByYear", -- used to filter on front end dropdown population
 
         CASE WHEN p.period = (
           SELECT c.period
@@ -48,7 +47,6 @@ const getFiscalQuartersMap = async () => {
         TO_CHAR(MIN(p.formatted_date), 'mm/dd/yy') || ' (' || p.quarter_serial || ') ' AS display_start, 
         TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.quarter_serial || ') ' AS display_end, 
         'fiscal_quarters' AS map, 
-        FALSE AS "prevent_filterByYear", -- used to filter on front end dropdown population
 
         CASE WHEN p.fiscal_quarter = (
           SELECT c.fiscal_quarter
@@ -84,7 +82,6 @@ const getWeeksMap = async () => {
         TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.week_serial || ') ' AS display_end, 
         'weeks' AS map, 
         TRUE AS default_map, 
-        FALSE AS "prevent_filterByYear",  -- used to filter on front end dropdown population
 
         CASE WHEN p.week = (
           SELECT c.week
@@ -122,8 +119,6 @@ const getFiscalYearMap_comparison = async () => {
       MIN(p.formatted_date) AS date_start, 
       MAX(p.formatted_date) AS date_end, 
       'fiscal_years' AS map, 
-
-      TRUE AS "prevent_filterByYear",  -- used to filter on front end dropdown population
 
       CASE WHEN p.fiscal_year = (
         SELECT c.fiscal_year
@@ -163,7 +158,6 @@ const getFiscalYearMap_multi = async () => {
       MIN(p.formatted_date) AS date_start, 
       MAX(p.formatted_date) AS date_end, 
       'fiscal_years_multi' AS map, 
-      TRUE AS "prevent_filterByYear",  -- used to filter on front end dropdown population
 
       CASE WHEN p.fiscal_year = (
         SELECT c.fiscal_year
@@ -202,7 +196,6 @@ const getFiscalYtdMap = async () => {
       TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.week_serial || ') ' AS display_end, 
       'fiscal_ytd' AS map, 
       FALSE AS default_map, 
-      TRUE AS "prevent_filterByYear",  -- used to filter on front end dropdown population
 
       CASE WHEN p.week = (
         SELECT c.week
@@ -234,7 +227,6 @@ const getCalMonthsMap = async () => {
     MAX(p.formatted_date) AS date_end, 
     p.cal_year,  -- used to filter on front end dropdown population
     'cal_months' AS map, 
-    FALSE AS "prevent_filterByYear",  -- used to filter on front end dropdown population
 
     CASE WHEN p.cal_month = (
       SELECT c.cal_month
@@ -266,7 +258,6 @@ const getCalQuartersMap = async () => {
     MAX(formatted_date) AS date_end, 
     p.cal_year,  -- used to filter on front end dropdown population
     'cal_quarters' AS map, 
-    FALSE AS "prevent_filterByYear",  -- used to filter on front end dropdown population
 
     CASE WHEN p.cal_quarter = (
       SELECT c.cal_quarter
@@ -298,7 +289,6 @@ const getCalYearsMap_comparison = async () => {
       MIN(formatted_date) AS date_start, 
       MAX(formatted_date) AS date_end,
       'cal_years' AS map, 
-      TRUE AS "prevent_filterByYear",  -- used to filter on front end dropdown population
 
       CASE WHEN p.cal_year = EXTRACT('year' FROM CURRENT_DATE) THEN TRUE ELSE FALSE END AS default,
 
@@ -332,7 +322,6 @@ const getCalYearsMap_multi = async () => {
       MIN(formatted_date) AS date_start, 
       MAX(formatted_date) AS date_end,
       'cal_years_multi' AS map, 
-      TRUE AS "prevent_filterByYear",  -- used to filter on front end dropdown population
 
       CASE WHEN p.cal_year = EXTRACT('year' FROM CURRENT_DATE) THEN TRUE ELSE FALSE END AS default,
 
@@ -364,7 +353,6 @@ const getCalYtdMap = async () => {
         MAX(p.formatted_date) AS date_end, 
         p.cal_year,
         'cal_ytd' AS map, 
-        TRUE AS "prevent_filterByYear",  -- used to filter on front end dropdown population
 
         CASE WHEN p.cal_month = (
           SELECT c.cal_month
