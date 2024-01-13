@@ -163,7 +163,6 @@ const getFiscalYearMap_multi = async () => {
       MIN(p.formatted_date) AS date_start, 
       MAX(p.formatted_date) AS date_end, 
       'fiscal_years_multi' AS map, 
-
       TRUE AS "prevent_filterByYear",  -- used to filter on front end dropdown population
 
       CASE WHEN p.fiscal_year = (
@@ -174,7 +173,7 @@ const getFiscalYearMap_multi = async () => {
       CASE WHEN p.fiscal_year = (
         SELECT d.fiscal_year
         FROM "accountingPeriods".period_by_day AS d
-        WHERE d.formatted_date = CURRENT_DATE) THEN TRUE ELSE FALSE END AS "trueOnNoSelection",
+        WHERE d.formatted_date = CURRENT_DATE) THEN TRUE ELSE FALSE END AS "trueOnNoSelection"
 
     FROM "accountingPeriods".period_by_day AS p
 
@@ -337,7 +336,7 @@ const getCalYearsMap_multi = async () => {
 
       CASE WHEN p.cal_year = EXTRACT('year' FROM CURRENT_DATE) THEN TRUE ELSE FALSE END AS default,
 
-      CASE WHEN p.cal_year = EXTRACT('year' FROM CURRENT_DATE) THEN TRUE ELSE FALSE END AS "trueOnNoSelection",
+      CASE WHEN p.cal_year = EXTRACT('year' FROM CURRENT_DATE) THEN TRUE ELSE FALSE END AS "trueOnNoSelection"
       
     FROM "accountingPeriods".period_by_day AS p
 
