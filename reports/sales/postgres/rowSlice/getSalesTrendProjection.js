@@ -81,7 +81,7 @@ const l1_getSalesTrend = async (config, trendQuery) => {
         sql`
           ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
           AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-          AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+          AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
         ` } 
           ${config.trendFilters.customer ? sql`AND sl.customer_code = ${config.trendFilters.customer}`: sql``} 
           ${config.trendFilters.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.trendFilters.salesPerson}`: sql``} 
@@ -125,7 +125,7 @@ const l1_getSalesTrend = async (config, trendQuery) => {
             sql`
               AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
               AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
             ` }
             ${config.trendFilters.customer ? sql`AND so.customer_code = ${config.trendFilters.customer}`: sql``} 
             ${config.trendFilters.salesPerson ? sql`AND so.out_sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
@@ -165,7 +165,7 @@ const l1_getSalesTrend = async (config, trendQuery) => {
             sql`
               ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
               AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
             ` } 
           ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
           ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
@@ -278,7 +278,7 @@ const l0_getSalesTrend = async config => {
         sql`
           ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
           AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-          AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+          AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
         ` } 
           ${config.trendFilters.customer ? sql`AND sl.customer_code = ${config.trendFilters.customer}`: sql``} 
           ${config.trendFilters.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.trendFilters.salesPerson}`: sql``} 
@@ -315,7 +315,7 @@ const l0_getSalesTrend = async config => {
             sql`
               AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
               AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
             ` }
           ${config.trendFilters.customer ? sql`AND so.customer_code = ${config.trendFilters.customer}`: sql``} 
           ${config.trendFilters.salesPerson ? sql`AND so.out_sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
@@ -348,7 +348,7 @@ const l0_getSalesTrend = async config => {
             sql`
               ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
               AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
             ` }
             ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
             ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 

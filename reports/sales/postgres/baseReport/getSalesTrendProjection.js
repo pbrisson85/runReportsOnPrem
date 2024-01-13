@@ -66,7 +66,7 @@ const l1_getSalesTrend = async config => {
             sql`
               ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
               AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
             ` }
 
         `: sql``}
@@ -95,7 +95,7 @@ const l1_getSalesTrend = async config => {
             sql`
               AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
               AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
             ` } 
           
         
@@ -124,7 +124,7 @@ const l1_getSalesTrend = async config => {
           sql`
             ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
             AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-            AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+            AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
           ` }
         
         `: sql``}
@@ -209,7 +209,7 @@ const l2_getSalesTrend = async config => {
           sql`
             ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
             AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-            AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+            AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
           ` }
         
         `: sql``}
@@ -231,7 +231,7 @@ const l2_getSalesTrend = async config => {
             sql`
               AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
               AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
             ` }
         
         `: sql``}
@@ -252,7 +252,7 @@ const l2_getSalesTrend = async config => {
           sql`
             ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
             AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-            AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+            AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
           ` }
         
         `: sql``}
@@ -336,7 +336,7 @@ const l3_getSalesTrend = async config => {
           sql`
             ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
             AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-            AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+            AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
           ` }
         
         `: sql``}
@@ -358,7 +358,7 @@ const l3_getSalesTrend = async config => {
             sql`
               AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
               AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
             ` }
         
         `: sql``}
@@ -378,7 +378,7 @@ const l3_getSalesTrend = async config => {
           sql`
             ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
             AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-            AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+            AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
           ` }
         
         `: sql``}
@@ -464,7 +464,7 @@ const l4_getSalesTrend = async config => {
           sql`
             ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
             AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-            AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+            AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
           ` }
         
         
@@ -487,7 +487,7 @@ const l4_getSalesTrend = async config => {
             sql`
               AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
               AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
             ` }
         
         `: sql``}
@@ -508,7 +508,7 @@ const l4_getSalesTrend = async config => {
           sql`
             ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
             AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-            AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+            AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
           ` }
         
         
@@ -593,7 +593,7 @@ const l5_getSalesTrend = async config => {
           sql`
             ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
             AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-            AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+            AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
           ` }
         
         
@@ -616,7 +616,7 @@ const l5_getSalesTrend = async config => {
             sql`
               AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
               AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
             ` }
         
         
@@ -638,7 +638,7 @@ const l5_getSalesTrend = async config => {
             sql`
               ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
               AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
             ` }
         
         `: sql``}
@@ -717,7 +717,7 @@ const l0_getSalesTrend = async config => {
           sql`
             ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
             AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-            AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+            AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
           ` }
           
         `: sql``}
@@ -739,7 +739,7 @@ const l0_getSalesTrend = async config => {
             sql`
               AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
               AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
             ` }
           
         `: sql``}
@@ -760,7 +760,7 @@ const l0_getSalesTrend = async config => {
           sql`
             ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
             AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-            AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+            AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
           ` }
           
         `: sql``}
