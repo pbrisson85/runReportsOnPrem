@@ -4,6 +4,8 @@ const l1_getSalesTrend = async config => {
   if (!config.trends.queryGrouping) return []
   if (!config.baseFormat.l1_field) return []
 
+  console.log('config.trends.yearTrend', config.trends.yearTrend)
+
   try {
     console.log(`${config.user} - level 1: query postgres to get FG sales data by week (l1_getSalesTrend) ...`)
 
