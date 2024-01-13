@@ -1,6 +1,6 @@
 module.exports = {
   // Cols
-  columnConfigs: require('../../data/baseCols/columns'),
+  columnConfigs: require('../../data/baseCols/getColumns'),
   trendColsTemplate: require('../../data/baseCols/trendColsTemplate'),
 
   // Trend Cols

@@ -118,9 +118,12 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
   const flattenedMappedData = Object.values(mappedData)
   const data = m.cleanLabelsForDisplay(flattenedMappedData, config)
 
+  /* COLUMNS */
+  const columnConfigs = m.getColumns(config)
+
   // Add data to hardcoded columns
-  let columnConfigsTagged = m.addDataToSalesTotalCol(config, m.columnConfigs) // adds startDate, endDate, and displayName to the sales totals col
-  columnConfigsTagged = m.addDataToSoTotalCol(config, m.columnConfigs) // adds statDate, endDate, and displayName to the sales orders col
+  let columnConfigsTagged = m.addDataToSalesTotalCol(config, columnConfigs) // adds startDate, endDate, and displayName to the sales totals col
+  columnConfigsTagged = m.addDataToSoTotalCol(config, columnConfigs) // adds statDate, endDate, and displayName to the sales orders col
 
   // Add template to trend cols:
   const trendColumnsTagged = trendColumns.map(col => {
