@@ -64,7 +64,7 @@ const trendTypeOptions = () => {
       onFalseSetTrue: [],
       // Custom
       periodsMap: 'fiscal_ytd', // front end map to filter (appears as map in query)
-      yearsMap: 'fiscal_years',
+      yearsMap: 'fiscal_years_multi',
       currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
       ytd: true, // bool for front end to not show the start trend dropdown
       groupByPeriod: 'p.fiscal_year', // field for query used in trend group by
@@ -117,7 +117,7 @@ const trendTypeOptions = () => {
       onFalseSetTrue: [],
       // Custom
       periodsMap: 'cal_months', // front end map to filter (appears as map in query)
-      yearsMap: 'cal_years',
+      yearsMap: 'cal_years_multi',
       currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
       ytd: true, // bool for front end to not show the start trend dropdown
       groupByPeriod: 'p.cal_year', // field for query used in trend group by

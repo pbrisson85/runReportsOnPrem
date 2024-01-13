@@ -30,10 +30,10 @@ const l1_getSalesTrend = async (config, trendQuery) => {
         COALESCE(SUM(pj.cogs)/NULLIF(SUM(pj.lbs),0),0) AS "cogsPerLb", 
         COALESCE(SUM(pj.othp)/NULLIF(SUM(pj.lbs),0),0) AS "othpPerLb"
       
-      FROM (
-        SELECT
-          'dummy' AS item_number,
-          'dummy' AS customer_code,
+      FROM ( 
+        SELECT 
+          'dummy' AS item_number, 
+          'dummy' AS customer_code, 
           '01-01-23' AS column, 
           ${trendQuery.sl.l1_label ? sql`'dummy' AS l1_label,` : sql``} 
           ${trendQuery.sl.l2_label ? sql`'dummy' AS l2_label,` : sql``} 

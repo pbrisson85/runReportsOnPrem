@@ -109,7 +109,7 @@ const getWeeksMap = async () => {
   return map
 }
 
-const getFiscalYearMap = async () => {
+const getFiscalYearMap_comparison = async () => {
   console.log(`query postgres for getFiscalYearMap ...`)
 
   const map = await sql`
@@ -136,6 +136,45 @@ const getFiscalYearMap = async () => {
         WHERE d.formatted_date = CURRENT_DATE) THEN TRUE ELSE FALSE END AS "trueOnNoSelection",
 
       2 AS "maxSelections"
+
+    FROM "accountingPeriods".period_by_day AS p
+
+    WHERE p.fiscal_year <= (
+      SELECT d.fiscal_year
+      FROM "accountingPeriods".period_by_day AS d
+      WHERE d.formatted_date = CURRENT_DATE
+      )
+    GROUP BY p.fiscal_year
+    ORDER BY p.fiscal_year DESC
+      `
+  return map
+}
+
+const getFiscalYearMap_multi = async () => {
+  console.log(`query postgres for getFiscalYearMap_multi ...`)
+
+  const map = await sql`
+    SELECT 
+      DISTINCT ON (p.fiscal_year) p.fiscal_year AS fiscal_year, 
+      p.fiscal_year AS label, 
+      p.fiscal_year AS "dataName", 
+      TO_CHAR(MIN(p.formatted_date), 'mm/dd/yy') || ' (' || p.fiscal_year || ') ' AS display_start,
+      TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.fiscal_year || ') ' AS display_end,
+      MIN(p.formatted_date) AS date_start, 
+      MAX(p.formatted_date) AS date_end, 
+      'fiscal_years_multi' AS map, 
+
+      TRUE AS "prevent_filterByYear",  -- used to filter on front end dropdown population
+
+      CASE WHEN p.fiscal_year = (
+        SELECT c.fiscal_year
+        FROM "accountingPeriods".period_by_day AS c
+        WHERE c.formatted_date = CURRENT_DATE) THEN TRUE ELSE FALSE END AS default,
+      
+      CASE WHEN p.fiscal_year = (
+        SELECT d.fiscal_year
+        FROM "accountingPeriods".period_by_day AS d
+        WHERE d.formatted_date = CURRENT_DATE) THEN TRUE ELSE FALSE END AS "trueOnNoSelection",
 
     FROM "accountingPeriods".period_by_day AS p
 
@@ -247,8 +286,8 @@ const getCalQuartersMap = async () => {
   return map
 }
 
-const getCalYearsMap = async () => {
-  console.log(`query postgres for getCalYearsMap ...`)
+const getCalYearsMap_comparison = async () => {
+  console.log(`query postgres for getCalYearsMap_comparison ...`)
 
   const map = await sql`
     SELECT 
@@ -267,6 +306,38 @@ const getCalYearsMap = async () => {
       CASE WHEN p.cal_year = EXTRACT('year' FROM CURRENT_DATE) THEN TRUE ELSE FALSE END AS "trueOnNoSelection",
 
       2 AS "maxSelections"
+      
+    FROM "accountingPeriods".period_by_day AS p
+
+    WHERE p.cal_year <= (
+      SELECT d.cal_year
+      FROM "accountingPeriods".period_by_day AS d
+      WHERE d.formatted_date = CURRENT_DATE
+      )
+    GROUP BY p.cal_year
+    ORDER BY p.cal_year DESC
+      `
+  return map
+}
+
+const getCalYearsMap_multi = async () => {
+  console.log(`query postgres for getCalYearsMap_multi ...`)
+
+  const map = await sql`
+    SELECT 
+      DISTINCT ON (p.cal_year) p.cal_year AS cal_year, 
+      p.cal_year AS label, 
+      p.cal_year AS "dataName", 
+      TO_CHAR(MIN(p.formatted_date), 'mm/dd/yy') || ' (' || p.cal_year || ') ' AS display_start,
+      TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.cal_year || ') ' AS display_end, 
+      MIN(formatted_date) AS date_start, 
+      MAX(formatted_date) AS date_end,
+      'cal_years_multi' AS map, 
+      TRUE AS "prevent_filterByYear",  -- used to filter on front end dropdown population
+
+      CASE WHEN p.cal_year = EXTRACT('year' FROM CURRENT_DATE) THEN TRUE ELSE FALSE END AS default,
+
+      CASE WHEN p.cal_year = EXTRACT('year' FROM CURRENT_DATE) THEN TRUE ELSE FALSE END AS "trueOnNoSelection",
       
     FROM "accountingPeriods".period_by_day AS p
 
@@ -313,12 +384,16 @@ const getCalYtdMap = async () => {
   return map
 }
 
-module.exports.getFiscalPeriodsMap = getFiscalPeriodsMap
-module.exports.getWeeksMap = getWeeksMap
-module.exports.getFiscalYearMap = getFiscalYearMap
-module.exports.getFiscalQuartersMap = getFiscalQuartersMap
-module.exports.getCalMonthsMap = getCalMonthsMap
-module.exports.getCalYearsMap = getCalYearsMap
-module.exports.getCalQuartersMap = getCalQuartersMap
-module.exports.getFiscalYtdMap = getFiscalYtdMap
-module.exports.getCalYtdMap = getCalYtdMap
+module.exports = {
+  getFiscalYearMap_multi,
+  getCalYearsMap_multi,
+  getFiscalYearMap_comparison,
+  getCalYearsMap_comparison,
+  getFiscalPeriodsMap,
+  getWeeksMap,
+  getFiscalQuartersMap,
+  getCalMonthsMap,
+  getCalQuartersMap,
+  getFiscalYtdMap,
+  getCalYtdMap,
+}

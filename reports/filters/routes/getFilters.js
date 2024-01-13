@@ -16,11 +16,13 @@ const getItemTypeDefaults_inven = require('../data/getItemTypeDefaults_inven')
 const getItemTypeDefaults_sales = require('../data/getItemTypeDefaults_sales')
 const getItemTypeDefaults_production = require('../data/getItemTypeDefaults_production')
 const {
+  getFiscalYearMap_multi,
+  getCalYearsMap_multi,
+  getFiscalYearMap_comparison,
+  getCalYearsMap_comparison,
   getFiscalPeriodsMap,
   getWeeksMap,
-  getFiscalYearMap,
   getFiscalQuartersMap,
-  getCalYearsMap,
   getCalMonthsMap,
   getCalQuartersMap,
   getFiscalYtdMap,
@@ -81,17 +83,35 @@ router.get('/productionViews', async (req, res) => {
 
 router.get('/periodMaps', async (req, res) => {
   console.log('get period maps route HIT...')
-  let fiscal_periods = await getFiscalPeriodsMap()
-  let weeks = await getWeeksMap()
-  let fiscal_years = await getFiscalYearMap()
-  let fiscal_quarters = await getFiscalQuartersMap()
-  let cal_years = await getCalYearsMap()
-  let cal_months = await getCalMonthsMap()
-  let cal_quarters = await getCalQuartersMap()
-  let fiscal_ytd = await getFiscalYtdMap()
-  let cal_ytd = await getCalYtdMap()
 
-  res.send({ fiscal_periods, weeks, fiscal_years, fiscal_quarters, cal_years, cal_months, cal_quarters, fiscal_ytd, cal_ytd }) // the key must match the "map" property in the query
+  // Period Maps
+  const fiscal_periods = await getFiscalPeriodsMap()
+  const weeks = await getWeeksMap()
+  const fiscal_quarters = await getFiscalQuartersMap()
+  const cal_months = await getCalMonthsMap()
+  const cal_quarters = await getCalQuartersMap()
+  const fiscal_ytd = await getFiscalYtdMap()
+  const cal_ytd = await getCalYtdMap()
+
+  // Year Maps
+  const fiscal_years = await getFiscalYearMap_comparison()
+  const cal_years = await getCalYearsMap_comparison()
+  const fiscal_years_multi = await getFiscalYearMap_multi()
+  const cal_years_multi = await getCalYearsMap_multi()
+
+  res.send({
+    fiscal_periods,
+    weeks,
+    fiscal_years,
+    fiscal_quarters,
+    cal_years,
+    cal_months,
+    cal_quarters,
+    fiscal_ytd,
+    cal_ytd,
+    fiscal_years_multi,
+    cal_years_multi,
+  }) // the key must match the "map" property in the query
   console.log('get periods maps lot route COMPLETE. ')
 })
 
