@@ -21,8 +21,17 @@ const getTrendColsSales = async config => {
     FROM "accountingPeriods".period_by_day AS p
     
     WHERE 
+      ${
+        !config.trends.yearTrend
+          ? sql`
       p.formatted_date >= ${config.trends.startDate} 
-      AND p.formatted_date <= ${config.trends.endDate} 
+      AND p.formatted_date <= ${config.trends.endDate}`
+          : sql`
+      ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+      AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+      AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+    `
+      }  
     
     GROUP BY ${sql(config.trends.queryGrouping)}
 

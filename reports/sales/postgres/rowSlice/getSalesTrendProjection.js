@@ -53,7 +53,7 @@ const l1_getSalesTrend = async (config, trendQuery) => {
         SELECT
           sl.item_number,
           sl.customer_code,
-          ${sql(config.trends.queryGrouping)} AS column, 
+          ${sql(config.trends.queryGrouping)}::TEXT AS column, 
           ${trendQuery.sl.l1_label ? sql`${sql(trendQuery.sl.l1_label)} AS l1_label,`: sql``} 
           ${trendQuery.sl.l2_label ? sql`${sql(trendQuery.sl.l2_label)} AS l2_label,`: sql``} 
           ${trendQuery.sl.l3_label ? sql`${sql(trendQuery.sl.l3_label)} AS l3_label,`: sql``} 
