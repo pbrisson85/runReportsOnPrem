@@ -75,7 +75,14 @@ const l1_getSalesTrend = async (config, trendQuery) => {
             ON sl.formatted_invoice_date = p.formatted_date
 
         WHERE 
-          sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
+          ${!config.trends.yearTrend ? sql`
+          p.formatted_date >= ${config.trends.startDate} 
+          AND p.formatted_date <= ${config.trends.endDate}` : 
+        sql`
+          ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+          AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+          AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+        ` } 
           ${config.trendFilters.customer ? sql`AND sl.customer_code = ${config.trendFilters.customer}`: sql``} 
           ${config.trendFilters.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.trendFilters.salesPerson}`: sql``} 
           ${config.trendFilters.country ? sql`AND sl.country = ${config.trendFilters.country}`: sql``} 
@@ -112,7 +119,14 @@ const l1_getSalesTrend = async (config, trendQuery) => {
 
           WHERE 
             so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-            AND so.formatted_ship_date >= ${config.trends.startDate} AND so.formatted_ship_date <= ${config.trends.endDate}
+            ${!config.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.trends.startDate} 
+              AND p.formatted_date <= ${config.trends.endDate}` : 
+            sql`
+              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+            ` }
             ${config.trendFilters.customer ? sql`AND so.customer_code = ${config.trendFilters.customer}`: sql``} 
             ${config.trendFilters.salesPerson ? sql`AND so.out_sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
             ${config.trendFilters.country ? sql`AND so.country = ${config.trendFilters.country}`: sql``} 
@@ -145,7 +159,14 @@ const l1_getSalesTrend = async (config, trendQuery) => {
               ON pr.date = p.formatted_date
         
           WHERE 
-          pr.date >= ${config.trends.startDate} AND pr.date <= ${config.trends.endDate} 
+          ${!config.trends.yearTrend ? sql`
+              p.formatted_date >= ${config.trends.startDate} 
+              AND p.formatted_date <= ${config.trends.endDate}` : 
+            sql`
+              ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+            ` } 
           ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
           ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
           ${config.trendFilters.country ? sql`AND pr.country = ${config.trendFilters.country}`: sql``} 
@@ -251,7 +272,14 @@ const l0_getSalesTrend = async config => {
             ON sl.formatted_invoice_date = p.formatted_date
 
         WHERE 
-          sl.formatted_invoice_date >= ${config.trends.startDate} AND sl.formatted_invoice_date <= ${config.trends.endDate} 
+          ${!config.trends.yearTrend ? sql`
+          p.formatted_date >= ${config.trends.startDate} 
+          AND p.formatted_date <= ${config.trends.endDate}` : 
+        sql`
+          ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+          AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+          AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+        ` } 
           ${config.trendFilters.customer ? sql`AND sl.customer_code = ${config.trendFilters.customer}`: sql``} 
           ${config.trendFilters.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.trendFilters.salesPerson}`: sql``} 
           ${config.trendFilters.country ? sql`AND sl.country = ${config.trendFilters.country}`: sql``} 
@@ -281,7 +309,14 @@ const l0_getSalesTrend = async config => {
 
         WHERE 
           so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-          AND so.formatted_ship_date >= ${config.trends.startDate} AND so.formatted_ship_date <= ${config.trends.endDate}
+          ${!config.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.trends.startDate} 
+              AND p.formatted_date <= ${config.trends.endDate}` : 
+            sql`
+              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+            ` }
           ${config.trendFilters.customer ? sql`AND so.customer_code = ${config.trendFilters.customer}`: sql``} 
           ${config.trendFilters.salesPerson ? sql`AND so.out_sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
           ${config.trendFilters.country ? sql`AND so.country = ${config.trendFilters.country}`: sql``} 
@@ -307,7 +342,14 @@ const l0_getSalesTrend = async config => {
                 ON pr.date = p.formatted_date
           
             WHERE 
-            pr.date >= ${config.trends.startDate} AND pr.date <= ${config.trends.endDate} 
+            ${!config.trends.yearTrend ? sql`
+              p.formatted_date >= ${config.trends.startDate} 
+              AND p.formatted_date <= ${config.trends.endDate}` : 
+            sql`
+              ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${config.trends.yearTrend.years}
+            ` }
             ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
             ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
             ${config.trendFilters.country ? sql`AND pr.country = ${config.trendFilters.country}`: sql``} 
