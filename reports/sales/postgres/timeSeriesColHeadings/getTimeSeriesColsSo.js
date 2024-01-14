@@ -12,7 +12,7 @@ const getTrendColsSo = async config => {
   const periods = await sql`
     SELECT 
       ${sql(config.trends.queryGrouping)} || '_so' AS "dataName", 
-        TO_CHAR(MAX(p.formatted_date),'MM/DD/YY') AS "displayName", 
+        TO_CHAR(MIN(p.formatted_date),'MM/DD/YY') || ' - ' || TO_CHAR(MAX(p.formatted_date),'MM/DD/YY') AS "displayName", 
         MIN(p.formatted_date) AS "colStartDate",  
         MAX(p.formatted_date) AS "colEndDate",
         TRUE AS "timeSeriesCol",

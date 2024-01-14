@@ -3,7 +3,6 @@ const m = require('./import')
 const buildDrillDown = async (labelCols, config, trendQuery) => {
   const queryDataPromises = []
   const rowDataPromises = []
-  const trendColumnPromises = []
   const kpiHelperPromises = []
 
   ///////////////////////////////// INVENTORY DATA
@@ -91,11 +90,6 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
     return acc.concat(cur)
   }, [])
 
-  const trendColumnResults = await Promise.all(trendColumnPromises)
-  const trendColumns = trendColumnResults.reduce((acc, cur) => {
-    return acc.concat(cur)
-  })
-
   // KPI CALCULATIONS
 
   // // % YoY YTD SALES
@@ -119,26 +113,13 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
   const data = m.cleanLabelsForDisplay(flattenedMappedData, config)
 
   /* COLUMNS */
-  const columnConfigs = m.getColumns(config)
-
-  // Add data to hardcoded columns
-  let columnConfigsTagged = m.addDataToSalesTotalCol(config, columnConfigs) // adds startDate, endDate, and displayName to the sales totals col
-  columnConfigsTagged = m.addDataToSoTotalCol(config, columnConfigs) // adds statDate, endDate, and displayName to the sales orders col
-
-  // Add template to trend cols:
-  const trendColumnsTagged = trendColumns.map(col => {
-    return {
-      ...col,
-      ...m.trendColsTemplate,
-    }
-  })
+  const columns = await getColumns(config)
 
   return {
     data,
     cols: {
-      trendColumns: trendColumnsTagged,
       labelCols,
-      columnConfigs: columnConfigsTagged,
+      ...columns,
     },
   }
 }

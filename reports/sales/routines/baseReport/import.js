@@ -1,11 +1,6 @@
 module.exports = {
   // Cols
-  getColumns: require('../../data/baseCols/getColumns'),
-  trendColsTemplate: require('../../data/baseCols/trendColsTemplate'),
-
-  // Trend Cols
-  getTrendColsSales: require('../../postgres/timeSeriesColHeadings/getTimeSeriesColsSales').getTrendColsSales,
-  getTrendColsSo: require('../../postgres/timeSeriesColHeadings/getTimeSeriesColsSo').getTrendColsSo,
+  getColumns: require('../helpers/getColumns'),
 
   // Sales Trend Primary
   l1_getSalesTrend: require('../../postgres/baseReport/getSalesTrendProjection').l1_getSalesTrend,
@@ -102,6 +97,4 @@ module.exports = {
   calcWeeksInvOnHand: require('../../models/calcWeeksInvOnHand'),
   calcInventoryAvailable: require('../../models/calcInventoryAvailable'),
   sortRowTemplate: require('../../../utils/sortRowTemplate'),
-  addDataToSoTotalCol: require('../helpers/colDataHelper').addDataToSoTotalCol,
-  addDataToSalesTotalCol: require('../helpers/colDataHelper').addDataToSalesTotalCol,
 }
