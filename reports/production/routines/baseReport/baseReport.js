@@ -3,7 +3,6 @@ const m = require('./import')
 const buildReport = async config => {
   const queryDataPromises = []
   const rowDataPromises = []
-  const trendColumnPromises = []
 
   ///////////////////////////////// CONFIG
   const woActivityGroups = await m.getWoActivityGroups(config)
@@ -85,9 +84,6 @@ const buildReport = async config => {
   rowDataPromises.push(m.l4_getRowLabels(config))
   rowDataPromises.push(m.l5_getRowLabels(config))
 
-  ///////////////////////////////// TREND COLUMNS
-  trendColumnPromises.push(m.getTrendColsWo(config, woActivityGroups))
-
   /* RUN DATA */
 
   const queryDataResults = await Promise.all(queryDataPromises)
@@ -99,11 +95,6 @@ const buildReport = async config => {
   const rowData = rowDataResults.reduce((acc, cur) => {
     return acc.concat(cur)
   }, [])
-
-  const trendColumnResults = await Promise.all(trendColumnPromises)
-  const trendColumns = trendColumnResults.reduce((acc, cur) => {
-    return acc.concat(cur)
-  })
 
   /* BUILD ROW MAP */
 
@@ -122,25 +113,14 @@ const buildReport = async config => {
   const flattenedMappedData = Object.values(mappedData)
   const data = m.cleanLabelsForDisplay(flattenedMappedData, config)
 
-  // Add data to hardcoded columns
-  let columnConfigsTagged = m.addDataToProductionTotalCol(config, m.columnConfigs, woActivityGroups) // adds startDate, endDate, and displayName
-  columnConfigsTagged = m.addDataToSalesTotalCol(config, m.columnConfigs)
-  columnConfigsTagged = m.addDataToPoReceiptsTotalCol(config, m.columnConfigs)
-
-  // Add template to trend cols:
-  const trendColumnsTagged = trendColumns.map(col => {
-    return {
-      ...col,
-      ...m.trendColsTemplate,
-    }
-  })
+  /* COLUMNS */
+  const columns = await m.getColumns(config, woActivityGroups)
 
   return {
     data,
     cols: {
-      trendColumns: trendColumnsTagged,
       labelCols: config.labelCols,
-      columnConfigs: columnConfigsTagged,
+      ...columns,
     },
     baseConfig: config.baseConfig,
   }

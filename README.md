@@ -8,3 +8,6 @@
 - Sort is not defaulting on a slice
 - Make YoY work in sales and production
 - Make a purchasing report.
+- On front end when in slice, if opening the main dropdown menu the filter row is in front of the menu.
+- Would like to add a total row when slice is being filtered.
+- There is no row slice yet for production reports

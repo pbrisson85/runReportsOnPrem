@@ -1,15 +1,6 @@
 module.exports = {
   // Cols
-  columnConfigs: require('../../data/baseCols/getColumns'),
-  trendColsTemplate: require('../../data/baseCols/trendColsTemplate'),
-
-  // Trend Cols
-  getTrendColsWo: require('../../postgres/timeSeriesColHeadings/getTimeSeriesColsWo').getTrendColsWo,
-
-  // Col Helpers
-  addDataToProductionTotalCol: require('../helpers/colDataHelper').addDataToProductionTotalCol,
-  addDataToSalesTotalCol: require('../helpers/colDataHelper').addDataToSalesTotalCol,
-  addDataToPoReceiptsTotalCol: require('../helpers/colDataHelper').addDataToPoReceiptsTotalCol,
+  getColumns: require('../../data/baseCols/getColumns'),
 
   // Config Helpers
   getWoActivityGroups: require('../helpers/getWoActivityGroups'),
