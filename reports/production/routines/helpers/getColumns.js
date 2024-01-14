@@ -7,9 +7,9 @@ const primarySalesTotalCol = require('../../data/baseCols/salesTotalCols.js')
 const poReceiptsCols = require('../../data/baseCols/purchaseReceiptsCols.js')
 const trendColsTemplate = require('../../data/baseCols/trendColsTemplate')
 const getTrendColsWo = require('../../postgres/timeSeriesColHeadings/getTimeSeriesColsWo').getTrendColsWo
-const addDataToProductionTotalCol = require('../helpers/colDataHelper').addDataToProductionTotalCol
-const addDataToSalesTotalCol = require('../helpers/colDataHelper').addDataToSalesTotalCol
-const addDataToPoReceiptsTotalCol = require('../helpers/colDataHelper').addDataToPoReceiptsTotalCol
+const addDataToProductionTotalCol = require('./colDataHelper').addDataToProductionTotalCol
+const addDataToSalesTotalCol = require('./colDataHelper').addDataToSalesTotalCol
+const addDataToPoReceiptsTotalCol = require('./colDataHelper').addDataToPoReceiptsTotalCol
 
 // These are configs for the columns in the report
 const getColumns = async (config, woActivityGroups) => {
