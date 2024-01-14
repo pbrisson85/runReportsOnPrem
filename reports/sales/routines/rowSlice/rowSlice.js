@@ -73,11 +73,6 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
   rowDataPromises.push(m.l0_getRowLabels(config))
   rowDataPromises.push(m.l1_getRowLabels(config, trendQuery))
 
-  ///////////////////////////////// TREND COLUMNS
-
-  trendColumnPromises.push(m.getTrendColsSales(config))
-  trendColumnPromises.push(m.getTrendColsSo(config))
-
   /* RUN DATA */
 
   const queryDataResults = await Promise.all(queryDataPromises)
