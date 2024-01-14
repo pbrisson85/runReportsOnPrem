@@ -11,3 +11,4 @@
 - On front end when in slice, if opening the main dropdown menu the filter row is in front of the menu.
 - Would like to add a total row when slice is being filtered.
 - There is no row slice yet for production reports
+- In the production report the purchase receipts does not have the rows for it.
