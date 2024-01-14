@@ -57,14 +57,14 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
   const flattenedMappedData = Object.values(mappedData)
   const data = m.cleanLabelsForDisplay(flattenedMappedData, config)
 
-  // Add data to hardcoded columns
-  const columnConfigs = m.buildAgingCols(config, m.columnConfigs)
+  /* COLUMNS */
+  const columns = m.getColumns(config)
 
   return {
     data,
     cols: {
       labelCols,
-      columnConfigs,
+      columnConfigs: columns,
     },
   }
 }

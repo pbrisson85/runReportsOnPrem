@@ -86,16 +86,16 @@ const buildReport = async config => {
   const flattenedMappedData = Object.values(mappedData)
   const data = m.cleanLabelsForDisplay(flattenedMappedData, config)
 
-  // Add data to hardcoded columns
-  const columnConfigs = m.buildAgingCols(config, m.columnConfigs)
+  /* COLUMNS */
+  const columns = m.getColumns(config)
 
   return {
     data,
     cols: {
       labelCols: config.labelCols,
-      columnConfigs,
+      columnConfigs: columns,
     },
-    baseConfig: config.baseConfig,
+    baseConfig: config.baseConfig, // to pass back for slice and detail reports
   }
 }
 

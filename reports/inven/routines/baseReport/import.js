@@ -1,6 +1,6 @@
 module.exports = {
   // Cols
-  columnConfigs: require('../../data/baseCols/columns'),
+  getColumns: require('../helpers/getColumns'),
 
   // Inv Data
   l1_getInv: require('../../postgres/baseReport/getInven').l1_getInv,
@@ -54,7 +54,4 @@ module.exports = {
   unflattenByCompositKey: require('../../../utils/unflattenByCompositKey'),
   sortRowTemplate: require('../../../utils/sortRowTemplate'),
   mapDataToRowTemplates: require('../../../utils/mapDataToRowTemplates'),
-
-  // Col Helpers
-  buildAgingCols: require('../helpers/agingColHelper').buildAgingCols,
 }
