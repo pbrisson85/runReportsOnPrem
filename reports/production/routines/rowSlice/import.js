@@ -1,6 +1,6 @@
 module.exports = {
   // Cols
-  getColumns: require('../../data/baseCols/getColumns'),
+  getColumns: require('../helpers/getColumns'),
 
   // Inv Data
   l1_getInv: require('../../postgres/rowSlice/getInven').l1_getInv,

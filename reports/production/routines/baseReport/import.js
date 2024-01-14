@@ -1,6 +1,6 @@
 module.exports = {
   // Cols
-  getColumns: require('../../data/baseCols/getColumns'),
+  getColumns: require('../helpers/getColumns'),
 
   // Config Helpers
   getWoActivityGroups: require('../helpers/getWoActivityGroups'),
