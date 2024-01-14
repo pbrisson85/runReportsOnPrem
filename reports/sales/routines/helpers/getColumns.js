@@ -38,6 +38,7 @@ const getColumns = async config => {
   // assemble cols other than labels and trend which are assembled on the front end
   if (!config.trends.yearTrend) {
     primarySalesTotalCol.hidden = true // No sales total if trend by year but keep column so default showtrend works.
+    primarySalesTotalCol.showByDefault = false
   }
 
   columnConfigs.primarySalesTotalCol = primarySalesTotalCol
