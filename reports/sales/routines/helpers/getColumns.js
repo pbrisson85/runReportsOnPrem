@@ -36,10 +36,15 @@ const getColumns = async config => {
   let columnConfigs = {}
 
   // assemble cols other than labels and trend which are assembled on the front end
+
+  console.log('before mutate primarySalesTotalCol', primarySalesTotalCol)
   if (config.trends.yearTrend) {
+    console.log('has trend by year')
+
     primarySalesTotalCol.hidden = true // No sales total if trend by year but keep column so default showtrend works.
     primarySalesTotalCol.showByDefault = false
   }
+  console.log('after mutate primarySalesTotalCol', primarySalesTotalCol)
 
   columnConfigs.primarySalesTotalCol = primarySalesTotalCol
   columnConfigs.salesKpiCols = salesKpiCols
@@ -51,6 +56,8 @@ const getColumns = async config => {
   // Add data to hardcoded columns
   columnConfigs = addDataToSalesTotalCol(config, columnConfigs) // adds startDate, endDate, and displayName to the sales totals col
   columnConfigs = addDataToSoTotalCol(config, columnConfigs) // adds statDate, endDate, and displayName to the sales orders col
+
+  console.log('columnConfigs.primarySalesTotalCol', columnConfigs.primarySalesTotalCol)
 
   return { columnConfigs, trendColumns }
 }
