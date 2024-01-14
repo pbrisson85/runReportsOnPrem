@@ -2,6 +2,7 @@ const sql = require('../../../../server')
 
 const l1_getProduction = async (config, woActivityGroups) => {
   if (!config.baseFormat.l1_field) return []
+  if (config.trends.yearTrend) return [] // skip totals if trend is by year
 
   console.log('config.baseFilters.productionCountries', config.baseFilters.productionCountries)
 
@@ -77,6 +78,7 @@ const l1_getProduction = async (config, woActivityGroups) => {
 
 const l2_getProduction = async (config, woActivityGroups) => {
   if (!config.baseFormat.l2_field) return []
+  if (config.trends.yearTrend) return [] // skip totals if trend is by year
 
   try {
     console.log(`${config.user} - level 2: query postgres for Inv on hand (l2_getProduction) ...`)
@@ -151,6 +153,7 @@ const l2_getProduction = async (config, woActivityGroups) => {
 
 const l3_getProduction = async (config, woActivityGroups) => {
   if (!config.baseFormat.l3_field) return []
+  if (config.trends.yearTrend) return [] // skip totals if trend is by year
 
   try {
     console.log(`${config.user} - level 3: query postgres for Inv on hand (l3_getProduction) ...`)
@@ -224,6 +227,7 @@ const l3_getProduction = async (config, woActivityGroups) => {
 
 const l4_getProduction = async (config, woActivityGroups) => {
   if (!config.baseFormat.l4_field) return []
+  if (config.trends.yearTrend) return [] // skip totals if trend is by year
 
   try {
     console.log(`${config.user} - level 4: query postgres for Inv on hand (l4_getProduction) ...`)
@@ -298,6 +302,7 @@ const l4_getProduction = async (config, woActivityGroups) => {
 
 const l5_getProduction = async (config, woActivityGroups) => {
   if (!config.baseFormat.l5_field) return []
+  if (config.trends.yearTrend) return [] // skip totals if trend is by year
 
   try {
     console.log(`${config.user} - level 5: query postgres for Inv on hand (l4_getProduction) ...`)
@@ -372,6 +377,8 @@ const l5_getProduction = async (config, woActivityGroups) => {
 }
 
 const l0_getProduction = async (config, woActivityGroups) => {
+  if (config.trends.yearTrend) return [] // skip totals if trend is by year
+
   try {
     console.log(`${config.user} - level 0: query postgres for Inv on hand (l0_getProduction) ...`)
 

@@ -37,8 +37,6 @@ const getColumns = async (config, woActivityGroups) => {
   let columnConfigs = {}
 
   if (config.trends.yearTrend) {
-    console.log('config.trends.yearTrend', config.trends.yearTrend)
-
     woCols.forEach((col, idx) => {
       woCols[idx].hidden = true
       woCols[idx].showByDefault = false

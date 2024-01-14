@@ -53,7 +53,14 @@ const l1_getProductionTrend = async (config, woActivityGroups) => {
       WHERE 
         wo.by_prod_fg_line_bool = false
         AND act.wo_group = ${woActivity}
-        AND p.formatted_date >= ${config.trends.startDate} AND p.formatted_date <= ${config.trends.endDate}
+        ${!config.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.trends.startDate} 
+              AND p.formatted_date <= ${config.trends.endDate}` : 
+            sql`
+              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ` }
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -129,7 +136,14 @@ const l2_getProductionTrend = async (config, woActivityGroups) => {
       WHERE 
         wo.by_prod_fg_line_bool = false
         AND act.wo_group = ${woActivity}
-        AND p.formatted_date >= ${config.trends.startDate} AND p.formatted_date <= ${config.trends.endDate}
+        ${!config.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.trends.startDate} 
+              AND p.formatted_date <= ${config.trends.endDate}` : 
+            sql`
+              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ` }
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
@@ -204,7 +218,14 @@ const l3_getProductionTrend = async (config, woActivityGroups) => {
       WHERE 
         wo.by_prod_fg_line_bool = false
         AND act.wo_group = ${woActivity}
-        AND p.formatted_date >= ${config.trends.startDate} AND p.formatted_date <= ${config.trends.endDate}
+        ${!config.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.trends.startDate} 
+              AND p.formatted_date <= ${config.trends.endDate}` : 
+            sql`
+              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ` }
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -280,7 +301,14 @@ const l4_getProductionTrend = async (config, woActivityGroups) => {
       WHERE 
         wo.by_prod_fg_line_bool = false
         AND act.wo_group = ${woActivity}
-        AND p.formatted_date >= ${config.trends.startDate} AND p.formatted_date <= ${config.trends.endDate}
+        ${!config.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.trends.startDate} 
+              AND p.formatted_date <= ${config.trends.endDate}` : 
+            sql`
+              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ` }
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -357,7 +385,14 @@ const l5_getProductionTrend = async (config, woActivityGroups) => {
       WHERE 
         wo.by_prod_fg_line_bool = false
         AND act.wo_group = ${woActivity}
-        AND p.formatted_date >= ${config.trends.startDate} AND p.formatted_date <= ${config.trends.endDate}
+        ${!config.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.trends.startDate} 
+              AND p.formatted_date <= ${config.trends.endDate}` : 
+            sql`
+              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ` }
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -431,7 +466,14 @@ const l0_getProductionTrend = async (config, woActivityGroups) => {
       WHERE 
         wo.by_prod_fg_line_bool = false
         AND act.wo_group = ${woActivity}
-        AND p.formatted_date >= ${config.trends.startDate} AND p.formatted_date <= ${config.trends.endDate}
+        ${!config.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.trends.startDate} 
+              AND p.formatted_date <= ${config.trends.endDate}` : 
+            sql`
+              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ` }
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
