@@ -41,8 +41,11 @@ const getColumns = async config => {
   if (config.trends.yearTrend) {
     console.log('has trend by year')
 
-    primarySalesTotalCol.hidden = true // No sales total if trend by year but keep column so default showtrend works.
-    primarySalesTotalCol.showByDefault = false
+    // No sales total if trend by year but keep column so default showtrend works.
+    primarySalesTotalCol.forEach((col, idx) => {
+      primarySalesTotalCol[idx].hidden = true
+      primarySalesTotalCol[idx].showByDefault = false
+    })
   }
   console.log('after mutate primarySalesTotalCol', primarySalesTotalCol)
 
