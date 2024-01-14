@@ -182,38 +182,6 @@ const getFiscalYearMap_multi = async () => {
   return map
 }
 
-const getFiscalYtdMap = async () => {
-  console.log(`query postgres for getFiscalYtdMap ...`)
-
-  const map = await sql`
-    SELECT 
-      p.week_serial, 
-      p.fiscal_year,  -- used to filter on front end dropdown population
-      p.week AS period, 
-      MIN(p.formatted_date) AS date_start, 
-      MAX(p.formatted_date) AS date_end, 
-      TO_CHAR(MIN(p.formatted_date), 'mm/dd/yy') || ' (' || p.week_serial || ') ' AS display_start, 
-      TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.week_serial || ') ' AS display_end, 
-      'fiscal_ytd' AS map, 
-      FALSE AS default_map, 
-
-      CASE WHEN p.week = (
-        SELECT c.week
-        FROM "accountingPeriods".period_by_day AS c
-        WHERE c.formatted_date = CURRENT_DATE) THEN TRUE ELSE FALSE END AS default_end
-
-    FROM "accountingPeriods".period_by_day AS p
-    WHERE p.fiscal_year = (
-      SELECT d.fiscal_year
-      FROM "accountingPeriods".period_by_day AS d
-      WHERE d.formatted_date = CURRENT_DATE
-      )
-    GROUP BY p.week_serial, p.fiscal_year, p.week, p.period_serial, p.period
-    ORDER BY p.week_serial ASC
-      `
-  return map
-}
-
 const getCalMonthsMap = async () => {
   console.log(`query postgres for getCalMonthsMap ...`)
 
@@ -340,37 +308,6 @@ const getCalYearsMap_multi = async () => {
   return map
 }
 
-const getCalYtdMap = async () => {
-  console.log(`query postgres for getCalYtdMap ...`)
-
-  const map = await sql`
-      SELECT 
-        DISTINCT ON (p.cal_month_serial) p.cal_month AS cal_month, 
-        p.cal_month AS period,
-        TO_CHAR(MIN(p.formatted_date), 'mm/dd/yy') || ' (' || p.cal_month_serial || ') ' AS display_start,
-        TO_CHAR(MAX(p.formatted_date), 'mm/dd/yy') || ' (' || p.cal_month_serial || ') ' AS display_end,
-        MIN(p.formatted_date) AS date_start, 
-        MAX(p.formatted_date) AS date_end, 
-        p.cal_year,
-        'cal_ytd' AS map, 
-
-        CASE WHEN p.cal_month = (
-          SELECT c.cal_month
-          FROM "accountingPeriods".period_by_day AS c
-          WHERE c.formatted_date = CURRENT_DATE) THEN TRUE ELSE FALSE END AS default_end
-
-      FROM "accountingPeriods".period_by_day AS p
-
-      WHERE p.cal_year = (
-        SELECT d.cal_year
-        FROM "accountingPeriods".period_by_day AS d
-        WHERE d.formatted_date = CURRENT_DATE
-        )
-      GROUP BY cal_month, cal_month_serial, cal_year
-      `
-  return map
-}
-
 module.exports = {
   getFiscalYearMap_multi,
   getCalYearsMap_multi,
@@ -381,6 +318,4 @@ module.exports = {
   getFiscalQuartersMap,
   getCalMonthsMap,
   getCalQuartersMap,
-  getFiscalYtdMap,
-  getCalYtdMap,
 }

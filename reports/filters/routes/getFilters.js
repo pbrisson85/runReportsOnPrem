@@ -25,8 +25,6 @@ const {
   getFiscalQuartersMap,
   getCalMonthsMap,
   getCalQuartersMap,
-  getFiscalYtdMap,
-  getCalYtdMap,
 } = require('../postgres/getDateMaps')
 const getItemTypes = require('../postgres/getItemTypes')
 const getDistinctPrograms = require('../postgres/getDistinctPrograms')
@@ -90,8 +88,6 @@ router.get('/periodMaps', async (req, res) => {
   const fiscal_quarters = await getFiscalQuartersMap()
   const cal_months = await getCalMonthsMap()
   const cal_quarters = await getCalQuartersMap()
-  const fiscal_ytd = await getFiscalYtdMap()
-  const cal_ytd = await getCalYtdMap()
 
   // Year Maps
   const fiscal_years = await getFiscalYearMap_comparison()
@@ -102,14 +98,12 @@ router.get('/periodMaps', async (req, res) => {
   res.send({
     fiscal_periods,
     weeks,
-    fiscal_years,
     fiscal_quarters,
-    cal_years,
     cal_months,
     cal_quarters,
-    fiscal_ytd,
-    cal_ytd,
+    fiscal_years,
     fiscal_years_multi,
+    cal_years,
     cal_years_multi,
   }) // the key must match the "map" property in the query
   console.log('get periods maps lot route COMPLETE. ')
