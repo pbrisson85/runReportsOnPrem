@@ -12,7 +12,7 @@ const getTrendColsSales = async config => {
   const periods = await sql`
     SELECT 
       ${sql(config.trends.queryGrouping)} AS "dataName", 
-      TO_CHAR(MIN(p.formatted_date),'MM/DD/YY') || ' - ' || TO_CHAR(MAX(p.formatted_date),'MM/DD/YY') AS "displayName", 
+      ${sql(config.trends.queryGrouping)} || ' ' || TO_CHAR(MIN(p.formatted_date),'MM/DD/YY') || ' - ' || TO_CHAR(MAX(p.formatted_date),'MM/DD/YY') AS "displayName", 
       MIN(p.formatted_date) AS "colStartDate", 
       MAX(p.formatted_date) AS "colEndDate",
       TRUE AS "timeSeriesCol",
@@ -38,6 +38,6 @@ const getTrendColsSales = async config => {
     ORDER BY ${sql(config.trends.queryGrouping)} ASC`
 
   return periods
-}
+} //prettier-ignore
 
 module.exports.getTrendColsSales = getTrendColsSales
