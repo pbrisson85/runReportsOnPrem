@@ -4,6 +4,8 @@ const _ = require('lodash')
 // also customize the displayname here based on parameters requested.
 
 const addDataToSalesTotalCol = (config, columnConfigs) => {
+  if (!columnConfigs?.primarySalesTotalCol) return columnConfigs
+
   // Add startDate and endDate to the column configs so that it can be passed back in the detail and trend queries.
   columnConfigs.primarySalesTotalCol.forEach(col => {
     // format displayName
@@ -28,6 +30,8 @@ const addDataToSalesTotalCol = (config, columnConfigs) => {
 }
 
 const addDataToSoTotalCol = (config, columnConfigs) => {
+  if (!columnConfigs?.salesOrdersCol) return columnConfigs
+
   // Add startDate and endDate to the column configs so that it can be passed back in the detail and trend queries.
   columnConfigs.salesOrdersCol.forEach(col => {
     // format displayName
