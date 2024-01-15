@@ -53,6 +53,13 @@ const getColumns = async (config, woActivityGroups) => {
       woCols[idx].hidden = true
       woCols[idx].showByDefault = false
     })
+  } else {
+    woCols.forEach((col, idx) => {
+      console.log('setting hidden = FALSE for WO TOTALS !!!!!!!!!!!!!!!!!!')
+
+      woCols[idx].hidden = false
+      woCols[idx].showByDefault = true
+    })
   }
 
   console.log('AFTER the loop to hide:', woCols)
