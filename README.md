@@ -1,8 +1,8 @@
 ### To do.
 
-- \*\*\* When in trend year I need the rows to start at the beginning of the trend year.
+- When right clicking for slice make sure the trend cannot show as sales order if in trend by year mode
+- Since there is no total column in YTD trend there is no place to right click for a slice!!!
 
-- \*\*\* In slice make sure nulls are defaulting to NO VALUE
 - On the front end when switching back from YTD trend to another trend then the max selections is not being enforced until the next click
 - \*\*\* Make the columns work for inven and production.
 - Make production have a filter for type and make work with YTD trend
@@ -16,4 +16,4 @@
 
 - FIRST: production report does not work with years trend uyet because I did not update the postgres queries
 
-- Dont have sales projections table in the getRowLabels for base report sales
+- I dont have sales projections table in the getRowLabels for base report sales
