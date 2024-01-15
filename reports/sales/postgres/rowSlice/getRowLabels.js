@@ -227,10 +227,10 @@ const l1_getRowLabels = async (config, trendQuery) => {
               ON pr.date = p.formatted_date
           WHERE 
             ${!config.trends.yearTrend ? sql`
-              AND p.formatted_date >= ${config.totals.primary.startDate} 
+              p.formatted_date >= ${config.totals.primary.startDate} 
               AND p.formatted_date <= ${config.totals.primary.endDate}` : 
             sql`
-              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
               AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
               AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
             ` } 

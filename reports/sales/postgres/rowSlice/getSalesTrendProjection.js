@@ -34,7 +34,7 @@ const l1_getSalesTrend = async (config, trendQuery) => {
         SELECT 
           'dummy' AS item_number, 
           'dummy' AS customer_code, 
-          '01-01-23' AS column, 
+          'dummy' AS column, 
           ${trendQuery.sl.l1_label ? sql`'dummy' AS l1_label,` : sql``} 
           ${trendQuery.sl.l2_label ? sql`'dummy' AS l2_label,` : sql``} 
           ${trendQuery.sl.l3_label ? sql`'dummy' AS l3_label,` : sql``} 
@@ -245,7 +245,7 @@ const l0_getSalesTrend = async config => {
       SELECT
           'dummy' AS item_number,
           'dummy' AS customer_code,
-          '01-01-23' AS column, 
+          'dummy' AS column, 
           0 AS lbs, 
           0 AS sales, 
           0 AS cogs, 
