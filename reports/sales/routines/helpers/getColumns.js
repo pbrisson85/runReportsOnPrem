@@ -9,6 +9,7 @@ const getTrendColsSales = require('../../postgres/timeSeriesColHeadings/getTimeS
 const getTrendColsSo = require('../../postgres/timeSeriesColHeadings/getTimeSeriesColsSo').getTrendColsSo
 const addDataToSoTotalCol = require('../helpers/colDataHelper').addDataToSoTotalCol
 const addDataToSalesTotalCol = require('../helpers/colDataHelper').addDataToSalesTotalCol
+const _ = require('lodash')
 
 // These are configs for the columns in the report
 const getColumns = async config => {
@@ -37,21 +38,25 @@ const getColumns = async config => {
 
   // assemble cols other than labels and trend which are assembled on the front end
 
+  // copy woCols or the data will persist between requests/sessions
+  const primarySalesTotalCol_cache = _.cloneDeep(primarySalesTotalCol)
+  const salesOrdersCol_cache = _.cloneDeep(salesOrdersCol)
+
   if (config.trends.yearTrend) {
     // No sales total if trend by year but keep column so default showtrend works.
     primarySalesTotalCol.forEach((col, idx) => {
-      primarySalesTotalCol[idx].hidden = true
-      primarySalesTotalCol[idx].showByDefault = false
+      primarySalesTotalCol_cache[idx].hidden = true
+      primarySalesTotalCol_cache[idx].showByDefault = false
     })
 
     salesOrdersCol.forEach((col, idx) => {
-      salesOrdersCol[idx].allowTrend = false // because can't get back to the sales trend with no total col to click.
+      salesOrdersCol_cache[idx].allowTrend = false // because can't get back to the sales trend with no total col to click.
     })
   }
 
-  columnConfigs.primarySalesTotalCol = primarySalesTotalCol
+  columnConfigs.primarySalesTotalCol = primarySalesTotalCol_cache
   columnConfigs.salesKpiCols = salesKpiCols
-  columnConfigs.salesOrdersCol = salesOrdersCol
+  columnConfigs.salesOrdersCol = salesOrdersCol_cache
   columnConfigs.invenTotalCols = invenTotalCols
   columnConfigs.invenKpiCol = invenKpiCol
   columnConfigs.poCols = poCols

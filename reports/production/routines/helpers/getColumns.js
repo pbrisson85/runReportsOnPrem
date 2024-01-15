@@ -37,7 +37,7 @@ const getColumns = async (config, woActivityGroups) => {
 
   let columnConfigs = {}
 
-  // copy woCols or the data will persist between requests
+  // copy woCols or the data will persist between requests/sessions
   const woColsCache = _.cloneDeep(woCols)
 
   if (config?.trends?.yearTrend !== null && typeof config?.trends?.yearTrend !== 'undefined') {
