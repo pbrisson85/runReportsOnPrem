@@ -39,13 +39,16 @@ const getColumns = async (config, woActivityGroups) => {
 
   let columnConfigs = {}
 
-  console.log('config.trends.yearTrend', config.trends.yearTrend)
+  console.log('config?.trends?.yearTrend', config.trends.yearTrend)
+  console.log('SETTING TO HIDDEN: ', config?.trends?.yearTrend !== null && typeof config?.trends?.yearTrend !== 'undefined')
 
   if (config?.trends?.yearTrend !== null && typeof config?.trends?.yearTrend !== 'undefined') {
     console.log('HAS YEAR TRENDS !!!!!!!!!!!!!!!')
     console.log('config.trends.yearTrend', config.trends.yearTrend)
 
     woCols.forEach((col, idx) => {
+      console.log('setting hidden = TRUE for WO TOTALS !!!!!!!!!!!!!!!!!!')
+
       woCols[idx].hidden = true
       woCols[idx].showByDefault = false
     })
