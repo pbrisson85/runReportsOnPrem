@@ -67,6 +67,9 @@ const getColumns = async config => {
   columnConfigs = addDataToSalesTotalCol(config, columnConfigs) // adds startDate, endDate, and displayName to the sales totals col
   columnConfigs = addDataToSoTotalCol(config, columnConfigs) // adds statDate, endDate, and displayName to the sales orders col
 
+  console.log('columnConfigs.primarySalesTotalCol', columnConfigs.primarySalesTotalCol)
+  console.log('columnConfigs.salesOrdersCol', columnConfigs.salesOrdersCol)
+
   return { columnConfigs, trendColumns }
 }
 
