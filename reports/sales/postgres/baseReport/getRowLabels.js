@@ -20,7 +20,9 @@ const l5_getRowLabels = async config => {
            5 AS datalevel 
         FROM "salesReporting".sales_line_items AS sl 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-              ON ms.item_num = sl.item_number 
+              ON ms.item_num = sl.item_number
+            LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+              ON sl.formatted_invoice_date = p.formatted_date
         WHERE 
           ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
           ${!config.trends.yearTrend ? sql`
@@ -136,6 +138,8 @@ const l4_getRowLabels = async config => {
         FROM "salesReporting".sales_line_items AS sl 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = sl.item_number 
+          LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+            ON sl.formatted_invoice_date = p.formatted_date
         WHERE 
           ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
           ${!config.trends.yearTrend ? sql`
@@ -224,7 +228,9 @@ const l3_getRowLabels = async config => {
           3 AS datalevel 
         FROM "salesReporting".sales_line_items AS sl 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-            ON ms.item_num = sl.item_number 
+            ON ms.item_num = sl.item_number
+          LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+            ON sl.formatted_invoice_date = p.formatted_date
         WHERE 
           ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
           ${!config.trends.yearTrend ? sql`
@@ -312,6 +318,8 @@ const l2_getRowLabels = async config => {
         FROM "salesReporting".sales_line_items AS sl 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = sl.item_number 
+          LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+            ON sl.formatted_invoice_date = p.formatted_date
         WHERE 
           ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
           ${!config.trends.yearTrend ? sql`
@@ -394,6 +402,8 @@ const l1_getRowLabels = async config => {
         FROM "salesReporting".sales_line_items AS sl 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = sl.item_number 
+          LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+            ON sl.formatted_invoice_date = p.formatted_date
         WHERE 
           ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
           ${!config.trends.yearTrend ? sql`

@@ -10,13 +10,13 @@ const l1_getSoTrend = async (config, trendQuery) => {
     const response = await sql
         `SELECT 
           ${sql(config.trends.queryGrouping)} || '_so' AS column, 
-          ${trendQuery.so.l1_label ? sql`${sql(trendQuery.so.l1_label)} AS l1_label,`: sql``} 
-          ${trendQuery.so.l2_label ? sql`${sql(trendQuery.so.l2_label)} AS l2_label,`: sql``} 
-          ${trendQuery.so.l3_label ? sql`${sql(trendQuery.so.l3_label)} AS l3_label,`: sql``} 
-          ${trendQuery.so.l4_label ? sql`${sql(trendQuery.so.l4_label)} AS l4_label,`: sql``} 
-          ${trendQuery.so.l5_label ? sql`${sql(trendQuery.so.l5_label)} AS l5_label,`: sql``} 
-          ${trendQuery.so.l6_label ? sql`${sql(trendQuery.so.l6_label)} AS l6_label,`: sql``} 
-          ${trendQuery.so.l7_label ? sql`${sql(trendQuery.so.l7_label)} AS l7_label,`: sql``} 
+          ${trendQuery.so.l1_label ? sql`COALESCE(${sql(trendQuery.so.l1_label)}, "NO VALUE") AS l1_label,`: sql``} 
+          ${trendQuery.so.l2_label ? sql`COALESCE(${sql(trendQuery.so.l2_label)}, "NO VALUE") AS l2_label,`: sql``} 
+          ${trendQuery.so.l3_label ? sql`COALESCE(${sql(trendQuery.so.l3_label)}, "NO VALUE") AS l3_label,`: sql``} 
+          ${trendQuery.so.l4_label ? sql`COALESCE(${sql(trendQuery.so.l4_label)}, "NO VALUE") AS l4_label,`: sql``} 
+          ${trendQuery.so.l5_label ? sql`COALESCE(${sql(trendQuery.so.l5_label)}, "NO VALUE") AS l5_label,`: sql``} 
+          ${trendQuery.so.l6_label ? sql`COALESCE(${sql(trendQuery.so.l6_label)}, "NO VALUE") AS l6_label,`: sql``} 
+          ${trendQuery.so.l7_label ? sql`COALESCE(${sql(trendQuery.so.l7_label)}, "NO VALUE") AS l7_label,`: sql``} 
           COALESCE(SUM(so.ext_weight),0) AS lbs, 
           COALESCE(SUM(so.ext_sales),0) AS "grossSales", 
           COALESCE(SUM(so.ext_cost),0) AS cogs, 

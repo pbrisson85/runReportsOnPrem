@@ -29,7 +29,14 @@ const l1_getOpenPo = async (config, trendQuery) => {
               LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
                 ON sl.formatted_invoice_date = p.formatted_date
             WHERE 
-              sl.formatted_invoice_date >= ${config.totals.primary.startDate} AND sl.formatted_invoice_date <= ${config.totals.primary.endDate} 
+              ${!config.trends.yearTrend ? sql`
+                p.formatted_date >= ${config.totals.primary.startDate} 
+                AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+              sql`
+                ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+                AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+                AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              ` }  
               ${config.trendFilters.customer ? sql`AND sl.customer_code = ${config.trendFilters.customer}`: sql``} 
               ${config.trendFilters.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.trendFilters.salesPerson}`: sql``} 
               ${config.trendFilters.country ? sql`AND sl.country = ${config.trendFilters.country}`: sql``} 
@@ -52,7 +59,14 @@ const l1_getOpenPo = async (config, trendQuery) => {
     
               WHERE 
                 so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-                AND so.formatted_ship_date >= ${config.totals.primary.startDate} AND so.formatted_ship_date <= ${config.totals.primary.endDate}
+                ${!config.trends.yearTrend ? sql`
+                  AND p.formatted_date >= ${config.totals.primary.startDate} 
+                  AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+                sql`
+                  AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+                  AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+                  AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+                ` }
                 ${config.trendFilters.customer ? sql`AND so.customer_code = ${config.trendFilters.customer}`: sql``} 
                 ${config.trendFilters.salesPerson ? sql`AND so.out_sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
                 ${config.trendFilters.country ? sql`AND so.country = ${config.trendFilters.country}`: sql``} 
@@ -73,7 +87,14 @@ const l1_getOpenPo = async (config, trendQuery) => {
                 LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
                   ON pr.date = p.formatted_date
               WHERE 
-              pr.date >= ${config.totals.primary.startDate} AND pr.date <= ${config.totals.primary.endDate} 
+              ${!config.trends.yearTrend ? sql`
+                  p.formatted_date >= ${config.totals.primary.startDate} 
+                  AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+                sql`
+                  ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+                  AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+                  AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+                ` } 
               ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
               ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
               ${config.trendFilters.country ? sql`AND pr.country = ${config.trendFilters.country}`: sql``} 
@@ -85,13 +106,13 @@ const l1_getOpenPo = async (config, trendQuery) => {
         
         SELECT 
           'PURCHASE ORDER' AS column, 
-          ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)} AS l1_label,`: sql``} 
-          ${trendQuery.inv.l2_label ? sql`${sql(trendQuery.inv.l2_label)} AS l2_label,`: sql``} 
-          ${trendQuery.inv.l3_label ? sql`${sql(trendQuery.inv.l3_label)} AS l3_label,`: sql``} 
-          ${trendQuery.inv.l4_label ? sql`${sql(trendQuery.inv.l4_label)} AS l4_label,`: sql``} 
-          ${trendQuery.inv.l5_label ? sql`${sql(trendQuery.inv.l5_label)} AS l5_label,`: sql``} 
-          ${trendQuery.inv.l6_label ? sql`${sql(trendQuery.inv.l6_label)} AS l6_label,`: sql``} 
-          ${trendQuery.inv.l7_label ? sql`${sql(trendQuery.inv.l7_label)} AS l7_label,`: sql``} 
+          ${trendQuery.inv.l1_label ? sql`COALESCE(${sql(trendQuery.inv.l1_label)},'NO VALUE') AS l1_label,`: sql``} 
+          ${trendQuery.inv.l2_label ? sql`COALESCE(${sql(trendQuery.inv.l2_label)},'NO VALUE') AS l2_label,`: sql``} 
+          ${trendQuery.inv.l3_label ? sql`COALESCE(${sql(trendQuery.inv.l3_label)},'NO VALUE') AS l3_label,`: sql``} 
+          ${trendQuery.inv.l4_label ? sql`COALESCE(${sql(trendQuery.inv.l4_label)},'NO VALUE') AS l4_label,`: sql``} 
+          ${trendQuery.inv.l5_label ? sql`COALESCE(${sql(trendQuery.inv.l5_label)},'NO VALUE') AS l5_label,`: sql``} 
+          ${trendQuery.inv.l6_label ? sql`COALESCE(${sql(trendQuery.inv.l6_label)},'NO VALUE') AS l6_label,`: sql``} 
+          ${trendQuery.inv.l7_label ? sql`COALESCE(${sql(trendQuery.inv.l7_label)},'NO VALUE') AS l7_label,`: sql``} 
           COALESCE(SUM(inv.on_order_lbs),0) AS lbs, 
           COALESCE(SUM(inv.on_order_extended),0) AS cogs, 
           COALESCE(SUM(inv.on_order_extended),0) AS "grossSales", 
@@ -171,7 +192,14 @@ const l0_getOpenPo = async config => {
               LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
                 ON sl.formatted_invoice_date = p.formatted_date
             WHERE 
-              sl.formatted_invoice_date >= ${config.totals.primary.startDate} AND sl.formatted_invoice_date <= ${config.totals.primary.endDate} 
+              ${!config.trends.yearTrend ? sql`
+                p.formatted_date >= ${config.totals.primary.startDate} 
+                AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+              sql`
+                ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+                AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+                AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              ` }  
               ${config.trendFilters.customer ? sql`AND sl.customer_code = ${config.trendFilters.customer}`: sql``} 
               ${config.trendFilters.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.trendFilters.salesPerson}`: sql``} 
               ${config.trendFilters.country ? sql`AND sl.country = ${config.trendFilters.country}`: sql``} 
@@ -194,7 +222,14 @@ const l0_getOpenPo = async config => {
     
               WHERE 
                 so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-                AND so.formatted_ship_date >= ${config.totals.primary.startDate} AND so.formatted_ship_date <= ${config.totals.primary.endDate}
+                ${!config.trends.yearTrend ? sql`
+                  AND p.formatted_date >= ${config.totals.primary.startDate} 
+                  AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+                sql`
+                  AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+                  AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+                  AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+                ` } 
                 ${config.trendFilters.customer ? sql`AND so.customer_code = ${config.trendFilters.customer}`: sql``} 
                 ${config.trendFilters.salesPerson ? sql`AND so.out_sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
                 ${config.trendFilters.country ? sql`AND so.country = ${config.trendFilters.country}`: sql``} 
@@ -215,7 +250,14 @@ const l0_getOpenPo = async config => {
                 LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
                   ON pr.date = p.formatted_date
               WHERE 
-              pr.date >= ${config.totals.primary.startDate} AND pr.date <= ${config.totals.primary.endDate} 
+              ${!config.trends.yearTrend ? sql`
+                p.formatted_date >= ${config.totals.primary.startDate} 
+                AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+              sql`
+                ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+                AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+                AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              ` }  
               ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
               ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
               ${config.trendFilters.country ? sql`AND pr.country = ${config.trendFilters.country}`: sql``} 

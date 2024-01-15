@@ -27,7 +27,14 @@ const l1_getRowLabels = async (config, trendQuery) => {
             LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
               ON sl.formatted_invoice_date = p.formatted_date
           WHERE 
-            sl.formatted_invoice_date >= ${config.rows.startDate} AND sl.formatted_invoice_date <= ${config.rows.endDate} 
+            ${!config.trends.yearTrend ? sql`
+              p.formatted_date >= ${config.totals.primary.startDate} 
+              AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+            sql`
+              ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ` }  
             ${config.trendFilters.customer ? sql`AND sl.customer_code = ${config.trendFilters.customer}`: sql``} 
             ${config.trendFilters.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.trendFilters.salesPerson}`: sql``} 
             ${config.trendFilters.country ? sql`AND sl.country = ${config.trendFilters.country}`: sql``} 
@@ -50,7 +57,14 @@ const l1_getRowLabels = async (config, trendQuery) => {
   
             WHERE 
               so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-              AND so.formatted_ship_date >= ${config.rows.startDate} AND so.formatted_ship_date <= ${config.rows.endDate}
+              ${!config.trends.yearTrend ? sql`
+                AND p.formatted_date >= ${config.totals.primary.startDate} 
+                AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+              sql`
+                AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+                AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+                AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ` }
               ${config.trendFilters.customer ? sql`AND so.customer_code = ${config.trendFilters.customer}`: sql``} 
               ${config.trendFilters.salesPerson ? sql`AND so.out_sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
               ${config.trendFilters.country ? sql`AND so.country = ${config.trendFilters.country}`: sql``} 
@@ -71,7 +85,14 @@ const l1_getRowLabels = async (config, trendQuery) => {
               LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
                 ON pr.date = p.formatted_date
             WHERE 
-            pr.date >= ${config.rows.startDate} AND pr.date <= ${config.rows.endDate} 
+            ${!config.trends.yearTrend ? sql`
+                p.formatted_date >= ${config.totals.primary.startDate} 
+                AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+              sql`
+                ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+                AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+                AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ` } 
             ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
             ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
             ${config.trendFilters.country ? sql`AND pr.country = ${config.trendFilters.country}`: sql``} 
@@ -82,13 +103,13 @@ const l1_getRowLabels = async (config, trendQuery) => {
       )
       
       SELECT 
-          ${trendQuery.sl.l1_label ? sql`${sql(trendQuery.sl.l1_label)} AS l1_label,`: sql``} 
-          ${trendQuery.sl.l2_label ? sql`${sql(trendQuery.sl.l2_label)} AS l2_label,`: sql``} 
-          ${trendQuery.sl.l3_label ? sql`${sql(trendQuery.sl.l3_label)} AS l3_label,`: sql``} 
-          ${trendQuery.sl.l4_label ? sql`${sql(trendQuery.sl.l4_label)} AS l4_label,`: sql``} 
-          ${trendQuery.sl.l5_label ? sql`${sql(trendQuery.sl.l5_label)} AS l5_label,`: sql``} 
-          ${trendQuery.sl.l6_label ? sql`${sql(trendQuery.sl.l6_label)} AS l6_label,`: sql``} 
-          ${trendQuery.sl.l7_label ? sql`${sql(trendQuery.sl.l7_label)} AS l7_label,`: sql``} 
+          ${trendQuery.sl.l1_label ? sql`COALESCE(${sql(trendQuery.sl.l1_label)},'NO VALUE') AS l1_label,`: sql``} 
+          ${trendQuery.sl.l2_label ? sql`COALESCE(${sql(trendQuery.sl.l2_label)},'NO VALUE') AS l2_label,`: sql``} 
+          ${trendQuery.sl.l3_label ? sql`COALESCE(${sql(trendQuery.sl.l3_label)},'NO VALUE') AS l3_label,`: sql``} 
+          ${trendQuery.sl.l4_label ? sql`COALESCE(${sql(trendQuery.sl.l4_label)},'NO VALUE') AS l4_label,`: sql``} 
+          ${trendQuery.sl.l5_label ? sql`COALESCE(${sql(trendQuery.sl.l5_label)},'NO VALUE') AS l5_label,`: sql``} 
+          ${trendQuery.sl.l6_label ? sql`COALESCE(${sql(trendQuery.sl.l6_label)},'NO VALUE') AS l6_label,`: sql``} 
+          ${trendQuery.sl.l7_label ? sql`COALESCE(${sql(trendQuery.sl.l7_label)},'NO VALUE') AS l7_label,`: sql``} 
           ${config.baseFilters.queryLevel} AS datalevel 
            
         
@@ -97,10 +118,19 @@ const l1_getRowLabels = async (config, trendQuery) => {
               ON ms.item_num = sl.item_number
             LEFT OUTER JOIN "masters".customer_supplement AS cs 
               ON cs.customer_code = sl.customer_code
+            LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+              ON sl.formatted_invoice_date = p.formatted_date
               
         WHERE 
             ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-            ${!config.trends.fyYtd && !config.trends.fyFullYear ? sql`AND sl.formatted_invoice_date >= ${config.rows.startDate} AND sl.formatted_invoice_date <= ${config.rows.endDate} ` : sql``} 
+            ${!config.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.totals.primary.startDate} 
+              AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+            sql`
+              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ` } 
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
             ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
@@ -131,13 +161,13 @@ const l1_getRowLabels = async (config, trendQuery) => {
           ${trendQuery.sl.l7_label ? sql`, ${sql(trendQuery.sl.l7_label)}`: sql``} 
         
         UNION SELECT 
-          ${trendQuery.so.l1_label ? sql`${sql(trendQuery.so.l1_label)} AS l1_label,`: sql``} 
-          ${trendQuery.so.l2_label ? sql`${sql(trendQuery.so.l2_label)} AS l2_label,`: sql``} 
-          ${trendQuery.so.l3_label ? sql`${sql(trendQuery.so.l3_label)} AS l3_label,`: sql``} 
-          ${trendQuery.so.l4_label ? sql`${sql(trendQuery.so.l4_label)} AS l4_label,`: sql``} 
-          ${trendQuery.so.l5_label ? sql`${sql(trendQuery.so.l5_label)} AS l5_label,`: sql``} 
-          ${trendQuery.so.l6_label ? sql`${sql(trendQuery.so.l6_label)} AS l6_label,`: sql``} 
-          ${trendQuery.so.l7_label ? sql`${sql(trendQuery.so.l7_label)} AS l7_label,`: sql``} 
+          ${trendQuery.so.l1_label ? sql`COALESCE(${sql(trendQuery.so.l1_label)},'NO VALUE') AS l1_label,`: sql``} 
+          ${trendQuery.so.l2_label ? sql`COALESCE(${sql(trendQuery.so.l2_label)},'NO VALUE') AS l2_label,`: sql``} 
+          ${trendQuery.so.l3_label ? sql`COALESCE(${sql(trendQuery.so.l3_label)},'NO VALUE') AS l3_label,`: sql``} 
+          ${trendQuery.so.l4_label ? sql`COALESCE(${sql(trendQuery.so.l4_label)},'NO VALUE') AS l4_label,`: sql``} 
+          ${trendQuery.so.l5_label ? sql`COALESCE(${sql(trendQuery.so.l5_label)},'NO VALUE') AS l5_label,`: sql``} 
+          ${trendQuery.so.l6_label ? sql`COALESCE(${sql(trendQuery.so.l6_label)},'NO VALUE') AS l6_label,`: sql``} 
+          ${trendQuery.so.l7_label ? sql`COALESCE(${sql(trendQuery.so.l7_label)},'NO VALUE') AS l7_label,`: sql``} 
           ${config.baseFilters.queryLevel} AS datalevel 
           
         
@@ -181,21 +211,30 @@ const l1_getRowLabels = async (config, trendQuery) => {
 
         UNION 
           SELECT
-            ${trendQuery.pr.l1_label ? sql`${sql(trendQuery.pr.l1_label)} AS l1_label,`: sql``} 
-            ${trendQuery.pr.l2_label ? sql`${sql(trendQuery.pr.l2_label)} AS l2_label,`: sql``} 
-            ${trendQuery.pr.l3_label ? sql`${sql(trendQuery.pr.l3_label)} AS l3_label,`: sql``} 
-            ${trendQuery.pr.l4_label ? sql`${sql(trendQuery.pr.l4_label)} AS l4_label,`: sql``} 
-            ${trendQuery.pr.l5_label ? sql`${sql(trendQuery.pr.l5_label)} AS l5_label,`: sql``} 
-            ${trendQuery.pr.l6_label ? sql`${sql(trendQuery.pr.l6_label)} AS l6_label,`: sql``} 
-            ${trendQuery.pr.l7_label ? sql`${sql(trendQuery.pr.l7_label)} AS l7_label,`: sql``} 
+            ${trendQuery.pr.l1_label ? sql`COALESCE(${sql(trendQuery.pr.l1_label)},'NO VALUE') AS l1_label,`: sql``} 
+            ${trendQuery.pr.l2_label ? sql`COALESCE(${sql(trendQuery.pr.l2_label)},'NO VALUE') AS l2_label,`: sql``} 
+            ${trendQuery.pr.l3_label ? sql`COALESCE(${sql(trendQuery.pr.l3_label)},'NO VALUE') AS l3_label,`: sql``} 
+            ${trendQuery.pr.l4_label ? sql`COALESCE(${sql(trendQuery.pr.l4_label)},'NO VALUE') AS l4_label,`: sql``} 
+            ${trendQuery.pr.l5_label ? sql`COALESCE(${sql(trendQuery.pr.l5_label)},'NO VALUE') AS l5_label,`: sql``} 
+            ${trendQuery.pr.l6_label ? sql`COALESCE(${sql(trendQuery.pr.l6_label)},'NO VALUE') AS l6_label,`: sql``} 
+            ${trendQuery.pr.l7_label ? sql`COALESCE(${sql(trendQuery.pr.l7_label)},'NO VALUE') AS l7_label,`: sql``} 
             ${config.baseFilters.queryLevel} AS datalevel 
           FROM "salesReporting".projected_sales AS pr  
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = pr.item_number 
             LEFT OUTER JOIN "masters".customer_supplement AS cs 
               ON cs.customer_code = pr.customer_code 
+            LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+              ON pr.date = p.formatted_date
           WHERE 
-            pr.date >= ${config.rows.startDate} AND pr.date <= ${config.rows.endDate} 
+            ${!config.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.totals.primary.startDate} 
+              AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+            sql`
+              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ` } 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
             ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
@@ -227,13 +266,13 @@ const l1_getRowLabels = async (config, trendQuery) => {
 
         ${trendQuery.inv.l1_label ? sql`
         UNION SELECT 
-          ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)} AS l1_label,`: sql``} 
-          ${trendQuery.inv.l2_label ? sql`${sql(trendQuery.inv.l2_label)} AS l2_label,`: sql``} 
-          ${trendQuery.inv.l3_label ? sql`${sql(trendQuery.inv.l3_label)} AS l3_label,`: sql``} 
-          ${trendQuery.inv.l4_label ? sql`${sql(trendQuery.inv.l4_label)} AS l4_label,`: sql``} 
-          ${trendQuery.inv.l5_label ? sql`${sql(trendQuery.inv.l5_label)} AS l5_label,`: sql``} 
-          ${trendQuery.inv.l6_label ? sql`${sql(trendQuery.inv.l6_label)} AS l6_label,`: sql``} 
-          ${trendQuery.inv.l7_label ? sql`${sql(trendQuery.inv.l7_label)} AS l7_label,`: sql``}
+          ${trendQuery.inv.l1_label ? sql`COALESCE(${sql(trendQuery.inv.l1_label)},'NO VALUE') AS l1_label,`: sql``} 
+          ${trendQuery.inv.l2_label ? sql`COALESCE(${sql(trendQuery.inv.l2_label)},'NO VALUE') AS l2_label,`: sql``} 
+          ${trendQuery.inv.l3_label ? sql`COALESCE(${sql(trendQuery.inv.l3_label)},'NO VALUE') AS l3_label,`: sql``} 
+          ${trendQuery.inv.l4_label ? sql`COALESCE(${sql(trendQuery.inv.l4_label)},'NO VALUE') AS l4_label,`: sql``} 
+          ${trendQuery.inv.l5_label ? sql`COALESCE(${sql(trendQuery.inv.l5_label)},'NO VALUE') AS l5_label,`: sql``} 
+          ${trendQuery.inv.l6_label ? sql`COALESCE(${sql(trendQuery.inv.l6_label)},'NO VALUE') AS l6_label,`: sql``} 
+          ${trendQuery.inv.l7_label ? sql`COALESCE(${sql(trendQuery.inv.l7_label)},'NO VALUE') AS l7_label,`: sql``}
           ${config.baseFilters.queryLevel} AS datalevel  
         
         FROM "invenReporting".perpetual_inventory AS inv

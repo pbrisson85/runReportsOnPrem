@@ -14,3 +14,5 @@
 - In the production report the purchase receipts does not have the rows for it.
 
 - FIRST: production report does not work with years trend uyet because I did not update the postgres queries
+
+- Dont have sales projections table in the getRowLabels for base report sales

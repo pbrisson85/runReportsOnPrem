@@ -10,13 +10,13 @@ const l1_getSalesTrend = async (config, trendQuery) => {
     const response = await sql
       `SELECT 
         pj.column, 
-        ${trendQuery.sl.l1_label ? sql`pj.l1_label,`: sql``} 
-        ${trendQuery.sl.l2_label ? sql`pj.l2_label,`: sql``} 
-        ${trendQuery.sl.l3_label ? sql`pj.l3_label,`: sql``}
-        ${trendQuery.sl.l4_label ? sql`pj.l4_label,`: sql``}
-        ${trendQuery.sl.l5_label ? sql`pj.l5_label,`: sql``}
-        ${trendQuery.sl.l6_label ? sql`pj.l6_label,`: sql``}
-        ${trendQuery.sl.l7_label ? sql`pj.l7_label,`: sql``}
+        ${trendQuery.sl.l1_label ? sql`COALESCE(pj.l1_label, "NO VALUE") AS l1_label,`: sql``} 
+        ${trendQuery.sl.l2_label ? sql`COALESCE(pj.l2_label, "NO VALUE") AS l2_label,`: sql``} 
+        ${trendQuery.sl.l3_label ? sql`COALESCE(pj.l3_label, "NO VALUE") AS l3_label,`: sql``} 
+        ${trendQuery.sl.l4_label ? sql`COALESCE(pj.l4_label, "NO VALUE") AS l4_label,`: sql``} 
+        ${trendQuery.sl.l5_label ? sql`COALESCE(pj.l5_label, "NO VALUE") AS l5_label,`: sql``} 
+        ${trendQuery.sl.l6_label ? sql`COALESCE(pj.l6_label, "NO VALUE") AS l6_label,`: sql``} 
+        ${trendQuery.sl.l7_label ? sql`COALESCE(pj.l7_label, "NO VALUE") AS l7_label,`: sql``} 
         SUM(pj.lbs) AS lbs, 
         SUM(pj.sales) AS "grossSales", 
         SUM(pj.cogs) AS cogs, 
