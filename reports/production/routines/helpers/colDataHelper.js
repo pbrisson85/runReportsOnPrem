@@ -4,8 +4,8 @@ const _ = require('lodash')
 // also customize the displayname here based on parameters requested.
 
 const addDataToProductionTotalCol = (config, columnConfigs, woActivityGroups) => {
-  console.log('building wo total cols: !!!!!!!!!!!!!!!!!!!!!!')
-  console.log('columnConfigs', columnConfigs)
+  console.log('BEFORE building wo total cols!!!!!!!!!!!!!!!!!!!!!!')
+  console.log('columnConfigs', columnConfigs.woCols)
 
   // Add startDate and endDate to the column configs so that it can be passed back in the detail and trend queries.
 

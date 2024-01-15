@@ -40,7 +40,8 @@ const getColumns = async (config, woActivityGroups) => {
   let columnConfigs = {}
 
   if (config.trends.yearTrend) {
-    console.log('year trend, hiding totals cols !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', config.trends.yearTrend)
+    console.log('HAS YEAR TRENDS !!!!!!!!!!!!!!!')
+    console.log('config.trends.yearTrend', config.trends.yearTrend)
 
     woCols.forEach((col, idx) => {
       woCols[idx].hidden = true
@@ -61,7 +62,7 @@ const getColumns = async (config, woActivityGroups) => {
   columnConfigs = addDataToSalesTotalCol(config, columnConfigs)
   columnConfigs = addDataToPoReceiptsTotalCol(config, columnConfigs)
 
-  console.log('returning columnConfigs', columnConfigs)
+  console.log('FINAL returning columnConfigs', columnConfigs.woCols)
 
   return { columnConfigs, trendColumns }
 }
