@@ -16,6 +16,8 @@ const getColumns = async (config, woActivityGroups) => {
   console.log('getting columns.....')
   console.log('woActivityGroups', woActivityGroups)
 
+  console.log('woCols', woCols)
+
   const trendColumnPromises = []
 
   ///////////////////////////////// TREND COLUMNS
@@ -44,7 +46,6 @@ const getColumns = async (config, woActivityGroups) => {
 
   if (config?.trends?.yearTrend !== null && typeof config?.trends?.yearTrend !== 'undefined') {
     console.log('HAS YEAR TRENDS !!!!!!!!!!!!!!!')
-    console.log('config.trends.yearTrend', config.trends.yearTrend)
 
     woCols.forEach((col, idx) => {
       console.log('setting hidden = TRUE for WO TOTALS !!!!!!!!!!!!!!!!!!')
@@ -54,6 +55,8 @@ const getColumns = async (config, woActivityGroups) => {
     })
   }
 
+  console.log('AFTER the loop to hide:', woCols)
+
   columnConfigs.woCols = woCols
   columnConfigs.invenTotalCols = invenTotalCols
   columnConfigs.invenKpiCol = invenKpiCol
@@ -61,6 +64,9 @@ const getColumns = async (config, woActivityGroups) => {
   columnConfigs.poReceiptsCols = poReceiptsCols
   columnConfigs.salesOrdersCol = salesOrdersCol
   columnConfigs.primarySalesTotalCol = primarySalesTotalCol
+
+  console.log('before col data helper: woCols: ', woCols)
+  console.log('before col data helper: columnConfigs.woCols: ', columnConfigs.woCols)
 
   // Add data to hardcoded columns
   columnConfigs = addDataToProductionTotalCol(config, columnConfigs, woActivityGroups) // adds startDate, endDate, and displayName
