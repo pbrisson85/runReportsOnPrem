@@ -43,6 +43,8 @@ const getColumns = async config => {
   const salesOrdersCol_cache = _.cloneDeep(salesOrdersCol)
 
   if (config?.trends?.yearTrend !== null && typeof config?.trends?.yearTrend !== 'undefined') {
+    console.log('REMOVING TOTALS COL')
+
     // No sales total if trend by year but keep column so default showtrend works.
     primarySalesTotalCol.forEach((col, idx) => {
       primarySalesTotalCol_cache[idx].hidden = true
