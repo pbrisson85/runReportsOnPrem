@@ -111,8 +111,7 @@ const l1_getRowLabels = async (config, trendQuery) => {
           ${trendQuery.sl.l6_label ? sql`COALESCE(${sql(trendQuery.sl.l6_label)},'NO VALUE') AS l6_label,`: sql``} 
           ${trendQuery.sl.l7_label ? sql`COALESCE(${sql(trendQuery.sl.l7_label)},'NO VALUE') AS l7_label,`: sql``} 
           ${config.baseFilters.queryLevel} AS datalevel 
-           
-        
+  
         FROM "salesReporting".sales_line_items AS sl
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = sl.item_number
@@ -160,6 +159,7 @@ const l1_getRowLabels = async (config, trendQuery) => {
           ${trendQuery.sl.l6_label ? sql`, ${sql(trendQuery.sl.l6_label)}`: sql``} 
           ${trendQuery.sl.l7_label ? sql`, ${sql(trendQuery.sl.l7_label)}`: sql``} 
         
+          
         UNION SELECT 
           ${trendQuery.so.l1_label ? sql`COALESCE(${sql(trendQuery.so.l1_label)},'NO VALUE') AS l1_label,`: sql``} 
           ${trendQuery.so.l2_label ? sql`COALESCE(${sql(trendQuery.so.l2_label)},'NO VALUE') AS l2_label,`: sql``} 
@@ -170,7 +170,6 @@ const l1_getRowLabels = async (config, trendQuery) => {
           ${trendQuery.so.l7_label ? sql`COALESCE(${sql(trendQuery.so.l7_label)},'NO VALUE') AS l7_label,`: sql``} 
           ${config.baseFilters.queryLevel} AS datalevel 
           
-        
         FROM "salesReporting".sales_orders AS so
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = so.item_num 
