@@ -13,6 +13,9 @@ const addDataToPoReceiptsTotalCol = require('./colDataHelper').addDataToPoReceip
 
 // These are configs for the columns in the report
 const getColumns = async (config, woActivityGroups) => {
+  console.log('getting columns.....')
+  console.log('woActivityGroups', woActivityGroups)
+
   const trendColumnPromises = []
 
   ///////////////////////////////// TREND COLUMNS
@@ -37,7 +40,7 @@ const getColumns = async (config, woActivityGroups) => {
   let columnConfigs = {}
 
   if (config.trends.yearTrend) {
-    console.log('year trend, hiding totals cols', config.trends.yearTrend)
+    console.log('year trend, hiding totals cols !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', config.trends.yearTrend)
 
     woCols.forEach((col, idx) => {
       woCols[idx].hidden = true
@@ -57,6 +60,8 @@ const getColumns = async (config, woActivityGroups) => {
   columnConfigs = addDataToProductionTotalCol(config, columnConfigs, woActivityGroups) // adds startDate, endDate, and displayName
   columnConfigs = addDataToSalesTotalCol(config, columnConfigs)
   columnConfigs = addDataToPoReceiptsTotalCol(config, columnConfigs)
+
+  console.log('returning columnConfigs', columnConfigs)
 
   return { columnConfigs, trendColumns }
 }
