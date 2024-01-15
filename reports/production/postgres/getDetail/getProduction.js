@@ -80,8 +80,6 @@ const getProduction_detail = async (config, startDate, endDate, woActivity) => {
         ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``} 
       ` //prettier-ignore
 
-    console.log('response', response)
-
     return response
   } catch (error) {
     console.error(error)
