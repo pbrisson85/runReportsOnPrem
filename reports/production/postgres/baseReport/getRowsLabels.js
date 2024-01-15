@@ -7,7 +7,8 @@ const l5_getRowLabels = async config => {
     console.log(`${config.user} - query postgres to get row labels (getRowsFifthLevelDetail) ...`)
 
     const response = await sql
-        `SELECT 
+        `
+        SELECT 
           COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
           COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
           COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label, 
@@ -37,12 +38,21 @@ const l5_getRowLabels = async config => {
           COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label, 
           COALESCE(${sql(config.baseFormat.l5_field)},'NO VALUE') AS l5_label, 
           5 AS datalevel  
-        FROM "salesReporting".sales_line_items 
+        FROM "salesReporting".sales_line_items AS sl 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-            ON ms.item_num = sales_line_items.item_number 
+            ON ms.item_num = sl.item_number 
+          LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+            ON sl.formatted_invoice_date = p.formatted_date
         WHERE 
           ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-          ${sql`AND sales_line_items.formatted_invoice_date >= ${config.rows.startDate} AND sales_line_items.formatted_invoice_date <= ${config.rows.endDate}`}
+          ${!config.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.totals.primary.startDate} 
+              AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+            sql`
+              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ` }
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
         GROUP BY 
@@ -97,8 +107,49 @@ const l5_getRowLabels = async config => {
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``}
-          AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}  
+          ${!config.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.totals.primary.startDate} 
+              AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+            sql`
+              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ` }  
         GROUP BY 
+          ${sql(config.baseFormat.l1_field)}, 
+          ${sql(config.baseFormat.l2_field)}, 
+          ${sql(config.baseFormat.l3_field)}, 
+          ${sql(config.baseFormat.l4_field)}, 
+          ${sql(config.baseFormat.l5_field)}
+
+
+        UNION SELECT 
+          COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
+          COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
+          COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label, 
+          COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label, 
+          COALESCE(${sql(config.baseFormat.l5_field)},'NO VALUE') AS l5_label, 
+          5 AS datalevel  
+        FROM "purchaseReporting".po_data AS po 
+            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+              ON ms.item_num = po.item_number
+            LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+              ON po.receipt_date = p.formatted_date
+        WHERE 
+          po.po_offset = FALSE
+          AND po.extended_cost <> 0 
+          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+          ${!config.trends.yearTrend ? sql`
+                AND p.formatted_date >= ${config.totals.primary.startDate} 
+                AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+              sql`
+                AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+                AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+                AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              ` }
+        GROUP BY
           ${sql(config.baseFormat.l1_field)}, 
           ${sql(config.baseFormat.l2_field)}, 
           ${sql(config.baseFormat.l3_field)}, 
@@ -149,12 +200,21 @@ const l4_getRowLabels = async config => {
           COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label 
           ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``} 
           ,4 AS datalevel  
-        FROM "salesReporting".sales_line_items 
+        FROM "salesReporting".sales_line_items AS sl 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-            ON ms.item_num = sales_line_items.item_number 
+            ON ms.item_num = sl.item_number 
+          LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+            ON sl.formatted_invoice_date = p.formatted_date
         WHERE 
           ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-          ${sql`AND sales_line_items.formatted_invoice_date >= ${config.rows.startDate} AND sales_line_items.formatted_invoice_date <= ${config.rows.endDate}`}
+          ${!config.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.totals.primary.startDate} 
+              AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+            sql`
+              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ` }
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
         GROUP BY 
@@ -205,8 +265,48 @@ const l4_getRowLabels = async config => {
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``}
-          AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
+          ${!config.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.totals.primary.startDate} 
+              AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+            sql`
+              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ` }
         GROUP BY 
+          ${sql(config.baseFormat.l1_field)}, 
+          ${sql(config.baseFormat.l2_field)}, 
+          ${sql(config.baseFormat.l3_field)}, 
+          ${sql(config.baseFormat.l4_field)}
+
+
+        UNION SELECT 
+          COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
+          COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
+          COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label, 
+          COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label 
+          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``} 
+          ,4 AS datalevel  
+          FROM "purchaseReporting".po_data AS po 
+            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+              ON ms.item_num = po.item_number
+            LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+              ON po.receipt_date = p.formatted_date
+        WHERE 
+          po.po_offset = FALSE
+          AND po.extended_cost <> 0 
+          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+          ${!config.trends.yearTrend ? sql`
+                AND p.formatted_date >= ${config.totals.primary.startDate} 
+                AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+              sql`
+                AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+                AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+                AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              ` }
+        GROUP BY
           ${sql(config.baseFormat.l1_field)}, 
           ${sql(config.baseFormat.l2_field)}, 
           ${sql(config.baseFormat.l3_field)}, 
@@ -255,12 +355,21 @@ const l3_getRowLabels = async config => {
           ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
           ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``} 
           ,3 AS datalevel 
-        FROM "salesReporting".sales_line_items 
+        FROM "salesReporting".sales_line_items AS sl 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-            ON ms.item_num = sales_line_items.item_number 
+            ON ms.item_num = sl.item_number
+          LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+            ON sl.formatted_invoice_date = p.formatted_date
         WHERE 
           ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-          ${sql`AND sales_line_items.formatted_invoice_date >= ${config.rows.startDate} AND sales_line_items.formatted_invoice_date <= ${config.rows.endDate}`}
+          ${!config.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.totals.primary.startDate} 
+              AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+            sql`
+              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ` }
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
         GROUP BY 
@@ -309,8 +418,47 @@ const l3_getRowLabels = async config => {
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``}
-          AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
+          ${!config.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.totals.primary.startDate} 
+              AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+            sql`
+              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ` }
         GROUP BY 
+          ${sql(config.baseFormat.l1_field)}, 
+          ${sql(config.baseFormat.l2_field)}, 
+          ${sql(config.baseFormat.l3_field)}
+
+
+        UNION SELECT 
+          COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
+          COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
+          COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label 
+          ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
+          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``} 
+          ,3 AS datalevel  
+          FROM "purchaseReporting".po_data AS po 
+            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+              ON ms.item_num = po.item_number
+            LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+              ON po.receipt_date = p.formatted_date
+        WHERE 
+          po.po_offset = FALSE
+          AND po.extended_cost <> 0 
+          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+          ${!config.trends.yearTrend ? sql`
+                AND p.formatted_date >= ${config.totals.primary.startDate} 
+                AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+              sql`
+                AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+                AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+                AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              ` }
+        GROUP BY
           ${sql(config.baseFormat.l1_field)}, 
           ${sql(config.baseFormat.l2_field)}, 
           ${sql(config.baseFormat.l3_field)}
@@ -357,12 +505,21 @@ const l2_getRowLabels = async config => {
           ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
           ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``} 
           ,2 AS datalevel
-        FROM "salesReporting".sales_line_items 
+        FROM "salesReporting".sales_line_items AS sl 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-            ON ms.item_num = sales_line_items.item_number 
+            ON ms.item_num = sl.item_number 
+          LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+            ON sl.formatted_invoice_date = p.formatted_date
         WHERE 
           ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-          ${sql`AND sales_line_items.formatted_invoice_date >= ${config.rows.startDate} AND sales_line_items.formatted_invoice_date <= ${config.rows.endDate}`}
+          ${!config.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.totals.primary.startDate} 
+              AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+            sql`
+              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ` }
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
         GROUP BY 
@@ -408,10 +565,48 @@ const l2_getRowLabels = async config => {
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``}
-          AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
+          ${!config.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.totals.primary.startDate} 
+              AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+            sql`
+              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ` }
         GROUP BY 
           ${sql(config.baseFormat.l1_field)}, 
-          ${sql(config.baseFormat.l2_field)}    
+          ${sql(config.baseFormat.l2_field)}  
+          
+          
+        UNION SELECT 
+          COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
+          COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label 
+          ${config.baseFormat.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} 
+          ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
+          ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``} 
+          ,2 AS datalevel   
+          FROM "purchaseReporting".po_data AS po 
+            LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+              ON ms.item_num = po.item_number
+            LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+              ON po.receipt_date = p.formatted_date
+        WHERE 
+          po.po_offset = FALSE
+          AND po.extended_cost <> 0
+          ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
+          ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+          ${!config.trends.yearTrend ? sql`
+                AND p.formatted_date >= ${config.totals.primary.startDate} 
+                AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+              sql`
+                AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+                AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+                AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              ` }
+        GROUP BY
+          ${sql(config.baseFormat.l1_field)}, 
+          ${sql(config.baseFormat.l2_field)}
         ` //prettier-ignore
 
     return response
@@ -452,12 +647,21 @@ const l1_getRowLabels = async config => {
           ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
           ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``} 
           ,1 AS datalevel
-        FROM "salesReporting".sales_line_items 
+        FROM "salesReporting".sales_line_items AS sl 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-            ON ms.item_num = sales_line_items.item_number 
+            ON ms.item_num = sl.item_number
+          LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+            ON sl.formatted_invoice_date = p.formatted_date
         WHERE 
           ${config.baseFilters.itemType ? sql`ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql`ms.item_type IS NOT NULL`} 
-          ${sql`AND sales_line_items.formatted_invoice_date >= ${config.rows.startDate} AND sales_line_items.formatted_invoice_date <= ${config.rows.endDate}`}
+          ${!config.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.totals.primary.startDate} 
+              AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+            sql`
+              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ` }
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
         GROUP BY 
@@ -501,7 +705,42 @@ const l1_getRowLabels = async config => {
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``}
-        AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
+        ${!config.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.totals.primary.startDate} 
+              AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+            sql`
+              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ` }
+      GROUP BY ${sql(config.baseFormat.l1_field)}
+
+      UNION SELECT 
+        COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label 
+        ${config.baseFormat.l2_field ? sql`, 'SUBTOTAL' AS l2_label`: sql``} 
+        ${config.baseFormat.l3_field ? sql`, 'SUBTOTAL' AS l3_label`: sql``} 
+        ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
+        ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``} 
+        ,1 AS datalevel   
+        FROM "purchaseReporting".po_data AS po 
+          LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+            ON ms.item_num = po.item_number
+          LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+            ON po.receipt_date = p.formatted_date
+      WHERE 
+        po.po_offset = FALSE
+        AND po.extended_cost <> 0
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${!config.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.totals.primary.startDate} 
+              AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+            sql`
+              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
+              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ` }
       GROUP BY ${sql(config.baseFormat.l1_field)}
              
       ` //prettier-ignore
