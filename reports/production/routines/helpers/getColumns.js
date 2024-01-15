@@ -41,7 +41,7 @@ const getColumns = async (config, woActivityGroups) => {
 
   console.log('config.trends.yearTrend', config.trends.yearTrend)
 
-  if (!config?.trends?.yearTrend === null && typeof config?.trends?.yearTrend !== 'undefined') {
+  if (config?.trends?.yearTrend !== null && typeof config?.trends?.yearTrend !== 'undefined') {
     console.log('HAS YEAR TRENDS !!!!!!!!!!!!!!!')
     console.log('config.trends.yearTrend', config.trends.yearTrend)
 
