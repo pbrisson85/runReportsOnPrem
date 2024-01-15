@@ -10,6 +10,7 @@ const getTrendColsWo = require('../../postgres/timeSeriesColHeadings/getTimeSeri
 const addDataToProductionTotalCol = require('./colDataHelper').addDataToProductionTotalCol
 const addDataToSalesTotalCol = require('./colDataHelper').addDataToSalesTotalCol
 const addDataToPoReceiptsTotalCol = require('./colDataHelper').addDataToPoReceiptsTotalCol
+const _ = require('lodash')
 
 // These are configs for the columns in the report
 const getColumns = async (config, woActivityGroups) => {
@@ -44,27 +45,23 @@ const getColumns = async (config, woActivityGroups) => {
   console.log('config?.trends?.yearTrend', config.trends.yearTrend)
   console.log('SETTING TO HIDDEN: ', config?.trends?.yearTrend !== null && typeof config?.trends?.yearTrend !== 'undefined')
 
+  // copy woCols or the data will persist between requests
+  const woColsCache = _.cloneDeep(woCols)
+
   if (config?.trends?.yearTrend !== null && typeof config?.trends?.yearTrend !== 'undefined') {
     console.log('HAS YEAR TRENDS !!!!!!!!!!!!!!!')
 
     woCols.forEach((col, idx) => {
       console.log('setting hidden = TRUE for WO TOTALS !!!!!!!!!!!!!!!!!!')
 
-      woCols[idx].hidden = true
-      woCols[idx].showByDefault = false
-    })
-  } else {
-    woCols.forEach((col, idx) => {
-      console.log('setting hidden = FALSE for WO TOTALS !!!!!!!!!!!!!!!!!!')
-
-      woCols[idx].hidden = false
-      woCols[idx].showByDefault = true
+      woColsCache[idx].hidden = true
+      woColsCache[idx].showByDefault = false
     })
   }
 
   console.log('AFTER the loop to hide:', woCols)
 
-  columnConfigs.woCols = woCols
+  columnConfigs.woCols = woColsCache
   columnConfigs.invenTotalCols = invenTotalCols
   columnConfigs.invenKpiCol = invenKpiCol
   columnConfigs.poCols = poCols
