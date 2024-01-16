@@ -99,7 +99,7 @@ const getReportConfig = async reqBody => {
       grouping: getInvenReportsGrouping(reqBody),
     },
     woConfig: {
-      activities: await getWoActivities(),
+      activities: await getWoActivities(reqBody),
     },
     userPermissions: getUserPermissions(reqBody),
     user: reqBody.user ?? null,

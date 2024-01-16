@@ -1,8 +1,8 @@
 const sql = require('../../../server')
 
-const getWoActivityGroups = async config => {
+const getWoActivityGroups = async () => {
   try {
-    console.log(`${config.user} - getWoActivityGroups ...`)
+    console.log(`getWoActivityGroups ...`)
 
     const filter = await sql`
       SELECT 
