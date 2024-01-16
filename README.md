@@ -15,5 +15,7 @@
 - In the production report the purchase receipts does not have the rows for it.
 
 - FIRST: production report does not work with years trend uyet because I did not update the postgres queries
-
 - I dont have sales projections table in the getRowLabels for base report sales
+- Can I right click and get detail or slice on a 'NO VALUE' ?
+
+- Need a process for credit

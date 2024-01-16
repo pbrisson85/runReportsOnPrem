@@ -69,7 +69,6 @@ const getReportConfig = async reqBody => {
       species: reqBody.species ?? null,
       program: reqBody.programDrilldown ?? null,
     },
-    rows: await getRowDates(reqBody),
     salesOrders: {
       startDate: await getEarliestSoShipDate(reqBody.user),
       endDate: await getLatestSoShipDate(reqBody.user),

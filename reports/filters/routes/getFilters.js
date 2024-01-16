@@ -29,6 +29,15 @@ const {
 const getItemTypes = require('../postgres/getItemTypes')
 const getDistinctPrograms = require('../postgres/getDistinctPrograms')
 const getReportConfig = require('../../utils/getReportConfig')
+const getWoActivityGroups = require('../postgres/getWoActivityGroups')
+
+router.post('/productionActivity', async (req, res) => {
+  console.log('get PRODUCTION ACTIVITY filters lot route HIT...')
+  const config = await getReportConfig(req.body)
+  const options = await getWoActivityGroups(config)
+  res.send(options)
+  console.log('get PRODUCTION ACTIVITY filters lot route COMPLETE. ')
+})
 
 router.post('/productionCountry', async (req, res) => {
   console.log('get PRODUCTION COUNTRY filters lot route HIT...')
