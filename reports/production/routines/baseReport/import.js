@@ -2,9 +2,6 @@ module.exports = {
   // Cols
   getColumns: require('../helpers/getColumns'),
 
-  // Config Helpers
-  getWoActivityGroups: require('../helpers/getWoActivityGroups'),
-
   // Production Data
   l1_getProduction: require('../../postgres/baseReport/getProduction').l1_getProduction,
   l2_getProduction: require('../../postgres/baseReport/getProduction').l2_getProduction,

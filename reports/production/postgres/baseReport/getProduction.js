@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const l1_getProduction = async (config, woActivityGroups) => {
+const l1_getProduction = async config => {
   if (!config.baseFormat.l1_field) return []
   if (config.trends.yearTrend) return [] // skip totals if trend is by year
 
@@ -13,7 +13,7 @@ const l1_getProduction = async (config, woActivityGroups) => {
 
     const eachWoActivity = []
 
-    for (woActivity of woActivityGroups) {
+    for (woActivity of config.baseFilters.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (
@@ -76,7 +76,7 @@ const l1_getProduction = async (config, woActivityGroups) => {
   }
 }
 
-const l2_getProduction = async (config, woActivityGroups) => {
+const l2_getProduction = async config => {
   if (!config.baseFormat.l2_field) return []
   if (config.trends.yearTrend) return [] // skip totals if trend is by year
 
@@ -87,7 +87,7 @@ const l2_getProduction = async (config, woActivityGroups) => {
 
     const eachWoActivity = []
 
-    for (woActivity of woActivityGroups) {
+    for (woActivity of config.baseFilters.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (
@@ -151,7 +151,7 @@ const l2_getProduction = async (config, woActivityGroups) => {
   }
 }
 
-const l3_getProduction = async (config, woActivityGroups) => {
+const l3_getProduction = async config => {
   if (!config.baseFormat.l3_field) return []
   if (config.trends.yearTrend) return [] // skip totals if trend is by year
 
@@ -160,7 +160,7 @@ const l3_getProduction = async (config, woActivityGroups) => {
 
     const eachWoActivity = []
 
-    for (woActivity of woActivityGroups) {
+    for (woActivity of config.baseFilters.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (
@@ -225,7 +225,7 @@ const l3_getProduction = async (config, woActivityGroups) => {
   }
 }
 
-const l4_getProduction = async (config, woActivityGroups) => {
+const l4_getProduction = async config => {
   if (!config.baseFormat.l4_field) return []
   if (config.trends.yearTrend) return [] // skip totals if trend is by year
 
@@ -234,7 +234,7 @@ const l4_getProduction = async (config, woActivityGroups) => {
 
     const eachWoActivity = []
 
-    for (woActivity of woActivityGroups) {
+    for (woActivity of config.baseFilters.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (
@@ -300,7 +300,7 @@ const l4_getProduction = async (config, woActivityGroups) => {
   }
 }
 
-const l5_getProduction = async (config, woActivityGroups) => {
+const l5_getProduction = async config => {
   if (!config.baseFormat.l5_field) return []
   if (config.trends.yearTrend) return [] // skip totals if trend is by year
 
@@ -309,7 +309,7 @@ const l5_getProduction = async (config, woActivityGroups) => {
 
     const eachWoActivity = []
 
-    for (woActivity of woActivityGroups) {
+    for (woActivity of config.baseFilters.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (
@@ -376,7 +376,7 @@ const l5_getProduction = async (config, woActivityGroups) => {
   }
 }
 
-const l0_getProduction = async (config, woActivityGroups) => {
+const l0_getProduction = async config => {
   if (config.trends.yearTrend) return [] // skip totals if trend is by year
 
   try {
@@ -386,7 +386,7 @@ const l0_getProduction = async (config, woActivityGroups) => {
 
     const eachWoActivity = []
 
-    for (woActivity of woActivityGroups) {
+    for (woActivity of config.baseFilters.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (

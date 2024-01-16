@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const getTrendColsWo = async (config, woActivityGroups) => {
+const getTrendColsWo = async config => {
   if (!config.trends.queryGrouping) return []
 
   console.log(`${config.user} - getTrendColsWo`)
@@ -10,7 +10,7 @@ const getTrendColsWo = async (config, woActivityGroups) => {
   try {
     const eachTimeSeries = []
 
-    for (woActivity of woActivityGroups) {
+    for (woActivity of config.baseFilters.woActivities) {
       const response = await sql`
       SELECT 
           ${sql(config.trends.queryGrouping)} || ${sql`REPLACE('_${sql(woActivity)}','"', '')`} AS "dataName", 

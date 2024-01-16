@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const l1_getProductionTrend = async (config, woActivityGroups) => {
+const l1_getProductionTrend = async config => {
   if (!config.baseFormat.l1_field) return []
 
   try {
@@ -10,7 +10,7 @@ const l1_getProductionTrend = async (config, woActivityGroups) => {
 
     const eachWoActivity = []
 
-    for (woActivity of woActivityGroups) {
+    for (woActivity of config.baseFilters.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (
@@ -83,7 +83,7 @@ const l1_getProductionTrend = async (config, woActivityGroups) => {
   }
 }
 
-const l2_getProductionTrend = async (config, woActivityGroups) => {
+const l2_getProductionTrend = async config => {
   if (!config.baseFormat.l2_field) return []
 
   try {
@@ -93,7 +93,7 @@ const l2_getProductionTrend = async (config, woActivityGroups) => {
 
     const eachWoActivity = []
 
-    for (woActivity of woActivityGroups) {
+    for (woActivity of config.baseFilters.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (
@@ -167,7 +167,7 @@ const l2_getProductionTrend = async (config, woActivityGroups) => {
   }
 }
 
-const l3_getProductionTrend = async (config, woActivityGroups) => {
+const l3_getProductionTrend = async config => {
   if (!config.baseFormat.l3_field) return []
 
   try {
@@ -175,7 +175,7 @@ const l3_getProductionTrend = async (config, woActivityGroups) => {
 
     const eachWoActivity = []
 
-    for (woActivity of woActivityGroups) {
+    for (woActivity of config.baseFilters.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (
@@ -250,7 +250,7 @@ const l3_getProductionTrend = async (config, woActivityGroups) => {
   }
 }
 
-const l4_getProductionTrend = async (config, woActivityGroups) => {
+const l4_getProductionTrend = async config => {
   if (!config.baseFormat.l4_field) return []
 
   try {
@@ -258,7 +258,7 @@ const l4_getProductionTrend = async (config, woActivityGroups) => {
 
     const eachWoActivity = []
 
-    for (woActivity of woActivityGroups) {
+    for (woActivity of config.baseFilters.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (
@@ -334,7 +334,7 @@ const l4_getProductionTrend = async (config, woActivityGroups) => {
   }
 }
 
-const l5_getProductionTrend = async (config, woActivityGroups) => {
+const l5_getProductionTrend = async config => {
   if (!config.baseFormat.l5_field) return []
 
   try {
@@ -342,7 +342,7 @@ const l5_getProductionTrend = async (config, woActivityGroups) => {
 
     const eachWoActivity = []
 
-    for (woActivity of woActivityGroups) {
+    for (woActivity of config.baseFilters.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (
@@ -419,7 +419,7 @@ const l5_getProductionTrend = async (config, woActivityGroups) => {
   }
 }
 
-const l0_getProductionTrend = async (config, woActivityGroups) => {
+const l0_getProductionTrend = async config => {
   try {
     console.log(`${config.user} - level 0: query postgres for Inv on hand (l0_getProductionTrend) ...`)
 
@@ -427,7 +427,7 @@ const l0_getProductionTrend = async (config, woActivityGroups) => {
 
     const eachWoActivity = []
 
-    for (woActivity of woActivityGroups) {
+    for (woActivity of config.baseFilters.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (

@@ -3,7 +3,7 @@ const _ = require('lodash')
 // adds identifying data to the sales total col so that any detail or trend requests have relevant date and flags
 // also customize the displayname here based on parameters requested.
 
-const addDataToProductionTotalCol = (config, columnConfigs, woActivityGroups) => {
+const addDataToProductionTotalCol = (config, columnConfigs) => {
   // Add startDate and endDate to the column configs so that it can be passed back in the detail and trend queries.
 
   const startDisplay = new Date(config.totals.primary.startDate).toLocaleString('en-US', {
@@ -19,8 +19,8 @@ const addDataToProductionTotalCol = (config, columnConfigs, woActivityGroups) =>
   const endDisplayClean = `${endDisplayArr[0]}/${endDisplayArr[1]}/${endDisplayArr[2]}`
 
   const woTotalsCols = []
-  for (let i = 0; i < woActivityGroups.length; i++) {
-    const activity = woActivityGroups[i]
+  for (let i = 0; i < config.baseFilters.woActivities.length; i++) {
+    const activity = config.baseFilters.woActivities[i]
     const trendDefault = i === 0 ? true : false
     const displayName = `${startDisplayClean} - ${endDisplayClean} ${activity}`
 

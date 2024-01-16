@@ -13,11 +13,11 @@ const addDataToPoReceiptsTotalCol = require('./colDataHelper').addDataToPoReceip
 const _ = require('lodash')
 
 // These are configs for the columns in the report
-const getColumns = async (config, woActivityGroups) => {
+const getColumns = async config => {
   const trendColumnPromises = []
 
   ///////////////////////////////// TREND COLUMNS
-  trendColumnPromises.push(getTrendColsWo(config, woActivityGroups))
+  trendColumnPromises.push(getTrendColsWo(config))
 
   /* RUN DATA */
 
@@ -56,7 +56,7 @@ const getColumns = async (config, woActivityGroups) => {
   columnConfigs.primarySalesTotalCol = primarySalesTotalCol
 
   // Add data to hardcoded columns
-  columnConfigs = addDataToProductionTotalCol(config, columnConfigs, woActivityGroups) // adds startDate, endDate, and displayName
+  columnConfigs = addDataToProductionTotalCol(config, columnConfigs) // adds startDate, endDate, and displayName
   columnConfigs = addDataToSalesTotalCol(config, columnConfigs)
   columnConfigs = addDataToPoReceiptsTotalCol(config, columnConfigs)
 

@@ -49,6 +49,7 @@ const getReportConfig = async reqBody => {
       itemType: reqBody.itemType ?? getItemTypeDefaults(reqBody.module),
       program: typeof reqBody.program === 'undefined' ? null : reqBody.program === 'all' ? null : reqBody.program,
       productionCountries: reqBody.productionCountries ?? null,
+      woActivities: await getWoActivities(reqBody),
       l1_filter: reqBody.l1_filter ?? null,
       l2_filter: reqBody.l2_filter ?? null,
       l3_filter: reqBody.l3_filter ?? null,
@@ -97,9 +98,6 @@ const getReportConfig = async reqBody => {
     invenReportCols: {
       aging: getInvenReportsAging(reqBody),
       grouping: getInvenReportsGrouping(reqBody),
-    },
-    woConfig: {
-      activities: await getWoActivities(reqBody),
     },
     userPermissions: getUserPermissions(reqBody),
     user: reqBody.user ?? null,
