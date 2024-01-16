@@ -14,6 +14,7 @@ const getUserPermissions = require('./configHelpers/getUserPermissions')
 const getTrailingWeeksForWeeksInven = require('./configHelpers/getTrailingWeeksForWeeksInven')
 const getItemTypeDefaults = require('./configHelpers/getItemTypeDefaults')
 const getYearTrend = require('./configHelpers/getYearTrend')
+const getWoActivities = require('./configHelpers/getWoActivities')
 
 const getReportConfig = async reqBody => {
   // get subtotalRowFormats defaults
@@ -97,6 +98,9 @@ const getReportConfig = async reqBody => {
       aging: getInvenReportsAging(reqBody),
       grouping: getInvenReportsGrouping(reqBody),
     },
+    woConfig: {
+      activities: await getWoActivities(),
+    },
     userPermissions: getUserPermissions(reqBody),
     user: reqBody.user ?? null,
     subtotalRowFormats: {
@@ -106,6 +110,8 @@ const getReportConfig = async reqBody => {
       subtotalLabelInSubtotals: reqBody.appSettings?.subtotalLabelInSubtotals ?? appSettings_unflat['subtotalLabelInSubtotals'].default,
     },
   }
+
+  console.log(config)
 
   return config
 }
