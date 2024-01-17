@@ -568,6 +568,116 @@ const getReportFormats = () => {
       ],
     },
     {
+      label: 'species / soak / type / item',
+      dataName: 'specSoakTypeItem',
+      defaultsFallback: false,
+      defaults: [],
+      optional: ['any'],
+      forbiddenCols: [],
+      groupingLevel: 4,
+      l1_field: 'ms.species',
+      l2_field: 'ms.fg_treatment',
+      l3_field: 'ms.item_type',
+      l4_field: 'ms.item_num',
+      l1_name: 'species',
+      l2_name: 'soak',
+      l3_name: 'item type',
+      l4_name: 'item number',
+      labelCols: [
+        {
+          displayName: 'SPECIES', // show as column header
+          dataName: 'l1_label', // key to pull data from
+          filterName: 'l1_filter', // key to match up the column with the filter
+          width: '130px', // css width
+          left: '0px', // css positioning for sticky sum of prior col widths
+          borderRight: false, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+        {
+          displayName: 'SOAK', // show as column header
+          dataName: 'l2_label', // key to pull data from
+          filterName: 'l2_filter', // key to match up the column with the filter
+          width: '150px', // css width
+          left: '130px', // css positioning for sticky sum of prior col widths
+          borderRight: false, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+        {
+          displayName: 'ITEM TYPE', // show as column header
+          dataName: 'l3_label', // key to pull data from
+          filterName: 'l3_filter', // key to match up the column with the filter
+          width: '100px', // css width
+          left: '280px', // css positioning for sticky sum of prior col widths
+          borderRight: false, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+        {
+          displayName: 'ITEM', // show as column header
+          dataName: 'l4_label', // key to pull data from
+          filterName: 'l4_filter', // key to match up the column with the filter
+          width: '100px', // css width
+          left: '380px', // css positioning for sticky sum of prior col widths
+          borderRight: true, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+      ],
+    },
+    {
+      label: 'species / soak / type / brand',
+      dataName: 'specSoakTypeBrnd',
+      defaultsFallback: false,
+      defaults: [],
+      optional: ['any'],
+      forbiddenCols: [],
+      groupingLevel: 4,
+      l1_field: 'ms.species',
+      l2_field: 'ms.fg_treatment',
+      l3_field: 'ms.item_type',
+      l4_field: 'ms.brand',
+      l1_name: 'species',
+      l2_name: 'soak',
+      l3_name: 'item type',
+      l4_name: 'brand',
+      labelCols: [
+        {
+          displayName: 'SPECIES', // show as column header
+          dataName: 'l1_label', // key to pull data from
+          filterName: 'l1_filter', // key to match up the column with the filter
+          width: '130px', // css width
+          left: '0px', // css positioning for sticky sum of prior col widths
+          borderRight: false, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+        {
+          displayName: 'SOAK', // show as column header
+          dataName: 'l2_label', // key to pull data from
+          filterName: 'l2_filter', // key to match up the column with the filter
+          width: '150px', // css width
+          left: '130px', // css positioning for sticky sum of prior col widths
+          borderRight: false, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+        {
+          displayName: 'ITEM TYPE', // show as column header
+          dataName: 'l3_label', // key to pull data from
+          filterName: 'l3_filter', // key to match up the column with the filter
+          width: '100px', // css width
+          left: '280px', // css positioning for sticky sum of prior col widths
+          borderRight: false, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+        {
+          displayName: 'BRAND', // show as column header
+          dataName: 'l4_label', // key to pull data from
+          filterName: 'l4_filter', // key to match up the column with the filter
+          width: '100px', // css width
+          left: '380px', // css positioning for sticky sum of prior col widths
+          borderRight: true, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+      ],
+    },
+    {
       label: 'freeze / soak / type',
       dataName: 'freezeSoakType',
       defaultsFallback: false,
@@ -606,6 +716,116 @@ const getReportFormats = () => {
           filterName: 'l3_filter', // key to match up the column with the filter
           width: '100px', // css width
           left: '280px', // css positioning for sticky sum of prior col widths
+          borderRight: true, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+      ],
+    },
+    {
+      label: 'freeze / soak / type / item',
+      dataName: 'freezeSoakTypeItem',
+      defaultsFallback: false,
+      defaults: [],
+      optional: ['any'],
+      forbiddenCols: [],
+      groupingLevel: 4,
+      l1_field: 'ms.fg_fresh_frozen',
+      l2_field: 'ms.fg_treatment',
+      l3_field: 'ms.item_type',
+      l4_field: 'ms.item_num',
+      l1_name: 'freeze',
+      l2_name: 'soak',
+      l3_name: 'item type',
+      l4_name: 'item number',
+      labelCols: [
+        {
+          displayName: 'FREEZE', // show as column header
+          dataName: 'l1_label', // key to pull data from
+          filterName: 'l1_filter', // key to match up the column with the filter
+          width: '130px', // css width
+          left: '0px', // css positioning for sticky sum of prior col widths
+          borderRight: false, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+        {
+          displayName: 'SOAK', // show as column header
+          dataName: 'l2_label', // key to pull data from
+          filterName: 'l2_filter', // key to match up the column with the filter
+          width: '150px', // css width
+          left: '130px', // css positioning for sticky sum of prior col widths
+          borderRight: false, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+        {
+          displayName: 'ITEM TYPE', // show as column header
+          dataName: 'l3_label', // key to pull data from
+          filterName: 'l3_filter', // key to match up the column with the filter
+          width: '100px', // css width
+          left: '280px', // css positioning for sticky sum of prior col widths
+          borderRight: false, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+        {
+          displayName: 'ITEM', // show as column header
+          dataName: 'l4_label', // key to pull data from
+          filterName: 'l4_filter', // key to match up the column with the filter
+          width: '100px', // css width
+          left: '380px', // css positioning for sticky sum of prior col widths
+          borderRight: true, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+      ],
+    },
+    {
+      label: 'freeze / soak / type / item',
+      dataName: 'freezeSoakTypeItem',
+      defaultsFallback: false,
+      defaults: [],
+      optional: ['any'],
+      forbiddenCols: [],
+      groupingLevel: 4,
+      l1_field: 'ms.fg_fresh_frozen',
+      l2_field: 'ms.fg_treatment',
+      l3_field: 'ms.item_type',
+      l4_field: 'ms.brand',
+      l1_name: 'freeze',
+      l2_name: 'soak',
+      l3_name: 'item type',
+      l4_name: 'brand',
+      labelCols: [
+        {
+          displayName: 'FREEZE', // show as column header
+          dataName: 'l1_label', // key to pull data from
+          filterName: 'l1_filter', // key to match up the column with the filter
+          width: '130px', // css width
+          left: '0px', // css positioning for sticky sum of prior col widths
+          borderRight: false, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+        {
+          displayName: 'SOAK', // show as column header
+          dataName: 'l2_label', // key to pull data from
+          filterName: 'l2_filter', // key to match up the column with the filter
+          width: '150px', // css width
+          left: '130px', // css positioning for sticky sum of prior col widths
+          borderRight: false, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+        {
+          displayName: 'ITEM TYPE', // show as column header
+          dataName: 'l3_label', // key to pull data from
+          filterName: 'l3_filter', // key to match up the column with the filter
+          width: '100px', // css width
+          left: '280px', // css positioning for sticky sum of prior col widths
+          borderRight: false, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+        {
+          displayName: 'BRAND', // show as column header
+          dataName: 'l4_label', // key to pull data from
+          filterName: 'l4_filter', // key to match up the column with the filter
+          width: '100px', // css width
+          left: '380px', // css positioning for sticky sum of prior col widths
           borderRight: true, // border right on ladst frozen cell
           rightClickMenu: [], // array of options for right click menu
         },
