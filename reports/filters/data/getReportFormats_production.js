@@ -777,8 +777,8 @@ const getReportFormats = () => {
       ],
     },
     {
-      label: 'freeze / soak / type / item',
-      dataName: 'freezeSoakTypeItem',
+      label: 'freeze / soak / type / brand',
+      dataName: 'freezeSoakTypeBrnd',
       defaultsFallback: false,
       defaults: [],
       optional: ['any'],
