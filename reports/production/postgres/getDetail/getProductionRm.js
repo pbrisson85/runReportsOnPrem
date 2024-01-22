@@ -17,52 +17,50 @@ const getProduction_detail = async (config, startDate, endDate, woActivity) => {
       ${woActivity} AS wo_activity, 
       wo.wo_activity_code AS wo_activity_code,
       act.description AS wo_activity_description,
-      wo.wo_activity_entity AS entity,
-      wo.wo_activity_country AS country,
-      wo.fg_line_item AS item,
+      act.wo_entity AS entity,
+      act.program_country AS country,
+      wo.rm_from_item AS item,
       ms.description,
-      wo.fg_line_lot_text AS lot_text,
-      wo.fg_line_location AS location,
+      wo.rm_location AS location,
       wo.header_classification AS classification,
       wo.header_notes AS notes,
-      wo.fg_line_lot AS lot,
+      wo.rm_lot AS lot,                                             -- deleted lot text ********
       wo.formatted_posting_date AS posting_date,
       ms.species, 
       ms.brand, 
       ms.size_name AS size, 
       ms.fg_treatment AS soak, 
       ms.fg_fresh_frozen AS fresh_frozen,  
-      COALESCE(wo.fg_line_weight,0) AS fg_lbs, 
-      COALESCE(wo.rm_fg_line_weight,0) AS rm_lbs, 
-      COALESCE(wo.chem_fg_line_weight,0) AS chem_lbs,  
-      COALESCE(wo.rm_fg_line_cost,0) AS rm_cost,  
-      COALESCE(NULLIF(wo.fg_line_weight,0)/NULLIF(wo.rm_fg_line_weight,0),0) AS yield,
-      COALESCE(wo.fg_line_extended_cost,0) AS fg_cost,
-      COALESCE(wo.mfg_fg_line_ext_direct_labor,0) AS labor, 
-      COALESCE(wo.mfg_fg_line_ext_overhead_pool,0) AS oh, 
-      COALESCE(wo.mfg_fg_line_ext_packaging,0) AS packaging, 
-      COALESCE(wo.chem_fg_line_cost,0) AS chem, 
-      COALESCE(wo.mfg_fg_line_ext_processing_fee,0) AS "processingFee", 
-      COALESCE(wo.fg_line_extended_cost/NULLIF(wo.fg_line_weight,0),0) AS "costPerLb",
-      COALESCE(wo.rm_fg_line_cost/NULLIF(wo.rm_fg_line_weight,0),0) AS "rmPerLb",
-      COALESCE(wo.rm_fg_line_cost/NULLIF(wo.fg_line_weight,0),0) AS "rmPerFgLb", 
-      COALESCE(wo.mfg_fg_line_ext_direct_labor/NULLIF(wo.fg_line_weight,0),0) AS "laborPerLb",
-      COALESCE(wo.mfg_fg_line_ext_overhead_pool/NULLIF(wo.fg_line_weight,0),0) AS "ohPerLb",
-      COALESCE(wo.mfg_fg_line_ext_packaging/NULLIF(wo.fg_line_weight,0),0) AS "packagingPerLb",
-      COALESCE(wo.chem_fg_line_cost/NULLIF(wo.fg_line_weight,0),0) AS "chemPerLb", 
-      COALESCE(wo.mfg_fg_line_ext_processing_fee/NULLIF(wo.fg_line_weight,0),0) AS "processingFeePerLb" 
+      COALESCE(wo.fg_rm_line_weight,0) AS fg_lbs,                   -- types menu needs to change to accomodate new naming ********
+      COALESCE(wo.rm_line_weight,0) AS rm_lbs,                      -- types menu needs to change to accomodate new naming ********
+      COALESCE(wo.chem_rm_line_weight,0) AS chem_lbs,  
+      COALESCE(wo.rm_line_cost,0) AS rm_cost,  
+      COALESCE(NULLIF(wo.fg_rm_line_weight,0)/NULLIF(wo.rm_line_weight,0),0) AS yield,
+      COALESCE(wo.fg_rm_line_cost,0) AS fg_cost,             
+      COALESCE(wo.mfg_rm_line_direct_labor,0) AS labor, 
+      COALESCE(wo.mfg_rm_line_overhead_pool,0) AS oh, 
+      COALESCE(wo.mfg_rm_line_packaging,0) AS packaging, 
+      COALESCE(wo.chem_rm_line_cost,0) AS chem, 
+      COALESCE(wo.mfg_rm_line_processing_fee,0) AS "processingFee", 
+      COALESCE(wo.fg_rm_line_cost/NULLIF(wo.fg_rm_line_weight,0),0) AS "fgCostPerLb",                 -- changed name from costPerLb
+      COALESCE(wo.rm_line_cost/NULLIF(wo.rm_line_weight,0),0) AS "rmCostPerLb",
+      COALESCE(wo.fg_rm_line_cost/NULLIF(wo.rm_line_weight,0),0) AS "fgCostPerRmLb",                  -- changed name from rmPerFgLb
+      COALESCE(wo.mfg_rm_line_direct_labor/NULLIF(wo.rm_line_weight,0),0) AS "laborPerRmLb",            -- changed name from laborPerLb
+      COALESCE(wo.mfg_rm_line_overhead_pool/NULLIF(wo.rm_line_weight,0),0) AS "ohPerRmLb",              -- changed name from ohPerLb
+      COALESCE(wo.mfg_rm_line_packaging/NULLIF(wo.rm_line_weight,0),0) AS "packagingPerRmLb",           -- changed name from packagingPerLb
+      COALESCE(wo.chem_rm_line_cost/NULLIF(wo.rm_line_weight,0),0) AS "chemPerRmLb",                    -- changed name from chemPerLb
+      COALESCE(wo.mfg_rm_line_processing_fee/NULLIF(wo.rm_line_weight,0),0) AS "processingFeePerRmLb"   -- changed name from processingFeePerLb
       
-      FROM "woReporting".wo_detail_by_fg AS wo
+      FROM "woReporting".wo_detail_by_rm AS wo
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
-          ON ms.item_num = wo.fg_line_item 
+          ON ms.item_num = wo.rm_from_item 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
           ON wo.formatted_posting_date = p.formatted_date
         LEFT OUTER JOIN wo_activity AS act 
             ON act.item_num = wo.wo_activity_code
         
       WHERE 
-        wo.by_prod_fg_line_bool = false
-        AND act.wo_group = ${woActivity}
+        act.wo_group = ${woActivity}
         AND p.formatted_date >= ${startDate} AND p.formatted_date <= ${endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 

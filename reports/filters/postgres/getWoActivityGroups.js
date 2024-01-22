@@ -5,6 +5,7 @@ const getWoActivityGroups = async () => {
     console.log(`getWoActivityGroups ...`)
 
     const filter = await sql`
+    
       SELECT 
         ms.wo_group AS label, 
         ms.wo_group AS "dataName", 

@@ -3,19 +3,19 @@ module.exports = {
   getColumns: require('../helpers/getColumns'),
 
   // Production Data
-  l1_getProduction: require('../../postgres/baseReport/getProduction').l1_getProduction,
-  l2_getProduction: require('../../postgres/baseReport/getProduction').l2_getProduction,
-  l3_getProduction: require('../../postgres/baseReport/getProduction').l3_getProduction,
-  l4_getProduction: require('../../postgres/baseReport/getProduction').l4_getProduction,
-  l5_getProduction: require('../../postgres/baseReport/getProduction').l5_getProduction,
-  l0_getProduction: require('../../postgres/baseReport/getProduction').l0_getProduction,
+  l1_getProduction: require('../../postgres/baseReport/getProductionFg').l1_getProduction,
+  l2_getProduction: require('../../postgres/baseReport/getProductionFg').l2_getProduction,
+  l3_getProduction: require('../../postgres/baseReport/getProductionFg').l3_getProduction,
+  l4_getProduction: require('../../postgres/baseReport/getProductionFg').l4_getProduction,
+  l5_getProduction: require('../../postgres/baseReport/getProductionFg').l5_getProduction,
+  l0_getProduction: require('../../postgres/baseReport/getProductionFg').l0_getProduction,
 
-  l1_getProductionTrend: require('../../postgres/baseReport/getProductionTrend').l1_getProductionTrend,
-  l2_getProductionTrend: require('../../postgres/baseReport/getProductionTrend').l2_getProductionTrend,
-  l3_getProductionTrend: require('../../postgres/baseReport/getProductionTrend').l3_getProductionTrend,
-  l4_getProductionTrend: require('../../postgres/baseReport/getProductionTrend').l4_getProductionTrend,
-  l5_getProductionTrend: require('../../postgres/baseReport/getProductionTrend').l5_getProductionTrend,
-  l0_getProductionTrend: require('../../postgres/baseReport/getProductionTrend').l0_getProductionTrend,
+  l1_getProductionTrend: require('../../postgres/baseReport/getProductionTrendFg').l1_getProductionTrend,
+  l2_getProductionTrend: require('../../postgres/baseReport/getProductionTrendFg').l2_getProductionTrend,
+  l3_getProductionTrend: require('../../postgres/baseReport/getProductionTrendFg').l3_getProductionTrend,
+  l4_getProductionTrend: require('../../postgres/baseReport/getProductionTrendFg').l4_getProductionTrend,
+  l5_getProductionTrend: require('../../postgres/baseReport/getProductionTrendFg').l5_getProductionTrend,
+  l0_getProductionTrend: require('../../postgres/baseReport/getProductionTrendFg').l0_getProductionTrend,
 
   // Inv Data
   l1_getInv: require('../../postgres/baseReport/getInven').l1_getInv,

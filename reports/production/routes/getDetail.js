@@ -3,7 +3,7 @@ const getReportConfig = require('../../utils/getReportConfig')
 const { getInven_detail } = require('../postgres/getDetail/getInven')
 const { getPo_detail } = require('../postgres/getDetail/getOpenPo')
 const { getSo_detail } = require('../postgres/getDetail/getSo')
-const getProduction_detail = require('../postgres/getDetail/getProduction')
+const getProduction_detail = require('../postgres/getDetail/getProductionFg')
 const detailColsMap = require('../data/detailCols/colsMap')
 const groupByOptions = require('../../filters/data/detailGroupBy')
 
