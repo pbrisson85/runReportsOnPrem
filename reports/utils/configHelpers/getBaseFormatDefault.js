@@ -2,10 +2,13 @@ const getReportFormats_sales = require('../../filters/data/getReportFormats_sale
 const getReportFormats_inven = require('../../filters/data/getReportFormats_inven')
 const getReportFormats_production = require('../../filters/data/getReportFormats_production')
 
-const getBaseFormatDefault = module => {
+const getBaseFormatDefault = reqBody => {
+  // If there is an L1 field then reqBody has the format and the default is not needed
+  if (typeof reqBody.reportFormat?.l1_field !== 'undefined') return null
+
   let reportFormats
 
-  switch (module) {
+  switch (reqBody.module) {
     case 'inven':
       reportFormats = getReportFormats_inven()
       break
