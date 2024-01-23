@@ -8,7 +8,7 @@ const getBaseFormatDefault = reqBody => {
 
   let reportFormats
 
-  switch (reqBody.module) {
+  switch (reqBody?.module) {
     case 'inven':
       reportFormats = getReportFormats_inven()
       break
