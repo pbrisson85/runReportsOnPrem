@@ -4,7 +4,7 @@ const getReportFormats_production = require('../../filters/data/getReportFormats
 
 const getBaseFormatDefault = reqBody => {
   // If there is an L1 field then reqBody has the format and the default is not needed
-  if (typeof reqBody.reportFormat?.l1_field !== 'undefined') return null
+  if (typeof reqBody?.reportFormat?.l1_field !== 'undefined') return null
 
   let reportFormats
 
