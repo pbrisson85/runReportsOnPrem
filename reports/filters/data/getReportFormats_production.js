@@ -105,6 +105,29 @@ const getReportFormats = () => {
     },
     {
       default: false, // if this is true then the defaults array should have "all" or else there will be a mistmatch in what the front end and back end beleive is the default
+      label: 'program',
+      dataName: 'prog',
+      defaultsFallback: false,
+      defaults: [],
+      optional: ['all'],
+      forbiddenCols: ['percentProgramSales'],
+      groupingLevel: 1,
+      l1_field: 'ms.program',
+      l1_name: 'program',
+      labelCols: [
+        {
+          displayName: 'PROGRAM', // show as column header
+          dataName: 'l1_label', // key to pull data from
+          filterName: 'l1_filter', // key to match up the column with the filter
+          width: '175px', // css width
+          left: '0px', // css positioning for sticky sum of prior col widths
+          borderRight: true, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+      ],
+    },
+    {
+      default: false, // if this is true then the defaults array should have "all" or else there will be a mistmatch in what the front end and back end beleive is the default
       label: 'type / program',
       dataName: 'typeProg',
       defaultsFallback: false,
