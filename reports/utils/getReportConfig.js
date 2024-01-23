@@ -17,7 +17,7 @@ const getYearTrend = require('./configHelpers/getYearTrend')
 const getWoActivities = require('./configHelpers/getWoActivities')
 
 const getReportConfig = async reqBody => {
-  console.log('reqBody', reqBody)
+  console.log('reqBody', reqBody?.reportFormat?.labelCols)
 
   // get subtotalRowFormats defaults
   const appSettingsData = appSettings()
