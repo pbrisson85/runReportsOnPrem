@@ -10,7 +10,42 @@ const l1_getWeeksOnHand = async (config, trendQuery) => {
     const { dataName, weeks, start, end } = config.trailingWeeksForWeeksInven[0]
 
     const response = await sql`
-        WITH ave_sales AS (
+    WITH wo_activity AS (
+      SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group, ms2.program_country 
+      FROM "invenReporting".master_supplement AS ms2 
+      WHERE item_type = 'WO_ACTIVITY'
+    ),
+    wo_filters AS (
+      SELECT 
+        wo.fg_line_item AS item_number
+      FROM "woReporting".wo_detail_by_fg AS wo
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
+          ON ms.item_num = wo.fg_line_item 
+        LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+          ON wo.formatted_posting_date = p.formatted_date
+        LEFT OUTER JOIN wo_activity AS act 
+            ON act.item_num = wo.wo_activity_code
+      WHERE 
+        wo.by_prod_fg_line_bool = false
+        AND act.wo_group IN ${sql(config.baseFilters.woActivities)}
+        AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
+        ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
+        ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``} 
+        ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
+        ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
+        ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}
+        ${config.trendFilters.item ? sql`AND ms.item_num = ${config.trendFilters.item}`: sql``}  
+        ${config.trendFilters.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.trendFilters.freshFrozen}`: sql``}  
+        ${config.baseFilters.queryLevel > 0 ? sql`AND ${sql(config.baseFormat.l1_field)} = ${config.baseFilters.l1_filter}` : sql``} 
+        ${config.baseFilters.queryLevel > 1 ? sql`AND ${sql(config.baseFormat.l2_field)} = ${config.baseFilters.l2_filter}` : sql``} 
+        ${config.baseFilters.queryLevel > 2 ? sql`AND ${sql(config.baseFormat.l3_field)} = ${config.baseFilters.l3_filter}` : sql``}
+        ${config.baseFilters.queryLevel > 3 ? sql`AND ${sql(config.baseFormat.l4_field)} = ${config.baseFilters.l4_filter}` : sql``}
+        ${config.baseFilters.queryLevel > 4 ? sql`AND ${sql(config.baseFormat.l5_field)} = ${config.baseFilters.l5_filter}` : sql``}
+    )
+
+        ave_sales AS (
             SELECT 
             ${trendQuery.sl.l1_label ? sql`pj.l1_label,`: sql``} 
             ${trendQuery.sl.l2_label ? sql`pj.l2_label,`: sql``} 
@@ -24,7 +59,6 @@ const l1_getWeeksOnHand = async (config, trendQuery) => {
         FROM (
           SELECT
             'dummy' AS item_number,
-            'dummy' AS customer_code,
             ${trendQuery.sl.l1_label ? sql`'dummy' AS l1_label,` : sql``} 
             ${trendQuery.sl.l2_label ? sql`'dummy' AS l2_label,` : sql``} 
             ${trendQuery.sl.l3_label ? sql`'dummy' AS l3_label,` : sql``} 
@@ -39,7 +73,6 @@ const l1_getWeeksOnHand = async (config, trendQuery) => {
           UNION ALL
           SELECT
             sl.item_number,
-            sl.customer_code,
             ${trendQuery.sl.l1_label ? sql`${sql(trendQuery.sl.l1_label)} AS l1_label,`: sql``} 
             ${trendQuery.sl.l2_label ? sql`${sql(trendQuery.sl.l2_label)} AS l2_label,`: sql``} 
             ${trendQuery.sl.l3_label ? sql`${sql(trendQuery.sl.l3_label)} AS l3_label,`: sql``} 
@@ -51,25 +84,17 @@ const l1_getWeeksOnHand = async (config, trendQuery) => {
           FROM "salesReporting".sales_line_items AS sl
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = sl.item_number 
-            LEFT OUTER JOIN "masters".customer_supplement AS cs 
-              ON cs.customer_code = sl.customer_code
             LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
               ON sl.formatted_invoice_date = p.formatted_date
           WHERE 
             sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
-            ${config.trendFilters.customer ? sql`AND sl.customer_code = ${config.trendFilters.customer}`: sql``} 
-            ${config.trendFilters.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.trendFilters.salesPerson}`: sql``} 
-            ${config.trendFilters.country ? sql`AND sl.country = ${config.trendFilters.country}`: sql``} 
-            ${config.trendFilters.state ? sql`AND sl.state = ${config.trendFilters.state}`: sql``} 
-            ${config.trendFilters.export ? sql`AND sl.domestic = ${config.trendFilters.export}`: sql``} 
-            ${config.trendFilters.northAmerica ? sql`AND sl.north_america = ${config.trendFilters.northAmerica}`: sql``} 
+            AND sl.item_number IN (SELECT item_number FROM wo_filters) -- apply wo filters (only show items with WO's)
             `: sql``}
   
           ${config.totals.useProjection.so ? sql`
           UNION ALL
             SELECT 
               so.item_num AS item_number,
-              so.customer_code,
               ${trendQuery.so.l1_label ? sql`${sql(trendQuery.so.l1_label)} AS l1_label,`: sql``} 
               ${trendQuery.so.l2_label ? sql`${sql(trendQuery.so.l2_label)} AS l2_label,`: sql``} 
               ${trendQuery.so.l3_label ? sql`${sql(trendQuery.so.l3_label)} AS l3_label,`: sql``} 
@@ -81,26 +106,18 @@ const l1_getWeeksOnHand = async (config, trendQuery) => {
             FROM "salesReporting".sales_orders AS so
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                 ON ms.item_num = so.item_num 
-              LEFT OUTER JOIN "masters".customer_supplement AS cs 
-                ON cs.customer_code = so.customer_code
               LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
                 ON so.formatted_ship_date = p.formatted_date
             WHERE 
               so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
               AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
-              ${config.trendFilters.customer ? sql`AND so.customer_code = ${config.trendFilters.customer}`: sql``} 
-              ${config.trendFilters.salesPerson ? sql`AND so.out_sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
-              ${config.trendFilters.country ? sql`AND so.country = ${config.trendFilters.country}`: sql``} 
-              ${config.trendFilters.state ? sql`AND so.state = ${config.trendFilters.state}`: sql``} 
-              ${config.trendFilters.export ? sql`AND so.domestic = ${config.trendFilters.export}`: sql``} 
-              ${config.trendFilters.northAmerica ? sql`AND so.north_america = ${config.trendFilters.northAmerica}`: sql``} 
+              AND so.item_num IN (SELECT item_number FROM wo_filters) -- apply wo filters (only show items with WO's)
               `: sql``}
-  
+
           ${config.totals.useProjection.pr ? sql`
           UNION ALL
             SELECT
               pr.item_number,
-              pr.customer_code,
               ${trendQuery.pr.l1_label ? sql`${sql(trendQuery.pr.l1_label)} AS l1_label,`: sql``} 
               ${trendQuery.pr.l2_label ? sql`${sql(trendQuery.pr.l2_label)} AS l2_label,`: sql``} 
               ${trendQuery.pr.l3_label ? sql`${sql(trendQuery.pr.l3_label)} AS l3_label,`: sql``} 
@@ -112,25 +129,16 @@ const l1_getWeeksOnHand = async (config, trendQuery) => {
             FROM "salesReporting".projected_sales AS pr  
               LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
                 ON ms.item_num = pr.item_number 
-              LEFT OUTER JOIN "masters".customer_supplement AS cs 
-                ON cs.customer_code = pr.customer_code 
               LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
                 ON pr.date = p.formatted_date
             WHERE 
               pr.date >= ${start} AND pr.date <= ${end} 
-              ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
-              ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
-              ${config.trendFilters.country ? sql`AND pr.country = ${config.trendFilters.country}`: sql``} 
-              ${config.trendFilters.state ? sql`AND pr.state = ${config.trendFilters.state}`: sql``} 
-              ${config.trendFilters.export ? sql`AND pr.domestic = ${config.trendFilters.export}`: sql``} 
-              ${config.trendFilters.northAmerica ? sql`AND pr.north_america = ${config.trendFilters.northAmerica}`: sql``}
+              AND pr.item_number IN (SELECT item_number FROM wo_filters) -- apply wo filters (only show items with WO's)
               `: sql``}
         ) AS pj
         
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = pj.item_number 
-        LEFT OUTER JOIN "masters".customer_supplement AS cs 
-          ON cs.customer_code = pj.customer_code
         
         WHERE 
           1=1
@@ -140,7 +148,6 @@ const l1_getWeeksOnHand = async (config, trendQuery) => {
           ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
           ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}
           ${config.trendFilters.item ? sql`AND ms.item_num = ${config.trendFilters.item}`: sql``}  
-          ${config.trendFilters.custType ? sql`AND cs.category = ${config.trendFilters.custType}`: sql``} 
           ${config.trendFilters.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.trendFilters.freshFrozen}`: sql``}  
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
           ${config.baseFilters.queryLevel > 0 ? sql`AND ${sql(config.baseFormat.l1_field)} = ${config.baseFilters.l1_filter}` : sql``} 
@@ -188,7 +195,8 @@ const l1_getWeeksOnHand = async (config, trendQuery) => {
                 ${config.baseFilters.queryLevel > 2 ? sql`AND ${sql(config.baseFormat.l3_field)} = ${config.baseFilters.l3_filter}` : sql``}
                 ${config.baseFilters.queryLevel > 3 ? sql`AND ${sql(config.baseFormat.l4_field)} = ${config.baseFilters.l4_filter}` : sql``}
                 ${config.baseFilters.queryLevel > 4 ? sql`AND ${sql(config.baseFormat.l5_field)} = ${config.baseFilters.l5_filter}` : sql``}
-                
+                AND inv.item_number IN (SELECT item_number FROM wo_filters) -- apply wo filters (only show items with WO's)
+
             GROUP BY
             ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)}`: sql``} 
             ${trendQuery.inv.l2_label ? sql`, ${sql(trendQuery.inv.l2_label)}`: sql``} 
