@@ -1,5 +1,7 @@
 ### To do.
 
+- IS COALESCE, 'NO VALUE' being handled correctly in the kpi queries? wondering this while doing get weeks on hand.
+
 - When right clicking for slice make sure the trend cannot show as sales order if in trend by year mode
 - Since there is no total column in YTD trend there is no place to right click for a slice!!!
 

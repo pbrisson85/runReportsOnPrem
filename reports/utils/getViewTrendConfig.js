@@ -1,3 +1,5 @@
+// Need to add po, wo from production module. also make sure I am using po and wo in the
+
 const getViewTrendConfig = rightMenuSelection => {
   switch (rightMenuSelection) {
     case 'Trend By Item':
@@ -34,6 +36,22 @@ const getViewTrendConfig = rightMenuSelection => {
           l5_label: 'ms.brand',
           l6_label: 'ms.size_name',
         },
+        wo: {
+          l1_label: 'ms.item_num',
+          l2_label: 'ms.description',
+          l3_label: 'ms.fg_fresh_frozen',
+          l4_label: 'ms.fg_treatment',
+          l5_label: 'ms.brand',
+          l6_label: 'ms.size_name',
+        },
+        po: {
+          l1_label: 'ms.item_num',
+          l2_label: 'ms.description',
+          l3_label: 'ms.fg_fresh_frozen',
+          l4_label: 'ms.fg_treatment',
+          l5_label: 'ms.brand',
+          l6_label: 'ms.size_name',
+        },
       }
 
     case 'Trend By Customer':
@@ -51,6 +69,8 @@ const getViewTrendConfig = rightMenuSelection => {
           // l2_label: 'so.customer_name', // cant include because there are non-unique customer names per customer code
         },
         inv: {},
+        wo: {},
+        po: {},
       }
 
     case 'Trend By Salesperson':
@@ -68,6 +88,8 @@ const getViewTrendConfig = rightMenuSelection => {
           l2_label: 'pr.sales_rep_name',
         },
         inv: {},
+        wo: {},
+        po: {},
       }
 
     case 'Trend By USA vs Export':
@@ -82,6 +104,8 @@ const getViewTrendConfig = rightMenuSelection => {
           l1_label: 'pr.domestic',
         },
         inv: {},
+        wo: {},
+        po: {},
       }
 
     case 'Trend By North America vs Foreign':
@@ -96,6 +120,8 @@ const getViewTrendConfig = rightMenuSelection => {
           l1_label: 'pr.north_america',
         },
         inv: {},
+        wo: {},
+        po: {},
       }
 
     case 'Trend By Country':
@@ -110,6 +136,8 @@ const getViewTrendConfig = rightMenuSelection => {
           l1_label: 'pr.country',
         },
         inv: {},
+        wo: {},
+        po: {},
       }
 
     case 'Trend By State':
@@ -124,6 +152,8 @@ const getViewTrendConfig = rightMenuSelection => {
           l1_label: 'pr.state',
         },
         inv: {},
+        wo: {},
+        po: {},
       }
 
     case 'Trend By Fresh vs Frozen':
@@ -132,6 +162,8 @@ const getViewTrendConfig = rightMenuSelection => {
         so: { l1_label: 'ms.fg_fresh_frozen' },
         pr: { l1_label: 'ms.fg_fresh_frozen' },
         inv: { l1_label: 'ms.fg_fresh_frozen' },
+        wo: { l1_label: 'ms.fg_fresh_frozen' },
+        po: { l1_label: 'ms.fg_fresh_frozen' },
       }
 
     case 'Trend By Customer Type':
@@ -140,6 +172,8 @@ const getViewTrendConfig = rightMenuSelection => {
         so: { l1_label: 'cs.category' },
         pr: { l1_label: 'cs.category' },
         inv: {},
+        wo: {},
+        po: {},
       }
 
     case 'Trend By Species Group':
@@ -148,6 +182,8 @@ const getViewTrendConfig = rightMenuSelection => {
         so: { l1_label: 'ms.species_group' },
         pr: { l1_label: 'ms.species_group' },
         inv: { l1_label: 'ms.species_group' },
+        wo: { l1_label: 'ms.species_group' },
+        po: { l1_label: 'ms.species_group' },
       }
 
     case 'Trend By Program':
@@ -156,6 +192,8 @@ const getViewTrendConfig = rightMenuSelection => {
         so: { l1_label: 'ms.program' },
         pr: { l1_label: 'ms.program' },
         inv: { l1_label: 'ms.program' },
+        wo: { l1_label: 'ms.program' },
+        po: { l1_label: 'ms.program' },
       }
 
     case 'Trend By Species':
@@ -164,6 +202,8 @@ const getViewTrendConfig = rightMenuSelection => {
         so: { l1_label: 'ms.species' },
         pr: { l1_label: 'ms.species' },
         inv: { l1_label: 'ms.species' },
+        wo: { l1_label: 'ms.species' },
+        po: { l1_label: 'ms.species' },
       }
   }
 }

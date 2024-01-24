@@ -4,6 +4,14 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
   const queryDataPromises = []
   const rowDataPromises = []
 
+  ///////////////////////////////// WORK ORDER DATA
+
+  queryDataPromises.push(m.l0_getProduction(config))
+  queryDataPromises.push(m.l1_getProduction(config, trendQuery))
+
+  queryDataPromises.push(m.l0_getProductionTrend(config))
+  queryDataPromises.push(m.l1_getProductionTrend(config, trendQuery))
+
   ///////////////////////////////// INVENTORY DATA
 
   queryDataPromises.push(m.l0_getInv(config))
@@ -18,6 +26,10 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
 
   queryDataPromises.push(m.l0_getSo(config))
   queryDataPromises.push(m.l1_getSo(config, trendQuery))
+
+  ///////////////////////////////// SALES
+  queryDataPromises.push(m.l0_getSalesTotalPrimary(config))
+  queryDataPromises.push(m.l1_getSalesTotalPrimary(config))
 
   ///////////////////////////////// INVEN KPIS
 

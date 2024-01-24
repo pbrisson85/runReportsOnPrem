@@ -6,30 +6,21 @@ const l1_getOpenPo = async (config, trendQuery) => {
   try {
     console.log(`${config.user} - level 1: query postgres for FG open PO ...`)
 
-    if (!trendQuery.inv.l1_label) return []
+    if (!trendQuery.po.l1_label) return []
 
     const response = await sql
         `SELECT 
           'PURCHASE ORDER' AS column, 
-          ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)} AS l1_label,`: sql``} 
-          ${trendQuery.inv.l2_label ? sql`${sql(trendQuery.inv.l2_label)} AS l2_label,`: sql``} 
-          ${trendQuery.inv.l3_label ? sql`${sql(trendQuery.inv.l3_label)} AS l3_label,`: sql``} 
-          ${trendQuery.inv.l4_label ? sql`${sql(trendQuery.inv.l4_label)} AS l4_label,`: sql``} 
-          ${trendQuery.inv.l5_label ? sql`${sql(trendQuery.inv.l5_label)} AS l5_label,`: sql``} 
-          ${trendQuery.inv.l6_label ? sql`${sql(trendQuery.inv.l6_label)} AS l6_label,`: sql``} 
-          ${trendQuery.inv.l7_label ? sql`${sql(trendQuery.inv.l7_label)} AS l7_label,`: sql``} 
+          ${trendQuery.po.l1_label ? sql`COALESCE(${sql(trendQuery.po.l1_label)},'NO VALUE') AS l1_label,`: sql``} 
+          ${trendQuery.po.l2_label ? sql`COALESCE(${sql(trendQuery.po.l2_label)},'NO VALUE') AS l2_label,`: sql``} 
+          ${trendQuery.po.l3_label ? sql`COALESCE(${sql(trendQuery.po.l3_label)},'NO VALUE') AS l3_label,`: sql``} 
+          ${trendQuery.po.l4_label ? sql`COALESCE(${sql(trendQuery.po.l4_label)},'NO VALUE') AS l4_label,`: sql``} 
+          ${trendQuery.po.l5_label ? sql`COALESCE(${sql(trendQuery.po.l5_label)},'NO VALUE') AS l5_label,`: sql``} 
+          ${trendQuery.po.l6_label ? sql`COALESCE(${sql(trendQuery.po.l6_label)},'NO VALUE') AS l6_label,`: sql``} 
+          ${trendQuery.po.l7_label ? sql`COALESCE(${sql(trendQuery.po.l7_label)},'NO VALUE') AS l7_label,`: sql``} 
           COALESCE(SUM(inv.on_order_lbs),0) AS lbs, 
           COALESCE(SUM(inv.on_order_extended),0) AS cogs, 
-          COALESCE(SUM(inv.on_order_extended),0) AS "grossSales", 
-          COALESCE(SUM(inv.on_order_extended),0) AS "netSales", 
-          COALESCE(SUM(inv.on_order_extended),0) AS othp, 
-          COALESCE(SUM(inv.on_order_extended),0) AS "grossMargin", 
-          0 AS "grossMarginPercent", 
-          COALESCE(SUM(inv.on_order_extended)/NULLIF(SUM(inv.on_order_lbs),0),0) AS "grossSalesPerLb", 
-          COALESCE(SUM(inv.on_order_extended)/NULLIF(SUM(inv.on_order_lbs),0),0) AS "cogsPerLb", 
-          COALESCE(SUM(inv.on_order_extended)/NULLIF(SUM(inv.on_order_lbs),0),0) AS "othpPerLb", 
-          COALESCE(SUM(inv.on_order_extended)/NULLIF(SUM(inv.on_order_lbs),0),0) AS "netSalesPerLb", 
-          COALESCE(SUM(inv.on_order_extended)/NULLIF(SUM(inv.on_order_lbs),0),0) AS "grossMarginPerLb"
+          COALESCE(SUM(inv.on_order_extended)/NULLIF(SUM(inv.on_order_lbs),0),0) AS "cogsPerLb"
          
         FROM "invenReporting".perpetual_inventory AS inv
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -53,13 +44,13 @@ const l1_getOpenPo = async (config, trendQuery) => {
           ${config.baseFilters.queryLevel > 4 ? sql`AND ${sql(config.baseFormat.l5_field)} = ${config.baseFilters.l5_filter}` : sql``}
          
         GROUP BY 
-          ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)}`: sql``} 
-          ${trendQuery.inv.l2_label ? sql`, ${sql(trendQuery.inv.l2_label)}`: sql``} 
-          ${trendQuery.inv.l3_label ? sql`, ${sql(trendQuery.inv.l3_label)}`: sql``} 
-          ${trendQuery.inv.l4_label ? sql`, ${sql(trendQuery.inv.l4_label)}`: sql``} 
-          ${trendQuery.inv.l5_label ? sql`, ${sql(trendQuery.inv.l5_label)}`: sql``} 
-          ${trendQuery.inv.l6_label ? sql`, ${sql(trendQuery.inv.l6_label)}`: sql``} 
-          ${trendQuery.inv.l7_label ? sql`, ${sql(trendQuery.inv.l7_label)}`: sql``} 
+          ${trendQuery.po.l1_label ? sql`${sql(trendQuery.po.l1_label)}`: sql``} 
+          ${trendQuery.po.l2_label ? sql`, ${sql(trendQuery.po.l2_label)}`: sql``} 
+          ${trendQuery.po.l3_label ? sql`, ${sql(trendQuery.po.l3_label)}`: sql``} 
+          ${trendQuery.po.l4_label ? sql`, ${sql(trendQuery.po.l4_label)}`: sql``} 
+          ${trendQuery.po.l5_label ? sql`, ${sql(trendQuery.po.l5_label)}`: sql``} 
+          ${trendQuery.po.l6_label ? sql`, ${sql(trendQuery.po.l6_label)}`: sql``} 
+          ${trendQuery.po.l7_label ? sql`, ${sql(trendQuery.po.l7_label)}`: sql``} 
           ` //prettier-ignore
 
     return response
@@ -81,16 +72,7 @@ const l0_getOpenPo = async (config, trendQuery) => {
           'TOTAL' AS l1_label,  
           COALESCE(SUM(inv.on_order_lbs),0) AS lbs, 
           COALESCE(SUM(inv.on_order_extended),0) AS cogs, 
-          COALESCE(SUM(inv.on_order_extended),0) AS "grossSales", 
-          COALESCE(SUM(inv.on_order_extended),0) AS "netSales", 
-          COALESCE(SUM(inv.on_order_extended),0) AS othp, 
-          COALESCE(SUM(inv.on_order_extended),0) AS "grossMargin", 
-          0 AS "grossMarginPercent", 
-          COALESCE(SUM(inv.on_order_extended)/NULLIF(SUM(inv.on_order_lbs),0),0) AS "grossSalesPerLb", 
-          COALESCE(SUM(inv.on_order_extended)/NULLIF(SUM(inv.on_order_lbs),0),0) AS "cogsPerLb", 
-          COALESCE(SUM(inv.on_order_extended)/NULLIF(SUM(inv.on_order_lbs),0),0) AS "othpPerLb", 
-          COALESCE(SUM(inv.on_order_extended)/NULLIF(SUM(inv.on_order_lbs),0),0) AS "netSalesPerLb", 
-          COALESCE(SUM(inv.on_order_extended)/NULLIF(SUM(inv.on_order_lbs),0),0) AS "grossMarginPerLb"
+          COALESCE(SUM(inv.on_order_extended)/NULLIF(SUM(inv.on_order_lbs),0),0) AS "cogsPerLb"
          
          FROM "invenReporting".perpetual_inventory AS inv
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
