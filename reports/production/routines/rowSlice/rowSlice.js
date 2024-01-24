@@ -29,7 +29,7 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
 
   ///////////////////////////////// SALES
   queryDataPromises.push(m.l0_getSalesTotalPrimary(config))
-  queryDataPromises.push(m.l1_getSalesTotalPrimary(config))
+  queryDataPromises.push(m.l1_getSalesTotalPrimary(config, trendQuery))
 
   ///////////////////////////////// INVEN KPIS
 
@@ -68,6 +68,8 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
 
   /* COLUMNS */
   const columns = await m.getColumns(config)
+
+  console.log(columns)
 
   return {
     data,
