@@ -19,8 +19,8 @@ const l1_getOpenPo = async (config, trendQuery) => {
           ${trendQuery.po.l6_label ? sql`COALESCE(${sql(trendQuery.po.l6_label)},'NO VALUE') AS l6_label,`: sql``} 
           ${trendQuery.po.l7_label ? sql`COALESCE(${sql(trendQuery.po.l7_label)},'NO VALUE') AS l7_label,`: sql``} 
           COALESCE(SUM(inv.on_order_lbs),0) AS lbs, 
-          COALESCE(SUM(inv.on_order_extended),0) AS cogs, 
-          COALESCE(SUM(inv.on_order_extended)/NULLIF(SUM(inv.on_order_lbs),0),0) AS "cogsPerLb"
+          COALESCE(SUM(inv.on_order_extended),0) AS cost, 
+          COALESCE(SUM(inv.on_order_extended)/NULLIF(SUM(inv.on_order_lbs),0),0) AS "costPerLb"
          
         FROM "invenReporting".perpetual_inventory AS inv
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -71,8 +71,8 @@ const l0_getOpenPo = async (config, trendQuery) => {
           'PURCHASE ORDER' AS column,
           'TOTAL' AS l1_label,  
           COALESCE(SUM(inv.on_order_lbs),0) AS lbs, 
-          COALESCE(SUM(inv.on_order_extended),0) AS cogs, 
-          COALESCE(SUM(inv.on_order_extended)/NULLIF(SUM(inv.on_order_lbs),0),0) AS "cogsPerLb"
+          COALESCE(SUM(inv.on_order_extended),0) AS cost, 
+          COALESCE(SUM(inv.on_order_extended)/NULLIF(SUM(inv.on_order_lbs),0),0) AS "costPerLb"
          
          FROM "invenReporting".perpetual_inventory AS inv
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 

@@ -17,8 +17,8 @@ const l1_getSo = async (config, trendQuery) => {
           ${trendQuery.so.l6_label ? sql`COALESCE(${sql(trendQuery.so.l6_label)},'NO VALUE') AS l6_label,`: sql``} 
           ${trendQuery.so.l7_label ? sql`COALESCE(${sql(trendQuery.so.l7_label)},'NO VALUE') AS l7_label,`: sql``} 
           COALESCE(SUM(so.ext_weight),0) AS lbs, 
-          COALESCE(SUM(so.ext_cost),0) AS cogs, 
-          COALESCE(SUM(so.ext_cost)/NULLIF(SUM(so.ext_weight),0),0) AS "cogsPerLb"
+          COALESCE(SUM(so.ext_cost),0) AS cost, 
+          COALESCE(SUM(so.ext_cost)/NULLIF(SUM(so.ext_weight),0),0) AS "costPerLb"
          
          FROM "salesReporting".sales_orders AS so
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -66,8 +66,8 @@ const l0_getSo = async config => {
             'SALES ORDER' AS column,
             'TOTAL' AS l1_label,  
             COALESCE(SUM(so.ext_weight),0) AS lbs, 
-            COALESCE(SUM(so.ext_cost),0) AS cogs, 
-            COALESCE(SUM(so.ext_cost)/NULLIF(SUM(so.ext_weight),0),0) AS "cogsPerLb"
+            COALESCE(SUM(so.ext_cost),0) AS cost, 
+            COALESCE(SUM(so.ext_cost)/NULLIF(SUM(so.ext_weight),0),0) AS "costPerLb"
            
            FROM "salesReporting".sales_orders AS so 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
