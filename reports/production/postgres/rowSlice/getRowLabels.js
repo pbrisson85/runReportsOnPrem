@@ -27,7 +27,8 @@ const l1_getRowLabels = async (config, trendQuery) => {
             ON wo.formatted_posting_date = p.formatted_date
 
         WHERE 
-          1=1
+          wo.by_prod_fg_line_bool = false
+          AND act.wo_group IN ${sql(config.baseFilters.woActivities)}
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
