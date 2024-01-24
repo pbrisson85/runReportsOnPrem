@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const l1_getProduction = async config => {
+const l1_getProduction = async (config, trendQuery) => {
   if (!trendQuery.wo.l1_label) return []
   if (config.trends.yearTrend) return [] // skip totals if trend is by year
 
