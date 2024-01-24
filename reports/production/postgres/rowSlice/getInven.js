@@ -25,7 +25,7 @@ const l1_getInv = async (config, trendQuery) => {
             ON act.item_num = wo.wo_activity_code
       WHERE 
         wo.by_prod_fg_line_bool = false
-        AND act.wo_group IN ${config.baseFilters.woActivities}
+        AND act.wo_group IN ${sql(config.baseFilters.woActivities)}
         AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
