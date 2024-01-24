@@ -49,6 +49,8 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
     return acc.concat(cur)
   }, [])
 
+  console.log('queryData', queryData)
+
   const rowDataResults = await Promise.all(rowDataPromises)
   const rowData = rowDataResults.reduce((acc, cur) => {
     return acc.concat(cur)
