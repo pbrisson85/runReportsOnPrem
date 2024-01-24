@@ -15,6 +15,7 @@ const getTrailingWeeksForWeeksInven = require('./configHelpers/getTrailingWeeksF
 const getItemTypeDefaults = require('./configHelpers/getItemTypeDefaults')
 const getYearTrend = require('./configHelpers/getYearTrend')
 const getWoActivities = require('./configHelpers/getWoActivities')
+const getProductionCountriesDefault = require('./configHelpers/getProductionCountriesDefault')
 
 const getReportConfig = async reqBody => {
   console.log('reqBody', reqBody?.reportFormat?.labelCols)
@@ -51,7 +52,7 @@ const getReportConfig = async reqBody => {
       queryLevel: reqBody.queryLevel ?? null,
       itemType: reqBody.itemType ?? getItemTypeDefaults(reqBody.module),
       program: typeof reqBody.program === 'undefined' ? null : reqBody.program === 'all' ? null : reqBody.program,
-      productionCountries: reqBody.productionCountries ?? null,
+      productionCountries: reqBody.productionCountries ?? (await getProductionCountriesDefault()) ?? null,
       woActivities: await getWoActivities(reqBody),
       l1_filter: reqBody.l1_filter ?? null,
       l2_filter: reqBody.l2_filter ?? null,
