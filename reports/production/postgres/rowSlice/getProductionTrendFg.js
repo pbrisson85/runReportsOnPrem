@@ -15,7 +15,7 @@ const l1_getProductionTrend = async (config, trendQuery) => {
       `
       WITH wo_activity AS (
         SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group, ms2.program_country 
-        FROM "woenReporting".master_supplement AS ms2 
+        FROM "invenReporting".master_supplement AS ms2 
         WHERE item_type = 'WO_ACTIVITY'
       )
       
@@ -45,7 +45,7 @@ const l1_getProductionTrend = async (config, trendQuery) => {
       COALESCE(SUM(wo.mfg_fg_line_ext_processing_fee)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "processingFeePerLb" 
       
       FROM "woReporting".wo_detail_by_fg AS wo
-        LEFT OUTER JOIN "woenReporting".master_supplement AS ms 
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = wo.fg_line_item 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
           ON wo.formatted_posting_date = p.formatted_date
@@ -114,7 +114,7 @@ const l0_getProductionTrend = async config => {
       `
       WITH wo_activity AS (
         SELECT ms2.item_num, ms2.wo_activity, ms2.wo_group, ms2.program_country
-        FROM "woenReporting".master_supplement AS ms2 
+        FROM "invenReporting".master_supplement AS ms2 
         WHERE item_type = 'WO_ACTIVITY'
       )
       
@@ -138,7 +138,7 @@ const l0_getProductionTrend = async config => {
       COALESCE(SUM(wo.mfg_fg_line_ext_processing_fee)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "processingFeePerLb" 
       
       FROM "woReporting".wo_detail_by_fg AS wo
-        LEFT OUTER JOIN "woenReporting".master_supplement AS ms 
+        LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = wo.fg_line_item 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
           ON wo.formatted_posting_date = p.formatted_date
