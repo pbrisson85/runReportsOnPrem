@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const l1_getReceivedPo = async config => {
+const l1_getReceivedPo = async (config, trendQuery) => {
   if (!trendQuery.po.l1_label) return []
 
   //${config.jbBuyer ? sql`AND po.item_number IN SELECT(DISTINCT(perpetual_inventory.item_number FROM ))` : sql``}

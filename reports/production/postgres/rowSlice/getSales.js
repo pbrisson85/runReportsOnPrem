@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const l1_getSalesTotalPrimary = async config => {
+const l1_getSalesTotalPrimary = async (config, trendQuery) => {
   if (!trendQuery.sl.l1_label) return []
 
   try {
