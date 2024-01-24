@@ -36,13 +36,13 @@ const l1_getRowLabels = async (config, trendQuery) => {
           ${config.baseFilters.queryLevel > 3 ? sql`AND ${sql(config.baseFormat.l4_field)} = ${config.baseFilters.l4_filter}` : sql``}
           ${config.baseFilters.queryLevel > 4 ? sql`AND ${sql(config.baseFormat.l5_field)} = ${config.baseFilters.l5_filter}` : sql``}
         GROUP BY 
-          ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)} AS l1_label,`: sql``} 
-          ${trendQuery.inv.l2_label ? sql`${sql(trendQuery.inv.l2_label)} AS l2_label,`: sql``} 
-          ${trendQuery.inv.l3_label ? sql`${sql(trendQuery.inv.l3_label)} AS l3_label,`: sql``} 
-          ${trendQuery.inv.l4_label ? sql`${sql(trendQuery.inv.l4_label)} AS l4_label,`: sql``} 
-          ${trendQuery.inv.l5_label ? sql`${sql(trendQuery.inv.l5_label)} AS l5_label,`: sql``} 
-          ${trendQuery.inv.l6_label ? sql`${sql(trendQuery.inv.l6_label)} AS l6_label,`: sql``} 
-          ${trendQuery.inv.l7_label ? sql`${sql(trendQuery.inv.l7_label)} AS l7_label,`: sql``}  
+          ${trendQuery.inv.l1_label ? sql`${sql(trendQuery.inv.l1_label)}`: sql``} 
+          ${trendQuery.inv.l2_label ? sql`, ${sql(trendQuery.inv.l2_label)}`: sql``} 
+          ${trendQuery.inv.l3_label ? sql`, ${sql(trendQuery.inv.l3_label)}`: sql``} 
+          ${trendQuery.inv.l4_label ? sql`, ${sql(trendQuery.inv.l4_label)}`: sql``} 
+          ${trendQuery.inv.l5_label ? sql`, ${sql(trendQuery.inv.l5_label)}`: sql``} 
+          ${trendQuery.inv.l6_label ? sql`, ${sql(trendQuery.inv.l6_label)}`: sql``} 
+          ${trendQuery.inv.l7_label ? sql`, ${sql(trendQuery.inv.l7_label)}`: sql``}  
         
 
         UNION SELECT 
@@ -82,13 +82,13 @@ const l1_getRowLabels = async (config, trendQuery) => {
             ${config.baseFilters.queryLevel > 3 ? sql`AND ${sql(config.baseFormat.l4_field)} = ${config.baseFilters.l4_filter}` : sql``}
             ${config.baseFilters.queryLevel > 4 ? sql`AND ${sql(config.baseFormat.l5_field)} = ${config.baseFilters.l5_filter}` : sql``}
         GROUP BY 
-          ${trendQuery.sl.l1_label ? sql`${sql(trendQuery.sl.l1_label)} AS l1_label,`: sql``} 
-          ${trendQuery.sl.l2_label ? sql`${sql(trendQuery.sl.l2_label)} AS l2_label,`: sql``} 
-          ${trendQuery.sl.l3_label ? sql`${sql(trendQuery.sl.l3_label)} AS l3_label,`: sql``} 
-          ${trendQuery.sl.l4_label ? sql`${sql(trendQuery.sl.l4_label)} AS l4_label,`: sql``} 
-          ${trendQuery.sl.l5_label ? sql`${sql(trendQuery.sl.l5_label)} AS l5_label,`: sql``} 
-          ${trendQuery.sl.l6_label ? sql`${sql(trendQuery.sl.l6_label)} AS l6_label,`: sql``} 
-          ${trendQuery.sl.l7_label ? sql`${sql(trendQuery.sl.l7_label)} AS l7_label,`: sql``}  
+          ${trendQuery.sl.l1_label ? sql`${sql(trendQuery.sl.l1_label)}`: sql``} 
+          ${trendQuery.sl.l2_label ? sql`, ${sql(trendQuery.sl.l2_label)}`: sql``} 
+          ${trendQuery.sl.l3_label ? sql`, ${sql(trendQuery.sl.l3_label)}`: sql``} 
+          ${trendQuery.sl.l4_label ? sql`, ${sql(trendQuery.sl.l4_label)}`: sql``} 
+          ${trendQuery.sl.l5_label ? sql`, ${sql(trendQuery.sl.l5_label)}`: sql``} 
+          ${trendQuery.sl.l6_label ? sql`, ${sql(trendQuery.sl.l6_label)}`: sql``} 
+          ${trendQuery.sl.l7_label ? sql`, ${sql(trendQuery.sl.l7_label)}`: sql``}  
 
 
         UNION SELECT 
@@ -119,13 +119,13 @@ const l1_getRowLabels = async (config, trendQuery) => {
           ${config.baseFilters.queryLevel > 3 ? sql`AND ${sql(config.baseFormat.l4_field)} = ${config.baseFilters.l4_filter}` : sql``}
           ${config.baseFilters.queryLevel > 4 ? sql`AND ${sql(config.baseFormat.l5_field)} = ${config.baseFilters.l5_filter}` : sql``} 
         GROUP BY 
-          ${trendQuery.so.l1_label ? sql`${sql(trendQuery.so.l1_label)} AS l1_label,`: sql``} 
-          ${trendQuery.so.l2_label ? sql`${sql(trendQuery.so.l2_label)} AS l2_label,`: sql``} 
-          ${trendQuery.so.l3_label ? sql`${sql(trendQuery.so.l3_label)} AS l3_label,`: sql``} 
-          ${trendQuery.so.l4_label ? sql`${sql(trendQuery.so.l4_label)} AS l4_label,`: sql``} 
-          ${trendQuery.so.l5_label ? sql`${sql(trendQuery.so.l5_label)} AS l5_label,`: sql``} 
-          ${trendQuery.so.l6_label ? sql`${sql(trendQuery.so.l6_label)} AS l6_label,`: sql``} 
-          ${trendQuery.so.l7_label ? sql`${sql(trendQuery.so.l7_label)} AS l7_label,`: sql``} 
+          ${trendQuery.so.l1_label ? sql`${sql(trendQuery.so.l1_label)}`: sql``} 
+          ${trendQuery.so.l2_label ? sql`, ${sql(trendQuery.so.l2_label)}`: sql``} 
+          ${trendQuery.so.l3_label ? sql`, ${sql(trendQuery.so.l3_label)}`: sql``} 
+          ${trendQuery.so.l4_label ? sql`, ${sql(trendQuery.so.l4_label)}`: sql``} 
+          ${trendQuery.so.l5_label ? sql`, ${sql(trendQuery.so.l5_label)}`: sql``} 
+          ${trendQuery.so.l6_label ? sql`, ${sql(trendQuery.so.l6_label)}`: sql``} 
+          ${trendQuery.so.l7_label ? sql`, ${sql(trendQuery.so.l7_label)}`: sql``} 
 
         
         UNION SELECT 
@@ -170,13 +170,13 @@ const l1_getRowLabels = async (config, trendQuery) => {
           ${config.baseFilters.queryLevel > 3 ? sql`AND ${sql(config.baseFormat.l4_field)} = ${config.baseFilters.l4_filter}` : sql``}
           ${config.baseFilters.queryLevel > 4 ? sql`AND ${sql(config.baseFormat.l5_field)} = ${config.baseFilters.l5_filter}` : sql``} 
         GROUP BY 
-          ${trendQuery.wo.l1_label ? sql`${sql(trendQuery.wo.l1_label)} AS l1_label,`: sql``} 
-          ${trendQuery.wo.l2_label ? sql`${sql(trendQuery.wo.l2_label)} AS l2_label,`: sql``} 
-          ${trendQuery.wo.l3_label ? sql`${sql(trendQuery.wo.l3_label)} AS l3_label,`: sql``} 
-          ${trendQuery.wo.l4_label ? sql`${sql(trendQuery.wo.l4_label)} AS l4_label,`: sql``} 
-          ${trendQuery.wo.l5_label ? sql`${sql(trendQuery.wo.l5_label)} AS l5_label,`: sql``} 
-          ${trendQuery.wo.l6_label ? sql`${sql(trendQuery.wo.l6_label)} AS l6_label,`: sql``} 
-          ${trendQuery.wo.l7_label ? sql`${sql(trendQuery.wo.l7_label)} AS l7_label,`: sql``} 
+          ${trendQuery.wo.l1_label ? sql`${sql(trendQuery.wo.l1_label)}`: sql``} 
+          ${trendQuery.wo.l2_label ? sql`, ${sql(trendQuery.wo.l2_label)}`: sql``} 
+          ${trendQuery.wo.l3_label ? sql`, ${sql(trendQuery.wo.l3_label)}`: sql``} 
+          ${trendQuery.wo.l4_label ? sql`, ${sql(trendQuery.wo.l4_label)}`: sql``} 
+          ${trendQuery.wo.l5_label ? sql`, ${sql(trendQuery.wo.l5_label)}`: sql``} 
+          ${trendQuery.wo.l6_label ? sql`, ${sql(trendQuery.wo.l6_label)}`: sql``} 
+          ${trendQuery.wo.l7_label ? sql`, ${sql(trendQuery.wo.l7_label)}`: sql``} 
 
 
         UNION SELECT 
@@ -218,13 +218,13 @@ const l1_getRowLabels = async (config, trendQuery) => {
           ${config.baseFilters.queryLevel > 3 ? sql`AND ${sql(config.baseFormat.l4_field)} = ${config.baseFilters.l4_filter}` : sql``}
           ${config.baseFilters.queryLevel > 4 ? sql`AND ${sql(config.baseFormat.l5_field)} = ${config.baseFilters.l5_filter}` : sql``} 
         GROUP BY
-          ${trendQuery.po.l1_label ? sql`${sql(trendQuery.po.l1_label)} AS l1_label,`: sql``} 
-          ${trendQuery.po.l2_label ? sql`${sql(trendQuery.po.l2_label)} AS l2_label,`: sql``} 
-          ${trendQuery.po.l3_label ? sql`${sql(trendQuery.po.l3_label)} AS l3_label,`: sql``} 
-          ${trendQuery.po.l4_label ? sql`${sql(trendQuery.po.l4_label)} AS l4_label,`: sql``} 
-          ${trendQuery.po.l5_label ? sql`${sql(trendQuery.po.l5_label)} AS l5_label,`: sql``} 
-          ${trendQuery.po.l6_label ? sql`${sql(trendQuery.po.l6_label)} AS l6_label,`: sql``} 
-          ${trendQuery.po.l7_label ? sql`${sql(trendQuery.po.l7_label)} AS l7_label,`: sql``} 
+          ${trendQuery.po.l1_label ? sql`${sql(trendQuery.po.l1_label)}`: sql``} 
+          ${trendQuery.po.l2_label ? sql`, ${sql(trendQuery.po.l2_label)}`: sql``} 
+          ${trendQuery.po.l3_label ? sql`, ${sql(trendQuery.po.l3_label)}`: sql``} 
+          ${trendQuery.po.l4_label ? sql`, ${sql(trendQuery.po.l4_label)}`: sql``} 
+          ${trendQuery.po.l5_label ? sql`, ${sql(trendQuery.po.l5_label)}`: sql``} 
+          ${trendQuery.po.l6_label ? sql`, ${sql(trendQuery.po.l6_label)}`: sql``} 
+          ${trendQuery.po.l7_label ? sql`, ${sql(trendQuery.po.l7_label)}`: sql``} 
           ` //prettier-ignore
 
     return response
