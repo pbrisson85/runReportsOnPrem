@@ -18,8 +18,8 @@ const l1_getReceivedPo = async config => {
          'SUBTOTAL' AS l4_label, 
          'SUBTOTAL' AS l5_label, 
          COALESCE(SUM(po.weight),0) AS lbs, 
-         COALESCE(SUM(po.extended_cost),0) AS cogs, 
-         COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "cogsPerLb"
+         COALESCE(SUM(po.extended_cost),0) As cost, 
+         COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
         
          FROM "purchaseReporting".po_data AS po 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -70,8 +70,8 @@ const l2_getReceivedPo = async config => {
        'SUBTOTAL' AS l4_label, 
        'SUBTOTAL' AS l5_label, 
        COALESCE(SUM(po.weight),0) AS lbs, 
-      COALESCE(SUM(po.extended_cost),0) AS cogs, 
-      COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "cogsPerLb"
+      COALESCE(SUM(po.extended_cost),0) As cost, 
+      COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
        
        FROM "purchaseReporting".po_data AS po 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -122,8 +122,8 @@ const l3_getReceivedPo = async config => {
        'SUBTOTAL' AS l4_label, 
        'SUBTOTAL' AS l5_label, 
         COALESCE(SUM(po.weight),0) AS lbs, 
-        COALESCE(SUM(po.extended_cost),0) AS cogs, 
-        COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "cogsPerLb"
+        COALESCE(SUM(po.extended_cost),0) As cost, 
+        COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
        
        FROM "purchaseReporting".po_data AS po 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -174,8 +174,8 @@ const l4_getReceivedPo = async config => {
        COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label, 
        'SUBTOTAL' AS l5_label, 
         COALESCE(SUM(po.weight),0) AS lbs, 
-        COALESCE(SUM(po.extended_cost),0) AS cogs, 
-        COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "cogsPerLb"
+        COALESCE(SUM(po.extended_cost),0) As cost, 
+        COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
        
        FROM "purchaseReporting".po_data AS po 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -226,8 +226,8 @@ const l5_getReceivedPo = async config => {
        COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label, 
        COALESCE(${sql(config.baseFormat.l5_field)},'NO VALUE') AS l5_label, 
        COALESCE(SUM(po.weight),0) AS lbs, 
-        COALESCE(SUM(po.extended_cost),0) AS cogs,  
-        COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "cogsPerLb"
+        COALESCE(SUM(po.extended_cost),0) As cost,  
+        COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
        
        FROM "purchaseReporting".po_data AS po 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -270,8 +270,8 @@ const l0_getReceivedPo = async config => {
          'PURCHASE RECEIPTS' AS column, 
          'TOTAL' AS l1_label,
          COALESCE(SUM(po.weight),0) AS lbs, 
-         COALESCE(SUM(po.extended_cost),0) AS cogs, 
-         COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "cogsPerLb"
+         COALESCE(SUM(po.extended_cost),0) As cost, 
+         COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
          
          FROM "purchaseReporting".po_data AS po 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 

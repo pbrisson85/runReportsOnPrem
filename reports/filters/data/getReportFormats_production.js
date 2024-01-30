@@ -69,7 +69,7 @@ const getReportFormats = () => {
           displayName: 'MAJOR CATEGORY', // show as column header
           dataName: 'l1_label', // key to pull data from
           filterName: 'l1_filter', // key to match up the column with the filter
-          width: '150px', // css width
+          width: '125px', // css width
           left: '0px', // css positioning for sticky sum of prior col widths
           borderRight: false, // border right on ladst frozen cell
           rightClickMenu: [], // array of options for right click menu
@@ -78,8 +78,8 @@ const getReportFormats = () => {
           displayName: 'PROGRAM', // show as column header
           dataName: 'l2_label', // key to pull data from
           filterName: 'l2_filter', // key to match up the column with the filter
-          width: '150px', // css width
-          left: '150px', // css positioning for sticky sum of prior col widths
+          width: '125px', // css width
+          left: '125px', // css positioning for sticky sum of prior col widths
           borderRight: false, // border right on ladst frozen cell
           rightClickMenu: [], // array of options for right click menu
         },

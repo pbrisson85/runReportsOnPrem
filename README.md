@@ -1,5 +1,7 @@
 ### To do.
 
+- Need to set up the 'NO VALUE' then IS NULL in all slice WHERE clauses also need to make sure it is in the SELECT claiuse of all slice data. Also need it in the WHERE clause of all detail drilldowns.
+
 - IS COALESCE, 'NO VALUE' being handled correctly in the kpi queries? wondering this while doing get weeks on hand.
 
 - When right clicking for slice make sure the trend cannot show as sales order if in trend by year mode
