@@ -96,7 +96,7 @@ const l1_getSalesTrend = async (config, trendQuery) => {
           SELECT 
             so.item_num AS item_number,
             so.customer_code,
-            ${sql(config.trends.queryGrouping)}  AS column, 
+            ${sql(config.trends.queryGrouping)}::TEXT AS column, 
             ${trendQuery.so.l1_label ? sql`${sql(trendQuery.so.l1_label)} AS l1_label,`: sql``} 
             ${trendQuery.so.l2_label ? sql`${sql(trendQuery.so.l2_label)} AS l2_label,`: sql``} 
             ${trendQuery.so.l3_label ? sql`${sql(trendQuery.so.l3_label)} AS l3_label,`: sql``} 
@@ -140,7 +140,7 @@ const l1_getSalesTrend = async (config, trendQuery) => {
           SELECT
           pr.item_number,
           pr.customer_code,
-          ${sql(config.trends.queryGrouping)}  AS column, 
+          ${sql(config.trends.queryGrouping)}::TEXT AS column, 
           ${trendQuery.pr.l1_label ? sql`${sql(trendQuery.pr.l1_label)} AS l1_label,`: sql``} 
           ${trendQuery.pr.l2_label ? sql`${sql(trendQuery.pr.l2_label)} AS l2_label,`: sql``} 
           ${trendQuery.pr.l3_label ? sql`${sql(trendQuery.pr.l3_label)} AS l3_label,`: sql``} 
@@ -259,7 +259,7 @@ const l0_getSalesTrend = async config => {
         SELECT
           sl.item_number,
           sl.customer_code,
-          ${sql(config.trends.queryGrouping)}  AS column, 
+          ${sql(config.trends.queryGrouping)}::TEXT AS column, 
           COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
           COALESCE(sl.gross_sales_ext,0) AS sales, 
           COALESCE(sl.cogs_ext_gl,0) AS cogs, 
@@ -295,7 +295,7 @@ const l0_getSalesTrend = async config => {
         SELECT 
             so.item_num AS item_number,
             so.customer_code,
-            ${sql(config.trends.queryGrouping)}  AS column, 
+            ${sql(config.trends.queryGrouping)}::TEXT AS column, 
             COALESCE(so.ext_weight,0) AS lbs, 
             COALESCE(so.ext_sales,0) AS sales, 
             COALESCE(so.ext_cost,0) AS cogs, 
@@ -332,7 +332,7 @@ const l0_getSalesTrend = async config => {
             SELECT
             pr.item_number,
             pr.customer_code,
-            ${sql(config.trends.queryGrouping)}  AS column, 
+            ${sql(config.trends.queryGrouping)}::TEXT AS column, 
             COALESCE(pr.lbs,0) AS lbs, COALESCE(pr.sales_gross,0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
               
             FROM "salesReporting".projected_sales AS pr  
