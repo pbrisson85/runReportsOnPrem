@@ -42,19 +42,19 @@ const getColumns = async config => {
   const primarySalesTotalCol_cache = _.cloneDeep(primarySalesTotalCol)
   const salesOrdersCol_cache = _.cloneDeep(salesOrdersCol)
 
-  if (config?.trends?.yearTrend !== null && typeof config?.trends?.yearTrend !== 'undefined') {
-    console.log('REMOVING TOTALS COL')
+  // if (config?.trends?.yearTrend !== null && typeof config?.trends?.yearTrend !== 'undefined') {
+  //   console.log('REMOVING TOTALS COL')
 
-    // No sales total if trend by year but keep column so default showtrend works.
-    primarySalesTotalCol.forEach((col, idx) => {
-      primarySalesTotalCol_cache[idx].hidden = true
-      primarySalesTotalCol_cache[idx].showByDefault = false
-    })
+  //   // No sales total if trend by year but keep column so default showtrend works.
+  //   primarySalesTotalCol.forEach((col, idx) => {
+  //     primarySalesTotalCol_cache[idx].hidden = true
+  //     primarySalesTotalCol_cache[idx].showByDefault = false
+  //   })
 
-    salesOrdersCol.forEach((col, idx) => {
-      salesOrdersCol_cache[idx].allowTrend = false // because can't get back to the sales trend with no total col to click.
-    })
-  }
+  //   salesOrdersCol.forEach((col, idx) => {
+  //     salesOrdersCol_cache[idx].allowTrend = false // because can't get back to the sales trend with no total col to click.
+  //   })
+  // }
 
   columnConfigs.primarySalesTotalCol = primarySalesTotalCol_cache
   columnConfigs.salesKpiCols = salesKpiCols

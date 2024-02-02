@@ -19,28 +19,28 @@ const l1_getReceivedPo = async config => {
          'SUBTOTAL' AS l5_label, 
          COALESCE(SUM(po.weight),0) AS lbs, 
          COALESCE(SUM(po.extended_cost),0) As cost, 
-         COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
+         COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb" 
         
          FROM "purchaseReporting".po_data AS po 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = po.item_number 
-          LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-            ON po.receipt_date = p.formatted_date
+          LEFT OUTER JOIN "accountingPeriods".period_by_day AS p 
+            ON po.receipt_date = p.formatted_date 
          
          WHERE 
-          po.po_offset = FALSE
+          po.po_offset = FALSE 
           AND po.extended_cost <> 0 
-          ${!config.trends.yearTrend ? sql`
+          ${!config.trends.yearTrend ? sql` 
               AND p.formatted_date >= ${config.totals.primary.startDate} 
               AND p.formatted_date <= ${config.totals.primary.endDate}` : 
-            sql`
+            sql` 
               AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
               AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
-            ` }
+              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)} 
+            ` } 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}` : sql``} 
-          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
          
          GROUP BY ${sql(config.baseFormat.l1_field)}` //prettier-ignore
 
