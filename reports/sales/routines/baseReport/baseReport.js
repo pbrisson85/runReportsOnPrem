@@ -188,7 +188,7 @@ const buildReport = async config => {
 
   console.log('colDataNames', colDataNames)
 
-  const columns = await m.getColumns(config)
+  const columns = await m.getColumns(config, colDataNames)
 
   return {
     data,

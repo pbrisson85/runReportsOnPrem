@@ -55,14 +55,15 @@ const addDataToSoTotalCol = (config, columnConfigs) => {
   return columnConfigs
 }
 
-const removeColsWithNoData = columnConfigs => {
+const removeColsWithNoData = (columnConfigs, colDataNames) => {
   const columnConfigsCopy = _.cloneDeep(columnConfigs)
 
-  // Object.keys(columnConfigsCopy).forEach(key => {
-  //   columnConfigsCopy[key] = columnConfigsCopy[key].filter(col => {
-  //     return col.data
-  //   })
-  // })
+  Object.keys(columnConfigsCopy).forEach(key => {
+    columnConfigsCopy[key] = columnConfigsCopy[key].filter(col => {
+      // if coDataNames set includes the col.dataName, keep it
+      return colDataNames.has(col.dataName)
+    })
+  })
 
   console.log('columnConfigsCopy', columnConfigsCopy)
 

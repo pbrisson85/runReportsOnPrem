@@ -13,7 +13,7 @@ const removeColsWithNoData = require('../helpers/colDataHelper').removeColsWithN
 const _ = require('lodash')
 
 // These are configs for the columns in the report
-const getColumns = async config => {
+const getColumns = async (config, colDataNames) => {
   const trendColumnPromises = []
 
   ///////////////////////////////// TREND COLUMNS
@@ -69,7 +69,7 @@ const getColumns = async config => {
   columnConfigs = addDataToSoTotalCol(config, columnConfigs) // adds statDate, endDate, and displayName to the sales orders col
 
   // remove columns with no data
-  //columnConfigs = removeColsWithNoData(columnConfigs)
+  columnConfigs = removeColsWithNoData(columnConfigs, colDataNames)
 
   return { columnConfigs, trendColumns }
 }
