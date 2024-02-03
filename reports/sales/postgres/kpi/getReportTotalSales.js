@@ -1,6 +1,8 @@
 const sql = require('../../../../server')
 
 const l0_getReportTotalSales = async config => {
+  if (config.trends.yearTrend) return [] // skip if trend is by year
+
   try {
     console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getSalesTotalPrimary) ...`)
 

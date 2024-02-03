@@ -2,6 +2,7 @@ const sql = require('../../../../server')
 
 const l1_getAveSales = async (config, trendQuery) => {
   if (!config.baseFormat.l1_field) return []
+  if (config.trends.yearTrend) return [] // skip if trend is by year
   // loop through config trailing weeks for date ranges and denominators to get ave.
 
   try {
@@ -201,6 +202,8 @@ const l1_getAveSales = async (config, trendQuery) => {
 }
 
 const l0_getAveSales = async config => {
+  if (config.trends.yearTrend) return [] // skip if trend is by year
+
   try {
     console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getAveSales) ...`)
 

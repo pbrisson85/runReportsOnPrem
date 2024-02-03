@@ -1,6 +1,8 @@
 const sql = require('../../../../server')
 
 const getCompanyTotalSales = async config => {
+  if (config.trends.yearTrend) return [] // skip if trend is by year
+
   try {
     console.log(`${config.user} - getCompanyTotalSales ...`)
 

@@ -2,6 +2,7 @@ const sql = require('../../../../server')
 
 const l1_getWeeksOnHand = async config => {
   if (!config.baseFormat.l1_field) return []
+  if (config.trends.yearTrend) return [] // skip if trend is by year
   // loop through config trailing weeks for date ranges and denominators to get ave.
 
   try {
@@ -125,6 +126,7 @@ const l1_getWeeksOnHand = async config => {
 
 const l2_getWeeksOnHand = async config => {
   if (!config.baseFormat.l2_field) return []
+  if (config.trends.yearTrend) return [] // skip if trend is by year
 
   try {
     console.log(`${config.user} - level 2: query postgres to get FG sales data period total (l2_getWeeksOnHand) ...`)
@@ -247,6 +249,7 @@ const l2_getWeeksOnHand = async config => {
 
 const l3_getWeeksOnHand = async config => {
   if (!config.baseFormat.l3_field) return []
+  if (config.trends.yearTrend) return [] // skip if trend is by year
 
   try {
     console.log(`${config.user} - level 3: query postgres to get FG sales data period total (l3_getWeeksOnHand) ...`)
@@ -369,6 +372,7 @@ const l3_getWeeksOnHand = async config => {
 
 const l4_getWeeksOnHand = async config => {
   if (!config.baseFormat.l4_field) return []
+  if (config.trends.yearTrend) return [] // skip if trend is by year
 
   try {
     console.log(`${config.user} - level 4: query postgres to get FG sales data period total (l4_getWeeksOnHand) ...`)
@@ -491,6 +495,7 @@ const l4_getWeeksOnHand = async config => {
 
 const l5_getWeeksOnHand = async config => {
   if (!config.baseFormat.l5_field) return []
+  if (config.trends.yearTrend) return [] // skip if trend is by year
 
   try {
     console.log(`${config.user} - level 5: query postgres to get FG sales data period total (l4_getWeeksOnHand) ...`)
@@ -612,6 +617,8 @@ const l5_getWeeksOnHand = async config => {
 }
 
 const l0_getWeeksOnHand = async config => {
+  if (config.trends.yearTrend) return [] // skip if trend is by year
+
   try {
     console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getWeeksOnHand) ...`)
 

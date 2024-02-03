@@ -2,6 +2,7 @@ const sql = require('../../../../server')
 
 const getProgramTotalSales = async config => {
   if (!config.baseFilters.program) return null
+  if (config.trends.yearTrend) return [] // skip if trend is by year
 
   try {
     console.log(`${config.user} - getProgramTotalSales ...`)
