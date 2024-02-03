@@ -197,6 +197,7 @@ const buildReport = async config => {
       ...columns,
     },
     baseConfig: config.baseConfig, // pass back for slice and detail reports
+    defaultTrend: 'salesInvoice', // col type of the trend col to show by default
   }
 }
 

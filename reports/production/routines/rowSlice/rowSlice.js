@@ -75,6 +75,7 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
       labelCols,
       ...columns,
     },
+    defaultTrend: 'salesInvoice', // col type of the trend col to show by default
   }
 }
 

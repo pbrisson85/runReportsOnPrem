@@ -75,3 +75,5 @@ const getColumns = async (config, colDataNames) => {
 }
 
 module.exports = getColumns
+
+// Where I left off. I am trying to get the non used columns to not appear on the front end but I am no longer showing any of the trend columns for YoY for some reason. Also need the optional cols part of the dropdown menu to work correctly. Also nee the right click slice to work correctly. Also need an actual YoY with difference to work correctly. ***********************************************
