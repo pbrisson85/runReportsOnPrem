@@ -120,7 +120,7 @@ const trendTypeOptions = () => {
       currentDateMap: 'period', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
       yoy: true, // bool for front end to not show the start trend dropdown
       groupByPeriod: 'p.fiscal_year', // field for query used in trend group by
-      yoyPeriodField: 'p.period_serial',
+      yoyPeriodField: 'p.period',
     },
     {
       // Checkbox
@@ -145,7 +145,7 @@ const trendTypeOptions = () => {
       currentDateMap: 'fiscal_quarter', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
       yoy: true, // bool for front end to not show the start trend dropdown
       groupByPeriod: 'p.fiscal_year', // field for query used in trend group by
-      yoyPeriodField: 'p.quarter_serial',
+      yoyPeriodField: 'p.fiscal_quarter',
     },
     {
       // Checkbox
