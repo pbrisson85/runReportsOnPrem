@@ -9,7 +9,16 @@ const trendTypeOptions = () => {
       default: true,
       // Check Rules
       trueOnNoSelection: true, // flags if this turns true when the selections are blank. Typically would mirror default flag if selection required
-      onTrueSetFalse: ['fiscalPeriods', 'fiscalQuarters', 'fiscalYears', 'calMonths', 'calYears', 'calQuarters'],
+      onTrueSetFalse: [
+        'fiscalPeriods',
+        'fiscalQuarters',
+        'fiscalYears_wk',
+        'fiscalYears_per',
+        'fiscalYears_qtr',
+        'calMonths',
+        'calYears',
+        'calQuarters',
+      ],
       onFalseSetTrue: [],
       // Custom
       periodsMap: 'weeks', // front end map to filter (appears as map in query)
@@ -23,7 +32,16 @@ const trendTypeOptions = () => {
       dataName: 'fiscalPeriods',
       default: false,
       // Check Rules
-      onTrueSetFalse: ['fiscalWeeks', 'fiscalQuarters', 'fiscalYears', 'calMonths', 'calYears', 'calQuarters'],
+      onTrueSetFalse: [
+        'fiscalWeeks',
+        'fiscalQuarters',
+        'fiscalYears_wk',
+        'fiscalYears_per',
+        'fiscalYears_qtr',
+        'calMonths',
+        'calYears',
+        'calQuarters',
+      ],
       onFalseSetTrue: [],
       // Custom
       periodsMap: 'fiscal_periods', // front end map to filter (appears as map in query)
@@ -37,7 +55,16 @@ const trendTypeOptions = () => {
       dataName: 'fiscalQuarters',
       default: false,
       // Check Rules
-      onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fiscalYears', 'calMonths', 'calYears', 'calQuarters'],
+      onTrueSetFalse: [
+        'fiscalWeeks',
+        'fiscalPeriods',
+        'fiscalYears_wk',
+        'fiscalYears_per',
+        'fiscalYears_qtr',
+        'calMonths',
+        'calYears',
+        'calQuarters',
+      ],
       onFalseSetTrue: [],
       // Custom
       periodsMap: 'fiscal_quarters', // front end map to filter (appears as map in query)
@@ -47,11 +74,20 @@ const trendTypeOptions = () => {
     },
     {
       // Checkbox
-      label: 'Fiscal Years (by week)',
-      dataName: 'fiscalYears',
+      label: 'Fiscal Years (by wk)',
+      dataName: 'fiscalYears_wk',
       default: false,
       // Check Rules
-      onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fiscalQuarters', 'calMonths', 'calYears', 'calQuarters'],
+      onTrueSetFalse: [
+        'fiscalWeeks',
+        'fiscalPeriods',
+        'fiscalQuarters',
+        'calMonths',
+        'calYears',
+        'calQuarters',
+        'fiscalYears_per',
+        'fiscalYears_qtr',
+      ],
       onFalseSetTrue: [],
       // Custom
       periodsMap: 'weeks', // front end map to filter (appears as map in query)
@@ -63,11 +99,70 @@ const trendTypeOptions = () => {
     },
     {
       // Checkbox
+      label: 'Fiscal Years (by per)',
+      dataName: 'fiscalYears_per',
+      default: false,
+      // Check Rules
+      onTrueSetFalse: [
+        'fiscalWeeks',
+        'fiscalPeriods',
+        'fiscalQuarters',
+        'calMonths',
+        'calYears',
+        'calQuarters',
+        'fiscalYears_wk',
+        'fiscalYears_qtr',
+      ],
+      onFalseSetTrue: [],
+      // Custom
+      periodsMap: 'fiscal_periods', // front end map to filter (appears as map in query)
+      yearsMap: 'fiscal_years_multi',
+      currentDateMap: 'period', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
+      yoy: true, // bool for front end to not show the start trend dropdown
+      groupByPeriod: 'p.fiscal_year', // field for query used in trend group by
+      yoyPeriodField: 'p.period_serial',
+    },
+    {
+      // Checkbox
+      label: 'Fiscal Years (by qtr)',
+      dataName: 'fiscalYears_qtr',
+      default: false,
+      // Check Rules
+      onTrueSetFalse: [
+        'fiscalWeeks',
+        'fiscalPeriods',
+        'fiscalQuarters',
+        'calMonths',
+        'calYears',
+        'calQuarters',
+        'fiscalYears_wk',
+        'fiscalYears_per',
+      ],
+      onFalseSetTrue: [],
+      // Custom
+      periodsMap: 'fiscal_quarters', // front end map to filter (appears as map in query)
+      yearsMap: 'fiscal_years_multi',
+      currentDateMap: 'fiscal_quarter', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
+      yoy: true, // bool for front end to not show the start trend dropdown
+      groupByPeriod: 'p.fiscal_year', // field for query used in trend group by
+      yoyPeriodField: 'p.quarter_serial',
+    },
+    {
+      // Checkbox
       label: 'Calendar Months',
       dataName: 'calMonths',
       default: false,
       // Check Rules
-      onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fiscalYears', 'fiscalQuarters', 'calYears', 'calQuarters'],
+      onTrueSetFalse: [
+        'fiscalWeeks',
+        'fiscalPeriods',
+        'fiscalYears_wk',
+        'fiscalYears_per',
+        'fiscalYears_qtr',
+        'fiscalQuarters',
+        'calYears',
+        'calQuarters',
+      ],
       onFalseSetTrue: [],
       // Custom
       periodsMap: 'cal_months', // front end map to filter (appears as map in query)
@@ -81,7 +176,16 @@ const trendTypeOptions = () => {
       dataName: 'calQuarters',
       default: false,
       // Check Rules
-      onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fiscalYears', 'fiscalQuarters', 'calYears', 'calMonths'],
+      onTrueSetFalse: [
+        'fiscalWeeks',
+        'fiscalPeriods',
+        'fiscalYears_wk',
+        'fiscalYears_per',
+        'fiscalYears_qtr',
+        'fiscalQuarters',
+        'calYears',
+        'calMonths',
+      ],
       onFalseSetTrue: [],
       // Custom
       periodsMap: 'cal_quarters', // front end map to filter (appears as map in query)
@@ -91,11 +195,20 @@ const trendTypeOptions = () => {
     },
     {
       // Checkbox
-      label: 'Calendar Years',
+      label: 'Calendar Years (by Mo.)',
       dataName: 'calYears',
       default: false,
       // Check Rules
-      onTrueSetFalse: ['fiscalWeeks', 'fiscalPeriods', 'fiscalYears', 'fiscalQuarters', 'calMonths', 'calQuarters'],
+      onTrueSetFalse: [
+        'fiscalWeeks',
+        'fiscalPeriods',
+        'fiscalYears_wk',
+        'fiscalYears_per',
+        'fiscalYears_qtr',
+        'fiscalQuarters',
+        'calMonths',
+        'calQuarters',
+      ],
       onFalseSetTrue: [],
       // Custom
       periodsMap: 'cal_months', // front end map to filter (appears as map in query)

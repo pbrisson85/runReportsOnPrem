@@ -1,9 +1,6 @@
 const getYearTrend = reqBody => {
   if (typeof reqBody.trendOption?.[0]?.yoy === 'undefined') return null
 
-  console.log('reqBody', reqBody)
-  console.log('reqBody.yoyStartPrimary', reqBody.trendStartPrimary)
-
   return {
     period_name: reqBody.trendOption[0].yoyPeriodField, // will have a start period and end period. period field name will be determined based on cal vs fiscal (month or week)
     start_period: parseInt(reqBody?.yoyStartPrimary?.period) ?? 1,
