@@ -57,9 +57,9 @@ const trendTypeOptions = () => {
       periodsMap: 'weeks', // front end map to filter (appears as map in query)
       yearsMap: 'fiscal_years_multi',
       currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
-      ytd: true, // bool for front end to not show the start trend dropdown
+      yoy: true, // bool for front end to not show the start trend dropdown
       groupByPeriod: 'p.fiscal_year', // field for query used in trend group by
-      ytdPeriodField: 'p.week',
+      yoyPeriodField: 'p.week',
     },
     {
       // Checkbox
@@ -74,9 +74,6 @@ const trendTypeOptions = () => {
       yearsMap: 'cal_years',
       currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
       groupByPeriod: 'p.cal_month_serial', // field for query used in trend group by
-      // Custom Sync Rules
-      totalDefault: 'calYears', // If current total is not included in totals allowed then this totaldataName will be selected
-      totalsAllowed: ['calYears'],
     },
     {
       // Checkbox
@@ -91,9 +88,6 @@ const trendTypeOptions = () => {
       yearsMap: 'cal_years', // front end map to years (appears as map in query)
       currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
       groupByPeriod: 'p.cal_quarter_serial', // field for query used in trend group by
-      // Custom Sync Rules
-      totalDefault: 'calYears', // If current total is not included in totals allowed then this totaldataName will be selected
-      totalsAllowed: ['calYears'],
     },
     {
       // Checkbox
@@ -107,9 +101,9 @@ const trendTypeOptions = () => {
       periodsMap: 'cal_months', // front end map to filter (appears as map in query)
       yearsMap: 'cal_years_multi',
       currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
-      ytd: true, // bool for front end to not show the start trend dropdown
+      yoy: true, // bool for front end to not show the start trend dropdown
       groupByPeriod: 'p.cal_year', // field for query used in trend group by
-      ytdPeriodField: 'p.cal_month',
+      yoyPeriodField: 'p.cal_month',
     },
   ]
 }
