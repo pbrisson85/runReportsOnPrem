@@ -130,7 +130,7 @@ const getFiscalYearMap_comparison = async () => {
         FROM "accountingPeriods".period_by_day AS d
         WHERE d.formatted_date = CURRENT_DATE) THEN TRUE ELSE FALSE END AS "trueOnNoSelection",
 
-      2 AS "maxSelections"
+      1 AS "maxSelections"
 
     FROM "accountingPeriods".period_by_day AS p
 
@@ -262,7 +262,7 @@ const getCalYearsMap_comparison = async () => {
 
       CASE WHEN p.cal_year = EXTRACT('year' FROM CURRENT_DATE) THEN TRUE ELSE FALSE END AS "trueOnNoSelection",
 
-      2 AS "maxSelections"
+      1 AS "maxSelections"
       
     FROM "accountingPeriods".period_by_day AS p
 

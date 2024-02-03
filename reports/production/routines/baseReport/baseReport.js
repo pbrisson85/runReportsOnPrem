@@ -120,6 +120,7 @@ const buildReport = async config => {
       ...columns,
     },
     baseConfig: config.baseConfig,
+    defaultTrend: 'salesInvoice', // col type of the trend col to show by default
   }
 }
 
