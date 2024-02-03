@@ -9,6 +9,7 @@ const getTrendColsSales = require('../../postgres/timeSeriesColHeadings/getTimeS
 const getTrendColsSo = require('../../postgres/timeSeriesColHeadings/getTimeSeriesColsSo').getTrendColsSo
 const addDataToSoTotalCol = require('../helpers/colDataHelper').addDataToSoTotalCol
 const addDataToSalesTotalCol = require('../helpers/colDataHelper').addDataToSalesTotalCol
+const removeColsWithNoData = require('../helpers/colDataHelper').removeColsWithNoData
 const _ = require('lodash')
 
 // These are configs for the columns in the report
@@ -66,6 +67,9 @@ const getColumns = async config => {
   // Add data to hardcoded columns
   columnConfigs = addDataToSalesTotalCol(config, columnConfigs) // adds startDate, endDate, and displayName to the sales totals col
   columnConfigs = addDataToSoTotalCol(config, columnConfigs) // adds statDate, endDate, and displayName to the sales orders col
+
+  // remove columns with no data
+  columnConfigs = removeColsWithNoData(columnConfigs)
 
   return { columnConfigs, trendColumns }
 }

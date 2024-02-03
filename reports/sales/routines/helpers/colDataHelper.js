@@ -55,5 +55,18 @@ const addDataToSoTotalCol = (config, columnConfigs) => {
   return columnConfigs
 }
 
-module.exports.addDataToSalesTotalCol = addDataToSalesTotalCol
-module.exports.addDataToSoTotalCol = addDataToSoTotalCol
+const removeColsWithNoData = columnConfigs => {
+  const columnConfigsCopy = _.cloneDeep(columnConfigs)
+
+  // Object.keys(columnConfigsCopy).forEach(key => {
+  //   columnConfigsCopy[key] = columnConfigsCopy[key].filter(col => {
+  //     return col.data
+  //   })
+  // })
+
+  console.log('columnConfigsCopy', columnConfigsCopy)
+
+  return columnConfigsCopy
+}
+
+module.exports = { removeColsWithNoData, addDataToSalesTotalCol, addDataToSoTotalCol }
