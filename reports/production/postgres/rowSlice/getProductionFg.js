@@ -46,7 +46,7 @@ const l1_getProduction = async (config, trendQuery) => {
       COALESCE(SUM(wo.mfg_fg_line_ext_packaging)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "packagingPerLb",
       COALESCE(SUM(wo.chem_fg_line_cost)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "chemPerLb", 
       COALESCE(SUM(wo.mfg_fg_line_ext_processing_fee)/NULLIF(SUM(wo.fg_line_weight),0),0) AS "processingFeePerLb"
-      
+        
       FROM "woReporting".wo_detail_by_fg AS wo
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = wo.fg_line_item 

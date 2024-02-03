@@ -2,7 +2,7 @@ const sql = require('../../../../server')
 
 const l1_getSales = async (config, trendQuery) => {
   if (!trendQuery.sl.l1_label) return []
-  //if (config.trends.yearTrend) return [] // skip totals if trend is by year
+  if (config.trends.yearTrend) return [] // skip totals if trend is by year
 
   try {
     console.log(`${config.user} - level 1: (getSalesTrend Lvl3) query postgres to get FG sales data period total ...`)
@@ -193,7 +193,7 @@ const l1_getSales = async (config, trendQuery) => {
 }
 
 const l0_getSales = async config => {
-  //if (config.trends.yearTrend) return [] // skip totals if trend is by year
+  if (config.trends.yearTrend) return [] // skip totals if trend is by year
 
   try {
     console.log(`${config.user} - level 0: (getSalesTrend Lvl3) query postgres to get FG sales data period total ...`)
