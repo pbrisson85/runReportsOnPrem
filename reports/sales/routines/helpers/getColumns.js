@@ -69,7 +69,7 @@ const getColumns = async config => {
   columnConfigs = addDataToSoTotalCol(config, columnConfigs) // adds statDate, endDate, and displayName to the sales orders col
 
   // remove columns with no data
-  columnConfigs = removeColsWithNoData(columnConfigs)
+  //columnConfigs = removeColsWithNoData(columnConfigs)
 
   return { columnConfigs, trendColumns }
 }

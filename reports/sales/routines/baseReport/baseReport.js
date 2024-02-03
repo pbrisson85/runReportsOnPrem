@@ -177,6 +177,17 @@ const buildReport = async config => {
   const data = m.cleanLabelsForDisplay(flattenedMappedData, config)
 
   /* COLUMNS */
+
+  // make list of col dataNames that have been queried (note that certain flags will cause a col to not be queried)
+  const colDataNames = new Set()
+  data.forEach(row => {
+    Object.keys(row).forEach(col => {
+      colDataNames.add(col)
+    })
+  })
+
+  console.log('colDataNames', colDataNames)
+
   const columns = await m.getColumns(config)
 
   return {
