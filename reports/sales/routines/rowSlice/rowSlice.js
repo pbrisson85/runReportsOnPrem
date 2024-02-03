@@ -108,6 +108,13 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
   const data = m.cleanLabelsForDisplay(flattenedMappedData, config)
 
   /* COLUMNS */
+  const colDataNames = new Set()
+  data.forEach(row => {
+    Object.keys(row).forEach(col => {
+      colDataNames.add(col)
+    })
+  })
+
   const columns = await m.getColumns(config)
 
   return {
