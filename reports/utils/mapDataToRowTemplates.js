@@ -23,6 +23,11 @@ const mapDataToRowTemplates = (data, rowTemplate, config, viewTrend) => {
       }
     }
 
+    if (!rowTemplateCache[keyMap]) {
+      console.log('there is no row for :', line)
+      return
+    }
+
     rowTemplateCache[keyMap] = {
       ...rowTemplateCache[keyMap],
       [line.column]: {
