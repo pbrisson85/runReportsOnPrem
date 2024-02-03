@@ -115,7 +115,7 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
     })
   })
 
-  const columns = await m.getColumns(config)
+  const columns = await m.getColumns(config, colDataNames)
 
   return {
     data,
