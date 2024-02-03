@@ -16,9 +16,6 @@ const trendTypeOptions = () => {
       yearsMap: 'fiscal_years', // determines what map to use for the years menu. (dont show years, show fiscal, show calendar)
       currentDateMap: 'week', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
       groupByPeriod: 'p.week_serial', // field for query used in trend group by
-      // Custom Sync Rules
-      totalDefault: 'fiscalYears', // If current total is not included in totals allowed then this totaldataName will be selected
-      totalsAllowed: ['fiscalYears'],
     },
     {
       // Checkbox
@@ -33,9 +30,6 @@ const trendTypeOptions = () => {
       yearsMap: 'fiscal_years',
       currentDateMap: 'period', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
       groupByPeriod: 'p.period_serial', // field for query used in trend group by
-      // Custom Sync Rules
-      totalDefault: 'fiscalYears', // If current total is not included in totals allowed then this totaldataName will be selected
-      totalsAllowed: ['fiscalYears'],
     },
     {
       // Checkbox
@@ -50,13 +44,10 @@ const trendTypeOptions = () => {
       yearsMap: 'fiscal_years',
       currentDateMap: 'fiscal_quarter', // must map to the field in the getCurrentPeriods query so front end can map to the correct default date
       groupByPeriod: 'p.quarter_serial', // field for query used in trend group by
-      // Custom Sync Rules
-      totalDefault: 'fiscalYears', // If current total is not included in totals allowed then this totaldataName will be selected
-      totalsAllowed: ['fiscalYears'],
     },
     {
       // Checkbox
-      label: 'Fiscal Years',
+      label: 'Fiscal Years (by week)',
       dataName: 'fiscalYears',
       default: false,
       // Check Rules
@@ -69,9 +60,6 @@ const trendTypeOptions = () => {
       ytd: true, // bool for front end to not show the start trend dropdown
       groupByPeriod: 'p.fiscal_year', // field for query used in trend group by
       ytdPeriodField: 'p.week',
-      // Custom Sync Rules
-      totalDefault: 'fiscalYears', // If current total is not included in totals allowed then this totaldataName will be selected
-      totalsAllowed: ['fiscalYears'],
     },
     {
       // Checkbox
@@ -122,9 +110,6 @@ const trendTypeOptions = () => {
       ytd: true, // bool for front end to not show the start trend dropdown
       groupByPeriod: 'p.cal_year', // field for query used in trend group by
       ytdPeriodField: 'p.cal_month',
-      // Custom Sync Rules
-      totalDefault: 'calYears', // If current total is not included in totals allowed then this totaldataName will be selected
-      totalsAllowed: ['calYears'],
     },
   ]
 }
