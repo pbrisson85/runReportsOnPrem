@@ -142,8 +142,6 @@ const l1_getSalesTrend = async config => {
       
       ORDER BY pj.column` //prettier-ignore
 
-    console.log('response', response)
-
     return response
   } catch (error) {
     console.error(error)
