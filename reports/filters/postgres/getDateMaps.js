@@ -154,6 +154,7 @@ const getFiscalVsYearMap = async () => {
       p.fiscal_year AS label, 
       p.fiscal_year AS "dataName", 
       'fiscal_years_vs' AS map, 
+      FALSE AS default,
       1 AS "maxSelections"
 
     FROM "accountingPeriods".period_by_day AS p
