@@ -99,7 +99,7 @@ const getReportConfig = async reqBody => {
 
     trailingWeeks: {
       dataDates: await getTrailingWeeks(reqBody), // all trailing weeks kpi's
-      rowDates: await getTrailingWeeksRowDates(reqBody), // earlier of ytd or 12 weeks through current
+      rowDates: null, //await getTrailingWeeksRowDates(reqBody), // earlier of ytd or 12 weeks through current
     },
     trailingWeeksForWeeksInven: await getTrailingWeeksForWeeksInven(reqBody), // only weeks on hand which is hardcoded 12 weeks
     invenReportCols: {
