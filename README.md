@@ -4,6 +4,8 @@
 
 actually regarding the rows dates to match the trailing dates. I am relaizing that I should make the trailing dates use the primary start and end dates so the rows will automatically match. example if I run for 2017 show the 2017 trailing data based on run dates.
 
+WHERE I left OFF: NEED TO FINISH MAKING THE VS YEAR MAPS INCLUDING HAVING A DISABLED PORPERTY FOR YOY TRENDS. NEED TO MAKE THE REPORT ACTUALLY SHOW THE VS COL AND VS CALCULATIONS
+
 1. kpi's in sales module are includeing rows of data that may not be present adding blank rows with no labels. Need to append ANOTHER sales table rows with the dates from the trailing sales,
 2. fix the way front end deals with hiding and showing cols.
 3. Make front end able to change the dates in the menu only (need a home button as well instead of just a back button)
@@ -12,6 +14,7 @@ actually regarding the rows dates to match the trailing dates. I am relaizing th
 6. add sales person groups to sales report splits
 7. make the daily production report
 8. Need right click for bar and line graphs
+9. fix the right click menu to be better
 
 - Need to set up the 'NO VALUE' then IS NULL in all slice WHERE clauses also need to make sure it is in the SELECT claiuse of all slice data. Also need it in the WHERE clause of all detail drilldowns.
 
