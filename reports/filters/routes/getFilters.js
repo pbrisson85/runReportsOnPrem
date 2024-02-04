@@ -18,13 +18,14 @@ const getItemTypeDefaults_production = require('../data/getItemTypeDefaults_prod
 const {
   getFiscalYearMap_multi,
   getCalYearsMap_multi,
-  getFiscalYearMap_comparison,
-  getCalYearsMap_comparison,
+  getFiscalYearMap,
+  getCalYearsMap,
   getFiscalPeriodsMap,
   getWeeksMap,
   getFiscalQuartersMap,
   getCalMonthsMap,
   getCalQuartersMap,
+  getFiscalVsYearMap,
 } = require('../postgres/getDateMaps')
 const getItemTypes = require('../postgres/getItemTypes')
 const getDistinctPrograms = require('../postgres/getDistinctPrograms')
@@ -99,10 +100,11 @@ router.get('/periodMaps', async (req, res) => {
   const cal_quarters = await getCalQuartersMap()
 
   // Year Maps
-  const fiscal_years = await getFiscalYearMap_comparison()
-  const cal_years = await getCalYearsMap_comparison()
+  const fiscal_years = await getFiscalYearMap()
+  const cal_years = await getCalYearsMap()
   const fiscal_years_multi = await getFiscalYearMap_multi()
   const cal_years_multi = await getCalYearsMap_multi()
+  const fiscal_years_vs = await getFiscalVsYearMap()
 
   res.send({
     fiscal_periods,
@@ -114,6 +116,7 @@ router.get('/periodMaps', async (req, res) => {
     fiscal_years_multi,
     cal_years,
     cal_years_multi,
+    fiscal_years_vs,
   }) // the key must match the "map" property in the query
   console.log('get periods maps lot route COMPLETE. ')
 })

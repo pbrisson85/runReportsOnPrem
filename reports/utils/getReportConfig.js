@@ -16,6 +16,7 @@ const getItemTypeDefaults = require('./configHelpers/getItemTypeDefaults')
 const getYearTrend = require('./configHelpers/getYearTrend')
 const getWoActivities = require('./configHelpers/getWoActivities')
 const getProductionCountriesDefault = require('./configHelpers/getProductionCountriesDefault')
+const getTrailingWeeksRowDates = require('./configHelpers/getTrailingWeeksRowDates')
 
 const getReportConfig = async reqBody => {
   // get subtotalRowFormats defaults
@@ -95,7 +96,11 @@ const getReportConfig = async reqBody => {
         pr: getUseProjection(reqBody.totalsUseProjection).pr,
       },
     },
-    trailingWeeks: await getTrailingWeeks(reqBody), // all trailing weeks kpi's
+
+    trailingWeeks: {
+      dataDates: await getTrailingWeeks(reqBody), // all trailing weeks kpi's
+      rowDates: await getTrailingWeeksRowDates(reqBody), // earlier of ytd or 12 weeks through current
+    },
     trailingWeeksForWeeksInven: await getTrailingWeeksForWeeksInven(reqBody), // only weeks on hand which is hardcoded 12 weeks
     invenReportCols: {
       aging: getInvenReportsAging(reqBody),

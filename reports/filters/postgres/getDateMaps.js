@@ -106,7 +106,7 @@ const getWeeksMap = async () => {
   return map
 }
 
-const getFiscalYearMap_comparison = async () => {
+const getFiscalYearMap = async () => {
   console.log(`query postgres for getFiscalYearMap ...`)
 
   const map = await sql`
@@ -130,6 +130,30 @@ const getFiscalYearMap_comparison = async () => {
         FROM "accountingPeriods".period_by_day AS d
         WHERE d.formatted_date = CURRENT_DATE) THEN TRUE ELSE FALSE END AS "trueOnNoSelection",
 
+      1 AS "maxSelections"
+
+    FROM "accountingPeriods".period_by_day AS p
+
+    WHERE p.fiscal_year <= (
+      SELECT d.fiscal_year
+      FROM "accountingPeriods".period_by_day AS d
+      WHERE d.formatted_date = CURRENT_DATE
+      )
+    GROUP BY p.fiscal_year
+    ORDER BY p.fiscal_year DESC
+      `
+  return map
+}
+
+const getFiscalVsYearMap = async () => {
+  console.log(`query postgres for getFiscalVsYearMap ...`)
+
+  const map = await sql`
+    SELECT 
+      DISTINCT ON (p.fiscal_year) p.fiscal_year AS fiscal_year, 
+      p.fiscal_year AS label, 
+      p.fiscal_year AS "dataName", 
+      'fiscal_years_vs' AS map, 
       1 AS "maxSelections"
 
     FROM "accountingPeriods".period_by_day AS p
@@ -244,8 +268,8 @@ const getCalQuartersMap = async () => {
   return map
 }
 
-const getCalYearsMap_comparison = async () => {
-  console.log(`query postgres for getCalYearsMap_comparison ...`)
+const getCalYearsMap = async () => {
+  console.log(`query postgres for getCalYearsMap ...`)
 
   const map = await sql`
     SELECT 
@@ -309,10 +333,11 @@ const getCalYearsMap_multi = async () => {
 }
 
 module.exports = {
+  getFiscalVsYearMap,
   getFiscalYearMap_multi,
   getCalYearsMap_multi,
-  getFiscalYearMap_comparison,
-  getCalYearsMap_comparison,
+  getFiscalYearMap,
+  getCalYearsMap,
   getFiscalPeriodsMap,
   getWeeksMap,
   getFiscalQuartersMap,

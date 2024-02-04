@@ -9,7 +9,7 @@ const l1_getAveSales = async config => {
     console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getAveSales) ...`)
 
     const promises = []
-    for (trailingWeek of config.trailingWeeks) {
+    for (trailingWeek of config.trailingWeeks.dataDates) {
       promises.push(sql
         `SELECT 
         ${trailingWeek.dataName} AS column, 
@@ -129,7 +129,7 @@ const l2_getAveSales = async config => {
     console.log(`${config.user} - level 2: query postgres to get FG sales data period total (l2_getAveSales) ...`)
 
     const promises = []
-    for (trailingWeek of config.trailingWeeks) {
+    for (trailingWeek of config.trailingWeeks.dataDates) {
       promises.push(sql
       `SELECT 
       ${trailingWeek.dataName} AS column, 
@@ -249,7 +249,7 @@ const l3_getAveSales = async config => {
     console.log(`${config.user} - level 3: query postgres to get FG sales data period total (l3_getAveSales) ...`)
 
     const trailingWeeks = []
-    for (trailingWeek of config.trailingWeeks) {
+    for (trailingWeek of config.trailingWeeks.dataDates) {
       const response = await sql
       `SELECT 
       ${trailingWeek.dataName} AS column, 
@@ -365,7 +365,7 @@ const l4_getAveSales = async config => {
     console.log(`${config.user} - level 4: query postgres to get FG sales data period total (l4_getAveSales) ...`)
 
     const trailingWeeks = []
-    for (trailingWeek of config.trailingWeeks) {
+    for (trailingWeek of config.trailingWeeks.dataDates) {
       const response = await sql
       `SELECT 
       ${trailingWeek.dataName} AS column, 
@@ -481,7 +481,7 @@ const l5_getAveSales = async config => {
     console.log(`${config.user} - level 5: query postgres to get FG sales data period total (l4_getAveSales) ...`)
 
     const trailingWeeks = []
-    for (trailingWeek of config.trailingWeeks) {
+    for (trailingWeek of config.trailingWeeks.dataDates) {
       const response = await sql
       `SELECT 
       ${trailingWeek.dataName} AS column, 
@@ -596,7 +596,7 @@ const l0_getAveSales = async config => {
     console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getAveSales) ...`)
 
     const trailingWeeks = []
-    for (trailingWeek of config.trailingWeeks) {
+    for (trailingWeek of config.trailingWeeks.dataDates) {
       const response = await sql
       `
       SELECT 
