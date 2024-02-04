@@ -65,8 +65,6 @@ const removeColsWithNoData = (columnConfigs, colDataNames) => {
     })
   })
 
-  console.log('columnConfigsCopy', columnConfigsCopy)
-
   return columnConfigsCopy
 }
 
