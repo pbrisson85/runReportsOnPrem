@@ -170,6 +170,32 @@ const getFiscalVsYearMap = async () => {
   return map
 }
 
+const getFiscalInactiveYearMap = async () => {
+  console.log(`query postgres for getFiscalVsYearMap ...`)
+
+  const map = await sql`
+    SELECT 
+      DISTINCT ON (p.fiscal_year) p.fiscal_year AS fiscal_year, 
+      p.fiscal_year AS label, 
+      p.fiscal_year AS "dataName", 
+      'fiscal_years_inactive' AS map, 
+      FALSE AS default,
+      TRUE AS inactive,
+      0 AS "maxSelections"
+
+    FROM "accountingPeriods".period_by_day AS p
+
+    WHERE p.fiscal_year <= (
+      SELECT d.fiscal_year
+      FROM "accountingPeriods".period_by_day AS d
+      WHERE d.formatted_date = CURRENT_DATE
+      )
+    GROUP BY p.fiscal_year
+    ORDER BY p.fiscal_year DESC
+      `
+  return map
+}
+
 const getFiscalYearMap_multi = async () => {
   console.log(`query postgres for getFiscalYearMap_multi ...`)
 
@@ -302,6 +328,57 @@ const getCalYearsMap = async () => {
   return map
 }
 
+const getCalVsYearsMap = async () => {
+  console.log(`query postgres for getCalVsYearsMap ...`)
+
+  const map = await sql`
+    SELECT 
+      DISTINCT ON (p.cal_year) p.cal_year AS cal_year, 
+      p.cal_year AS label, 
+      p.cal_year AS "dataName", 
+      FALSE AS default,
+      'cal_years_vs' AS map,
+      1 AS "maxSelections"
+      
+    FROM "accountingPeriods".period_by_day AS p
+
+    WHERE p.cal_year <= (
+      SELECT d.cal_year
+      FROM "accountingPeriods".period_by_day AS d
+      WHERE d.formatted_date = CURRENT_DATE
+      )
+    GROUP BY p.cal_year
+    ORDER BY p.cal_year DESC
+      `
+  return map
+}
+
+const getCalInactiveYearsMap = async () => {
+  console.log(`query postgres for getCalInactoveYearsMap ...`)
+
+  const map = await sql`
+    SELECT 
+      DISTINCT ON (p.cal_year) p.cal_year AS cal_year, 
+      p.cal_year AS label, 
+      p.cal_year AS "dataName", 
+      FALSE AS default,
+      'cal_years_inactive' AS map,
+      TRUE AS inactive,
+      0 AS "maxSelections"
+      
+    FROM "accountingPeriods".period_by_day AS p
+
+    WHERE p.cal_year <= (
+      SELECT d.cal_year
+      FROM "accountingPeriods".period_by_day AS d
+      WHERE d.formatted_date = CURRENT_DATE
+      )
+    GROUP BY p.cal_year
+    ORDER BY p.cal_year DESC
+      `
+  return map
+}
+
 const getCalYearsMap_multi = async () => {
   console.log(`query postgres for getCalYearsMap_multi ...`)
 
@@ -334,6 +411,9 @@ const getCalYearsMap_multi = async () => {
 }
 
 module.exports = {
+  getCalInactiveYearsMap,
+  getCalVsYearsMap,
+  getFiscalInactiveYearMap,
   getFiscalVsYearMap,
   getFiscalYearMap_multi,
   getCalYearsMap_multi,

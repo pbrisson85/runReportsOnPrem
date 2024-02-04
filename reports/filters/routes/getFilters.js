@@ -26,6 +26,9 @@ const {
   getCalMonthsMap,
   getCalQuartersMap,
   getFiscalVsYearMap,
+  getFiscalInactiveYearMap,
+  getCalInactiveYearsMap,
+  getCalVsYearsMap,
 } = require('../postgres/getDateMaps')
 const getItemTypes = require('../postgres/getItemTypes')
 const getDistinctPrograms = require('../postgres/getDistinctPrograms')
@@ -105,6 +108,9 @@ router.get('/periodMaps', async (req, res) => {
   const fiscal_years_multi = await getFiscalYearMap_multi()
   const cal_years_multi = await getCalYearsMap_multi()
   const fiscal_years_vs = await getFiscalVsYearMap()
+  const fiscal_years_inactive = await getFiscalInactiveYearMap()
+  const cal_years_vs = await getCalVsYearsMap()
+  const cal_years_inactive = await getCalInactiveYearsMap()
 
   res.send({
     fiscal_periods,
@@ -117,6 +123,9 @@ router.get('/periodMaps', async (req, res) => {
     cal_years,
     cal_years_multi,
     fiscal_years_vs,
+    fiscal_years_inactive,
+    cal_years_vs,
+    cal_years_inactive,
   }) // the key must match the "map" property in the query
   console.log('get periods maps lot route COMPLETE. ')
 })
