@@ -26,6 +26,7 @@ const getProduction_detail = async (config, startDate, endDate, woActivity) => {
       wo.fg_line_lot_text AS lot_text,
       wo.fg_line_location AS location,
       wo.header_classification AS classification,
+      wo.header_class_desc AS class_name,
       wo.header_notes AS notes,
       wo.fg_line_lot AS lot,
       wo.formatted_posting_date AS posting_date,
