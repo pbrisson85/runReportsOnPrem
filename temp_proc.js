@@ -12,9 +12,11 @@ const getWocl = async () => {
 
     const queryString = `
         SELECT 
-            "General Table File".*
+            "General Table File".TABLE_ID, "General Table File".TABLE_CODE, "General Table File".TABLE_DESC
             
             FROM 'General Table File' 
+
+            WHERE "General Table File".TABLE_ID = 'WOCL'
             
            ` //prettier-ignore
 
