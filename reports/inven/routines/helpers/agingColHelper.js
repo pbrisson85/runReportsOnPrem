@@ -4,8 +4,8 @@ const { subMonths, startOfDay, addDays } = require('date-fns')
 const buildAgingCols = (config, columnConfigs) => {
   const columnConfigsCache = _.cloneDeep(columnConfigs)
 
-  if (!config.invenReportCols?.aging) return []
-  const aging = config.invenReportCols.aging
+  if (!config.baseFilters.inv?.aging) return []
+  const aging = config.baseFilters.inv.aging
   const today = startOfDay(new Date())
 
   let ageCols = []

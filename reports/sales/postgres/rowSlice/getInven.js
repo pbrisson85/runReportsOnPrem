@@ -15,7 +15,7 @@ const l1_getInven = async (config, trendQuery) => {
             '0' AS item_number
           WHERE 1=2
   
-          ${config.totals.useProjection.sl ? sql`
+          ${config.dates.totals.useProjection.sl ? sql`
           UNION
           SELECT
             DISTINCT(sl.item_number) AS item_number
@@ -27,23 +27,23 @@ const l1_getInven = async (config, trendQuery) => {
             LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
               ON sl.formatted_invoice_date = p.formatted_date
           WHERE 
-            ${!config.trends.yearTrend ? sql`
-              p.formatted_date >= ${config.totals.primary.startDate} 
-              AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+            ${!config.dates.trends.yearTrend ? sql`
+              p.formatted_date >= ${config.dates.totals.primary.startDate} 
+              AND p.formatted_date <= ${config.dates.totals.primary.endDate}` : 
             sql`
-            ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
           ` } 
-            ${config.trendFilters.customer ? sql`AND sl.customer_code = ${config.trendFilters.customer}`: sql``} 
-            ${config.trendFilters.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.trendFilters.salesPerson}`: sql``} 
-            ${config.trendFilters.country ? sql`AND sl.country = ${config.trendFilters.country}`: sql``} 
-            ${config.trendFilters.state ? sql`AND sl.state = ${config.trendFilters.state}`: sql``} 
-            ${config.trendFilters.export ? sql`AND sl.domestic = ${config.trendFilters.export}`: sql``} 
-            ${config.trendFilters.northAmerica ? sql`AND sl.north_america = ${config.trendFilters.northAmerica}`: sql``} 
+            ${config.slice.customer ? sql`AND sl.customer_code = ${config.slice.customer}`: sql``} 
+            ${config.slice.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.slice.salesPerson}`: sql``} 
+            ${config.slice.country ? sql`AND sl.country = ${config.slice.country}`: sql``} 
+            ${config.slice.state ? sql`AND sl.state = ${config.slice.state}`: sql``} 
+            ${config.slice.export ? sql`AND sl.domestic = ${config.slice.export}`: sql``} 
+            ${config.slice.northAmerica ? sql`AND sl.north_america = ${config.slice.northAmerica}`: sql``} 
             `: sql``}
   
-          ${config.totals.useProjection.so ? sql`
+          ${config.dates.totals.useProjection.so ? sql`
           UNION
             SELECT 
               DISTINCT(so.item_num) AS item_number
@@ -57,23 +57,23 @@ const l1_getInven = async (config, trendQuery) => {
   
             WHERE 
               so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-              ${!config.trends.yearTrend ? sql`
-                AND p.formatted_date >= ${config.totals.primary.startDate} 
-                AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+              ${!config.dates.trends.yearTrend ? sql`
+                AND p.formatted_date >= ${config.dates.totals.primary.startDate} 
+                AND p.formatted_date <= ${config.dates.totals.primary.endDate}` : 
               sql`
-                AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-                AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-                AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+                AND ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+                AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+                AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
             ` } 
-              ${config.trendFilters.customer ? sql`AND so.customer_code = ${config.trendFilters.customer}`: sql``} 
-              ${config.trendFilters.salesPerson ? sql`AND so.out_sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
-              ${config.trendFilters.country ? sql`AND so.country = ${config.trendFilters.country}`: sql``} 
-              ${config.trendFilters.state ? sql`AND so.state = ${config.trendFilters.state}`: sql``} 
-              ${config.trendFilters.export ? sql`AND so.domestic = ${config.trendFilters.export}`: sql``} 
-              ${config.trendFilters.northAmerica ? sql`AND so.north_america = ${config.trendFilters.northAmerica}`: sql``} 
+              ${config.slice.customer ? sql`AND so.customer_code = ${config.slice.customer}`: sql``} 
+              ${config.slice.salesPerson ? sql`AND so.out_sales_rep = ${config.slice.salesPerson}`: sql``} 
+              ${config.slice.country ? sql`AND so.country = ${config.slice.country}`: sql``} 
+              ${config.slice.state ? sql`AND so.state = ${config.slice.state}`: sql``} 
+              ${config.slice.export ? sql`AND so.domestic = ${config.slice.export}`: sql``} 
+              ${config.slice.northAmerica ? sql`AND so.north_america = ${config.slice.northAmerica}`: sql``} 
               `: sql``}
   
-          ${config.totals.useProjection.pr ? sql`
+          ${config.dates.totals.useProjection.pr ? sql`
           UNION
             SELECT
               DISTINCT(pr.item_number) AS item_number
@@ -85,20 +85,20 @@ const l1_getInven = async (config, trendQuery) => {
               LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
                 ON pr.date = p.formatted_date
             WHERE 
-            ${!config.trends.yearTrend ? sql`
-                p.formatted_date >= ${config.totals.primary.startDate} 
-                AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+            ${!config.dates.trends.yearTrend ? sql`
+                p.formatted_date >= ${config.dates.totals.primary.startDate} 
+                AND p.formatted_date <= ${config.dates.totals.primary.endDate}` : 
               sql`
-                ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-                AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-                AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+                ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+                AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+                AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
             ` } 
-            ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
-            ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
-            ${config.trendFilters.country ? sql`AND pr.country = ${config.trendFilters.country}`: sql``} 
-            ${config.trendFilters.state ? sql`AND pr.state = ${config.trendFilters.state}`: sql``} 
-            ${config.trendFilters.export ? sql`AND pr.domestic = ${config.trendFilters.export}`: sql``} 
-            ${config.trendFilters.northAmerica ? sql`AND pr.north_america = ${config.trendFilters.northAmerica}`: sql``}
+            ${config.slice.customer ? sql`AND pr.customer_code = ${config.slice.customer}`: sql``} 
+            ${config.slice.salesPerson ? sql`AND pr.sales_rep = ${config.slice.salesPerson}`: sql``} 
+            ${config.slice.country ? sql`AND pr.country = ${config.slice.country}`: sql``} 
+            ${config.slice.state ? sql`AND pr.state = ${config.slice.state}`: sql``} 
+            ${config.slice.export ? sql`AND pr.domestic = ${config.slice.export}`: sql``} 
+            ${config.slice.northAmerica ? sql`AND pr.north_america = ${config.slice.northAmerica}`: sql``}
             `: sql``}
       )
       
@@ -131,12 +131,12 @@ const l1_getInven = async (config, trendQuery) => {
         inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
-        ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
-        ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}
-        ${config.trendFilters.item ? sql`AND ms.item_num = ${config.trendFilters.item}`: sql``}  
-        ${config.trendFilters.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.trendFilters.freshFrozen}`: sql``}  
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
+        ${config.slice.speciesGroup ? sql`AND ms.species_group = ${config.slice.speciesGroup}`: sql``}
+        ${config.slice.species ? sql`AND ms.species = ${config.slice.species}`: sql``}
+        ${config.slice.program ? sql`AND ms.program = ${config.slice.program}`: sql``}
+        ${config.slice.item ? sql`AND ms.item_num = ${config.slice.item}`: sql``}  
+        ${config.slice.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.slice.freshFrozen}`: sql``}  
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.baseFilters.queryLevel > 0 ? sql`AND ${sql(config.baseFormat.l1_field)} = ${config.baseFilters.l1_filter}` : sql``} 
         ${config.baseFilters.queryLevel > 1 ? sql`AND ${sql(config.baseFormat.l2_field)} = ${config.baseFilters.l2_filter}` : sql``} 
         ${config.baseFilters.queryLevel > 2 ? sql`AND ${sql(config.baseFormat.l3_field)} = ${config.baseFilters.l3_filter}` : sql``}
@@ -176,7 +176,7 @@ const l0_getInven = async config => {
             '0' AS item_number
           WHERE 1=2
   
-          ${config.totals.useProjection.sl ? sql`
+          ${config.dates.totals.useProjection.sl ? sql`
           UNION
           SELECT
             DISTINCT(sl.item_number) AS item_number
@@ -188,23 +188,23 @@ const l0_getInven = async config => {
             LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
               ON sl.formatted_invoice_date = p.formatted_date
           WHERE 
-            ${!config.trends.yearTrend ? sql`
-              p.formatted_date >= ${config.totals.primary.startDate} 
-              AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+            ${!config.dates.trends.yearTrend ? sql`
+              p.formatted_date >= ${config.dates.totals.primary.startDate} 
+              AND p.formatted_date <= ${config.dates.totals.primary.endDate}` : 
             sql`
-              ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
              ` } 
-            ${config.trendFilters.customer ? sql`AND sl.customer_code = ${config.trendFilters.customer}`: sql``} 
-            ${config.trendFilters.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.trendFilters.salesPerson}`: sql``} 
-            ${config.trendFilters.country ? sql`AND sl.country = ${config.trendFilters.country}`: sql``} 
-            ${config.trendFilters.state ? sql`AND sl.state = ${config.trendFilters.state}`: sql``} 
-            ${config.trendFilters.export ? sql`AND sl.domestic = ${config.trendFilters.export}`: sql``} 
-            ${config.trendFilters.northAmerica ? sql`AND sl.north_america = ${config.trendFilters.northAmerica}`: sql``} 
+            ${config.slice.customer ? sql`AND sl.customer_code = ${config.slice.customer}`: sql``} 
+            ${config.slice.salesPerson ? sql`AND sl.outside_salesperson_code = ${config.slice.salesPerson}`: sql``} 
+            ${config.slice.country ? sql`AND sl.country = ${config.slice.country}`: sql``} 
+            ${config.slice.state ? sql`AND sl.state = ${config.slice.state}`: sql``} 
+            ${config.slice.export ? sql`AND sl.domestic = ${config.slice.export}`: sql``} 
+            ${config.slice.northAmerica ? sql`AND sl.north_america = ${config.slice.northAmerica}`: sql``} 
             `: sql``}
   
-          ${config.totals.useProjection.so ? sql`
+          ${config.dates.totals.useProjection.so ? sql`
           UNION
             SELECT 
               DISTINCT(so.item_num) AS item_number
@@ -218,23 +218,23 @@ const l0_getInven = async config => {
   
             WHERE 
               so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
-              ${!config.trends.yearTrend ? sql`
-                AND p.formatted_date >= ${config.totals.primary.startDate} 
-                AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+              ${!config.dates.trends.yearTrend ? sql`
+                AND p.formatted_date >= ${config.dates.totals.primary.startDate} 
+                AND p.formatted_date <= ${config.dates.totals.primary.endDate}` : 
               sql`
-                AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-                AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-                AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+                AND ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+                AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+                AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
               ` }
-              ${config.trendFilters.customer ? sql`AND so.customer_code = ${config.trendFilters.customer}`: sql``} 
-              ${config.trendFilters.salesPerson ? sql`AND so.out_sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
-              ${config.trendFilters.country ? sql`AND so.country = ${config.trendFilters.country}`: sql``} 
-              ${config.trendFilters.state ? sql`AND so.state = ${config.trendFilters.state}`: sql``} 
-              ${config.trendFilters.export ? sql`AND so.domestic = ${config.trendFilters.export}`: sql``} 
-              ${config.trendFilters.northAmerica ? sql`AND so.north_america = ${config.trendFilters.northAmerica}`: sql``} 
+              ${config.slice.customer ? sql`AND so.customer_code = ${config.slice.customer}`: sql``} 
+              ${config.slice.salesPerson ? sql`AND so.out_sales_rep = ${config.slice.salesPerson}`: sql``} 
+              ${config.slice.country ? sql`AND so.country = ${config.slice.country}`: sql``} 
+              ${config.slice.state ? sql`AND so.state = ${config.slice.state}`: sql``} 
+              ${config.slice.export ? sql`AND so.domestic = ${config.slice.export}`: sql``} 
+              ${config.slice.northAmerica ? sql`AND so.north_america = ${config.slice.northAmerica}`: sql``} 
               `: sql``}
   
-          ${config.totals.useProjection.pr ? sql`
+          ${config.dates.totals.useProjection.pr ? sql`
           UNION
             SELECT
               DISTINCT(pr.item_number) AS item_number
@@ -246,20 +246,20 @@ const l0_getInven = async config => {
               LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
                 ON pr.date = p.formatted_date
             WHERE 
-            ${!config.trends.yearTrend ? sql`
-                p.formatted_date >= ${config.totals.primary.startDate} 
-                AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+            ${!config.dates.trends.yearTrend ? sql`
+                p.formatted_date >= ${config.dates.totals.primary.startDate} 
+                AND p.formatted_date <= ${config.dates.totals.primary.endDate}` : 
               sql`
-                ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-                AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-                AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+                ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+                AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+                AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
               ` } 
-            ${config.trendFilters.customer ? sql`AND pr.customer_code = ${config.trendFilters.customer}`: sql``} 
-            ${config.trendFilters.salesPerson ? sql`AND pr.sales_rep = ${config.trendFilters.salesPerson}`: sql``} 
-            ${config.trendFilters.country ? sql`AND pr.country = ${config.trendFilters.country}`: sql``} 
-            ${config.trendFilters.state ? sql`AND pr.state = ${config.trendFilters.state}`: sql``} 
-            ${config.trendFilters.export ? sql`AND pr.domestic = ${config.trendFilters.export}`: sql``} 
-            ${config.trendFilters.northAmerica ? sql`AND pr.north_america = ${config.trendFilters.northAmerica}`: sql``}
+            ${config.slice.customer ? sql`AND pr.customer_code = ${config.slice.customer}`: sql``} 
+            ${config.slice.salesPerson ? sql`AND pr.sales_rep = ${config.slice.salesPerson}`: sql``} 
+            ${config.slice.country ? sql`AND pr.country = ${config.slice.country}`: sql``} 
+            ${config.slice.state ? sql`AND pr.state = ${config.slice.state}`: sql``} 
+            ${config.slice.export ? sql`AND pr.domestic = ${config.slice.export}`: sql``} 
+            ${config.slice.northAmerica ? sql`AND pr.north_america = ${config.slice.northAmerica}`: sql``}
             `: sql``}
       )
       
@@ -287,12 +287,12 @@ const l0_getInven = async config => {
         inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.trendFilters.speciesGroup ? sql`AND ms.species_group = ${config.trendFilters.speciesGroup}`: sql``}
-        ${config.trendFilters.species ? sql`AND ms.species = ${config.trendFilters.species}`: sql``}
-        ${config.trendFilters.program ? sql`AND ms.program = ${config.trendFilters.program}`: sql``}
-        ${config.trendFilters.item ? sql`AND ms.item_num = ${config.trendFilters.item}`: sql``}  
-        ${config.trendFilters.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.trendFilters.freshFrozen}`: sql``}  
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
+        ${config.slice.speciesGroup ? sql`AND ms.species_group = ${config.slice.speciesGroup}`: sql``}
+        ${config.slice.species ? sql`AND ms.species = ${config.slice.species}`: sql``}
+        ${config.slice.program ? sql`AND ms.program = ${config.slice.program}`: sql``}
+        ${config.slice.item ? sql`AND ms.item_num = ${config.slice.item}`: sql``}  
+        ${config.slice.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.slice.freshFrozen}`: sql``}  
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}  
         ${config.baseFilters.queryLevel > 0 ? sql`AND ${sql(config.baseFormat.l1_field)} = ${config.baseFilters.l1_filter}` : sql``} 
         ${config.baseFilters.queryLevel > 1 ? sql`AND ${sql(config.baseFormat.l2_field)} = ${config.baseFilters.l2_filter}` : sql``} 
         ${config.baseFilters.queryLevel > 2 ? sql`AND ${sql(config.baseFormat.l3_field)} = ${config.baseFilters.l3_filter}` : sql``}

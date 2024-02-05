@@ -43,7 +43,7 @@ const getColumns = async (config, colDataNames) => {
   const primarySalesTotalCol_cache = _.cloneDeep(primarySalesTotalCol)
   const salesOrdersCol_cache = _.cloneDeep(salesOrdersCol)
 
-  if (config?.trends?.yearTrend !== null && typeof config?.trends?.yearTrend !== 'undefined') {
+  if (config?.dates.trends?.yearTrend !== null && typeof config?.dates.trends?.yearTrend !== 'undefined') {
     console.log('REMOVING TOTALS COL')
 
     salesOrdersCol.forEach((col, idx) => {

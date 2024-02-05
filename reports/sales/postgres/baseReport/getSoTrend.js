@@ -1,7 +1,7 @@
 const sql = require('../../../../server')
 
 const l1_getSoTrend = async config => {
-  if (!config.trends.queryGrouping) return []
+  if (!config.dates.trends.queryGrouping) return []
   if (!config.baseFormat.l1_field) return []
 
   try {
@@ -9,7 +9,7 @@ const l1_getSoTrend = async config => {
 
     const response = await sql
       `SELECT 
-      ${sql(config.trends.queryGrouping)} || '_so' AS column, 
+      ${sql(config.dates.trends.queryGrouping)} || '_so' AS column, 
       COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
       'SUBTOTAL' AS l2_label, 
       'SUBTOTAL' AS l3_label, 
@@ -38,11 +38,11 @@ const l1_getSoTrend = async config => {
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``}
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
-      GROUP BY ${sql(config.trends.queryGrouping)}, ${sql(config.baseFormat.l1_field)} 
+      GROUP BY ${sql(config.dates.trends.queryGrouping)}, ${sql(config.baseFormat.l1_field)} 
       
-      ORDER BY ${sql(config.trends.queryGrouping)}` //prettier-ignore
+      ORDER BY ${sql(config.dates.trends.queryGrouping)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -52,7 +52,7 @@ const l1_getSoTrend = async config => {
 }
 
 const l2_getSoTrend = async config => {
-  if (!config.trends.queryGrouping) return []
+  if (!config.dates.trends.queryGrouping) return []
   if (!config.baseFormat.l2_field) return []
 
   try {
@@ -60,7 +60,7 @@ const l2_getSoTrend = async config => {
 
     const response = await sql
       `SELECT 
-      ${sql(config.trends.queryGrouping)} || '_so' AS column, 
+      ${sql(config.dates.trends.queryGrouping)} || '_so' AS column, 
       COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
       'SUBTOTAL' AS l3_label, 
@@ -89,11 +89,11 @@ const l2_getSoTrend = async config => {
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
-      GROUP BY ${sql(config.trends.queryGrouping)}, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)} 
+      GROUP BY ${sql(config.dates.trends.queryGrouping)}, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)} 
       
-      ORDER BY ${sql(config.trends.queryGrouping)}` //prettier-ignore
+      ORDER BY ${sql(config.dates.trends.queryGrouping)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -103,7 +103,7 @@ const l2_getSoTrend = async config => {
 }
 
 const l3_getSoTrend = async config => {
-  if (!config.trends.queryGrouping) return []
+  if (!config.dates.trends.queryGrouping) return []
   if (!config.baseFormat.l3_field) return []
 
   try {
@@ -111,7 +111,7 @@ const l3_getSoTrend = async config => {
 
     const response = await sql
       `SELECT 
-      ${sql(config.trends.queryGrouping)} || '_so' AS column, 
+      ${sql(config.dates.trends.queryGrouping)} || '_so' AS column, 
       COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
       COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label, 
@@ -140,11 +140,11 @@ const l3_getSoTrend = async config => {
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
-      GROUP BY ${sql(config.trends.queryGrouping)}, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)} 
+      GROUP BY ${sql(config.dates.trends.queryGrouping)}, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)} 
       
-      ORDER BY ${sql(config.trends.queryGrouping)}` //prettier-ignore
+      ORDER BY ${sql(config.dates.trends.queryGrouping)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -154,7 +154,7 @@ const l3_getSoTrend = async config => {
 }
 
 const l4_getSoTrend = async config => {
-  if (!config.trends.queryGrouping) return []
+  if (!config.dates.trends.queryGrouping) return []
   if (!config.baseFormat.l4_field) return []
 
   try {
@@ -162,7 +162,7 @@ const l4_getSoTrend = async config => {
 
     const response = await sql
       `SELECT 
-      ${sql(config.trends.queryGrouping)} || '_so' AS column, 
+      ${sql(config.dates.trends.queryGrouping)} || '_so' AS column, 
       COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
       COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label, 
@@ -191,11 +191,11 @@ const l4_getSoTrend = async config => {
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
-      GROUP BY ${sql(config.trends.queryGrouping)}, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)} 
+      GROUP BY ${sql(config.dates.trends.queryGrouping)}, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)} 
       
-      ORDER BY ${sql(config.trends.queryGrouping)}` //prettier-ignore
+      ORDER BY ${sql(config.dates.trends.queryGrouping)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -205,7 +205,7 @@ const l4_getSoTrend = async config => {
 }
 
 const l5_getSoTrend = async config => {
-  if (!config.trends.queryGrouping) return []
+  if (!config.dates.trends.queryGrouping) return []
   if (!config.baseFormat.l5_field) return []
 
   try {
@@ -213,7 +213,7 @@ const l5_getSoTrend = async config => {
 
     const response = await sql
       `SELECT 
-      ${sql(config.trends.queryGrouping)} || '_so' AS column, 
+      ${sql(config.dates.trends.queryGrouping)} || '_so' AS column, 
       COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
       COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label, 
@@ -242,11 +242,11 @@ const l5_getSoTrend = async config => {
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
-      GROUP BY ${sql(config.trends.queryGrouping)}, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)} 
+      GROUP BY ${sql(config.dates.trends.queryGrouping)}, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)} 
       
-      ORDER BY ${sql(config.trends.queryGrouping)}` //prettier-ignore
+      ORDER BY ${sql(config.dates.trends.queryGrouping)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -256,14 +256,14 @@ const l5_getSoTrend = async config => {
 }
 
 const l0_getSoTrend = async config => {
-  if (!config.trends.queryGrouping) return []
+  if (!config.dates.trends.queryGrouping) return []
 
   try {
     console.log(`${config.user} - level 0: query postgres for FG Sales Orders By Week (l0_getSoTrend) ...`)
 
     const response = await sql
       `SELECT 
-      ${sql(config.trends.queryGrouping)} || '_so' AS column, 
+      ${sql(config.dates.trends.queryGrouping)} || '_so' AS column, 
       'TOTAL' AS l1_label, 
       COALESCE(SUM(so.ext_weight),0) AS lbs, 
       COALESCE(SUM(so.ext_sales),0) AS "grossSales", 
@@ -288,11 +288,11 @@ const l0_getSoTrend = async config => {
         so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
-      GROUP BY ${sql(config.trends.queryGrouping)} 
+      GROUP BY ${sql(config.dates.trends.queryGrouping)} 
       
-      ORDER BY ${sql(config.trends.queryGrouping)}` //prettier-ignore
+      ORDER BY ${sql(config.dates.trends.queryGrouping)}` //prettier-ignore
 
     return response
   } catch (error) {

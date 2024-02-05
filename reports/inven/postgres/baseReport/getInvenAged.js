@@ -6,10 +6,10 @@ const { subMonths, startOfDay, addDays, subDays } = require('date-fns')
 // inv on hand (includes in transit)
 
 const l1_getInvAged = async config => {
-  if (!config.invenReportCols?.aging) return []
+  if (!config.baseFilters.inv?.aging) return []
   if (!config.baseFormat?.l1_field) return []
 
-  const aging = config.invenReportCols.aging
+  const aging = config.baseFilters.inv.aging
   const today = startOfDay(new Date())
 
   const eachAging = []
@@ -51,7 +51,7 @@ const l1_getInvAged = async config => {
         AND inv.receipt_date <= ${end} AND inv.receipt_date >= ${start} 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY ${sql(config.baseFormat.l1_field)}
       ` //prettier-ignore
@@ -68,10 +68,10 @@ const l1_getInvAged = async config => {
 
 // inv on hand (includes in transit)
 const l2_getInvAged = async config => {
-  if (!config.invenReportCols?.aging) return []
+  if (!config.baseFilters.inv?.aging) return []
   if (!config.baseFormat?.l2_field) return []
 
-  const aging = config.invenReportCols.aging
+  const aging = config.baseFilters.inv.aging
   const today = startOfDay(new Date())
 
   const eachAging = []
@@ -114,7 +114,7 @@ const l2_getInvAged = async config => {
         AND inv.receipt_date <= ${end} AND inv.receipt_date >= ${start} 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
       
       GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}` //prettier-ignore
 
@@ -130,10 +130,10 @@ const l2_getInvAged = async config => {
 
 // inv on hand (includes in transit)
 const l3_getInvAged = async config => {
-  if (!config.invenReportCols?.aging) return []
+  if (!config.baseFilters.inv?.aging) return []
   if (!config.baseFormat?.l3_field) return []
 
-  const aging = config.invenReportCols.aging
+  const aging = config.baseFilters.inv.aging
   const today = startOfDay(new Date())
 
   const eachAging = []
@@ -174,7 +174,7 @@ const l3_getInvAged = async config => {
         AND inv.receipt_date <= ${end} AND inv.receipt_date >= ${start} 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}` //prettier-ignore
 
@@ -189,10 +189,10 @@ const l3_getInvAged = async config => {
 }
 
 const l4_getInvAged = async config => {
-  if (!config.invenReportCols?.aging) return []
+  if (!config.baseFilters.inv?.aging) return []
   if (!config.baseFormat?.l4_field) return []
 
-  const aging = config.invenReportCols.aging
+  const aging = config.baseFilters.inv.aging
   const today = startOfDay(new Date())
 
   const eachAging = []
@@ -233,7 +233,7 @@ const l4_getInvAged = async config => {
         AND inv.receipt_date <= ${end} AND inv.receipt_date >= ${start} 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}` //prettier-ignore
 
@@ -248,10 +248,10 @@ const l4_getInvAged = async config => {
 }
 
 const l5_getInvAged = async config => {
-  if (!config.invenReportCols?.aging) return []
+  if (!config.baseFilters.inv?.aging) return []
   if (!config.baseFormat?.l5_field) return []
 
-  const aging = config.invenReportCols.aging
+  const aging = config.baseFilters.inv.aging
   const today = startOfDay(new Date())
 
   const eachAging = []
@@ -292,7 +292,7 @@ const l5_getInvAged = async config => {
         AND inv.receipt_date <= ${end} AND inv.receipt_date >= ${start} 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
       
       GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)}` //prettier-ignore
 
@@ -307,9 +307,9 @@ const l5_getInvAged = async config => {
 }
 
 const l0_getInvAged = async config => {
-  if (!config.invenReportCols?.aging) return []
+  if (!config.baseFilters.inv?.aging) return []
 
-  const aging = config.invenReportCols.aging
+  const aging = config.baseFilters.inv.aging
   const today = startOfDay(new Date())
 
   const eachAging = []
@@ -348,7 +348,7 @@ const l0_getInvAged = async config => {
         AND inv.receipt_date <= ${end} AND inv.receipt_date >= ${start} 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}` //prettier-ignore
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}` //prettier-ignore
 
       eachAging.push(...response)
     }

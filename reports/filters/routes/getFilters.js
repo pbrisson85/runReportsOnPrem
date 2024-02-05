@@ -34,6 +34,7 @@ const getItemTypes = require('../postgres/getItemTypes')
 const getDistinctPrograms = require('../postgres/getDistinctPrograms')
 const getReportConfig = require('../../utils/getReportConfig')
 const getWoActivityGroups = require('../postgres/getWoActivityGroups')
+const getMiscSettings_production = require('../data/getMiscSettings_production')
 
 router.post('/productionActivity', async (req, res) => {
   console.log('get PRODUCTION ACTIVITY filters lot route HIT...')
@@ -130,6 +131,13 @@ router.get('/periodMaps', async (req, res) => {
   console.log('get periods maps lot route COMPLETE. ')
 })
 
+router.get('/miscFiltersProduction', async (req, res) => {
+  console.log('get misc production filters route HIT...')
+  const r = getMiscSettings_production()
+  res.send(r)
+  console.log('get report formats route COMPLETE. ')
+})
+
 router.get('/invenRowFormats', async (req, res) => {
   console.log('get report formats route HIT...')
   const reports = getReportFormats_inven()
@@ -163,13 +171,6 @@ router.get('/trendFilters', async (req, res) => {
   const reports = trendTypeOptions()
   res.send(reports)
   console.log('get trend filters route COMPLETE. ')
-})
-
-router.get('/totalsFilters', async (req, res) => {
-  console.log('get totals filters route HIT...')
-  const reports = totalTypeOptions()
-  res.send(reports)
-  console.log('get totals filters route COMPLETE. ')
 })
 
 router.get('/projectionFilters', async (req, res) => {

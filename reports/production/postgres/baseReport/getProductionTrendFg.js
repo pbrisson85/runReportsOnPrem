@@ -10,7 +10,7 @@ const l1_getProductionTrend = async config => {
 
     const eachWoActivity = []
 
-    for (woActivity of config.baseFilters.woActivities) {
+    for (woActivity of config.baseFilters.wo.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (
@@ -20,7 +20,7 @@ const l1_getProductionTrend = async config => {
       )
       
       SELECT 
-      ${sql(config.trends.queryGrouping)} || ${sql`REPLACE('_${sql(woActivity)}','"', '')`} AS column, 
+      ${sql(config.dates.trends.queryGrouping)} || ${sql`REPLACE('_${sql(woActivity)}','"', '')`} AS column, 
       COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
       'SUBTOTAL' AS l2_label, 
       'SUBTOTAL' AS l3_label, 
@@ -53,24 +53,24 @@ const l1_getProductionTrend = async config => {
       WHERE 
         wo.by_prod_fg_line_bool = false
         AND act.wo_group = ${woActivity}
-        ${!config.trends.yearTrend ? sql`
-              AND p.formatted_date >= ${config.trends.startDate} 
-              AND p.formatted_date <= ${config.trends.endDate}` : 
+        ${!config.dates.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.dates.trends.startDate} 
+              AND p.formatted_date <= ${config.dates.trends.endDate}` : 
             sql`
-              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              AND ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
             ` }
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-        ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.baseFilters.wo.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.wo.productionCountries)}`: sql``} 
 
       GROUP BY 
-        ${sql(config.trends.queryGrouping)}, 
+        ${sql(config.dates.trends.queryGrouping)}, 
         ${sql(config.baseFormat.l1_field)}
       
-      ORDER BY ${sql(config.trends.queryGrouping)} ASC
+      ORDER BY ${sql(config.dates.trends.queryGrouping)} ASC
       ` //prettier-ignore
 
       eachWoActivity.push(...response)
@@ -93,7 +93,7 @@ const l2_getProductionTrend = async config => {
 
     const eachWoActivity = []
 
-    for (woActivity of config.baseFilters.woActivities) {
+    for (woActivity of config.baseFilters.wo.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (
@@ -103,7 +103,7 @@ const l2_getProductionTrend = async config => {
       )
       
       SELECT 
-      ${sql(config.trends.queryGrouping)} || ${sql`REPLACE('_${sql(woActivity)}','"', '')`} AS column,  
+      ${sql(config.dates.trends.queryGrouping)} || ${sql`REPLACE('_${sql(woActivity)}','"', '')`} AS column,  
       COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
       'SUBTOTAL' AS l3_label, 
@@ -136,25 +136,25 @@ const l2_getProductionTrend = async config => {
       WHERE 
         wo.by_prod_fg_line_bool = false
         AND act.wo_group = ${woActivity}
-        ${!config.trends.yearTrend ? sql`
-              AND p.formatted_date >= ${config.trends.startDate} 
-              AND p.formatted_date <= ${config.trends.endDate}` : 
+        ${!config.dates.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.dates.trends.startDate} 
+              AND p.formatted_date <= ${config.dates.trends.endDate}` : 
             sql`
-              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              AND ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
             ` }
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
-        ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+        ${config.baseFilters.wo.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.wo.productionCountries)}`: sql``} 
 
       GROUP BY 
-        ${sql(config.trends.queryGrouping)}, 
+        ${sql(config.dates.trends.queryGrouping)}, 
         ${sql(config.baseFormat.l1_field)}, 
         ${sql(config.baseFormat.l2_field)}
       
-      ORDER BY ${sql(config.trends.queryGrouping)} ASC
+      ORDER BY ${sql(config.dates.trends.queryGrouping)} ASC
       ` //prettier-ignore
 
       eachWoActivity.push(...response)
@@ -175,7 +175,7 @@ const l3_getProductionTrend = async config => {
 
     const eachWoActivity = []
 
-    for (woActivity of config.baseFilters.woActivities) {
+    for (woActivity of config.baseFilters.wo.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (
@@ -185,7 +185,7 @@ const l3_getProductionTrend = async config => {
       )
       
       SELECT 
-      ${sql(config.trends.queryGrouping)} || ${sql`REPLACE('_${sql(woActivity)}','"', '')`} AS column,  
+      ${sql(config.dates.trends.queryGrouping)} || ${sql`REPLACE('_${sql(woActivity)}','"', '')`} AS column,  
       COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
       COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label, 
@@ -218,26 +218,26 @@ const l3_getProductionTrend = async config => {
       WHERE 
         wo.by_prod_fg_line_bool = false
         AND act.wo_group = ${woActivity}
-        ${!config.trends.yearTrend ? sql`
-              AND p.formatted_date >= ${config.trends.startDate} 
-              AND p.formatted_date <= ${config.trends.endDate}` : 
+        ${!config.dates.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.dates.trends.startDate} 
+              AND p.formatted_date <= ${config.dates.trends.endDate}` : 
             sql`
-              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              AND ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
             ` }
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-        ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.baseFilters.wo.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.wo.productionCountries)}`: sql``} 
 
       GROUP BY 
-        ${sql(config.trends.queryGrouping)}, 
+        ${sql(config.dates.trends.queryGrouping)}, 
         ${sql(config.baseFormat.l1_field)}, 
         ${sql(config.baseFormat.l2_field)}, 
         ${sql(config.baseFormat.l3_field)}
       
-      ORDER BY ${sql(config.trends.queryGrouping)} ASC
+      ORDER BY ${sql(config.dates.trends.queryGrouping)} ASC
       ` //prettier-ignore
 
       eachWoActivity.push(...response)
@@ -258,7 +258,7 @@ const l4_getProductionTrend = async config => {
 
     const eachWoActivity = []
 
-    for (woActivity of config.baseFilters.woActivities) {
+    for (woActivity of config.baseFilters.wo.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (
@@ -268,7 +268,7 @@ const l4_getProductionTrend = async config => {
       )
       
       SELECT 
-      ${sql(config.trends.queryGrouping)} || ${sql`REPLACE('_${sql(woActivity)}','"', '')`} AS column,  
+      ${sql(config.dates.trends.queryGrouping)} || ${sql`REPLACE('_${sql(woActivity)}','"', '')`} AS column,  
       COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
       COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label, 
@@ -301,27 +301,27 @@ const l4_getProductionTrend = async config => {
       WHERE 
         wo.by_prod_fg_line_bool = false
         AND act.wo_group = ${woActivity}
-        ${!config.trends.yearTrend ? sql`
-              AND p.formatted_date >= ${config.trends.startDate} 
-              AND p.formatted_date <= ${config.trends.endDate}` : 
+        ${!config.dates.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.dates.trends.startDate} 
+              AND p.formatted_date <= ${config.dates.trends.endDate}` : 
             sql`
-              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              AND ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
             ` }
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-        ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.baseFilters.wo.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.wo.productionCountries)}`: sql``} 
 
       GROUP BY 
-        ${sql(config.trends.queryGrouping)}, 
+        ${sql(config.dates.trends.queryGrouping)}, 
         ${sql(config.baseFormat.l1_field)}, 
         ${sql(config.baseFormat.l2_field)}, 
         ${sql(config.baseFormat.l3_field)}, 
         ${sql(config.baseFormat.l4_field)} 
       
-      ORDER BY ${sql(config.trends.queryGrouping)} ASC
+      ORDER BY ${sql(config.dates.trends.queryGrouping)} ASC
       ` //prettier-ignore
 
       eachWoActivity.push(...response)
@@ -342,7 +342,7 @@ const l5_getProductionTrend = async config => {
 
     const eachWoActivity = []
 
-    for (woActivity of config.baseFilters.woActivities) {
+    for (woActivity of config.baseFilters.wo.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (
@@ -352,7 +352,7 @@ const l5_getProductionTrend = async config => {
       )
       
       SELECT 
-      ${sql(config.trends.queryGrouping)} || ${sql`REPLACE('_${sql(woActivity)}','"', '')`} AS column,  
+      ${sql(config.dates.trends.queryGrouping)} || ${sql`REPLACE('_${sql(woActivity)}','"', '')`} AS column,  
       COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
       COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label, 
@@ -385,28 +385,28 @@ const l5_getProductionTrend = async config => {
       WHERE 
         wo.by_prod_fg_line_bool = false
         AND act.wo_group = ${woActivity}
-        ${!config.trends.yearTrend ? sql`
-              AND p.formatted_date >= ${config.trends.startDate} 
-              AND p.formatted_date <= ${config.trends.endDate}` : 
+        ${!config.dates.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.dates.trends.startDate} 
+              AND p.formatted_date <= ${config.dates.trends.endDate}` : 
             sql`
-              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              AND ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
             ` }
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-        ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.baseFilters.wo.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.wo.productionCountries)}`: sql``} 
 
       GROUP BY 
-        ${sql(config.trends.queryGrouping)}, 
+        ${sql(config.dates.trends.queryGrouping)}, 
         ${sql(config.baseFormat.l1_field)}, 
         ${sql(config.baseFormat.l2_field)}, 
         ${sql(config.baseFormat.l3_field)}, 
         ${sql(config.baseFormat.l4_field)}, 
         ${sql(config.baseFormat.l5_field)}
       
-      ORDER BY ${sql(config.trends.queryGrouping)} ASC
+      ORDER BY ${sql(config.dates.trends.queryGrouping)} ASC
       ` //prettier-ignore
 
       eachWoActivity.push(...response)
@@ -427,7 +427,7 @@ const l0_getProductionTrend = async config => {
 
     const eachWoActivity = []
 
-    for (woActivity of config.baseFilters.woActivities) {
+    for (woActivity of config.baseFilters.wo.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (
@@ -437,7 +437,7 @@ const l0_getProductionTrend = async config => {
       )
       
       SELECT 
-      ${sql(config.trends.queryGrouping)} || ${sql`REPLACE('_${sql(woActivity)}','"', '')`} AS column,  
+      ${sql(config.dates.trends.queryGrouping)} || ${sql`REPLACE('_${sql(woActivity)}','"', '')`} AS column,  
       'TOTAL' AS l1_label, 
       COALESCE(SUM(wo.fg_line_weight),0) AS lbs, 
       COALESCE(SUM(wo.rm_fg_line_weight),0) AS rm_lbs,
@@ -466,22 +466,22 @@ const l0_getProductionTrend = async config => {
       WHERE 
         wo.by_prod_fg_line_bool = false
         AND act.wo_group = ${woActivity}
-        ${!config.trends.yearTrend ? sql`
-              AND p.formatted_date >= ${config.trends.startDate} 
-              AND p.formatted_date <= ${config.trends.endDate}` : 
+        ${!config.dates.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.dates.trends.startDate} 
+              AND p.formatted_date <= ${config.dates.trends.endDate}` : 
             sql`
-              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              AND ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
             ` }
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
-        ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+        ${config.baseFilters.wo.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.wo.productionCountries)}`: sql``} 
 
-    GROUP BY ${sql(config.trends.queryGrouping)}
+    GROUP BY ${sql(config.dates.trends.queryGrouping)}
 
-      ORDER BY ${sql(config.trends.queryGrouping)} ASC
+      ORDER BY ${sql(config.dates.trends.queryGrouping)} ASC
       ` //prettier-ignore
 
       eachWoActivity.push(...response)

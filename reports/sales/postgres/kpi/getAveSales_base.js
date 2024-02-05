@@ -2,14 +2,14 @@ const sql = require('../../../../server')
 
 const l1_getAveSales = async config => {
   if (!config.baseFormat.l1_field) return []
-  if (config.trends.yearTrend) return [] // skip if trend is by year
+  if (config.dates.trends.yearTrend) return [] // skip if trend is by year
   // loop through config trailing weeks for date ranges and denominators to get ave.
 
   try {
     console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getAveSales) ...`)
 
     const promises = []
-    for (trailingWeek of config.trailingWeeks.dataDates) {
+    for (trailingWeek of config.dates.trailingWeeks.dataDates) {
       promises.push(sql
         `SELECT 
         ${trailingWeek.dataName} AS column, 
@@ -43,7 +43,7 @@ const l1_getAveSales = async config => {
           WHERE
             1=2
   
-          ${config.totals.useProjection.sl ? sql`
+          ${config.dates.totals.useProjection.sl ? sql`
           UNION ALL 
             SELECT 
               sl.invoice_number AS doc_num, 
@@ -60,7 +60,7 @@ const l1_getAveSales = async config => {
               sl.formatted_invoice_date >= ${trailingWeek.start} AND sl.formatted_invoice_date <= ${trailingWeek.end} 
           `: sql``}
   
-          ${config.totals.useProjection.so ? sql`
+          ${config.dates.totals.useProjection.so ? sql`
           UNION ALL
             SELECT 
               so.so_num AS doc_num, 
@@ -78,7 +78,7 @@ const l1_getAveSales = async config => {
               AND so.formatted_ship_date >= ${trailingWeek.start} AND so.formatted_ship_date <= ${trailingWeek.end}
           `: sql``}
   
-          ${config.totals.useProjection.pr ? sql` 
+          ${config.dates.totals.useProjection.pr ? sql` 
           UNION ALL
             SELECT 
               'PROJECTION' AS doc_num, 
@@ -104,7 +104,7 @@ const l1_getAveSales = async config => {
             1=1 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-            ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+            ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
   
             GROUP BY ${sql(config.baseFormat.l1_field)} `) //prettier-ignore
     }
@@ -123,13 +123,13 @@ const l1_getAveSales = async config => {
 
 const l2_getAveSales = async config => {
   if (!config.baseFormat.l2_field) return []
-  if (config.trends.yearTrend) return [] // skip if trend is by year
+  if (config.dates.trends.yearTrend) return [] // skip if trend is by year
 
   try {
     console.log(`${config.user} - level 2: query postgres to get FG sales data period total (l2_getAveSales) ...`)
 
     const promises = []
-    for (trailingWeek of config.trailingWeeks.dataDates) {
+    for (trailingWeek of config.dates.trailingWeeks.dataDates) {
       promises.push(sql
       `SELECT 
       ${trailingWeek.dataName} AS column, 
@@ -163,7 +163,7 @@ const l2_getAveSales = async config => {
         WHERE
           1=2
 
-        ${config.totals.useProjection.sl ? sql`
+        ${config.dates.totals.useProjection.sl ? sql`
         UNION ALL 
           SELECT 
             sl.invoice_number AS doc_num, 
@@ -180,7 +180,7 @@ const l2_getAveSales = async config => {
             sl.formatted_invoice_date >= ${trailingWeek.start} AND sl.formatted_invoice_date <= ${trailingWeek.end}
           `: sql``}
 
-        ${config.totals.useProjection.so ? sql`
+        ${config.dates.totals.useProjection.so ? sql`
         UNION ALL
           SELECT 
             so.so_num AS doc_num, 
@@ -198,7 +198,7 @@ const l2_getAveSales = async config => {
             AND so.formatted_ship_date >= ${trailingWeek.start} AND so.formatted_ship_date <= ${trailingWeek.end}
           `: sql``}
 
-        ${config.totals.useProjection.pr ? sql` 
+        ${config.dates.totals.useProjection.pr ? sql` 
         UNION ALL
           SELECT 
             'PROJECTION' AS doc_num, 
@@ -224,7 +224,7 @@ const l2_getAveSales = async config => {
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}`) //prettier-ignore
     }
@@ -243,13 +243,13 @@ const l2_getAveSales = async config => {
 
 const l3_getAveSales = async config => {
   if (!config.baseFormat.l3_field) return []
-  if (config.trends.yearTrend) return [] // skip if trend is by year
+  if (config.dates.trends.yearTrend) return [] // skip if trend is by year
 
   try {
     console.log(`${config.user} - level 3: query postgres to get FG sales data period total (l3_getAveSales) ...`)
 
     const trailingWeeks = []
-    for (trailingWeek of config.trailingWeeks.dataDates) {
+    for (trailingWeek of config.dates.trailingWeeks.dataDates) {
       const response = await sql
       `SELECT 
       ${trailingWeek.dataName} AS column, 
@@ -283,7 +283,7 @@ const l3_getAveSales = async config => {
         WHERE
           1=2
 
-        ${config.totals.useProjection.sl ? sql`
+        ${config.dates.totals.useProjection.sl ? sql`
         UNION ALL 
           SELECT 
             sl.invoice_number AS doc_num, 
@@ -300,7 +300,7 @@ const l3_getAveSales = async config => {
             sl.formatted_invoice_date >= ${trailingWeek.start} AND sl.formatted_invoice_date <= ${trailingWeek.end}
           `: sql``}
 
-        ${config.totals.useProjection.so ? sql`
+        ${config.dates.totals.useProjection.so ? sql`
         UNION ALL
           SELECT 
             so.so_num AS doc_num, 
@@ -318,7 +318,7 @@ const l3_getAveSales = async config => {
             AND so.formatted_ship_date >= ${trailingWeek.start} AND so.formatted_ship_date <= ${trailingWeek.end}
           `: sql``}
 
-        ${config.totals.useProjection.pr ? sql` 
+        ${config.dates.totals.useProjection.pr ? sql` 
         UNION ALL
           SELECT 
             'PROJECTION' AS doc_num, 
@@ -344,7 +344,7 @@ const l3_getAveSales = async config => {
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}` //prettier-ignore
 
@@ -359,13 +359,13 @@ const l3_getAveSales = async config => {
 
 const l4_getAveSales = async config => {
   if (!config.baseFormat.l4_field) return []
-  if (config.trends.yearTrend) return [] // skip if trend is by year
+  if (config.dates.trends.yearTrend) return [] // skip if trend is by year
 
   try {
     console.log(`${config.user} - level 4: query postgres to get FG sales data period total (l4_getAveSales) ...`)
 
     const trailingWeeks = []
-    for (trailingWeek of config.trailingWeeks.dataDates) {
+    for (trailingWeek of config.dates.trailingWeeks.dataDates) {
       const response = await sql
       `SELECT 
       ${trailingWeek.dataName} AS column, 
@@ -399,7 +399,7 @@ const l4_getAveSales = async config => {
         WHERE
           1=2
 
-        ${config.totals.useProjection.sl ? sql`
+        ${config.dates.totals.useProjection.sl ? sql`
         UNION ALL 
           SELECT 
             sl.invoice_number AS doc_num, 
@@ -416,7 +416,7 @@ const l4_getAveSales = async config => {
             sl.formatted_invoice_date >= ${trailingWeek.start} AND sl.formatted_invoice_date <= ${trailingWeek.end}
           `: sql``}
 
-        ${config.totals.useProjection.so ? sql`
+        ${config.dates.totals.useProjection.so ? sql`
         UNION ALL
           SELECT 
             so.so_num AS doc_num, 
@@ -434,7 +434,7 @@ const l4_getAveSales = async config => {
             AND so.formatted_ship_date >= ${trailingWeek.start} AND so.formatted_ship_date <= ${trailingWeek.end}
           `: sql``}
 
-        ${config.totals.useProjection.pr ? sql` 
+        ${config.dates.totals.useProjection.pr ? sql` 
         UNION ALL
           SELECT 
             'PROJECTION' AS doc_num, 
@@ -460,7 +460,7 @@ const l4_getAveSales = async config => {
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}` //prettier-ignore
 
@@ -475,13 +475,13 @@ const l4_getAveSales = async config => {
 
 const l5_getAveSales = async config => {
   if (!config.baseFormat.l5_field) return []
-  if (config.trends.yearTrend) return [] // skip if trend is by year
+  if (config.dates.trends.yearTrend) return [] // skip if trend is by year
 
   try {
     console.log(`${config.user} - level 5: query postgres to get FG sales data period total (l4_getAveSales) ...`)
 
     const trailingWeeks = []
-    for (trailingWeek of config.trailingWeeks.dataDates) {
+    for (trailingWeek of config.dates.trailingWeeks.dataDates) {
       const response = await sql
       `SELECT 
       ${trailingWeek.dataName} AS column, 
@@ -515,7 +515,7 @@ const l5_getAveSales = async config => {
         WHERE
           1=2
 
-        ${config.totals.useProjection.sl ? sql`
+        ${config.dates.totals.useProjection.sl ? sql`
         UNION ALL 
           SELECT 
             sl.invoice_number AS doc_num, 
@@ -532,7 +532,7 @@ const l5_getAveSales = async config => {
             sl.formatted_invoice_date >= ${trailingWeek.start} AND sl.formatted_invoice_date <= ${trailingWeek.end}
           `: sql``}
 
-        ${config.totals.useProjection.so ? sql`
+        ${config.dates.totals.useProjection.so ? sql`
         UNION ALL
           SELECT 
             so.so_num AS doc_num, 
@@ -550,7 +550,7 @@ const l5_getAveSales = async config => {
             AND so.formatted_ship_date >= ${trailingWeek.start} AND so.formatted_ship_date <= ${trailingWeek.end}
           `: sql``}
 
-        ${config.totals.useProjection.pr ? sql` 
+        ${config.dates.totals.useProjection.pr ? sql` 
         UNION ALL
           SELECT 
             'PROJECTION' AS doc_num, 
@@ -576,7 +576,7 @@ const l5_getAveSales = async config => {
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)}` //prettier-ignore
 
@@ -590,13 +590,13 @@ const l5_getAveSales = async config => {
 }
 
 const l0_getAveSales = async config => {
-  if (config.trends.yearTrend) return [] // skip if trend is by year
+  if (config.dates.trends.yearTrend) return [] // skip if trend is by year
 
   try {
     console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getAveSales) ...`)
 
     const trailingWeeks = []
-    for (trailingWeek of config.trailingWeeks.dataDates) {
+    for (trailingWeek of config.dates.trailingWeeks.dataDates) {
       const response = await sql
       `
       SELECT 
@@ -627,7 +627,7 @@ const l0_getAveSales = async config => {
         WHERE
           1=2
 
-        ${config.totals.useProjection.sl ? sql`
+        ${config.dates.totals.useProjection.sl ? sql`
         UNION ALL 
           SELECT 
             sl.invoice_number AS doc_num, 
@@ -643,7 +643,7 @@ const l0_getAveSales = async config => {
             sl.formatted_invoice_date >= ${trailingWeek.start} AND sl.formatted_invoice_date <= ${trailingWeek.end} 
         `: sql``}
 
-        ${config.totals.useProjection.so ? sql`
+        ${config.dates.totals.useProjection.so ? sql`
         UNION ALL
           SELECT 
             so.so_num AS doc_num, 
@@ -660,7 +660,7 @@ const l0_getAveSales = async config => {
             AND so.formatted_ship_date >= ${trailingWeek.start} AND so.formatted_ship_date <= ${trailingWeek.end}
         `: sql``}
 
-        ${config.totals.useProjection.pr ? sql` 
+        ${config.dates.totals.useProjection.pr ? sql` 
         UNION ALL
           SELECT 
             'PROJECTION' AS doc_num, 
@@ -686,7 +686,7 @@ const l0_getAveSales = async config => {
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
           
             ` //prettier-ignore
 

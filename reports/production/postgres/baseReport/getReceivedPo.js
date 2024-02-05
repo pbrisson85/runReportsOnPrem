@@ -30,17 +30,17 @@ const l1_getReceivedPo = async config => {
          WHERE 
           po.po_offset = FALSE 
           AND po.extended_cost <> 0 
-          ${!config.trends.yearTrend ? sql` 
-              AND p.formatted_date >= ${config.totals.primary.startDate} 
-              AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+          ${!config.dates.trends.yearTrend ? sql` 
+              AND p.formatted_date >= ${config.dates.totals.primary.startDate} 
+              AND p.formatted_date <= ${config.dates.totals.primary.endDate}` : 
             sql` 
-              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)} 
             ` } 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}` : sql``} 
-          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
          
          GROUP BY ${sql(config.baseFormat.l1_field)}` //prettier-ignore
 
@@ -82,17 +82,17 @@ const l2_getReceivedPo = async config => {
        WHERE 
         po.po_offset = FALSE
         AND po.extended_cost <> 0 
-        ${!config.trends.yearTrend ? sql`
-              AND p.formatted_date >= ${config.totals.primary.startDate} 
-              AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+        ${!config.dates.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.dates.totals.primary.startDate} 
+              AND p.formatted_date <= ${config.dates.totals.primary.endDate}` : 
             sql`
-              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              AND ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
             ` }
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}` : sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
        
        GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}` //prettier-ignore
 
@@ -134,17 +134,17 @@ const l3_getReceivedPo = async config => {
        WHERE 
         po.po_offset = FALSE
         AND po.extended_cost <> 0 
-        ${!config.trends.yearTrend ? sql`
-              AND p.formatted_date >= ${config.totals.primary.startDate} 
-              AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+        ${!config.dates.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.dates.totals.primary.startDate} 
+              AND p.formatted_date <= ${config.dates.totals.primary.endDate}` : 
             sql`
-              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              AND ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
             ` }
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
        
        GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}` //prettier-ignore
 
@@ -186,17 +186,17 @@ const l4_getReceivedPo = async config => {
        WHERE 
         po.po_offset = FALSE
         AND po.extended_cost <> 0 
-        ${!config.trends.yearTrend ? sql`
-              AND p.formatted_date >= ${config.totals.primary.startDate} 
-              AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+        ${!config.dates.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.dates.totals.primary.startDate} 
+              AND p.formatted_date <= ${config.dates.totals.primary.endDate}` : 
             sql`
-              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              AND ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
             ` }
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
        
        GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}` //prettier-ignore
 
@@ -238,17 +238,17 @@ const l5_getReceivedPo = async config => {
        WHERE 
         po.po_offset = FALSE
         AND po.extended_cost <> 0 
-        ${!config.trends.yearTrend ? sql`
-              AND p.formatted_date >= ${config.totals.primary.startDate} 
-              AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+        ${!config.dates.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.dates.totals.primary.startDate} 
+              AND p.formatted_date <= ${config.dates.totals.primary.endDate}` : 
             sql`
-              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              AND ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
             ` }
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
        
        GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)}` //prettier-ignore
 
@@ -282,17 +282,17 @@ const l0_getReceivedPo = async config => {
          WHERE 
           po.po_offset = FALSE
           AND po.extended_cost <> 0 
-          ${!config.trends.yearTrend ? sql`
-              AND p.formatted_date >= ${config.totals.primary.startDate} 
-              AND p.formatted_date <= ${config.totals.primary.endDate}` : 
+          ${!config.dates.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.dates.totals.primary.startDate} 
+              AND p.formatted_date <= ${config.dates.totals.primary.endDate}` : 
             sql`
-              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              AND ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
             ` }
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}` //prettier-ignore
+          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}` //prettier-ignore
 
     return response
   } catch (error) {

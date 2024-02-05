@@ -1,7 +1,7 @@
 const sql = require('../../../../server')
 
 const getTrendColsWo = async config => {
-  if (!config.trends.queryGrouping) return []
+  if (!config.dates.trends.queryGrouping) return []
 
   console.log(`${config.user} - getTrendColsWo`)
 
@@ -10,10 +10,10 @@ const getTrendColsWo = async config => {
   try {
     const eachTimeSeries = []
 
-    for (woActivity of config.baseFilters.woActivities) {
+    for (woActivity of config.baseFilters.wo.woActivities) {
       const response = await sql`
       SELECT 
-          ${sql(config.trends.queryGrouping)} || ${sql`REPLACE('_${sql(woActivity)}','"', '')`} AS "dataName", 
+          ${sql(config.dates.trends.queryGrouping)} || ${sql`REPLACE('_${sql(woActivity)}','"', '')`} AS "dataName", 
           TO_CHAR(MAX(p.formatted_date),'MM/DD/YY') || ${sql`REPLACE(' ${sql(woActivity)}','"', '')`} AS "displayName", 
           MIN(p.formatted_date) AS "colStartDate",  
           MAX(p.formatted_date) AS "colEndDate",
@@ -22,11 +22,11 @@ const getTrendColsWo = async config => {
       
       FROM "accountingPeriods".period_by_day AS p
       
-      WHERE p.formatted_date >= ${config.trends.startDate} AND p.formatted_date <= ${config.trends.endDate} 
+      WHERE p.formatted_date >= ${config.dates.trends.startDate} AND p.formatted_date <= ${config.dates.trends.endDate} 
       
-      GROUP BY ${sql(config.trends.queryGrouping)} 
+      GROUP BY ${sql(config.dates.trends.queryGrouping)} 
   
-      ORDER BY ${sql(config.trends.queryGrouping)} ASC` //prettier-ignore
+      ORDER BY ${sql(config.dates.trends.queryGrouping)} ASC` //prettier-ignore
 
       eachTimeSeries.push(...response)
     }

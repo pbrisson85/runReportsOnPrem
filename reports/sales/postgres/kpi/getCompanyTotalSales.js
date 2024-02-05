@@ -1,7 +1,7 @@
 const sql = require('../../../../server')
 
 const getCompanyTotalSales = async config => {
-  if (config.trends.yearTrend) return [] // skip if trend is by year
+  if (config.dates.trends.yearTrend) return [] // skip if trend is by year
 
   try {
     console.log(`${config.user} - getCompanyTotalSales ...`)
@@ -30,7 +30,7 @@ const getCompanyTotalSales = async config => {
         WHERE
           1=2
 
-        ${config.totals.useProjection.sl ? sql`
+        ${config.dates.totals.useProjection.sl ? sql`
         UNION ALL 
           SELECT 
             sl.invoice_number AS doc_num, 
@@ -46,10 +46,10 @@ const getCompanyTotalSales = async config => {
           FROM "salesReporting".sales_line_items AS sl 
             
           WHERE 
-            sl.formatted_invoice_date >= ${config.totals.primary.startDate} AND sl.formatted_invoice_date <= ${config.totals.primary.endDate} 
+            sl.formatted_invoice_date >= ${config.dates.totals.primary.startDate} AND sl.formatted_invoice_date <= ${config.dates.totals.primary.endDate} 
         `: sql``}
 
-        ${config.totals.useProjection.so ? sql`
+        ${config.dates.totals.useProjection.so ? sql`
         UNION ALL
           SELECT 
             so.so_num AS doc_num, 
@@ -66,10 +66,10 @@ const getCompanyTotalSales = async config => {
          
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
-            AND so.formatted_ship_date >= ${config.totals.primary.startDate} AND so.formatted_ship_date <= ${config.totals.primary.endDate}
+            AND so.formatted_ship_date >= ${config.dates.totals.primary.startDate} AND so.formatted_ship_date <= ${config.dates.totals.primary.endDate}
         `: sql``}
 
-        ${config.totals.useProjection.pr ? sql` 
+        ${config.dates.totals.useProjection.pr ? sql` 
         UNION ALL
           SELECT 
             'PROJECTION' AS doc_num, 
@@ -85,7 +85,7 @@ const getCompanyTotalSales = async config => {
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
-            pr.date >= ${config.totals.primary.startDate} AND pr.date <= ${config.totals.primary.endDate}
+            pr.date >= ${config.dates.totals.primary.startDate} AND pr.date <= ${config.dates.totals.primary.endDate}
           `: sql``}
 
           ) AS pj
@@ -96,7 +96,7 @@ const getCompanyTotalSales = async config => {
           WHERE
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
-          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
           ` //prettier-ignore
 
     return response[0]

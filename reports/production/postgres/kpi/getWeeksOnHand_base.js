@@ -7,7 +7,7 @@ const l1_getWeeksOnHand = async config => {
   try {
     console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getWeeksOnHand) ...`)
 
-    const { dataName, weeks, start, end } = config.trailingWeeksForWeeksInven[0]
+    const { dataName, weeks, start, end } = config.dates.trailingWeeksForWeeksInven[0]
 
     const response = await sql`
         WITH ave_sales AS (
@@ -24,7 +24,7 @@ const l1_getWeeksOnHand = async config => {
             WHERE
                 1=2
     
-            ${config.totals.useProjection.sl ? sql`
+            ${config.dates.totals.useProjection.sl ? sql`
             UNION ALL 
                 SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs 
                 
@@ -34,7 +34,7 @@ const l1_getWeeksOnHand = async config => {
                 sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
             `: sql``}
     
-            ${config.totals.useProjection.so ? sql`
+            ${config.dates.totals.useProjection.so ? sql`
             UNION ALL
                 SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs 
             
@@ -45,7 +45,7 @@ const l1_getWeeksOnHand = async config => {
                 AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
             `: sql``}
     
-            ${config.totals.useProjection.pr ? sql` 
+            ${config.dates.totals.useProjection.pr ? sql` 
             UNION ALL
                 SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs
             
@@ -64,7 +64,7 @@ const l1_getWeeksOnHand = async config => {
                 1=1 
                 ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
                 ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-                ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+                ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
     
                 GROUP BY ${sql(config.baseFormat.l1_field)} 
         ),
@@ -86,7 +86,7 @@ const l1_getWeeksOnHand = async config => {
                 inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
                 ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
                 ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-                ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+                ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
             
             GROUP BY ${sql(config.baseFormat.l1_field)} 
             )
@@ -125,7 +125,7 @@ const l2_getWeeksOnHand = async config => {
   try {
     console.log(`${config.user} - level 2: query postgres to get FG sales data period total (l2_getWeeksOnHand) ...`)
 
-    const { dataName, weeks, start, end } = config.trailingWeeksForWeeksInven[0]
+    const { dataName, weeks, start, end } = config.dates.trailingWeeksForWeeksInven[0]
 
     const response = await sql`
         WITH ave_sales AS (
@@ -142,7 +142,7 @@ const l2_getWeeksOnHand = async config => {
             WHERE
                 1=2
     
-            ${config.totals.useProjection.sl ? sql`
+            ${config.dates.totals.useProjection.sl ? sql`
             UNION ALL 
                 SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs 
                 
@@ -152,7 +152,7 @@ const l2_getWeeksOnHand = async config => {
                 sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
             `: sql``}
     
-            ${config.totals.useProjection.so ? sql`
+            ${config.dates.totals.useProjection.so ? sql`
             UNION ALL
                 SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs 
             
@@ -163,7 +163,7 @@ const l2_getWeeksOnHand = async config => {
                 AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
             `: sql``}
     
-            ${config.totals.useProjection.pr ? sql` 
+            ${config.dates.totals.useProjection.pr ? sql` 
             UNION ALL
                 SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs
             
@@ -182,7 +182,7 @@ const l2_getWeeksOnHand = async config => {
                 1=1 
                 ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
                 ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-                ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+                ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
     
                 GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)} 
         ),
@@ -204,7 +204,7 @@ const l2_getWeeksOnHand = async config => {
                 inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
                 ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
                 ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-                ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+                ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
             
             GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)} 
             )
@@ -243,7 +243,7 @@ const l3_getWeeksOnHand = async config => {
   try {
     console.log(`${config.user} - level 3: query postgres to get FG sales data period total (l3_getWeeksOnHand) ...`)
 
-    const { dataName, weeks, start, end } = config.trailingWeeksForWeeksInven[0]
+    const { dataName, weeks, start, end } = config.dates.trailingWeeksForWeeksInven[0]
 
     const response = await sql`
         WITH ave_sales AS (
@@ -260,7 +260,7 @@ const l3_getWeeksOnHand = async config => {
             WHERE
                 1=2
     
-            ${config.totals.useProjection.sl ? sql`
+            ${config.dates.totals.useProjection.sl ? sql`
             UNION ALL 
                 SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs 
                 
@@ -270,7 +270,7 @@ const l3_getWeeksOnHand = async config => {
                 sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
             `: sql``}
     
-            ${config.totals.useProjection.so ? sql`
+            ${config.dates.totals.useProjection.so ? sql`
             UNION ALL
                 SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs 
             
@@ -281,7 +281,7 @@ const l3_getWeeksOnHand = async config => {
                 AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
             `: sql``}
     
-            ${config.totals.useProjection.pr ? sql` 
+            ${config.dates.totals.useProjection.pr ? sql` 
             UNION ALL
                 SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs
             
@@ -300,7 +300,7 @@ const l3_getWeeksOnHand = async config => {
                 1=1 
                 ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
                 ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-                ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+                ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
     
                 GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}
         ),
@@ -322,7 +322,7 @@ const l3_getWeeksOnHand = async config => {
                 inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
                 ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
                 ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-                ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+                ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
             
             GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)} 
             )
@@ -361,7 +361,7 @@ const l4_getWeeksOnHand = async config => {
   try {
     console.log(`${config.user} - level 4: query postgres to get FG sales data period total (l4_getWeeksOnHand) ...`)
 
-    const { dataName, weeks, start, end } = config.trailingWeeksForWeeksInven[0]
+    const { dataName, weeks, start, end } = config.dates.trailingWeeksForWeeksInven[0]
 
     const response = await sql`
         WITH ave_sales AS (
@@ -378,7 +378,7 @@ const l4_getWeeksOnHand = async config => {
             WHERE
                 1=2
     
-            ${config.totals.useProjection.sl ? sql`
+            ${config.dates.totals.useProjection.sl ? sql`
             UNION ALL 
                 SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs 
                 
@@ -388,7 +388,7 @@ const l4_getWeeksOnHand = async config => {
                 sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
             `: sql``}
     
-            ${config.totals.useProjection.so ? sql`
+            ${config.dates.totals.useProjection.so ? sql`
             UNION ALL
                 SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs 
             
@@ -399,7 +399,7 @@ const l4_getWeeksOnHand = async config => {
                 AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
             `: sql``}
     
-            ${config.totals.useProjection.pr ? sql` 
+            ${config.dates.totals.useProjection.pr ? sql` 
             UNION ALL
                 SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs
             
@@ -418,7 +418,7 @@ const l4_getWeeksOnHand = async config => {
                 1=1 
                 ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
                 ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-                ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+                ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
     
                 GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)} 
         ),
@@ -440,7 +440,7 @@ const l4_getWeeksOnHand = async config => {
                 inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
                 ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
                 ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-                ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+                ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
             
             GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)} 
             )
@@ -479,7 +479,7 @@ const l5_getWeeksOnHand = async config => {
   try {
     console.log(`${config.user} - level 5: query postgres to get FG sales data period total (l4_getWeeksOnHand) ...`)
 
-    const { dataName, weeks, start, end } = config.trailingWeeksForWeeksInven[0]
+    const { dataName, weeks, start, end } = config.dates.trailingWeeksForWeeksInven[0]
 
     const response = await sql`
         WITH ave_sales AS (
@@ -496,7 +496,7 @@ const l5_getWeeksOnHand = async config => {
             WHERE
                 1=2
     
-            ${config.totals.useProjection.sl ? sql`
+            ${config.dates.totals.useProjection.sl ? sql`
             UNION ALL 
                 SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs 
                 
@@ -506,7 +506,7 @@ const l5_getWeeksOnHand = async config => {
                 sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
             `: sql``}
     
-            ${config.totals.useProjection.so ? sql`
+            ${config.dates.totals.useProjection.so ? sql`
             UNION ALL
                 SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs 
             
@@ -517,7 +517,7 @@ const l5_getWeeksOnHand = async config => {
                 AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
             `: sql``}
     
-            ${config.totals.useProjection.pr ? sql` 
+            ${config.dates.totals.useProjection.pr ? sql` 
             UNION ALL
                 SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs
             
@@ -536,7 +536,7 @@ const l5_getWeeksOnHand = async config => {
                 1=1 
                 ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
                 ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-                ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+                ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
     
                 GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)} 
         ),
@@ -558,7 +558,7 @@ const l5_getWeeksOnHand = async config => {
                 inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
                 ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
                 ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-                ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+                ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
             
             GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)}  
             )
@@ -595,7 +595,7 @@ const l0_getWeeksOnHand = async config => {
   try {
     console.log(`${config.user} - level 0: query postgres to get FG sales data period total (l0_getWeeksOnHand) ...`)
 
-    const { dataName, weeks, start, end } = config.trailingWeeksForWeeksInven[0]
+    const { dataName, weeks, start, end } = config.dates.trailingWeeksForWeeksInven[0]
 
     const response = await sql`
         WITH ave_sales AS (
@@ -608,7 +608,7 @@ const l0_getWeeksOnHand = async config => {
             WHERE
                 1=2
     
-            ${config.totals.useProjection.sl ? sql`
+            ${config.dates.totals.useProjection.sl ? sql`
             UNION ALL 
                 SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs 
                 
@@ -618,7 +618,7 @@ const l0_getWeeksOnHand = async config => {
                 sl.formatted_invoice_date >= ${start} AND sl.formatted_invoice_date <= ${end} 
             `: sql``}
     
-            ${config.totals.useProjection.so ? sql`
+            ${config.dates.totals.useProjection.so ? sql`
             UNION ALL
                 SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs 
             
@@ -629,7 +629,7 @@ const l0_getWeeksOnHand = async config => {
                 AND so.formatted_ship_date >= ${start} AND so.formatted_ship_date <= ${end}
             `: sql``}
     
-            ${config.totals.useProjection.pr ? sql` 
+            ${config.dates.totals.useProjection.pr ? sql` 
             UNION ALL
                 SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs
             
@@ -648,7 +648,7 @@ const l0_getWeeksOnHand = async config => {
                 1=1 
                 ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
                 ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-                ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+                ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
      
         ),
             
@@ -665,7 +665,7 @@ const l0_getWeeksOnHand = async config => {
                 inv.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
                 ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
                 ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-                ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+                ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
             
            
             )

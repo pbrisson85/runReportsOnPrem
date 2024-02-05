@@ -13,7 +13,7 @@ const getItemTypes = async config => {
           ON ms.item_num = sl.item_number 
     WHERE 
         ms.item_type IS NOT NULL
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
     UNION SELECT 
       DISTINCT(TRIM(ms.item_type)) AS label, 
@@ -23,7 +23,7 @@ const getItemTypes = async config => {
         ON ms.item_num = projected_sales.item_number 
     WHERE 
       ms.item_type IS NOT NULL
-      ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+      ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
     UNION SELECT 
       DISTINCT(TRIM(ms.item_type)) AS label, 
@@ -34,7 +34,7 @@ const getItemTypes = async config => {
     WHERE 
       ms.item_type IS NOT NULL
       AND so.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
-      ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+      ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
     UNION SELECT 
       DISTINCT(TRIM(ms.item_type)) AS label, 
@@ -45,7 +45,7 @@ const getItemTypes = async config => {
     WHERE 
         ms.item_type IS NOT NULL
         AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory)
-      ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+      ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
 
     UNION SELECT 
       DISTINCT(TRIM(ms.item_type)) AS label, 
@@ -55,7 +55,7 @@ const getItemTypes = async config => {
         ON ms.item_num = wo.fg_line_item 
     WHERE 
         ms.item_type IS NOT NULL
-      ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+      ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
     
     ` //prettier-ignore
 

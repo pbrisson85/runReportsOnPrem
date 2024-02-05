@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
   }
 
   if (colType === 'salesOrder' && !timeSeriesCol) {
-    data = await getSo_detail(config, config.salesOrders.startDate, config.salesOrders.endDate)
+    data = await getSo_detail(config, config.dates.salesOrders.startDate, config.dates.salesOrders.endDate)
   }
 
   if (colType === 'salesOrder' && timeSeriesCol) {
@@ -37,17 +37,22 @@ router.post('/', async (req, res) => {
   }
 
   if (colType === 'salesInvoice' && !timeSeriesCol) {
-    if (config.totals.useProjection?.so || config.totals.useProjection?.pr) {
-      data = await getSalesProjection_detail(config, config.totals.primary.startDate, config.totals.primary.endDate, config.totals.useProjection) // Should try to combine with getSales_detail
+    if (config.dates.totals.useProjection?.so || config.dates.totals.useProjection?.pr) {
+      data = await getSalesProjection_detail(
+        config,
+        config.dates.totals.primary.startDate,
+        config.dates.totals.primary.endDate,
+        config.dates.totals.useProjection
+      ) // Should try to combine with getSales_detail
       colType = 'salesProjection' // for now manually determining if projeciton vs sales below. Need to override col type to projection to get correct cols
     } else {
-      data = await getSales_detail(config, config.totals.primary.startDate, config.totals.primary.endDate)
+      data = await getSales_detail(config, config.dates.totals.primary.startDate, config.dates.totals.primary.endDate)
     }
   }
 
   if (colType === 'salesInvoice' && timeSeriesCol) {
-    if (config.totals.useProjection?.so || config.totals.useProjection?.pr) {
-      data = await getSalesProjection_detail(config, colStartDate, colEndDate, config.totals.useProjection) // Should try to combine with getSales_detail
+    if (config.dates.totals.useProjection?.so || config.dates.totals.useProjection?.pr) {
+      data = await getSalesProjection_detail(config, colStartDate, colEndDate, config.dates.totals.useProjection) // Should try to combine with getSales_detail
       colType = 'salesProjection' // for now manually determining if projeciton vs sales below. Need to override col type to projection to get correct cols
     } else {
       data = await getSales_detail(config, colStartDate, colEndDate)

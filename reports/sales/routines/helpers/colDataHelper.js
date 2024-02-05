@@ -9,13 +9,13 @@ const addDataToSalesTotalCol = (config, columnConfigs) => {
   // Add startDate and endDate to the column configs so that it can be passed back in the detail and trend queries.
   columnConfigs.primarySalesTotalCol.forEach(col => {
     // format displayName
-    const startDisplay = new Date(config.totals.primary.startDate).toLocaleString('en-US', {
+    const startDisplay = new Date(config.dates.totals.primary.startDate).toLocaleString('en-US', {
       timeZone: 'America/New_York',
     })
     const startDisplayArr = startDisplay.split(',')[0].split('/')
     const startDisplayClean = `${startDisplayArr[0]}/${startDisplayArr[1]}/${startDisplayArr[2]}`
 
-    const endDisplay = new Date(config.totals.primary.endDate).toLocaleString('en-US', {
+    const endDisplay = new Date(config.dates.totals.primary.endDate).toLocaleString('en-US', {
       timeZone: 'America/New_York',
     })
     const endDisplayArr = endDisplay.split(',')[0].split('/')
@@ -35,13 +35,13 @@ const addDataToSoTotalCol = (config, columnConfigs) => {
   // Add startDate and endDate to the column configs so that it can be passed back in the detail and trend queries.
   columnConfigs.salesOrdersCol.forEach(col => {
     // format displayName
-    const startDisplay = new Date(config.salesOrders.startDate).toLocaleString('en-US', {
+    const startDisplay = new Date(config.dates.salesOrders.startDate).toLocaleString('en-US', {
       timeZone: 'America/New_York',
     })
     const startDisplayArr = startDisplay.split(',')[0].split('/')
     const startDisplayClean = `${startDisplayArr[0]}/${startDisplayArr[1]}/${startDisplayArr[2]}`
 
-    const endDisplay = new Date(config.salesOrders.endDate).toLocaleString('en-US', {
+    const endDisplay = new Date(config.dates.salesOrders.endDate).toLocaleString('en-US', {
       timeZone: 'America/New_York',
     })
     const endDisplayArr = endDisplay.split(',')[0].split('/')

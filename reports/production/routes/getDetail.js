@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
   }
 
   if (colType === 'salesOrder') {
-    data = await getSo_detail(config, config.salesOrders.startDate, config.salesOrders.endDate)
+    data = await getSo_detail(config, config.dates.salesOrders.startDate, config.dates.salesOrders.endDate)
   }
 
   if (colType === 'purchaseOrder') {
@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
     if (timeSeriesCol) {
       data = await getProduction_detail(config, colStartDate, colEndDate, woActivity)
     } else {
-      data = await getProduction_detail(config, config.totals.primary.startDate, config.totals.primary.endDate, woActivity)
+      data = await getProduction_detail(config, config.dates.totals.primary.startDate, config.dates.totals.primary.endDate, woActivity)
     }
 
     colType = 'production'

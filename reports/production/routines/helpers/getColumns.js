@@ -40,7 +40,7 @@ const getColumns = async config => {
   // copy woCols or the data will persist between requests/sessions
   const woColsCache = _.cloneDeep(woCols)
 
-  if (config?.trends?.yearTrend !== null && typeof config?.trends?.yearTrend !== 'undefined') {
+  if (config?.dates.trends?.yearTrend !== null && typeof config?.dates.trends?.yearTrend !== 'undefined') {
     woCols.forEach((col, idx) => {
       woColsCache[idx].hidden = true
       woColsCache[idx].showByDefault = false

@@ -1,7 +1,7 @@
 const sql = require('../../../../server')
 
 const l5_getRowLabels = async config => {
-  // config.trends.fyYtd || config.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
+  // config.dates.trends.fyYtd || config.dates.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
   if (!config.baseFormat.l5_field) return []
 
@@ -19,7 +19,7 @@ const l5_getRowLabels = async config => {
             perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory)
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``}  
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-            ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+            ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
           
           GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)} 
         
@@ -33,7 +33,7 @@ const l5_getRowLabels = async config => {
             sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-            ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+            ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
           GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)}
           ` //prettier-ignore
@@ -46,7 +46,7 @@ const l5_getRowLabels = async config => {
 }
 
 const l4_getRowLabels = async config => {
-  // config.trends.fyYtd || config.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
+  // config.dates.trends.fyYtd || config.dates.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
   if (!config.baseFormat.l4_field) return []
 
@@ -64,7 +64,7 @@ const l4_getRowLabels = async config => {
             perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory)
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``}  
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-            ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+            ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
           
           GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)} 
         
@@ -78,7 +78,7 @@ const l4_getRowLabels = async config => {
             sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-            ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+            ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
           GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}
           ` //prettier-ignore
@@ -91,7 +91,7 @@ const l4_getRowLabels = async config => {
 }
 
 const l3_getRowLabels = async config => {
-  // config.trends.fyYtd || config.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
+  // config.dates.trends.fyYtd || config.dates.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
   if (!config.baseFormat.l3_field) return []
 
@@ -109,7 +109,7 @@ const l3_getRowLabels = async config => {
             perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-            ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+            ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
           
           GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)} 
         
@@ -123,7 +123,7 @@ const l3_getRowLabels = async config => {
             sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-            ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+            ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
           GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}` //prettier-ignore
 
@@ -135,7 +135,7 @@ const l3_getRowLabels = async config => {
 }
 
 const l2_getRowLabels = async config => {
-  // config.trends.fyYtd || config.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
+  // config.dates.trends.fyYtd || config.dates.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
   if (!config.baseFormat.l2_field) return []
 
@@ -153,7 +153,7 @@ const l2_getRowLabels = async config => {
             perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-            ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+            ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
           GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)} 
         
@@ -167,7 +167,7 @@ const l2_getRowLabels = async config => {
             sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-            ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+            ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
           GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}` //prettier-ignore
 
@@ -179,7 +179,7 @@ const l2_getRowLabels = async config => {
 }
 
 const l1_getRowLabels = async config => {
-  // config.trends.fyYtd || config.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
+  // config.dates.trends.fyYtd || config.dates.trends.fyFullYear is a flag to indicate if prior years are being showin. If so then do not filter by date, show all data
 
   if (!config.baseFormat.l1_field) return []
 
@@ -197,7 +197,7 @@ const l1_getRowLabels = async config => {
             perpetual_inventory.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory) 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-            ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+            ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
           GROUP BY ${sql(config.baseFormat.l1_field)} 
         
@@ -211,7 +211,7 @@ const l1_getRowLabels = async config => {
             sales_orders.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
             ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
             ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-            ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+            ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
           
           GROUP BY ${sql(config.baseFormat.l1_field)}` //prettier-ignore
 

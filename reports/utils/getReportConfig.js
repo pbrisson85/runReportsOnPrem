@@ -17,6 +17,7 @@ const getYearTrend = require('./configHelpers/getYearTrend')
 const getWoActivities = require('./configHelpers/getWoActivities')
 const getProductionCountriesDefault = require('./configHelpers/getProductionCountriesDefault')
 const getTrailingWeeksRowDates = require('./configHelpers/getTrailingWeeksRowDates')
+const getWoOneLb = require('./configHelpers/getWoOneLb')
 
 const getReportConfig = async reqBody => {
   // get subtotalRowFormats defaults
@@ -31,6 +32,7 @@ const getReportConfig = async reqBody => {
   let config = {
     module: reqBody.module, // note only sending this on initial request right now but want to use this to optionally create the config going forward
     baseConfig: reqBody, // pass back for slice and detail reports
+    user: reqBody.user ?? null,
     labelCols: getlabelCols(reqBody),
     baseFormat: {
       // probably re-write this part. If there is an L1 then dont get default. putting this into get default for now. *****************
@@ -51,15 +53,24 @@ const getReportConfig = async reqBody => {
       queryLevel: reqBody.queryLevel ?? null,
       itemType: reqBody.itemType ?? getItemTypeDefaults(reqBody.module),
       program: typeof reqBody.program === 'undefined' ? null : reqBody.program === 'all' ? null : reqBody.program,
-      productionCountries: reqBody.productionCountries ?? (await getProductionCountriesDefault()) ?? null,
-      woActivities: await getWoActivities(reqBody),
+      userPermissions: getUserPermissions(reqBody),
       l1_filter: reqBody.l1_filter ?? null,
       l2_filter: reqBody.l2_filter ?? null,
       l3_filter: reqBody.l3_filter ?? null,
       l4_filter: reqBody.l4_filter ?? null,
       l5_filter: reqBody.l5_filter ?? null,
+      wo: {
+        woActivities: await getWoActivities(reqBody),
+        productionCountries: reqBody.wo.productionCountries ?? (await getProductionCountriesDefault()) ?? null,
+        include1lbWOs: getWoOneLb(reqBody).include1lbWOs,
+        includeGreaterlbWOs: getWoOneLb(reqBody).include1lbWOs,
+      },
+      inv: {
+        aging: getInvenReportsAging(reqBody),
+        grouping: getInvenReportsGrouping(reqBody),
+      },
     },
-    trendFilters: {
+    slice: {
       customer: reqBody.customer ?? null,
       item: reqBody.item ?? null,
       salesPerson: reqBody.salesPerson ?? null,
@@ -73,41 +84,36 @@ const getReportConfig = async reqBody => {
       species: reqBody.species ?? null,
       program: reqBody.programDrilldown ?? null,
     },
-    salesOrders: {
-      startDate: await getEarliestSoShipDate(reqBody.user),
-      endDate: await getLatestSoShipDate(reqBody.user),
-    },
-    trends: {
-      yearTrend: getYearTrend(reqBody), // applicable for YTD trend only. Also will supress having a totals col
-      ...(await getTrendDates(reqBody)),
-      useProjection: {
-        sl: getUseProjection(reqBody.trendUseProjection).sl,
-        so: getUseProjection(reqBody.trendUseProjection).so,
-        pr: getUseProjection(reqBody.trendUseProjection).pr,
+    dates: {
+      salesOrders: {
+        startDate: await getEarliestSoShipDate(reqBody.user),
+        endDate: await getLatestSoShipDate(reqBody.user),
       },
-      queryGrouping: getQueryGrouping(reqBody),
-    },
-    totals: {
-      primary: await getDatesTotalsPrimary(reqBody),
-      comparison: await getDatesTotalsComparison(reqBody),
-      useProjection: {
-        sl: getUseProjection(reqBody.totalsUseProjection).sl,
-        so: getUseProjection(reqBody.totalsUseProjection).so,
-        pr: getUseProjection(reqBody.totalsUseProjection).pr,
+      trends: {
+        yearTrend: getYearTrend(reqBody), // applicable for YTD trend only. Also will supress having a totals col
+        ...(await getTrendDates(reqBody)),
+        useProjection: {
+          sl: getUseProjection(reqBody.trendUseProjection).sl,
+          so: getUseProjection(reqBody.trendUseProjection).so,
+          pr: getUseProjection(reqBody.trendUseProjection).pr,
+        },
+        queryGrouping: getQueryGrouping(reqBody),
       },
+      totals: {
+        primary: await getDatesTotalsPrimary(reqBody),
+        comparison: await getDatesTotalsComparison(reqBody),
+        useProjection: {
+          sl: getUseProjection(reqBody.totalsUseProjection).sl,
+          so: getUseProjection(reqBody.totalsUseProjection).so,
+          pr: getUseProjection(reqBody.totalsUseProjection).pr,
+        },
+      },
+      trailingWeeks: {
+        dataDates: await getTrailingWeeks(reqBody), // all trailing weeks kpi's
+        rowDates: null, //await getTrailingWeeksRowDates(reqBody), // earlier of ytd or 12 weeks through current
+      },
+      trailingWeeksForWeeksInven: await getTrailingWeeksForWeeksInven(reqBody), // only weeks on hand which is hardcoded 12 weeks
     },
-
-    trailingWeeks: {
-      dataDates: await getTrailingWeeks(reqBody), // all trailing weeks kpi's
-      rowDates: null, //await getTrailingWeeksRowDates(reqBody), // earlier of ytd or 12 weeks through current
-    },
-    trailingWeeksForWeeksInven: await getTrailingWeeksForWeeksInven(reqBody), // only weeks on hand which is hardcoded 12 weeks
-    invenReportCols: {
-      aging: getInvenReportsAging(reqBody),
-      grouping: getInvenReportsGrouping(reqBody),
-    },
-    userPermissions: getUserPermissions(reqBody),
-    user: reqBody.user ?? null,
     subtotalRowFormats: {
       shiftTotals: reqBody.appSettings?.shiftTotals ?? appSettings_unflat['shiftTotals'].default,
       shiftTotalsCss: reqBody.appSettings?.shiftTotalsCss ?? appSettings_unflat['shiftTotalsCss'].default,

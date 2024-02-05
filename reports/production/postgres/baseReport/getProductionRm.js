@@ -2,9 +2,9 @@ const sql = require('../../../../server')
 
 const l1_getProduction = async config => {
   if (!config.baseFormat.l1_field) return []
-  if (config.trends.yearTrend) return [] // skip totals if trend is by year
+  if (config.dates.trends.yearTrend) return [] // skip totals if trend is by year
 
-  console.log('config.baseFilters.productionCountries', config.baseFilters.productionCountries)
+  console.log('config.baseFilters.wo.productionCountries', config.baseFilters.wo.productionCountries)
 
   try {
     console.log(`${config.user} - level 1: query postgres for Inv on hand (l1_getProduction) ...`)
@@ -13,7 +13,7 @@ const l1_getProduction = async config => {
 
     const eachWoActivity = []
 
-    for (woActivity of config.baseFilters.woActivities) {
+    for (woActivity of config.baseFilters.wo.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (
@@ -56,11 +56,11 @@ const l1_getProduction = async config => {
       WHERE 
         
         act.wo_group = ${woActivity}
-        AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
+        AND p.formatted_date >= ${config.dates.totals.primary.startDate} AND p.formatted_date <= ${config.dates.totals.primary.endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-        ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.baseFilters.wo.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.wo.productionCountries)}`: sql``} 
 
       GROUP BY 
       ${sql(config.baseFormat.l1_field)}
@@ -78,7 +78,7 @@ const l1_getProduction = async config => {
 
 const l2_getProduction = async config => {
   if (!config.baseFormat.l2_field) return []
-  if (config.trends.yearTrend) return [] // skip totals if trend is by year
+  if (config.dates.trends.yearTrend) return [] // skip totals if trend is by year
 
   try {
     console.log(`${config.user} - level 2: query postgres for Inv on hand (l2_getProduction) ...`)
@@ -87,7 +87,7 @@ const l2_getProduction = async config => {
 
     const eachWoActivity = []
 
-    for (woActivity of config.baseFilters.woActivities) {
+    for (woActivity of config.baseFilters.wo.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (
@@ -130,11 +130,11 @@ const l2_getProduction = async config => {
       WHERE 
         
         act.wo_group = ${woActivity}
-        AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
+        AND p.formatted_date >= ${config.dates.totals.primary.startDate} AND p.formatted_date <= ${config.dates.totals.primary.endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
-        ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+        ${config.baseFilters.wo.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.wo.productionCountries)}`: sql``} 
 
       GROUP BY 
       ${sql(config.baseFormat.l1_field)}, 
@@ -153,14 +153,14 @@ const l2_getProduction = async config => {
 
 const l3_getProduction = async config => {
   if (!config.baseFormat.l3_field) return []
-  if (config.trends.yearTrend) return [] // skip totals if trend is by year
+  if (config.dates.trends.yearTrend) return [] // skip totals if trend is by year
 
   try {
     console.log(`${config.user} - level 3: query postgres for Inv on hand (l3_getProduction) ...`)
 
     const eachWoActivity = []
 
-    for (woActivity of config.baseFilters.woActivities) {
+    for (woActivity of config.baseFilters.wo.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (
@@ -203,11 +203,11 @@ const l3_getProduction = async config => {
       WHERE 
         
         act.wo_group = ${woActivity}
-        AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
+        AND p.formatted_date >= ${config.dates.totals.primary.startDate} AND p.formatted_date <= ${config.dates.totals.primary.endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-        ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.baseFilters.wo.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.wo.productionCountries)}`: sql``} 
 
       GROUP BY 
         ${sql(config.baseFormat.l1_field)}, 
@@ -227,14 +227,14 @@ const l3_getProduction = async config => {
 
 const l4_getProduction = async config => {
   if (!config.baseFormat.l4_field) return []
-  if (config.trends.yearTrend) return [] // skip totals if trend is by year
+  if (config.dates.trends.yearTrend) return [] // skip totals if trend is by year
 
   try {
     console.log(`${config.user} - level 4: query postgres for Inv on hand (l4_getProduction) ...`)
 
     const eachWoActivity = []
 
-    for (woActivity of config.baseFilters.woActivities) {
+    for (woActivity of config.baseFilters.wo.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (
@@ -277,11 +277,11 @@ const l4_getProduction = async config => {
       WHERE 
         
         act.wo_group = ${woActivity}
-        AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
+        AND p.formatted_date >= ${config.dates.totals.primary.startDate} AND p.formatted_date <= ${config.dates.totals.primary.endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-        ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.baseFilters.wo.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.wo.productionCountries)}`: sql``} 
 
       GROUP BY 
         ${sql(config.baseFormat.l1_field)}, 
@@ -302,14 +302,14 @@ const l4_getProduction = async config => {
 
 const l5_getProduction = async config => {
   if (!config.baseFormat.l5_field) return []
-  if (config.trends.yearTrend) return [] // skip totals if trend is by year
+  if (config.dates.trends.yearTrend) return [] // skip totals if trend is by year
 
   try {
     console.log(`${config.user} - level 5: query postgres for Inv on hand (l4_getProduction) ...`)
 
     const eachWoActivity = []
 
-    for (woActivity of config.baseFilters.woActivities) {
+    for (woActivity of config.baseFilters.wo.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (
@@ -352,11 +352,11 @@ const l5_getProduction = async config => {
       WHERE 
         
         act.wo_group = ${woActivity}
-        AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
+        AND p.formatted_date >= ${config.dates.totals.primary.startDate} AND p.formatted_date <= ${config.dates.totals.primary.endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
-        ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+        ${config.baseFilters.wo.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.wo.productionCountries)}`: sql``} 
 
       GROUP BY 
         ${sql(config.baseFormat.l1_field)}, 
@@ -377,7 +377,7 @@ const l5_getProduction = async config => {
 }
 
 const l0_getProduction = async config => {
-  if (config.trends.yearTrend) return [] // skip totals if trend is by year
+  if (config.dates.trends.yearTrend) return [] // skip totals if trend is by year
 
   try {
     console.log(`${config.user} - level 0: query postgres for Inv on hand (l0_getProduction) ...`)
@@ -386,7 +386,7 @@ const l0_getProduction = async config => {
 
     const eachWoActivity = []
 
-    for (woActivity of config.baseFilters.woActivities) {
+    for (woActivity of config.baseFilters.wo.woActivities) {
       const response = await sql
       `
       WITH wo_activity AS (
@@ -425,11 +425,11 @@ const l0_getProduction = async config => {
       WHERE 
         
         act.wo_group = ${woActivity}
-        AND p.formatted_date >= ${config.totals.primary.startDate} AND p.formatted_date <= ${config.totals.primary.endDate}
+        AND p.formatted_date >= ${config.dates.totals.primary.startDate} AND p.formatted_date <= ${config.dates.totals.primary.endDate}
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
-        ${config.baseFilters.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.productionCountries)}`: sql``} 
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+        ${config.baseFilters.wo.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.wo.productionCountries)}`: sql``} 
     
       ` //prettier-ignore
 

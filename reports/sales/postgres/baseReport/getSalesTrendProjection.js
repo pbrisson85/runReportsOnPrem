@@ -1,7 +1,7 @@
 const sql = require('../../../../server')
 
 const l1_getSalesTrend = async config => {
-  if (!config.trends.queryGrouping) return []
+  if (!config.dates.trends.queryGrouping) return []
   if (!config.baseFormat.l1_field) return []
 
   try {
@@ -41,13 +41,13 @@ const l1_getSalesTrend = async config => {
         WHERE
           1=2
 
-        ${config.trends.useProjection.sl ? sql`
+        ${config.dates.trends.useProjection.sl ? sql`
         UNION ALL 
           SELECT 
             sl.invoice_number AS doc_num, 
             sl.line_number, 
             sl.item_number AS item_num, 
-            ${sql(config.trends.queryGrouping)}::TEXT AS column, 
+            ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, 
             COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
             COALESCE(sl.gross_sales_ext,0) AS sales, 
             COALESCE(sl.cogs_ext_gl,0) AS cogs, 
@@ -58,24 +58,24 @@ const l1_getSalesTrend = async config => {
               ON sl.formatted_invoice_date = p.formatted_date
 
           WHERE
-            ${!config.trends.yearTrend ? sql`
-              p.formatted_date >= ${config.trends.startDate} 
-              AND p.formatted_date <= ${config.trends.endDate}` : 
+            ${!config.dates.trends.yearTrend ? sql`
+              p.formatted_date >= ${config.dates.trends.startDate} 
+              AND p.formatted_date <= ${config.dates.trends.endDate}` : 
             sql`
-              ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
             ` }
 
         `: sql``}
         
-        ${config.trends.useProjection.so ? sql`  
+        ${config.dates.trends.useProjection.so ? sql`  
         UNION ALL 
           SELECT 
             so.so_num AS doc_num, 
             so.so_line AS line_number, 
             so.item_num AS item_num, 
-            ${sql(config.trends.queryGrouping)}::TEXT AS column, 
+            ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, 
             COALESCE(so.ext_weight,0) AS lbs, 
             COALESCE(so.ext_sales,0) AS sales, 
             COALESCE(so.ext_cost,0) AS cogs, 
@@ -87,25 +87,25 @@ const l1_getSalesTrend = async config => {
 
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
-            ${!config.trends.yearTrend ? sql`
-              AND p.formatted_date >= ${config.trends.startDate} 
-              AND p.formatted_date <= ${config.trends.endDate}` : 
+            ${!config.dates.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.dates.trends.startDate} 
+              AND p.formatted_date <= ${config.dates.trends.endDate}` : 
             sql`
-              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              AND ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
             ` } 
           
         
         `: sql``} 
 
-        ${config.trends.useProjection.pr ? sql` 
+        ${config.dates.trends.useProjection.pr ? sql` 
         UNION ALL 
           SELECT 
             'PROJECTION' AS doc_num, 
             'PROJECTION' AS line_number, 
             pr.item_number AS item_num, 
-            ${sql(config.trends.queryGrouping)}::TEXT AS column, 
+            ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, 
             COALESCE(pr.lbs,0) AS lbs, 
             COALESCE(pr."grossSales",0) AS sales, 
             COALESCE(pr.cogs,0) AS cogs, 
@@ -116,13 +116,13 @@ const l1_getSalesTrend = async config => {
               ON pr.date = p.formatted_date 
 
           WHERE 
-          ${!config.trends.yearTrend ? sql`
-            p.formatted_date >= ${config.trends.startDate} 
-            AND p.formatted_date <= ${config.trends.endDate}` : 
+          ${!config.dates.trends.yearTrend ? sql`
+            p.formatted_date >= ${config.dates.trends.startDate} 
+            AND p.formatted_date <= ${config.dates.trends.endDate}` : 
           sql`
-            ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-            AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-            AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+            AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+            AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
           ` }
         
         `: sql``}
@@ -136,7 +136,7 @@ const l1_getSalesTrend = async config => {
         1=1 
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-        ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+        ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY pj.column, ${sql(config.baseFormat.l1_field)} 
       
@@ -151,7 +151,7 @@ const l1_getSalesTrend = async config => {
 }
 
 const l2_getSalesTrend = async config => {
-  if (!config.trends.queryGrouping) return []
+  if (!config.dates.trends.queryGrouping) return []
   if (!config.baseFormat.l2_field) return []
 
   try {
@@ -192,34 +192,34 @@ const l2_getSalesTrend = async config => {
           1=2
 
 
-        ${config.trends.useProjection.sl ? sql`
+        ${config.dates.trends.useProjection.sl ? sql`
         UNION ALL
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, ${sql(config.trends.queryGrouping)}::TEXT AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
           
           FROM "salesReporting".sales_line_items AS sl
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
             ON sl.formatted_invoice_date = p.formatted_date
             
           WHERE
-            ${!config.trends.yearTrend ? sql`
-            p.formatted_date >= ${config.trends.startDate} 
-            AND p.formatted_date <= ${config.trends.endDate}` : 
+            ${!config.dates.trends.yearTrend ? sql`
+            p.formatted_date >= ${config.dates.trends.startDate} 
+            AND p.formatted_date <= ${config.dates.trends.endDate}` : 
           sql`
-            ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-            AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-            AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+            AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+            AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
           ` }
         
         `: sql``}
 
 
-        ${config.trends.useProjection.so ? sql`  
+        ${config.dates.trends.useProjection.so ? sql`  
         UNION ALL
           SELECT 
             so.so_num AS doc_num, 
             so.so_line AS line_number, 
             so.item_num AS item_num, 
-            ${sql(config.trends.queryGrouping)}::TEXT AS column, 
+            ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, 
             COALESCE(so.ext_weight,0) AS lbs, 
             COALESCE(so.ext_sales,0) AS sales, 
             COALESCE(so.ext_cost,0) AS cogs, 
@@ -231,34 +231,34 @@ const l2_getSalesTrend = async config => {
            
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            ${!config.trends.yearTrend ? sql`
-              AND p.formatted_date >= ${config.trends.startDate} 
-              AND p.formatted_date <= ${config.trends.endDate}` : 
+            ${!config.dates.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.dates.trends.startDate} 
+              AND p.formatted_date <= ${config.dates.trends.endDate}` : 
             sql`
-              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              AND ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
             ` }
         
         `: sql``}
 
 
-        ${config.trends.useProjection.pr ? sql` 
+        ${config.dates.trends.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, ${sql(config.trends.queryGrouping)}::TEXT AS column, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr."grossSales",0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr."grossSales",0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
           
           FROM "salesReporting".projected_sales AS pr 
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
             ON pr.date = p.formatted_date       
           
           WHERE 
-            ${!config.trends.yearTrend ? sql`
-            p.formatted_date >= ${config.trends.startDate} 
-            AND p.formatted_date <= ${config.trends.endDate}` : 
+            ${!config.dates.trends.yearTrend ? sql`
+            p.formatted_date >= ${config.dates.trends.startDate} 
+            AND p.formatted_date <= ${config.dates.trends.endDate}` : 
           sql`
-            ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-            AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-            AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+            AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+            AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
           ` }
         
         `: sql``}
@@ -273,7 +273,7 @@ const l2_getSalesTrend = async config => {
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY pj.column, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)} 
       
@@ -287,7 +287,7 @@ const l2_getSalesTrend = async config => {
 }
 
 const l3_getSalesTrend = async config => {
-  if (!config.trends.queryGrouping) return []
+  if (!config.dates.trends.queryGrouping) return []
   if (!config.baseFormat.l3_field) return []
 
   try {
@@ -327,30 +327,30 @@ const l3_getSalesTrend = async config => {
         WHERE
           1=2
 
-        ${config.trends.useProjection.sl ? sql`
+        ${config.dates.trends.useProjection.sl ? sql`
         UNION ALL
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, ${sql(config.trends.queryGrouping)}::TEXT AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
           
           FROM "salesReporting".sales_line_items AS sl
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
             ON sl.formatted_invoice_date = p.formatted_date
             
           WHERE
-            ${!config.trends.yearTrend ? sql`
-            p.formatted_date >= ${config.trends.startDate} 
-            AND p.formatted_date <= ${config.trends.endDate}` : 
+            ${!config.dates.trends.yearTrend ? sql`
+            p.formatted_date >= ${config.dates.trends.startDate} 
+            AND p.formatted_date <= ${config.dates.trends.endDate}` : 
           sql`
-            ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-            AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-            AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+            AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+            AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
           ` }
         
         `: sql``}
 
 
-        ${config.trends.useProjection.so ? sql`  
+        ${config.dates.trends.useProjection.so ? sql`  
         UNION ALL
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, ${sql(config.trends.queryGrouping)}::TEXT AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
@@ -358,33 +358,33 @@ const l3_getSalesTrend = async config => {
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            ${!config.trends.yearTrend ? sql`
-              AND p.formatted_date >= ${config.trends.startDate} 
-              AND p.formatted_date <= ${config.trends.endDate}` : 
+            ${!config.dates.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.dates.trends.startDate} 
+              AND p.formatted_date <= ${config.dates.trends.endDate}` : 
             sql`
-              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              AND ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
             ` }
         
         `: sql``}
 
-        ${config.trends.useProjection.pr ? sql` 
+        ${config.dates.trends.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, ${sql(config.trends.queryGrouping)}::TEXT AS column, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr."grossSales",0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr."grossSales",0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
         
           FROM "salesReporting".projected_sales AS pr    
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
             ON pr.date = p.formatted_date    
         
           WHERE 
-            ${!config.trends.yearTrend ? sql`
-            p.formatted_date >= ${config.trends.startDate} 
-            AND p.formatted_date <= ${config.trends.endDate}` : 
+            ${!config.dates.trends.yearTrend ? sql`
+            p.formatted_date >= ${config.dates.trends.startDate} 
+            AND p.formatted_date <= ${config.dates.trends.endDate}` : 
           sql`
-            ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-            AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-            AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+            AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+            AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
           ` }
         
         `: sql``}
@@ -400,7 +400,7 @@ const l3_getSalesTrend = async config => {
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY pj.column, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}
       
@@ -414,7 +414,7 @@ const l3_getSalesTrend = async config => {
 }
 
 const l4_getSalesTrend = async config => {
-  if (!config.trends.queryGrouping) return []
+  if (!config.dates.trends.queryGrouping) return []
   if (!config.baseFormat.l4_field) return []
 
   try {
@@ -455,31 +455,31 @@ const l4_getSalesTrend = async config => {
         WHERE
           1=2
 
-        ${config.trends.useProjection.sl ? sql`
+        ${config.dates.trends.useProjection.sl ? sql`
         UNION ALL
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, ${sql(config.trends.queryGrouping)}::TEXT AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
           
           FROM "salesReporting".sales_line_items AS sl
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
             ON sl.formatted_invoice_date = p.formatted_date
             
           WHERE
-            ${!config.trends.yearTrend ? sql`
-            p.formatted_date >= ${config.trends.startDate} 
-            AND p.formatted_date <= ${config.trends.endDate}` : 
+            ${!config.dates.trends.yearTrend ? sql`
+            p.formatted_date >= ${config.dates.trends.startDate} 
+            AND p.formatted_date <= ${config.dates.trends.endDate}` : 
           sql`
-            ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-            AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-            AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+            AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+            AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
           ` }
         
         
         `: sql``}
 
 
-        ${config.trends.useProjection.so ? sql`  
+        ${config.dates.trends.useProjection.so ? sql`  
         UNION ALL
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, ${sql(config.trends.queryGrouping)}::TEXT AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
@@ -487,34 +487,34 @@ const l4_getSalesTrend = async config => {
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            ${!config.trends.yearTrend ? sql`
-              AND p.formatted_date >= ${config.trends.startDate} 
-              AND p.formatted_date <= ${config.trends.endDate}` : 
+            ${!config.dates.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.dates.trends.startDate} 
+              AND p.formatted_date <= ${config.dates.trends.endDate}` : 
             sql`
-              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              AND ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
             ` }
         
         `: sql``}
 
 
-        ${config.trends.useProjection.pr ? sql` 
+        ${config.dates.trends.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, ${sql(config.trends.queryGrouping)}::TEXT AS column, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr."grossSales",0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr."grossSales",0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
         
           FROM "salesReporting".projected_sales AS pr     
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
             ON pr.date = p.formatted_date   
         
           WHERE 
-            ${!config.trends.yearTrend ? sql`
-            p.formatted_date >= ${config.trends.startDate} 
-            AND p.formatted_date <= ${config.trends.endDate}` : 
+            ${!config.dates.trends.yearTrend ? sql`
+            p.formatted_date >= ${config.dates.trends.startDate} 
+            AND p.formatted_date <= ${config.dates.trends.endDate}` : 
           sql`
-            ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-            AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-            AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+            AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+            AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
           ` }
         
         
@@ -530,7 +530,7 @@ const l4_getSalesTrend = async config => {
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY pj.column, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}
       
@@ -544,7 +544,7 @@ const l4_getSalesTrend = async config => {
 }
 
 const l5_getSalesTrend = async config => {
-  if (!config.trends.queryGrouping) return []
+  if (!config.dates.trends.queryGrouping) return []
   if (!config.baseFormat.l5_field) return []
 
   try {
@@ -584,31 +584,31 @@ const l5_getSalesTrend = async config => {
         WHERE
           1=2
 
-      ${config.trends.useProjection.sl ? sql`
+      ${config.dates.trends.useProjection.sl ? sql`
         UNION ALL
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, ${sql(config.trends.queryGrouping)}::TEXT AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
           
           FROM "salesReporting".sales_line_items AS sl
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
             ON sl.formatted_invoice_date = p.formatted_date
             
           WHERE
-            ${!config.trends.yearTrend ? sql`
-            p.formatted_date >= ${config.trends.startDate} 
-            AND p.formatted_date <= ${config.trends.endDate}` : 
+            ${!config.dates.trends.yearTrend ? sql`
+            p.formatted_date >= ${config.dates.trends.startDate} 
+            AND p.formatted_date <= ${config.dates.trends.endDate}` : 
           sql`
-            ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-            AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-            AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+            AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+            AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
           ` }
         
         
         `: sql``}
 
 
-        ${config.trends.useProjection.so ? sql`  
+        ${config.dates.trends.useProjection.so ? sql`  
         UNION ALL
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, ${sql(config.trends.queryGrouping)}::TEXT AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
@@ -616,35 +616,35 @@ const l5_getSalesTrend = async config => {
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            ${!config.trends.yearTrend ? sql`
-              AND p.formatted_date >= ${config.trends.startDate} 
-              AND p.formatted_date <= ${config.trends.endDate}` : 
+            ${!config.dates.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.dates.trends.startDate} 
+              AND p.formatted_date <= ${config.dates.trends.endDate}` : 
             sql`
-              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              AND ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
             ` }
         
         
         `: sql``}
 
 
-        ${config.trends.useProjection.pr ? sql` 
+        ${config.dates.trends.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, ${sql(config.trends.queryGrouping)}::TEXT AS column, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr."grossSales",0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr."grossSales",0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
         
           FROM "salesReporting".projected_sales AS pr   
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
             ON pr.date = p.formatted_date     
         
           WHERE 
-          ${!config.trends.yearTrend ? sql`
-              p.formatted_date >= ${config.trends.startDate} 
-              AND p.formatted_date <= ${config.trends.endDate}` : 
+          ${!config.dates.trends.yearTrend ? sql`
+              p.formatted_date >= ${config.dates.trends.startDate} 
+              AND p.formatted_date <= ${config.dates.trends.endDate}` : 
             sql`
-              ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
             ` }
         
         `: sql``}
@@ -658,7 +658,7 @@ const l5_getSalesTrend = async config => {
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY pj.column, ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)}
       
@@ -672,7 +672,7 @@ const l5_getSalesTrend = async config => {
 }
 
 const l0_getSalesTrend = async config => {
-  if (!config.trends.queryGrouping) return []
+  if (!config.dates.trends.queryGrouping) return []
 
   try {
     console.log(`${config.user} - level 0: query postgres to get FG sales data by week (l0_getSalesTrend) ...`)
@@ -708,30 +708,30 @@ const l0_getSalesTrend = async config => {
         WHERE
           1=2
 
-      ${config.trends.useProjection.sl ? sql`
+      ${config.dates.trends.useProjection.sl ? sql`
         UNION ALL 
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, ${sql(config.trends.queryGrouping)}::TEXT AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
         
           FROM "salesReporting".sales_line_items AS sl 
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
             ON sl.formatted_invoice_date = p.formatted_date
             
           WHERE 
-            ${!config.trends.yearTrend ? sql`
-            p.formatted_date >= ${config.trends.startDate} 
-            AND p.formatted_date <= ${config.trends.endDate}` : 
+            ${!config.dates.trends.yearTrend ? sql`
+            p.formatted_date >= ${config.dates.trends.startDate} 
+            AND p.formatted_date <= ${config.dates.trends.endDate}` : 
           sql`
-            ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-            AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-            AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+            AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+            AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
           ` }
           
         `: sql``}
 
 
-        ${config.trends.useProjection.so ? sql`  
+        ${config.dates.trends.useProjection.so ? sql`  
         UNION ALL
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, ${sql(config.trends.queryGrouping)}::TEXT AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so 
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
@@ -739,34 +739,34 @@ const l0_getSalesTrend = async config => {
           
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
-            ${!config.trends.yearTrend ? sql`
-              AND p.formatted_date >= ${config.trends.startDate} 
-              AND p.formatted_date <= ${config.trends.endDate}` : 
+            ${!config.dates.trends.yearTrend ? sql`
+              AND p.formatted_date >= ${config.dates.trends.startDate} 
+              AND p.formatted_date <= ${config.dates.trends.endDate}` : 
             sql`
-              AND ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-              AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-              AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+              AND ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+              AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
             ` }
           
         `: sql``}
 
 
-        ${config.trends.useProjection.pr ? sql` 
+        ${config.dates.trends.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, ${sql(config.trends.queryGrouping)}::TEXT AS column, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr."grossSales",0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
+          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr."grossSales",0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
         
           FROM "salesReporting".projected_sales AS pr  
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
             ON pr.date = p.formatted_date      
         
           WHERE 
-            ${!config.trends.yearTrend ? sql`
-            p.formatted_date >= ${config.trends.startDate} 
-            AND p.formatted_date <= ${config.trends.endDate}` : 
+            ${!config.dates.trends.yearTrend ? sql`
+            p.formatted_date >= ${config.dates.trends.startDate} 
+            AND p.formatted_date <= ${config.dates.trends.endDate}` : 
           sql`
-            ${sql(config.trends.yearTrend.period_name)} >= ${config.trends.yearTrend.start_period} 
-            AND ${sql(config.trends.yearTrend.period_name)} <= ${config.trends.yearTrend.end_period} 
-            AND ${sql(config.trends.queryGrouping)} IN ${sql(config.trends.yearTrend.years)}
+            ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
+            AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
+            AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
           ` }
           
         `: sql``}
@@ -780,7 +780,7 @@ const l0_getSalesTrend = async config => {
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-          ${config.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
 
       GROUP BY pj.column 
       
