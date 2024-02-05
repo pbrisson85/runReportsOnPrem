@@ -7,7 +7,7 @@ const getReportFormats = () => {
       label: 'species group / program / type', // appears in front end report options
       dataName: 'specgroupProgType', // passed back as "reportFormat" in the front end request. Maps to "invenReporting".master_supplement in reports/sales/utils/config/itemMasterSupplementQueryMap.js
       defaultsFallback: false, // front end uses defaults array to map a program filter to the default report format. If the program does not appear in any array (which would be a mistake) then this flag will be for the fallbackDefault
-      defaults: ['all'], //list of programs (datanames) that this is the defaultsFallback report
+      defaults: [], //list of programs (datanames) that this is the defaultsFallback report
       optional: ['all'], // list of programs (datanames) that allow this,  or use 'any' to allow all programs EXCEPT 'all'
       forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
       groupingLevel: 3, // how many fields are in the grouping? routine uses this in verious groupings, stored in the config upon the request.
@@ -142,7 +142,7 @@ const getReportFormats = () => {
       label: 'species group / program',
       dataName: 'specProg',
       defaultsFallback: true,
-      defaults: [],
+      defaults: ['all'],
       optional: ['all'],
       forbiddenCols: ['percentProgramSales'],
       groupingLevel: 2,
