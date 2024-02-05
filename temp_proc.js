@@ -2,7 +2,7 @@
 
 // write gen table to pg
 
-const { createConnection } = require('../../../../database/seasoftODBC')
+const { createConnection } = require('./database/seasoftODBC')
 
 const getWocl = async () => {
   try {
