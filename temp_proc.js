@@ -13,7 +13,7 @@ const getWocl = async () => {
     const queryString = `
         SELECT 
             {fn RTRIM("General Table File".TABLE_CODE)} AS wocl, 
-            {fn RTRIM("General Table File".TABLE_DESC)} AS description, 
+            {fn RTRIM("General Table File".TABLE_DESC)} AS description
             
             FROM 'General Table File' 
 
