@@ -31,10 +31,26 @@ const getWocl = async () => {
   }
 }
 
+const sql = require('./server')
+const updatePgWocl = async wocl => {
+  const woclCode = code.wocl
+  const woclDesc = code.description
+
+  console.log(`query postgres for updatePgWocl ...`)
+
+  const data = await sql`
+            INSERT INTO "temporary".wocl (wocl, description)
+            VALUES (${woclCode}, ${woclDesc})
+            
+            `
+  console.log('data', data)
+}
+
 const runProc = async () => {
   const wocl = await getWocl()
+  await updatePgWocl(wocl)
 
-  console.log('wocl', wocl)
+  console.log('complete runProc ...')
 }
 
 runProc()
