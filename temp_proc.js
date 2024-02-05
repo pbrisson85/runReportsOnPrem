@@ -33,8 +33,8 @@ const getWocl = async () => {
 
 const sql = require('./server')
 const updatePgWocl = async wocl => {
-  const woclCode = code.wocl
-  const woclDesc = code.description
+  const woclCode = wocl.wocl
+  const woclDesc = wocl.description
 
   console.log(`query postgres for updatePgWocl ...`)
 
@@ -43,7 +43,7 @@ const updatePgWocl = async wocl => {
             VALUES (${woclCode}, ${woclDesc})
             
             `
-  console.log('data', data)
+  return
 }
 
 const runProc = async () => {
