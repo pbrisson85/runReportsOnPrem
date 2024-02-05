@@ -34,6 +34,8 @@ const getWocl = async () => {
 const sql = require('./server')
 const updatePgWocl = async wocl => {
   for (code of wocl) {
+    console.log('code', code)
+
     const woclCode = code.wocl
     const woclDesc = code.description
 
