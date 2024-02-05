@@ -28,6 +28,10 @@ const getWocl = async () => {
   }
 }
 
-const wocl = await getWocl()
+const runProc = async () => {
+  const wocl = await getWocl()
 
-console.log('wocl', wocl)
+  console.log('wocl', wocl)
+}
+
+runProc()
