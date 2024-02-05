@@ -44,7 +44,7 @@ const updatePgWocl = async wocl => {
       console.log(`query postgres for updatePgWocl ...`)
 
       const data = await sql`
-                      INSERT INTO "temporary".wocl (code, desc) VALUES (${woclCode}, ${woclDesc})`
+                      INSERT INTO "temporary".wocl (code, description) VALUES (${woclCode}, ${woclDesc})`
     }
 
     return
