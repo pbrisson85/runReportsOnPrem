@@ -35,10 +35,11 @@ const sql = require('./server')
 const updatePgWocl = async wocl => {
   try {
     for (code of wocl) {
-      console.log('code', code)
-
       const woclCode = code.wocl
       const woclDesc = code.description
+
+      console.log('woclCode', woclCode)
+      console.log('woclDesc', woclDesc)
 
       console.log(`query postgres for updatePgWocl ...`)
 
@@ -49,7 +50,11 @@ const updatePgWocl = async wocl => {
 
     return
   } catch (error) {
-    console.log('error', error.query)
+    console.error(error)
+
+    console.log('query', error.query)
+
+    console.log('message', error.message)
   }
 }
 
