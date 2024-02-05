@@ -61,7 +61,7 @@ const getReportConfig = async reqBody => {
       l5_filter: reqBody.l5_filter ?? null,
       wo: {
         woActivities: await getWoActivities(reqBody),
-        productionCountries: reqBody.wo.productionCountries ?? (await getProductionCountriesDefault()) ?? null,
+        productionCountries: reqBody?.productionCountries ?? (await getProductionCountriesDefault()) ?? null,
         include1lbWOs: getWoOneLb(reqBody).include1lbWOs,
         includeGreaterlbWOs: getWoOneLb(reqBody).include1lbWOs,
       },
