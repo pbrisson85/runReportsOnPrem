@@ -28,6 +28,6 @@ const getWocl = async () => {
   }
 }
 
-const wocl = getWocl()
+const wocl = await getWocl()
 
 console.log('wocl', wocl)
