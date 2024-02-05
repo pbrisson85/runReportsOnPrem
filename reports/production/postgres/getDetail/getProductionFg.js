@@ -1,8 +1,6 @@
 const sql = require('../../../../server')
 
 const getProduction_detail = async (config, startDate, endDate, woActivity) => {
-  console.log('getProduction_detail', config, startDate, endDate, woActivity)
-
   try {
     console.log(`${config.user} - getProduction_detail ...`)
 

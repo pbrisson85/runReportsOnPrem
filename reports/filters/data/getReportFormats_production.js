@@ -9,7 +9,7 @@ const getReportFormats = () => {
       defaultsFallback: false, // front end uses defaults array to map a program filter to the default report format. If the program does not appear in any array (which would be a mistake) then this flag will be for the fallbackDefault
       defaults: [], //list of programs (datanames) that this is the defaultsFallback report
       optional: ['all'], // list of programs (datanames) that allow this,  or use 'any' to allow all programs EXCEPT 'all'
-      forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
+      forbiddenCols: [], // columns that will be hidden and will not show as optional
       groupingLevel: 3, // how many fields are in the grouping? routine uses this in verious groupings, stored in the config upon the request.
       l1_field: 'ms.species_group', // passed back to config for queries
       l2_field: 'ms.program', // passed back to config for queries
@@ -54,7 +54,7 @@ const getReportFormats = () => {
       defaultsFallback: false, // front end uses defaults array to map a program filter to the default report format. If the program does not appear in any array (which would be a mistake) then this flag will be for the fallbackDefault
       defaults: [], //list of programs (datanames) that this is the defaultsFallback report
       optional: ['all'], // list of programs (datanames) that allow this,  or use 'any' to allow all programs EXCEPT 'all'
-      forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
+      forbiddenCols: [], // columns that will be hidden and will not show as optional
       groupingLevel: 4, // how many fields are in the grouping? routine uses this in verious groupings, stored in the config upon the request.
       l1_field: 'ms.species_group', // passed back to config for queries
       l2_field: 'ms.program', // passed back to config for queries
@@ -110,7 +110,7 @@ const getReportFormats = () => {
       defaultsFallback: false,
       defaults: [],
       optional: ['all'],
-      forbiddenCols: ['percentProgramSales'],
+      forbiddenCols: [],
       groupingLevel: 2,
       l1_field: 'ms.item_type',
       l2_field: 'ms.program',
@@ -144,7 +144,7 @@ const getReportFormats = () => {
       defaultsFallback: true,
       defaults: ['all'],
       optional: ['all'],
-      forbiddenCols: ['percentProgramSales'],
+      forbiddenCols: [],
       groupingLevel: 2,
       l1_field: 'ms.species_group',
       l2_field: 'ms.program',
@@ -178,7 +178,7 @@ const getReportFormats = () => {
       defaultsFallback: false,
       defaults: [],
       optional: ['all'],
-      forbiddenCols: ['percentProgramSales'],
+      forbiddenCols: [],
       groupingLevel: 3,
       l1_field: 'ms.species_group',
       l2_field: 'ms.program',
@@ -223,7 +223,7 @@ const getReportFormats = () => {
       defaultsFallback: false,
       defaults: [],
       optional: ['all'],
-      forbiddenCols: ['percentProgramSales'],
+      forbiddenCols: [],
       groupingLevel: 3,
       l1_field: 'ms.species_group',
       l2_field: 'ms.program',
@@ -256,6 +256,62 @@ const getReportFormats = () => {
           filterName: 'l3_filter', // key to match up the column with the filter
           width: '100px', // css width
           left: '170px', // css positioning for sticky sum of prior col widths
+          borderRight: true, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+      ],
+    },
+    {
+      default: false, // if this is true then the defaults array should have "all" or else there will be a mistmatch in what the front end and back end beleive is the default
+      label: 'species group / program / freeze / WOCL',
+      dataName: 'specProgFrzWocl',
+      defaultsFallback: false,
+      defaults: [],
+      optional: ['all'],
+      forbiddenCols: [],
+      groupingLevel: 4,
+      l1_field: 'ms.species_group',
+      l2_field: 'ms.program',
+      l3_field: 'ms.fg_fresh_frozen',
+      l4_field: 'wo.header_classification',
+      l1_name: 'species group',
+      l2_name: 'program',
+      l3_name: 'fresh/frozen',
+      l4_name: 'wo classification',
+      labelCols: [
+        {
+          displayName: 'MAJOR CATEGORY', // show as column header
+          dataName: 'l1_label', // key to pull data from
+          filterName: 'l1_filter', // key to match up the column with the filter
+          width: '135px', // css width
+          left: '0px', // css positioning for sticky sum of prior col widths
+          borderRight: false, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+        {
+          displayName: 'PROGRAM', // show as column header
+          dataName: 'l2_label', // key to pull data from
+          filterName: 'l2_filter', // key to match up the column with the filter
+          width: '135px', // css width
+          left: '135px', // css positioning for sticky sum of prior col widths
+          borderRight: false, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+        {
+          displayName: 'FRESH/FROZEN', // show as column header
+          dataName: 'l3_label', // key to pull data from
+          filterName: 'l3_filter', // key to match up the column with the filter
+          width: '100px', // css width
+          left: '170px', // css positioning for sticky sum of prior col widths
+          borderRight: false, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+        {
+          displayName: 'WO CLASS', // show as column header
+          dataName: 'l4_label', // key to pull data from
+          filterName: 'l4_filter', // key to match up the column with the filter
+          width: '75px', // css width
+          left: '245px', // css positioning for sticky sum of prior col widths
           borderRight: true, // border right on ladst frozen cell
           rightClickMenu: [], // array of options for right click menu
         },

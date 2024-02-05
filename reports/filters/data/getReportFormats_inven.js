@@ -9,7 +9,7 @@ const getReportFormats = () => {
       defaultsFallback: false, // front end uses defaults array to map a program filter to the default report format. If the program does not appear in any array (which would be a mistake) then this flag will be for the fallbackDefault
       defaults: ['all'], //list of programs (datanames) that this is the defaultsFallback report
       optional: ['all'], // list of programs (datanames) that allow this,  or use 'any' to allow all programs EXCEPT 'all'
-      forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
+      forbiddenCols: [], // columns that will be hidden and will not show as optional
       groupingLevel: 3, // how many fields are in the grouping? routine uses this in verious groupings, stored in the config upon the request.
       l1_field: 'ms.item_type', // passed back to config for queries
       l2_field: 'ms.species_group', // passed back to config for queries
@@ -54,7 +54,7 @@ const getReportFormats = () => {
       defaultsFallback: false, // front end uses defaults array to map a program filter to the default report format. If the program does not appear in any array (which would be a mistake) then this flag will be for the fallbackDefault
       defaults: [], //list of programs (datanames) that this is the defaultsFallback report
       optional: ['all'], // list of programs (datanames) that allow this,  or use 'any' to allow all programs EXCEPT 'all'
-      forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
+      forbiddenCols: [], // columns that will be hidden and will not show as optional
       groupingLevel: 3, // how many fields are in the grouping? routine uses this in verious groupings, stored in the config upon the request.
       l1_field: 'ms.species_group', // passed back to config for queries
       l2_field: 'ms.program', // passed back to config for queries
@@ -99,7 +99,7 @@ const getReportFormats = () => {
       defaultsFallback: false, // front end uses defaults array to map a program filter to the default report format. If the program does not appear in any array (which would be a mistake) then this flag will be for the fallbackDefault
       defaults: [], //list of programs (datanames) that this is the defaultsFallback report
       optional: ['all'], // list of programs (datanames) that allow this,  or use 'any' to allow all programs EXCEPT 'all'
-      forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
+      forbiddenCols: [], // columns that will be hidden and will not show as optional
       groupingLevel: 4, // how many fields are in the grouping? routine uses this in verious groupings, stored in the config upon the request.
       l1_field: 'ms.species_group', // passed back to config for queries
       l2_field: 'ms.program', // passed back to config for queries
@@ -155,7 +155,7 @@ const getReportFormats = () => {
       defaultsFallback: false, // front end uses defaults array to map a program filter to the default report format. If the program does not appear in any array (which would be a mistake) then this flag will be for the fallbackDefault
       defaults: [], //list of programs (datanames) that this is the defaultsFallback report
       optional: ['all'], // list of programs (datanames) that allow this,  or use 'any' to allow all programs EXCEPT 'all'
-      forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
+      forbiddenCols: [], // columns that will be hidden and will not show as optional
       groupingLevel: 4, // how many fields are in the grouping? routine uses this in verious groupings, stored in the config upon the request.
       l1_field: 'ms.item_type', // passed back to config for queries
       l2_field: 'ms.species_group', // passed back to config for queries
@@ -211,7 +211,7 @@ const getReportFormats = () => {
       defaultsFallback: false, // front end uses defaults array to map a program filter to the default report format. If the program does not appear in any array (which would be a mistake) then this flag will be for the fallbackDefault
       defaults: [], //list of programs (datanames) that this is the defaultsFallback report
       optional: ['all'], // list of programs (datanames) that allow this,  or use 'any' to allow all programs EXCEPT 'all'
-      forbiddenCols: ['percentProgramSales'], // columns that will be hidden and will not show as optional
+      forbiddenCols: [], // columns that will be hidden and will not show as optional
       groupingLevel: 4, // how many fields are in the grouping? routine uses this in verious groupings, stored in the config upon the request.
       l4_field: 'ms.item_type', // passed back to config for queries
       l1_field: 'ms.species_group', // passed back to config for queries
@@ -267,7 +267,7 @@ const getReportFormats = () => {
       defaultsFallback: false,
       defaults: [],
       optional: ['all'],
-      forbiddenCols: ['percentProgramSales'],
+      forbiddenCols: [],
       groupingLevel: 2,
       l1_field: 'ms.species_group',
       l2_field: 'ms.program',
@@ -299,7 +299,7 @@ const getReportFormats = () => {
       defaultsFallback: false,
       defaults: [],
       optional: ['all'],
-      forbiddenCols: ['percentProgramSales'],
+      forbiddenCols: [],
       groupingLevel: 3,
       l1_field: 'ms.species_group',
       l2_field: 'ms.program',
@@ -342,7 +342,7 @@ const getReportFormats = () => {
       defaultsFallback: false,
       defaults: [],
       optional: ['all'],
-      forbiddenCols: ['percentProgramSales'],
+      forbiddenCols: [],
       groupingLevel: 3,
       l1_field: 'ms.species_group',
       l2_field: 'ms.program',
@@ -385,7 +385,7 @@ const getReportFormats = () => {
       defaultsFallback: false,
       defaults: [],
       optional: ['all'],
-      forbiddenCols: ['percentProgramSales'],
+      forbiddenCols: [],
       groupingLevel: 3,
       l1_field: 'ms.species_group',
       l2_field: 'ms.brand',
@@ -428,7 +428,7 @@ const getReportFormats = () => {
       defaultsFallback: false,
       defaults: [],
       optional: ['all'],
-      forbiddenCols: ['percentProgramSales'],
+      forbiddenCols: [],
       groupingLevel: 3,
       l1_field: 'ms.species_group',
       l2_field: 'ms.fish_skin',
@@ -471,7 +471,7 @@ const getReportFormats = () => {
       defaultsFallback: false,
       defaults: [],
       optional: ['all'],
-      forbiddenCols: ['percentProgramSales'],
+      forbiddenCols: [],
       groupingLevel: 2,
       l1_field: 'ms.species_group',
       l2_field: 'ms.fg_fresh_frozen',
