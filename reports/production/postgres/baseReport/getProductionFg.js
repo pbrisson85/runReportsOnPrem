@@ -389,6 +389,11 @@ const l5_getProduction = async config => {
 const l0_getProduction = async config => {
   if (config.dates.trends.yearTrend) return [] // skip totals if trend is by year
 
+  console.log('\nconfig.baseFilters.wo.include1lbWOs.value', config.baseFilters.wo.include1lbWOs.value)
+  console.log('config.baseFilters.wo.include1lbWOs.lessThan\n', config.baseFilters.wo.include1lbWOs.lessThan)
+  console.log('config.baseFilters.wo.includeGreaterlbWOs.value', config.baseFilters.wo.includeGreaterlbWOs.value)
+  console.log('config.baseFilters.wo.includeGreaterlbWOs.greaterEqual\n', config.baseFilters.wo.includeGreaterlbWOs.greaterEqual)
+
   try {
     console.log(`${config.user} - level 0: query postgres for Inv on hand (l0_getProduction) ...`)
 
