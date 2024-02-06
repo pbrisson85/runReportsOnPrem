@@ -38,7 +38,7 @@ const getSalesProjection_detail = async (config, startDate, endDate, useProjecti
         pj.north_america, 
         pj.domestic, 
         pj.country, 
-        pj.state 
+        pj.state, 
         pj.terms_code
 
       FROM (

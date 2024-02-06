@@ -1,5 +1,7 @@
 ### To do.
 
+NEED A TEST THAT UPDATES THE TERMS MASTER TABLE
+
 - Below needs to be done but for functionality upgrades today:
 
 actually regarding the rows dates to match the trailing dates. I am relaizing that I should make the trailing dates use the primary start and end dates so the rows will automatically match. example if I run for 2017 show the 2017 trailing data based on run dates.
