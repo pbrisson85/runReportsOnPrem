@@ -4,6 +4,8 @@ const getWoOneLb = reqBody => {
   let include1lbWOs
   let includeGreaterlbWOs
 
+  console.log('reqBody.miscFilter_production: ', reqBody.miscFilter_production)
+
   if (!reqBody.miscFilter_production) {
     const miscSettings_production = getMiscSettings_production()
 
