@@ -63,6 +63,8 @@ const l1_getProductionTrend = async config => {
             ` }
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+        ${config.baseFilters.wo.include1lbWOs.value ? sql`AND wo.rm_wo_total_weight < ${config.baseFilters.wo.include1lbWOs.lessThan}`: sql``} 
+        ${config.baseFilters.wo.includeGreaterlbWOs.value ? sql`AND wo.rm_wo_total_weight >= ${config.baseFilters.wo.includeGreaterlbWOs.greaterEqual}`: sql``}
         ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.baseFilters.wo.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.wo.productionCountries)}`: sql``} 
 
@@ -146,6 +148,8 @@ const l2_getProductionTrend = async config => {
             ` }
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+        ${config.baseFilters.wo.include1lbWOs.value ? sql`AND wo.rm_wo_total_weight < ${config.baseFilters.wo.include1lbWOs.lessThan}`: sql``} 
+        ${config.baseFilters.wo.includeGreaterlbWOs.value ? sql`AND wo.rm_wo_total_weight >= ${config.baseFilters.wo.includeGreaterlbWOs.greaterEqual}`: sql``}
         ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
         ${config.baseFilters.wo.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.wo.productionCountries)}`: sql``} 
 
@@ -228,6 +232,8 @@ const l3_getProductionTrend = async config => {
             ` }
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+        ${config.baseFilters.wo.include1lbWOs.value ? sql`AND wo.rm_wo_total_weight < ${config.baseFilters.wo.include1lbWOs.lessThan}`: sql``} 
+        ${config.baseFilters.wo.includeGreaterlbWOs.value ? sql`AND wo.rm_wo_total_weight >= ${config.baseFilters.wo.includeGreaterlbWOs.greaterEqual}`: sql``}
         ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.baseFilters.wo.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.wo.productionCountries)}`: sql``} 
 
@@ -311,6 +317,8 @@ const l4_getProductionTrend = async config => {
             ` }
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+        ${config.baseFilters.wo.include1lbWOs.value ? sql`AND wo.rm_wo_total_weight < ${config.baseFilters.wo.include1lbWOs.lessThan}`: sql``} 
+        ${config.baseFilters.wo.includeGreaterlbWOs.value ? sql`AND wo.rm_wo_total_weight >= ${config.baseFilters.wo.includeGreaterlbWOs.greaterEqual}`: sql``}
         ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.baseFilters.wo.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.wo.productionCountries)}`: sql``} 
 
@@ -395,6 +403,8 @@ const l5_getProductionTrend = async config => {
             ` }
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+        ${config.baseFilters.wo.include1lbWOs.value ? sql`AND wo.rm_wo_total_weight < ${config.baseFilters.wo.include1lbWOs.lessThan}`: sql``} 
+        ${config.baseFilters.wo.includeGreaterlbWOs.value ? sql`AND wo.rm_wo_total_weight >= ${config.baseFilters.wo.includeGreaterlbWOs.greaterEqual}`: sql``}
         ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.baseFilters.wo.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.wo.productionCountries)}`: sql``} 
 
@@ -476,6 +486,8 @@ const l0_getProductionTrend = async config => {
             ` }
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
+        ${config.baseFilters.wo.include1lbWOs.value ? sql`AND wo.rm_wo_total_weight < ${config.baseFilters.wo.include1lbWOs.lessThan}`: sql``} 
+        ${config.baseFilters.wo.includeGreaterlbWOs.value ? sql`AND wo.rm_wo_total_weight >= ${config.baseFilters.wo.includeGreaterlbWOs.greaterEqual}`: sql``}
         ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
         ${config.baseFilters.wo.productionCountries ? sql`AND act.program_country IN ${sql(config.baseFilters.wo.productionCountries)}`: sql``} 
 
