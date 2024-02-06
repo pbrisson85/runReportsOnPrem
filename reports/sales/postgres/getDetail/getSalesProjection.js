@@ -39,6 +39,7 @@ const getSalesProjection_detail = async (config, startDate, endDate, useProjecti
         pj.domestic, 
         pj.country, 
         pj.state 
+        pj.terms_code
 
       FROM (
         SELECT 
@@ -66,7 +67,8 @@ const getSalesProjection_detail = async (config, startDate, endDate, useProjecti
           'dummy' AS north_america, 
           'dummy' AS domestic, 
           'dummy' AS country, 
-          'dummy' AS state 
+          'dummy' AS state, 
+          'dummy' AS terms_code 
         WHERE 1=2
         
         ${useProjection.sl ? sql`
@@ -95,7 +97,8 @@ const getSalesProjection_detail = async (config, startDate, endDate, useProjecti
             sl.north_america, 
             sl.domestic, 
             sl.country, 
-            sl.state 
+            sl.state,
+            sl.customer_terms_code AS terms_code 
         
           FROM "salesReporting".sales_line_items AS sl 
         
@@ -128,7 +131,8 @@ const getSalesProjection_detail = async (config, startDate, endDate, useProjecti
             so.north_america, 
             so.domestic, 
             so.country, 
-            so.state 
+            so.state,
+            so.cust_terms_code AS terms_code 
       
           FROM "salesReporting".sales_orders AS so 
           
@@ -164,7 +168,8 @@ const getSalesProjection_detail = async (config, startDate, endDate, useProjecti
               'NEEDED' AS north_america, 
               'NEEDED' AS domestic, 
               'NEEDED' AS country, 
-              'NEEDED' AS state
+              'NEEDED' AS state,
+              pr.cust_terms_code AS terms_code
 
             FROM "salesReporting".projected_sales AS pr        
           
@@ -178,6 +183,8 @@ const getSalesProjection_detail = async (config, startDate, endDate, useProjecti
               ON ms.item_num = pj.item_number 
             LEFT OUTER JOIN "masters".customer_supplement AS cs 
               ON cs.customer_code = pj.customer_code
+            LEFT OUTER JOIN "masters".terms AS term
+              ON pj.terms_code = term.code
         
         WHERE 
             1=1
@@ -195,6 +202,8 @@ const getSalesProjection_detail = async (config, startDate, endDate, useProjecti
             ${config.slice.export ? sql`AND pj.domestic = ${config.slice.export}`: sql``} 
             ${config.slice.northAmerica ? sql`AND pj.north_america = ${config.slice.northAmerica}`: sql``} 
             ${config.slice.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.slice.freshFrozen}`: sql``} 
+            ${config.slice.term ? sql`AND term.code = ${config.slice.term}`: sql``} 
+            ${config.slice.insured ? sql`AND term.insured_status = ${config.slice.insured}`: sql``} 
             ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
             ${config.baseFilters.queryLevel > 0 ? sql`AND ${sql(config.baseFormat.l1_field)} = ${config.baseFilters.l1_filter}` : sql``} 
             ${config.baseFilters.queryLevel > 1 ? sql`AND ${sql(config.baseFormat.l2_field)} = ${config.baseFilters.l2_filter}` : sql``} 

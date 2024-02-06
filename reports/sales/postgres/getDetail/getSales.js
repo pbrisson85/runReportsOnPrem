@@ -14,6 +14,8 @@ const getSales_detail = async (config, startDate, endDate) => {
           ON ms.item_num = sl.item_number 
         LEFT OUTER JOIN "masters".customer_supplement AS cs 
           ON cs.customer_code = sl.customer_code
+        LEFT OUTER JOIN "masters".terms AS term
+          ON sl.customer_terms_code = term.code
           
       WHERE 
         sl.formatted_invoice_date >= ${startDate} AND sl.formatted_invoice_date <= ${endDate}
@@ -31,6 +33,8 @@ const getSales_detail = async (config, startDate, endDate) => {
         ${config.slice.export ? sql`AND sl.domestic = ${config.slice.export}`: sql``} 
         ${config.slice.northAmerica ? sql`AND sl.north_america = ${config.slice.northAmerica}`: sql``} 
         ${config.slice.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.slice.freshFrozen}`: sql``}  
+        ${config.slice.term ? sql`AND term.code = ${config.slice.term}`: sql``} 
+        ${config.slice.insured ? sql`AND term.insured_status = ${config.slice.insured}`: sql``} 
         ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
         ${config.baseFilters.queryLevel > 0 ? sql`AND ${sql(config.baseFormat.l1_field)} = ${config.baseFilters.l1_filter}` : sql``} 
         ${config.baseFilters.queryLevel > 1 ? sql`AND ${sql(config.baseFormat.l2_field)} = ${config.baseFilters.l2_filter}` : sql``} 

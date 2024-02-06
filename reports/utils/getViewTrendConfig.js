@@ -73,6 +73,41 @@ const getViewTrendConfig = rightMenuSelection => {
         po: {},
       }
 
+    case 'Trend By Insured vs Uninsured':
+      return {
+        sl: {
+          l1_label: 'term.insured_status',
+        },
+        so: {
+          l1_label: 'term.insured_status',
+        },
+        pr: {
+          l1_label: 'term.insured_status',
+        },
+        inv: {},
+        wo: {},
+        po: {},
+      }
+
+    case 'Trend By Credit Terms':
+      return {
+        sl: {
+          l1_label: 'term.code',
+          l2_label: 'term.description',
+        },
+        so: {
+          l1_label: 'term.code',
+          l2_label: 'term.description',
+        },
+        pr: {
+          l1_label: 'term.code',
+          l2_label: 'term.description',
+        },
+        inv: {},
+        wo: {},
+        po: {},
+      }
+
     case 'Trend By Salesperson':
       return {
         sl: {

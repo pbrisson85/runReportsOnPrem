@@ -83,6 +83,8 @@ const getReportConfig = async reqBody => {
       speciesGroup: reqBody.speciesGroup ?? null,
       species: reqBody.species ?? null,
       program: reqBody.programDrilldown ?? null,
+      term: reqBody.term ?? null,
+      insured: reqBody.insured ?? null,
     },
     dates: {
       salesOrders: {

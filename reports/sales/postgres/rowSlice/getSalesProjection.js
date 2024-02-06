@@ -71,6 +71,8 @@ const l1_getSales = async (config, trendQuery) => {
             ON cs.customer_code = sl.customer_code
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
             ON sl.formatted_invoice_date = p.formatted_date
+          LEFT OUTER JOIN "masters".terms AS term
+            ON sl.customer_terms_code = term.code
 
         WHERE 
           sl.formatted_invoice_date >= ${config.dates.totals.primary.startDate} AND sl.formatted_invoice_date <= ${config.dates.totals.primary.endDate} 
@@ -80,6 +82,8 @@ const l1_getSales = async (config, trendQuery) => {
           ${config.slice.state ? sql`AND sl.state = ${config.slice.state}`: sql``} 
           ${config.slice.export ? sql`AND sl.domestic = ${config.slice.export}`: sql``} 
           ${config.slice.northAmerica ? sql`AND sl.north_america = ${config.slice.northAmerica}`: sql``} 
+          ${config.slice.term ? sql`AND term.code = ${config.slice.term}`: sql``} 
+          ${config.slice.insured ? sql`AND term.insured_status = ${config.slice.insured}`: sql``} 
           `: sql``}
 
         ${config.dates.totals.useProjection.so ? sql`
@@ -106,6 +110,8 @@ const l1_getSales = async (config, trendQuery) => {
               ON cs.customer_code = so.customer_code
             LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
               ON so.formatted_ship_date = p.formatted_date
+            LEFT OUTER JOIN "masters".terms AS term
+              ON so.cust_terms_code = term.code
 
           WHERE 
             so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
@@ -116,6 +122,8 @@ const l1_getSales = async (config, trendQuery) => {
             ${config.slice.state ? sql`AND so.state = ${config.slice.state}`: sql``} 
             ${config.slice.export ? sql`AND so.domestic = ${config.slice.export}`: sql``} 
             ${config.slice.northAmerica ? sql`AND so.north_america = ${config.slice.northAmerica}`: sql``} 
+            ${config.slice.term ? sql`AND term.code = ${config.slice.term}`: sql``} 
+            ${config.slice.insured ? sql`AND term.insured_status = ${config.slice.insured}`: sql``} 
             `: sql``}
 
         ${config.dates.totals.useProjection.pr ? sql`
@@ -139,6 +147,8 @@ const l1_getSales = async (config, trendQuery) => {
               ON cs.customer_code = pr.customer_code 
             LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
               ON pr.date = p.formatted_date
+            LEFT OUTER JOIN "masters".terms AS term
+              ON pr.cust_terms_code = term.code
         
           WHERE 
           pr.date >= ${config.dates.totals.primary.startDate} AND pr.date <= ${config.dates.totals.primary.endDate} 
@@ -148,6 +158,8 @@ const l1_getSales = async (config, trendQuery) => {
           ${config.slice.state ? sql`AND pr.state = ${config.slice.state}`: sql``} 
           ${config.slice.export ? sql`AND pr.domestic = ${config.slice.export}`: sql``} 
           ${config.slice.northAmerica ? sql`AND pr.north_america = ${config.slice.northAmerica}`: sql``}
+          ${config.slice.term ? sql`AND term.code = ${config.slice.term}`: sql``} 
+          ${config.slice.insured ? sql`AND term.insured_status = ${config.slice.insured}`: sql``} 
           `: sql``}
 
       ) AS pj
@@ -241,6 +253,8 @@ const l0_getSales = async config => {
             ON cs.customer_code = sl.customer_code
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
             ON sl.formatted_invoice_date = p.formatted_date
+          LEFT OUTER JOIN "masters".terms AS term
+            ON sl.customer_terms_code = term.code
 
         WHERE 
           sl.formatted_invoice_date >= ${config.dates.totals.primary.startDate} AND sl.formatted_invoice_date <= ${config.dates.totals.primary.endDate} 
@@ -250,6 +264,8 @@ const l0_getSales = async config => {
           ${config.slice.state ? sql`AND sl.state = ${config.slice.state}`: sql``} 
           ${config.slice.export ? sql`AND sl.domestic = ${config.slice.export}`: sql``} 
           ${config.slice.northAmerica ? sql`AND sl.north_america = ${config.slice.northAmerica}`: sql``} 
+          ${config.slice.term ? sql`AND term.code = ${config.slice.term}`: sql``} 
+          ${config.slice.insured ? sql`AND term.insured_status = ${config.slice.insured}`: sql``} 
           `: sql``}
 
       ${config.dates.totals.useProjection.so ? sql`
@@ -265,10 +281,12 @@ const l0_getSales = async config => {
         FROM "salesReporting".sales_orders AS so
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = so.item_num 
-            LEFT OUTER JOIN "masters".customer_supplement AS cs 
-              ON cs.customer_code = so.customer_code
-            LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-              ON so.formatted_ship_date = p.formatted_date
+          LEFT OUTER JOIN "masters".customer_supplement AS cs 
+            ON cs.customer_code = so.customer_code
+          LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+            ON so.formatted_ship_date = p.formatted_date
+          LEFT OUTER JOIN "masters".terms AS term
+            ON so.cust_terms_code = term.code
 
         WHERE 
           so.version = (SELECT MAX(version) - 1 FROM "salesReporting".sales_orders)
@@ -279,6 +297,8 @@ const l0_getSales = async config => {
           ${config.slice.state ? sql`AND so.state = ${config.slice.state}`: sql``} 
           ${config.slice.export ? sql`AND so.domestic = ${config.slice.export}`: sql``} 
           ${config.slice.northAmerica ? sql`AND so.north_america = ${config.slice.northAmerica}`: sql``} 
+          ${config.slice.term ? sql`AND term.code = ${config.slice.term}`: sql``} 
+          ${config.slice.insured ? sql`AND term.insured_status = ${config.slice.insured}`: sql``} 
           `: sql``}
 
           ${config.dates.totals.useProjection.pr ? sql`
@@ -295,15 +315,19 @@ const l0_getSales = async config => {
                 ON cs.customer_code = pr.customer_code 
               LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
                 ON pr.date = p.formatted_date
+              LEFT OUTER JOIN "masters".terms AS term
+                ON pr.cust_terms_code = term.code
           
             WHERE 
-            pr.date >= ${config.dates.totals.primary.startDate} AND pr.date <= ${config.dates.totals.primary.endDate} 
-            ${config.slice.customer ? sql`AND pr.customer_code = ${config.slice.customer}`: sql``} 
-            ${config.slice.salesPerson ? sql`AND pr.sales_rep = ${config.slice.salesPerson}`: sql``} 
-            ${config.slice.country ? sql`AND pr.country = ${config.slice.country}`: sql``} 
-            ${config.slice.state ? sql`AND pr.state = ${config.slice.state}`: sql``} 
-            ${config.slice.export ? sql`AND pr.domestic = ${config.slice.export}`: sql``} 
-            ${config.slice.northAmerica ? sql`AND pr.north_america = ${config.slice.northAmerica}`: sql``}
+              pr.date >= ${config.dates.totals.primary.startDate} AND pr.date <= ${config.dates.totals.primary.endDate} 
+              ${config.slice.customer ? sql`AND pr.customer_code = ${config.slice.customer}`: sql``} 
+              ${config.slice.salesPerson ? sql`AND pr.sales_rep = ${config.slice.salesPerson}`: sql``} 
+              ${config.slice.country ? sql`AND pr.country = ${config.slice.country}`: sql``} 
+              ${config.slice.state ? sql`AND pr.state = ${config.slice.state}`: sql``} 
+              ${config.slice.export ? sql`AND pr.domestic = ${config.slice.export}`: sql``} 
+              ${config.slice.northAmerica ? sql`AND pr.north_america = ${config.slice.northAmerica}`: sql``} 
+              ${config.slice.term ? sql`AND term.code = ${config.slice.term}`: sql``} 
+              ${config.slice.insured ? sql`AND term.insured_status = ${config.slice.insured}`: sql``} 
           `: sql``}
     ) AS pj
     
