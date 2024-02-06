@@ -74,7 +74,7 @@ const l1_getSalesTrend = async (config, trendQuery) => {
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
             ON sl.formatted_invoice_date = p.formatted_date
           LEFT OUTER JOIN "masters".terms AS term
-            ON sl.cust_terms_code = term.code
+            ON sl.customer_terms_code = term.code
 
         WHERE 
           ${!config.dates.trends.yearTrend ? sql`
@@ -283,7 +283,7 @@ const l0_getSalesTrend = async config => {
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
             ON sl.formatted_invoice_date = p.formatted_date
           LEFT OUTER JOIN "masters".terms AS term
-            ON sl.cust_terms_code = term.code
+            ON sl.customer_terms_code = term.code
 
         WHERE 
           ${!config.dates.trends.yearTrend ? sql`
