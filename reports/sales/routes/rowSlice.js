@@ -15,6 +15,8 @@ const labelCols_bySpeciesGroup = require('../data/sliceCols/colsBySpeciesGroup')
 const getReportConfig = require('../../utils/getReportConfig')
 const getViewTrendConfig = require('../../utils/getViewTrendConfig')
 const addCustomerName = require('../routines/helpers/trendByCustomer')
+const labelCols_byCreditTerms = require('../data/sliceCols/colsByCreditTerms')
+const labelCols_byInsured = require('../data/sliceCols/colsByInsuredVsUninsured')
 
 router.post('/', async (req, res) => {
   const { rightMenuSelection } = req.body
@@ -44,6 +46,12 @@ router.post('/', async (req, res) => {
       break
     case 'Trend By North America vs Foreign':
       cols = labelCols_byNorthAmericaVsForeign
+      break
+    case 'Trend By Credit Terms':
+      cols = labelCols_byCreditTerms
+      break
+    case 'Trend By Insured vs Uninsured':
+      cols = labelCols_byInsured
       break
     case 'Trend By Country':
       cols = labelCols_byCountry
