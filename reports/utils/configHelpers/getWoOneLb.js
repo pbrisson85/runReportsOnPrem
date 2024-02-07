@@ -24,8 +24,8 @@ const getWoOneLb = reqBody => {
   console.log('includeGreaterlbWOs: ', includeGreaterlbWOs)
 
   return {
-    include1lbWOs,
-    includeGreaterlbWOs,
+    include1lbWOs: { value: include1lbWOs, lessThan: 10 },
+    includeGreaterlbWOs: { value: includeGreaterlbWOs, greaterEqual: 10 },
   }
 }
 

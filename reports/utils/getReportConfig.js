@@ -62,8 +62,7 @@ const getReportConfig = async reqBody => {
       wo: {
         woActivities: await getWoActivities(reqBody),
         productionCountries: reqBody?.productionCountries ?? (await getProductionCountriesDefault()) ?? null,
-        include1lbWOs: { value: getWoOneLb(reqBody).include1lbWOs, lessThan: 10 },
-        includeGreaterlbWOs: { value: getWoOneLb(reqBody).include1lbWOs, greaterEqual: 10 },
+        ...getWoOneLb(reqBody),
       },
       inv: {
         aging: getInvenReportsAging(reqBody),
