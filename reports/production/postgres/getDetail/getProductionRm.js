@@ -71,6 +71,8 @@ const getProduction_detail = async (config, startDate, endDate, woActivity) => {
         ${config.slice.program ? sql`AND ${config.slice.program === 'NO VALUE' ? sql`ms.program IS NULL` : sql`ms.program = ${config.slice.program}`}` : sql`` }
         ${config.slice.item ? sql`AND ${config.slice.item === 'NO VALUE' ? sql`ms.item_num IS NULL` : sql`ms.item_num = ${config.slice.item}`}` : sql`` }
         ${config.slice.freshFrozen ? sql`AND ${config.slice.freshFrozen === 'NO VALUE' ? sql`ms.fg_fresh_frozen IS NULL` : sql`ms.fg_fresh_frozen = ${config.slice.freshFrozen}`}` : sql`` } 
+        ${config.baseFilters.wo.include1lbWOs.value && !config.baseFilters.wo.includeGreaterlbWOs.value ? sql`AND wo.rm_wo_total_weight < ${config.baseFilters.wo.include1lbWOs.lessThan}`: sql``} 
+        ${config.baseFilters.wo.includeGreaterlbWOs.value && !config.baseFilters.wo.include1lbWOs.value ? sql`AND wo.rm_wo_total_weight >= ${config.baseFilters.wo.includeGreaterlbWOs.greaterEqual}`: sql``}
         ${config.baseFilters.queryLevel > 0 ? sql`AND ${config.baseFilters.l1_filter === 'NO VALUE' ? sql`${sql(config.baseFormat.l1_field)} IS NULL` : sql`${sql(config.baseFormat.l1_field)} = ${config.baseFilters.l1_filter}`}` : sql`` }
         ${config.baseFilters.queryLevel > 1 ? sql`AND ${config.baseFilters.l2_filter === 'NO VALUE' ? sql`${sql(config.baseFormat.l2_field)} IS NULL` : sql`${sql(config.baseFormat.l2_field)} = ${config.baseFilters.l2_filter}`}` : sql`` }
         ${config.baseFilters.queryLevel > 2 ? sql`AND ${config.baseFilters.l3_filter === 'NO VALUE' ? sql`${sql(config.baseFormat.l3_field)} IS NULL` : sql`${sql(config.baseFormat.l3_field)} = ${config.baseFilters.l3_filter}`}` : sql`` }

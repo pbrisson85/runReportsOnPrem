@@ -72,6 +72,8 @@ const l1_getProductionTrend = async (config, trendQuery) => {
         ${config.slice.program ? sql`AND ms.program = ${config.slice.program}`: sql``}
         ${config.slice.item ? sql`AND ms.item_num = ${config.slice.item}`: sql``}  
         ${config.slice.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.slice.freshFrozen}`: sql``}  
+        ${config.baseFilters.wo.include1lbWOs.value && !config.baseFilters.wo.includeGreaterlbWOs.value ? sql`AND wo.rm_wo_total_weight < ${config.baseFilters.wo.include1lbWOs.lessThan}`: sql``} 
+        ${config.baseFilters.wo.includeGreaterlbWOs.value && !config.baseFilters.wo.include1lbWOs.value ? sql`AND wo.rm_wo_total_weight >= ${config.baseFilters.wo.includeGreaterlbWOs.greaterEqual}`: sql``}
         ${config.baseFilters.queryLevel > 0 ? sql`AND ${sql(config.baseFormat.l1_field)} = ${config.baseFilters.l1_filter}` : sql``} 
         ${config.baseFilters.queryLevel > 1 ? sql`AND ${sql(config.baseFormat.l2_field)} = ${config.baseFilters.l2_filter}` : sql``} 
         ${config.baseFilters.queryLevel > 2 ? sql`AND ${sql(config.baseFormat.l3_field)} = ${config.baseFilters.l3_filter}` : sql``}
@@ -165,6 +167,8 @@ const l0_getProductionTrend = async config => {
         ${config.slice.program ? sql`AND ms.program = ${config.slice.program}`: sql``}
         ${config.slice.item ? sql`AND ms.item_num = ${config.slice.item}`: sql``}  
         ${config.slice.freshFrozen ? sql`AND ms.fg_fresh_frozen = ${config.slice.freshFrozen}`: sql``}  
+        ${config.baseFilters.wo.include1lbWOs.value && !config.baseFilters.wo.includeGreaterlbWOs.value ? sql`AND wo.rm_wo_total_weight < ${config.baseFilters.wo.include1lbWOs.lessThan}`: sql``} 
+        ${config.baseFilters.wo.includeGreaterlbWOs.value && !config.baseFilters.wo.include1lbWOs.value ? sql`AND wo.rm_wo_total_weight >= ${config.baseFilters.wo.includeGreaterlbWOs.greaterEqual}`: sql``}
         ${config.baseFilters.queryLevel > 0 ? sql`AND ${sql(config.baseFormat.l1_field)} = ${config.baseFilters.l1_filter}` : sql``} 
         ${config.baseFilters.queryLevel > 1 ? sql`AND ${sql(config.baseFormat.l2_field)} = ${config.baseFilters.l2_filter}` : sql``} 
         ${config.baseFilters.queryLevel > 2 ? sql`AND ${sql(config.baseFormat.l3_field)} = ${config.baseFilters.l3_filter}` : sql``}
