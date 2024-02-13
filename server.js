@@ -8,7 +8,11 @@ const helmet = require('helmet')
 
 // initialize postgres js
 const postgres = require('postgres')
-const sql = postgres()
+const sql = postgres({
+  connection: {
+    application_name: 'run_reports_on_prem',
+  },
+})
 module.exports = sql
 
 // initialize routes

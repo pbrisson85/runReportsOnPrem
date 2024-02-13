@@ -63,8 +63,8 @@ const buildDrillDown = async (labelCols, config, trendQuery) => {
   /* MAP DATA TO ROWS */
 
   const mappedData = m.mapDataToRowTemplates(queryData, rowTemplate_unflat, config, (viewTrend = true))
-  const flattenedMappedData = Object.values(mappedData)
-  const data = m.cleanLabelsForDisplay(flattenedMappedData, config)
+  const data = Object.values(mappedData)
+  // const data = m.cleanLabelsForDisplay(flattenedMappedData, config)
 
   /* COLUMNS */
   const columns = await m.getColumns(config)
