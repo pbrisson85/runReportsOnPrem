@@ -36,6 +36,8 @@ const mapDataToRowTemplates = (data, rowTemplate, config, viewTrend) => {
     }
   })
 
+  console.log('rowTemplateCache', rowTemplateCache)
+
   return rowTemplateCache
 }
 
