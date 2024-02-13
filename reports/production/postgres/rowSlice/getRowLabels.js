@@ -64,6 +64,8 @@ const l1_getRowLabels = async (config, trendQuery) => {
         
           ` //prettier-ignore
 
+    console.log('response', response)
+
     return response
   } catch (error) {
     console.error(error)
