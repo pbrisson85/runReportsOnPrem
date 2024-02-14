@@ -1,8 +1,6 @@
 const sql = require('../../../../server')
 
 const getSo_detail = async (config, startDate, endDate) => {
-  console.log(config)
-
   try {
     console.log(`${config.user} - level ${config.baseFilters.queryLevel}: query postgres for FG Sales Orders ...`)
 
