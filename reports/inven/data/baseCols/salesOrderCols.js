@@ -22,7 +22,7 @@ const salesOrdersCol = [
     allowTrend: true,
     drillDownSortable: true,
     optional: true, // flag to determine if the col is optional
-    showByDefault: true, // flag to determine if optional col is shown by default
+    showByDefault: false, // flag to determine if optional col is shown by default
   },
 ]
 
