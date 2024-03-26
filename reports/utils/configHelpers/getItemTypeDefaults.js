@@ -1,6 +1,7 @@
 const getItemTypeDefaults_sales = require('../../filters/data/getItemTypeDefaults_sales')
 const getItemTypeDefaults_inven = require('../../filters/data/getItemTypeDefaults_inven')
 const getItemTypeDefaults_production = require('../../filters/data/getItemTypeDefaults_production')
+const getItemTypeDefaults_cashPo = require('../../filters/data/getItemTypeDefaults_cashPo')
 
 const getItemTypeDefaults = module => {
   let itemTypes
@@ -14,6 +15,9 @@ const getItemTypeDefaults = module => {
       break
     case 'production':
       itemTypes = getItemTypeDefaults_production()
+      break
+    case 'cash_po':
+      itemTypes = getItemTypeDefaults_cashPo()
       break
   }
 

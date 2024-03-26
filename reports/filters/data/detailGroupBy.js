@@ -90,6 +90,20 @@ const groupByOptions = {
     { label: 'Wo Country', dataName: 'country', default: false },
     { label: 'Wo Line (full detail)', dataName: 'ungrouped', default: false },
   ],
+
+  // purchaseOrderCash: [
+  //   { label: 'Item', dataName: 'item_number', default: false },
+  //   { label: 'Species', dataName: 'species', default: false },
+  //   { label: 'Brand', dataName: 'brand', default: false },
+  //   { label: 'Size', dataName: 'size_name', default: false },
+  //   { label: 'Soak', dataName: 'fg_treatment', default: false },
+  //   { label: 'Location', dataName: 'location_code', default: false },
+  //   { label: 'Freeze', dataName: 'fg_fresh_frozen', default: false },
+  //   { label: 'Eta Date', dataName: 'eta_date', default: false },
+  //   { label: 'PO', dataName: 'po_number', default: true },
+  //   { label: 'Vendor', dataName: 'po_vendor', default: false },
+  //   { label: 'PO Line Item', dataName: 'ungrouped', default: false },
+  // ],
 }
 
 module.exports = groupByOptions

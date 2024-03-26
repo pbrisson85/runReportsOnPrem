@@ -5,7 +5,7 @@ const getViewFilters = () => {
       dataName: 'lbs',
       decimals: 0,
       cols: [], // list of colTypes that are NOT shown in this view
-      default: true,
+      default: false,
     },
     {
       label: 'NET REVENUE',
@@ -19,7 +19,7 @@ const getViewFilters = () => {
       dataName: 'cogs',
       decimals: 0,
       cols: [],
-      default: false,
+      default: true,
     },
     {
       label: 'NET REVENUE/LB',

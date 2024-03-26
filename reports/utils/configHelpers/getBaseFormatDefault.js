@@ -1,6 +1,7 @@
 const getReportFormats_sales = require('../../filters/data/getReportFormats_sales')
 const getReportFormats_inven = require('../../filters/data/getReportFormats_inven')
 const getReportFormats_production = require('../../filters/data/getReportFormats_production')
+const getReportFormats_cashPo = require('../../filters/data/getReportFormats_cashPo')
 
 const getBaseFormatDefault = reqBody => {
   // If there is an L1 field then reqBody has the format and the default is not needed
@@ -12,12 +13,19 @@ const getBaseFormatDefault = reqBody => {
     case 'inven':
       reportFormats = getReportFormats_inven()
       break
+
     case 'sales':
       reportFormats = getReportFormats_sales()
       break
+
     case 'production':
       reportFormats = getReportFormats_production()
       break
+
+    case 'cash_po':
+      reportFormats = getReportFormats_cashPo()
+      break
+
     default:
       reportFormats = getReportFormats_sales()
       break

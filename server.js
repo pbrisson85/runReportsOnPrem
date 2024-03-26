@@ -18,6 +18,11 @@ module.exports = sql
 
 // initialize routes
 /* Reports */
+
+// Cash PO (projection)
+const baseReport_cashPo = require('./reports/cash_po/routes/baseReport')
+const getDetail_cashPo = require('./reports/cash_po/routes/getDetail')
+
 // Sales
 const baseReport_sales = require('./reports/sales/routes/baseReport')
 const rowSlice_sales = require('./reports/sales/routes/rowSlice')
@@ -62,6 +67,9 @@ app.use((req, res, next) => {
   //req.method === 'POST' && console.log(`${JSON.stringify(req.body)}`)
   next()
 })
+
+app.use('/api/reports/cashPo/baseReport', baseReport_cashPo)
+app.use('/api/reports/cashPo/detail', getDetail_cashPo)
 
 app.use('/api/reports/sales/baseReport', baseReport_sales)
 app.use('/api/reports/sales/rowSlice', rowSlice_sales)
