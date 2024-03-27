@@ -24,4 +24,4 @@ const cols = [
   },
 ]
 
-module.exports = poCols
+module.exports = cols
