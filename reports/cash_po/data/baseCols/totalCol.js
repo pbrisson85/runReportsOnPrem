@@ -1,8 +1,8 @@
 const cols = [
   {
     unfilteredColIdx: 1,
-    displayName: 'PO',
-    dataName: 'PURCHASE ORDER', // row query column must match the dataName ********* (I changed all the inven go fix)
+    displayName: 'TOTAL PO CASH',
+    dataName: 'allPoCash', // row query column must match the dataName ********* (I changed all the inven go fix)
     justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
@@ -17,11 +17,11 @@ const cols = [
     popoverMsg: '',
     rightClickMenu: ['Get Details'],
     drilldownRightClickMenu: ['Get Details'],
-    colType: 'purchaseOrder',
+    colType: 'allPoCash',
     drillDownSortable: true,
     optional: false, // flag to determine if the col is optional
     showByDefault: true, // flag to determine if optional col is shown by default
   },
 ]
 
-module.exports = cols
+module.exports = poCols

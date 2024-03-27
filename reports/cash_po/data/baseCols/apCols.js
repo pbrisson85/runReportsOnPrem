@@ -1,8 +1,8 @@
-const poCols = [
+const cols = [
   {
     unfilteredColIdx: 1,
-    displayName: 'P.O.',
-    dataName: 'PURCHASE ORDER', // row query column must match the dataName ********* (I changed all the inven go fix)
+    displayName: 'AP',
+    dataName: 'AP', // row query column must match the dataName ********* (I changed all the inven go fix)
     justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',
@@ -14,14 +14,14 @@ const poCols = [
     hidden: false,
     valueFallback: 0,
     data: true,
-    popoverMsg: 'FINISHED GOODS ON PURCHASE ORDERS (UNRECEIVED) - Note: see RM Purchase Planning report for RM On order by program.',
+    popoverMsg: '',
     rightClickMenu: ['Get Details'],
     drilldownRightClickMenu: ['Get Details'],
-    colType: 'purchaseOrder',
+    colType: 'ap',
     drillDownSortable: true,
-    optional: true, // flag to determine if the col is optional
+    optional: false, // flag to determine if the col is optional
     showByDefault: true, // flag to determine if optional col is shown by default
   },
 ]
 
-module.exports = poCols
+module.exports = cols

@@ -18,6 +18,7 @@ const getWoActivities = require('./configHelpers/getWoActivities')
 const getProductionCountriesDefault = require('./configHelpers/getProductionCountriesDefault')
 const getTrailingWeeksRowDates = require('./configHelpers/getTrailingWeeksRowDates')
 const getWoOneLb = require('./configHelpers/getWoOneLb')
+const getPoCashDates = require('./configHelpers/getPoCashDates')
 
 const getReportConfig = async reqBody => {
   // get subtotalRowFormats defaults
@@ -100,6 +101,7 @@ const getReportConfig = async reqBody => {
         },
         queryGrouping: getQueryGrouping(reqBody),
       },
+      poCash: await getPoCashDates(),
       totals: {
         primary: await getDatesTotalsPrimary(reqBody),
         comparison: await getDatesTotalsComparison(reqBody),
