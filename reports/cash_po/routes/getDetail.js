@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const getReportConfig = require('../../utils/getReportConfig')
 const { getPo_detail } = require('../postgres/getDetail/getOpenPo')
-const { getSo_detail } = require('../postgres/getDetail/getSo')
+// const { getSo_detail } = require('../postgres/getDetail/getSo')
 const detailColsMap = require('../data/detailCols/colsMap')
 const groupByOptions = require('../../filters/data/detailGroupBy')
 
@@ -17,9 +17,9 @@ router.post('/', async (req, res) => {
 
   console.log(`\n${config.user} - get detail data for ${config.baseFormat.dataName} route HIT...`)
 
-  if (colType === timeSeriesCol) {
-    data = await getSo_detail(config, config.dates.salesOrders.startDate, config.dates.salesOrders.endDate)
-  }
+  // if (colType === timeSeriesCol) {
+  //   data = await getSo_detail(config, config.dates.salesOrders.startDate, config.dates.salesOrders.endDate)
+  // }
 
   if (colType === 'purchaseOrder') {
     data = await getPo_detail(config)
