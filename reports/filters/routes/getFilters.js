@@ -14,6 +14,7 @@ const getProductionCountryFilters = require('../postgres/getProductionCountryFil
 const getItemTypeDefaults_inven = require('../data/getItemTypeDefaults_inven')
 const getItemTypeDefaults_sales = require('../data/getItemTypeDefaults_sales')
 const getItemTypeDefaults_production = require('../data/getItemTypeDefaults_production')
+const getItemTypeDefaults_cashPo = require('../data/getItemTypeDefaults_cashPo')
 const {
   getFiscalYearMap_multi,
   getCalYearsMap_multi,
@@ -30,6 +31,7 @@ const {
   getCalVsYearsMap,
 } = require('../postgres/getDateMaps')
 const getItemTypes = require('../postgres/getItemTypes')
+const getItemTypes_cashPo = require('../postgres/getItemTypes_cashPo')
 const getDistinctPrograms = require('../postgres/getDistinctPrograms')
 const getReportConfig = require('../../utils/getReportConfig')
 const getWoActivityGroups = require('../postgres/getWoActivityGroups')
@@ -186,6 +188,23 @@ router.get('/invenItemTypes', async (req, res) => {
   const config = await getReportConfig(req.body)
   let types = await getItemTypes(config)
   const defaults = getItemTypeDefaults_inven()
+
+  types = types.map(type => {
+    return {
+      ...type,
+      default: defaults.includes(type.dataName),
+    }
+  })
+
+  res.send(types)
+  console.log('get item types filters route COMPLETE. ')
+})
+
+router.get('/cashPoItemTypes', async (req, res) => {
+  console.log('get item types filters route HIT...')
+
+  let types = await getItemTypes_cashPo()
+  const defaults = getItemTypeDefaults_cashPo()
 
   types = types.map(type => {
     return {

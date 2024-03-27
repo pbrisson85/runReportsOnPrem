@@ -7,6 +7,8 @@ const getTrendColsPoCash = require('../../postgres/timeSeriesColHeadings/getTime
 
 // These are configs for the columns in the report
 const getColumns = async (config, colDataNames) => {
+  // Note that colDataNames are passed in as a standard practice to use in stripping away any columns that are not requested by the front end but this is not needed in the cashPo report as all columns should be shown.
+
   const trendColumnPromises = []
 
   ///////////////////////////////// TREND COLUMNS

@@ -5,13 +5,12 @@ const sql = require('../../../../server')
 const l1_getOpenPo = async config => {
   if (!config.baseFormat.l1_field) return []
 
-  //${config.jbBuyer ? sql`AND inv.item_number IN SELECT(DISTINCT(perpetual_inventory.item_number FROM ))` : sql``}
   try {
     console.log(`${config.user} - level 1: query postgres for FG open PO (l1_getOpenPo) ...`)
 
-    const response = await sql
+    const response = await sql 
          `SELECT 
-         'PURCHASE ORDER' AS column, 
+         'PURCHASE ORDER' AS column, -- must match dataName of column 
          COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
          'SUBTOTAL' AS l2_label, 
          'SUBTOTAL' AS l3_label, 
@@ -62,7 +61,7 @@ const l2_getOpenPo = async config => {
 
     const response = await sql
        `SELECT 
-       'PURCHASE ORDER' AS column, 
+       'PURCHASE ORDER' AS column, -- must match dataName of column
        COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
        COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
        'SUBTOTAL' AS l3_label, 
@@ -113,7 +112,7 @@ const l3_getOpenPo = async config => {
 
     const response = await sql
        `SELECT 
-       'PURCHASE ORDER' AS column, 
+       'PURCHASE ORDER' AS column, -- must match dataName of column
        COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
        COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
        COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label, 
@@ -164,7 +163,7 @@ const l4_getOpenPo = async config => {
 
     const response = await sql
        `SELECT 
-       'PURCHASE ORDER' AS column, 
+       'PURCHASE ORDER' AS column, -- must match dataName of column
        COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
        COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
        COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label, 
@@ -215,7 +214,7 @@ const l5_getOpenPo = async config => {
 
     const response = await sql
        `SELECT 
-       'PURCHASE ORDER' AS column, 
+       'PURCHASE ORDER' AS column, -- must match dataName of column
        COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
        COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
        COALESCE(${sql(config.baseFormat.l3_field)},'NO VALUE') AS l3_label, 
@@ -262,7 +261,7 @@ const l0_getOpenPo = async config => {
 
     const response = await sql
          `SELECT 
-         'PURCHASE ORDER' AS column, 
+         'PURCHASE ORDER' AS column, -- must match dataName of column
          'TOTAL' AS l1_label,
          COALESCE(SUM(inv.on_order_lbs),0) AS lbs, 
          COALESCE(SUM(inv.on_order_extended),0) AS cogs, 

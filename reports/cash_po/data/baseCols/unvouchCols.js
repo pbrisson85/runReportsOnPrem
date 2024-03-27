@@ -2,7 +2,7 @@ const cols = [
   {
     unfilteredColIdx: 1,
     displayName: 'UNVOUCHERED',
-    dataName: 'unvouchered', // row query column must match the dataName ********* (I changed all the inven go fix)
+    dataName: 'unvouchered', // row query column must match the dataName *********
     justifyData: 'end',
     justifyHeading: 'center',
     width: '100px',

@@ -3,16 +3,6 @@ const m = require('./import')
 const buildReport = async config => {
   const queryDataPromises = []
   const rowDataPromises = []
-  const kpiHelperPromises = []
-
-  ///////////////////////////////// INVENTORY DATA
-
-  queryDataPromises.push(m.l0_getInv(config))
-  queryDataPromises.push(m.l1_getInv(config))
-  queryDataPromises.push(m.l2_getInv(config))
-  queryDataPromises.push(m.l3_getInv(config))
-  queryDataPromises.push(m.l4_getInv(config))
-  queryDataPromises.push(m.l5_getInv(config))
 
   ///////////////////////////////// PURCHASE DATA
 
@@ -25,14 +15,6 @@ const buildReport = async config => {
 
   ///////////////////////////////// SALES ORDERS
 
-  // SO TOTAL
-  queryDataPromises.push(m.l0_getSo(config))
-  queryDataPromises.push(m.l1_getSo(config))
-  queryDataPromises.push(m.l2_getSo(config))
-  queryDataPromises.push(m.l3_getSo(config))
-  queryDataPromises.push(m.l4_getSo(config))
-  queryDataPromises.push(m.l5_getSo(config))
-
   // SO TREND
   queryDataPromises.push(m.l0_getSoTrend(config))
   queryDataPromises.push(m.l1_getSoTrend(config))
@@ -40,86 +22,6 @@ const buildReport = async config => {
   queryDataPromises.push(m.l3_getSoTrend(config))
   queryDataPromises.push(m.l4_getSoTrend(config))
   queryDataPromises.push(m.l5_getSoTrend(config))
-
-  ///////////////////////////////// SALES DATA
-
-  // SALES YTD
-  queryDataPromises.push(m.l0_getSalesTotalPrimary(config))
-  queryDataPromises.push(m.l1_getSalesTotalPrimary(config))
-  queryDataPromises.push(m.l2_getSalesTotalPrimary(config))
-  queryDataPromises.push(m.l3_getSalesTotalPrimary(config))
-  queryDataPromises.push(m.l4_getSalesTotalPrimary(config))
-  queryDataPromises.push(m.l5_getSalesTotalPrimary(config))
-
-  // TRENDS
-  queryDataPromises.push(m.l0_getSalesTrend(config))
-  queryDataPromises.push(m.l1_getSalesTrend(config))
-  queryDataPromises.push(m.l2_getSalesTrend(config))
-  queryDataPromises.push(m.l3_getSalesTrend(config))
-  queryDataPromises.push(m.l4_getSalesTrend(config))
-  queryDataPromises.push(m.l5_getSalesTrend(config))
-
-  ///////////////////////////////// SALES KPIS
-
-  // KPI HELPERS
-
-  kpiHelperPromises.push(m.getCompanyTotalSales(config))
-  kpiHelperPromises.push(m.getProgramTotalSales(config))
-  kpiHelperPromises.push(m.getSpeciesGroupTotalSales(config))
-  kpiHelperPromises.push(m.getReportTotalSales(config))
-
-  const [companyTotalSales, programTotalSales, speciesGroupTotalSales, reportTotalSales] = await Promise.all(kpiHelperPromises)
-
-  // AVE WEEKLY SALES
-  queryDataPromises.push(m.l0_getAveSales(config))
-  queryDataPromises.push(m.l1_getAveSales(config))
-  queryDataPromises.push(m.l2_getAveSales(config))
-  queryDataPromises.push(m.l3_getAveSales(config))
-  queryDataPromises.push(m.l4_getAveSales(config))
-  queryDataPromises.push(m.l5_getAveSales(config))
-
-  // % COMPANY SALES
-  queryDataPromises.push(m.l0_getPercentSales(config, companyTotalSales, 'percentCompanySales'))
-  queryDataPromises.push(m.l1_getPercentSales(config, companyTotalSales, 'percentCompanySales'))
-  queryDataPromises.push(m.l2_getPercentSales(config, companyTotalSales, 'percentCompanySales'))
-  queryDataPromises.push(m.l3_getPercentSales(config, companyTotalSales, 'percentCompanySales'))
-  queryDataPromises.push(m.l4_getPercentSales(config, companyTotalSales, 'percentCompanySales'))
-  queryDataPromises.push(m.l5_getPercentSales(config, companyTotalSales, 'percentCompanySales'))
-
-  // % PROGRAM SALES
-  queryDataPromises.push(m.l0_getPercentSales(config, programTotalSales, 'percentProgramSales'))
-  queryDataPromises.push(m.l1_getPercentSales(config, programTotalSales, 'percentProgramSales'))
-  queryDataPromises.push(m.l2_getPercentSales(config, programTotalSales, 'percentProgramSales'))
-  queryDataPromises.push(m.l3_getPercentSales(config, programTotalSales, 'percentProgramSales'))
-  queryDataPromises.push(m.l4_getPercentSales(config, programTotalSales, 'percentProgramSales'))
-  queryDataPromises.push(m.l5_getPercentSales(config, programTotalSales, 'percentProgramSales'))
-
-  // % SPECIES GROUP SALES
-  queryDataPromises.push(m.l0_getPercentSales(config, speciesGroupTotalSales, 'percentSpeciesGroupSales'))
-  queryDataPromises.push(m.l1_getPercentSales(config, speciesGroupTotalSales, 'percentSpeciesGroupSales'))
-  queryDataPromises.push(m.l2_getPercentSales(config, speciesGroupTotalSales, 'percentSpeciesGroupSales'))
-  queryDataPromises.push(m.l3_getPercentSales(config, speciesGroupTotalSales, 'percentSpeciesGroupSales'))
-  queryDataPromises.push(m.l4_getPercentSales(config, speciesGroupTotalSales, 'percentSpeciesGroupSales'))
-  queryDataPromises.push(m.l5_getPercentSales(config, speciesGroupTotalSales, 'percentSpeciesGroupSales'))
-
-  // % REPORT SALES
-  queryDataPromises.push(m.l0_getPercentSales(config, reportTotalSales, 'percentReportTotal'))
-  queryDataPromises.push(m.l1_getPercentSales(config, reportTotalSales, 'percentReportTotal'))
-  queryDataPromises.push(m.l2_getPercentSales(config, reportTotalSales, 'percentReportTotal'))
-  queryDataPromises.push(m.l3_getPercentSales(config, reportTotalSales, 'percentReportTotal'))
-  queryDataPromises.push(m.l4_getPercentSales(config, reportTotalSales, 'percentReportTotal'))
-  queryDataPromises.push(m.l5_getPercentSales(config, reportTotalSales, 'percentReportTotal'))
-
-  ///////////////////////////////// INVEN KPIS
-
-  // WEEKS INV ON HAND
-
-  queryDataPromises.push(m.l0_getWeeksOnHand(config))
-  queryDataPromises.push(m.l1_getWeeksOnHand(config))
-  queryDataPromises.push(m.l2_getWeeksOnHand(config))
-  queryDataPromises.push(m.l3_getWeeksOnHand(config))
-  queryDataPromises.push(m.l4_getWeeksOnHand(config))
-  queryDataPromises.push(m.l5_getWeeksOnHand(config))
 
   ///////////////////////////////// ROW LABELS
   rowDataPromises.push(m.l0_getRowLabels(config))
@@ -140,24 +42,6 @@ const buildReport = async config => {
   const rowData = rowDataResults.reduce((acc, cur) => {
     return acc.concat(cur)
   }, [])
-
-  // KPI CALCULATIONS
-
-  // // INVENTORY AVAILABLE
-  // queryDataPromises.push(m.calcInventoryAvailable(l0_InvR, l0_OpenPoR, l0_soR, 'invenAvailable'))
-  // queryDataPromises.push(m.calcInventoryAvailable(l1_InvR, l1_OpenPoR, l1_soR, 'invenAvailable'))
-  // queryDataPromises.push(m.calcInventoryAvailable(l2_InvR, l2_OpenPoR, l2_soR, 'invenAvailable'))
-  // queryDataPromises.push(m.calcInventoryAvailable(l3_InvR, l3_OpenPoR, l3_soR, 'invenAvailable'))
-  // queryDataPromises.push(m.calcInventoryAvailable(l4_InvR, l4_OpenPoR, l4_soR, 'invenAvailable'))
-  // queryDataPromises.push(m.calcInventoryAvailable(l5_InvR, l5_OpenPoR, l5_soR, 'invenAvailable'))
-
-  // // % YoY YTD SALES
-  // queryDataPromises.push(m.calcYoyYtdSalesCol(l0_salesByFyYtdR, 'yoyYtdSales'))
-  // queryDataPromises.push(m.calcYoyYtdSalesCol(l1_salesByFyYtdR, 'yoyYtdSales'))
-  // queryDataPromises.push(m.calcYoyYtdSalesCol(l2_salesByFyYtdR, 'yoyYtdSales'))
-  // queryDataPromises.push(m.calcYoyYtdSalesCol(l3_salesByFyYtdR, 'yoyYtdSales'))
-  // queryDataPromises.push(m.calcYoyYtdSalesCol(l4_salesByFyYtdR, 'yoyYtdSales'))
-  // queryDataPromises.push(m.calcYoyYtdSalesCol(l5_salesByFyYtdR, 'yoyYtdSales'))
 
   /* BUILD ROW MAP */
 
@@ -186,7 +70,7 @@ const buildReport = async config => {
     })
   })
 
-  const columns = await m.getColumns(config, colDataNames)
+  const columns = await m.getColumns(config, colDataNames) // note that colDataNames are passed in to strip away any cols that are not needed however in this report for cashPo all cols are needed so thi is not used in the getColumns funciton
 
   return {
     data,
@@ -195,7 +79,7 @@ const buildReport = async config => {
       ...columns,
     },
     baseConfig: config.baseConfig, // pass back for slice and detail reports
-    defaultTrend: 'salesInvoice', // col type of the trend col to show by default
+    defaultTrend: 'allPoCash', // col type of the trend col to show by default
   }
 }
 
