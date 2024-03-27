@@ -13,16 +13,6 @@ const buildReport = async config => {
   queryDataPromises.push(m.l4_getOpenPo(config))
   queryDataPromises.push(m.l5_getOpenPo(config))
 
-  ///////////////////////////////// SALES ORDERS
-
-  // SO TREND
-  queryDataPromises.push(m.l0_getSoTrend(config))
-  queryDataPromises.push(m.l1_getSoTrend(config))
-  queryDataPromises.push(m.l2_getSoTrend(config))
-  queryDataPromises.push(m.l3_getSoTrend(config))
-  queryDataPromises.push(m.l4_getSoTrend(config))
-  queryDataPromises.push(m.l5_getSoTrend(config))
-
   ///////////////////////////////// ROW LABELS
   rowDataPromises.push(m.l0_getRowLabels(config))
   rowDataPromises.push(m.l1_getRowLabels(config))
