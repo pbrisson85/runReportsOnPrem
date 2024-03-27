@@ -14,6 +14,7 @@ const getItemTypes = async config => {
     WHERE 
         ms.item_type IS NOT NULL
         ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+    ORDER BY ms.item_type ASC
 
     UNION SELECT 
       DISTINCT(TRIM(ms.item_type)) AS label, 
@@ -24,6 +25,7 @@ const getItemTypes = async config => {
     WHERE 
       ms.item_type IS NOT NULL
       ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+    ORDER BY ms.item_type ASC
 
     UNION SELECT 
       DISTINCT(TRIM(ms.item_type)) AS label, 
@@ -35,6 +37,7 @@ const getItemTypes = async config => {
       ms.item_type IS NOT NULL
       AND so.version = (SELECT MAX(sales_orders.version) - 1 FROM "salesReporting".sales_orders) 
       ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+    ORDER BY ms.item_type ASC
 
     UNION SELECT 
       DISTINCT(TRIM(ms.item_type)) AS label, 
@@ -46,6 +49,7 @@ const getItemTypes = async config => {
         ms.item_type IS NOT NULL
         AND pi.version = (SELECT MAX(perpetual_inventory.version) - 1 FROM "invenReporting".perpetual_inventory)
       ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+    ORDER BY ms.item_type ASC
 
     UNION SELECT 
       DISTINCT(TRIM(ms.item_type)) AS label, 
@@ -56,6 +60,7 @@ const getItemTypes = async config => {
     WHERE 
         ms.item_type IS NOT NULL
       ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
+    ORDER BY ms.item_type ASC
     
     ` //prettier-ignore
 
