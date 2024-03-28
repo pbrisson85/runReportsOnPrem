@@ -43,6 +43,12 @@ const buildReport = async config => {
 
   ///////////////////////////////// SALES DATA
 
+  // CUSTOM TO SALES MODULE:
+  const buildOthpGlTempTable = require('../../postgres/baseReport/helperRoutines/buildOthpGlTempTable')
+  const tempTableName = await buildOthpGlTempTable(config)
+
+  console.log('tempTableName', tempTableName)
+
   // SALES YTD
   queryDataPromises.push(m.l0_getSalesTotalPrimary(config))
   queryDataPromises.push(m.l1_getSalesTotalPrimary(config))

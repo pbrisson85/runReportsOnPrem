@@ -4,6 +4,10 @@ const l1_getSalesTotalPrimary = async config => {
   if (!config.baseFormat.l1_field) return []
   if (config.dates.trends.yearTrend) return [] // skip totals if trend is by year
 
+  // join the queries below with the temp table (will need to circle back to detail queries to add the join as well)
+
+  // drop the temp table
+
   try {
     console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getSalesTotalPrimary) ...`)
 
