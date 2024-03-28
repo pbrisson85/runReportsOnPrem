@@ -6,8 +6,10 @@ const createTempTable = async (config, uniqueOthpGlsArray) => {
 
     const tag = Date.now()
     const tmpTableName = '"salesReporting".sales_contra_lines_temp_' + tag
+    const constraint = `${tmpTableName}_pkey`
 
     console.log('tmpTableName', tmpTableName)
+    console.log('constraint', constraint)
 
     let createString = ''
 
@@ -21,45 +23,24 @@ const createTempTable = async (config, uniqueOthpGlsArray) => {
 
     console.log('createString', createString)
 
-    // const [del, insert] = await sql.begin(async sql => {
-    //   await sql`
-    //     CREATE TABLE IF NOT EXISTS ${tmpTableName} AS tmp
-    //     (
-    //         invoice_num character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    //         invoice_line character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    //         othp_amount numeric NOT NULL,
-    //         ${sql`${createString}`}
-    //         CONSTRAINT ${tmpTableName}_pkey PRIMARY KEY (invoice_num, invoice_line)
-    //     )
-    //   `
-
-    //   const [insert] = await sql`
-    //     INSERT INTO "purchaseReporting".open_po ${sql(data)} RETURNING *
-    //   `
-    //   return [del, insert]
-    // })
-
     const response = await sql
     `
-        CREATE TABLE IF NOT EXISTS ${tmpTableName} 
+        CREATE TABLE IF NOT EXISTS ${sql(tmpTableName)}
         (
             invoice_num character varying(255) COLLATE pg_catalog."default" NOT NULL,
             invoice_line character varying(255) COLLATE pg_catalog."default" NOT NULL,
             othp_amount numeric NOT NULL,
             ${sql`${createString}`}
-            CONSTRAINT ${tmpTableName}_pkey PRIMARY KEY (invoice_num, invoice_line)
+            CONSTRAINT ${sql(constraint)} PRIMARY KEY (invoice_num, invoice_line)
         )
         
         TABLESPACE pg_default;
         
-        ALTER TABLE IF EXISTS ${tmpTableName}
+        ALTER TABLE IF EXISTS ${sql(tmpTableName)}
             OWNER to postgres;
         
-        COMMENT ON TABLE ${tmpTableName}
+        COMMENT ON TABLE ${sql(tmpTableName)}
             IS 'temporary table to build sales queries with othp by category';
-
-
-      
     ` //prettier-ignore
 
     return tmpTableName
