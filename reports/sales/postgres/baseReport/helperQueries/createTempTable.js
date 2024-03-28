@@ -14,7 +14,7 @@ const createTempTable = async (config, uniqueOthpGlsArray) => {
     let createString = ''
 
     for (gl of uniqueOthpGlsArray) {
-      createString = `${createString} "${gl.display_name}" numeric NOT NULL,`
+      createString = `${createString} ${gl.display_name} numeric NOT NULL,`
     }
 
     console.log('createString', createString)
