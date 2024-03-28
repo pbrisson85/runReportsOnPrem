@@ -1,4 +1,4 @@
-const sql = require('../../../../server')
+const sql = require('../../../../../server')
 
 const createTempTable = async (config, uniqueOthpGlsArray) => {
   try {
