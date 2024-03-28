@@ -14,29 +14,21 @@ const createTempTable = async (config, uniqueOthpGlsArray) => {
     let createString = ''
 
     for (gl of uniqueOthpGlsArray) {
-      createString = `${createString} "${gl}" numeric NOT NULL,`
+      createString = `${createString} "${gl.display_name}" numeric NOT NULL,`
     }
 
     console.log('createString', createString)
 
     const response = await sql
     `
-        CREATE TABLE IF NOT EXISTS ${sql(tmpTableName)}
-        (
-            invoice_num character varying(255) COLLATE pg_catalog."default" NOT NULL,
-            invoice_line character varying(255) COLLATE pg_catalog."default" NOT NULL,
-            othp_amount numeric NOT NULL,
-            ${sql(createString)}
-            CONSTRAINT ${sql(constraint)} PRIMARY KEY (invoice_num, invoice_line)
-        )
-        
-        TABLESPACE pg_default;
-        
-        ALTER TABLE IF EXISTS ${sql(tmpTableName)}
-            OWNER to postgres;
-        
-        COMMENT ON TABLE ${sql(tmpTableName)}
-            IS 'temporary table to build sales queries with othp by category';
+      CREATE TABLE IF NOT EXISTS ${sql(tmpTableName)}
+      (
+          invoice_num character varying(255) COLLATE pg_catalog."default" NOT NULL,
+          invoice_line character varying(255) COLLATE pg_catalog."default" NOT NULL,
+          othp_amount numeric NOT NULL,
+          ${sql(createString)}
+          CONSTRAINT ${sql(constraint)} PRIMARY KEY (invoice_num, invoice_line)
+      )
     ` //prettier-ignore
 
     return tmpTableName

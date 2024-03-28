@@ -8,9 +8,9 @@ const getDataForTempTable = async (config, uniqueOthpGlsArray) => {
 
     for (gl of uniqueOthpGlsArray) {
       if (selectString === '') {
-        selectString = `SUM(CASE WHEN scl.othp_gl = '${gl}' THEN scl.othp_amount ELSE 0 END) AS ${gl}`
+        selectString = `SUM(CASE WHEN scl.othp_gl = '${gl.othp_gl}' THEN scl.othp_amount ELSE 0 END) AS ${gl.display_name}`
       } else {
-        selectString = `${selectString}, SUM(CASE WHEN scl.othp_gl = '${gl}' THEN scl.othp_amount ELSE 0 END) AS ${gl}`
+        selectString = `${selectString}, SUM(CASE WHEN scl.othp_gl = '${gl.othp_gl}' THEN scl.othp_amount ELSE 0 END) AS ${gl.display_name}`
       }
     }
 
