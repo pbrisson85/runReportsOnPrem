@@ -28,10 +28,6 @@ const baseReport_sales = require('./reports/sales/routes/baseReport')
 const rowSlice_sales = require('./reports/sales/routes/rowSlice')
 const getDetail_sales = require('./reports/sales/routes/getDetail')
 
-// GL
-const glRevCogs = require('./reports/gl/routes/glRevCogs')
-const glOthp = require('./reports/gl/routes/glOthp')
-
 // Inventory
 const baseReport_inven = require('./reports/inven/routes/baseReport')
 const rowSlice_inven = require('./reports/inven/routes/rowSlice')
@@ -84,9 +80,6 @@ app.use('/api/reports/production/rowSlice', rowSlice_production)
 app.use('/api/reports/production/detail', getDetail_production)
 
 app.use('/api/reports/getFilters', getFilters)
-
-app.use('/api/reports/gl/revCogs', glRevCogs)
-app.use('/api/reports/gl/othp', glOthp)
 
 // start express server
 const PORT = process.env.runReporting_PORT || 5037
