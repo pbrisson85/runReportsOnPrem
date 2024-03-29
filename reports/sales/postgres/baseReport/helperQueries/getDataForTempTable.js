@@ -17,6 +17,7 @@ const getDataForTempTable = async (config, uniqueOthpGlsArray) => {
       WHERE 
           sl.formatted_invoice_date >= ${config.dates.totals.primary.startDate} 
           AND sl.formatted_invoice_date <= ${config.dates.totals.primary.endDate}
+      GROUP BY scl.invoice_num, scl.invoice_line, scl.othp_amount
         ` //prettier-ignore
 
     return response
