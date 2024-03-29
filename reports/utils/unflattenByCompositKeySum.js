@@ -20,6 +20,7 @@ const unflattenByCompositKeySum = (data, config) => {
       unflat[key] = { ...row }
 
       if (key === '661734-003') {
+        console.log('first')
         console.log(unflat[key])
       }
     } else {
