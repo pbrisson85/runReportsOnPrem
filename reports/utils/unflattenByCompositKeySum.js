@@ -4,8 +4,8 @@ const unflattenByCompositKeySum = (data, config) => {
   // create list of keys from config passed in
   const vals = Object.values(config)
 
-  data.forEach((row, idx) => {
-    idx <= 20 && console.log('row', row)
+  data.forEach(row => {
+    let dupKeyCounter = 0
 
     // build key
     let key = null
@@ -17,28 +17,24 @@ const unflattenByCompositKeySum = (data, config) => {
       }
     })
 
-    idx <= 20 && console.log('key', key)
-
     // add row to key
     if (!unflat[key]) {
       unflat[key] = { ...row }
-
-      idx <= 20 && console.log('unflat[key]', unflat[key])
     } else {
       const keys = Object.keys(row)
 
       keys.forEach(k => {
-        idx <= 20 && console.log('k', k)
-
-        idx <= 20 && console.log('typeof unflat[key][k]', typeof unflat[key][k])
+        dupKeyCounter <= 20 && console.log('k', k) //DEBUG
+        dupKeyCounter <= 20 && console.log('typeof unflat[key][k]', typeof unflat[key][k]) //DEBUG
 
         if (typeof unflat[key][k] === 'number') {
-          idx <= 20 && console.log('unflat[key][k]', unflat[key][k])
-          idx <= 20 && console.log('row[k]', row[k])
+          dupKeyCounter <= 20 && console.log('unflat[key][k]', unflat[key][k]) //DEBUG
+          dupKeyCounter <= 20 && console.log('row[k]', row[k]) //DEBUG
 
           unflat[key][k] += row[k]
         }
       })
+      dupKeyCounter++
     }
   })
 
