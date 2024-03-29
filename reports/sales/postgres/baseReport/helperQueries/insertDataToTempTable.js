@@ -10,8 +10,9 @@ const insertDataToTempTable = async (config, dataForTempTable, tempTableName) =>
 
     return
   } catch (error) {
-    console.error(error)
-    console.log(error.query)
+    console.log(error)
+    // console.log(error.query)
+    console.log(error.message)
     return error
   }
 }
