@@ -23,9 +23,9 @@ const createTempTable = async (config, uniqueOthpGlsArray) => {
       { name: 'othp_amount', type: 'numeric' },
     ]
 
-    for (gl of uniqueOthpGlsArray) {
-      columns.push({ name: gl.display_name, type: 'numeric' })
-    }
+    // for (gl of uniqueOthpGlsArray) {
+    //   columns.push({ name: gl.display_name, type: 'numeric' })
+    // }
 
     //console.log('createString', createString)
 
