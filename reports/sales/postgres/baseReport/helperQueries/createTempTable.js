@@ -8,43 +8,33 @@ const createTempTable = async (config, uniqueOthpGlsArray) => {
     const tmpTableName = '"salesReporting".sales_contra_lines_temp_' + tag
     const constraint = `${tmpTableName}_pkey`
 
-    // console.log('tmpTableName', tmpTableName)
-    // console.log('constraint', constraint)
+    let createString = `CREATE TABLE IF NOT EXISTS ${tmpTableName} `
+    let colString = `(
+      invoice_num character varying(255) NOT NULL,
+      invoice_line character varying(255) NOT NULL,
+      othp_amount numeric NOT NULL,`
 
-    // let createString = ''
+    for (gl of uniqueOthpGlsArray) {
+      colString = `${colString} ${gl.display_name} numeric NOT NULL,`
+    }
 
-    // for (gl of uniqueOthpGlsArray) {
-    //   createString = `${createString} ${gl.display_name} numeric NOT NULL,`
-    // }
+    let constraintString = `CONSTRAINT ${constraint} PRIMARY KEY (invoice_num, invoice_line))`
 
-    const columns = [
-      { name: 'invoice_num', type: 'character varying(255)', primary: true },
-      { name: 'invoice_line', type: 'character varying(255)', primary: true },
-      { name: 'othp_amount', type: 'numeric' },
-    ]
-
-    // for (gl of uniqueOthpGlsArray) {
-    //   columns.push({ name: gl.display_name, type: 'numeric' })
-    // }
-
-    //console.log('createString', createString)
+    let queryString = `${createString} ${colString} ${constraintString}`
 
     // const response = await sql
     // `
     //   CREATE TABLE IF NOT EXISTS ${sql(tmpTableName)}
     //   (
-    //       invoice_num character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    //       invoice_line character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    //       invoice_num character varying(255) NOT NULL,
+    //       invoice_line character varying(255) NOT NULL,
     //       othp_amount numeric NOT NULL,
-    //       ${sql`createFragment(sql, uniqueOthpGlsArray)`}
+    //       ${sql()}
     //       CONSTRAINT ${sql(constraint)} PRIMARY KEY (invoice_num, invoice_line)
     //   )
     // ` //prettier-ignore
 
-    const response = await sql
-    `
-      CREATE TABLE IF NOT EXISTS ${sql(tmpTableName)} (${sql(columns)})
-    ` //prettier-ignore
+    const response = await sql`${sql(queryString)}`
 
     return tmpTableName
   } catch (error) {
@@ -55,13 +45,3 @@ const createTempTable = async (config, uniqueOthpGlsArray) => {
 }
 
 module.exports = createTempTable
-
-const createFragment = (sql, uniqueOthpGlsArray) => {
-  let fragment = ''
-
-  for (gl of uniqueOthpGlsArray) {
-    fragment = fragment + ' ' + sql`${sql(gl.display_name)} numeric NOT NULL,`
-  }
-
-  return fragment
-}
