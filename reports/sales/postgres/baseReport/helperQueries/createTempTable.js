@@ -8,26 +8,35 @@ const createTempTable = async (config, uniqueOthpGlsArray) => {
     const tmpTableName = '"salesReporting".sales_contra_lines_temp_' + tag
     const constraint = `${tmpTableName}_pkey`
 
-    console.log('tmpTableName', tmpTableName)
-    console.log('constraint', constraint)
+    // console.log('tmpTableName', tmpTableName)
+    // console.log('constraint', constraint)
 
-    let createString = ''
+    // let createString = ''
 
-    for (gl of uniqueOthpGlsArray) {
-      createString = `${createString} ${gl.display_name} numeric NOT NULL,`
-    }
+    // for (gl of uniqueOthpGlsArray) {
+    //   createString = `${createString} ${gl.display_name} numeric NOT NULL,`
+    // }
 
-    console.log('createString', createString)
+    // const table = {
+    //   name: 'temp_othp_' + tag,
+    //   columns: [
+    //     { name: 'invoice_num', type: 'serial', primary: true },
+    //     { name: 'invoice_line', type: 'text' },
+    //     { name: 'othp_amount', type: 'boolean', default: 'false' },
+    //   ],
+    // }
+
+    //console.log('createString', createString)
 
     const response = await sql
     `
-      CREATE TABLE IF NOT EXISTS ${sql`${tmpTableName}`} 
+      CREATE TABLE IF NOT EXISTS ${sql(tmpTableName)} 
       (
           invoice_num character varying(255) COLLATE pg_catalog."default" NOT NULL,
           invoice_line character varying(255) COLLATE pg_catalog."default" NOT NULL,
           othp_amount numeric NOT NULL,
-          ${sql`${createString}`}
-          CONSTRAINT ${sql`${constraint}`} PRIMARY KEY (invoice_num, invoice_line)
+          ${createFragment(sql, uniqueOthpGlsArray)}
+          CONSTRAINT ${sql(constraint)} PRIMARY KEY (invoice_num, invoice_line)
       )
     ` //prettier-ignore
 
@@ -40,3 +49,13 @@ const createTempTable = async (config, uniqueOthpGlsArray) => {
 }
 
 module.exports = createTempTable
+
+const createFragment = (sql, uniqueOthpGlsArray) => {
+  let fragment = ''
+
+  for (gl of uniqueOthpGlsArray) {
+    fragment = fragment + ' ' + sql`${sql(gl.display_name)} numeric NOT NULL,`
+  }
+
+  return fragment
+}
