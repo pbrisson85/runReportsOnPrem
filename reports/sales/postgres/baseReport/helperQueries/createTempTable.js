@@ -7,6 +7,7 @@ const createTempTable = async (config, uniqueOthpGlsArray) => {
     const tag = Date.now()
     const tmpTableName = '"salesReporting".sales_contra_lines_temp_' + tag
     const constraint = `${tmpTableName}_pkey`
+    const constraint2 = `salesReporting.sales_contra_lines_temp_${tag}_pkey`
 
     // let createString = `CREATE TABLE IF NOT EXISTS ${tmpTableName} `
     // let colString = `(
