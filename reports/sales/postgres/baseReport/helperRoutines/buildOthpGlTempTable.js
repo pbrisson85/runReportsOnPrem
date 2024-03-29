@@ -21,15 +21,17 @@ const buildOthpGlTempTable = async config => {
   // build sql that pulls in all sales_contra_lines by invoice with a sum of each othp gl as a col (using if statments regarding the now known unique othp gl's)
   const dataForTempTable = await getDataForTempTable(config, uniqueOthpGlsArray)
 
+  console.log('dataForTempTable', dataForTempTable)
+
   // sum data by invoice number and invoice line
-  const tempDataMap = unflattenByCompositKeySum(dataForTempTable, { 1: 'invoice_num', 2: 'invoice_line' })
-  const summedTempData = Object.values(tempDataMap)
+  // const tempDataMap = unflattenByCompositKeySum(dataForTempTable, { 1: 'invoice_num', 2: 'invoice_line' })
+  // const summedTempData = Object.values(tempDataMap)
 
   // create temp table
   const tempTableName = await createTempTable(config, uniqueOthpGlsArray)
 
   // write this to a temp table
-  await insertDataToTempTable(config, summedTempData, tempTableName)
+  await insertDataToTempTable(config, dataForTempTable, tempTableName)
 
   return tempTableName
 }
