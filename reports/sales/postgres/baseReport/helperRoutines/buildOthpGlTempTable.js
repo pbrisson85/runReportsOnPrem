@@ -24,14 +24,14 @@ const buildOthpGlTempTable = async config => {
   console.log('dataForTempTable', dataForTempTable)
 
   // sum data by invoice number and invoice line
-  // const tempDataMap = unflattenByCompositKeySum(dataForTempTable, { 1: 'invoice_num', 2: 'invoice_line' })
-  // const summedTempData = Object.values(tempDataMap)
+  const tempDataMap = unflattenByCompositKeySum(dataForTempTable, { 1: 'invoice_num', 2: 'invoice_line' })
+  const summedTempData = Object.values(tempDataMap)
 
   // create temp table
   const tempTableName = await createTempTable(config, uniqueOthpGlsArray)
 
   // write this to a temp table
-  await insertDataToTempTable(config, dataForTempTable, tempTableName)
+  await insertDataToTempTable(config, summedTempData, tempTableName)
 
   return tempTableName
 }
