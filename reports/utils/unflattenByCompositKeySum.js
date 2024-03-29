@@ -24,12 +24,13 @@ const unflattenByCompositKeySum = (data, config) => {
       const keys = Object.keys(row)
 
       keys.forEach(k => {
-        dupKeyCounter <= 20 && console.log('k', k) //DEBUG
-        dupKeyCounter <= 20 && console.log('typeof unflat[key][k]', typeof unflat[key][k]) //DEBUG
+        if (dupKeyCounter <= 20) console.log('dupKeyCounter', dupKeyCounter) //DEBUG
+        if (dupKeyCounter <= 20) console.log('k', k) //DEBUG
+        if (dupKeyCounter <= 20) console.log('typeof unflat[key][k]', typeof unflat[key][k]) //DEBUG
 
         if (typeof unflat[key][k] === 'number') {
-          dupKeyCounter <= 20 && console.log('unflat[key][k]', unflat[key][k]) //DEBUG
-          dupKeyCounter <= 20 && console.log('row[k]', row[k]) //DEBUG
+          if (dupKeyCounter <= 20) console.log('unflat[key][k]', unflat[key][k]) //DEBUG
+          if (dupKeyCounter <= 20) console.log('row[k]', row[k]) //DEBUG
 
           unflat[key][k] += row[k]
         }
