@@ -43,7 +43,7 @@ const createTempTable = async (config, uniqueOthpGlsArray) => {
 
     const response = await sql
     `
-      CREATE TABLE IF NOT EXISTS ${sql(tmpTableName)} (${columns})
+      CREATE TABLE IF NOT EXISTS ${sql(tmpTableName)} (${sql(columns)})
     ` //prettier-ignore
 
     return tmpTableName
