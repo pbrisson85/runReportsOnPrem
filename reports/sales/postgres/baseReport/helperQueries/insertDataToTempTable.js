@@ -7,13 +7,10 @@ const insertDataToTempTable = async (config, dataForTempTable, tempTableName) =>
     let promises = []
     for (let i = 0; i < dataForTempTable.length; i++) {
       const row = dataForTempTable[i]
-      const keys = Object.keys(row)
-      const values = Object.values(row)
 
       promises.push(
       sql`
-        INSERT INTO ${sql(tempTableName)} (${sql(keys)})
-        VALUES (${sql(values)})
+        INSERT INTO ${sql(tempTableName)} (${sql(row)})
         `) //prettier-ignore
     }
 
