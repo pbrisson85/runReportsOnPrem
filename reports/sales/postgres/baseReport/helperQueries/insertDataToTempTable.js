@@ -4,9 +4,24 @@ const insertDataToTempTable = async (config, dataForTempTable, tempTableName) =>
   try {
     console.log(`${config.user} - insertDataToTempTable ...`)
 
-    const response = await sql`
-    INSERT INTO ${sql(tempTableName)} ${sql(dataForTempTable)}
-    ` //prettier-ignore
+    let promises = []
+    for (let i = 0; i < dataForTempTable.length; i++) {
+      const row = dataForTempTable[i]
+      const keys = Object.keys(row)
+      const values = Object.values(row)
+
+      promises.push(
+      sql`
+        INSERT INTO ${sql(tempTableName)} (${sql(keys)})
+        VALUES (${sql(values)})
+        `) //prettier-ignore
+    }
+
+    await Promise.all(promises)
+
+    // const response = await sql`
+    // INSERT INTO ${sql(tempTableName)} ${sql(dataForTempTable)}
+    // ` //prettier-ignore
 
     return
   } catch (error) {
