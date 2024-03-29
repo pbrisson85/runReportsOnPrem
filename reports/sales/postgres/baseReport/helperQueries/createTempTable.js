@@ -27,7 +27,7 @@ const createTempTable = async (config, uniqueOthpGlsArray) => {
       invoice_num character varying(255) NOT NULL,
       invoice_line character varying(255) NOT NULL,
       othp_amount numeric NOT NULL,
-      ${sql`${uniqueOthpGlsArray.map(gl => sql`${gl.display_name} numeric NOT NULL,`)}`}
+      ${sql`${uniqueOthpGlsArray.map(gl => sql`${sql(gl.display_name)} numeric NOT NULL,`)}`}
       CONSTRAINT ${sql`${constraint}`} PRIMARY KEY (invoice_num, invoice_line)
     )` //prettier-ignore
 
