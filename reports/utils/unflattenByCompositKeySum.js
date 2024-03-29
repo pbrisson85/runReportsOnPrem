@@ -18,6 +18,10 @@ const unflattenByCompositKeySum = (data, config) => {
     // add row to key
     if (!unflat[key]) {
       unflat[key] = { ...row }
+
+      if (key === '661734-003') {
+        console.log(unflat[key])
+      }
     } else {
       const keys = Object.keys(row)
 
@@ -26,6 +30,10 @@ const unflattenByCompositKeySum = (data, config) => {
           unflat[key][k] = unflat[key][k] + row[k]
         }
       })
+
+      if (key === '661734-003') {
+        console.log(unflat[key])
+      }
     }
   })
 
