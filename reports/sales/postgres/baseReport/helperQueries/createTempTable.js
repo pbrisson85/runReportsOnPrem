@@ -35,7 +35,7 @@ const createTempTable = async (config, uniqueOthpGlsArray) => {
           invoice_num character varying(255) COLLATE pg_catalog."default" NOT NULL,
           invoice_line character varying(255) COLLATE pg_catalog."default" NOT NULL,
           othp_amount numeric NOT NULL,
-          ${createFragment(sql, uniqueOthpGlsArray)}
+          ${sql`createFragment(sql, uniqueOthpGlsArray)`}
           CONSTRAINT ${sql(constraint)} PRIMARY KEY (invoice_num, invoice_line)
       )
     ` //prettier-ignore
