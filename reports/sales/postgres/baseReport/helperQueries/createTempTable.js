@@ -17,27 +17,33 @@ const createTempTable = async (config, uniqueOthpGlsArray) => {
     //   createString = `${createString} ${gl.display_name} numeric NOT NULL,`
     // }
 
-    // const table = {
-    //   name: 'temp_othp_' + tag,
-    //   columns: [
-    //     { name: 'invoice_num', type: 'serial', primary: true },
-    //     { name: 'invoice_line', type: 'text' },
-    //     { name: 'othp_amount', type: 'boolean', default: 'false' },
-    //   ],
-    // }
+    const columns = [
+      { name: 'invoice_num', type: 'text', primary: true },
+      { name: 'invoice_line', type: 'text', primary: true },
+      { name: 'othp_amount', type: 'numeric' },
+    ]
+
+    for (gl of uniqueOthpGlsArray) {
+      columns.push({ name: gl.display_name, type: 'numeric' })
+    }
 
     //console.log('createString', createString)
 
+    // const response = await sql
+    // `
+    //   CREATE TABLE IF NOT EXISTS ${sql(tmpTableName)}
+    //   (
+    //       invoice_num character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    //       invoice_line character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    //       othp_amount numeric NOT NULL,
+    //       ${sql`createFragment(sql, uniqueOthpGlsArray)`}
+    //       CONSTRAINT ${sql(constraint)} PRIMARY KEY (invoice_num, invoice_line)
+    //   )
+    // ` //prettier-ignore
+
     const response = await sql
     `
-      CREATE TABLE IF NOT EXISTS ${sql(tmpTableName)} 
-      (
-          invoice_num character varying(255) COLLATE pg_catalog."default" NOT NULL,
-          invoice_line character varying(255) COLLATE pg_catalog."default" NOT NULL,
-          othp_amount numeric NOT NULL,
-          ${sql`createFragment(sql, uniqueOthpGlsArray)`}
-          CONSTRAINT ${sql(constraint)} PRIMARY KEY (invoice_num, invoice_line)
-      )
+      CREATE TABLE IF NOT EXISTS ${sql(tmpTableName)} (${columns})
     ` //prettier-ignore
 
     return tmpTableName
