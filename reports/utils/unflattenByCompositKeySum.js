@@ -4,9 +4,8 @@ const unflattenByCompositKeySum = (data, config) => {
   // create list of keys from config passed in
   const vals = Object.values(config)
 
+  let dupKeyCounter = 0
   data.forEach(row => {
-    let dupKeyCounter = 0
-
     // build key
     let key = null
     vals.forEach(val => {
