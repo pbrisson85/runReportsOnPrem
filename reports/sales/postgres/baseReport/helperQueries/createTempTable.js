@@ -18,8 +18,8 @@ const createTempTable = async (config, uniqueOthpGlsArray) => {
     // }
 
     const columns = [
-      { name: 'invoice_num', type: 'text', primary: true },
-      { name: 'invoice_line', type: 'text', primary: true },
+      { name: 'invoice_num', type: 'character varying(255)', primary: true },
+      { name: 'invoice_line', type: 'character varying(255)', primary: true },
       { name: 'othp_amount', type: 'numeric' },
     ]
 
