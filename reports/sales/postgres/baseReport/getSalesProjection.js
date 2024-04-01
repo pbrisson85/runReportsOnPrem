@@ -125,6 +125,7 @@ const l1_getSalesTotalPrimary = async (config, othpTableConfig) => {
     return response
   } catch (error) {
     console.error(error)
+    console.log(error.query)
     return error
   }
 }
