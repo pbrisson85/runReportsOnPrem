@@ -324,6 +324,7 @@ const l2_getSalesTrend = async config => {
     return response
   } catch (error) {
     console.error(error)
+    console.log(error.query)
     return error
   }
 }
@@ -488,6 +489,7 @@ const l3_getSalesTrend = async config => {
     return response
   } catch (error) {
     console.error(error)
+    console.log(error.query)
     return error
   }
 }
@@ -654,6 +656,7 @@ const l4_getSalesTrend = async config => {
     return response
   } catch (error) {
     console.error(error)
+    console.log(error.query)
     return error
   }
 }
@@ -819,6 +822,7 @@ const l5_getSalesTrend = async config => {
     return response
   } catch (error) {
     console.error(error)
+    console.log(error.query)
     return error
   }
 }
@@ -977,6 +981,7 @@ const l0_getSalesTrend = async config => {
     return response
   } catch (error) {
     console.error(error)
+    console.log(error.query)
     return error
   }
 }

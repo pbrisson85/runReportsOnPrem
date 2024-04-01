@@ -120,8 +120,6 @@ const l1_getSalesTotalPrimary = async (config, othpTableConfig) => {
 
           GROUP BY ${sql(config.baseFormat.l1_field)} ` //prettier-ignore
 
-    console.log(response)
-
     return response
   } catch (error) {
     console.error(error)
@@ -258,6 +256,7 @@ const l2_getSalesTotalPrimary = async (config, othpTableConfig) => {
     return response
   } catch (error) {
     console.error(error)
+    console.log(error.query)
     return error
   }
 }
@@ -391,6 +390,7 @@ const l3_getSalesTotalPrimary = async (config, othpTableConfig) => {
     return response
   } catch (error) {
     console.error(error)
+    console.log(error.query)
     return error
   }
 }
@@ -524,6 +524,7 @@ const l4_getSalesTotalPrimary = async (config, othpTableConfig) => {
     return response
   } catch (error) {
     console.error(error)
+    console.log(error.query)
     return error
   }
 }
@@ -658,6 +659,7 @@ const l5_getSalesTotalPrimary = async (config, othpTableConfig) => {
     return response
   } catch (error) {
     console.error(error)
+    console.log(error.query)
     return error
   }
 }
@@ -782,6 +784,7 @@ const l0_getSalesTotalPrimary = async (config, othpTableConfig) => {
     return response
   } catch (error) {
     console.error(error)
+    console.log(error.query)
     return error
   }
 }
