@@ -23,7 +23,7 @@ const buildOthpGlTempTable = async config => {
 
     return {
       othp_gl: gl.othp_gl,
-      display_name: display_name ? `othp_${gl.othp_gl}` : `othp_${gl.othp_gl}`,
+      display_name: display_name ? `othp_${display_name}` : `othp_${gl.othp_gl}`,
     }
   })
 
