@@ -1,8 +1,8 @@
 const sql = require('../../../../../server')
 
-const getUniqueOthpDefinitionsFromMaster = async config => {
+const getUniqueOthpGlsFromMaster = async config => {
   try {
-    console.log(`${config.user} - getUniqueOthpDefinitionsFromMaster ...`)
+    console.log(`${config.user} - getUniqueOthpGlsFromMaster ...`)
 
     const response = await sql
       `
@@ -19,4 +19,4 @@ const getUniqueOthpDefinitionsFromMaster = async config => {
   }
 }
 
-module.exports = getUniqueOthpDefinitionsFromMaster
+module.exports = getUniqueOthpGlsFromMaster

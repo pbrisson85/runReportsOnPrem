@@ -5,7 +5,7 @@ const insertDataToTempTable = require('../helperQueries/insertDataToTempTable')
 const unflattenByCompositKeySum = require('../../../../utils/unflattenByCompositKeySum')
 const unflattenByCompositKey = require('../../../../utils/unflattenByCompositKey')
 const getOthpDefinitions = require('../helperQueries/getOthpDefinitions')
-const getUniqueOthpDefinitionsFromMaster = require('../helperQueries/getUniqueOthpDefinitionsFromMaster')
+const getUniqueOthpGlsFromMaster = require('../helperQueries/getUniqueOthpGlsFromMaster')
 
 const buildOthpGlTempTable = async config => {
   // get all unique othp GL's from sales_contra_lines
@@ -13,7 +13,7 @@ const buildOthpGlTempTable = async config => {
 
   if (!uniqueOthpGls.length) {
     // if there is a date range that does not have any othp gl's, return the master othp gl's
-    uniqueOthpGls = await getUniqueOthpDefinitionsFromMaster(config)
+    uniqueOthpGls = await getUniqueOthpGlsFromMaster(config)
   }
 
   const othpDefinitions = await getOthpDefinitions(config)
