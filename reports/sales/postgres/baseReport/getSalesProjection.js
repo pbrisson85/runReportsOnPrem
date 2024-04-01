@@ -33,7 +33,7 @@ const l1_getSalesTotalPrimary = async (config, othpTableConfig) => {
         COALESCE(SUM(pj.cogs)/NULLIF(SUM(pj.lbs),0),0) AS "cogsPerLb", 
         COALESCE(SUM(pj.othp)/NULLIF(SUM(pj.lbs),0),0) AS "othpPerLb"
         ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)}),0) AS ${sql(gl.display_name)} `)}`}
-        ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)})/NULLIF(SUM(pj.lbs),0),0) AS ${sql(gl.display_name)}PerLb`)}`}
+        ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)})/NULLIF(SUM(pj.lbs),0),0) AS ${sql(gl.display_name + 'PerLb')}`)}`}
       
       FROM (
         SELECT 
