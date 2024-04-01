@@ -32,6 +32,8 @@ const l1_getSalesTrend = async config => {
       COALESCE((SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp))/NULLIF(SUM(pj.lbs),0),0) AS "grossMarginPerLb", 
       COALESCE(SUM(pj.cogs)/NULLIF(SUM(pj.lbs),0),0) AS "cogsPerLb", 
       COALESCE(SUM(pj.othp)/NULLIF(SUM(pj.lbs),0),0) AS "othpPerLb"
+      ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)}),0) AS ${sql(gl.display_name)} `)}`}
+      ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)})/NULLIF(SUM(pj.lbs),0),0) AS ${sql(gl.display_name + 'PerLb')}`)}`}
       
       FROM (
         SELECT 
@@ -43,6 +45,7 @@ const l1_getSalesTrend = async config => {
           0 AS sales, 
           0 AS cogs, 
           0 AS othp 
+          ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`}
         WHERE
           1=2
 
@@ -57,20 +60,23 @@ const l1_getSalesTrend = async config => {
             COALESCE(sl.gross_sales_ext,0) AS sales, 
             COALESCE(sl.cogs_ext_gl,0) AS cogs, 
             COALESCE(sl.othp_ext,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(oc.${sql(gl.display_name)},0) AS ${sql(gl.display_name)} `)}`}
           
-          FROM "salesReporting".sales_line_items AS sl
-            LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-              ON sl.formatted_invoice_date = p.formatted_date
+          FROM "salesReporting".sales_line_items AS sl 
+            LEFT OUTER JOIN "accountingPeriods".period_by_day AS p 
+              ON sl.formatted_invoice_date = p.formatted_date 
+            LEFT OUTER JOIN ${sql(othpTableConfig.othpTable)} AS oc 
+              ON oc.invoice_num = sl.invoice_number AND oc.invoice_line = sl.line_number 
 
-          WHERE
+          WHERE 
             ${!config.dates.trends.yearTrend ? sql`
               p.formatted_date >= ${config.dates.trends.startDate} 
               AND p.formatted_date <= ${config.dates.trends.endDate}` : 
-            sql`
+            sql` 
               ${sql(config.dates.trends.yearTrend.period_name)} >= ${config.dates.trends.yearTrend.start_period} 
               AND ${sql(config.dates.trends.yearTrend.period_name)} <= ${config.dates.trends.yearTrend.end_period} 
-              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)}
-            ` }
+              AND ${sql(config.dates.trends.queryGrouping)} IN ${sql(config.dates.trends.yearTrend.years)} 
+            ` } 
 
         `: sql``}
         
@@ -85,6 +91,7 @@ const l1_getSalesTrend = async config => {
             COALESCE(so.ext_sales,0) AS sales, 
             COALESCE(so.ext_cost,0) AS cogs, 
             COALESCE(so.ext_othp,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for sales orders yet
 
           FROM "salesReporting".sales_orders AS so 
             LEFT OUTER JOIN "accountingPeriods".period_by_day AS p 
@@ -115,6 +122,7 @@ const l1_getSalesTrend = async config => {
             COALESCE(pr."grossSales",0) AS sales, 
             COALESCE(pr.cogs,0) AS cogs, 
             COALESCE(pr.othp,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for projections yet
         
           FROM "salesReporting".projected_sales AS pr 
             LEFT OUTER JOIN "accountingPeriods".period_by_day AS p 
@@ -187,7 +195,9 @@ const l2_getSalesTrend = async config => {
       COALESCE((SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp))/NULLIF(SUM(pj.lbs),0),0) AS "grossMarginPerLb", 
       COALESCE(SUM(pj.cogs)/NULLIF(SUM(pj.lbs),0),0) AS "cogsPerLb", 
       COALESCE(SUM(pj.othp)/NULLIF(SUM(pj.lbs),0),0) AS "othpPerLb"
-      
+      ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)}),0) AS ${sql(gl.display_name)} `)}`}
+      ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)})/NULLIF(SUM(pj.lbs),0),0) AS ${sql(gl.display_name + 'PerLb')}`)}`}
+
       FROM (
         SELECT 
           'dummy' AS doc_num,
@@ -198,17 +208,29 @@ const l2_getSalesTrend = async config => {
           0 AS sales, 
           0 AS cogs, 
           0 AS othp 
+          ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`}
         WHERE
           1=2
 
 
         ${config.dates.trends.useProjection.sl ? sql`
         UNION ALL
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+          SELECT 
+            sl.invoice_number AS doc_num, 
+            sl.line_number, 
+            sl.item_number AS item_num, 
+            ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, 
+            COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
+            COALESCE(sl.gross_sales_ext,0) AS sales, 
+            COALESCE(sl.cogs_ext_gl,0) AS cogs, 
+            COALESCE(sl.othp_ext,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(oc.${sql(gl.display_name)},0) AS ${sql(gl.display_name)} `)}`}
           
           FROM "salesReporting".sales_line_items AS sl
-          LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-            ON sl.formatted_invoice_date = p.formatted_date
+            LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+              ON sl.formatted_invoice_date = p.formatted_date
+            LEFT OUTER JOIN ${sql(othpTableConfig.othpTable)} AS oc
+              ON oc.invoice_num = sl.invoice_number AND oc.invoice_line = sl.line_number
             
           WHERE
             ${!config.dates.trends.yearTrend ? sql`
@@ -234,6 +256,7 @@ const l2_getSalesTrend = async config => {
             COALESCE(so.ext_sales,0) AS sales, 
             COALESCE(so.ext_cost,0) AS cogs, 
             COALESCE(so.ext_othp,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for sales orders yet
       
           FROM "salesReporting".sales_orders AS so
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
@@ -255,7 +278,16 @@ const l2_getSalesTrend = async config => {
 
         ${config.dates.trends.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr."grossSales",0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
+          SELECT 
+            'PROJECTION' AS doc_num, 
+            'PROJECTION' AS line_number, 
+            pr.item_number AS item_num, 
+            ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, 
+            COALESCE(pr.lbs,0) AS lbs, 
+            COALESCE(pr."grossSales",0) AS sales, 
+            COALESCE(pr.cogs,0) AS cogs, 
+            COALESCE(pr.othp,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for projections yet
           
           FROM "salesReporting".projected_sales AS pr 
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
@@ -328,7 +360,9 @@ const l3_getSalesTrend = async config => {
       COALESCE((SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp))/NULLIF(SUM(pj.lbs),0),0) AS "grossMarginPerLb", 
       COALESCE(SUM(pj.cogs)/NULLIF(SUM(pj.lbs),0),0) AS "cogsPerLb", 
       COALESCE(SUM(pj.othp)/NULLIF(SUM(pj.lbs),0),0) AS "othpPerLb"
-      
+      ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)}),0) AS ${sql(gl.display_name)} `)}`}
+      ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)})/NULLIF(SUM(pj.lbs),0),0) AS ${sql(gl.display_name + 'PerLb')}`)}`}
+
       FROM (
         SELECT 
           'dummy' AS doc_num, 
@@ -339,16 +373,28 @@ const l3_getSalesTrend = async config => {
           0 AS sales, 
           0 AS cogs, 
           0 AS othp 
+          ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`}
         WHERE
           1=2
 
         ${config.dates.trends.useProjection.sl ? sql`
         UNION ALL
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+          SELECT 
+            sl.invoice_number AS doc_num, 
+            sl.line_number, 
+            sl.item_number AS item_num, 
+            ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, 
+            COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
+            COALESCE(sl.gross_sales_ext,0) AS sales, 
+            COALESCE(sl.cogs_ext_gl,0) AS cogs, 
+            COALESCE(sl.othp_ext,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(oc.${sql(gl.display_name)},0) AS ${sql(gl.display_name)} `)}`}
           
           FROM "salesReporting".sales_line_items AS sl
-          LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-            ON sl.formatted_invoice_date = p.formatted_date
+            LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+              ON sl.formatted_invoice_date = p.formatted_date
+            LEFT OUTER JOIN ${sql(othpTableConfig.othpTable)} AS oc
+              ON oc.invoice_num = sl.invoice_number AND oc.invoice_line = sl.line_number
             
           WHERE
             ${!config.dates.trends.yearTrend ? sql`
@@ -365,7 +411,16 @@ const l3_getSalesTrend = async config => {
 
         ${config.dates.trends.useProjection.so ? sql`  
         UNION ALL
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT 
+            so.so_num AS doc_num, 
+            so.so_line AS line_number, 
+            so.item_num AS item_num, 
+            ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, 
+            COALESCE(so.ext_weight,0) AS lbs, 
+            COALESCE(so.ext_sales,0) AS sales, 
+            COALESCE(so.ext_cost,0) AS cogs, 
+            COALESCE(so.ext_othp,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for sales orders yet
       
           FROM "salesReporting".sales_orders AS so
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
@@ -386,7 +441,16 @@ const l3_getSalesTrend = async config => {
 
         ${config.dates.trends.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr."grossSales",0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
+          SELECT 
+            'PROJECTION' AS doc_num, 
+            'PROJECTION' AS line_number, 
+            pr.item_number AS item_num, 
+            ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, 
+            COALESCE(pr.lbs,0) AS lbs, 
+            COALESCE(pr."grossSales",0) AS sales, 
+            COALESCE(pr.cogs,0) AS cogs, 
+            COALESCE(pr.othp,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for projections yet
         
           FROM "salesReporting".projected_sales AS pr    
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
@@ -460,7 +524,8 @@ const l4_getSalesTrend = async config => {
       COALESCE((SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp))/NULLIF(SUM(pj.lbs),0),0) AS "grossMarginPerLb", 
       COALESCE(SUM(pj.cogs)/NULLIF(SUM(pj.lbs),0),0) AS "cogsPerLb", 
       COALESCE(SUM(pj.othp)/NULLIF(SUM(pj.lbs),0),0) AS "othpPerLb"
-      
+      ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)}),0) AS ${sql(gl.display_name)} `)}`}
+      ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)})/NULLIF(SUM(pj.lbs),0),0) AS ${sql(gl.display_name + 'PerLb')}`)}`}
       
       FROM (
         SELECT 
@@ -472,16 +537,28 @@ const l4_getSalesTrend = async config => {
           0 AS sales, 
           0 AS cogs, 
           0 AS othp 
+          ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`}
         WHERE
           1=2
 
         ${config.dates.trends.useProjection.sl ? sql`
         UNION ALL
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+          SELECT 
+            sl.invoice_number AS doc_num, 
+            sl.line_number, 
+            sl.item_number AS item_num, 
+            ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, 
+            COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
+            COALESCE(sl.gross_sales_ext,0) AS sales, 
+            COALESCE(sl.cogs_ext_gl,0) AS cogs, 
+            COALESCE(sl.othp_ext,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(oc.${sql(gl.display_name)},0) AS ${sql(gl.display_name)} `)}`}
           
           FROM "salesReporting".sales_line_items AS sl
-          LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-            ON sl.formatted_invoice_date = p.formatted_date
+            LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+              ON sl.formatted_invoice_date = p.formatted_date
+            LEFT OUTER JOIN ${sql(othpTableConfig.othpTable)} AS oc
+              ON oc.invoice_num = sl.invoice_number AND oc.invoice_line = sl.line_number
             
           WHERE
             ${!config.dates.trends.yearTrend ? sql`
@@ -499,7 +576,16 @@ const l4_getSalesTrend = async config => {
 
         ${config.dates.trends.useProjection.so ? sql`  
         UNION ALL
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT 
+            so.so_num AS doc_num, 
+            so.so_line AS line_number, 
+            so.item_num AS item_num, 
+            ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, 
+            COALESCE(so.ext_weight,0) AS lbs, 
+            COALESCE(so.ext_sales,0) AS sales, 
+            COALESCE(so.ext_cost,0) AS cogs, 
+            COALESCE(so.ext_othp,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for sales orders yet
       
           FROM "salesReporting".sales_orders AS so
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
@@ -521,7 +607,16 @@ const l4_getSalesTrend = async config => {
 
         ${config.dates.trends.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr."grossSales",0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
+          SELECT 
+            'PROJECTION' AS doc_num, 
+            'PROJECTION' AS line_number, 
+            pr.item_number AS item_num, 
+            ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, 
+            COALESCE(pr.lbs,0) AS lbs, 
+            COALESCE(pr."grossSales",0) AS sales, 
+            COALESCE(pr.cogs,0) AS cogs, 
+            COALESCE(pr.othp,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for projections yet
         
           FROM "salesReporting".projected_sales AS pr     
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
@@ -595,7 +690,9 @@ const l5_getSalesTrend = async config => {
       COALESCE((SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp))/NULLIF(SUM(pj.lbs),0),0) AS "grossMarginPerLb", 
       COALESCE(SUM(pj.cogs)/NULLIF(SUM(pj.lbs),0),0) AS "cogsPerLb", 
       COALESCE(SUM(pj.othp)/NULLIF(SUM(pj.lbs),0),0) AS "othpPerLb"
-      
+      ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)}),0) AS ${sql(gl.display_name)} `)}`}
+      ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)})/NULLIF(SUM(pj.lbs),0),0) AS ${sql(gl.display_name + 'PerLb')}`)}`}
+
       FROM (
         SELECT 
           'dummy' AS doc_num, 
@@ -606,16 +703,28 @@ const l5_getSalesTrend = async config => {
           0 AS sales, 
           0 AS cogs, 
           0 AS othp 
+          ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`}
         WHERE
           1=2
 
       ${config.dates.trends.useProjection.sl ? sql`
         UNION ALL
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+          SELECT 
+            sl.invoice_number AS doc_num, 
+            sl.line_number, 
+            sl.item_number AS item_num, 
+            ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, 
+            COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
+            COALESCE(sl.gross_sales_ext,0) AS sales, 
+            COALESCE(sl.cogs_ext_gl,0) AS cogs, 
+            COALESCE(sl.othp_ext,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(oc.${sql(gl.display_name)},0) AS ${sql(gl.display_name)} `)}`}
           
           FROM "salesReporting".sales_line_items AS sl
-          LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-            ON sl.formatted_invoice_date = p.formatted_date
+            LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+              ON sl.formatted_invoice_date = p.formatted_date
+            LEFT OUTER JOIN ${sql(othpTableConfig.othpTable)} AS oc
+              ON oc.invoice_num = sl.invoice_number AND oc.invoice_line = sl.line_number
             
           WHERE
             ${!config.dates.trends.yearTrend ? sql`
@@ -633,7 +742,16 @@ const l5_getSalesTrend = async config => {
 
         ${config.dates.trends.useProjection.so ? sql`  
         UNION ALL
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT 
+            so.so_num AS doc_num, 
+            so.so_line AS line_number, 
+            so.item_num AS item_num, 
+            ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, 
+            COALESCE(so.ext_weight,0) AS lbs, 
+            COALESCE(so.ext_sales,0) AS sales, 
+            COALESCE(so.ext_cost,0) AS cogs, 
+            COALESCE(so.ext_othp,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for sales orders yet
       
           FROM "salesReporting".sales_orders AS so
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
@@ -656,7 +774,16 @@ const l5_getSalesTrend = async config => {
 
         ${config.dates.trends.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr."grossSales",0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
+          SELECT 
+            'PROJECTION' AS doc_num, 
+            'PROJECTION' AS line_number, 
+            pr.item_number AS item_num, 
+            ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, 
+            COALESCE(pr.lbs,0) AS lbs, 
+            COALESCE(pr."grossSales",0) AS sales, 
+            COALESCE(pr.cogs,0) AS cogs, 
+            COALESCE(pr.othp,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for projections yet
         
           FROM "salesReporting".projected_sales AS pr   
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
@@ -723,7 +850,9 @@ const l0_getSalesTrend = async config => {
       COALESCE((SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp))/NULLIF(SUM(pj.lbs),0),0) AS "grossMarginPerLb", 
       COALESCE(SUM(pj.cogs)/NULLIF(SUM(pj.lbs),0),0) AS "cogsPerLb", 
       COALESCE(SUM(pj.othp)/NULLIF(SUM(pj.lbs),0),0) AS "othpPerLb"
-      
+      ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)}),0) AS ${sql(gl.display_name)} `)}`}
+      ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)})/NULLIF(SUM(pj.lbs),0),0) AS ${sql(gl.display_name + 'PerLb')}`)}`}
+
       FROM (
         SELECT 
           'dummy' AS doc_num, 
@@ -734,16 +863,28 @@ const l0_getSalesTrend = async config => {
           0 AS sales, 
           0 AS cogs, 
           0 AS othp 
+          ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`}
         WHERE
           1=2
 
       ${config.dates.trends.useProjection.sl ? sql`
         UNION ALL 
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+          SELECT 
+            sl.invoice_number AS doc_num, 
+            sl.line_number, 
+            sl.item_number AS item_num, 
+            ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, 
+            COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
+            COALESCE(sl.gross_sales_ext,0) AS sales, 
+            COALESCE(sl.cogs_ext_gl,0) AS cogs, 
+            COALESCE(sl.othp_ext,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(oc.${sql(gl.display_name)},0) AS ${sql(gl.display_name)} `)}`}
         
           FROM "salesReporting".sales_line_items AS sl 
-          LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
-            ON sl.formatted_invoice_date = p.formatted_date
+            LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
+              ON sl.formatted_invoice_date = p.formatted_date
+            LEFT OUTER JOIN ${sql(othpTableConfig.othpTable)} AS oc
+              ON oc.invoice_num = sl.invoice_number AND oc.invoice_line = sl.line_number
             
           WHERE 
             ${!config.dates.trends.yearTrend ? sql`
@@ -760,7 +901,16 @@ const l0_getSalesTrend = async config => {
 
         ${config.dates.trends.useProjection.so ? sql`  
         UNION ALL
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT 
+            so.so_num AS doc_num, 
+            so.so_line AS line_number, 
+            so.item_num AS item_num, 
+            ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, 
+            COALESCE(so.ext_weight,0) AS lbs, 
+            COALESCE(so.ext_sales,0) AS sales, 
+            COALESCE(so.ext_cost,0) AS cogs, 
+            COALESCE(so.ext_othp,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for sales orders yet
       
           FROM "salesReporting".sales_orders AS so 
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
@@ -782,7 +932,16 @@ const l0_getSalesTrend = async config => {
 
         ${config.dates.trends.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr."grossSales",0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
+          SELECT 
+            'PROJECTION' AS doc_num, 
+            'PROJECTION' AS line_number, 
+            pr.item_number AS item_num, 
+            ${sql(config.dates.trends.queryGrouping)}::TEXT AS column, 
+            COALESCE(pr.lbs,0) AS lbs, 
+            COALESCE(pr."grossSales",0) AS sales, 
+            COALESCE(pr.cogs,0) AS cogs, 
+            COALESCE(pr.othp,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for projections yet
         
           FROM "salesReporting".projected_sales AS pr  
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
