@@ -18,12 +18,9 @@ const unflattenByCompositKeySum = (data, config) => {
     // add row to key
     if (!unflat[key]) {
       unflat[key] = { ...row }
-
-      if (key === '661734-003') {
-        console.log('first')
-        console.log(unflat[key])
-      }
     } else {
+      // Note this doesnt hit anymore because I fixed the way the query is grouped on the sales_contra_lines table
+
       const keys = Object.keys(row)
 
       keys.forEach(k => {
@@ -31,10 +28,6 @@ const unflattenByCompositKeySum = (data, config) => {
           unflat[key][k] = unflat[key][k] + row[k]
         }
       })
-
-      if (key === '661734-003') {
-        console.log(unflat[key])
-      }
     }
   })
 
