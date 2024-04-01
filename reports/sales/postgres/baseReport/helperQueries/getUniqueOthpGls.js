@@ -4,9 +4,6 @@ const getUniqueOthpGls = async config => {
   try {
     console.log(`${config.user} - getUniqueOthpGls ...`)
 
-    console.log('config.dates.totals.primary.startDate', config.dates.totals.primary.startDate)
-    console.log('config.dates.totals.primary.startDate', config.dates.totals.primary.endDate)
-
     const response = await sql
       `SELECT ct.othp_gl
         FROM "salesReporting".sales_contra_lines AS ct

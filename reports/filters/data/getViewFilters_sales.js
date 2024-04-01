@@ -84,6 +84,35 @@ const getViewFilters = () => {
       cols: [],
       default: false,
     },
+    // Mannually adding but needs to be dunamic going forward
+    {
+      label: 'Commission $',
+      dataName: 'othp_commission',
+      decimals: 0,
+      cols: [],
+      default: false,
+    },
+    {
+      label: 'Discounts $',
+      dataName: 'othp_discounts',
+      decimals: 0,
+      cols: [],
+      default: false,
+    },
+    {
+      label: 'Rebates $',
+      dataName: 'othp_rebates',
+      decimals: 0,
+      cols: [],
+      default: false,
+    },
+    {
+      label: 'Freight_3PL $',
+      dataName: 'othp_freight_3pl',
+      decimals: 0,
+      cols: [],
+      default: false,
+    },
   ]
 }
 

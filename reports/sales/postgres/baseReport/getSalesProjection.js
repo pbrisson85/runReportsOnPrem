@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const l1_getSalesTotalPrimary = async config => {
+const l1_getSalesTotalPrimary = async (config, othpTableConfig) => {
   if (!config.baseFormat.l1_field) return []
   if (config.dates.trends.yearTrend) return [] // skip totals if trend is by year
 
@@ -12,7 +12,12 @@ const l1_getSalesTotalPrimary = async config => {
     console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getSalesTotalPrimary) ...`)
 
     const response = await sql
-      `SELECT 
+      `
+      WITH othp_lines AS (
+        SELECT * FROM ${sql(othpTableConfig.othpTable)}
+      )
+      
+      SELECT 
         'SALES TOTAL' AS column, 
         COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
         'SUBTOTAL' AS l2_label, 
@@ -41,37 +46,65 @@ const l1_getSalesTotalPrimary = async config => {
           0 AS sales, 
           0 AS cogs, 
           0 AS othp 
+          ${sql`${othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`}
         WHERE 1=2
 
         ${config.dates.totals.useProjection.sl ? sql`
         UNION ALL 
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+          SELECT 
+            sl.invoice_number AS doc_num, 
+            sl.line_number, 
+            sl.item_number AS item_num, 
+            COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
+            COALESCE(sl.gross_sales_ext,0) AS sales, 
+            COALESCE(sl.cogs_ext_gl,0) AS cogs, 
+            COALESCE(sl.othp_ext,0) AS othp 
+            ${sql`${othpGls.map(gl => sql`, COALESCE(oc.${sql(gl.display_name)},0) AS ${sql(gl.display_name)} `)}`}
           
           FROM "salesReporting".sales_line_items AS sl 
+            LEFT OUTER JOIN ${sql(othpTableConfig.othpTable)} AS oc
+            ON oc.invoice_num = sl.invoice_number AND oc.invoice_line = sl.line_number
             
           WHERE 
-            sl.formatted_invoice_date >= ${config.dates.totals.primary.startDate} AND sl.formatted_invoice_date <= ${config.dates.totals.primary.endDate} 
+            sl.formatted_invoice_date >= ${config.dates.totals.primary.startDate} 
+            AND sl.formatted_invoice_date <= ${config.dates.totals.primary.endDate} 
         `: sql``}
 
         ${config.dates.totals.useProjection.so ? sql`
         UNION ALL
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT 
+            so.so_num AS doc_num, 
+            so.so_line AS line_number, 
+            so.item_num AS item_num, 
+            COALESCE(so.ext_weight,0) AS lbs, 
+            COALESCE(so.ext_sales,0) AS sales, 
+            COALESCE(so.ext_cost,0) AS cogs, 
+            COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${config.dates.totals.primary.startDate} AND so.formatted_ship_date <= ${config.dates.totals.primary.endDate}
+            AND so.formatted_ship_date >= ${config.dates.totals.primary.startDate} 
+            AND so.formatted_ship_date <= ${config.dates.totals.primary.endDate}
         `: sql``}
 
         ${config.dates.totals.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr."grossSales",0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
+          SELECT 
+            'PROJECTION' AS doc_num, 
+            'PROJECTION' AS line_number, 
+            pr.item_number AS item_num, 
+            COALESCE(pr.lbs,0) AS lbs, 
+            COALESCE(pr."grossSales",0) AS sales, 
+            COALESCE(pr.cogs,0) AS cogs, 
+            COALESCE(pr.othp,0) AS othp 
         
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
-            pr.date >= ${config.dates.totals.primary.startDate} AND pr.date <= ${config.dates.totals.primary.endDate}
+            pr.date >= ${config.dates.totals.primary.startDate} 
+            AND pr.date <= ${config.dates.totals.primary.endDate}
           `: sql``}
 
           ) AS pj
@@ -94,7 +127,7 @@ const l1_getSalesTotalPrimary = async config => {
   }
 }
 
-const l2_getSalesTotalPrimary = async config => {
+const l2_getSalesTotalPrimary = async (config, othpTableConfig) => {
   if (!config.baseFormat.l2_field) return []
   if (config.dates.trends.yearTrend) return [] // skip totals if trend is by year
 
@@ -148,7 +181,8 @@ const l2_getSalesTotalPrimary = async config => {
           FROM "salesReporting".sales_line_items AS sl
             
           WHERE
-            sl.formatted_invoice_date >= ${config.dates.totals.primary.startDate} AND sl.formatted_invoice_date <= ${config.dates.totals.primary.endDate}
+            sl.formatted_invoice_date >= ${config.dates.totals.primary.startDate} 
+            AND sl.formatted_invoice_date <= ${config.dates.totals.primary.endDate}
           `: sql``}
 
         ${config.dates.totals.useProjection.so ? sql`
@@ -166,7 +200,8 @@ const l2_getSalesTotalPrimary = async config => {
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${config.dates.totals.primary.startDate} AND so.formatted_ship_date <= ${config.dates.totals.primary.endDate}
+            AND so.formatted_ship_date >= ${config.dates.totals.primary.startDate} 
+            AND so.formatted_ship_date <= ${config.dates.totals.primary.endDate}
           `: sql``}
 
         ${config.dates.totals.useProjection.pr ? sql` 
@@ -183,7 +218,8 @@ const l2_getSalesTotalPrimary = async config => {
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
-            pr.date >= ${config.dates.totals.primary.startDate} AND pr.date <= ${config.dates.totals.primary.endDate}
+            pr.date >= ${config.dates.totals.primary.startDate} 
+            AND pr.date <= ${config.dates.totals.primary.endDate}
           `: sql``}
 
           ) AS pj
@@ -195,9 +231,13 @@ const l2_getSalesTotalPrimary = async config => {
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (
+            SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb
+            )` : sql``}
 
-      GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}` //prettier-ignore
+      GROUP BY 
+        ${sql(config.baseFormat.l1_field)}, 
+        ${sql(config.baseFormat.l2_field)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -206,7 +246,7 @@ const l2_getSalesTotalPrimary = async config => {
   }
 }
 
-const l3_getSalesTotalPrimary = async config => {
+const l3_getSalesTotalPrimary = async (config, othpTableConfig) => {
   if (!config.baseFormat.l3_field) return []
   if (config.dates.trends.yearTrend) return [] // skip totals if trend is by year
 
@@ -248,33 +288,57 @@ const l3_getSalesTotalPrimary = async config => {
 
         ${config.dates.totals.useProjection.sl ? sql`
         UNION ALL 
-          SELECT sl.invoice_number AS doc_num, sl.line_number, sl.item_number AS item_num, COALESCE(sl.calc_gm_rept_weight,0) AS lbs, COALESCE(sl.gross_sales_ext,0) AS sales, COALESCE(sl.cogs_ext_gl,0) AS cogs, COALESCE(sl.othp_ext,0) AS othp 
+          SELECT 
+            sl.invoice_number AS doc_num, 
+            sl.line_number, 
+            sl.item_number AS item_num, 
+            COALESCE(sl.calc_gm_rept_weight,0) AS lbs, 
+            COALESCE(sl.gross_sales_ext,0) AS sales, 
+            COALESCE(sl.cogs_ext_gl,0) AS cogs, 
+            COALESCE(sl.othp_ext,0) AS othp 
           
           FROM "salesReporting".sales_line_items AS sl
             
           WHERE
-            sl.formatted_invoice_date >= ${config.dates.totals.primary.startDate} AND sl.formatted_invoice_date <= ${config.dates.totals.primary.endDate}
+            sl.formatted_invoice_date >= ${config.dates.totals.primary.startDate} 
+            AND sl.formatted_invoice_date <= ${config.dates.totals.primary.endDate}
           `: sql``}
 
         ${config.dates.totals.useProjection.so ? sql`
         UNION ALL
-          SELECT so.so_num AS doc_num, so.so_line AS line_number, so.item_num AS item_num, COALESCE(so.ext_weight,0) AS lbs, COALESCE(so.ext_sales,0) AS sales, COALESCE(so.ext_cost,0) AS cogs, COALESCE(so.ext_othp,0) AS othp 
+          SELECT 
+            so.so_num AS doc_num, 
+            so.so_line AS line_number, 
+            so.item_num AS item_num, 
+            COALESCE(so.ext_weight,0) AS lbs, 
+            COALESCE(so.ext_sales,0) AS sales, 
+            COALESCE(so.ext_cost,0) AS cogs, 
+            COALESCE(so.ext_othp,0) AS othp 
       
           FROM "salesReporting".sales_orders AS so
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${config.dates.totals.primary.startDate} AND so.formatted_ship_date <= ${config.dates.totals.primary.endDate}
+            AND so.formatted_ship_date >= ${config.dates.totals.primary.startDate} 
+            AND so.formatted_ship_date <= ${config.dates.totals.primary.endDate}
           `: sql``}
 
         ${config.dates.totals.useProjection.pr ? sql` 
         UNION ALL
-          SELECT 'PROJECTION' AS doc_num, 'PROJECTION' AS line_number, pr.item_number AS item_num, COALESCE(pr.lbs,0) AS lbs, COALESCE(pr."grossSales",0) AS sales, COALESCE(pr.cogs,0) AS cogs, COALESCE(pr.othp,0) AS othp 
+          SELECT 
+            'PROJECTION' AS doc_num, 
+            'PROJECTION' AS line_number, 
+            pr.item_number AS item_num, 
+            COALESCE(pr.lbs,0) AS lbs, 
+            COALESCE(pr."grossSales",0) AS sales, 
+            COALESCE(pr.cogs,0) AS cogs, 
+            COALESCE(pr.othp,0) AS othp 
         
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
-            pr.date >= ${config.dates.totals.primary.startDate} AND pr.date <= ${config.dates.totals.primary.endDate}
+            pr.date >= ${config.dates.totals.primary.startDate} 
+            AND pr.date <= ${config.dates.totals.primary.endDate}
           `: sql``}
 
           ) AS pj
@@ -286,9 +350,14 @@ const l3_getSalesTotalPrimary = async config => {
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (
+            SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb
+            )` : sql``}
 
-      GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}` //prettier-ignore
+      GROUP BY 
+        ${sql(config.baseFormat.l1_field)}, 
+        ${sql(config.baseFormat.l2_field)}, 
+        ${sql(config.baseFormat.l3_field)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -297,7 +366,7 @@ const l3_getSalesTotalPrimary = async config => {
   }
 }
 
-const l4_getSalesTotalPrimary = async config => {
+const l4_getSalesTotalPrimary = async (config, othpTableConfig) => {
   if (!config.baseFormat.l4_field) return []
   if (config.dates.trends.yearTrend) return [] // skip totals if trend is by year
 
@@ -351,7 +420,8 @@ const l4_getSalesTotalPrimary = async config => {
           FROM "salesReporting".sales_line_items AS sl
             
           WHERE
-            sl.formatted_invoice_date >= ${config.dates.totals.primary.startDate} AND sl.formatted_invoice_date <= ${config.dates.totals.primary.endDate}
+            sl.formatted_invoice_date >= ${config.dates.totals.primary.startDate} 
+            AND sl.formatted_invoice_date <= ${config.dates.totals.primary.endDate}
           `: sql``}
 
         ${config.dates.totals.useProjection.so ? sql`
@@ -369,7 +439,8 @@ const l4_getSalesTotalPrimary = async config => {
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${config.dates.totals.primary.startDate} AND so.formatted_ship_date <= ${config.dates.totals.primary.endDate}
+            AND so.formatted_ship_date >= ${config.dates.totals.primary.startDate} 
+            AND so.formatted_ship_date <= ${config.dates.totals.primary.endDate}
           `: sql``}
 
         ${config.dates.totals.useProjection.pr ? sql` 
@@ -385,7 +456,8 @@ const l4_getSalesTotalPrimary = async config => {
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
-            pr.date >= ${config.dates.totals.primary.startDate} AND pr.date <= ${config.dates.totals.primary.endDate}
+            pr.date >= ${config.dates.totals.primary.startDate} 
+            AND pr.date <= ${config.dates.totals.primary.endDate}
           `: sql``}
 
           ) AS pj
@@ -397,7 +469,9 @@ const l4_getSalesTotalPrimary = async config => {
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (
+            SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb
+            )` : sql``}
 
       GROUP BY 
         ${sql(config.baseFormat.l1_field)}, 
@@ -412,7 +486,7 @@ const l4_getSalesTotalPrimary = async config => {
   }
 }
 
-const l5_getSalesTotalPrimary = async config => {
+const l5_getSalesTotalPrimary = async (config, othpTableConfig) => {
   if (!config.baseFormat.l5_field) return []
   if (config.dates.trends.yearTrend) return [] // skip totals if trend is by year
 
@@ -465,7 +539,8 @@ const l5_getSalesTotalPrimary = async config => {
           FROM "salesReporting".sales_line_items AS sl
             
           WHERE
-            sl.formatted_invoice_date >= ${config.dates.totals.primary.startDate} AND sl.formatted_invoice_date <= ${config.dates.totals.primary.endDate}
+            sl.formatted_invoice_date >= ${config.dates.totals.primary.startDate} 
+            AND sl.formatted_invoice_date <= ${config.dates.totals.primary.endDate}
           `: sql``}
 
         ${config.dates.totals.useProjection.so ? sql`
@@ -483,7 +558,8 @@ const l5_getSalesTotalPrimary = async config => {
             
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1)
-            AND so.formatted_ship_date >= ${config.dates.totals.primary.startDate} AND so.formatted_ship_date <= ${config.dates.totals.primary.endDate}
+            AND so.formatted_ship_date >= ${config.dates.totals.primary.startDate} 
+            AND so.formatted_ship_date <= ${config.dates.totals.primary.endDate}
           `: sql``}
 
         ${config.dates.totals.useProjection.pr ? sql` 
@@ -500,7 +576,8 @@ const l5_getSalesTotalPrimary = async config => {
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
-            pr.date >= ${config.dates.totals.primary.startDate} AND pr.date <= ${config.dates.totals.primary.endDate}
+            pr.date >= ${config.dates.totals.primary.startDate} 
+            AND pr.date <= ${config.dates.totals.primary.endDate}
           `: sql``}
 
           ) AS pj
@@ -512,9 +589,16 @@ const l5_getSalesTotalPrimary = async config => {
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (
+            SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb
+            )` : sql``}
 
-      GROUP BY ${sql(config.baseFormat.l1_field)}, ${sql(config.baseFormat.l2_field)}, ${sql(config.baseFormat.l3_field)}, ${sql(config.baseFormat.l4_field)}, ${sql(config.baseFormat.l5_field)}` //prettier-ignore
+      GROUP BY 
+        ${sql(config.baseFormat.l1_field)}, 
+        ${sql(config.baseFormat.l2_field)}, 
+        ${sql(config.baseFormat.l3_field)}, 
+        ${sql(config.baseFormat.l4_field)}, 
+        ${sql(config.baseFormat.l5_field)}` //prettier-ignore
 
     return response
   } catch (error) {
@@ -523,7 +607,7 @@ const l5_getSalesTotalPrimary = async config => {
   }
 }
 
-const l0_getSalesTotalPrimary = async config => {
+const l0_getSalesTotalPrimary = async (config, othpTableConfig) => {
   if (config.dates.trends.yearTrend) return [] // skip totals if trend is by year
 
   try {
@@ -572,7 +656,8 @@ const l0_getSalesTotalPrimary = async config => {
           FROM "salesReporting".sales_line_items AS sl 
             
           WHERE 
-            sl.formatted_invoice_date >= ${config.dates.totals.primary.startDate} AND sl.formatted_invoice_date <= ${config.dates.totals.primary.endDate} 
+            sl.formatted_invoice_date >= ${config.dates.totals.primary.startDate} 
+            AND sl.formatted_invoice_date <= ${config.dates.totals.primary.endDate} 
         `: sql``}
 
         ${config.dates.totals.useProjection.so ? sql`
@@ -590,7 +675,8 @@ const l0_getSalesTotalPrimary = async config => {
          
           WHERE 
             so.version = (SELECT MAX(so1.version) - 1 FROM "salesReporting".sales_orders AS so1) 
-            AND so.formatted_ship_date >= ${config.dates.totals.primary.startDate} AND so.formatted_ship_date <= ${config.dates.totals.primary.endDate}
+            AND so.formatted_ship_date >= ${config.dates.totals.primary.startDate} 
+            AND so.formatted_ship_date <= ${config.dates.totals.primary.endDate}
         `: sql``}
 
         ${config.dates.totals.useProjection.pr ? sql` 
@@ -607,7 +693,8 @@ const l0_getSalesTotalPrimary = async config => {
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
-            pr.date >= ${config.dates.totals.primary.startDate} AND pr.date <= ${config.dates.totals.primary.endDate}
+            pr.date >= ${config.dates.totals.primary.startDate} 
+            AND pr.date <= ${config.dates.totals.primary.endDate}
           `: sql``}
 
           ) AS pj
@@ -619,7 +706,9 @@ const l0_getSalesTotalPrimary = async config => {
           1=1 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
-          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``}
+          ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (
+            SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb
+            )` : sql``}
           
             ` //prettier-ignore
 

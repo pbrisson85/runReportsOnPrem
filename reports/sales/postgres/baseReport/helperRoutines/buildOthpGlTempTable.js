@@ -19,9 +19,11 @@ const buildOthpGlTempTable = async config => {
   const othpDefinitions = await getOthpDefinitions(config)
   const othpDef_unflat = unflattenByCompositKey(othpDefinitions, { 1: 'othp_gl' })
   const uniqueOthpGlsArray = uniqueOthpGls.map(gl => {
+    let display_name = othpDef_unflat?.[gl.othp_gl]?.display_name
+
     return {
       othp_gl: gl.othp_gl,
-      display_name: othpDef_unflat?.[gl.othp_gl]?.display_name ?? `othp_${gl.othp_gl}`,
+      display_name: display_name ? `othp_${gl.othp_gl}` : `othp_${gl.othp_gl}`,
     }
   })
 
@@ -38,7 +40,7 @@ const buildOthpGlTempTable = async config => {
   // write this to a temp table
   await insertDataToTempTable(config, summedTempData, tempTableName)
 
-  return tempTableName
+  return { othpTable: tempTableName, othpGls: uniqueOthpGlsArray }
 }
 
 module.exports = buildOthpGlTempTable

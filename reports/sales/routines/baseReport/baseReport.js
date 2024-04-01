@@ -45,25 +45,23 @@ const buildReport = async config => {
 
   // CUSTOM TO SALES MODULE:
   const buildOthpGlTempTable = require('../../postgres/baseReport/helperRoutines/buildOthpGlTempTable')
-  const tempTableName = await buildOthpGlTempTable(config)
-
-  console.log('tempTableName', tempTableName)
+  const othpTableConfig = await buildOthpGlTempTable(config)
 
   // SALES YTD
-  queryDataPromises.push(m.l0_getSalesTotalPrimary(config))
-  queryDataPromises.push(m.l1_getSalesTotalPrimary(config))
-  queryDataPromises.push(m.l2_getSalesTotalPrimary(config))
-  queryDataPromises.push(m.l3_getSalesTotalPrimary(config))
-  queryDataPromises.push(m.l4_getSalesTotalPrimary(config))
-  queryDataPromises.push(m.l5_getSalesTotalPrimary(config))
+  queryDataPromises.push(m.l0_getSalesTotalPrimary(config, othpTableConfig))
+  queryDataPromises.push(m.l1_getSalesTotalPrimary(config, othpTableConfig))
+  queryDataPromises.push(m.l2_getSalesTotalPrimary(config, othpTableConfig))
+  queryDataPromises.push(m.l3_getSalesTotalPrimary(config, othpTableConfig))
+  queryDataPromises.push(m.l4_getSalesTotalPrimary(config, othpTableConfig))
+  queryDataPromises.push(m.l5_getSalesTotalPrimary(config, othpTableConfig))
 
   // TRENDS
-  queryDataPromises.push(m.l0_getSalesTrend(config))
-  queryDataPromises.push(m.l1_getSalesTrend(config))
-  queryDataPromises.push(m.l2_getSalesTrend(config))
-  queryDataPromises.push(m.l3_getSalesTrend(config))
-  queryDataPromises.push(m.l4_getSalesTrend(config))
-  queryDataPromises.push(m.l5_getSalesTrend(config))
+  queryDataPromises.push(m.l0_getSalesTrend(config, othpTableConfig))
+  queryDataPromises.push(m.l1_getSalesTrend(config, othpTableConfig))
+  queryDataPromises.push(m.l2_getSalesTrend(config, othpTableConfig))
+  queryDataPromises.push(m.l3_getSalesTrend(config, othpTableConfig))
+  queryDataPromises.push(m.l4_getSalesTrend(config, othpTableConfig))
+  queryDataPromises.push(m.l5_getSalesTrend(config, othpTableConfig))
 
   ///////////////////////////////// SALES KPIS
 
