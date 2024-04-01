@@ -80,6 +80,7 @@ const l1_getSalesTotalPrimary = async (config, othpTableConfig) => {
             COALESCE(so.ext_sales,0) AS sales, 
             COALESCE(so.ext_cost,0) AS cogs, 
             COALESCE(so.ext_othp,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for sales orders yet
       
           FROM "salesReporting".sales_orders AS so
             
@@ -99,7 +100,8 @@ const l1_getSalesTotalPrimary = async (config, othpTableConfig) => {
             COALESCE(pr."grossSales",0) AS sales, 
             COALESCE(pr.cogs,0) AS cogs, 
             COALESCE(pr.othp,0) AS othp 
-        
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for projections yet
+
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
