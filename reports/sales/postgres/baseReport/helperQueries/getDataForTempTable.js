@@ -4,6 +4,8 @@ const getDataForTempTable = async (config, uniqueOthpGlsArray) => {
   try {
     console.log(`${config.user} - getDataForTempTable ...`)
 
+    console.log('uniqueOthpGlsArray', uniqueOthpGlsArray)
+
     const response = await sql
       `
       SELECT
