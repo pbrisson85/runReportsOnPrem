@@ -1,6 +1,6 @@
 const sql = require('../../../../server')
 
-const l1_getSalesTrend = async config => {
+const l1_getSalesTrend = async (config, othpTableConfig) => {
   if (!config.dates.trends.queryGrouping) return []
   if (!config.baseFormat.l1_field) return []
 
@@ -163,7 +163,7 @@ const l1_getSalesTrend = async config => {
   }
 }
 
-const l2_getSalesTrend = async config => {
+const l2_getSalesTrend = async (config, othpTableConfig) => {
   if (!config.dates.trends.queryGrouping) return []
   if (!config.baseFormat.l2_field) return []
 
@@ -329,7 +329,7 @@ const l2_getSalesTrend = async config => {
   }
 }
 
-const l3_getSalesTrend = async config => {
+const l3_getSalesTrend = async (config, othpTableConfig) => {
   if (!config.dates.trends.queryGrouping) return []
   if (!config.baseFormat.l3_field) return []
 
@@ -494,7 +494,7 @@ const l3_getSalesTrend = async config => {
   }
 }
 
-const l4_getSalesTrend = async config => {
+const l4_getSalesTrend = async (config, othpTableConfig) => {
   if (!config.dates.trends.queryGrouping) return []
   if (!config.baseFormat.l4_field) return []
 
@@ -661,7 +661,7 @@ const l4_getSalesTrend = async config => {
   }
 }
 
-const l5_getSalesTrend = async config => {
+const l5_getSalesTrend = async (config, othpTableConfig) => {
   if (!config.dates.trends.queryGrouping) return []
   if (!config.baseFormat.l5_field) return []
 
@@ -827,7 +827,7 @@ const l5_getSalesTrend = async config => {
   }
 }
 
-const l0_getSalesTrend = async config => {
+const l0_getSalesTrend = async (config, othpTableConfig) => {
   if (!config.dates.trends.queryGrouping) return []
 
   try {
