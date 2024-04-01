@@ -9,6 +9,9 @@ const getOthpDefinitions = require('../helperQueries/getOthpDefinitions')
 const buildOthpGlTempTable = async config => {
   // get all unique othp GL's from sales_contra_lines
   const uniqueOthpGls = await getUniqueOthpGls(config)
+
+  console.log('uniqueOthpGls', uniqueOthpGls)
+
   const othpDefinitions = await getOthpDefinitions(config)
   const othpDef_unflat = unflattenByCompositKey(othpDefinitions, { 1: 'othp_gl' })
   const uniqueOthpGlsArray = uniqueOthpGls.map(gl => {
