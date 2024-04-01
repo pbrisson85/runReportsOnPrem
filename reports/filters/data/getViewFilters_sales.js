@@ -113,6 +113,34 @@ const getViewFilters = () => {
       cols: [],
       default: false,
     },
+    {
+      label: 'Commission $/Lb',
+      dataName: 'othp_commissionPerLb',
+      decimals: 0,
+      cols: [],
+      default: false,
+    },
+    {
+      label: 'Discounts $/Lb',
+      dataName: 'othp_discountsPerLb',
+      decimals: 0,
+      cols: [],
+      default: false,
+    },
+    {
+      label: 'Rebates $/Lb',
+      dataName: 'othp_rebatesPerLb',
+      decimals: 0,
+      cols: [],
+      default: false,
+    },
+    {
+      label: 'Freight_3PL $/Lb',
+      dataName: 'othp_freight_3plPerLb',
+      decimals: 0,
+      cols: [],
+      default: false,
+    },
   ]
 }
 

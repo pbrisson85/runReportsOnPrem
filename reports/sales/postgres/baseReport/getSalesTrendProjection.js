@@ -8,7 +8,12 @@ const l1_getSalesTrend = async config => {
     console.log(`${config.user} - level 1: query postgres to get FG sales data by week (l1_getSalesTrend) ...`)
 
     const response = await sql
-      `SELECT 
+      `
+      WITH othp_lines AS (
+        SELECT * FROM ${sql(othpTableConfig.othpTable)}
+      )
+      
+      SELECT 
       pj.column, 
       COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
       'SUBTOTAL' AS l2_label, 
@@ -158,7 +163,12 @@ const l2_getSalesTrend = async config => {
     console.log(`${config.user} - level 2: query postgres to get FG sales data by week (l2_getSalesTrend) ...`)
 
     const response = await sql
-      `SELECT 
+      `
+      WITH othp_lines AS (
+        SELECT * FROM ${sql(othpTableConfig.othpTable)}
+      )
+      
+      SELECT 
       pj.column, 
       COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
@@ -294,7 +304,12 @@ const l3_getSalesTrend = async config => {
     console.log(`${config.user} - level 3: query postgres to get FG sales data by week (l3_getSalesTrend) ...`)
 
     const response = await sql
-      `SELECT 
+      `
+      WITH othp_lines AS (
+        SELECT * FROM ${sql(othpTableConfig.othpTable)}
+      )
+      
+      SELECT 
       pj.column, 
       COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
@@ -421,7 +436,12 @@ const l4_getSalesTrend = async config => {
     console.log(`${config.user} - level 4: query postgres to get FG sales data by week (l4_getSalesTrend) ...`)
 
     const response = await sql
-      `SELECT 
+      `
+      WITH othp_lines AS (
+        SELECT * FROM ${sql(othpTableConfig.othpTable)}
+      )
+      
+      SELECT 
       pj.column, 
       COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
@@ -551,7 +571,12 @@ const l5_getSalesTrend = async config => {
     console.log(`${config.user} - level 5: query postgres to get FG sales data by week (l4_getSalesTrend) ...`)
 
     const response = await sql
-      `SELECT 
+      `
+      WITH othp_lines AS (
+        SELECT * FROM ${sql(othpTableConfig.othpTable)}
+      )
+      
+      SELECT 
       pj.column, 
       COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
@@ -679,6 +704,10 @@ const l0_getSalesTrend = async config => {
 
     const response = await sql
       `
+      WITH othp_lines AS (
+        SELECT * FROM ${sql(othpTableConfig.othpTable)}
+      )
+      
       SELECT 
       pj.column, 
       'TOTAL' AS l1_label, 

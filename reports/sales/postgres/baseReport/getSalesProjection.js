@@ -4,10 +4,6 @@ const l1_getSalesTotalPrimary = async (config, othpTableConfig) => {
   if (!config.baseFormat.l1_field) return []
   if (config.dates.trends.yearTrend) return [] // skip totals if trend is by year
 
-  // join the queries below with the temp table (will need to circle back to detail queries to add the join as well)
-
-  // drop the temp table
-
   try {
     console.log(`${config.user} - level 1: query postgres to get FG sales data period total (l1_getSalesTotalPrimary) ...`)
 
@@ -37,6 +33,7 @@ const l1_getSalesTotalPrimary = async (config, othpTableConfig) => {
         COALESCE(SUM(pj.cogs)/NULLIF(SUM(pj.lbs),0),0) AS "cogsPerLb", 
         COALESCE(SUM(pj.othp)/NULLIF(SUM(pj.lbs),0),0) AS "othpPerLb"
         ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)}),0) AS ${sql(gl.display_name)} `)}`}
+        ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)})/NULLIF(SUM(pj.lbs),0),0) AS ${sql(gl.display_name)}PerLb`)}`}
       
       FROM (
         SELECT 
@@ -140,7 +137,12 @@ const l2_getSalesTotalPrimary = async (config, othpTableConfig) => {
     console.log(`${config.user} - level 2: query postgres to get FG sales data period total (l2_getSalesTotalPrimary) ...`)
 
     const response = await sql
-      `SELECT 
+      `
+      WITH othp_lines AS (
+        SELECT * FROM ${sql(othpTableConfig.othpTable)}
+      )
+      
+      SELECT 
       'SALES TOTAL' AS column, 
       COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
@@ -159,7 +161,9 @@ const l2_getSalesTotalPrimary = async (config, othpTableConfig) => {
       COALESCE((SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp))/NULLIF(SUM(pj.lbs),0),0) AS "grossMarginPerLb", 
       COALESCE(SUM(pj.cogs)/NULLIF(SUM(pj.lbs),0),0) AS "cogsPerLb", 
       COALESCE(SUM(pj.othp)/NULLIF(SUM(pj.lbs),0),0) AS "othpPerLb"
-      
+      ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)}),0) AS ${sql(gl.display_name)} `)}`}
+      ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)})/NULLIF(SUM(pj.lbs),0),0) AS ${sql(gl.display_name)}PerLb`)}`}
+
       FROM (
         SELECT 
           'dummy' AS doc_num, 
@@ -169,6 +173,7 @@ const l2_getSalesTotalPrimary = async (config, othpTableConfig) => {
           0 AS sales, 
           0 AS cogs, 
           0 AS othp 
+          ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`}
         WHERE
           1=2
 
@@ -182,8 +187,11 @@ const l2_getSalesTotalPrimary = async (config, othpTableConfig) => {
             COALESCE(sl.gross_sales_ext,0) AS sales, 
             COALESCE(sl.cogs_ext_gl,0) AS cogs, 
             COALESCE(sl.othp_ext,0) AS othp 
-          
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(oc.${sql(gl.display_name)},0) AS ${sql(gl.display_name)} `)}`}
+
           FROM "salesReporting".sales_line_items AS sl
+            LEFT OUTER JOIN ${sql(othpTableConfig.othpTable)} AS oc
+            ON oc.invoice_num = sl.invoice_number AND oc.invoice_line = sl.line_number
             
           WHERE
             sl.formatted_invoice_date >= ${config.dates.totals.primary.startDate} 
@@ -200,7 +208,8 @@ const l2_getSalesTotalPrimary = async (config, othpTableConfig) => {
             COALESCE(so.ext_sales,0) AS sales, 
             COALESCE(so.ext_cost,0) AS cogs, 
             COALESCE(so.ext_othp,0) AS othp 
-      
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for sales orders yet
+
           FROM "salesReporting".sales_orders AS so
             
           WHERE 
@@ -219,7 +228,8 @@ const l2_getSalesTotalPrimary = async (config, othpTableConfig) => {
             COALESCE(pr."grossSales",0) AS sales, 
             COALESCE(pr.cogs,0) AS cogs, 
             COALESCE(pr.othp,0) AS othp 
-        
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for projections yet
+
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
@@ -259,7 +269,12 @@ const l3_getSalesTotalPrimary = async (config, othpTableConfig) => {
     console.log(`${config.user} - level 3: query postgres to get FG sales data period total (l3_getSalesTotalPrimary) ...`)
 
     const response = await sql
-      `SELECT 
+      `
+      WITH othp_lines AS (
+        SELECT * FROM ${sql(othpTableConfig.othpTable)}
+      )
+      
+      SELECT 
       'SALES TOTAL' AS column, 
       COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
@@ -278,7 +293,9 @@ const l3_getSalesTotalPrimary = async (config, othpTableConfig) => {
       COALESCE((SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp))/NULLIF(SUM(pj.lbs),0),0) AS "grossMarginPerLb", 
       COALESCE(SUM(pj.cogs)/NULLIF(SUM(pj.lbs),0),0) AS "cogsPerLb", 
       COALESCE(SUM(pj.othp)/NULLIF(SUM(pj.lbs),0),0) AS "othpPerLb"
-      
+      ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)}),0) AS ${sql(gl.display_name)} `)}`}
+      ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)})/NULLIF(SUM(pj.lbs),0),0) AS ${sql(gl.display_name)}PerLb`)}`}
+
       FROM (
         SELECT 
           'dummy' AS doc_num, 
@@ -288,6 +305,7 @@ const l3_getSalesTotalPrimary = async (config, othpTableConfig) => {
           0 AS sales, 
           0 AS cogs, 
           0 AS othp 
+          ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`}
         WHERE
           1=2
 
@@ -301,8 +319,11 @@ const l3_getSalesTotalPrimary = async (config, othpTableConfig) => {
             COALESCE(sl.gross_sales_ext,0) AS sales, 
             COALESCE(sl.cogs_ext_gl,0) AS cogs, 
             COALESCE(sl.othp_ext,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(oc.${sql(gl.display_name)},0) AS ${sql(gl.display_name)} `)}`}
           
           FROM "salesReporting".sales_line_items AS sl
+            LEFT OUTER JOIN ${sql(othpTableConfig.othpTable)} AS oc
+            ON oc.invoice_num = sl.invoice_number AND oc.invoice_line = sl.line_number
             
           WHERE
             sl.formatted_invoice_date >= ${config.dates.totals.primary.startDate} 
@@ -319,7 +340,8 @@ const l3_getSalesTotalPrimary = async (config, othpTableConfig) => {
             COALESCE(so.ext_sales,0) AS sales, 
             COALESCE(so.ext_cost,0) AS cogs, 
             COALESCE(so.ext_othp,0) AS othp 
-      
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for sales orders yet
+
           FROM "salesReporting".sales_orders AS so
             
           WHERE 
@@ -338,7 +360,8 @@ const l3_getSalesTotalPrimary = async (config, othpTableConfig) => {
             COALESCE(pr."grossSales",0) AS sales, 
             COALESCE(pr.cogs,0) AS cogs, 
             COALESCE(pr.othp,0) AS othp 
-        
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for projections yet
+
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
@@ -379,7 +402,12 @@ const l4_getSalesTotalPrimary = async (config, othpTableConfig) => {
     console.log(`${config.user} - level 4: query postgres to get FG sales data period total (l4_getSalesTotalPrimary) ...`)
 
     const response = await sql
-      `SELECT 
+      `
+      WITH othp_lines AS (
+        SELECT * FROM ${sql(othpTableConfig.othpTable)}
+      )
+      
+      SELECT 
       'SALES TOTAL' AS column, 
       COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
@@ -398,7 +426,9 @@ const l4_getSalesTotalPrimary = async (config, othpTableConfig) => {
       COALESCE((SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp))/NULLIF(SUM(pj.lbs),0),0) AS "grossMarginPerLb", 
       COALESCE(SUM(pj.cogs)/NULLIF(SUM(pj.lbs),0),0) AS "cogsPerLb", 
       COALESCE(SUM(pj.othp)/NULLIF(SUM(pj.lbs),0),0) AS "othpPerLb"
-      
+      ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)}),0) AS ${sql(gl.display_name)} `)}`}
+      ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)})/NULLIF(SUM(pj.lbs),0),0) AS ${sql(gl.display_name)}PerLb`)}`}
+
       FROM (
         SELECT 
           'dummy' AS doc_num, 
@@ -408,6 +438,7 @@ const l4_getSalesTotalPrimary = async (config, othpTableConfig) => {
           0 AS sales, 
           0 AS cogs, 
           0 AS othp 
+          ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`}
         WHERE
           1=2
 
@@ -421,8 +452,11 @@ const l4_getSalesTotalPrimary = async (config, othpTableConfig) => {
             COALESCE(sl.gross_sales_ext,0) AS sales, 
             COALESCE(sl.cogs_ext_gl,0) AS cogs, 
             COALESCE(sl.othp_ext,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(oc.${sql(gl.display_name)},0) AS ${sql(gl.display_name)} `)}`}
           
           FROM "salesReporting".sales_line_items AS sl
+            LEFT OUTER JOIN ${sql(othpTableConfig.othpTable)} AS oc
+            ON oc.invoice_num = sl.invoice_number AND oc.invoice_line = sl.line_number
             
           WHERE
             sl.formatted_invoice_date >= ${config.dates.totals.primary.startDate} 
@@ -439,7 +473,8 @@ const l4_getSalesTotalPrimary = async (config, othpTableConfig) => {
             COALESCE(so.ext_sales,0) AS sales, 
             COALESCE(so.ext_cost,0) AS cogs, 
             COALESCE(so.ext_othp,0) AS othp 
-      
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for sales orders yet
+
           FROM "salesReporting".sales_orders AS so
             
           WHERE 
@@ -457,7 +492,8 @@ const l4_getSalesTotalPrimary = async (config, othpTableConfig) => {
           COALESCE(pr."grossSales",0) AS sales, 
           COALESCE(pr.cogs,0) AS cogs, 
           COALESCE(pr.othp,0) AS othp 
-        
+          ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for projections yet
+
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
@@ -499,7 +535,12 @@ const l5_getSalesTotalPrimary = async (config, othpTableConfig) => {
     console.log(`${config.user} - level 5: query postgres to get FG sales data period total (l4_getSalesTotalPrimary) ...`)
 
     const response = await sql
-      `SELECT 
+      `
+      WITH othp_lines AS (
+        SELECT * FROM ${sql(othpTableConfig.othpTable)}
+      )
+      
+      SELECT 
       'SALES TOTAL' AS column, 
       COALESCE(${sql(config.baseFormat.l1_field)},'NO VALUE') AS l1_label, 
       COALESCE(${sql(config.baseFormat.l2_field)},'NO VALUE') AS l2_label, 
@@ -518,7 +559,9 @@ const l5_getSalesTotalPrimary = async (config, othpTableConfig) => {
       COALESCE((SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp))/NULLIF(SUM(pj.lbs),0),0) AS "grossMarginPerLb", 
       COALESCE(SUM(pj.cogs)/NULLIF(SUM(pj.lbs),0),0) AS "cogsPerLb", 
       COALESCE(SUM(pj.othp)/NULLIF(SUM(pj.lbs),0),0) AS "othpPerLb"
-      
+      ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)}),0) AS ${sql(gl.display_name)} `)}`}
+      ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)})/NULLIF(SUM(pj.lbs),0),0) AS ${sql(gl.display_name)}PerLb`)}`}
+
       FROM (
         SELECT 
           'dummy' AS doc_num, 
@@ -527,6 +570,7 @@ const l5_getSalesTotalPrimary = async (config, othpTableConfig) => {
           0 AS sales, 
           0 AS cogs, 
           0 AS othp 
+          ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`}
         WHERE
           1=2
 
@@ -540,8 +584,11 @@ const l5_getSalesTotalPrimary = async (config, othpTableConfig) => {
             COALESCE(sl.gross_sales_ext,0) AS sales, 
             COALESCE(sl.cogs_ext_gl,0) AS cogs, 
             COALESCE(sl.othp_ext,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(oc.${sql(gl.display_name)},0) AS ${sql(gl.display_name)} `)}`}
           
           FROM "salesReporting".sales_line_items AS sl
+            LEFT OUTER JOIN ${sql(othpTableConfig.othpTable)} AS oc
+            ON oc.invoice_num = sl.invoice_number AND oc.invoice_line = sl.line_number
             
           WHERE
             sl.formatted_invoice_date >= ${config.dates.totals.primary.startDate} 
@@ -558,7 +605,8 @@ const l5_getSalesTotalPrimary = async (config, othpTableConfig) => {
             COALESCE(so.ext_sales,0) AS sales, 
             COALESCE(so.ext_cost,0) AS cogs, 
             COALESCE(so.ext_othp,0) AS othp 
-      
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for sales orders yet
+
           FROM "salesReporting".sales_orders AS so
             
           WHERE 
@@ -577,7 +625,8 @@ const l5_getSalesTotalPrimary = async (config, othpTableConfig) => {
             COALESCE(pr."grossSales",0) AS sales, 
             COALESCE(pr.cogs,0) AS cogs, 
             COALESCE(pr.othp,0) AS othp 
-        
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for projections yet
+
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
@@ -620,6 +669,10 @@ const l0_getSalesTotalPrimary = async (config, othpTableConfig) => {
 
     const response = await sql
       `
+      WITH othp_lines AS (
+        SELECT * FROM ${sql(othpTableConfig.othpTable)}
+      )
+
       SELECT 
       'SALES TOTAL' AS column, 'TOTAL' AS l1_label, 
       SUM(pj.lbs) AS lbs, 
@@ -634,7 +687,9 @@ const l0_getSalesTotalPrimary = async (config, othpTableConfig) => {
       COALESCE((SUM(pj.sales) - SUM(pj.cogs) - SUM(pj.othp))/NULLIF(SUM(pj.lbs),0),0) AS "grossMarginPerLb", 
       COALESCE(SUM(pj.cogs)/NULLIF(SUM(pj.lbs),0),0) AS "cogsPerLb", 
       COALESCE(SUM(pj.othp)/NULLIF(SUM(pj.lbs),0),0) AS "othpPerLb"
-      
+      ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)}),0) AS ${sql(gl.display_name)} `)}`}
+      ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(SUM(pj.${sql(gl.display_name)})/NULLIF(SUM(pj.lbs),0),0) AS ${sql(gl.display_name)}PerLb`)}`}
+
       FROM (
         SELECT 
           'dummy' AS doc_num, 
@@ -644,6 +699,7 @@ const l0_getSalesTotalPrimary = async (config, othpTableConfig) => {
           0 AS sales, 
           0 AS cogs, 
           0 AS othp 
+          ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`}
         WHERE
           1=2
 
@@ -657,8 +713,11 @@ const l0_getSalesTotalPrimary = async (config, othpTableConfig) => {
             COALESCE(sl.gross_sales_ext,0) AS sales, 
             COALESCE(sl.cogs_ext_gl,0) AS cogs, 
             COALESCE(sl.othp_ext,0) AS othp 
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(oc.${sql(gl.display_name)},0) AS ${sql(gl.display_name)} `)}`}
         
           FROM "salesReporting".sales_line_items AS sl 
+            LEFT OUTER JOIN ${sql(othpTableConfig.othpTable)} AS oc
+            ON oc.invoice_num = sl.invoice_number AND oc.invoice_line = sl.line_number
             
           WHERE 
             sl.formatted_invoice_date >= ${config.dates.totals.primary.startDate} 
@@ -675,7 +734,8 @@ const l0_getSalesTotalPrimary = async (config, othpTableConfig) => {
             COALESCE(so.ext_sales,0) AS sales, 
             COALESCE(so.ext_cost,0) AS cogs, 
             COALESCE(so.ext_othp,0) AS othp 
-      
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for sales orders yet
+            
           FROM "salesReporting".sales_orders AS so 
          
           WHERE 
@@ -694,7 +754,8 @@ const l0_getSalesTotalPrimary = async (config, othpTableConfig) => {
             COALESCE(pr."grossSales",0) AS sales, 
             COALESCE(pr.cogs,0) AS cogs, 
             COALESCE(pr.othp,0) AS othp 
-        
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`} -- no data for projections yet
+
           FROM "salesReporting".projected_sales AS pr        
         
           WHERE 
