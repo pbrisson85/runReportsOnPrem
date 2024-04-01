@@ -122,6 +122,8 @@ const l1_getSalesTotalPrimary = async (config, othpTableConfig) => {
 
           GROUP BY ${sql(config.baseFormat.l1_field)} ` //prettier-ignore
 
+    console.log(response)
+
     return response
   } catch (error) {
     console.error(error)
