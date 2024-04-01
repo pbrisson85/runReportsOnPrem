@@ -46,7 +46,7 @@ const l1_getSalesTotalPrimary = async (config, othpTableConfig) => {
           0 AS sales, 
           0 AS cogs, 
           0 AS othp 
-          ${sql`${othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`}
+          ${sql`${othpTableConfig.othpGls.map(gl => sql`, 0 AS ${sql(gl.display_name)} `)}`}
         WHERE 1=2
 
         ${config.dates.totals.useProjection.sl ? sql`
@@ -59,7 +59,7 @@ const l1_getSalesTotalPrimary = async (config, othpTableConfig) => {
             COALESCE(sl.gross_sales_ext,0) AS sales, 
             COALESCE(sl.cogs_ext_gl,0) AS cogs, 
             COALESCE(sl.othp_ext,0) AS othp 
-            ${sql`${othpGls.map(gl => sql`, COALESCE(oc.${sql(gl.display_name)},0) AS ${sql(gl.display_name)} `)}`}
+            ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(oc.${sql(gl.display_name)},0) AS ${sql(gl.display_name)} `)}`}
           
           FROM "salesReporting".sales_line_items AS sl 
             LEFT OUTER JOIN ${sql(othpTableConfig.othpTable)} AS oc
