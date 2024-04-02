@@ -2,7 +2,7 @@ const sql = require('../../../../../server')
 
 const getOthpDefinitions = async config => {
   try {
-    console.log(`${config.user} - getOthpDefinitions ...`)
+    console.log(`${config?.user ?? null} - getOthpDefinitions ...`)
 
     const response = await sql
       `

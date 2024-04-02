@@ -2,7 +2,7 @@ const sql = require('../../../../../server')
 
 const getUniqueOthpGlsFromMaster = async config => {
   try {
-    console.log(`${config.user} - getUniqueOthpGlsFromMaster ...`)
+    console.log(`${config?.user ?? null} - getUniqueOthpGlsFromMaster ...`)
 
     const response = await sql
       `

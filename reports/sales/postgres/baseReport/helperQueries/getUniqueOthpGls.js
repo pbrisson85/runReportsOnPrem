@@ -2,7 +2,7 @@ const sql = require('../../../../../server')
 
 const getUniqueOthpGls = async config => {
   try {
-    console.log(`${config.user} - getUniqueOthpGls ...`)
+    console.log(`${config.user ?? null} - getUniqueOthpGls ...`)
 
     const response = await sql
       `SELECT ct.othp_gl
