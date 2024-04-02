@@ -1,4 +1,9 @@
-const getViewFilters = () => {
+// Need to build the othp options dynamically
+const buildOthpMenuOptions = require('../../sales/postgres/baseReport/helperRoutines/buildOthpMenuOptions')
+
+const getViewFilters = async () => {
+  const othpOptions = await buildOthpMenuOptions()
+
   return [
     {
       label: 'WEIGHT (lbs)',
@@ -21,6 +26,7 @@ const getViewFilters = () => {
       cols: [],
       default: false,
     },
+    ...othpOptions,
     {
       label: 'NET REVENUE',
       dataName: 'netSales',
@@ -49,20 +55,20 @@ const getViewFilters = () => {
       cols: [],
       default: false,
     },
-    // {
-    //   label: 'REVENUE $/LB',
-    //   dataName: 'grossSalesPerLb',
-    //   decimals: 2,
-    //   cols: [],
-    //   default: false,
-    // },
-    // {
-    //   label: 'OTHP $/LB',
-    //   dataName: 'othpPerLb',
-    //   decimals: 2,
-    //   cols: [],
-    //   default: false,
-    // },
+    {
+      label: 'REVENUE $/LB',
+      dataName: 'grossSalesPerLb',
+      decimals: 2,
+      cols: [],
+      default: false,
+    },
+    {
+      label: 'OTHP $/LB',
+      dataName: 'othpPerLb',
+      decimals: 2,
+      cols: [],
+      default: false,
+    },
     {
       label: 'NET REVENUE/LB',
       dataName: 'netSalesPerLb',
@@ -84,63 +90,64 @@ const getViewFilters = () => {
       cols: [],
       default: false,
     },
-    // Mannually adding but needs to be dunamic going forward
-    {
-      label: 'Commission $',
-      dataName: 'othp_commission',
-      decimals: 0,
-      cols: [],
-      default: false,
-    },
-    {
-      label: 'Discounts $',
-      dataName: 'othp_discounts',
-      decimals: 0,
-      cols: [],
-      default: false,
-    },
-    {
-      label: 'Rebates $',
-      dataName: 'othp_rebates',
-      decimals: 0,
-      cols: [],
-      default: false,
-    },
-    {
-      label: 'Freight_3PL $',
-      dataName: 'othp_freight_3pl',
-      decimals: 0,
-      cols: [],
-      default: false,
-    },
-    {
-      label: 'Commission $/Lb',
-      dataName: 'othp_commissionPerLb',
-      decimals: 2,
-      cols: [],
-      default: false,
-    },
-    {
-      label: 'Discounts $/Lb',
-      dataName: 'othp_discountsPerLb',
-      decimals: 2,
-      cols: [],
-      default: false,
-    },
-    {
-      label: 'Rebates $/Lb',
-      dataName: 'othp_rebatesPerLb',
-      decimals: 2,
-      cols: [],
-      default: false,
-    },
-    {
-      label: 'Freight_3PL $/Lb',
-      dataName: 'othp_freight_3plPerLb',
-      decimals: 2,
-      cols: [],
-      default: false,
-    },
+
+    // // Mannually adding but needs to be dunamic going forward
+    // {
+    //   label: 'Commission $',
+    //   dataName: 'othp_commission',
+    //   decimals: 0,
+    //   cols: [],
+    //   default: false,
+    // },
+    // {
+    //   label: 'Discounts $',
+    //   dataName: 'othp_discounts',
+    //   decimals: 0,
+    //   cols: [],
+    //   default: false,
+    // },
+    // {
+    //   label: 'Rebates $',
+    //   dataName: 'othp_rebates',
+    //   decimals: 0,
+    //   cols: [],
+    //   default: false,
+    // },
+    // {
+    //   label: 'Freight_3PL $',
+    //   dataName: 'othp_freight_3pl',
+    //   decimals: 0,
+    //   cols: [],
+    //   default: false,
+    // },
+    // {
+    //   label: 'Commission $/Lb',
+    //   dataName: 'othp_commissionPerLb',
+    //   decimals: 2,
+    //   cols: [],
+    //   default: false,
+    // },
+    // {
+    //   label: 'Discounts $/Lb',
+    //   dataName: 'othp_discountsPerLb',
+    //   decimals: 2,
+    //   cols: [],
+    //   default: false,
+    // },
+    // {
+    //   label: 'Rebates $/Lb',
+    //   dataName: 'othp_rebatesPerLb',
+    //   decimals: 2,
+    //   cols: [],
+    //   default: false,
+    // },
+    // {
+    //   label: 'Freight_3PL $/Lb',
+    //   dataName: 'othp_freight_3plPerLb',
+    //   decimals: 2,
+    //   cols: [],
+    //   default: false,
+    // },
   ]
 }
 

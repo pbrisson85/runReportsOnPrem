@@ -75,7 +75,7 @@ router.post('/programs', async (req, res) => {
 
 router.get('/salesViews', async (req, res) => {
   console.log('get VIEWS filters lot route HIT...')
-  const views = getViewFilters_sales()
+  const views = await getViewFilters_sales()
   res.send(views)
   console.log('get VIEWS filters lot route COMPLETE. ')
 })

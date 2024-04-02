@@ -1,9 +1,14 @@
 const m = require('./import')
+const buildOthpGlTempTable = require('../../postgres/baseReport/helperRoutines/buildOthpGlTempTable')
+const dropTempTable = require('../../postgres/baseReport/helperQueries/dropTempOthpTable')
 
 const buildReport = async config => {
   const queryDataPromises = []
   const rowDataPromises = []
   const kpiHelperPromises = []
+
+  // CUSTOM TO SALES MODULE: OTHP Detail. Note this is dynamic, the GL account/categories are generated on the fly based on the data queried.
+  const othpTableConfig = await buildOthpGlTempTable(config) // table gets dropped below
 
   ///////////////////////////////// INVENTORY DATA
 
@@ -42,10 +47,6 @@ const buildReport = async config => {
   queryDataPromises.push(m.l5_getSoTrend(config))
 
   ///////////////////////////////// SALES DATA
-
-  // CUSTOM TO SALES MODULE:
-  const buildOthpGlTempTable = require('../../postgres/baseReport/helperRoutines/buildOthpGlTempTable')
-  const othpTableConfig = await buildOthpGlTempTable(config)
 
   // SALES YTD
   queryDataPromises.push(m.l0_getSalesTotalPrimary(config, othpTableConfig))
@@ -191,6 +192,9 @@ const buildReport = async config => {
   })
 
   const columns = await m.getColumns(config, colDataNames)
+
+  // DROP TEMP TABLE
+  await dropTempTable(othpTableConfig.othpTable)
 
   return {
     data,
