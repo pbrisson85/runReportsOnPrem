@@ -12,7 +12,7 @@ const buildOthpMenuOptions = async () => {
     let display_name = othpDef_unflat?.[gl.othp_gl]?.display_name
 
     return {
-      label: display_name ? `othp_${display_name.toUpper()} $` : `othp_${gl.othp_gl} $`,
+      label: display_name ? `othp_${display_name.toUpperCase()} $` : `othp_${gl.othp_gl} $`,
       dataName: display_name ? `othp_${display_name}` : `othp_${gl.othp_gl}`,
       decimals: 0,
       cols: [],
