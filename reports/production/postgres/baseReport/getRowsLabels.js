@@ -137,7 +137,7 @@ const l5_getRowLabels = async config => {
               ON po.receipt_date = p.formatted_date
         WHERE 
           po.po_offset = FALSE
-          AND po.extended_cost <> 0 
+          AND po.total_extended_cost <> 0 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -294,7 +294,7 @@ const l4_getRowLabels = async config => {
               ON po.receipt_date = p.formatted_date
         WHERE 
           po.po_offset = FALSE
-          AND po.extended_cost <> 0 
+          AND po.total_extended_cost <> 0 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -446,7 +446,7 @@ const l3_getRowLabels = async config => {
               ON po.receipt_date = p.formatted_date
         WHERE 
           po.po_offset = FALSE
-          AND po.extended_cost <> 0 
+          AND po.total_extended_cost <> 0 
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -592,7 +592,7 @@ const l2_getRowLabels = async config => {
               ON po.receipt_date = p.formatted_date
         WHERE 
           po.po_offset = FALSE
-          AND po.extended_cost <> 0
+          AND po.total_extended_cost <> 0
           ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
           ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
           ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
@@ -729,7 +729,7 @@ const l1_getRowLabels = async config => {
             ON po.receipt_date = p.formatted_date
       WHERE 
         po.po_offset = FALSE
-        AND po.extended_cost <> 0
+        AND po.total_extended_cost <> 0
         ${config.baseFilters.itemType ? sql`AND ms.item_type IN ${sql(config.baseFilters.itemType)}`: sql``} 
         ${config.baseFilters.program ? sql`AND ms.program = ${config.baseFilters.program}`: sql``} 
         ${config.baseFilters.userPermissions.joeB ? sql`AND ms.item_num IN (SELECT jb.item_number FROM "purchaseReporting".jb_purchase_items AS jb)` : sql``} 
