@@ -54,8 +54,8 @@ const l1_getReceivedPo = async (config, trendQuery) => {
          ${trendQuery.po.l6_label ? sql`COALESCE(${sql(trendQuery.po.l6_label)},'NO VALUE') AS l6_label,`: sql``} 
          ${trendQuery.po.l7_label ? sql`COALESCE(${sql(trendQuery.po.l7_label)},'NO VALUE') AS l7_label,`: sql``}  
          COALESCE(SUM(po.weight),0) AS lbs, 
-         COALESCE(SUM(po.extended_cost),0) AS cost, 
-         COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
+         COALESCE(SUM(po.total_extended_cost),0) AS cost, 
+         COALESCE(SUM(po.total_extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
         
          FROM "purchaseReporting".po_data AS po 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -65,7 +65,7 @@ const l1_getReceivedPo = async (config, trendQuery) => {
          
          WHERE 
           po.po_offset = FALSE
-          AND po.extended_cost <> 0 
+          AND po.total_extended_cost <> 0 
           ${!config.dates.trends.yearTrend ? sql`
               AND p.formatted_date >= ${config.dates.totals.primary.startDate} 
               AND p.formatted_date <= ${config.dates.totals.primary.endDate}` : 
@@ -115,8 +115,8 @@ const l0_getReceivedPo = async config => {
          'PURCHASE RECEIPTS' AS column, 
          'TOTAL' AS l1_label,
          COALESCE(SUM(po.weight),0) AS lbs, 
-         COALESCE(SUM(po.extended_cost),0) AS cost, 
-         COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
+         COALESCE(SUM(po.total_extended_cost),0) AS cost, 
+         COALESCE(SUM(po.total_extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
          
          FROM "purchaseReporting".po_data AS po 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -126,7 +126,7 @@ const l0_getReceivedPo = async config => {
          
          WHERE 
           po.po_offset = FALSE
-          AND po.extended_cost <> 0 
+          AND po.total_extended_cost <> 0 
           ${!config.dates.trends.yearTrend ? sql`
               AND p.formatted_date >= ${config.dates.totals.primary.startDate} 
               AND p.formatted_date <= ${config.dates.totals.primary.endDate}` : 

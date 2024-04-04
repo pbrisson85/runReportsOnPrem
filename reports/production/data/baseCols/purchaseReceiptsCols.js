@@ -16,8 +16,8 @@ const poReceiptsCols = [
     valueFallback: 0,
     data: true,
     popoverMsg: 'FINISHED GOODS ON PURCHASE ORDERS (UNRECEIVED) - Note: see RM Purchase Planning report for RM On order by program.',
-    rightClickMenu: [], // no detail route yet
-    drilldownRightClickMenu: [], // no detail route yet
+    rightClickMenu: ['Get Details'], // no detail route yet
+    drilldownRightClickMenu: ['Get Details'], // no detail route yet
     colType: 'purchaseOrder',
     drillDownSortable: true,
     optional: true, // flag to determine if the col is optional

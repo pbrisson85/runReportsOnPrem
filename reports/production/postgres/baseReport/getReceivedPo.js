@@ -18,8 +18,8 @@ const l1_getReceivedPo = async config => {
          'SUBTOTAL' AS l4_label, 
          'SUBTOTAL' AS l5_label, 
          COALESCE(SUM(po.weight),0) AS lbs, 
-         COALESCE(SUM(po.extended_cost),0) As cost, 
-         COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb" 
+         COALESCE(SUM(po.total_extended_cost),0) As cost, 
+         COALESCE(SUM(po.total_extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb" 
         
          FROM "purchaseReporting".po_data AS po 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -29,7 +29,7 @@ const l1_getReceivedPo = async config => {
          
          WHERE 
           po.po_offset = FALSE 
-          AND po.extended_cost <> 0 
+          AND po.total_extended_cost <> 0 
           ${!config.dates.trends.yearTrend ? sql` 
               AND p.formatted_date >= ${config.dates.totals.primary.startDate} 
               AND p.formatted_date <= ${config.dates.totals.primary.endDate}` : 
@@ -70,8 +70,8 @@ const l2_getReceivedPo = async config => {
        'SUBTOTAL' AS l4_label, 
        'SUBTOTAL' AS l5_label, 
        COALESCE(SUM(po.weight),0) AS lbs, 
-      COALESCE(SUM(po.extended_cost),0) As cost, 
-      COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
+      COALESCE(SUM(po.total_extended_cost),0) As cost, 
+      COALESCE(SUM(po.total_extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
        
        FROM "purchaseReporting".po_data AS po 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -81,7 +81,7 @@ const l2_getReceivedPo = async config => {
        
        WHERE 
         po.po_offset = FALSE
-        AND po.extended_cost <> 0 
+        AND po.total_extended_cost <> 0 
         ${!config.dates.trends.yearTrend ? sql`
               AND p.formatted_date >= ${config.dates.totals.primary.startDate} 
               AND p.formatted_date <= ${config.dates.totals.primary.endDate}` : 
@@ -122,8 +122,8 @@ const l3_getReceivedPo = async config => {
        'SUBTOTAL' AS l4_label, 
        'SUBTOTAL' AS l5_label, 
         COALESCE(SUM(po.weight),0) AS lbs, 
-        COALESCE(SUM(po.extended_cost),0) As cost, 
-        COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
+        COALESCE(SUM(po.total_extended_cost),0) As cost, 
+        COALESCE(SUM(po.total_extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
        
        FROM "purchaseReporting".po_data AS po 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -133,7 +133,7 @@ const l3_getReceivedPo = async config => {
        
        WHERE 
         po.po_offset = FALSE
-        AND po.extended_cost <> 0 
+        AND po.total_extended_cost <> 0 
         ${!config.dates.trends.yearTrend ? sql`
               AND p.formatted_date >= ${config.dates.totals.primary.startDate} 
               AND p.formatted_date <= ${config.dates.totals.primary.endDate}` : 
@@ -174,8 +174,8 @@ const l4_getReceivedPo = async config => {
        COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label, 
        'SUBTOTAL' AS l5_label, 
         COALESCE(SUM(po.weight),0) AS lbs, 
-        COALESCE(SUM(po.extended_cost),0) As cost, 
-        COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
+        COALESCE(SUM(po.total_extended_cost),0) As cost, 
+        COALESCE(SUM(po.total_extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
        
        FROM "purchaseReporting".po_data AS po 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -185,7 +185,7 @@ const l4_getReceivedPo = async config => {
        
        WHERE 
         po.po_offset = FALSE
-        AND po.extended_cost <> 0 
+        AND po.total_extended_cost <> 0 
         ${!config.dates.trends.yearTrend ? sql`
               AND p.formatted_date >= ${config.dates.totals.primary.startDate} 
               AND p.formatted_date <= ${config.dates.totals.primary.endDate}` : 
@@ -226,8 +226,8 @@ const l5_getReceivedPo = async config => {
        COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label, 
        COALESCE(${sql(config.baseFormat.l5_field)},'NO VALUE') AS l5_label, 
        COALESCE(SUM(po.weight),0) AS lbs, 
-        COALESCE(SUM(po.extended_cost),0) As cost,  
-        COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
+        COALESCE(SUM(po.total_extended_cost),0) As cost,  
+        COALESCE(SUM(po.total_extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
        
        FROM "purchaseReporting".po_data AS po 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -237,7 +237,7 @@ const l5_getReceivedPo = async config => {
        
        WHERE 
         po.po_offset = FALSE
-        AND po.extended_cost <> 0 
+        AND po.total_extended_cost <> 0 
         ${!config.dates.trends.yearTrend ? sql`
               AND p.formatted_date >= ${config.dates.totals.primary.startDate} 
               AND p.formatted_date <= ${config.dates.totals.primary.endDate}` : 
@@ -270,8 +270,8 @@ const l0_getReceivedPo = async config => {
          'PURCHASE RECEIPTS' AS column, 
          'TOTAL' AS l1_label,
          COALESCE(SUM(po.weight),0) AS lbs, 
-         COALESCE(SUM(po.extended_cost),0) As cost, 
-         COALESCE(SUM(po.extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
+         COALESCE(SUM(po.total_extended_cost),0) As cost, 
+         COALESCE(SUM(po.total_extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
          
          FROM "purchaseReporting".po_data AS po 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
@@ -281,7 +281,7 @@ const l0_getReceivedPo = async config => {
          
          WHERE 
           po.po_offset = FALSE
-          AND po.extended_cost <> 0 
+          AND po.total_extended_cost <> 0 
           ${!config.dates.trends.yearTrend ? sql`
               AND p.formatted_date >= ${config.dates.totals.primary.startDate} 
               AND p.formatted_date <= ${config.dates.totals.primary.endDate}` : 
