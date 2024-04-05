@@ -24,7 +24,7 @@ const getPo_detail = async config => {
         p.on_order_extended, 
         COALESCE(p.on_order_extended/p.on_order_lbs,0) AS cost_lb
        
-       FROM "purchaseReporting".po_data AS po 
+       FROM "purchaseReporting".po_received AS po 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = po.item_number 
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p 

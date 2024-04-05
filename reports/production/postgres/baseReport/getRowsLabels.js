@@ -130,7 +130,7 @@ const l5_getRowLabels = async config => {
           COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label, 
           COALESCE(${sql(config.baseFormat.l5_field)},'NO VALUE') AS l5_label, 
           5 AS datalevel  
-        FROM "purchaseReporting".po_data AS po 
+        FROM "purchaseReporting".po_received AS po 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = po.item_number
             LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
@@ -287,7 +287,7 @@ const l4_getRowLabels = async config => {
           COALESCE(${sql(config.baseFormat.l4_field)},'NO VALUE') AS l4_label 
           ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``} 
           ,4 AS datalevel  
-          FROM "purchaseReporting".po_data AS po 
+          FROM "purchaseReporting".po_received AS po 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = po.item_number
             LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
@@ -439,7 +439,7 @@ const l3_getRowLabels = async config => {
           ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
           ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``} 
           ,3 AS datalevel  
-          FROM "purchaseReporting".po_data AS po 
+          FROM "purchaseReporting".po_received AS po 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = po.item_number
             LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
@@ -585,7 +585,7 @@ const l2_getRowLabels = async config => {
           ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
           ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``} 
           ,2 AS datalevel   
-          FROM "purchaseReporting".po_data AS po 
+          FROM "purchaseReporting".po_received AS po 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = po.item_number
             LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
@@ -722,7 +722,7 @@ const l1_getRowLabels = async config => {
         ${config.baseFormat.l4_field ? sql`, 'SUBTOTAL' AS l4_label`: sql``} 
         ${config.baseFormat.l5_field ? sql`, 'SUBTOTAL' AS l5_label`: sql``} 
         ,1 AS datalevel   
-        FROM "purchaseReporting".po_data AS po 
+        FROM "purchaseReporting".po_received AS po 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = po.item_number
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p

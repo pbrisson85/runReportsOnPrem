@@ -10,7 +10,7 @@ const getItemTypes = async () => {
     SELECT 
       DISTINCT(TRIM(ms.item_type)) AS label, 
       (TRIM(ms.item_type)) AS "dataName" 
-    FROM "purchaseReporting".po_data AS r 
+    FROM "purchaseReporting".po_received AS r 
       LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = r.item_number 
     WHERE 

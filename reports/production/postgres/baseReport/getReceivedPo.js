@@ -21,7 +21,7 @@ const l1_getReceivedPo = async config => {
          COALESCE(SUM(po.total_extended_cost),0) As cost, 
          COALESCE(SUM(po.total_extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb" 
         
-         FROM "purchaseReporting".po_data AS po 
+         FROM "purchaseReporting".po_received AS po 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = po.item_number 
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p 
@@ -73,7 +73,7 @@ const l2_getReceivedPo = async config => {
       COALESCE(SUM(po.total_extended_cost),0) As cost, 
       COALESCE(SUM(po.total_extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
        
-       FROM "purchaseReporting".po_data AS po 
+       FROM "purchaseReporting".po_received AS po 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = po.item_number 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
@@ -125,7 +125,7 @@ const l3_getReceivedPo = async config => {
         COALESCE(SUM(po.total_extended_cost),0) As cost, 
         COALESCE(SUM(po.total_extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
        
-       FROM "purchaseReporting".po_data AS po 
+       FROM "purchaseReporting".po_received AS po 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = po.item_number 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
@@ -177,7 +177,7 @@ const l4_getReceivedPo = async config => {
         COALESCE(SUM(po.total_extended_cost),0) As cost, 
         COALESCE(SUM(po.total_extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
        
-       FROM "purchaseReporting".po_data AS po 
+       FROM "purchaseReporting".po_received AS po 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = po.item_number 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
@@ -229,7 +229,7 @@ const l5_getReceivedPo = async config => {
         COALESCE(SUM(po.total_extended_cost),0) As cost,  
         COALESCE(SUM(po.total_extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
        
-       FROM "purchaseReporting".po_data AS po 
+       FROM "purchaseReporting".po_received AS po 
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = po.item_number 
         LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
@@ -273,7 +273,7 @@ const l0_getReceivedPo = async config => {
          COALESCE(SUM(po.total_extended_cost),0) As cost, 
          COALESCE(SUM(po.total_extended_cost)/NULLIF(SUM(po.weight),0),0) AS "costPerLb"
          
-         FROM "purchaseReporting".po_data AS po 
+         FROM "purchaseReporting".po_received AS po 
           LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
             ON ms.item_num = po.item_number 
           LEFT OUTER JOIN "accountingPeriods".period_by_day AS p

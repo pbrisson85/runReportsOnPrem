@@ -269,7 +269,7 @@ module.exports = { l0_getRowLabels, l1_getRowLabels }
           ${trendQuery.po.l6_label ? sql`COALESCE(${sql(trendQuery.po.l6_label)},'NO VALUE') AS l6_label,`: sql``} 
           ${trendQuery.po.l7_label ? sql`COALESCE(${sql(trendQuery.po.l7_label)},'NO VALUE') AS l7_label,`: sql``} 
           ${config.baseFilters.queryLevel} AS datalevel 
-        FROM "purchaseReporting".po_data AS po 
+        FROM "purchaseReporting".po_received AS po 
             LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
               ON ms.item_num = po.item_number
             LEFT OUTER JOIN "accountingPeriods".period_by_day AS p
