@@ -113,7 +113,7 @@ router.post('/', async (req, res) => {
   cols = cols.filter(col => {
     console.log('each col.dataName: ', col.dataName)
 
-    dataCols.includes(col.dataName)
+    return dataCols.includes(col.dataName)
   })
 
   const menu = groupByOptions[colType]
