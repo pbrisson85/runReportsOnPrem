@@ -7,9 +7,9 @@ const unflattenByCompositKey = require('../../../../utils/unflattenByCompositKey
 const getOthpDefinitions = require('../helperQueries/getOthpDefinitions')
 const getUniqueOthpGlsFromMaster = require('../helperQueries/getUniqueOthpGlsFromMaster')
 
-const buildOthpGlTempTable = async config => {
+const buildOthpGlTempTable = async (config, startDate, endDate) => {
   // get all unique othp GL's from sales_contra_lines
-  let uniqueOthpGls = await getUniqueOthpGls(config)
+  let uniqueOthpGls = await getUniqueOthpGls(config, startDate, endDate) // detail passes in start date, base does not
 
   if (!uniqueOthpGls.length) {
     // if there is a date range that does not have any othp gl's, return the master othp gl's
@@ -28,7 +28,7 @@ const buildOthpGlTempTable = async config => {
   })
 
   // build sql that pulls in all sales_contra_lines by invoice with a sum of each othp gl as a col (using if statments regarding the now known unique othp gl's)
-  const dataForTempTable = await getDataForTempTable(config, uniqueOthpGlsArray)
+  const dataForTempTable = await getDataForTempTable(config, uniqueOthpGlsArray, startDate, endDate) // detail passes in start date, base does not
 
   // sum data by invoice number and invoice line
   const tempDataMap = unflattenByCompositKeySum(dataForTempTable, { 1: 'invoice_num', 2: 'invoice_line' })

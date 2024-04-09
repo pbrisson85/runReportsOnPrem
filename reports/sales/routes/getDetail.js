@@ -8,6 +8,9 @@ const { getSo_detail } = require('../postgres/getDetail/getSo')
 const detailColsMap = require('../data/detailCols/colsMap')
 const groupByOptions = require('../../filters/data/detailGroupBy')
 
+const buildOthpGlTempTable = require('../../postgres/baseReport/helperRoutines/buildOthpGlTempTable')
+const dropTempTable = require('../../postgres/baseReport/helperQueries/dropTempOthpTable')
+
 // @route   POST /api/sales/detail/forProgBySpecBrndSize/
 // @desc
 // @access  Private
@@ -46,7 +49,14 @@ router.post('/', async (req, res) => {
       ) // Should try to combine with getSales_detail
       colType = 'salesProjection' // for now manually determining if projeciton vs sales below. Need to override col type to projection to get correct cols
     } else {
+      // Build temp othp table *********************
+      // CUSTOM TO SALES MODULE: OTHP Detail. Note this is dynamic, the GL account/categories are generated on the fly based on the data queried.
+      const othpTableConfig = await buildOthpGlTempTable(config, config.dates.totals.primary.startDate, config.dates.totals.primary.endDate) // table gets dropped below
+
       data = await getSales_detail(config, config.dates.totals.primary.startDate, config.dates.totals.primary.endDate)
+
+      // DROP TEMP TABLE
+      await dropTempTable(othpTableConfig.othpTable)
     }
   }
 
@@ -55,7 +65,14 @@ router.post('/', async (req, res) => {
       data = await getSalesProjection_detail(config, colStartDate, colEndDate, config.dates.totals.useProjection) // Should try to combine with getSales_detail
       colType = 'salesProjection' // for now manually determining if projeciton vs sales below. Need to override col type to projection to get correct cols
     } else {
+      // Build temp othp table *********************
+      // CUSTOM TO SALES MODULE: OTHP Detail. Note this is dynamic, the GL account/categories are generated on the fly based on the data queried.
+      const othpTableConfig = await buildOthpGlTempTable(config, colStartDate, colEndDate) // table gets dropped below
+
       data = await getSales_detail(config, colStartDate, colEndDate)
+
+      // DROP TEMP TABLE
+      await dropTempTable(othpTableConfig.othpTable)
     }
   }
 
