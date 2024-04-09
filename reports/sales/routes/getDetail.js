@@ -56,7 +56,7 @@ router.post('/', async (req, res) => {
       data = await getSales_detail(config, config.dates.totals.primary.startDate, config.dates.totals.primary.endDate, othpTableConfig)
 
       // DROP TEMP TABLE
-      //await dropTempTable(othpTableConfig.othpTable)
+      await dropTempTable(othpTableConfig.othpTable)
     }
   }
 
@@ -71,8 +71,19 @@ router.post('/', async (req, res) => {
 
       data = await getSales_detail(config, colStartDate, colEndDate, othpTableConfig)
 
+      // for some reason the othp amounts are returned as strings, so convert to numbers
+      data = data.map(row => {
+        const newRow = { ...row }
+        Object.keys(newRow).forEach(key => {
+          if (key.includes('othp_')) {
+            newRow[key] = parseFloat(newRow[key])
+          }
+        })
+        return newRow
+      })
+
       // DROP TEMP TABLE
-      //await dropTempTable(othpTableConfig.othpTable)
+      await dropTempTable(othpTableConfig.othpTable)
     }
   }
 
