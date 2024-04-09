@@ -5,7 +5,7 @@ const { getPo_detail } = require('../postgres/getDetail/getOpenPo')
 const { getSales_detail } = require('../postgres/getDetail/getSales')
 const { getSalesProjection_detail } = require('../postgres/getDetail/getSalesProjection')
 const { getSo_detail } = require('../postgres/getDetail/getSo')
-const detailColsMap = require('../data/detailCols/colsMap')
+const getDetailColsMap = require('../data/detailCols/colsMap')
 const groupByOptions = require('../../filters/data/detailGroupBy')
 
 const buildOthpGlTempTable = require('../postgres/baseReport/helperRoutines/buildOthpGlTempTable')
@@ -81,6 +81,8 @@ router.post('/', async (req, res) => {
   }
 
   // Assign columns and menu
+  const detailColsMap = await getDetailColsMap() // This is using a function which is different from all other modules because I am dynamically building the sales cols due to othp
+
   const cols = detailColsMap[colType]
   const menu = groupByOptions[colType]
 
