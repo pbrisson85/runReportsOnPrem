@@ -111,8 +111,6 @@ router.post('/', async (req, res) => {
 
   console.log('dataCols', dataCols)
   cols = cols.filter(col => {
-    console.log('each col.dataName: ', col.dataName)
-
     return dataCols.includes(col.dataName)
   })
 
