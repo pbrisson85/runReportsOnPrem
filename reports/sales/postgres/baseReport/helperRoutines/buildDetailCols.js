@@ -16,7 +16,7 @@ const buildOthpDetailCols = async () => {
       dataName: display_name ? `othp_${display_name}` : `othp_${gl.othp_gl}`,
       justifyData: 'end',
       justifyHeading: 'center',
-      width: '100px',
+      width: '160px',
       total: true,
       number: true,
       boolean: false,
