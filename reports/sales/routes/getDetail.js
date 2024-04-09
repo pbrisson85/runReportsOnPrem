@@ -108,8 +108,6 @@ router.post('/', async (req, res) => {
   let cols = detailColsMap[colType]
   // remove cols with no data (because all othp cals are being added to template but I dont like how it shows as NAN)
   const dataCols = Object.keys(data[0])
-
-  console.log('dataCols', dataCols)
   cols = cols.filter(col => {
     return dataCols.includes(col.dataName)
   })
