@@ -13,7 +13,7 @@ const getSales_detail = async (config, startDate, endDate, othpTableConfig) => {
       )
       
       
-      SELECT sl.net_sales_ext, sl.gross_margin_lb, sl.cost_lb, sl.net_sales_lb, sl.othp_lb, sl.gross_sales_lb, sl.location, sl.customer_code, sl.customer_name, sl.invoice_number, sl.line_number, sl.formatted_invoice_date, sl.week_serial, sl.item_number, ms.description, ms.species, ms.brand, ms.size_name, ms.fg_treatment, ms.fg_fresh_frozen, sl.calc_gm_rept_weight, sl.gross_sales_ext, sl.othp_ext, sl.cogs_ext_gl, sl.gross_margin_ext ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(oc.${sql(gl.display_name)},0)::NUMERIC AS ${sql(gl.display_name)} `)}`} 
+      SELECT sl.net_sales_ext, sl.gross_margin_lb, sl.cost_lb, sl.net_sales_lb, sl.othp_lb, sl.gross_sales_lb, sl.location, sl.customer_code, sl.customer_name, sl.invoice_number, sl.line_number, sl.formatted_invoice_date, sl.week_serial, sl.item_number, ms.description, ms.species, ms.brand, ms.size_name, ms.fg_treatment, ms.fg_fresh_frozen, sl.calc_gm_rept_weight, sl.gross_sales_ext, sl.othp_ext, sl.cogs_ext_gl, sl.gross_margin_ext ${sql`${othpTableConfig.othpGls.map(gl => sql`, COALESCE(oc.${sql(gl.display_name)}::NUMERIC,0) AS ${sql(gl.display_name)} `)}`} 
       
       FROM "salesReporting".sales_line_items AS sl 
         LEFT OUTER JOIN ${sql(othpTableConfig.othpTable)} AS oc
