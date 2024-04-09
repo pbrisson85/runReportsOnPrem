@@ -111,6 +111,9 @@ router.post('/', async (req, res) => {
   const dataCols = Object.keys(data[0])
   const colKeys = Object.keys(cols)
   const colsToRemove = colKeys.filter(col => !dataCols.includes(col))
+
+  console.log('colsToRemove', colsToRemove)
+
   cols = cols.filter(col => !colsToRemove.includes(col.dataName))
 
   const menu = groupByOptions[colType]
