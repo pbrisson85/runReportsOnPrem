@@ -8,8 +8,8 @@ const { getSo_detail } = require('../postgres/getDetail/getSo')
 const detailColsMap = require('../data/detailCols/colsMap')
 const groupByOptions = require('../../filters/data/detailGroupBy')
 
-const buildOthpGlTempTable = require('../../postgres/baseReport/helperRoutines/buildOthpGlTempTable')
-const dropTempTable = require('../../postgres/baseReport/helperQueries/dropTempOthpTable')
+const buildOthpGlTempTable = require('../postgres/baseReport/helperRoutines/buildOthpGlTempTable')
+const dropTempTable = require('../postgres/baseReport/helperQueries/dropTempOthpTable')
 
 // @route   POST /api/sales/detail/forProgBySpecBrndSize/
 // @desc
