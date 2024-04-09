@@ -108,7 +108,13 @@ router.post('/', async (req, res) => {
   let cols = detailColsMap[colType]
   // remove cols with no data (because all othp cals are being added to template but I dont like how it shows as NAN)
   const dataCols = Object.keys(data[0])
-  cols = cols.filter(col => !dataCols.includes(col.dataName))
+
+  console.log('dataCols', dataCols)
+  cols = cols.filter(col => {
+    console.log('each col.dataName: ', col.dataName)
+
+    dataCols.includes(col.dataName)
+  })
 
   const menu = groupByOptions[colType]
 
