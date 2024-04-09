@@ -53,7 +53,7 @@ router.post('/', async (req, res) => {
       // CUSTOM TO SALES MODULE: OTHP Detail. Note this is dynamic, the GL account/categories are generated on the fly based on the data queried.
       const othpTableConfig = await buildOthpGlTempTable(config, config.dates.totals.primary.startDate, config.dates.totals.primary.endDate) // table gets dropped below
 
-      data = await getSales_detail(config, config.dates.totals.primary.startDate, config.dates.totals.primary.endDate)
+      data = await getSales_detail(config, config.dates.totals.primary.startDate, config.dates.totals.primary.endDate, othpTableConfig)
 
       // DROP TEMP TABLE
       await dropTempTable(othpTableConfig.othpTable)
@@ -69,7 +69,7 @@ router.post('/', async (req, res) => {
       // CUSTOM TO SALES MODULE: OTHP Detail. Note this is dynamic, the GL account/categories are generated on the fly based on the data queried.
       const othpTableConfig = await buildOthpGlTempTable(config, colStartDate, colEndDate) // table gets dropped below
 
-      data = await getSales_detail(config, colStartDate, colEndDate)
+      data = await getSales_detail(config, colStartDate, colEndDate, othpTableConfig)
 
       // DROP TEMP TABLE
       await dropTempTable(othpTableConfig.othpTable)

@@ -2,14 +2,22 @@ const sql = require('../../../../server')
 
 // FG Program col total for period
 
-const getSales_detail = async (config, startDate, endDate) => {
+const getSales_detail = async (config, startDate, endDate, othpTableConfig) => {
   try {
     console.log(`${config.user} - level ${config.baseFilters.queryLevel}: query postgres to get FG sales data period total ...`)
 
     const response = await sql
-      `SELECT sl.net_sales_ext, sl.gross_margin_lb, sl.cost_lb, sl.net_sales_lb, sl.othp_lb, sl.gross_sales_lb, sl.location, sl.customer_code, sl.customer_name, sl.invoice_number, sl.line_number, sl.formatted_invoice_date, sl.week_serial, sl.item_number, ms.description, ms.species, ms.brand, ms.size_name, ms.fg_treatment, ms.fg_fresh_frozen, sl.calc_gm_rept_weight, sl.gross_sales_ext, sl.othp_ext, sl.cogs_ext_gl, sl.gross_margin_ext 
+      `
+      WITH othp_lines AS (
+        SELECT * FROM ${sql(othpTableConfig.othpTable)}
+      )
+      
+      
+      SELECT sl.net_sales_ext, sl.gross_margin_lb, sl.cost_lb, sl.net_sales_lb, sl.othp_lb, sl.gross_sales_lb, sl.location, sl.customer_code, sl.customer_name, sl.invoice_number, sl.line_number, sl.formatted_invoice_date, sl.week_serial, sl.item_number, ms.description, ms.species, ms.brand, ms.size_name, ms.fg_treatment, ms.fg_fresh_frozen, sl.calc_gm_rept_weight, sl.gross_sales_ext, sl.othp_ext, sl.cogs_ext_gl, sl.gross_margin_ext ${sql`${othpTableConfig.othpGls.map(gl => sql`, oc.${sql(gl.display_name)} `)}`} 
       
       FROM "salesReporting".sales_line_items AS sl 
+        LEFT OUTER JOIN ${sql(othpTableConfig.othpTable)} AS oc
+          ON oc.invoice_num = sl.invoice_number AND oc.invoice_line = sl.line_number
         LEFT OUTER JOIN "invenReporting".master_supplement AS ms 
           ON ms.item_num = sl.item_number 
         LEFT OUTER JOIN "masters".customer_supplement AS cs 

@@ -5,7 +5,6 @@ const getUniqueOthpGlsFromMaster = require('../helperQueries/getUniqueOthpGlsFro
 const buildOthpDetailCols = async () => {
   // if there is a date range that does not have any othp gl's, return the master othp gl's
   const uniqueOthpGls = await getUniqueOthpGlsFromMaster()
-
   const othpDefinitions = await getOthpDefinitions()
   const othpDef_unflat = unflattenByCompositKey(othpDefinitions, { 1: 'othp_gl' })
   const menu = uniqueOthpGls.map(gl => {
