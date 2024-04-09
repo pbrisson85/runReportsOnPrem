@@ -56,7 +56,7 @@ router.post('/', async (req, res) => {
       data = await getSales_detail(config, config.dates.totals.primary.startDate, config.dates.totals.primary.endDate, othpTableConfig)
 
       // DROP TEMP TABLE
-      await dropTempTable(othpTableConfig.othpTable)
+      //await dropTempTable(othpTableConfig.othpTable)
     }
   }
 
@@ -72,7 +72,7 @@ router.post('/', async (req, res) => {
       data = await getSales_detail(config, colStartDate, colEndDate, othpTableConfig)
 
       // DROP TEMP TABLE
-      await dropTempTable(othpTableConfig.othpTable)
+      //await dropTempTable(othpTableConfig.othpTable)
     }
   }
 
