@@ -327,6 +327,39 @@ const getReportFormats = () => {
       ],
     },
     {
+      default: false, // if this is true then the defaults array should have "all" or else there will be a mistmatch in what the front end and back end beleive is the default
+      label: 'species group / majp',
+      dataName: 'speciesgroupMajp',
+      defaultsFallback: false,
+      defaults: [],
+      optional: ['all'],
+      forbiddenCols: [],
+      groupingLevel: 2,
+      l1_field: 'ms.species_group',
+      l2_field: 'ms.major_code_name',
+      l1_name: 'species group',
+      l2_name: 'majp',
+      labelCols: [
+        {
+          displayName: 'MAJOR CATEGORY', // show as column header
+          dataName: 'l1_label', // key to pull data from
+          filterName: 'l1_filter', // key to match up the column with the filter
+          width: '175px', // css width
+          left: '0px', // css positioning for sticky sum of prior col widths
+          rightClickMenu: [], // array of options for right click menu
+        },
+        {
+          displayName: 'MAJP', // show as column header
+          dataName: 'l2_label', // key to pull data from
+          filterName: 'l2_filter', // key to match up the column with the filter
+          width: '175px', // css width
+          left: '175px', // css positioning for sticky sum of prior col widths
+          borderRight: true, // border right on ladst frozen cell
+          rightClickMenu: [], // array of options for right click menu
+        },
+      ],
+    },
+    {
       label: 'species group / program / freeze',
       dataName: 'speciesgroupProgFrz',
       defaultsFallback: false,
