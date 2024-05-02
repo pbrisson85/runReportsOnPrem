@@ -533,7 +533,7 @@ const getReportFormats = () => {
       optional: ['all'],
       forbiddenCols: [],
       groupingLevel: 2,
-      l1_field: 'ms.gl_rbt',
+      l1_field: 'ms.gl_disc',
       l2_field: 'ms.major_code_name',
       l1_name: 'species group',
       l2_name: 'majp',
