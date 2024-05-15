@@ -3,6 +3,8 @@ const buildOthpGlTempTable = require('../../postgres/baseReport/helperRoutines/b
 const dropTempTable = require('../../postgres/baseReport/helperQueries/dropTempOthpTable')
 
 const buildReport = async config => {
+  console.log(config)
+
   const queryDataPromises = []
   const rowDataPromises = []
   const kpiHelperPromises = []
